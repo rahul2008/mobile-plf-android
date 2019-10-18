@@ -116,8 +116,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-            }
-            else {
+            } else {
                 appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
             }
         });
@@ -229,11 +228,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
         } else if (v == btn_IAP) {
-            if (mCategorizedProductList.size() > 0) {
-                IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null);
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                if (mCategorizedProductList.size() > 0) {
+                    IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
+                    launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null);
+                } else {
+                    Toast.makeText(this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                showToast("User is not loged-in, Please login!");
             }
 //            IapDemoUAppInterface iapDemoUAppInterface = new IapDemoUAppInterface();
 //            iapDemoUAppInterface.init(new IapDemoUAppDependencies(appInfraInterface), new IapDemoAppSettings(this));
@@ -285,11 +288,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
-//        if (pIgnoreRetailerList == null)
-//            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode);
-//        else
-//            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode, pIgnoreRetailerList);
-
         try {
             int themeResourceID = new ThemeHelper(this).getThemeResourceId();
             mIapInterface.launch(new ActivityLauncher
