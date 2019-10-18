@@ -25,22 +25,24 @@
 
     <ImageView
         android:id="@+id/mec_list"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:paddingEnd="3dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:clickable="true"
+        android:background="#ffffff"
         android:src="@drawable/mec_list"/>
 
         <ImageView
             android:id="@+id/mec_grid"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:paddingStart="7dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
             android:src="@drawable/mec_grid" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/iap_ll_search_box"
-        android:layout_below="@+id/switch_layout"
+        android:layout_below="@+id/mec_ll_layout"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
         android:layout_height="wrap_content">
@@ -52,16 +54,6 @@
             android:paddingBottom="@dimen/border8_margin"
             android:paddingTop="@dimen/border8_margin" />
     </LinearLayout>
-
-    <Switch
-        android:id="@+id/switch_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mec_ll_layout"
-        android:layout_margin="20dp"
-        android:textSize="15sp"
-        android:onCheckedChanged="@{fragment::onLayoutChanged}"
-        android:text="Switch Layout"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/iap_ll_search_box"

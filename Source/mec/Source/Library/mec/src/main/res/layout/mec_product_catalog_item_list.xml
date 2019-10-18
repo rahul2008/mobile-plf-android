@@ -14,19 +14,34 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/border16_margin_left_right">
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/image"
+        <FrameLayout
+            android:id="@+id/frame"
             android:layout_width="@dimen/iap_network_image_width_height"
             android:layout_height="@dimen/iap_network_image_width_height"
-            android:layout_marginEnd="@dimen/border12_margin"
-            android:tooltipText="@{ product.name}"
-            app:image_url="@{ product.imageUrl}"
-           />
+            android:layout_marginEnd="@dimen/border12_margin">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/iap_network_image_width_height"
+                android:layout_height="@dimen/iap_network_image_width_height"
+                android:layout_marginEnd="@dimen/border12_margin"
+                android:tooltipText="@{ product.name}"
+                app:image_url="@{ product.imageUrl}" />
+
+
+            <ImageView
+                android:id="@+id/iv_camera"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:tint="@color/colorAccent"
+                android:src="@drawable/mec_wishlist"
+                android:layout_gravity="top|left" />
+        </FrameLayout>
 
 
     <LinearLayout
         android:id="@+id/iap_retailerItem_product_layout"
-        android:layout_toRightOf="@+id/image"
+        android:layout_toRightOf="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
