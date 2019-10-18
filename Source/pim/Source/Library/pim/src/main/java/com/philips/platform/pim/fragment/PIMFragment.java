@@ -129,6 +129,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
                 ServiceDiscoveryService serviceDiscoveryService = urlMap.get(USER_PROFILE_URL);
                 String userProfileUrl = serviceDiscoveryService.getConfigUrls();
                 String locale = serviceDiscoveryService.getLocale();
+                PIMSettingManager.getInstance().setLocale(locale);
                 mLoggingInterface.log(DEBUG, TAG, "downloadUserProfileUrlFromSD onSuccess. Url : " + userProfileUrl + " Locale : " + locale);
                 launchUserProfilePage(userProfileUrl);
             }
@@ -150,21 +151,23 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
             clientId = pimoidcConfigration.getMigrationClientId();
         } else
             clientId = pimoidcConfigration.getClientId();
-        StringBuilder url = new StringBuilder();
         String urlString = "http://www.philips.com";
         String[] urlStringWithVisitorId = pimSettingManager.getTaggingInterface().getVisitorIDAppendToURL(urlString).split("=");
         mLoggingInterface.log(DEBUG, TAG, "External URL with Adobe_mc : " + urlStringWithVisitorId[1]);
 
         try {
-            Formatter fmt = new Formatter(url);
-            fmt.format(userProfileUrl, clientId, pimSettingManager.getLocale());
+            String[] userprofileBaseString = userProfileUrl.split("\\?"); //TODO: Shashi, Need to remove later, once correct url will be uploaded to Service Discovery
+            Uri userrofileURI = Uri.parse(userprofileBaseString[0]).buildUpon().appendQueryParameter("client_id", clientId).build();
+            userrofileURI = Uri.parse(userrofileURI.toString()).buildUpon().appendQueryParameter("ui_locales", "en-US").build();
+            userrofileURI = Uri.parse(userrofileURI.toString()).buildUpon().appendQueryParameter("adobe_mc", urlStringWithVisitorId[1]).build();
             Intent authReqIntent = new Intent(Intent.ACTION_VIEW);
             authReqIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            authReqIntent.setData(Uri.parse(url.toString()+"&adobe_mc="+urlStringWithVisitorId[1]));
+            authReqIntent.setData(userrofileURI);
+            mLoggingInterface.log(DEBUG,TAG,"Launching user profile : "+userrofileURI.toString());
             startActivityForResult(authReqIntent, 200);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching user profile page failed."
-                    + " url: " + url + " exception: " + ex.getMessage());
+                    + " url: " + userProfileUrl + " exception: " + ex.getMessage());
             disableProgressBar();
         }
     }
