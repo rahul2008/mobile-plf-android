@@ -238,13 +238,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
-//            IapDemoUAppInterface iapDemoUAppInterface = new IapDemoUAppInterface();
-//            iapDemoUAppInterface.init(new IapDemoUAppDependencies(appInfraInterface), new IapDemoAppSettings(this));
-//            iapDemoUAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), new IapLaunchInput());
-//            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
-//            Fragment fragment = new PRGFragment(pimInterface);
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
         } else if (v == btnMigrator) {
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
