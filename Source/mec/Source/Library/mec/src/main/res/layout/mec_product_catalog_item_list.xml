@@ -66,9 +66,8 @@
                 android:id="@+id/iap_rating_lebel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:textColor="#D2691E"
                 android:text="4"
-                android:textColorHint="@color/cardview_dark_background"
                 android:textSize="@dimen/iap_product_original_price" />
 
             <RatingBar
@@ -79,13 +78,13 @@
                 android:numStars="1"
                 style="?android:attr/ratingBarStyleSmall"
                 android:isIndicator="false"
-                android:progressTint="@color/cardview_dark_background"/>
+                android:theme="@style/RatingBar"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/iap_review_lebel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:textColor="#D2691E"
                 android:text=" (3 reviews)"
                 android:textSize="@dimen/iap_product_original_price" />
 
