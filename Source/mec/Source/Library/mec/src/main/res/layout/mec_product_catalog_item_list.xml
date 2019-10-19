@@ -31,11 +31,12 @@
 
             <ImageView
                 android:id="@+id/iv_camera"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:tint="@color/colorAccent"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="top|left"
+                android:background="@drawable/mec_circular_background"
                 android:src="@drawable/mec_wishlist"
-                android:layout_gravity="top|left" />
+                android:tint="@color/colorAccent" />
         </FrameLayout>
 
 

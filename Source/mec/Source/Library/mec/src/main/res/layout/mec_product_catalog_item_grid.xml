@@ -32,10 +32,11 @@
 
             <ImageView
                 android:id="@+id/iv_camera"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:tint="@color/colorAccent"
                 android:src="@drawable/mec_wishlist"
+                android:background="@drawable/mec_circular_background"
                 android:layout_gravity="top|right" />
         </FrameLayout>
 
@@ -52,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:maxLines="2"
                 android:text="@{ product.name}"
                 android:textSize="16sp" />
 
