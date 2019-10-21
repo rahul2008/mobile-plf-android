@@ -29,7 +29,11 @@ import static com.philips.cdp.di.mec.integration.MECLaunchInput.MECFlows.MEC_SHO
 public class MECInterface implements UappInterface, MECExposedAPI {
     protected MECHandler mMECHandler;
     protected MECSettings mMECSettings;
-    private MECServiceDiscoveryWrapper mMecServiceDiscoveryWrapper;
+    private UappDependencies mUappDependencies;
+
+
+
+   // private MECServiceDiscoveryWrapper mMecServiceDiscoveryWrapper;
     private UserDataInterface mUserDataInterface;
 
     /**
@@ -49,13 +53,12 @@ public class MECInterface implements UappInterface, MECExposedAPI {
         if (null == mUserDataInterface)
             throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");
 
-        MECUtility.getInstance().setUserDataInterface(mUserDataInterface);
-        MECUtility.getInstance().setAppName(uappDependencies.getAppInfra().getAppIdentity().getAppName());
-        MECUtility.getInstance().setLocaleTag(uappDependencies.getAppInfra().getInternationalization().getUILocaleString());
+
         mMECSettings = (MECSettings) uappSettings;
-        mMECHandler = new MECHandler(MECDependencies,mMECSettings);
-        mMECHandler.initPreRequisite();
-        mMecServiceDiscoveryWrapper = new MECServiceDiscoveryWrapper(mMECSettings);
+        mUappDependencies = uappDependencies;
+
+
+
     }
 
     /**
@@ -69,17 +72,10 @@ public class MECInterface implements UappInterface, MECExposedAPI {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
 
-        //This is added to clear pagination data from app memory . This should be taken in tech debt .
 
-        /*if( ((MECLaunchInput) uappLaunchInput).mLandingView!=MEC_SHOPPING_CART_VIEW) {
-            CartModelContainer.getInstance().clearProductList();
-        }*/
-        MECUtility.getInstance().resetPegination();
 
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) mMECSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mMECHandler, (MECLaunchInput) uappLaunchInput, null, null);
+        MECHandler mecHandler = new MECHandler((MECDependencies)mUappDependencies,mMECSettings,uiLauncher,(MECLaunchInput) uappLaunchInput);
+        mecHandler.launchMEC();
     }
 
     /**
@@ -90,11 +86,11 @@ public class MECInterface implements UappInterface, MECExposedAPI {
      */
     @Override
     public void getProductCartCount(MECListener mecListener) {
-        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()){
+       /* if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()){
             mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mMECHandler, null, mecListener, "productCartCount");
         } else {
             mecListener.onFailure(MECConstant.MEC_ERROR_AUTHENTICATION_FAILURE);
-        }
+        }*/
     }
 
     /**
@@ -105,7 +101,7 @@ public class MECInterface implements UappInterface, MECExposedAPI {
      */
     @Override
     public void getCompleteProductList(MECListener mecListener) {
-        mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mMECHandler, null, mecListener, "completeProductList");
+       // mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mMECHandler, null, mecListener, "completeProductList");
     }
 
     /**
@@ -117,12 +113,12 @@ public class MECInterface implements UappInterface, MECExposedAPI {
      */
     @Override
     public void isCartVisible(MECListener mecListener) {
-        if (mMECHandler != null && mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
+      /*  if (mMECHandler != null && mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
              mMecServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mecListener, mMECHandler);
         } else {
             mecListener.onSuccess(false);
             mecListener.onFailure(MECConstant.MEC_ERROR_AUTHENTICATION_FAILURE);
-        }
+        }*/
 
     }
 }

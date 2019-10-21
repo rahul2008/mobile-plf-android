@@ -6,7 +6,7 @@
 
     <application>
         <activity android:name=".activity.MECActivity"></activity>
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MECLauncherActivity"></activity>
     </application>
 
 </manifest>

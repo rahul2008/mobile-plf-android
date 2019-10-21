@@ -52,6 +52,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -508,6 +509,22 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             mMecInterface.launch(new ActivityLauncher
                             (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
                     mMecLaunchInput);
+
+        } catch (RuntimeException exception) {
+            Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void launchMECasFragment(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
+
+        if (pIgnoreRetailerList == null)
+            mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode);
+        else
+            mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode, pIgnoreRetailerList);
+
+        try {
+            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+          //todo
 
         } catch (RuntimeException exception) {
             Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
