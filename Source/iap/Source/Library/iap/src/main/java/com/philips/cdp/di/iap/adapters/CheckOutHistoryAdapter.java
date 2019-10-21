@@ -215,7 +215,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mBillingAddress.setCountry(shippingAddressFields.getCountry());
                     shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName() + " " + data.getDeliveryAddressEntity().getLastName());
                     if(shippingAddressFields!=null) {
-                        shoppingCartFooter.mShippingAddress.setText(Utility.getAddressToDisplay(shippingAddressFields));
+                        shoppingCartFooter.mShippingAddress.setText(Utility.getAddressToDisplayForOrderSummary(shippingAddressFields));
                     }
                 }
 
@@ -223,7 +223,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if (null != mBillingAddress) {
                     String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                     shoppingCartFooter.mBillingName.setText(billingName);
-                    shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress));
+                    shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplayForOrderSummary(mBillingAddress));
                 }
 
                 for (int i = 0; i < mData.size(); i++) {
