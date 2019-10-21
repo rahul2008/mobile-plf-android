@@ -23,13 +23,15 @@
         android:layout_height="wrap_content"
         android:background="#DCDCDC">
 
-    <ImageView
-        android:id="@+id/mec_list"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:clickable="true"
-        android:background="#ffffff"
-        android:src="@drawable/mec_list"/>
+        <ImageView
+            android:id="@+id/mec_list"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:clickable="true"
+            android:background="#ffffff"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:src="@drawable/mec_list"/>
 
         <ImageView
             android:id="@+id/mec_grid"
@@ -37,26 +39,20 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:clickable="true"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:layout_marginTop="@dimen/border12_margin"
             android:src="@drawable/mec_grid" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/iap_ll_search_box"
-        android:layout_below="@+id/mec_ll_layout"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content">
 
         <com.philips.platform.uid.view.widget.SearchBox
             android:id="@+id/mec_search_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/border8_margin"
-            android:paddingTop="@dimen/border8_margin" />
+            android:layout_marginRight="5dp"/>
     </LinearLayout>
 
+
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/iap_ll_search_box"
+        android:layout_below="@+id/mec_ll_layout"
         android:layout_margin="20dp"
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"

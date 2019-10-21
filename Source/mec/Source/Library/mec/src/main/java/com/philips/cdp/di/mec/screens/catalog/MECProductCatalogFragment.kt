@@ -85,6 +85,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
         ecsProductViewModel.ecsProductsList.observe(this, this);
 
+
         binding.mecGrid.setOnClickListener {
             binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
             binding.mecList.setBackgroundColor(Color.parseColor("#DCDCDC"))
@@ -119,6 +120,9 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
         ecsProductViewModel.init(currentPage, pageSize);
 
         mecProductList = mutableListOf<MECProduct>()
+
+        binding.mecSearchBox.setSearchBoxHint("Search")
+        binding.mecSearchBox.setDecoySearchViewHint("Search")
 
         binding.mecSearchBox.searchTextView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
