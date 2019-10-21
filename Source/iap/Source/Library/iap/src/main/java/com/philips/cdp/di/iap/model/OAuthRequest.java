@@ -36,7 +36,7 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
 
     @Override
     public Map<String, String> requestBody() {
-        return getJanrainDetail();
+        return store.getUser().getJanrainOAuth();
     }
 
     @Override
@@ -68,20 +68,5 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
             return ""; //Avoid NPE in Volley
         }
         return mOAuthResponse.getRefreshToken();
-    }
-
-    /*
-    * Janrain detail has to be send in request body
-    * Note: These janrain details should not be passed in request url as query string
-    *
-    * */
-    private Map getJanrainDetail(){
-        Map map = new HashMap<String,String>();
-        if(store.getUser().getJanRainID()!=null)
-        map.put("janrain",store.getUser().getJanRainID());
-        map.put("grant_type","janrain");
-        map.put("client_id","mobile_android");
-        map.put("client_secret","secret");
-        return  map;
     }
 }

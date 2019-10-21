@@ -8,11 +8,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPFlowInput;
+import com.philips.cdp.di.iap.integration.IAPInterface;
+import com.philips.cdp.di.iap.integration.IAPLaunchInput;
+import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.utils.IAPUtility;
+import com.philips.cdp.registration.ThemeHelper;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -20,6 +30,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
@@ -47,21 +58,26 @@ import com.philips.platform.uid.view.widget.Switch;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
 
-    private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR;
+    private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
     private Switch aSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
     private URInterface urInterface;
     private boolean isUSR;
     private Context mContext;
+
     @NonNull
     private AppInfraInterface appInfraInterface;
+    private IAPInterface mIapInterface;
+    private IAPSettings mIAPSettings;
+    private IAPLaunchInput mIapLaunchInput;
+    private ArrayList<String> mCategorizedProductList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,18 +108,18 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         aSwitch = findViewById(R.id.switch_cookies_consent);
         btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
         btn_RegistrationPR.setOnClickListener(this);
-
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-                else
-                    appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-            }
-        });
+        btn_IAP = findViewById(R.id.btn_IAP);
+        btn_IAP.setOnClickListener(this);
         PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(appInfraInterface);
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
+
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+            } else {
+                appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+            }
+        });
         if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
             isUSR = true;
             Log.i(TAG, "Selected Liberary : USR");
@@ -128,6 +144,21 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 btnLaunchAsActivity.setText("Launch PIM As Activity");
                 btnLaunchAsFragment.setText("Launch PIM As Fragment");
             }
+            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+            mIapInterface = new IAPInterface();
+            mIAPSettings = new IAPSettings(this);
+            mCategorizedProductList = new ArrayList<>();
+            mCategorizedProductList.add("HD9745/90000");
+            mCategorizedProductList.add("HD9630/90");
+            mCategorizedProductList.add("HD9240/90");
+            mCategorizedProductList.add("HD9621/90");
+            mIapInterface.init(mIapDependencies, mIAPSettings);
+            mIapLaunchInput = new IAPLaunchInput();
+            mIapLaunchInput.setHybrisSupported(true);
+            mIapLaunchInput.setIapListener(this);
+
+            IAPUtility.getInstance().setHybrisSupported(true);
+
         }
     }
 
@@ -196,6 +227,17 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             Fragment fragment = new PRGFragment(pimInterface);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+        } else if (v == btn_IAP) {
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                if (mCategorizedProductList.size() > 0) {
+                    IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
+                    launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null);
+                } else {
+                    Toast.makeText(this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                showToast("User is not loged-in, Please login!");
+            }
         } else if (v == btnMigrator) {
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
@@ -238,6 +280,17 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
+        try {
+            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+            mIapInterface.launch(new ActivityLauncher
+                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
+                    mIapLaunchInput);
+
+        } catch (RuntimeException exception) {
+            Toast.makeText(this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void launchPIM() {
         PIMLaunchInput launchInput = new PIMLaunchInput();
@@ -315,5 +368,40 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onLoginFailed(Error error) {
         showToast("PIM Login Failed :" + error.getErrCode() + " and reason is" + error.getErrDesc());
+    }
+
+    @Override
+    public void onGetCartCount(int count) {
+
+    }
+
+    @Override
+    public void onUpdateCartCount() {
+
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> productList) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onSuccess(boolean bool) {
+
+    }
+
+    @Override
+    public void onFailure(int errorCode) {
+
     }
 }

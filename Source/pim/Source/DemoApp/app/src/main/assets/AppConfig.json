@@ -91,7 +91,6 @@
     "apiKey": "Euqjw7YWRa5pc7c6jKliv1odg5vLUT2m465k7FJ8"
   },
   "IAP": {
-    "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
   "ProductRegistration": {
@@ -101,7 +100,7 @@
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
     "appidentity.appState": "STAGING",
-    "appidentity.serviceDiscoveryEnvironment": "production",
+    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
       "bundleId",
@@ -140,7 +139,9 @@
       "componentLevelLogEnabled": false,
       "componentIds": [
         "DemoAppInfra",
-        "PhilipsRegistration"
+        "PhilipsRegistration",
+        "iap",
+        "iap/prx"
       ]
     },
     "logging.debugConfig": {
@@ -154,7 +155,9 @@
       "componentIds": [
         "DemoAppInfra",
         "PhilipsRegistration",
-        "component1"
+        "component1",
+        "iap",
+        "iap/prx"
       ]
     }
   }
