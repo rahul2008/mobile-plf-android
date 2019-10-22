@@ -27,7 +27,7 @@ class MECHandler {
     private UiLauncher mUiLauncher;
     private MECLaunchInput mLaunchInput;
 
-    MECHandler(MECDependencies pMECDependencies,MECSettings pMecSettings,UiLauncher pUiLauncher,  MECLaunchInput pLaunchInput) {
+    MECHandler(MECDependencies pMECDependencies, MECSettings pMecSettings, UiLauncher pUiLauncher, MECLaunchInput pLaunchInput) {
         this.mMECDependencies = pMECDependencies;
         this.mMECSetting = pMecSettings;
         this.mUiLauncher = pUiLauncher;
@@ -48,23 +48,40 @@ class MECHandler {
     protected void launchMECasActivity() {
         Intent intent = new Intent(mMECSetting.getContext(), MECLauncherActivity.class);
         intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView);
-        ActivityLauncher activityLauncher =  (ActivityLauncher) mUiLauncher;
+        ActivityLauncher activityLauncher = (ActivityLauncher) mUiLauncher;
         Bundle mBundle = new Bundle();
-        //mBundle.putSerializable("LaunchInput",(UappLaunchInput)mLaunchInput);
-       // mBundle.putSerializable("UILauncher",mUiLauncher);
+       // mBundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
+       // mBundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
+
+
+      //  mBundle.putSerializable("UILauncher", mUiLauncher);
+        if (mLaunchInput.mMECFlowInput != null) {
+            if (mLaunchInput.mMECFlowInput.getProductCTN() != null) {
+                intent.putExtra(MECConstant.MEC_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
+                        mLaunchInput.mMECFlowInput.getProductCTN());
+            }
+            if (mLaunchInput.mMECFlowInput.getProductCTNs() != null) {
+                intent.putStringArrayListExtra(MECConstant.CATEGORISED_PRODUCT_CTNS,
+                        mLaunchInput.mMECFlowInput.getProductCTNs());
+            }
+            intent.putExtra(MECConstant.MEC_IGNORE_RETAILER_LIST, mLaunchInput.getIgnoreRetailers());
+        }
+        if (mLaunchInput.getVoucher() != null) {
+            Utility.setVoucherCode(mLaunchInput.getVoucher());
+        }
         mBundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         intent.putExtras(mBundle);
         mMECSetting.getContext().startActivity(intent);
 
-
     }
 
     protected void launchMECasFragment() {
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
+        FragmentLauncher fragmentLauncher = (FragmentLauncher) mUiLauncher;
+        mBundle.putInt("fragment_container", fragmentLauncher.getParentContainerResourceID()); // frame_layout for fragment
 
     }
-
-
-
 
 
 }

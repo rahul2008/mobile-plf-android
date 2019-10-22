@@ -3,13 +3,14 @@ package com.philips.cdp.di.mec.integration;
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * MECLaunchInput is responsible for initializing the settings required for launching.
  * @since 1.0.0
  */
-public class MECLaunchInput extends UappLaunchInput {
+public class MECLaunchInput extends UappLaunchInput implements Serializable {
     int mLandingView;
     public MECFlowInput mMECFlowInput;
     private MECListener mecListener;

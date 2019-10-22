@@ -1,12 +1,13 @@
 package com.philips.cdp.di.mec.integration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * IAPFlowInput initializes the required ctn’s for IAP to set the flow of micro app.
  * @since 1.0.0
  */
-public class MECFlowInput {
+public class MECFlowInput implements Serializable {
     private String productCTN;
     private ArrayList<String> productCTNs;
 

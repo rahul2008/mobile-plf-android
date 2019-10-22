@@ -524,7 +524,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             int themeResourceID = new ThemeHelper(this).getThemeResourceId();
-          //todo
+            mMecInterface.launch(new FragmentLauncher(this, R.id.fragment_container, null),
+                    mMecLaunchInput);
 
         } catch (RuntimeException exception) {
             Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
