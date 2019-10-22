@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import com.philips.cdp.di.mec.databinding.MecProductCatalogItemGridBinding
 
 
-class MECProductCatalogGridAdapter(private val items: MutableList<Pojo>) : MECProductCatalogBaseAbstractAdapter(items) {
+class MECProductCatalogGridAdapter(private val items: MutableList<MECProduct>) :MECProductCatalogBaseAbstractAdapter(items) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogAbstractViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = MecProductCatalogItemGridBinding.inflate(inflater)
-        return MECProductCatalogHolder(true ,binding!!)
+        var binding = MecProductCatalogItemGridBinding.inflate(inflater)
+        return MECProductCatalogGridHolder( binding!!)
     }
 }

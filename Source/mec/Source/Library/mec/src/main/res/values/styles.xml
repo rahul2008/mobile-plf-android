@@ -368,4 +368,9 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#FF4500</item>
+        <item name="colorControlActivated">?attr/uidContentItemTertiaryNormalTextColor</item>
+    </style>
+
 </resources>

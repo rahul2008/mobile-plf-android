@@ -1,6 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,26 +8,51 @@
             name="fragment"
             type="com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment" />
 
-        <variable
-            name="catalog"
-            type="com.philips.cdp.di.mec.screens.catalog.ProductCatalogData" />
     </data>
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Switch
-        android:id="@+id/switch_layout"
+    <LinearLayout
+        android:id="@+id/mec_ll_layout"
         android:layout_width="match_parent"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="15sp"
-        android:onCheckedChanged="@{fragment::onLayoutChanged}"
-        android:text="Switch Layout"/>
+        android:background="#DCDCDC">
+
+        <ImageView
+            android:id="@+id/mec_list"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:clickable="true"
+            android:background="#ffffff"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:src="@drawable/mec_list"/>
+
+        <ImageView
+            android:id="@+id/mec_grid"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:src="@drawable/mec_grid" />
+
+        <com.philips.platform.uid.view.widget.SearchBox
+            android:id="@+id/mec_search_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"/>
+    </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/switch_layout"
+        android:layout_below="@+id/mec_ll_layout"
         android:layout_margin="20dp"
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"

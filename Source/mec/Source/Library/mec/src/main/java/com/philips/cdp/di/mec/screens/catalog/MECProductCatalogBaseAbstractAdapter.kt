@@ -1,16 +1,52 @@
 package com.philips.cdp.di.mec.screens.catalog
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 
 
-abstract class MECProductCatalogBaseAbstractAdapter(private val items: MutableList<Pojo>) : RecyclerView.Adapter<MECProductCatalogHolder>() {
+abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<MECProduct>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
 
-    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogHolder ;
+    val originalList = items
+
+    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogAbstractViewHolder
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: MECProductCatalogHolder, position: Int) = holder.bind(items[position])
+    override fun onBindViewHolder(holder: MECProductCatalogAbstractViewHolder, position: Int) = holder.bind(items[position])
 
+
+    override fun getFilter(): Filter {
+
+        var filteredList :MutableList<MECProduct> = mutableListOf()
+
+        return object:Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val searchString = constraint.toString()
+                val filterResults = FilterResults()
+                filterResults.values = originalList
+
+                if(searchString.isEmpty()){
+                    filteredList = originalList
+                }else{
+
+                    for(mecProducts in originalList){
+
+                        if(mecProducts.code.contains(searchString,true)){
+                            filteredList.add(mecProducts)
+                        }
+                    }
+                }
+                filterResults.values = filteredList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                items = results?.values as MutableList<MECProduct>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
 }
