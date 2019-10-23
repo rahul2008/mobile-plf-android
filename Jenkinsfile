@@ -36,7 +36,7 @@ pipeline {
      */
     parameters {
         //specify values for buildType (Normal/PSRA/LeakCanary/HPFortify/Javadocs).
-        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs', description: 'What type of build to build?', name: 'buildType')
+        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck', description: 'What type of build to build?', name: 'buildType')
     }
 
     /**
@@ -262,6 +262,9 @@ pipeline {
 
           /* Blackduck Analytics */
         stage('Blackduck Analytics') {
+             when {
+                expression { return params.buildType == 'BlackDuck' }
+            }
             steps {
                 analyzeWithBlackduck()
             }
