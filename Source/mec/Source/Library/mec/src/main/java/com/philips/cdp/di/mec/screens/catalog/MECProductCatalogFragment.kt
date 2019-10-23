@@ -35,7 +35,7 @@ import android.support.v7.widget.DefaultItemAnimator
 /**
  * A simple [Fragment] subclass.
  */
-class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSProducts>> {
+open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSProducts>> {
 
     var totalPages: Int = 0
     var currentPage: Int = 0
