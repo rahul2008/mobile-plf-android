@@ -25,19 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.philips.cdp.di.mec.container.CartModelContainer;
 import com.philips.cdp.di.mec.integration.MECBannerEnabler;
 import com.philips.cdp.di.mec.integration.MECDependencies;
 import com.philips.cdp.di.mec.integration.MECFlowInput;
 import com.philips.cdp.di.mec.integration.MECInterface;
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
 import com.philips.cdp.di.mec.integration.MECListener;
-import com.philips.cdp.di.mec.integration.MECMockInterface;
-import com.philips.cdp.di.mec.integration.MECOrderFlowCompletion;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.utils.MECConstant;
-import com.philips.cdp.di.mec.utils.MECLog;
-import com.philips.cdp.di.mec.utils.MECUtility;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -71,7 +66,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DemoActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
-        UserRegistrationUIEventListener, MECMockInterface, MECOrderFlowCompletion, MECBannerEnabler {
+        UserRegistrationUIEventListener, MECBannerEnabler {
 
     private final String TAG = DemoActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -125,7 +120,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new MecDemoAppSettings(getApplicationContext()));
 
         ignorelistedRetailer = new ArrayList<>();
-        MECLog.enableLogging(true);
         setContentView(R.layout.activity_demo);
 
         showAppVersion();
@@ -164,7 +158,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 enableMock = isChecked;
-                mMecSettings.setMecMockInterface((MECMockInterface) DemoActivity.this);
                 initializeMECComponant();
             }
         });
@@ -192,21 +185,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         rgVoucher = findViewById(R.id.rg_voucher);
         rgLauncher = findViewById(R.id.rg_launcher);
 
-        rgVoucher.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                if (checkedId == R.id.rb_null) {
-                    MECUtility.getInstance().setVoucherEnable(false);
-                }
-                if (checkedId == R.id.rb_disable) {
-                    MECUtility.getInstance().setVoucherEnable(false);
-                }
-                if (checkedId == R.id.rb_enabble) {
-                    MECUtility.getInstance().setVoucherEnable(true);
-                }
-            }
-        });
 
         rgLauncher.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -309,7 +288,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         mMecInterface = new MECInterface();
         mMecSettings = new MECSettings(this);
-        mMecSettings.setMecMockInterface(this);
         actionBar();
         initializeMECComponant();
     }
@@ -341,22 +319,15 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         try {
             mMecInterface.init(mIapDependencies, mMecSettings);
         } catch (RuntimeException ex) {
-            MECLog.d(TAG, ex.getMessage());
         }
         mMecLaunchInput = new MECLaunchInput();
 
-        mMecLaunchInput.setHybrisSupported(isHybrisEnable);
         if (!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())) {
-            mMecLaunchInput.setMaxCartCount(Integer.parseInt(mEtMaxCartCount.getText().toString().trim()));
         }
-        mMecLaunchInput.setMecBannerEnabler(this);
         mMecLaunchInput.setMecListener(this);
         if (isToggleListener) {
-            mMecLaunchInput.setMecOrderFlowCompletion(this);
         } else {
-            mMecLaunchInput.setMecOrderFlowCompletion(null);
         }
-        MECUtility.getInstance().setHybrisSupported(isHybrisEnable);
         //displayUIOnCartVisible();
     }
 
@@ -685,7 +656,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         try {
             mMecInterface.getCompleteProductList(this);
         } catch (Exception e) {
-            MECLog.e(MECLog.LOG, e.getMessage());
         }
 
     }
@@ -805,26 +775,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    @Override
-    public boolean isMockEnabled() {
-        return enableMock;
-    }
-
-    @Override
-    public JSONObject GetMockJson(String fileName) {
-        fileName = fileName + ".json";
-        return getResponseJson(fileName);
-    }
-
-    @Override
-    public JSONObject GetProductCatalogResponse() {
-        return getResponseJson("product.json");
-    }
-
-    @Override
-    public JSONObject OAuthResponse() {
-        return getResponseJson("bearerAuth.json");
-    }
 
     public JSONObject getResponseJson(String fileName) {
 
@@ -856,11 +806,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         return json;
     }
 
-
-    @Override
-    public boolean shouldPopToProductList() {
-        return false;
-    }
 
     @Override
     public View getBannerView() {
