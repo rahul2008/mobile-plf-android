@@ -120,8 +120,12 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.uAppFwLib
     }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 tasks.withType(Test) {
     ignoreFailures = true
+}
+repositories {
+    mavenCentral()
 }
