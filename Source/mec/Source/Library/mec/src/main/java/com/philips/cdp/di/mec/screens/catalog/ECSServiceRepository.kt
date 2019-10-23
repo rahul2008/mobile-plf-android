@@ -12,58 +12,32 @@ enum class ECSServiceRepository {
 
     INSTANCE;
 
-     lateinit var appInfra: AppInfra
+    lateinit var appInfra: AppInfra
 
 
+    fun getProducts(pageNumber: Int, pageSize: Int, ecsProductViewModel: EcsProductViewModel) {
 
-    fun configECS(){
-        val ecsServices = ECSServices("Tuscany2016", appInfra);
+        val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
+        ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
 
-        ecsServices.configureECS(object : ECSCallback<Boolean,Exception>{
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
-
-                System.out.println("Config success")
+                val mecError = MecError(error, ecsError)
+                ecsProductViewModel.mecError.value = mecError
             }
 
-            override fun onResponse(result: Boolean?) {
-                System.out.println("Config failed")
+            override fun onResponse(ecsProducts: ECSProducts) {
+
+                val mutableLiveData = ecsProductViewModel.ecsProductsList
+
+                var value = mutableLiveData.value;
+
+                if (value == null) value = mutableListOf<ECSProducts>()
+
+                value?.add(ecsProducts)
+                mutableLiveData.value = value
             }
 
         })
     }
-
-    fun getProducts(pageNumber :Int ,pageSize :Int,  ecsProductViewModel :EcsProductViewModel){
-
-        val locale = ECSConfiguration.INSTANCE.locale
-        if(locale ==null){
-            configECS();
-        }else {
-            val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
-            ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
-
-                override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                    val mecError = MecError(error, ecsError)
-                    ecsProductViewModel.mecError.value = mecError
-                }
-
-                override fun onResponse(ecsProducts: ECSProducts) {
-
-                    val mutableLiveData = ecsProductViewModel.ecsProductsList
-
-
-
-                    var value = mutableLiveData.value;
-
-                    if(value == null) value = mutableListOf<ECSProducts>()
-
-                    value?.add(ecsProducts)
-                    mutableLiveData.value = value
-                }
-
-            })
-        }
-
-    }
-
 
 }
