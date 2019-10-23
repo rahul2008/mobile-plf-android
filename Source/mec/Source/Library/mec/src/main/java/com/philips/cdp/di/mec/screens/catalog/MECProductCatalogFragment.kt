@@ -116,7 +116,7 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
             }
         })
 
-        ecsProductViewModel.init(currentPage, pageSize);
+
 
         //ecsProductViewModel.initCategorized(bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS))
 
@@ -156,6 +156,8 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
             }
         })
 
+        executeRequest();
+
         return binding.root
     }
 
@@ -194,6 +196,11 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
         val firstVisibleItemPosition = lay.findFirstVisibleItemPosition()
         return visibleItemCount + firstVisibleItemPosition >= lay.itemCount && firstVisibleItemPosition >= 0
     }
+
+    open fun executeRequest(){
+        ecsProductViewModel.init(currentPage, pageSize)
+    }
+
 }
 
 

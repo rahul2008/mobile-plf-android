@@ -16,10 +16,14 @@ class EcsProductViewModel : ViewModel() {
         ECSServiceRepository.INSTANCE.getProducts(pageNumber,pageSize,this)
     }
 
-    fun initCategorized (ctn :ArrayList<String>){
+    fun initCategorizedRetailer (ctn: MutableList<String>){
         ECSServiceRepository.INSTANCE.getCategorizedProducts(ctn,this)
     }
 
 
+
+    fun initCategorized(pageNumber:Int , pageSize:Int,ctns :List<String>){
+        ECSServiceRepository.INSTANCE.getCategorizedProducts(pageNumber,pageSize,ctns,this)
+    }
 
 }
