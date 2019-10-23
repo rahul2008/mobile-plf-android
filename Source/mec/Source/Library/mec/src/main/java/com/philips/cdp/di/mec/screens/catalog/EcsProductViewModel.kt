@@ -14,4 +14,8 @@ class EcsProductViewModel : ViewModel() {
         ECSServiceRepository.INSTANCE.getProducts(pageNumber,pageSize,this)
     }
 
+    fun initCategorized(ctns :List<String>){
+        
+    }
+
 }
