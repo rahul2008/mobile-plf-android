@@ -26,10 +26,7 @@ import android.R
 import android.R.attr.*
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DefaultItemAnimator
-
-
-
-
+import com.philips.cdp.di.mec.utils.MECConstant
 
 
 /**
@@ -85,6 +82,8 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
 
         ecsProductViewModel.ecsProductsList.observe(this, this);
 
+        val bundle = arguments
+
 
         binding.mecGrid.setOnClickListener {
             binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
@@ -119,6 +118,8 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
 
         ecsProductViewModel.init(currentPage, pageSize);
 
+        //ecsProductViewModel.initCategorized(bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS))
+
         mecProductList = mutableListOf<MECProduct>()
 
         binding.mecSearchBox.setSearchBoxHint("Search")
@@ -149,7 +150,7 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
                 if (isScrollDown(lay)) {
                     if (currentPage < totalPages) {
                         ++currentPage
-                        ecsProductViewModel.init(currentPage, pageSize)
+                       // ecsProductViewModel.init(currentPage, pageSize)
                     }
                 }
             }

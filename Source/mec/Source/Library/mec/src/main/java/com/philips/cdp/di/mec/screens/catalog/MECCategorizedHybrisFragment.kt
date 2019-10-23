@@ -1,4 +1,4 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-class MECCategorizedHybrisFragment {
+class MECCategorizedHybrisFragment: MECProductCatalogFragment(){
 }
