@@ -495,7 +495,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             int themeResourceID = new ThemeHelper(this).getThemeResourceId();
-            mMecInterface.launch(new FragmentLauncher(this, R.id.container_launcher, null),
+            mMecInterface.launch(new FragmentLauncher(this, R.id.mec_fragment_container, null),
                     mMecLaunchInput);
 
         } catch (RuntimeException exception) {

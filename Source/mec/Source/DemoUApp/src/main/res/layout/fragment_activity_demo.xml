@@ -322,7 +322,7 @@
         />
     </RelativeLayout>
     <FrameLayout
-        android:id="@+id/container_launcher"
+        android:id="@+id/mec_fragment_container"
         android:layout_width="match_parent"
         android:visibility="gone"
 

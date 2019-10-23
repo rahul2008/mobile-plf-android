@@ -139,7 +139,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
         //////////////////
         DemoContentBody  = findViewById(R.id.demo_content_layout);
-        fragmentContainer  = findViewById(R.id.container_launcher);
+        fragmentContainer  = findViewById(R.id.mec_fragment_container);
 
         /////////////////
 
@@ -504,7 +504,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
             DemoContentBody.setVisibility(View.GONE);
             fragmentContainer.setVisibility(View.VISIBLE);
-            mMecInterface.launch(new FragmentLauncher(this, R.id.container_launcher, this),
+            mMecInterface.launch(new FragmentLauncher(this, R.id.mec_fragment_container, this),
                     mMecLaunchInput);
 
         } catch (RuntimeException exception) {

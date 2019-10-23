@@ -36,7 +36,7 @@ class MECFragmentLauncher : MecBaseFragment() {
     protected fun launchMECasFragment(landingFragment: Int) {
         val fragment = getFragment(landingFragment)
         val fragmentTransaction =  getActivity()!!.supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.container_launcher, fragment!!)
+        fragmentTransaction.replace(R.id.mec_fragment_container, fragment!!)
         fragmentTransaction.addToBackStack(tag)
         fragmentTransaction.commitAllowingStateLoss()
 
