@@ -14,8 +14,8 @@ class EcsProductViewModel : ViewModel() {
         ECSServiceRepository.INSTANCE.getProducts(pageNumber,pageSize,this)
     }
 
-    fun initCategorized(ctns :List<String>){
-        
+    fun initCategorized(pageNumber:Int , pageSize:Int,ctns :List<String>){
+        ECSServiceRepository.INSTANCE.getCategorizedProducts(pageNumber,pageSize,ctns,this)
     }
 
 }

@@ -40,4 +40,28 @@ enum class ECSServiceRepository {
         })
     }
 
+    fun getCategorizedProducts(pageNumber: Int, pageSize: Int, ctns: List<String>, ecsProductViewModel: EcsProductViewModel) {
+        val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
+        ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
+
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                val mecError = MecError(error, ecsError)
+                ecsProductViewModel.mecError.value = mecError
+            }
+
+            override fun onResponse(ecsProducts: ECSProducts) {
+
+                val mutableLiveData = ecsProductViewModel.ecsProductsList
+
+                var value = mutableLiveData.value;
+
+                if (value == null) value = mutableListOf<ECSProducts>()
+
+                value?.add(ecsProducts)
+                mutableLiveData.value = value
+            }
+
+        })
+    }
+
 }

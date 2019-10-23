@@ -5,9 +5,8 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
 
     override fun executeRequest(){
-
         var ctns = mutableListOf<String>()
-        ecsProductViewModel.initCategorized(ctns)
+        ecsProductViewModel.initCategorized(currentPage, pageSize,ctns)
     }
 }
 
