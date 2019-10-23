@@ -23,11 +23,19 @@ public class LuncherActivity extends Activity {
         setContentView(R.layout.activity_luncher);
     }
 
-    public void launch(View v) {
+    public void launchAsActivity(View v) {
         DemoApplication demoApplication = (DemoApplication) getApplicationContext();
         AppInfra appInfra = demoApplication.getAppInfra();
         iapDemoUAppInterface = new MecDemoUAppInterface();
         iapDemoUAppInterface.init(new MecDemoUAppDependencies(appInfra), new MecDemoAppSettings(this));
         iapDemoUAppInterface.launch(new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), new MecLaunchInput());
+    }
+
+    public void launchAsFragment(View v) {
+        DemoApplication demoApplication = (DemoApplication) getApplicationContext();
+        AppInfra appInfra = demoApplication.getAppInfra();
+        iapDemoUAppInterface = new MecDemoUAppInterface();
+        iapDemoUAppInterface.init(new MecDemoUAppDependencies(appInfra), new MecDemoAppSettings(this));
+        iapDemoUAppInterface.launch(new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), null);
     }
 }

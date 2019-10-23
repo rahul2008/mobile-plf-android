@@ -11,6 +11,10 @@
             android:name=".DemoActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+        <activity
+            android:name=".DemoFragmentActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
     </application>
 
 </manifest>

@@ -12,19 +12,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
-import com.philips.cdp.di.mec.screens.InAppBaseFragment
-import android.R
-import android.R.attr.*
-import android.support.v4.content.ContextCompat
+import com.philips.cdp.di.mec.screens.MecBaseFragment
 import android.support.v7.widget.DefaultItemAnimator
 
 
@@ -35,7 +30,7 @@ import android.support.v7.widget.DefaultItemAnimator
 /**
  * A simple [Fragment] subclass.
  */
-class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSProducts>> {
+class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProducts>> {
 
     var totalPages: Int = 0
     var currentPage: Int = 0

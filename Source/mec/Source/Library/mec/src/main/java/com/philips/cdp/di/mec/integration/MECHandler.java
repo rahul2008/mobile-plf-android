@@ -6,8 +6,12 @@ package com.philips.cdp.di.mec.integration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 
+import com.philips.cdp.di.mec.activity.MECFragmentLauncher;
 import com.philips.cdp.di.mec.activity.MECLauncherActivity;
+import com.philips.cdp.di.mec.screens.MecBaseFragment;
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment;
 import com.philips.cdp.di.mec.utils.MECConstant;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -42,31 +46,56 @@ class MECHandler {
         Intent intent = new Intent(mMECSetting.getContext(), MECLauncherActivity.class);
         intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView);
         ActivityLauncher activityLauncher = (ActivityLauncher) mUiLauncher;
-        Bundle mBundle = new Bundle();
 
-        if (mLaunchInput.mMECFlowInput != null) {
-            if (mLaunchInput.mMECFlowInput.getProductCTN() != null) {
-                intent.putExtra(MECConstant.MEC_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
-                        mLaunchInput.mMECFlowInput.getProductCTN());
-            }
-            if (mLaunchInput.mMECFlowInput.getProductCTNs() != null) {
-                intent.putStringArrayListExtra(MECConstant.CATEGORISED_PRODUCT_CTNS,
-                        mLaunchInput.mMECFlowInput.getProductCTNs());
-            }
-            intent.putExtra(MECConstant.MEC_IGNORE_RETAILER_LIST, mLaunchInput.getIgnoreRetailers());
-        }
-        mBundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
-        intent.putExtras(mBundle);
+        Bundle bundle =  getBundle();
+        bundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
+        intent.putExtras(bundle);
         mMECSetting.getContext().startActivity(intent);
 
     }
 
     protected void launchMECasFragment() {
-        Bundle mBundle = new Bundle();
-        mBundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
-        FragmentLauncher fragmentLauncher = (FragmentLauncher) mUiLauncher;
-        mBundle.putInt("fragment_container", fragmentLauncher.getParentContainerResourceID()); // frame_layout for fragment
 
+
+        FragmentLauncher fragmentLauncher = (FragmentLauncher) mUiLauncher;
+        Bundle bundle =  getBundle();
+      //  bundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
+        bundle.putInt("fragment_container", fragmentLauncher.getParentContainerResourceID()); // frame_layout for fragment
+        loadDecisionFragment(bundle);
+
+
+    }
+
+     void loadDecisionFragment(Bundle bundle ){
+        // MECFragmentLauncher mecFragmentLauncher = new MECFragmentLauncher();
+         MECProductCatalogFragment mecFragmentLauncher = new MECProductCatalogFragment();
+
+         mecFragmentLauncher.setArguments(bundle);
+
+         FragmentLauncher fragmentLauncher = (FragmentLauncher)mUiLauncher;
+         mecFragmentLauncher.setActionBarListener(fragmentLauncher.getActionbarListener(), mLaunchInput.getMecListener());
+         String tag = mecFragmentLauncher.getClass().getName();
+         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+         transaction.replace(fragmentLauncher.getParentContainerResourceID(), mecFragmentLauncher, tag);
+         transaction.addToBackStack(tag);
+         transaction.commitAllowingStateLoss();
+
+    }
+
+    Bundle getBundle (){
+        Bundle mBundle = new Bundle();
+        if (mLaunchInput.mMECFlowInput != null) {
+            if (mLaunchInput.mMECFlowInput.getProductCTN() != null) {
+                mBundle.putString(MECConstant.MEC_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
+                        mLaunchInput.mMECFlowInput.getProductCTN());
+            }
+            if (mLaunchInput.mMECFlowInput.getProductCTNs() != null) {
+                mBundle.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS,
+                        mLaunchInput.mMECFlowInput.getProductCTNs());
+            }
+            mBundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, mLaunchInput.getIgnoreRetailers());
+        }
+        return mBundle;
     }
 
 

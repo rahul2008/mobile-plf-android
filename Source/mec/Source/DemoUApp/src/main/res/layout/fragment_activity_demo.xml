@@ -12,13 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal" />
+    <RelativeLayout
+        android:id="@+id/demo_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_actionbar">
 
     <LinearLayout
         android:id="@+id/ll_ctn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/app_actionbar"
         android:layout_marginLeft="@dimen/border8_margin"
         android:layout_marginRight="@dimen/border8_margin"
         android:weightSum="1"
@@ -316,6 +320,13 @@
         android:text="@string/categorized_shop_now_ignore_retailer"
         android:visibility="gone"
         />
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:visibility="gone"
 
-
+        android:layout_height="match_parent"
+       >
+    </FrameLayout>
 </RelativeLayout>
