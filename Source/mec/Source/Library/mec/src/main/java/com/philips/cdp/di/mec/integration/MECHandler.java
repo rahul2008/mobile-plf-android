@@ -4,22 +4,15 @@
  */
 package com.philips.cdp.di.mec.integration;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.mec.activity.MECLauncherActivity;
-import com.philips.cdp.di.mec.screens.InAppBaseFragment;
-import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment;
 import com.philips.cdp.di.mec.utils.MECConstant;
-import com.philips.cdp.di.mec.utils.Utility;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
-
-import java.util.ArrayList;
 
 class MECHandler {
     private MECDependencies mMECDependencies;
@@ -50,11 +43,7 @@ class MECHandler {
         intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView);
         ActivityLauncher activityLauncher = (ActivityLauncher) mUiLauncher;
         Bundle mBundle = new Bundle();
-       // mBundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
-       // mBundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
 
-
-      //  mBundle.putSerializable("UILauncher", mUiLauncher);
         if (mLaunchInput.mMECFlowInput != null) {
             if (mLaunchInput.mMECFlowInput.getProductCTN() != null) {
                 intent.putExtra(MECConstant.MEC_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
@@ -65,9 +54,6 @@ class MECHandler {
                         mLaunchInput.mMECFlowInput.getProductCTNs());
             }
             intent.putExtra(MECConstant.MEC_IGNORE_RETAILER_LIST, mLaunchInput.getIgnoreRetailers());
-        }
-        if (mLaunchInput.getVoucher() != null) {
-            Utility.setVoucherCode(mLaunchInput.getVoucher());
         }
         mBundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         intent.putExtras(mBundle);

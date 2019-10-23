@@ -6,7 +6,6 @@ package com.philips.cdp.di.mec.integration;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.di.mec.container.CartModelContainer;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -27,7 +26,6 @@ public class MECDependencies extends UappDependencies {
      */
     public MECDependencies(@NonNull AppInfraInterface appInfra, @NonNull UserDataInterface userDataInterface) {
         super(appInfra);
-        CartModelContainer.getInstance().setAppInfraInstance(appInfra);
         this.userDataInterface = userDataInterface;
     }
 
