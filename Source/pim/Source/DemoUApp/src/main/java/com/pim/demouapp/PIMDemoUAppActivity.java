@@ -3,6 +3,8 @@ package com.pim.demouapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -351,11 +353,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(TAG, " : onPrivacyPolicyClick");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
+        activity.startActivity(browserIntent);
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(TAG, " : onTermsAndConditionClick");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
+        activity.startActivity(browserIntent);
     }
 
     @Override
