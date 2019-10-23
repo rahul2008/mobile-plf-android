@@ -67,9 +67,7 @@ class MECHandler {
     }
 
      void loadDecisionFragment(Bundle bundle ){
-        // MECFragmentLauncher mecFragmentLauncher = new MECFragmentLauncher();
-         MECProductCatalogFragment mecFragmentLauncher = new MECProductCatalogFragment();
-
+        MECFragmentLauncher mecFragmentLauncher = new MECFragmentLauncher();
          mecFragmentLauncher.setArguments(bundle);
 
          FragmentLauncher fragmentLauncher = (FragmentLauncher)mUiLauncher;
