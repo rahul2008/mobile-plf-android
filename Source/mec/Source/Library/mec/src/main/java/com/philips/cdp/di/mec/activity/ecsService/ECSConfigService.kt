@@ -7,18 +7,9 @@ import com.philips.cdp.di.mec.screens.catalog.ECSServiceRepository
 
 class ECSConfigService {
 
-    fun configECS(){
+    fun configECS(ecsCallback: ECSCallback<Boolean, Exception>){
         val ecsServices = ECSServices("Tuscany2016", ECSServiceRepository.INSTANCE.appInfra)
 
-        ecsServices.configureECS(object : ECSCallback<Boolean, Exception> {
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-
-            }
-
-            override fun onResponse(result: Boolean?) {
-
-            }
-
-        })
+        ecsServices.configureECS(ecsCallback)
     }
 }

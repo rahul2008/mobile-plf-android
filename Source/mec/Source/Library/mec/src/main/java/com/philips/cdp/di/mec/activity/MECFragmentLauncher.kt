@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.activity.ecsService.ECSConfigService
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.InAppBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedHybrisFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
@@ -30,6 +32,7 @@ class MECFragmentLauncher : InAppBaseFragment(), ECSCallback<Boolean, Exception>
     private var landingFragment: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        ECSConfigService().configECS(this)
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }
 
@@ -68,7 +71,7 @@ class MECFragmentLauncher : InAppBaseFragment(), ECSCallback<Boolean, Exception>
                 if(isCategorized?.isNotEmpty() == true){
 
                     if(isHybris){
-                        fragment = MECCategorizedHybrisFragment()
+                        fragment = MECProductCatalogCategorizedFragment()
                     }else{
                         fragment = MECCategorizedRetailerFragment()
                     }

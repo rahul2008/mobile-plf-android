@@ -117,7 +117,7 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
         })
 
 
-
+        executeRequest();
         //ecsProductViewModel.initCategorized(bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS))
 
         mecProductList = mutableListOf<MECProduct>()
@@ -155,8 +155,6 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
                 }
             }
         })
-
-        executeRequest();
 
         return binding.root
     }
