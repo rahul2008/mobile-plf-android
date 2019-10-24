@@ -59,6 +59,16 @@
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         />
 
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mec_productCatalog_emptyText_label"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/mec_no_product_available"
+        android:textSize="@dimen/iap_product_ctn_12"
+        android:visibility="gone" />
+
 
    <!-- "@{age > 13 ? View.GONE : View.VISIBLE}"
  app:layoutManager="@{catalog.checked ? android.support.v7.widget.GridLayoutManager : android.support.v7.widget.LinearLayoutManager}"

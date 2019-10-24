@@ -527,7 +527,12 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
 
         } else if (view == mShopNowCategorized) {
-
+            if (mCategorizedProductList.size() > 0) {
+                MECFlowInput input = new MECFlowInput(mCategorizedProductList);
+                launchMECasFragment(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, input, null);
+            } else {
+                Toast.makeText(DemoFragmentActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+            }
         } else if (view == mShopNowCategorizedWithRetailer) {
 
         } else if (view == mBuyDirect) {

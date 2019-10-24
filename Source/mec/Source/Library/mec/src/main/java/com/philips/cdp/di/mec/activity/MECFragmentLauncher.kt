@@ -55,7 +55,7 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
 
     protected fun getFragment(isHybris : Boolean,screen: Int): MecBaseFragment? {
         var fragment: MecBaseFragment? = null
-
+        bundle = arguments
         when (screen) {
             MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
             }
@@ -73,7 +73,7 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
 
                 if(isCategorized?.isNotEmpty() == true){
 
-                    if(!isHybris){
+                    if(isHybris){
                         fragment = MECProductCatalogCategorizedFragment()
                     }else{
                         fragment = MECCategorizedRetailerFragment()
