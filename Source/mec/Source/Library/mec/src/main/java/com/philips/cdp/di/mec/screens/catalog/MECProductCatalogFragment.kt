@@ -25,6 +25,7 @@ import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import android.support.v7.widget.DefaultItemAnimator
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_action_bar.*
 
@@ -41,11 +42,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
 
     override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
 
-        System.out.println("Size of products" + (ecsProductsList?.size ?: 0))
-
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
 
-        currentPage = ecsProductsList?.get(0)?.pagination?.currentPage!!
+       currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
+
+        currentPage++
 
 
         if (ecsProductsList != null) {

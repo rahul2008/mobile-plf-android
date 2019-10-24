@@ -40,18 +40,21 @@ enum class ECSServiceRepository {
         })
     }
 
-    fun getCategorizedProducts(ctn: MutableList<String>, ecsProductViewModel: EcsProductViewModel) {
+    fun getCategorizedProductsforRetailer(ctn: MutableList<String>, ecsProductViewModel: EcsProductViewModel) {
 
         val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
         ecsServices.fetchProductSummaries(ctn, object : ECSCallback<List<ECSProduct>, Exception> {
-            override fun onResponse(result: List<ECSProduct>?) {
-                val mutableLiveData = ecsProductViewModel.ecsCategorizedProducts
+            override fun onResponse(result: List<ECSProduct>) {
+                val mutableLiveData = ecsProductViewModel.ecsProductsList
 
                 var value = mutableLiveData.value;
 
-                if (value == null) value = mutableListOf<List<ECSProduct>>()
+                if (value == null) value = mutableListOf<ECSProducts>()
 
-                value?.add(result!!)
+                val ecsProducts = ECSProducts()
+                ecsProducts.products = result
+
+                value?.add(ecsProducts)
                 mutableLiveData.value = value
             }
 
@@ -80,7 +83,29 @@ enum class ECSServiceRepository {
 
                 if (value == null) value = mutableListOf<ECSProducts>()
 
+                //add logic
+                val ecsProductList = mutableListOf<ECSProduct>()
+
+                for (ctn in ctns){
+
+                    for(ecsProduct in ecsProducts.products){
+
+                        if(ecsProduct.code.equals(ctn,false)){
+                            ecsProductList.add(ecsProduct)
+                        }
+                    }
+                }
+
+                ecsProducts.products = ecsProductList
                 value?.add(ecsProducts)
+
+                if(ctns.size == ecsProducts.products.size || ecsProducts.products.size == pageSize ){
+
+                }else{
+                    var newPageNumber :Int = pageNumber+1
+                    getCategorizedProducts(newPageNumber,pageSize,ctns,ecsProductViewModel)
+                }
+
                 mutableLiveData.value = value
             }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.R
@@ -19,20 +20,19 @@ import com.philips.cdp.di.mec.utils.MECConstant
 
 class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
 
-     val TAG = MECFragmentLauncher::class.java.getName();
-
     override fun onResponse(result: Boolean) {
         launchMECasFragment(landingFragment,result)
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        //launchMECasFragment(landingFragment);
+        Toast.makeText(context, "fail", Toast.LENGTH_SHORT).show()
     }
 
 
 
     private var bundle: Bundle? = null
     private var landingFragment: Int = 0
+    val TAG = MECFragmentLauncher::class.java.name
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         ECSConfigService().configECS(this)
@@ -74,7 +74,7 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
 
                 if(isCategorized?.isNotEmpty() == true){
 
-                    if(isHybris){
+                    if(!isHybris){
                         fragment = MECProductCatalogCategorizedFragment()
                     }else{
                         fragment = MECCategorizedRetailerFragment()
