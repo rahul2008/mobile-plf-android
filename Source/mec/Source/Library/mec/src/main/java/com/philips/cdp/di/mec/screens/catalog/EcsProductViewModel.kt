@@ -17,7 +17,7 @@ class EcsProductViewModel : ViewModel() {
     }
 
     fun initCategorizedRetailer (ctn: MutableList<String>){
-        ECSServiceRepository.INSTANCE.getCategorizedProducts(ctn,this)
+        ECSServiceRepository.INSTANCE.getCategorizedProductsforRetailer(ctn,this)
     }
 
 

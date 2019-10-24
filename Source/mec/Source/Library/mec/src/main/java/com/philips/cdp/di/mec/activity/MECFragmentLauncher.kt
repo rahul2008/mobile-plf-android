@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.activity.ecsService.ECSConfigService
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.InAppBaseFragment
-import com.philips.cdp.di.mec.screens.catalog.MECCategorizedHybrisFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
@@ -23,13 +23,14 @@ class MECFragmentLauncher : InAppBaseFragment(), ECSCallback<Boolean, Exception>
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        //launchMECasFragment(landingFragment);
+        Toast.makeText(context, "fail", Toast.LENGTH_SHORT).show()
     }
 
 
 
     private var bundle: Bundle? = null
     private var landingFragment: Int = 0
+    val TAG = MECFragmentLauncher::class.java.name
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         ECSConfigService().configECS(this)

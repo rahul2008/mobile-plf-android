@@ -26,13 +26,18 @@ import android.R
 import android.R.attr.*
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DefaultItemAnimator
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSProducts>> {
+open class MECProductCatalogFragment : InAppBaseFragment(),Pagination,Observer<MutableList<ECSProducts>> {
+
+    override fun addPagination(paginationEnabled: Boolean?) {
+        addPagination(false)
+    }
 
     var totalPages: Int = 0
     var currentPage: Int = 0
@@ -117,7 +122,7 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
         })
 
 
-        executeRequest();
+
         //ecsProductViewModel.initCategorized(bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS))
 
         mecProductList = mutableListOf<MECProduct>()
@@ -155,6 +160,8 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
                 }
             }
         })
+
+        executeRequest();
 
         return binding.root
     }

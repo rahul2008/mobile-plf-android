@@ -40,18 +40,21 @@ enum class ECSServiceRepository {
         })
     }
 
-    fun getCategorizedProducts(ctn: MutableList<String>, ecsProductViewModel: EcsProductViewModel) {
+    fun getCategorizedProductsforRetailer(ctn: MutableList<String>, ecsProductViewModel: EcsProductViewModel) {
 
         val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
         ecsServices.fetchProductSummaries(ctn, object : ECSCallback<List<ECSProduct>, Exception> {
-            override fun onResponse(result: List<ECSProduct>?) {
-                val mutableLiveData = ecsProductViewModel.ecsCategorizedProducts
+            override fun onResponse(result: List<ECSProduct>) {
+                val mutableLiveData = ecsProductViewModel.ecsProductsList
 
                 var value = mutableLiveData.value;
 
-                if (value == null) value = mutableListOf<List<ECSProduct>>()
+                if (value == null) value = mutableListOf<ECSProducts>()
 
-                value?.add(result!!)
+                val ecsProducts = ECSProducts()
+                ecsProducts.products = result
+
+                value?.add(ecsProducts)
                 mutableLiveData.value = value
             }
 

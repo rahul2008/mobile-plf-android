@@ -37,8 +37,8 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener {
             val mECFragmentLauncher = MECFragmentLauncher()
              mECFragmentLauncher.arguments = bundle
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(com.philips.cdp.di.mec.R.id.container_launcher, mECFragmentLauncher, "MECFragmentLauncher")
-            transaction.addToBackStack("MECFragmentLauncher")
+            transaction.replace(com.philips.cdp.di.mec.R.id.container_launcher, mECFragmentLauncher, mECFragmentLauncher.TAG)
+            transaction.addToBackStack(mECFragmentLauncher.TAG)
             transaction.commitAllowingStateLoss()
 
     }
