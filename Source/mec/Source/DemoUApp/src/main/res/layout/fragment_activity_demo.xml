@@ -6,18 +6,19 @@
         android:id="@+id/app_actionbar"
         layout="@layout/action_bar" />
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/appversion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal" />
+
     <RelativeLayout
         android:id="@+id/demo_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_below="@id/app_actionbar">
-
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/appversion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal" />
     <LinearLayout
         android:id="@+id/ll_ctn"
         android:layout_width="match_parent"

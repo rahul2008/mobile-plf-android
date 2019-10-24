@@ -856,5 +856,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
     public void updateActionBar(String resString, boolean enableBackKey) {
 
     }
+
+
 }
 

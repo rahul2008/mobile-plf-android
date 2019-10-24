@@ -48,9 +48,10 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
 
 
     protected fun launchMECasFragment(landingFragment: Int, result: Boolean) {
-        val fragment = getFragment(result,landingFragment)
-        val fragmentTransaction =  getActivity()!!.supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.mec_fragment_container, fragment!!).commit()
+
+        val mecBaseFragment = getFragment(result,landingFragment)
+        mecBaseFragment?.let { addFragment(it,"asd",false) }
+
     }
 
     protected fun getFragment(isHybris : Boolean,screen: Int): MecBaseFragment? {
