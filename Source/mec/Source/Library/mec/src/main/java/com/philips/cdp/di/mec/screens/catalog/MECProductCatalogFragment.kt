@@ -38,11 +38,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
 
     override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
 
-        System.out.println("Size of products" + (ecsProductsList?.size ?: 0))
-
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
 
         currentPage = ecsProductsList?.get(0)?.pagination?.currentPage!!
+
+        currentPage++
 
 
         if (ecsProductsList != null) {
