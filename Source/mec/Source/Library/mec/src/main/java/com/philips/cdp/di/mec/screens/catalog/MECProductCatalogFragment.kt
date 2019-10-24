@@ -12,25 +12,25 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
-import com.philips.cdp.di.mec.screens.MecBaseFragment
+
 import android.support.v7.widget.DefaultItemAnimator
-
-
-
-
+import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.utils.MECConstant
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProducts>> {
+open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProducts>> {
 
     var totalPages: Int = 0
     var currentPage: Int = 0
@@ -80,6 +80,8 @@ class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProd
 
         ecsProductViewModel.ecsProductsList.observe(this, this);
 
+        val bundle = arguments
+
 
         binding.mecGrid.setOnClickListener {
             binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
@@ -112,7 +114,9 @@ class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProd
             }
         })
 
-        ecsProductViewModel.init(currentPage, pageSize);
+
+        executeRequest();
+        //ecsProductViewModel.initCategorized(bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS))
 
         mecProductList = mutableListOf<MECProduct>()
 
@@ -144,7 +148,7 @@ class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProd
                 if (isScrollDown(lay)) {
                     if (currentPage < totalPages) {
                         ++currentPage
-                        ecsProductViewModel.init(currentPage, pageSize)
+                       // ecsProductViewModel.init(currentPage, pageSize)
                     }
                 }
             }
@@ -188,6 +192,11 @@ class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProd
         val firstVisibleItemPosition = lay.findFirstVisibleItemPosition()
         return visibleItemCount + firstVisibleItemPosition >= lay.itemCount && firstVisibleItemPosition >= 0
     }
+
+    open fun executeRequest(){
+        ecsProductViewModel.init(currentPage, pageSize)
+    }
+
 }
 
 
