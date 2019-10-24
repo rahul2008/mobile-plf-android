@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.activity
 
+import android.app.PendingIntent.getActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,14 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.activity.ecsService.ECSConfigService
 import com.philips.cdp.di.mec.integration.MECLaunchInput
-import com.philips.cdp.di.mec.screens.InAppBaseFragment
+import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.catalog.MECCategorizedHybrisFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
-class MECFragmentLauncher : InAppBaseFragment(), ECSCallback<Boolean, Exception> {
+class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
 
     override fun onResponse(result: Boolean) {
         launchMECasFragment(landingFragment,result)
@@ -48,11 +50,11 @@ class MECFragmentLauncher : InAppBaseFragment(), ECSCallback<Boolean, Exception>
     protected fun launchMECasFragment(landingFragment: Int, result: Boolean) {
         val fragment = getFragment(result,landingFragment)
         val fragmentTransaction =  getActivity()!!.supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.container_launcher, fragment!!).commit()
+        fragmentTransaction.replace(R.id.mec_fragment_container, fragment!!).commit()
     }
 
-    protected fun getFragment(isHybris : Boolean,screen: Int): InAppBaseFragment? {
-        var fragment: InAppBaseFragment? = null
+    protected fun getFragment(isHybris : Boolean,screen: Int): MecBaseFragment? {
+        var fragment: MecBaseFragment? = null
 
         when (screen) {
             MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
@@ -71,7 +73,7 @@ class MECFragmentLauncher : InAppBaseFragment(), ECSCallback<Boolean, Exception>
 
                 if(isCategorized?.isNotEmpty() == true){
 
-                    if(isHybris){
+                    if(!isHybris){
                         fragment = MECProductCatalogCategorizedFragment()
                     }else{
                         fragment = MECCategorizedRetailerFragment()

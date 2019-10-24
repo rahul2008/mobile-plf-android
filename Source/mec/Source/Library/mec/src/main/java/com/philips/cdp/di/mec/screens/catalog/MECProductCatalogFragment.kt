@@ -21,11 +21,9 @@ import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
-import com.philips.cdp.di.mec.screens.InAppBaseFragment
-import android.R
-import android.R.attr.*
-import android.support.v4.content.ContextCompat
+
 import android.support.v7.widget.DefaultItemAnimator
+import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.utils.MECConstant
 
@@ -33,11 +31,7 @@ import com.philips.cdp.di.mec.utils.MECConstant
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductCatalogFragment : InAppBaseFragment(),Pagination,Observer<MutableList<ECSProducts>> {
-
-    override fun addPagination(paginationEnabled: Boolean?) {
-        addPagination(false)
-    }
+open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProducts>> {
 
     var totalPages: Int = 0
     var currentPage: Int = 0
@@ -48,6 +42,8 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Pagination,Observer<M
         System.out.println("Size of products" + (ecsProductsList?.size ?: 0))
 
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
+
+       currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
 
 
         if (ecsProductsList != null) {
@@ -122,8 +118,7 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Pagination,Observer<M
         })
 
 
-
-        //ecsProductViewModel.initCategorized(bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS))
+        executeRequest()
 
         mecProductList = mutableListOf<MECProduct>()
 
@@ -154,14 +149,11 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Pagination,Observer<M
 
                 if (isScrollDown(lay)) {
                     if (currentPage < totalPages) {
-                        ++currentPage
-                       // ecsProductViewModel.init(currentPage, pageSize)
+                        ecsProductViewModel.init(currentPage, pageSize)
                     }
                 }
             }
         })
-
-        executeRequest();
 
         return binding.root
     }

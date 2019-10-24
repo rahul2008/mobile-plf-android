@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -48,6 +49,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -65,8 +67,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class DemoActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
-        UserRegistrationUIEventListener, MECBannerEnabler {
+public class DemoFragmentActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
+        UserRegistrationUIEventListener, MECBannerEnabler, ActionBarListener {
 
     private final String TAG = DemoActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -101,7 +103,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     URInterface urInterface;
     private long mLastClickTime = 0;
     private ToggleButton toggleMock;
-    private boolean enableMock = false;
+
     EditText mEtMaxCartCount;
     private ToggleButton toggleHybris;
     private boolean isHybrisEnable = true;
@@ -110,6 +112,9 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private ToggleButton toggleListener;
     private boolean isToggleListener = false;
     private RadioGroup rgVoucher,rgLauncher;
+
+    private RelativeLayout DemoContentBody;
+    private FrameLayout fragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +125,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new MecDemoAppSettings(getApplicationContext()));
 
         ignorelistedRetailer = new ArrayList<>();
-        setContentView(R.layout.activity_demo);
+        setContentView(R.layout.fragment_activity_demo);
 
         showAppVersion();
         mEtCTN = findViewById(R.id.et_add_ctn);
@@ -130,6 +135,13 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         mEtPropositionId = findViewById(R.id.et_add_proposition_id);
         mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
+
+
+        //////////////////
+        DemoContentBody  = findViewById(R.id.demo_content_layout);
+        fragmentContainer  = findViewById(R.id.mec_fragment_container);
+
+        /////////////////
 
 
         AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
@@ -145,7 +157,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
                 configInterface.setPropertyForKey("propositionid", "MEC", mEtPropositionId.getText().toString(), configError);
 
-                Toast.makeText(DemoActivity.this, "Proposition id is set", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DemoFragmentActivity.this, "Proposition id is set", Toast.LENGTH_SHORT).show();
                 finishAffinity();
                 System.exit(0);
             }
@@ -153,14 +165,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         toggleMock = findViewById(R.id.toggleMock);
 
-        toggleMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                enableMock = isChecked;
-                initializeMECComponant();
-            }
-        });
 
         toggleBanner = findViewById(R.id.toggleBanner);
 
@@ -401,7 +406,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mShoppingCart.setVisibility(View.VISIBLE);
 
         dismissProgressDialog();
-       // mIapInterface.getProductCartCount(this);
+        // mIapInterface.getProductCartCount(this);
 
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
@@ -457,7 +462,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 if (isClickable())
-                    launchMEC(MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW, null, null);
+                    launchMECasFragment(MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW, null, null);
             }
         });
     }
@@ -468,6 +473,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mTitleTextView.setText(title);
     }
 
+/*
     private void launchMEC(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
 
         if (pIgnoreRetailerList == null)
@@ -482,9 +488,10 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                     mMecLaunchInput);
 
         } catch (RuntimeException exception) {
-            Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DemoFragmentActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+*/
 
     private void launchMECasFragment(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
 
@@ -494,12 +501,14 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode, pIgnoreRetailerList);
 
         try {
-            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
-            mMecInterface.launch(new FragmentLauncher(this, R.id.mec_fragment_container, null),
+
+            DemoContentBody.setVisibility(View.GONE);
+            fragmentContainer.setVisibility(View.VISIBLE);
+            mMecInterface.launch(new FragmentLauncher(this, R.id.mec_fragment_container, this),
                     mMecLaunchInput);
 
         } catch (RuntimeException exception) {
-            Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DemoFragmentActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -511,19 +520,14 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         if (view == mShoppingCart) {
 
         } else if (view == mShopNow) {
-            launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, null, null);
+            launchMECasFragment(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
 
         } else if (view == mLaunchProductDetail) {
 
 
         } else if (view == mShopNowCategorized) {
-            if (mCategorizedProductList.size() > 0) {
-                MECFlowInput input = new MECFlowInput(mCategorizedProductList);
-                launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, input, null);
-            } else {
-                Toast.makeText(DemoActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
-            }
+
         } else if (view == mShopNowCategorizedWithRetailer) {
 
         } else if (view == mBuyDirect) {
@@ -539,15 +543,15 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
                         @Override
                         public void logoutSessionFailed(Error error) {
-                            Toast.makeText(DemoActivity.this, "Logout went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DemoFragmentActivity.this, "Logout went wrong", Toast.LENGTH_SHORT).show();
                         }
 
                     });
                 } else {
-                    Toast.makeText(DemoActivity.this, "User is not logged in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DemoFragmentActivity.this, "User is not logged in", Toast.LENGTH_SHORT).show();
                 }
             } else
-             {
+            {
 
                 gotoLogInScreen();
             }
@@ -756,9 +760,9 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mProgressDialog.setCancelable(false);
         mProgressDialog.setMessage("Please wait" + "...");
 
-        if ((!mProgressDialog.isShowing()) && !(DemoActivity.this).isFinishing()) {
+        if ((!mProgressDialog.isShowing()) && !(DemoFragmentActivity.this).isFinishing()) {
             mProgressDialog.show();
-           mProgressDialog.setContentView(R.layout.progressbar_dls);
+            mProgressDialog.setContentView(R.layout.progressbar_dls);
         }
     }
 
@@ -824,6 +828,33 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     boolean isUserLoggedIn(){
         return  mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
+    }
+
+
+    /////////// Action Bar Call backs /////////////////
+
+    /**
+     * For setting the title of action bar and to set back key Enabled/Disabled
+     *
+     * @param resId         The resource Id of the String to be displayed
+     * @param enableBackKey To set back key enabled or disabled
+     * @since 1.0.0
+     */
+    @Override
+    public void updateActionBar(int resId, boolean enableBackKey) {
+
+    }
+
+    /**
+     * For setting the title of action bar and to set back key Enabled/Disabled
+     *
+     * @param resString     The String to be displayed
+     * @param enableBackKey To set back key enabled or disabled
+     * @since 1.0.0
+     */
+    @Override
+    public void updateActionBar(String resString, boolean enableBackKey) {
+
     }
 }
 

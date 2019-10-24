@@ -25,8 +25,11 @@ public class MecDemoUAppInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
-        if(uiLauncher instanceof ActivityLauncher){
+        if(uiLauncher instanceof ActivityLauncher && null!=uappLaunchInput){
             Intent intent=new Intent(mContext,DemoActivity.class);
+            mContext.startActivity(intent);
+        }else{
+            Intent intent=new Intent(mContext,DemoFragmentActivity.class);
             mContext.startActivity(intent);
         }
     }

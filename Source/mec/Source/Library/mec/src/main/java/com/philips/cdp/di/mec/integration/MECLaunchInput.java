@@ -18,6 +18,7 @@ public class MECLaunchInput extends UappLaunchInput implements Serializable {
     private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
     private String voucherCode;
 
+
     public void setMECFlow(int pLandingView, MECFlowInput pMecFlowInput,String voucherCode, ArrayList<String> pBlackListedRetailer) {
         mLandingView = pLandingView;
         mMECFlowInput = pMecFlowInput;
@@ -44,7 +45,10 @@ public class MECLaunchInput extends UappLaunchInput implements Serializable {
         return mFirstIgnoreRetailers;
     }
 
-
+    public MECListener getMecListener() {
+        if (mecListener == null) new RuntimeException("Set IAPListener in your vertical app ");
+        return mecListener;
+    }
     public void setMecListener(MECListener mecListener) {
         this.mecListener = mecListener;
     }

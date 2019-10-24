@@ -9,7 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:onClick="launch"
-        android:text="Launch Activity"
+        android:onClick="launchAsActivity"
+        android:text="Launch as Activity"
+        android:visibility="visible" />
+    <Button
+        android:id="@+id/btn_launch_as_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:onClick="launchAsFragment"
+        android:text="Launch as Fragment"
         android:visibility="visible" />
 </LinearLayout>

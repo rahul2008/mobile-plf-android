@@ -7,7 +7,9 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecActivityBinding
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.utils.UIDActivity
+import kotlinx.android.synthetic.main.mec_action_bar.*
 import kotlinx.android.synthetic.main.mec_activity.*
+import kotlinx.android.synthetic.main.mec_activity.iap_iv_header_back_button
 
 
 class MECLauncherActivity : UIDActivity(), View.OnClickListener {
@@ -19,10 +21,10 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener {
 
         DataBindingUtil.setContentView<MecActivityBinding>(this, R.layout.mec_activity_launcher)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(mec_toolbar)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        iap_iv_header_back_button.setOnClickListener(this)
+        mec_iv_header_back_button.setOnClickListener(this)
         bundle = intent.getExtras()
         val landingScreen:Int = bundle.getInt(MECConstant.MEC_LANDING_SCREEN)
 
@@ -37,7 +39,7 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener {
             val mECFragmentLauncher = MECFragmentLauncher()
              mECFragmentLauncher.arguments = bundle
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(com.philips.cdp.di.mec.R.id.container_launcher, mECFragmentLauncher, mECFragmentLauncher.TAG)
+            transaction.replace(com.philips.cdp.di.mec.R.id.mec_fragment_container, mECFragmentLauncher, mECFragmentLauncher.TAG)
             transaction.addToBackStack(mECFragmentLauncher.TAG)
             transaction.commitAllowingStateLoss()
 
