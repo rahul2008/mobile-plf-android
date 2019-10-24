@@ -43,7 +43,7 @@
                 android:textIsSelectable="true" />
 
             <FrameLayout
-                android:id="@+id/cart_container"
+                android:id="@+id/mec_cart_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -60,7 +60,7 @@
                     android:paddingEnd="@dimen/network_margin_left_right" />
 
                 <com.philips.platform.uid.view.widget.NotificationBadge
-                    android:id="@+id/item_count"
+                    android:id="@+id/mec_cart_item_count"
                     style="@style/NotificationBadge.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

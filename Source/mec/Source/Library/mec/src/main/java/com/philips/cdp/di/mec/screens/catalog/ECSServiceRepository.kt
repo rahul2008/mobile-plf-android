@@ -83,7 +83,29 @@ enum class ECSServiceRepository {
 
                 if (value == null) value = mutableListOf<ECSProducts>()
 
+                //add logic
+                val ecsProductList = mutableListOf<ECSProduct>()
+
+                for (ctn in ctns){
+
+                    for(ecsProduct in ecsProducts.products){
+
+                        if(ecsProduct.code.equals(ctn,false)){
+                            ecsProductList.add(ecsProduct)
+                        }
+                    }
+                }
+
+                ecsProducts.products = ecsProductList
                 value?.add(ecsProducts)
+
+                if(ctns.size == ecsProducts.products.size || ecsProducts.products.size == pageSize ){
+
+                }else{
+                    var newPageNumber :Int = pageNumber+1
+                    getCategorizedProducts(newPageNumber,pageSize,ctns,ecsProductViewModel)
+                }
+
                 mutableLiveData.value = value
             }
 

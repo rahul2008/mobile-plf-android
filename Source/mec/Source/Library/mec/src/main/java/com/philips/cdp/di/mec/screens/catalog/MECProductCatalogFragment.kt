@@ -23,15 +23,18 @@ import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.utils.MECConstant
+import kotlinx.android.synthetic.main.mec_action_bar.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProducts>> {
+    val TAG = MECProductCatalogFragment::class.java.name
 
     var totalPages: Int = 0
     var currentPage: Int = 0
@@ -39,11 +42,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
 
     override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
 
-        System.out.println("Size of products" + (ecsProductsList?.size ?: 0))
-
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
 
        currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
+
+        currentPage++
 
 
         if (ecsProductsList != null) {
@@ -63,7 +66,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
-    val TAG = MECProductCatalogFragment::class.java.name
+
 
     lateinit var ecsProductViewModel: EcsProductViewModel
 
@@ -74,6 +77,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+
 
         binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
 
@@ -161,6 +166,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
 
     override fun onResume() {
         super.onResume()
+        setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
     }
 
     override fun handleBackEvent(): Boolean {
@@ -197,6 +203,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
     open fun executeRequest(){
         ecsProductViewModel.init(currentPage, pageSize)
     }
+
+
 
 }
 
