@@ -44,6 +44,8 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
 
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
 
+        currentPage = ecsProductsList?.get(0)?.pagination?.currentPage!!
+
 
         if (ecsProductsList != null) {
             for (ecsProducts in ecsProductsList) {
@@ -117,8 +119,7 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
         })
 
 
-        executeRequest();
-        //ecsProductViewModel.initCategorized(bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS))
+        executeRequest()
 
         mecProductList = mutableListOf<MECProduct>()
 
@@ -149,8 +150,7 @@ open class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<
 
                 if (isScrollDown(lay)) {
                     if (currentPage < totalPages) {
-                        ++currentPage
-                       // ecsProductViewModel.init(currentPage, pageSize)
+                        ecsProductViewModel.init(currentPage, pageSize)
                     }
                 }
             }
