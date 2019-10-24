@@ -8,34 +8,22 @@
         android:orientation="vertical"
         tools:context=".activity.MECActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <include
+            android:id="@+id/action_bar_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iap_iv_header_back_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/mec_back_arrow"
-                android:clickable="true"
-                android:padding="@dimen/border8_margin"
-                android:layout_gravity="left" />
-
-            <com.philips.platform.uid.view.widget.Label
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="@string/mec_product_catalog"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/iap_text_size_20sp"
-                android:layout_gravity="center" />
-        </android.support.v7.widget.Toolbar>
+            android:layout_height="wrap_content"
+            layout="@layout/mec_action_bar" />
 
         <FrameLayout
             android:id="@+id/mec_fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/rl_header"
+            android:orientation="vertical" />
     </LinearLayout>
 
 </layout>
+
+
+
+

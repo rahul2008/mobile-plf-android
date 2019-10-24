@@ -13,13 +13,13 @@
         app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/iap_toolbar"
+            android:id="@+id/mec_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false">
 
             <FrameLayout
-                android:id="@+id/iap_header_back_button"
+                android:id="@+id/mec_header_back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -28,14 +28,14 @@
                 android:paddingEnd="@dimen/border16_margin_left_right">
 
                 <ImageView
-                    android:id="@+id/iap_iv_header_back_button"
+                    android:id="@+id/mec_iv_header_back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
             </FrameLayout>
 
             <com.philips.platform.uid.view.widget.ActionBarTextView
-                android:id="@+id/iap_actionBar_headerTitle_lebel"
+                android:id="@+id/mec_actionBar_headerTitle_lebel"
                 style="@style/UIDToolbarBarTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
