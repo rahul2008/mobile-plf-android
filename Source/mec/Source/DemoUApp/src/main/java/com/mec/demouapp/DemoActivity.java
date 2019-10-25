@@ -440,7 +440,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void actionBar() {
-        FrameLayout frameLayout = findViewById(R.id.mec_demo_app_header_back_button);
+        FrameLayout frameLayout = findViewById(R.id.mec_demo_app_header_back_button_framelayout);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -449,7 +449,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         ImageView mBackImage = findViewById(R.id.mec_demo_app_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
+        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.mec_demo_app_back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = findViewById(R.id.mec_demo_app_header_title);
         setTitle(getString(R.string.mec_app_name));

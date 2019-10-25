@@ -28,13 +28,13 @@ import java.util.*
     override fun updateActionBar(resString: String?, visibility: Boolean) {
         mec_actionBar_headerTitle_lebel.setText(resString)
         if (visibility) {
-            mec_header_back_button.setVisibility(View.VISIBLE)
+            mec_header_back_button_framelayout.setVisibility(View.VISIBLE)
             // For arabic, Hebrew and Perssian the back arrow change from left to right
             if (Locale.getDefault().language.contentEquals("ar") || Locale.getDefault().language.contentEquals("fa") || Locale.getDefault().language.contentEquals("he")) {
-                mec_header_back_button.setRotation(180f)
+                mec_header_back_button_framelayout.setRotation(180f)
             }
         } else {
-            mec_header_back_button.setVisibility(View.GONE)
+            mec_header_back_button_framelayout.setVisibility(View.GONE)
         }
     }
 
@@ -60,7 +60,7 @@ import java.util.*
         setSupportActionBar(mec_toolbar)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        mec_header_back_button.setOnClickListener(this)
+        mec_header_back_button_framelayout.setOnClickListener(this)
         bundle = intent.getExtras()
         val landingScreen:Int = bundle.getInt(MECConstant.MEC_LANDING_SCREEN)
 
@@ -70,7 +70,7 @@ import java.util.*
     }
 
      private fun createActionBar() {
-         mec_header_back_button.setOnClickListener { onBackPressed() }
+         mec_header_back_button_framelayout.setOnClickListener { onBackPressed() }
          val mBackDrawable = VectorDrawableCompat.create(resources, R.drawable.mec_back_arrow, theme)
          mec_iv_header_back_button.background=mBackDrawable
          title = getString(R.string.mec_app_name)

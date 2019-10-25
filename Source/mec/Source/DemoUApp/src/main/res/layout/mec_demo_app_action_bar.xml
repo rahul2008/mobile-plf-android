@@ -18,19 +18,20 @@
             android:layout_height="wrap_content">
 
             <FrameLayout
-                android:id="@+id/mec_demo_app_header_back_button"
+                android:id="@+id/mec_demo_app_header_back_button_framelayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:clickable="true"
-                android:visibility="gone">
+                android:paddingStart="@dimen/border16_margin_left_right"
+                android:paddingEnd="@dimen/border16_margin_left_right">
 
                 <ImageView
                     android:id="@+id/mec_demo_app_iv_header_back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/app_title" />
+                   />
             </FrameLayout>
 
 
@@ -59,7 +60,7 @@
                     android:layout_marginTop="10dp"
                     android:contentDescription="@string/app_title"
                     android:paddingRight="12dp"
-                    android:src="@drawable/shopping_cart_xml" />
+                    android:src="@drawable/mec_demo_app_shopping_cart_xml" />
 
                 <com.philips.platform.uid.view.widget.NotificationBadge
                     android:id="@+id/mec_demo_app_item_count"
