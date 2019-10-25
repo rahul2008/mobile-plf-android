@@ -4,17 +4,15 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.databinding.MecActivityBinding
+import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
+
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uid.utils.UIDActivity
 import kotlinx.android.synthetic.main.mec_action_bar.*
-import kotlinx.android.synthetic.main.mec_activity.*
 import java.util.*
 
 
@@ -57,7 +55,7 @@ import java.util.*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DataBindingUtil.setContentView<MecActivityBinding>(this, R.layout.mec_activity_launcher)
+        DataBindingUtil.setContentView<MecActivityLauncherBinding>(this, R.layout.mec_activity_launcher)
 
         setSupportActionBar(mec_toolbar)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
@@ -72,8 +70,7 @@ import java.util.*
     }
 
      private fun createActionBar() {
-         val frameLayout = findViewById<FrameLayout>(R.id.mec_header_back_button)
-         frameLayout.setOnClickListener { onBackPressed() }
+         mec_header_back_button.setOnClickListener { onBackPressed() }
          val mBackDrawable = VectorDrawableCompat.create(resources, R.drawable.mec_back_arrow, theme)
          mec_iv_header_back_button.background=mBackDrawable
          title = getString(R.string.mec_app_name)

@@ -4,7 +4,7 @@
 
     <include
         android:id="@+id/app_actionbar"
-        layout="@layout/action_bar" />
+        layout="@layout/mec_demo_app_action_bar" />
 
 
     <RelativeLayout

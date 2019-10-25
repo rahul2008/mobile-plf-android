@@ -453,7 +453,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        ImageView mBackImage = findViewById(R.id.mec_demo_app_iv_header_back_button);
+        ImageView mBackImage = findViewById(R.id.mec_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = findViewById(R.id.mec_demo_app_header_title);
