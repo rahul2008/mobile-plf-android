@@ -242,7 +242,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         mLaunchProductDetail = findViewById(R.id.btn_launch_product_detail);
         mLaunchProductDetail.setOnClickListener(this);
 
-        mShoppingCart = findViewById(R.id.shopping_cart_icon);
+        mShoppingCart = findViewById(R.id.mec_demo_app_shopping_cart_icon);
 
 
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
@@ -261,8 +261,8 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
 
-        mCartIcon = findViewById(R.id.cart_iv);
-        mCountText = findViewById(R.id.item_count);
+        mCartIcon = findViewById(R.id.mec_demo_app_cart_iv);
+        mCountText = findViewById(R.id.mec_demo_app_item_count);
 
         mCategorizedProductList = new ArrayList<>();
 
@@ -445,7 +445,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void actionBar() {
-        FrameLayout frameLayout = findViewById(R.id.iap_header_back_button);
+        FrameLayout frameLayout = findViewById(R.id.mec_demo_app_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -453,10 +453,10 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        ImageView mBackImage = findViewById(R.id.iap_iv_header_back_button);
+        ImageView mBackImage = findViewById(R.id.mec_demo_app_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
-        mTitleTextView = findViewById(R.id.iap_header_title);
+        mTitleTextView = findViewById(R.id.mec_demo_app_header_title);
         setTitle(getString(R.string.mec_app_name));
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override

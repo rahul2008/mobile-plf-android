@@ -30,13 +30,13 @@ import java.util.*
     override fun updateActionBar(resString: String?, visibility: Boolean) {
         mec_actionBar_headerTitle_lebel.setText(resString)
         if (visibility) {
-            mec_iv_header_back_button.setVisibility(View.VISIBLE)
+            mec_header_back_button.setVisibility(View.VISIBLE)
             // For arabic, Hebrew and Perssian the back arrow change from left to right
             if (Locale.getDefault().language.contentEquals("ar") || Locale.getDefault().language.contentEquals("fa") || Locale.getDefault().language.contentEquals("he")) {
-                mec_iv_header_back_button.setRotation(180f)
+                mec_header_back_button.setRotation(180f)
             }
         } else {
-            mec_iv_header_back_button.setVisibility(View.GONE)
+            mec_header_back_button.setVisibility(View.GONE)
         }
     }
 
@@ -62,7 +62,7 @@ import java.util.*
         setSupportActionBar(mec_toolbar)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        mec_iv_header_back_button.setOnClickListener(this)
+        mec_header_back_button.setOnClickListener(this)
         bundle = intent.getExtras()
         val landingScreen:Int = bundle.getInt(MECConstant.MEC_LANDING_SCREEN)
 

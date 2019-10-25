@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/iap_iv_header_back_button"
+            android:id="@+id/mec_demo_app_iv_header_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/mec_back_arrow"
