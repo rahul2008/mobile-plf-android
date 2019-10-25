@@ -18,6 +18,18 @@
       "houseNumber",
       "address2"
     ],
+    "HU": [
+      "state"
+    ],
+    "PL": [
+      "state"
+    ],
+    "CZ": [
+      "address2"
+    ],
+    "RO": [
+      "address2"
+    ],
     "DE": [
       "address2",
       "state"
