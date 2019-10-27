@@ -99,18 +99,31 @@ enum class ECSServiceRepository {
                 ecsProducts.products = ecsProductList
                 value?.add(ecsProducts)
 
-                if(ctns.size == ecsProducts.products.size || ecsProducts.products.size == pageSize ){
 
+                if(shouldBreakTheLoop(pageNumber, ecsProducts, ctns)){
+                    mutableLiveData.value = value
                 }else{
                     var newPageNumber :Int = pageNumber+1
                     getCategorizedProducts(newPageNumber,pageSize,ctns,ecsProductViewModel)
                 }
 
-                mutableLiveData.value = value
             }
 
         })
     }
+
+    /*
+    *   These are the below conditions to break the loop
+    *
+    *   1- Searched for 5 pages
+    *   2- Searched for all the pages completed
+    *   3- ALl CTNs are found
+    *   4- Only show products of page size at a time .
+    *
+    * */
+
+    private fun shouldBreakTheLoop(pageNumber: Int, ecsProducts: ECSProducts, ctns: List<String>) =
+            pageNumber % 5 == 0 || pageNumber == ecsProducts.pagination.totalPages - 1 || ctns.size == ecsProducts.products.size || ecsProducts.products.size == ecsProducts.pagination.pageSize
 
 }
 
