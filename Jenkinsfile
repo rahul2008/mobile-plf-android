@@ -128,6 +128,7 @@ pipeline {
                     not { expression { return params.buildType == 'PSRA' } }
                     not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
+                    not { expression { return params.buildType == 'BlackDuck' } }
 
                     //publish to artifactory only for master,develop and release/platform_*
                     anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
@@ -260,9 +261,9 @@ pipeline {
             }
         }
 
-          /* Blackduck Analytics */
+        /* Blackduck Analytics */
         stage('Blackduck Analytics') {
-             when {
+            when {
                 expression { return params.buildType == 'BlackDuck' }
             }
             steps {
@@ -312,6 +313,7 @@ pipeline {
             when {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
+                    not { expression { return params.buildType == 'BlackDuck' } }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
