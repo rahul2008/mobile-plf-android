@@ -87,8 +87,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
 
         binding.mecGrid.setOnClickListener {
-            binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
-            binding.mecList.setBackgroundColor(Color.parseColor("#DCDCDC"))
+            binding.mecGrid.setBackgroundColor(Color.parseColor("#DCDCDC"))
+            binding.mecList.setBackgroundColor(Color.parseColor("#ffffff"))
             adapter = MECProductCatalogGridAdapter(mecProductList)
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
             binding.productCatalogRecyclerView.adapter = adapter
@@ -101,8 +101,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         }
 
         binding.mecList.setOnClickListener {
-            binding.mecList.setBackgroundColor(Color.parseColor("#ffffff"))
-            binding.mecGrid.setBackgroundColor(Color.parseColor("#DCDCDC"))
+            binding.mecList.setBackgroundColor(Color.parseColor("#DCDCDC"))
+            binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
             adapter = MECProductCatalogListAdapter(mecProductList)
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             binding.productCatalogRecyclerView.adapter = adapter
