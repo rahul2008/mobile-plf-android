@@ -5,9 +5,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application>
+        <activity android:name=".screens.catalog.DetailsActivity"></activity>
         <activity
             android:name=".activity.MECLauncherActivity"
-            android:label="Products"/>
+            android:label="Products" />
     </application>
 
 </manifest>

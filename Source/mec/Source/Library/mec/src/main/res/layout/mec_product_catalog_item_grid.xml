@@ -12,6 +12,8 @@
         android:id="@+id/product_catalog_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="@{product::onClick}"
         android:padding="@dimen/border16_margin_left_right">
 
         <FrameLayout
