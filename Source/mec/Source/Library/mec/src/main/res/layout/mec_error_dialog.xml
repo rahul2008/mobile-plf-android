@@ -17,7 +17,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/dialogTitle"
-            style="@style/iapCentralesansBookFont"
+            style="@style/mecCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_20dp"
@@ -26,7 +26,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/dialogDescription"
-            style="@style/iapCentralesansBookFont"
+            style="@style/mecCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_20dp"

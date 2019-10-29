@@ -28,6 +28,7 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_action_bar.*
+import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
 /**
@@ -41,6 +42,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
     var pageSize: Int = 8
 
     override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
+        hideProgressBar()
 
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
 
@@ -123,7 +125,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
         })
 
 
-        executeRequest()
+
 
         mecProductList = mutableListOf<MECProduct>()
 
@@ -164,6 +166,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        executeRequest()
+    }
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
@@ -201,6 +207,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
     }
 
     open fun executeRequest(){
+        createCustomProgressBar(container, MEDIUM)
         ecsProductViewModel.init(currentPage, pageSize)
     }
 

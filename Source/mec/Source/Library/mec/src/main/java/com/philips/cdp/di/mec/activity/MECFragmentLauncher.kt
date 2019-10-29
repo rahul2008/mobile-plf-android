@@ -17,15 +17,30 @@ import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECutility
+import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
 
+
     override fun onResponse(result: Boolean) {
         launchMECasFragment(landingFragment,result)
+
+
+
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        Toast.makeText(context, "fail", Toast.LENGTH_SHORT).show()
+        hideProgressBar()
+        context?.let {
+            fragmentManager?.let { it1 ->
+                if (ecsError != null) {
+                    MECutility.showErrorDialog(it, it1,
+                            getString(R.string.mec_ok), getString(R.string.mec_error),
+                            ecsError.errorType)
+                }
+            }
+        }
     }
 
 
@@ -44,6 +59,7 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
         landingFragment =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
+        createCustomProgressBar(container, BIG)
     }
 
 
