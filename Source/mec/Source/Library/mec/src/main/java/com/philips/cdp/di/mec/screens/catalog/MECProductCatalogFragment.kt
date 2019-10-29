@@ -33,7 +33,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         return true
     }
 
-
     val TAG = MECProductCatalogFragment::class.java.name
 
     var totalPages: Int = 0
@@ -52,15 +51,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         if (ecsProductsList != null) {
             for (ecsProducts in ecsProductsList) {
 
-
                 for (ecsProduct in ecsProducts.products) {
-
                     mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.summary.price.formattedDisplayPrice, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
-
                 }
             }
         }
-
         adapter.notifyDataSetChanged()
 
     }
@@ -150,7 +145,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
                 super.onScrollStateChanged(recyclerView, newState)
 
 
-
+                if(shouldFetchNextPage())
                 ecsProductViewModel.init(currentPage, pageSize)
 
             }
