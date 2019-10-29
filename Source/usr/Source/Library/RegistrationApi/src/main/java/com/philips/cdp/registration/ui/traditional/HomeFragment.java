@@ -542,9 +542,14 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         enableSocialProviders(state);
         mBtnMyPhilips.setEnabled(state);
         mCountryDisplay.setEnabled(state);
-        privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
-        privacyPolicy2.setEnabled(state);
+
+        int visibility = 0;
+        if (!state) {
+            visibility = View.GONE;
+        }
+        privacyPolicy.setVisibility(visibility);
+        privacyPolicy2.setVisibility(visibility);
     }
 
     @Override
