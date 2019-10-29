@@ -36,7 +36,7 @@ pipeline {
      */
     parameters {
         //specify values for buildType (Normal/PSRA/LeakCanary/HPFortify/Javadocs).
-        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs', description: 'What type of build to build?', name: 'buildType')
+        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck', description: 'What type of build to build?', name: 'buildType')
     }
 
     /**
@@ -128,6 +128,7 @@ pipeline {
                     not { expression { return params.buildType == 'PSRA' } }
                     not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
+                    not { expression { return params.buildType == 'BlackDuck' } }
 
                     //publish to artifactory only for master,develop and release/platform_*
                     anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
@@ -260,6 +261,16 @@ pipeline {
             }
         }
 
+        /* Blackduck Analytics */
+        stage('Blackduck Analytics') {
+            when {
+                expression { return params.buildType == 'BlackDuck' }
+            }
+            steps {
+                analyzeWithBlackduck()
+            }
+        }
+
         //stage to publish PSRA apk
         stage('Publish PSRA apk') {
             //steps will executed only for PSRA build
@@ -302,6 +313,7 @@ pipeline {
             when {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
+                    not { expression { return params.buildType == 'BlackDuck' } }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
@@ -742,5 +754,22 @@ def PublishJavaDocs() {
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/sdb/Documents/External/securedblibrary-api", reportFiles: 'index.html', reportName: "Secure db Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ecs/Documents/External/philipsecommercesdk-api", reportFiles: 'index.html', reportName: "philipsecommercesdk Library API documentation"])
 
+}
+
+def analyzeWithBlackduck() {
+    def runBlackduck = """
+        #!/bin/bash -l
+        whoami 
+        ls -la /Users/philipsiet/synopsys-detect-5.6.2-air-gap-gradle-nuget/packaged-inspectors/gradle
+        java -jar /Users/philipsiet/Softwares/synopsys-detect-5.6.2.jar --detect.project.name=EMS --detect.project.version.name=Android_23 --detect.source.path=/Users/philipsiet/workspace/workspace/ource_iet-mobile-android_develop --blackduck.url=https://blackduck.philips.com/ --blackduck.trust.cert=true --blackduck.api.token=ZGY1NzY4YWEtMWEzYi00Y2U2LTgzY2QtZjI0NjFkZTQxNTliOjc2ZmYzMzViLTBmMTMtNDlhYy05ZjhmLTViNjgxOTkxMDVmNA== --detect.gradle.inspector.air.gap.path=/Users/philipsiet/synopsys-detect-5.6.2-air-gap-gradle-nuget/packaged-inspectors/gradle
+    """
+
+    echo "-----------------------------"
+    echo "Starting Blackduck Analytics"
+    echo "-----------------------------"
+    sh runBlackduck
+    echo "-----------------------------"
+    echo "Completing Blackduck Analytics"
+    echo "-----------------------------"
 }
 
