@@ -146,7 +146,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
 
                 if(shouldFetchNextPage())
-                ecsProductViewModel.init(currentPage, pageSize)
+                    executeRequest()
 
             }
         })

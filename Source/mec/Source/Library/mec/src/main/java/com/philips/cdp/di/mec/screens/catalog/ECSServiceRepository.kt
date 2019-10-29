@@ -90,7 +90,7 @@ enum class ECSServiceRepository {
 
                     for(ecsProduct in ecsProducts.products){
 
-                        if(ecsProduct.code.equals(ctn,false)){
+                        if(ecsProduct.code.equals(ctn,true)){
                             ecsProductList.add(ecsProduct)
                         }
                     }
@@ -123,7 +123,7 @@ enum class ECSServiceRepository {
     * */
 
     private fun shouldBreakTheLoop(pageNumber: Int, ecsProducts: ECSProducts, ctns: List<String>) =
-            pageNumber % 5 == 0 || pageNumber == ecsProducts.pagination.totalPages - 1 || ctns.size == ecsProducts.products.size || ecsProducts.products.size == ecsProducts.pagination.pageSize
+            (pageNumber  == 4 && ecsProducts.products.isEmpty()) || pageNumber == ecsProducts.pagination.totalPages - 1 || ctns.size == ecsProducts.products.size || ecsProducts.products.size == ecsProducts.pagination.pageSize
 
 }
 
