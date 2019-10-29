@@ -17,34 +17,33 @@
     <LinearLayout
         android:id="@+id/mec_ll_layout"
         android:layout_width="match_parent"
-        android:padding="20dp"
-        android:layout_height="wrap_content">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center"
+        android:layout_height="56dp">
 
         <ImageView
             android:id="@+id/mec_list"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:clickable="true"
             android:background="#DCDCDC"
-            android:layout_marginBottom="@dimen/border12_margin"
-            android:layout_marginTop="@dimen/border12_margin"
             android:src="@drawable/mec_list"/>
 
         <ImageView
             android:id="@+id/mec_grid"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="10dp"
             android:clickable="true"
-            android:layout_marginBottom="@dimen/border12_margin"
-            android:layout_marginTop="@dimen/border12_margin"
             android:src="@drawable/mec_grid" />
 
         <com.philips.platform.uid.view.widget.SearchBox
             android:id="@+id/mec_search_box"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View
@@ -77,12 +76,6 @@
         android:text="@string/mec_no_product_available"
         android:textSize="@dimen/iap_product_ctn_12"
         android:visibility="gone" />
-
-
-   <!-- "@{age > 13 ? View.GONE : View.VISIBLE}"
- app:layoutManager="@{catalog.checked ? android.support.v7.widget.GridLayoutManager : android.support.v7.widget.LinearLayoutManager}"
-    "@{user.displayName != null ? user.displayName : user.lastName}"-->
-
 
 
 </RelativeLayout>

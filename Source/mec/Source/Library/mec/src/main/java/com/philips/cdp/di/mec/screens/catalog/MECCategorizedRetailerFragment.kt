@@ -1,16 +1,10 @@
 package com.philips.cdp.di.mec.screens.catalog
-
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.utils.MECConstant
 
-class MECCategorizedRetailerFragment : MECProductCatalogFragment(),Pagination {
+class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
 
-    override fun addPagination(isHybris: Boolean?) {
-        addPagination(false)
+    override fun isPaginationSupported(): Boolean {
+        return false
     }
 
 

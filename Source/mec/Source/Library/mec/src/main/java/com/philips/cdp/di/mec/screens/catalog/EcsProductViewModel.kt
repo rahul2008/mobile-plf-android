@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Intent
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.activity.MecError
@@ -19,7 +20,6 @@ class EcsProductViewModel : ViewModel() {
     fun initCategorizedRetailer (ctn: MutableList<String>){
         ECSServiceRepository.INSTANCE.getCategorizedProductsforRetailer(ctn,this)
     }
-
 
 
     fun initCategorized(pageNumber:Int , pageSize:Int,ctns :List<String>){

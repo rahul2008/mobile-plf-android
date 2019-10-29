@@ -261,6 +261,19 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         mCategorizedProductList = new ArrayList<>();
 
+       /* SCF184/13
+        SCF782/10
+        SCF782/28
+        SCF170/22
+        SCF782/28*/
+
+       /* mCategorizedProductList.add("SCF184/13");
+        mCategorizedProductList.add("SCF782/10");
+        mCategorizedProductList.add("SCF782/28");
+        mCategorizedProductList.add("SCF170/22");*/
+
+        mCategorizedProductList.add("PABITRA/22");
+
 
 
         //  ["HD9745/90","HD9630/90","HD9240/90","HD9621/90","HD9651/90","HD9650/90R1","HD9652/90","HD9910/20","HD9654/90",
@@ -583,35 +596,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.
                 ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
         urInterface.launch(activityLauncher, urLaunchInput);
-
-
-    }
-
-    private void displayViews() {
-        mAddCTNLl.setVisibility(View.VISIBLE);
-        mLL_voucher.setVisibility(View.VISIBLE);
-        mLL_propositionId.setVisibility(View.VISIBLE);
-        mShopNowCategorized.setVisibility(View.VISIBLE);
-        mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
-        mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
-        mShopNow.setVisibility(View.VISIBLE);
-        mShopNow.setEnabled(true);
-        mLaunchProductDetail.setVisibility(View.VISIBLE);
-        mLaunchProductDetail.setEnabled(true);
-    }
-
-    private void hideViews() {
-        mCountText.setVisibility(View.GONE);
-        mShoppingCart.setVisibility(View.GONE);
-        mAddCTNLl.setVisibility(View.GONE);
-        mLL_voucher.setVisibility(View.GONE);
-        // mLL_propositionId.setVisibility(View.GONE);
-        mShopNow.setVisibility(View.GONE);
-        mBuyDirect.setVisibility(View.GONE);
-        mLaunchProductDetail.setVisibility(View.GONE);
-        mPurchaseHistory.setVisibility(View.GONE);
-        mShopNowCategorized.setVisibility(View.GONE);
-        mShopNowCategorizedWithRetailer.setVisibility(View.GONE);
     }
 
     private void showAppVersion() {
@@ -719,13 +703,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-    }
-
-    void showScreenSizeInDp() {
-
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        Toast.makeText(this, "Screen width in dp is :" + dpWidth, Toast.LENGTH_LONG).show();
     }
 
     @Override
