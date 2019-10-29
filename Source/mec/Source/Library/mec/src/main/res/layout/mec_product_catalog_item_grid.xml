@@ -55,7 +55,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:maxLines="2"
                 android:text="@{ product.name}"
                 android:textSize="16sp" />
 
@@ -100,16 +99,22 @@
                 android:text="@{ product.code}"
                 android:textSize="@dimen/iap_product_original_price" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/iap_retailerItem_price_lebel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:layout_gravity="bottom|end"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:text="@{ product.price}"
                 android:textSize="16sp" />
+            </RelativeLayout>
 
         </LinearLayout>
 

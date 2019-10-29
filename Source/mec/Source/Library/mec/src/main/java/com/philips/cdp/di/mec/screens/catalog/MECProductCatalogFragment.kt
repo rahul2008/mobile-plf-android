@@ -49,12 +49,17 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
 
         if (ecsProductsList != null) {
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+            binding.productCatalogRecyclerView.visibility = View.VISIBLE
             for (ecsProducts in ecsProductsList) {
 
                 for (ecsProduct in ecsProducts.products) {
                     mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.summary.price.formattedDisplayPrice, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
                 }
             }
+        } else {
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+            binding.productCatalogRecyclerView.visibility = View.GONE
         }
         adapter.notifyDataSetChanged()
 
@@ -112,7 +117,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         ecsProductViewModel.mecError.observe(this, object : Observer<MecError> {
 
             override fun onChanged(mecError: MecError?) {
-                System.out.println("Error while  fetching")
+                binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+                binding.productCatalogRecyclerView.visibility = View.GONE
 
             }
         })
