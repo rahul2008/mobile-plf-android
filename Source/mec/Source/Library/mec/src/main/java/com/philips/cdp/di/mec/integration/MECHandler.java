@@ -75,7 +75,7 @@ class MECHandler {
          String tag = mecFragmentLauncher.getClass().getName();
          FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
          transaction.replace(fragmentLauncher.getParentContainerResourceID(), mecFragmentLauncher, tag);
-         transaction.addToBackStack(tag);
+       //  transaction.addToBackStack(tag);
          transaction.commitAllowingStateLoss();
 
     }
