@@ -12,11 +12,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.activity.MecError
@@ -25,15 +23,16 @@ import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import android.support.v7.widget.DefaultItemAnimator
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.utils.MECConstant
-import kotlinx.android.synthetic.main.mec_action_bar.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<ECSProducts>> {
+open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<MutableList<ECSProducts>> {
+    override fun isPaginationSupported(): Boolean {
+        return true
+    }
+
     val TAG = MECProductCatalogFragment::class.java.name
 
     var totalPages: Int = 0
@@ -52,15 +51,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
         if (ecsProductsList != null) {
             for (ecsProducts in ecsProductsList) {
 
-
                 for (ecsProduct in ecsProducts.products) {
-
                     mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.summary.price.formattedDisplayPrice, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
-
                 }
             }
         }
-
         adapter.notifyDataSetChanged()
 
     }
@@ -149,14 +144,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                val lay = recyclerView
-                        .layoutManager as LinearLayoutManager
 
-                if (isScrollDown(lay)) {
-                    if (currentPage < totalPages) {
-                        ecsProductViewModel.init(currentPage, pageSize)
-                    }
-                }
+                if(shouldFetchNextPage())
+                ecsProductViewModel.init(currentPage, pageSize)
+
             }
         })
 
@@ -205,6 +196,22 @@ open class MECProductCatalogFragment : MecBaseFragment(),Observer<MutableList<EC
     }
 
 
+    fun shouldFetchNextPage(): Boolean{
+
+        if(!isPaginationSupported()){
+            return false
+        }
+        val lay = binding.productCatalogRecyclerView
+                .layoutManager as LinearLayoutManager
+
+        if (isScrollDown(lay)) {
+            if (currentPage < totalPages) {
+              return true
+            }
+        }
+
+        return false;
+    }
 
 }
 

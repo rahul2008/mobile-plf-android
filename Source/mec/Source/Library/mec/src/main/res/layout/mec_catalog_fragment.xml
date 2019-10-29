@@ -78,12 +78,6 @@
         android:visibility="gone" />
 
 
-   <!-- "@{age > 13 ? View.GONE : View.VISIBLE}"
- app:layoutManager="@{catalog.checked ? android.support.v7.widget.GridLayoutManager : android.support.v7.widget.LinearLayoutManager}"
-    "@{user.displayName != null ? user.displayName : user.lastName}"-->
-
-
-
 </RelativeLayout>
 
 </layout>
