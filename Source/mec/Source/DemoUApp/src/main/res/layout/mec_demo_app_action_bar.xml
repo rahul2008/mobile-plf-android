@@ -18,24 +18,25 @@
             android:layout_height="wrap_content">
 
             <FrameLayout
-                android:id="@+id/iap_header_back_button"
+                android:id="@+id/mec_demo_app_header_back_button_framelayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:clickable="true"
-                android:visibility="gone">
+                android:paddingStart="@dimen/border16_margin_left_right"
+                android:paddingEnd="@dimen/border16_margin_left_right">
 
                 <ImageView
-                    android:id="@+id/iap_iv_header_back_button"
+                    android:id="@+id/mec_demo_app_iv_header_back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/app_title" />
+                   />
             </FrameLayout>
 
 
             <com.philips.platform.uid.view.widget.ActionBarTextView
-                android:id="@+id/iap_header_title"
+                android:id="@+id/mec_demo_app_header_title"
                 style="@style/UIDToolbarBarTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
                 android:textIsSelectable="true" />
 
             <FrameLayout
-                android:id="@+id/shopping_cart_icon"
+                android:id="@+id/mec_demo_app_shopping_cart_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -53,16 +54,16 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:id="@+id/cart_iv"
+                    android:id="@+id/mec_demo_app_cart_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:contentDescription="@string/app_title"
                     android:paddingRight="12dp"
-                    android:src="@drawable/shopping_cart_xml" />
+                    android:src="@drawable/mec_demo_app_shopping_cart_xml" />
 
                 <com.philips.platform.uid.view.widget.NotificationBadge
-                    android:id="@+id/item_count"
+                    android:id="@+id/mec_demo_app_item_count"
                     style="@style/NotificationBadge.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

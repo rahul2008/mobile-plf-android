@@ -4,17 +4,15 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.databinding.MecActivityBinding
+import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
+
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uid.utils.UIDActivity
 import kotlinx.android.synthetic.main.mec_action_bar.*
-import kotlinx.android.synthetic.main.mec_activity.*
 import java.util.*
 
 
@@ -30,13 +28,13 @@ import java.util.*
     override fun updateActionBar(resString: String?, visibility: Boolean) {
         mec_actionBar_headerTitle_lebel.setText(resString)
         if (visibility) {
-            mec_iv_header_back_button.setVisibility(View.VISIBLE)
+            mec_header_back_button_framelayout.setVisibility(View.VISIBLE)
             // For arabic, Hebrew and Perssian the back arrow change from left to right
             if (Locale.getDefault().language.contentEquals("ar") || Locale.getDefault().language.contentEquals("fa") || Locale.getDefault().language.contentEquals("he")) {
-                mec_iv_header_back_button.setRotation(180f)
+                mec_header_back_button_framelayout.setRotation(180f)
             }
         } else {
-            mec_iv_header_back_button.setVisibility(View.GONE)
+            mec_header_back_button_framelayout.setVisibility(View.GONE)
         }
     }
 
@@ -57,12 +55,12 @@ import java.util.*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DataBindingUtil.setContentView<MecActivityBinding>(this, R.layout.mec_activity_launcher)
+        DataBindingUtil.setContentView<MecActivityLauncherBinding>(this, R.layout.mec_activity_launcher)
 
         setSupportActionBar(mec_toolbar)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        mec_iv_header_back_button.setOnClickListener(this)
+        mec_header_back_button_framelayout.setOnClickListener(this)
         bundle = intent.getExtras()
         val landingScreen:Int = bundle.getInt(MECConstant.MEC_LANDING_SCREEN)
 
@@ -72,8 +70,7 @@ import java.util.*
     }
 
      private fun createActionBar() {
-         val frameLayout = findViewById<FrameLayout>(R.id.mec_header_back_button)
-         frameLayout.setOnClickListener { onBackPressed() }
+         mec_header_back_button_framelayout.setOnClickListener { onBackPressed() }
          val mBackDrawable = VectorDrawableCompat.create(resources, R.drawable.mec_back_arrow, theme)
          mec_iv_header_back_button.background=mBackDrawable
          title = getString(R.string.mec_app_name)
@@ -94,7 +91,7 @@ import java.util.*
              mECFragmentLauncher.arguments = bundle
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(com.philips.cdp.di.mec.R.id.mec_fragment_container, mECFragmentLauncher, mECFragmentLauncher.TAG)
-            transaction.addToBackStack(mECFragmentLauncher.TAG)
+           // transaction.addToBackStack(mECFragmentLauncher.TAG)
             transaction.commitAllowingStateLoss()
 
     }

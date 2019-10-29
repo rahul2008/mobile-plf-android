@@ -40,15 +40,15 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="iapCentralesansBoldFont">
+    <style name="mecCentralesansBoldFont">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
-    <style name="iapCentralesansBookFont">
+    <style name="mecCentralesansBookFont">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="iapCentralesansMediumFont">
+    <style name="mecCentralesansMediumFont">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
@@ -74,7 +74,7 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="iap_redeem_voucher">
+    <style name="mec_redeem_voucher">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -89,7 +89,7 @@
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_right_arrow" >
+    <style name="mec_right_arrow" >
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerInParent">true</item>
@@ -106,7 +106,7 @@
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_right_arrow_product_catalog" >
+    <style name="mec_right_arrow_product_catalog" >
         <!-- <item name="android:layout_alignParentEnd">true</item>
          <item name="android:layout_alignParentRight">true</item>
          <item name="android:gravity">right</item>-->
@@ -124,7 +124,7 @@
         <!--   <item name="android:layout_marginLeft">15dp</item>-->
     </style>
 
-    <style name="iap_delivery_via">
+    <style name="_mec_livery_via">
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -139,7 +139,7 @@
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_delivery_price">
+    <style name="mec_delivery_price">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -149,7 +149,7 @@
         <item name="android:layout_marginRight">@dimen/iap_dots_padding</item>
     </style>
 
-    <style name="iap_delivery_description">
+    <style name="mec_delivery_description">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -161,7 +161,7 @@
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_vat">
+    <style name="mec_vat">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -174,7 +174,7 @@
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_vat_uk">
+    <style name="mec_vat_uk">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -186,7 +186,7 @@
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_vat_value">
+    <style name="mec_vat_value">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -198,7 +198,7 @@
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_total_items">
+    <style name="mec_total_items">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -212,7 +212,7 @@
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iap_total_cost">
+    <style name="mec_total_cost">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -225,7 +225,7 @@
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
-    <style name="iapButtonStyle">
+    <style name="mecButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:enabled">false</item>
         <item name="android:layout_height">@dimen/iap_shipping_address_continue_button_height</item>
@@ -243,7 +243,7 @@
         </item>
     </style>
 
-    <style name="iapOrder_ll_style">
+    <style name="mecOrder_ll_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/iap_shipping_address_margin_top_bottom
@@ -252,7 +252,7 @@
         <item name="android:layout_marginTop">@dimen/iap_shipping_address_margin_top_bottom</item>
     </style>
 
-    <style name="iap_order_total_items">
+    <style name="mec_order_total_items">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -279,7 +279,7 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-   <!-- <style name="iap_order_right_arrow" />-->
+   <!-- <style name="mec_order_right_arrow" />-->
 
     <style name="ButtonsCategoryStyle" parent="UIDLabel.RecyclerViewHeaderText">
         <item name="android:layout_width">match_parent</item>
@@ -288,13 +288,13 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="iap_button_border">
+    <style name="mec_button_border">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dip</item>
         <item name="android:background">@color/mec_button_border_color</item>
     </style>
 
-    <style name="iap_voucher_header">
+    <style name="mec_voucher_header">
             <item name="fontPath">fonts/centralesansbook.ttf</item>
             <item name="android:background">@color/mec_voucher_header__color</item>
             <item name="android:minHeight">@dimen/iap_list_height_height</item>
@@ -307,12 +307,12 @@
             <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
     </style>
 
-    <style name="Iap_RadioButtonStyle">
+    <style name="Mec_RadioButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="Iap_RadioButtonGroupStyle">
+    <style name="Mec_RadioButtonGroupStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/border16_margin_left_right</item>
@@ -327,23 +327,23 @@
         <item name="android:layout_marginBottom">@dimen/border8_margin</item>
     </style>
 
-    <style name="IAPQuietButton" parent="UIDQuietButton">
+    <style name="MECQuietButton" parent="UIDQuietButton">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="PTHCircularPBBig">
+    <style name="MECCircularPBBig">
         <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateBig</item>
     </style>
 
-    <style name="PTHCircularPBSmall">
+    <style name="MECCircularPBSmall">
         <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateSmall</item>
     </style>
 
-    <style name="PTHCircularPBMedium">
+    <style name="MECCircularPBMedium">
         <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateMiddle</item>
     </style>
 
-    <style name="iap_list_header">
+    <style name="mec_list_header">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
         <item name="android:minHeight">@dimen/iap_list_height_height</item>
@@ -357,7 +357,7 @@
 
     </style>
 
-    <style name="iap_font_icon_style">
+    <style name="mec_font_icon_style">
         <item name="fontPath">fonts/iconfont.ttf</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">?attr/uidButtonPrimaryFocusBackgroundColor</item>

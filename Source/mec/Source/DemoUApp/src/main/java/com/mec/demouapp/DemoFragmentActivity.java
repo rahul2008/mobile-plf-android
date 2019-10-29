@@ -11,6 +11,7 @@ import android.os.SystemClock;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -66,6 +67,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DemoFragmentActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
         UserRegistrationUIEventListener, MECBannerEnabler, ActionBarListener {
@@ -115,6 +117,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
     private RelativeLayout DemoContentBody;
     private FrameLayout fragmentContainer;
+    private ImageView mBackImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,7 +245,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         mLaunchProductDetail = findViewById(R.id.btn_launch_product_detail);
         mLaunchProductDetail.setOnClickListener(this);
 
-        mShoppingCart = findViewById(R.id.shopping_cart_icon);
+        mShoppingCart = findViewById(R.id.mec_demo_app_shopping_cart_icon);
 
 
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
@@ -261,8 +264,8 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
 
-        mCartIcon = findViewById(R.id.cart_iv);
-        mCountText = findViewById(R.id.item_count);
+        mCartIcon = findViewById(R.id.mec_demo_app_cart_iv);
+        mCountText = findViewById(R.id.mec_demo_app_item_count);
 
         mCategorizedProductList = new ArrayList<>();
 
@@ -293,6 +296,10 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
         mMecInterface = new MECInterface();
         mMecSettings = new MECSettings(this);
+
+        Toolbar toolbar = findViewById(R.id.demoScreen_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar();
         initializeMECComponant();
     }
@@ -445,7 +452,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void actionBar() {
-        FrameLayout frameLayout = findViewById(R.id.iap_header_back_button);
+        FrameLayout frameLayout = findViewById(R.id.mec_demo_app_header_back_button_framelayout);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -453,11 +460,16 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        ImageView mBackImage = findViewById(R.id.iap_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
+
+        mBackImage = findViewById(R.id.mec_demo_app_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.mec_demo_app_back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
-        mTitleTextView = findViewById(R.id.iap_header_title);
+        mBackImage.setVisibility(View.GONE);
+        mTitleTextView = findViewById(R.id.mec_demo_app_header_title);
         setTitle(getString(R.string.mec_app_name));
+
+        Drawable mShoppingCartDrawable = VectorDrawableCompat.create(getResources(), R.drawable.mec_demo_app_shopping_cart_xml, getTheme());
+        mShoppingCart.setBackground(mShoppingCartDrawable);
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -847,7 +859,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
      */
     @Override
     public void updateActionBar(int resId, boolean enableBackKey) {
-
+        updateActionBar(getString(resId),enableBackKey);
     }
 
     /**
@@ -859,8 +871,20 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
      */
     @Override
     public void updateActionBar(String resString, boolean enableBackKey) {
-
+        mTitleTextView.setText(resString);
+        if (enableBackKey) {
+            mBackImage.setVisibility(View.VISIBLE);
+            // For arabic, Hebrew and Perssian the back arrow change from left to right
+            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
+                mBackImage.setRotation(180);
+            }
+        } else {
+            mBackImage.setVisibility(View.GONE);
+        }
     }
+
+
+
 
 
 }

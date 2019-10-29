@@ -4,7 +4,7 @@
 
     <include
         android:id="@+id/app_actionbar"
-        layout="@layout/action_bar" />
+        layout="@layout/mec_demo_app_action_bar" />
 
 
     <RelativeLayout
@@ -328,6 +328,7 @@
         android:visibility="gone"
 
         android:layout_height="match_parent"
+        android:layout_below="@id/app_actionbar"
        >
     </FrameLayout>
 </RelativeLayout>
