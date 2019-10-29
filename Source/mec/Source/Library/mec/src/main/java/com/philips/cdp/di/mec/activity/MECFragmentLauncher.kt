@@ -34,10 +34,12 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
         hideProgressBar()
         context?.let {
             fragmentManager?.let { it1 ->
-                if (ecsError != null) {
-                    MECutility.showErrorDialog(it, it1,
-                            getString(R.string.mec_ok), getString(R.string.mec_error),
-                            ecsError.errorType)
+                if (error != null) {
+                    error.message?.let { it2 ->
+                        MECutility.showErrorDialog(it, it1,
+                                getString(R.string.mec_ok), getString(R.string.mec_error),
+                                it2)
+                    }
                 }
             }
         }

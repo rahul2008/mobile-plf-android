@@ -8,7 +8,7 @@ import com.philips.cdp.di.mec.screens.catalog.ECSServiceRepository
 class ECSConfigService {
 
     fun configECS(ecsCallback: ECSCallback<Boolean, Exception>){
-        val ecsServices = ECSServices("Tuscany2016", ECSServiceRepository.INSTANCE.appInfra)
+        val ecsServices = ECSServices("Tusca", ECSServiceRepository.INSTANCE.appInfra)
 
         ecsServices.configureECS(ecsCallback)
     }
