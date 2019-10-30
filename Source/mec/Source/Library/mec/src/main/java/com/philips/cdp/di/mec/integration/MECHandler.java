@@ -34,11 +34,23 @@ class MECHandler {
 
 
     void launchMEC() {
+        //if(!verifyInput())return;
         if (mUiLauncher instanceof ActivityLauncher) {
             launchMECasActivity();
         } else {
             launchMECasFragment();
         }
+    }
+
+    protected boolean verifyInput() {
+        int landingScreen = mLaunchInput.mLandingView;
+        if (landingScreen == MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW
+                && (mLaunchInput.mMECFlowInput == null || mLaunchInput.mMECFlowInput.getProductCTNs() == null ||
+                (mLaunchInput.mMECFlowInput.getProductCTNs() != null && mLaunchInput.mMECFlowInput.getProductCTNs().size() == 0))) {
+            mLaunchInput.getMecListener().onFailure(MECConstant.MEC_ERROR_INVALID_CTN);
+            return false;
+        }
+        return true;
     }
 
 
