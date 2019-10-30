@@ -67,7 +67,8 @@ enum class ECSServiceRepository {
     }
 
     fun getCategorizedProducts(pageNumber: Int, pageSize: Int, ctns: List<String>, ecsProductViewModel: EcsProductViewModel) {
-        val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
+        val ecsServices = ECSServices("IAP_MOB_DKA", appInfra)
+
         ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
 
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
@@ -103,10 +104,20 @@ enum class ECSServiceRepository {
                 if(shouldBreakTheLoop(pageNumber, ecsProducts, ctns)){
                     mutableLiveData.value = value
                 }else{
+
+                    var tempCTNS = getCTNsToBeSearched(ctns as MutableList<String>,ecsProductList);
                     var newPageNumber :Int = pageNumber+1
-                    getCategorizedProducts(newPageNumber,pageSize,ctns,ecsProductViewModel)
+                    getCategorizedProducts(newPageNumber,pageSize,tempCTNS,ecsProductViewModel)
                 }
 
+            }
+
+            //Remove already found ctns from search list
+            private fun getCTNsToBeSearched(ctns: MutableList<String>, ecsProductList: MutableList<ECSProduct>): MutableList<String> {
+                for (ecsProduct in ecsProductList){
+                    ctns.remove(ecsProduct.code)
+                }
+                return ctns
             }
 
         })
@@ -114,16 +125,16 @@ enum class ECSServiceRepository {
 
     /*
     *   These are the below conditions to break the loop
-    *
-    *   1- Searched for 5 pages
     *   2- Searched for all the pages completed
     *   3- ALl CTNs are found
     *   4- Only show products of page size at a time .
-    *
+
     * */
 
     private fun shouldBreakTheLoop(pageNumber: Int, ecsProducts: ECSProducts, ctns: List<String>) =
-            (pageNumber  == 4 && ecsProducts.products.isEmpty()) || pageNumber == ecsProducts.pagination.totalPages - 1 || ctns.size == ecsProducts.products.size || ecsProducts.products.size == ecsProducts.pagination.pageSize
+                    pageNumber == ecsProducts.pagination.totalPages - 1 ||
+                    ctns.size == ecsProducts.products.size ||
+                    ecsProducts.products.size == ecsProducts.pagination.pageSize
 
 }
 

@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="product"
             type="com.philips.cdp.di.mec.screens.catalog.MECProduct" />

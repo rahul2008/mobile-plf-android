@@ -1,6 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    >
 
     <data>
 
@@ -69,14 +69,12 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/mec_productCatalog_emptyText_label"
-        style="@style/mecCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/mec_no_product_available"
         android:textSize="@dimen/iap_product_ctn_12"
-        android:visibility="gone" />
-
+        android:visibility="visible" />
 
 </RelativeLayout>
 

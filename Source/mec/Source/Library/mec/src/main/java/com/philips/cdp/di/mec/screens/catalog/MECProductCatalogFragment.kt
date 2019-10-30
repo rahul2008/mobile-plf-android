@@ -21,11 +21,9 @@ import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
+import android.util.Log
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.utils.MECConstant
-import kotlinx.android.synthetic.main.mec_action_bar.*
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
@@ -41,16 +39,17 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
     var totalPages: Int = 0
     var currentPage: Int = 0
-    var pageSize: Int = 8
+    var pageSize: Int = 2
 
-    override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
+    var isListVisible: Boolean = true
+    var isEmptyVisible: Boolean = true
+
+   override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
         hideProgressBar()
 
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
 
-       currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
-
-        currentPage++
+        currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
 
 
         if (ecsProductsList != null) {
@@ -66,6 +65,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
             binding.productCatalogRecyclerView.visibility = View.GONE
         }
+        binding.fragment = this
+        currentPage++
+
         adapter.notifyDataSetChanged()
 
     }
@@ -229,6 +231,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         return false;
     }
 
+    open fun enableLoadMore() : Boolean{
+        return false
+    }
 }
 
 
