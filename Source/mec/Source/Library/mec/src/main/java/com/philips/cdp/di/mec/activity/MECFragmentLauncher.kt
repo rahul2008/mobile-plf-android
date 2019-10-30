@@ -1,18 +1,15 @@
 package com.philips.cdp.di.mec.activity
 
-import android.app.PendingIntent.getActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.activity.ecsService.ECSConfigService
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.screens.catalog.MECCategorizedHybrisFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
@@ -34,10 +31,10 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
         hideProgressBar()
         context?.let {
             fragmentManager?.let { it1 ->
-                if (ecsError != null) {
+                if (error != null) {
                     MECutility.showErrorDialog(it, it1,
                             getString(R.string.mec_ok), getString(R.string.mec_error),
-                            ecsError.errorType)
+                            error.message.toString())
                 }
             }
         }

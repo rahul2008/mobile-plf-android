@@ -6,6 +6,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.activity.MecError
+import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.platform.appinfra.AppInfra
 
 enum class ECSServiceRepository {
@@ -17,7 +18,7 @@ enum class ECSServiceRepository {
 
     fun getProducts(pageNumber: Int, pageSize: Int, ecsProductViewModel: EcsProductViewModel) {
 
-        val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
+        val ecsServices = MecHolder.INSTANCE.eCSServices
         ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
 
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
@@ -42,7 +43,7 @@ enum class ECSServiceRepository {
 
     fun getCategorizedProductsforRetailer(ctn: MutableList<String>, ecsProductViewModel: EcsProductViewModel) {
 
-        val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
+        val ecsServices = MecHolder.INSTANCE.eCSServices
         ecsServices.fetchProductSummaries(ctn, object : ECSCallback<List<ECSProduct>, Exception> {
             override fun onResponse(result: List<ECSProduct>) {
                 val mutableLiveData = ecsProductViewModel.ecsProductsList
@@ -67,7 +68,7 @@ enum class ECSServiceRepository {
     }
 
     fun getCategorizedProducts(pageNumber: Int, pageSize: Int, ctns: List<String>, ecsProductViewModel: EcsProductViewModel) {
-        val ecsServices = ECSServices("IAP_MOB_DKA", appInfra);
+        val ecsServices = MecHolder.INSTANCE.eCSServices
         ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
 
             override fun onFailure(error: Exception?, ecsError: ECSError?) {

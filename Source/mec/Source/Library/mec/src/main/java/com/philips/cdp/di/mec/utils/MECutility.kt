@@ -61,7 +61,7 @@ class MECutility {
                 val fragments = fragmentManager.fragments
                 if (fragments != null && fragments.size > 0) {
                     val fragment = fragments[fragments.size - 1]
-                    return fragment.activity != null && fragment.isAdded && fragment.isVisible && fragment.isResumed
+                    return fragment.activity != null && fragment.isAdded //&& fragment.isVisible && fragment.isResumed
                 }
             }
             return false

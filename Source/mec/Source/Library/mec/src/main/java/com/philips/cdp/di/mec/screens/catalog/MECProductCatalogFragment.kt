@@ -23,9 +23,9 @@ import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import android.support.v7.widget.DefaultItemAnimator
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.utils.MECConstant
-import kotlinx.android.synthetic.main.mec_action_bar.*
+
+import com.philips.cdp.di.mec.utils.MECutility
+
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
@@ -57,7 +57,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
             for (ecsProducts in ecsProductsList) {
 
                 for (ecsProduct in ecsProducts.products) {
-                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.summary.price.formattedDisplayPrice, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
+                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
                 }
             }
         }
@@ -117,7 +117,22 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         ecsProductViewModel.mecError.observe(this, object : Observer<MecError> {
 
             override fun onChanged(mecError: MecError?) {
-                System.out.println("Error while  fetching")
+                hideProgressBar();
+             /*   context?.let {
+                    fragmentManager?.let { it1 ->
+                        if (mecError!!.exception != null) {
+                            MECutility.showErrorDialog(it, it1,
+                                    getString(R.string.mec_ok), getString(R.string.mec_error),
+                                    mecError!!.exception!!.message.toString())
+                        }
+                    }
+                }*/
+
+                ////////
+                fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"","Error",mecError!!.exception!!.message.toString()) } }
+
+                ////////
+
 
             }
         })
