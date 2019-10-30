@@ -10,7 +10,6 @@ import com.philips.cdp.di.mec.activity.MecError
 class EcsProductViewModel : ViewModel() {
 
     val ecsProductsList = MutableLiveData<MutableList<ECSProducts>>()
-    val ecsCategorizedProducts = MutableLiveData<MutableList<List<ECSProduct>>>()
     val mecError = MutableLiveData<MecError>()
 
     fun init (pageNumber:Int , pageSize:Int){

@@ -21,6 +21,7 @@ import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
+import android.util.Log
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 
@@ -37,6 +38,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         return true
     }
 
+    private lateinit var mecCatalogUIModel: MECCatalogUIModel
     val TAG = MECProductCatalogFragment::class.java.name
 
     var totalPages: Int = 0
@@ -61,6 +63,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
                 }
             }
         }
+        currentPage++
+
+        mecCatalogUIModel.isEmptyView = mecProductList.isEmpty()
+        binding.uiModel = mecCatalogUIModel
         adapter.notifyDataSetChanged()
 
     }
@@ -82,7 +88,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
         binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
 
-        binding.fragment = this
+        mecCatalogUIModel = MECCatalogUIModel()
+        binding.uiModel = mecCatalogUIModel
+
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
 
@@ -117,23 +125,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         ecsProductViewModel.mecError.observe(this, object : Observer<MecError> {
 
             override fun onChanged(mecError: MecError?) {
+                binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+                binding.productCatalogRecyclerView.visibility = View.GONE
                 hideProgressBar();
-             /*   context?.let {
-                    fragmentManager?.let { it1 ->
-                        if (mecError!!.exception != null) {
-                            MECutility.showErrorDialog(it, it1,
-                                    getString(R.string.mec_ok), getString(R.string.mec_error),
-                                    mecError!!.exception!!.message.toString())
-                        }
-                    }
-                }*/
-
-                ////////
                 fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"","Error",mecError!!.exception!!.message.toString()) } }
-
-                ////////
-
-
+                
             }
         })
 
@@ -238,6 +234,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         return false;
     }
 
+    open fun enableLoadMore() : Boolean{
+        return false
+    }
 }
 
 
