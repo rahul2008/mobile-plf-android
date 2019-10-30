@@ -38,7 +38,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
         return true
     }
 
-    private lateinit var mecCatalogUIModel: MECCatalogUIModel
     val TAG = MECProductCatalogFragment::class.java.name
 
     var totalPages: Int = 0
@@ -56,17 +55,20 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
 
         if (ecsProductsList != null) {
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+            binding.productCatalogRecyclerView.visibility = View.VISIBLE
+
             for (ecsProducts in ecsProductsList) {
 
                 for (ecsProduct in ecsProducts.products) {
                     mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
                 }
             }
+        } else{
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+            binding.productCatalogRecyclerView.visibility = View.GONE
         }
         currentPage++
-
-        mecCatalogUIModel.isEmptyView = mecProductList.isEmpty()
-        binding.uiModel = mecCatalogUIModel
         adapter.notifyDataSetChanged()
 
     }
@@ -88,8 +90,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
         binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
 
-        mecCatalogUIModel = MECCatalogUIModel()
-        binding.uiModel = mecCatalogUIModel
+        binding.fragment = this
 
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)

@@ -5,8 +5,8 @@
     <data>
 
     <variable
-        name="uiModel"
-        type="com.philips.cdp.di.mec.screens.catalog.MECCatalogUIModel" />
+        name="fragment"
+        type="com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment" />
     </data>
 
 <RelativeLayout
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/mec_no_product_available"
-        android:visibility="@{uiModel.emptyView ? 1 : 0}"
+        android:visibility="gone"
         android:textSize="@dimen/iap_product_ctn_12"/>
 
 
