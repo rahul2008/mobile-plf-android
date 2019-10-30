@@ -60,7 +60,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
                 }
             }
         }
-        binding.fragment = this
         currentPage++
 
         mecCatalogUIModel.isEmptyView = mecProductList.isEmpty()
