@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<MutableList<ECSProducts>> {
+ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<MutableList<ECSProducts>> {
     override fun isPaginationSupported(): Boolean {
         return true
     }
