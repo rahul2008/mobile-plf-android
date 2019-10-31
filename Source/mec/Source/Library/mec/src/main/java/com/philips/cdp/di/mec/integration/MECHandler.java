@@ -9,17 +9,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.ecs.ECSServices;
-import com.philips.cdp.di.mec.activity.MECFragmentLauncher;
-import com.philips.cdp.di.mec.activity.MECLauncherActivity;
-import com.philips.cdp.di.mec.screens.MecBaseFragment;
-import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment;
+import com.philips.cdp.di.mec.common.MECFragmentLauncher;
+import com.philips.cdp.di.mec.common.MECLauncherActivity;
 import com.philips.cdp.di.mec.utils.MECConstant;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 class MECHandler {
     private MECDependencies mMECDependencies;

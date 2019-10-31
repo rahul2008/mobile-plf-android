@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.activity
+package com.philips.cdp.di.mec.common
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.activity
+package com.philips.cdp.di.mec.common
 
 import com.philips.cdp.di.ecs.error.ECSError
 

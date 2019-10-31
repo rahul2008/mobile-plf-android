@@ -17,11 +17,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
-import com.philips.cdp.di.mec.activity.MecError
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
-import android.util.Log
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 
@@ -33,7 +32,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<MutableList<ECSProducts>> {
+open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
     override fun isPaginationSupported(): Boolean {
         return true
     }
@@ -45,30 +44,35 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
     var currentPage: Int = 0
     var pageSize: Int = 8
 
-    override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
-        hideProgressBar()
 
-        totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
-
-       currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
-
-        currentPage++
+    val productObserver : Observer<MutableList<ECSProducts>> = object : Observer<MutableList<ECSProducts>> {
 
 
-        if (ecsProductsList != null) {
-            for (ecsProducts in ecsProductsList) {
+        override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
+            hideProgressBar()
 
-                for (ecsProduct in ecsProducts.products) {
-                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
+            totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
+
+            currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
+
+            currentPage++
+
+
+            if (ecsProductsList != null) {
+                for (ecsProducts in ecsProductsList) {
+
+                    for (ecsProduct in ecsProducts.products) {
+                        mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
+                    }
                 }
             }
+            currentPage++
+
+            mecCatalogUIModel.isEmptyView = mecProductList.isEmpty()
+            binding.uiModel = mecCatalogUIModel
+            adapter.notifyDataSetChanged()
+
         }
-        currentPage++
-
-        mecCatalogUIModel.isEmptyView = mecProductList.isEmpty()
-        binding.uiModel = mecCatalogUIModel
-        adapter.notifyDataSetChanged()
-
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -94,7 +98,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
 
-        ecsProductViewModel.ecsProductsList.observe(this, this);
+        ecsProductViewModel.ecsProductsList.observe(this, productObserver)
 
         val bundle = arguments
 
@@ -121,20 +125,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
             binding.productCatalogRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
         }
-
-        ecsProductViewModel.mecError.observe(this, object : Observer<MecError> {
-
-            override fun onChanged(mecError: MecError?) {
-                binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-                binding.productCatalogRecyclerView.visibility = View.GONE
-                hideProgressBar();
-                fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"","Error",mecError!!.exception!!.message.toString()) } }
-                
-            }
-        })
-
-
-
 
         mecProductList = mutableListOf<MECProduct>()
 
@@ -236,6 +226,12 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination,Observer<Mut
 
     open fun enableLoadMore() : Boolean{
         return false
+    }
+
+    override fun processError(mecError: MecError?){
+        super.processError(mecError)
+        binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+        binding.productCatalogRecyclerView.visibility = View.GONE
     }
 }
 

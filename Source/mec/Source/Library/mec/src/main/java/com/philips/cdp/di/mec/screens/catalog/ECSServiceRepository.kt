@@ -1,11 +1,10 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
-import com.philips.cdp.di.mec.activity.MecError
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.platform.appinfra.AppInfra
 

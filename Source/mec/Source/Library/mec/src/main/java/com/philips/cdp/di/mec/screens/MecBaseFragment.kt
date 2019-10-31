@@ -4,19 +4,26 @@
  */
 package com.philips.cdp.di.mec.screens
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.ErrorViewModel
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MECListener
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.view.widget.ProgressBar
 
-abstract class MecBaseFragment : Fragment(), BackEventListener {
+abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecError> {
     private var mContext: Context? = null
      var mActionbarUpdateListener: ActionBarListener? = null
     protected var mECListener: MECListener? = null
@@ -34,6 +41,11 @@ abstract class MecBaseFragment : Fragment(), BackEventListener {
 
     override fun handleBackEvent(): Boolean {
         return false
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        observeError()
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
 
@@ -144,6 +156,20 @@ abstract class MecBaseFragment : Fragment(), BackEventListener {
                 activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         }
+    }
+
+    override fun onChanged(mecError: MecError?) {
+        hideProgressBar()
+        processError(mecError)
+    }
+
+    open fun processError(mecError: MecError?){
+        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"","Error",mecError!!.exception!!.message.toString()) } }
+    }
+
+    fun observeError(){
+        val errorViewModel :ErrorViewModel = ViewModelProviders.of(this).get(ErrorViewModel::class.java)
+        errorViewModel.mecError.observe(this,this)
     }
 
 }

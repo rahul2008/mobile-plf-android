@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activity.MECLauncherActivity">
+        tools:context=".common.MECLauncherActivity">
 
         <include
             android:id="@+id/action_bar_view"

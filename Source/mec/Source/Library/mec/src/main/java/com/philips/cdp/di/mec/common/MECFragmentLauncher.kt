@@ -1,18 +1,18 @@
-package com.philips.cdp.di.mec.activity
+package com.philips.cdp.di.mec.common
 
-import android.app.PendingIntent.getActivity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.activity.ecsService.ECSConfigService
+import com.philips.cdp.di.mec.common.ecsService.ECSConfigServiceRepository
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.screens.catalog.MECCategorizedHybrisFragment
+import com.philips.cdp.di.mec.screens.catalog.EcsProductViewModel
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
@@ -20,39 +20,26 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
-class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
+class MECFragmentLauncher : MecBaseFragment(){
 
+    lateinit var ecsConfigViewModel: EcsConfigViewModel
 
-    override fun onResponse(result: Boolean) {
-        launchMECasFragment(landingFragment,result)
-
-
-
-    }
-
-    override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        hideProgressBar()
-        context?.let {
-            fragmentManager?.let { it1 ->
-                if (error != null) {
-                    error.message?.let { it2 ->
-                        MECutility.showErrorDialog(it, it1,
-                                getString(R.string.mec_ok), getString(R.string.mec_error),
-                                it2)
-                    }
-                }
-            }
+    val isHybrisObserver : Observer<Boolean> = object :Observer<Boolean>{
+        override fun onChanged(result: Boolean?) {
+            hideProgressBar()
+            launchMECasFragment(landingFragment, result!!)
         }
+
     }
-
-
 
     private var bundle: Bundle? = null
     private var landingFragment: Int = 0
     val TAG = MECFragmentLauncher::class.java.name
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        ECSConfigService().configECS(this)
+        super.onCreateView(inflater, container, savedInstanceState)
+        ecsConfigViewModel = ViewModelProviders.of(this).get(EcsConfigViewModel::class.java)
+        ecsConfigViewModel.isHybris.observe(this, isHybrisObserver)
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }
 
@@ -61,12 +48,21 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
         landingFragment =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        executeConfigRequest()
+    }
+
+    private fun executeConfigRequest() {
         createCustomProgressBar(container, BIG)
+        ecsConfigViewModel.isHybris()
     }
 
 
     protected fun launchMECasFragment(landingFragment: Int, result: Boolean) {
-
         val mecBaseFragment = getFragment(result,landingFragment)
         mecBaseFragment?.let { addFragment(it,"asd",false) }
 
@@ -99,8 +95,6 @@ class MECFragmentLauncher : MecBaseFragment(), ECSCallback<Boolean, Exception> {
                     }
 
                 }
-
-
                 fragment.arguments = bundle
             }
             else -> {
