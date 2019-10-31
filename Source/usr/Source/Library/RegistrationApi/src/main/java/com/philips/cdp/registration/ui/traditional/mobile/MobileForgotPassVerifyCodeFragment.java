@@ -182,9 +182,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onEvent(UpdateMobile event) {
         if (this.isVisible()) {
             mobileNumber = event.getMobileNumber();
-            SpannableString description = setDescription(normalText, mobileNumber);
-            verifyPasswordDesc1.setText(description);
-
+            setDescription(normalText, mobileNumber);
         }
     }
 
