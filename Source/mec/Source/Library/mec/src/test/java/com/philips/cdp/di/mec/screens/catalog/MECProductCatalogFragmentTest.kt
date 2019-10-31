@@ -31,7 +31,7 @@ class MECProductCatalogFragmentTest {
         mContext = getInstrumentation().getContext()
     }
 
-    @Test
+   /* @Test
     fun shouldDisplayProduct(){
 
         val bundle = Bundle()
@@ -43,5 +43,5 @@ class MECProductCatalogFragmentTest {
        // mECProductCatalogFragment.setActionBarListener(Mockito.mock(ActionBarListener.class), mockIAPListener))
         SupportFragmentController.of<MECProductCatalogFragment>(mECProductCatalogFragment).create().start().resume()
         assertNotNull(mECProductCatalogFragment)
-    }
+    }*/
 }

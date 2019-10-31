@@ -184,7 +184,7 @@ dependencies {
     annotationProcessor deps.livedata_compiler
 
     //Kotlin test
-    kaptAndroidTest "androidx.databinding:databinding-compiler:$kotlin_version"
+    kaptAndroidTest "android.databinding:databinding-compiler:$kotlin_version"
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -27,7 +27,6 @@ public class ECSServicesTest {
 
     private AppInfra appInfra;
 
-
     @Mock
     RestInterface mockRestInterface;
 
