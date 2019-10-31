@@ -58,19 +58,22 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
             currentPage++
 
 
-            if (ecsProductsList != null) {
-                for (ecsProducts in ecsProductsList) {
+        if (ecsProductsList != null) {
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+            binding.productCatalogRecyclerView.visibility = View.VISIBLE
 
-                    for (ecsProduct in ecsProducts.products) {
-                        mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
-                    }
+            for (ecsProducts in ecsProductsList) {
+
+                for (ecsProduct in ecsProducts.products) {
+                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
                 }
             }
-            currentPage++
-
-            mecCatalogUIModel.isEmptyView = mecProductList.isEmpty()
-            binding.uiModel = mecCatalogUIModel
-            adapter.notifyDataSetChanged()
+        } else{
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+            binding.productCatalogRecyclerView.visibility = View.GONE
+        }
+        currentPage++
+        adapter.notifyDataSetChanged()
 
         }
     }
@@ -93,7 +96,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
 
         mecCatalogUIModel = MECCatalogUIModel()
-        binding.uiModel = mecCatalogUIModel
 
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
