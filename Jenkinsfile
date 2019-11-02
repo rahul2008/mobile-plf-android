@@ -296,6 +296,20 @@ pipeline {
             }
         }
 
+        stage('TICS EMS') {
+            steps {
+                script {
+                    echo "Running TICS..."
+                    sh """#!/bin/bash -l
+                        set -e
+                        chmod +x run_tics_iet_mobile.sh
+                        dos2unix run_tics_iet_mobile.sh
+                        ./run_tics_iet_mobile.sh
+                    """
+                }
+            }
+        }
+
         //stage to run HPFortify build
         stage('HPFortify') {
             when {
