@@ -716,7 +716,7 @@ def DeployingJavaDocs() {
  * publishing junit test case report
  */
 def PublishUnitTestsResults() {
-    junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/philipsecommercesdk/build/test-results/testReleaseUnitTest/*.xml'
+    junit allowEmptyResults: true, testResults: 'Source/ecs/Source/Library/philipsecommercesdk/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/AppInfra/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
