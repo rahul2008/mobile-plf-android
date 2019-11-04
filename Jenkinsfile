@@ -36,7 +36,7 @@ pipeline {
      */
     parameters {
         //specify values for buildType (Normal/PSRA/LeakCanary/HPFortify/Javadocs).
-        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck', description: 'What type of build to build?', name: 'buildType')
+        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck\nTICS', description: 'What type of build to build?', name: 'buildType')
     }
 
     /**
@@ -103,6 +103,7 @@ pipeline {
                     not { expression { return params.buildType == 'LeakCanary' } }
                     not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
+                          expression { return params.buildType == 'TICS' }
                 }
             }
             steps {
@@ -129,6 +130,7 @@ pipeline {
                     not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
                     not { expression { return params.buildType == 'BlackDuck' } }
+                    not { expression { return params.buildType == 'TICS' } }
 
                     //publish to artifactory only for master,develop and release/platform_*
                     anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
@@ -204,6 +206,9 @@ pipeline {
 
         //stage to run lint and jacoco
         stage('Lint+Jacoco') {
+            when {
+                expression { return params.buildType == 'TICS' }
+            }
             steps {
                 BuildLint()
             }
@@ -215,6 +220,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'PSRA' }
+                    expression { return params.buildType == 'TICS' }
                 }
             }
             //execute command to build assemblePsraRelease for reference app
@@ -233,6 +239,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'LeakCanary' }
+                    not { expression { return params.buildType == 'TICS' } }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
@@ -252,6 +259,8 @@ pipeline {
             when {
                 anyOf {
                     expression { return params.buildType == 'JAVADocs' }
+                    not { expression { return params.buildType == 'TICS' } }
+
                 }
             }
             steps {
@@ -265,6 +274,7 @@ pipeline {
         stage('Blackduck Analytics') {
             when {
                 expression { return params.buildType == 'BlackDuck' }
+                not { expression { return params.buildType == 'TICS' } }
             }
             steps {
                 analyzeWithBlackduck()
@@ -277,6 +287,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'PSRA' }
+                    not { expression { return params.buildType == 'TICS' } }
                 }
             }
 
@@ -297,6 +308,11 @@ pipeline {
         }
 
         stage('TICS EMS') {
+            when {
+                allOf {
+                     expression { return params.buildType == 'TICS' }
+            }
+        }
             steps {
                 script {
                     echo "Running TICS..."
@@ -315,6 +331,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'HPFortify' }
+                    not { expression { return params.buildType == 'TICS' } }
                 }
             }
             steps {
@@ -328,6 +345,7 @@ pipeline {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
                     not { expression { return params.buildType == 'BlackDuck' } }
+                          expression { return params.buildType == 'TICS' }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
@@ -359,6 +377,7 @@ pipeline {
 //            when {
 //                allOf {
 //                    expression { return params.buildType == 'LeakCanary' }
+//                    not { expression { return params.buildType == 'TICS' } }
 //                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
 //                }
 //            }
