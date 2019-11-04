@@ -6,7 +6,7 @@ BranchName = env.BRANCH_NAME
  * Applicable for develop branch and build type is PSRA at 8:00 pm to 9:00 pm
  * Applicable for develop branch and build type is Java API doc at 9:00 pm to 10:00 pm
  */
-String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true \nH H(22-24) * * * %buildType=TICS" : ""
 
 //label for pipeline
 def nodes = 'test'
@@ -103,7 +103,6 @@ pipeline {
                     not { expression { return params.buildType == 'LeakCanary' } }
                     not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
-                          expression { return params.buildType == 'TICS' }
                 }
             }
             steps {
@@ -206,9 +205,6 @@ pipeline {
 
         //stage to run lint and jacoco
         stage('Lint+Jacoco') {
-            when {
-                expression { return params.buildType == 'TICS' }
-            }
             steps {
                 BuildLint()
             }
@@ -218,7 +214,7 @@ pipeline {
         stage('PSRAbuild') {
             //steps will run only for buildType PSRA
             when {
-                allOf {
+                anyOf {
                     expression { return params.buildType == 'PSRA' }
                     expression { return params.buildType == 'TICS' }
                 }
@@ -257,7 +253,7 @@ pipeline {
         stage('java docs') {
             //steps will execute only for JAVADocs build
             when {
-                anyOf {
+                allOf {
                     expression { return params.buildType == 'JAVADocs' }
                     not { expression { return params.buildType == 'TICS' } }
 
@@ -274,7 +270,6 @@ pipeline {
         stage('Blackduck Analytics') {
             when {
                 expression { return params.buildType == 'BlackDuck' }
-                not { expression { return params.buildType == 'TICS' } }
             }
             steps {
                 analyzeWithBlackduck()
@@ -309,9 +304,7 @@ pipeline {
 
         stage('TICS EMS') {
             when {
-                allOf {
-                     expression { return params.buildType == 'TICS' }
-            }
+               expression { return params.buildType == 'TICS' }
         }
             steps {
                 script {
@@ -345,7 +338,6 @@ pipeline {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
                     not { expression { return params.buildType == 'BlackDuck' } }
-                          expression { return params.buildType == 'TICS' }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
@@ -509,6 +501,7 @@ def GenerateJavaDocs() {
         :digitalCare:generateJavadocPublicApi \
         :iap:generateJavadocPublicApi \
         :product-registration-lib:generateJavadocPublicApi \
+        :philipsecommercesdk:generateJavadocPublicApi \
         :referenceApp:generateJavadocPublicApi \
 '''
 }
@@ -715,7 +708,7 @@ def DeployingJavaDocs() {
  * publishing junit test case report
  */
 def PublishUnitTestsResults() {
-    junit allowEmptyResults: true, testResults: 'Source/ecs/Source/Library/philipsecommercesdk/build/test-results/testReleaseUnitTest/*.xml'
+    junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/philipsecommercesdk/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/AppInfra/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
