@@ -509,7 +509,6 @@ def GenerateJavaDocs() {
         :digitalCare:generateJavadocPublicApi \
         :iap:generateJavadocPublicApi \
         :product-registration-lib:generateJavadocPublicApi \
-        :philipsecommercesdk:generateJavadocPublicApi \
         :referenceApp:generateJavadocPublicApi \
 '''
 }
