@@ -43,12 +43,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         return false
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        observeError()
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-
     fun addFragment(newFragment: MecBaseFragment,
                     newFragmentTag: String, isReplaceWithBackStack: Boolean) {
         if (mActionbarUpdateListener == null || mECListener == null)
@@ -165,11 +159,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     open fun processError(mecError: MecError?){
         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"","Error",mecError!!.exception!!.message.toString()) } }
-    }
-
-    fun observeError(){
-        val errorViewModel :ErrorViewModel = ViewModelProviders.of(this).get(ErrorViewModel::class.java)
-        errorViewModel.mecError.observe(this,this)
     }
 
 }

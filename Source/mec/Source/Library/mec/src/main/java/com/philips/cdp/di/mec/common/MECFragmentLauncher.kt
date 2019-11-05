@@ -39,7 +39,10 @@ class MECFragmentLauncher : MecBaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         ecsConfigViewModel = ViewModelProviders.of(this).get(EcsConfigViewModel::class.java)
+
         ecsConfigViewModel.isHybris.observe(this, isHybrisObserver)
+        ecsConfigViewModel.mecError.observe(this,this)
+
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }
 
@@ -104,5 +107,6 @@ class MECFragmentLauncher : MecBaseFragment(){
         }
         return fragment
      }
+
 
 }
