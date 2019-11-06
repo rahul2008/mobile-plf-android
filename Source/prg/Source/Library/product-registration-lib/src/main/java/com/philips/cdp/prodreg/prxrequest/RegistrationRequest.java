@@ -61,6 +61,8 @@ public class RegistrationRequest extends PrxRequest {
     private String contentType;
     private String authorizationProvider;
     private boolean isOidcToken;
+    private String url;
+    private String locale;
 
 
     public String getApiKey() {
@@ -100,6 +102,8 @@ public class RegistrationRequest extends PrxRequest {
         this.ctn = ctn;
         this.serviceID = serviceID;
         isOidcToken = oidcToken;
+
+        downloadUrlLocaleFromSD();
     }
 
     public void setAccessToken(String accessToken) {
@@ -235,22 +239,8 @@ public class RegistrationRequest extends PrxRequest {
         headers.put(PROD_REG_CONTENTTYYPE_KEY, getContentType());
         headers.put(PROD_REG_ACCEPT_KEY,getContentType());
 
-        ArrayList<String> serviceIDList = new ArrayList<>();
-        serviceIDList.add(serviceID);
-        PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
-                getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        String url = urlMap.get(serviceID).getConfigUrls();
-                        getAuthoraisationProvider(url, headers);
+        getAuthoraisationProvider(url, headers);
 
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        ProdRegLogger.i("Product Registration Request", "error :" + error.toString() + ":  message : " + message);
-                    }
-                },null);
         return headers;
     }
 
@@ -295,6 +285,25 @@ public class RegistrationRequest extends PrxRequest {
         return getBodyItems();
     }
 
+    private void downloadUrlLocaleFromSD(){
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(serviceID);
+
+        PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
+                getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+                    @Override
+                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                        url = urlMap.get(serviceID).getConfigUrls();
+                        locale = urlMap.get(serviceID).getLocale();
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        ProdRegLogger.i("Product Registration Request", "error :" + error.toString() + ":  message : " + message);
+                    }
+                },null);
+    }
+
     private String getBodyItems() {
 
 
@@ -313,7 +322,7 @@ public class RegistrationRequest extends PrxRequest {
         attributes.setSerialNumber(getSerialNumber());
         attributes.setPurchased(purchaseDate(getPurchaseDate()));
         attributes.setMicrositeId(Integer.parseInt(PRUiHelper.getInstance().getAppInfraInstance().getAppIdentity().getMicrositeId()));
-        attributes.setLocale(PRUiHelper.getInstance().getLocale());
+        attributes.setLocale(locale);
         data.setAttributes(attributes);
 
         registrationRequestBody.setData(data);
