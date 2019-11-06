@@ -6,7 +6,7 @@ BranchName = env.BRANCH_NAME
  * Applicable for develop branch and build type is PSRA at 8:00 pm to 9:00 pm
  * Applicable for develop branch and build type is Java API doc at 9:00 pm to 10:00 pm
  */
-String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true \nH H(22-24) * * * %buildType=TICS" : ""
 
 //label for pipeline
 def nodes = 'test'
@@ -36,7 +36,7 @@ pipeline {
      */
     parameters {
         //specify values for buildType (Normal/PSRA/LeakCanary/HPFortify/Javadocs).
-        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck', description: 'What type of build to build?', name: 'buildType')
+        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck\nTICS', description: 'What type of build to build?', name: 'buildType')
     }
 
     /**
@@ -129,6 +129,7 @@ pipeline {
                     not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
                     not { expression { return params.buildType == 'BlackDuck' } }
+                    not { expression { return params.buildType == 'TICS' } }
 
                     //publish to artifactory only for master,develop and release/platform_*
                     anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
@@ -213,8 +214,9 @@ pipeline {
         stage('PSRAbuild') {
             //steps will run only for buildType PSRA
             when {
-                allOf {
+                anyOf {
                     expression { return params.buildType == 'PSRA' }
+                    expression { return params.buildType == 'TICS' }
                 }
             }
             //execute command to build assemblePsraRelease for reference app
@@ -233,6 +235,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'LeakCanary' }
+                    not { expression { return params.buildType == 'TICS' } }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
@@ -250,8 +253,10 @@ pipeline {
         stage('java docs') {
             //steps will execute only for JAVADocs build
             when {
-                anyOf {
+                allOf {
                     expression { return params.buildType == 'JAVADocs' }
+                    not { expression { return params.buildType == 'TICS' } }
+
                 }
             }
             steps {
@@ -277,6 +282,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'PSRA' }
+                    not { expression { return params.buildType == 'TICS' } }
                 }
             }
 
@@ -296,11 +302,29 @@ pipeline {
             }
         }
 
+        stage('TICS EMS') {
+            when {
+               expression { return params.buildType == 'TICS' }
+        }
+            steps {
+                script {
+                    echo "Running TICS..."
+                    sh """#!/bin/bash -l
+                        set -e
+                        chmod +x run_tics_iet_mobile.sh
+                        dos2unix run_tics_iet_mobile.sh
+                        ./run_tics_iet_mobile.sh
+                    """
+                }
+            }
+        }
+
         //stage to run HPFortify build
         stage('HPFortify') {
             when {
                 allOf {
                     expression { return params.buildType == 'HPFortify' }
+                    not { expression { return params.buildType == 'TICS' } }
                 }
             }
             steps {
@@ -345,6 +369,7 @@ pipeline {
 //            when {
 //                allOf {
 //                    expression { return params.buildType == 'LeakCanary' }
+//                    not { expression { return params.buildType == 'TICS' } }
 //                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
 //                }
 //            }
