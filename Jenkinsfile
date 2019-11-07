@@ -333,8 +333,8 @@ pipeline {
         }
 
 
-        stage('Trigger E2E Test') {
-            when {
+        /*stage('Trigger E2E Test') {
+           when {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
                     not { expression { return params.buildType == 'BlackDuck' } }
@@ -363,7 +363,7 @@ pipeline {
 
                 }
             }
-        }
+        }*/
 
 //        stage('LeakCanary E2E Test') {
 //            when {
