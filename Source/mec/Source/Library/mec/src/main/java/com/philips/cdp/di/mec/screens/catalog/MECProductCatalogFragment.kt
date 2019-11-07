@@ -51,12 +51,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
             hideProgressBar()
 
-            totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
+            totalPages = ecsProductsList?.get(ecsProductsList.size-1)?.pagination?.totalPages ?: 0
 
-            currentPage = ecsProductsList?.get(0)?.pagination?.currentPage ?: 0
+            currentPage = ecsProductsList?.get(ecsProductsList.size-1)?.pagination?.currentPage ?: 0
 
-            currentPage++
-
+            mecProductList.clear()
 
         if (ecsProductsList != null) {
             binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
