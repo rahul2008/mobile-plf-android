@@ -333,37 +333,39 @@ pipeline {
         }
 
 
-        /*stage('Trigger E2E Test') {
-           when {
-                allOf {
-                    not { expression { return params.buildType == 'LeakCanary' } }
-                    not { expression { return params.buildType == 'BlackDuck' } }
-                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-                }
-            }
-            steps {
-                script {
-                    APK_NAME = readFile("apkname.txt").trim()
-                    if (params.buildType == 'PSRA') {
-                        APK_NAME = APK_NAME.replace('.apk', '_PSRA.apk')
-                    }
-                    echo "APK_NAME = ${APK_NAME}"
+//        stage('Trigger E2E Test') {
+//           when {
+//                allOf {
+//                    not { expression { return params.buildType == 'LeakCanary' } }
+//                    not { expression { return params.buildType == 'BlackDuck' } }
+//                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+//                }
+//            }
+//            steps {
+//                script {
+//                    APK_NAME = readFile("apkname.txt").trim()
+//                    if (params.buildType == 'PSRA') {
+//                        APK_NAME = APK_NAME.replace('.apk', '_PSRA.apk')
+//                    }
+//                    echo "APK_NAME = ${APK_NAME}"
+//
+//                    def jobBranchName = "release_platform_1805"
+//                    if (BranchName =~ /develop.*/) {
+//                        jobBranchName = "develop"
+//                    }
+//                    echo "BranchName changed to ${jobBranchName}"
+//
+//                    sh """#!/bin/bash -le
+//                          curl -X POST curl -X POST http://pil.ietjenkins.pic.philips.com:8080/job/E2E_Tests/job/E2E_Android_${
+//                        jobBranchName
+//                    }/buildWithParameters?APKPATH=$APK_NAME
+//                      """
+//
+//                }
+//            }
+//        }
 
-                    def jobBranchName = "release_platform_1805"
-                    if (BranchName =~ /develop.*/) {
-                        jobBranchName = "develop"
-                    }
-                    echo "BranchName changed to ${jobBranchName}"
 
-                    sh """#!/bin/bash -le
-                          curl -X POST curl -X POST http://pil.ietjenkins.pic.philips.com:8080/job/E2E_Tests/job/E2E_Android_${
-                        jobBranchName
-                    }/buildWithParameters?APKPATH=$APK_NAME
-                      """
-
-                }
-            }
-        }*/
 
 //        stage('LeakCanary E2E Test') {
 //            when {
