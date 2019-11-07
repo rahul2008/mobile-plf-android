@@ -92,7 +92,8 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                ecsCallback.onFailure(error, ecsError);
+                ecsCallback.onResponse(false);
+                //ecsCallback.onFailure(error, ecsError);
             }
         }).executeRequest();
 

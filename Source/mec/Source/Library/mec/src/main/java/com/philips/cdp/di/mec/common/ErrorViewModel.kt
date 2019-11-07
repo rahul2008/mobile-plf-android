@@ -5,5 +5,4 @@ import android.arch.lifecycle.ViewModel
 
 open class ErrorViewModel : ViewModel() {
     val mecError = MutableLiveData<MecError>()
-
 }

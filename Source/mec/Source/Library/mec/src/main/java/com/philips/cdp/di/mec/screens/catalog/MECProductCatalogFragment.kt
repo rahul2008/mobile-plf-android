@@ -101,6 +101,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
 
         ecsProductViewModel.ecsProductsList.observe(this, productObserver)
+        ecsProductViewModel.mecError.observe(this,this)
 
         val bundle = arguments
 
