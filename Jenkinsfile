@@ -101,7 +101,6 @@ pipeline {
             when {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
-                    not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
                 }
             }
