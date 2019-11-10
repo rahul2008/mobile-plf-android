@@ -107,7 +107,12 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             mActionbarUpdateListener!!.updateActionBar(title, isVisible)
     }
 
+
     fun createCustomProgressBar(group: ViewGroup?, size: Int) {
+        createCustomProgressBar(group,size,RelativeLayout.CENTER_IN_PARENT)
+
+    }
+    fun createCustomProgressBar(group: ViewGroup?, size: Int, gravity: Int) {
         var group = group
         if (context == null) return
         val parentView = view as ViewGroup?
@@ -125,7 +130,9 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
         mMECBaseFragmentProgressBar = ProgressBar(context!!, null, R.attr.pth_cirucular_pb)
         val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.addRule(RelativeLayout.CENTER_IN_PARENT)
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL)
+        params.addRule(gravity)
+
         mMECBaseFragmentProgressBar!!.setLayoutParams(params)
 
         try {

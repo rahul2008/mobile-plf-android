@@ -21,6 +21,7 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
+import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 
@@ -204,7 +205,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
     }
 
     open fun executeRequest(){
-        createCustomProgressBar(container, MEDIUM)
+        createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
         ecsProductViewModel.init(currentPage, pageSize)
     }
 
