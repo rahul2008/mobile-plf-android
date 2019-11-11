@@ -45,12 +45,14 @@ public class IAPUser implements UserDataListener {
      * */
     public Map<String, String> getJanrainOAuth() {
         Map<String, String> map = new HashMap<>();
+
         if (mUserDataInterface.isOIDCToken()) {
-            map.put("oidc", getJanRainID());
             map.put("grant_type", "oidc");
         } else {
-            map.put("janrain", getJanRainID());
             map.put("grant_type", "janrain");
+        }
+        if(getJanRainID()!=null) {
+            map.put("janrain", getJanRainID());
         }
         map.put("client_id", "mobile_android");
         map.put("client_secret", "secret");
