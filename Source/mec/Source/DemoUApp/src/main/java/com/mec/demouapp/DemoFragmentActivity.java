@@ -648,15 +648,15 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
     private void showToast(int errorCode) {
         String errorText = null;
-        if (MECConstant.MEC_ERROR_NO_CONNECTION == errorCode) {
+        if (MECConstant.INSTANCE.getMEC_ERROR_NO_CONNECTION() == errorCode) {
             errorText = "No connection";
-        } else if (MECConstant.MEC_ERROR_CONNECTION_TIME_OUT == errorCode) {
+        } else if (MECConstant.INSTANCE.getMEC_ERROR_CONNECTION_TIME_OUT() == errorCode) {
             errorText = "Connection time out";
-        } else if (MECConstant.MEC_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+        } else if (MECConstant.INSTANCE.getMEC_ERROR_AUTHENTICATION_FAILURE() == errorCode) {
             errorText = "Authentication failure";
-        } else if (MECConstant.MEC_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+        } else if (MECConstant.INSTANCE.getMEC_ERROR_INSUFFICIENT_STOCK_ERROR() == errorCode) {
             errorText = "Product out of stock";
-        } else if (MECConstant.MEC_ERROR_INVALID_CTN == errorCode) {
+        } else if (MECConstant.INSTANCE.getMEC_ERROR_INVALID_CTN() == errorCode) {
             errorText = "Invalid ctn";
         }
         if (errorText != null) {

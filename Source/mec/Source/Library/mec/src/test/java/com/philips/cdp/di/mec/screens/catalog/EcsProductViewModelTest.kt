@@ -6,7 +6,6 @@ import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,6 +40,6 @@ class EcsProductViewModelTest{
     @Test
     fun shouldTestFetchProduct() {
         ecsProductViewModel.init(0,20)
-        Mockito.verify(ECSServiceRepository.INSTANCE).getProducts(0,20,ecsProductViewModel)
+        Mockito.verify(ECSCatalogRepository.INSTANCE).getProducts(0,20,ecsProductViewModel)
     }
 }

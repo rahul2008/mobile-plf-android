@@ -24,8 +24,9 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
-import com.philips.cdp.di.mec.screens.Detail.MECProductDetailsFragment
+import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.utils.MECConstant
 
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -37,8 +38,13 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
 
     override fun onItemClick(item: Object) {
-        System.out.println("Pabitra")
+
+        val mecProduct = item as MECProduct
+        val bundle = Bundle()
+        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,mecProduct)
+
         val fragment = MECProductDetailsFragment()
+        fragment.arguments = bundle
         replaceFragment(fragment,"detail",true)
     }
 

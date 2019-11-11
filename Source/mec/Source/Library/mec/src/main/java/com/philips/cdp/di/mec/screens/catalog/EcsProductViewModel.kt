@@ -10,16 +10,16 @@ class EcsProductViewModel : ErrorViewModel() {
 
 
     fun init (pageNumber:Int , pageSize:Int){
-        ECSServiceRepository.INSTANCE.getProducts(pageNumber,pageSize,this)
+        ECSCatalogRepository.INSTANCE.getProducts(pageNumber,pageSize,this)
     }
 
     fun initCategorizedRetailer (ctn: MutableList<String>){
-        ECSServiceRepository.INSTANCE.getCategorizedProductsforRetailer(ctn,this)
+        ECSCatalogRepository.INSTANCE.getCategorizedProductsforRetailer(ctn,this)
     }
 
 
     fun initCategorized(pageNumber:Int , pageSize:Int,ctns :List<String>){
-        ECSServiceRepository.INSTANCE.getCategorizedProducts(pageNumber,pageSize,ctns,this)
+        ECSCatalogRepository.INSTANCE.getCategorizedProducts(pageNumber,pageSize,ctns,this)
     }
 
 }

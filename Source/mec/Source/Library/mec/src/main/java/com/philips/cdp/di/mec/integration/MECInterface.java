@@ -1,6 +1,6 @@
 
 package com.philips.cdp.di.mec.integration;
-import com.philips.cdp.di.mec.screens.catalog.ECSServiceRepository;
+import com.philips.cdp.di.mec.screens.catalog.ECSCatalogRepository;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.UappInterface;
@@ -23,7 +23,7 @@ public class MECInterface implements UappInterface {
         MECDependencies MECDependencies = (MECDependencies) uappDependencies;
         mUserDataInterface = MECDependencies.getUserDataInterface();
 
-        ECSServiceRepository.INSTANCE.appInfra = new AppInfra.Builder().build(uappDependencies.getAppInfra().getAppInfraContext());
+        ECSCatalogRepository.INSTANCE.appInfra = new AppInfra.Builder().build(uappDependencies.getAppInfra().getAppInfraContext());
 
         if (null == mUserDataInterface)
             throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");

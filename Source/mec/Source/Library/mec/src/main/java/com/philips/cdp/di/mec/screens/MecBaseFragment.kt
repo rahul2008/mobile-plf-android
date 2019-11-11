@@ -5,23 +5,16 @@
 package com.philips.cdp.di.mec.screens
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.common.ErrorViewModel
 import com.philips.cdp.di.mec.common.MecError
-import com.philips.cdp.di.mec.integration.MECListener
-import com.philips.cdp.di.mec.screens.Detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.view.widget.ProgressBar
 
