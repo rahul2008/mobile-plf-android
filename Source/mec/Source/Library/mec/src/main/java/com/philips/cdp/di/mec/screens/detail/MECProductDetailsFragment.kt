@@ -42,8 +42,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             val mutableList = ecsProduct?.assets?.asset
-            var mecAssets  = mutableListOf<MECAsset>()
-
+            
             val fetchImageUrlsFromPRXAssets = fetchImageUrlsFromPRXAssets(mutableList as List<Asset>)
 
             mecProductDetail = MECProductDetail(fetchImageUrlsFromPRXAssets)

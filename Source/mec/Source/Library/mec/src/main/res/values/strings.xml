@@ -12,6 +12,7 @@
     <string name="mec_delivery_via">Delivery via FedEx</string>
     <string name="mec_delivery_description">Delivery is FREE when you spend $100 or more</string>
     <string name="mec_product_catalog">Products</string>
+    <string name="mec_product_detail">Product details</string>
     <string name="mec_no_product_available">No product found in your Store.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
