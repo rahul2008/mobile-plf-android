@@ -23,6 +23,7 @@ import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import android.support.v7.widget.DefaultItemAnimator
 import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.Detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 
@@ -32,7 +33,15 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
+open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
+
+
+    override fun onItemClick(item: Object) {
+        System.out.println("Pabitra")
+        val fragment = MECProductDetailsFragment()
+        replaceFragment(fragment,"detail",true)
+    }
+
     override fun isPaginationSupported(): Boolean {
         return true
     }
@@ -43,7 +52,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
     var totalPages: Int = 0
     var currentPage: Int = 0
     var pageSize: Int = 8
-    var mecProductDetailsFragment: MECProductDetailsFragment? = null
 
 
     val productObserver : Observer<MutableList<ECSProducts>> = object : Observer<MutableList<ECSProducts>> {
@@ -65,7 +73,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
             for (ecsProducts in ecsProductsList) {
 
                 for (ecsProduct in ecsProducts.products) {
-                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle,MECProductCatalogFragment()))
+                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
                 }
             }
         } else{
@@ -91,8 +99,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-
-
         binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
 
         mecCatalogUIModel = MECCatalogUIModel()
@@ -110,7 +116,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         binding.mecGrid.setOnClickListener {
             binding.mecGrid.setBackgroundColor(Color.parseColor("#DCDCDC"))
             binding.mecList.setBackgroundColor(Color.parseColor("#ffffff"))
-            adapter = MECProductCatalogGridAdapter(mecProductList)
+            adapter = MECProductCatalogGridAdapter(mecProductList,this)
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
             binding.productCatalogRecyclerView.adapter = adapter
             binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
@@ -124,7 +130,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         binding.mecList.setOnClickListener {
             binding.mecList.setBackgroundColor(Color.parseColor("#DCDCDC"))
             binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
-            adapter = MECProductCatalogListAdapter(mecProductList)
+            adapter = MECProductCatalogListAdapter(mecProductList,this)
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             binding.productCatalogRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
@@ -188,14 +194,13 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = MECProductCatalogListAdapter(mecProductList)
+        adapter = MECProductCatalogListAdapter(mecProductList,this)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
         binding.productCatalogRecyclerView.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-
     }
 
 
@@ -209,12 +214,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
         ecsProductViewModel.init(currentPage, pageSize)
     }
-
-    fun launchDetails(mecProduct:MECProduct){
-        val fragment = MECProductDetailsFragment().createInstance(Bundle())
-        fragment?.let { replaceFragment(fragment,"asd",false) }
-    }
-
 
     fun shouldFetchNextPage(): Boolean{
 
@@ -242,7 +241,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
         binding.productCatalogRecyclerView.visibility = View.GONE
     }
-
 
 }
 
