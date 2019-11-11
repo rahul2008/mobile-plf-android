@@ -1,11 +1,13 @@
 package com.philips.cdp.di.mec.screens.catalog
 
 import android.databinding.ViewDataBinding
+import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecProductCatalogItemGridBinding
 
-class MECProductCatalogGridHolder (override val binding: ViewDataBinding) : MECProductCatalogAbstractViewHolder(binding) {
+class MECProductCatalogGridHolder(override val binding: ViewDataBinding, itemClickListener: ItemClickListener) : MECProductCatalogAbstractViewHolder(binding,itemClickListener) {
 
     override fun bind(item: MECProduct) {
+            super.bind(item)
             val mecProductCatalogItemGridBinding = binding as MecProductCatalogItemGridBinding
             mecProductCatalogItemGridBinding.product = item
             mecProductCatalogItemGridBinding.executePendingBindings()
