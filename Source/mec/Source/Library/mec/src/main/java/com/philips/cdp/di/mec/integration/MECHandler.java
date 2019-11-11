@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.mec.common.MECFragmentLauncher;
 import com.philips.cdp.di.mec.common.MECLauncherActivity;
 import com.philips.cdp.di.mec.utils.MECConstant;
+import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -63,7 +64,6 @@ class MECHandler {
         Intent intent = new Intent(mMECSetting.getContext(), MECLauncherActivity.class);
         intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView);
         ActivityLauncher activityLauncher = (ActivityLauncher) mUiLauncher;
-
         Bundle bundle =  getBundle();
         bundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         intent.putExtras(bundle);
@@ -88,11 +88,10 @@ class MECHandler {
          mecFragmentLauncher.setArguments(bundle);
 
          FragmentLauncher fragmentLauncher = (FragmentLauncher)mUiLauncher;
-         mecFragmentLauncher.setActionBarListener(fragmentLauncher.getActionbarListener(), mLaunchInput.getMecListener());
+         MECDataHolder.INSTANCE.setActionBarListener(fragmentLauncher.getActionbarListener(), mLaunchInput.getMecListener());
          String tag = mecFragmentLauncher.getClass().getName();
          FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
          transaction.replace(fragmentLauncher.getParentContainerResourceID(), mecFragmentLauncher, tag);
-       //  transaction.addToBackStack(tag);
          transaction.commitAllowingStateLoss();
 
     }

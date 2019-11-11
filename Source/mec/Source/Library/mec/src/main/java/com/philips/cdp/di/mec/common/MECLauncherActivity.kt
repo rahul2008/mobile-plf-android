@@ -10,6 +10,7 @@ import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
 
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uid.utils.UIDActivity
 import kotlinx.android.synthetic.main.mec_action_bar.*
@@ -86,8 +87,9 @@ import java.util.*
     }
 
     private fun loadDecisionFragment( ){
+
+            MECDataHolder.INSTANCE.setActionBarListener(this, this)
             val mECFragmentLauncher = MECFragmentLauncher()
-            mECFragmentLauncher.setActionBarListener(this, this)
              mECFragmentLauncher.arguments = bundle
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(com.philips.cdp.di.mec.R.id.mec_fragment_container, mECFragmentLauncher, mECFragmentLauncher.TAG)

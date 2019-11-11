@@ -8,8 +8,7 @@ import android.view.View
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 
 
-class MECProduct(val code: String, val price: String, val imageUrl: String, val name: String){
-
+class MECProduct(val code: String, val price: String, val imageUrl: String, val name: String, private var mecProductCatalogFragment: MECProductCatalogFragment ){
 
     companion object DataBindingAdapter {
         @BindingAdapter("image_url")
@@ -22,7 +21,9 @@ class MECProduct(val code: String, val price: String, val imageUrl: String, val 
 
     fun onClick(view: View)
     {
-        Utils.startNewActivity(view.context,DetailsActivity::class.java)
+        mecProductCatalogFragment?.launchDetails(this)
+
+        //Utils.startNewActivity(view.context,DetailsActivity::class.java)
     }
 
     object Utils {

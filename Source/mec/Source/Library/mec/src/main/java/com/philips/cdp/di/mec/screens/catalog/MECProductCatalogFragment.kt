@@ -23,9 +23,8 @@ import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import android.support.v7.widget.DefaultItemAnimator
 import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.screens.Detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-
-import com.philips.cdp.di.mec.utils.MECutility
 
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -44,6 +43,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
     var totalPages: Int = 0
     var currentPage: Int = 0
     var pageSize: Int = 8
+    var mecProductDetailsFragment: MECProductDetailsFragment? = null
 
 
     val productObserver : Observer<MutableList<ECSProducts>> = object : Observer<MutableList<ECSProducts>> {
@@ -65,7 +65,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
             for (ecsProducts in ecsProductsList) {
 
                 for (ecsProduct in ecsProducts.products) {
-                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
+                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle,MECProductCatalogFragment()))
                 }
             }
         } else{
@@ -104,6 +104,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         ecsProductViewModel.mecError.observe(this,this)
 
         val bundle = arguments
+
 
 
         binding.mecGrid.setOnClickListener {
@@ -209,6 +210,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         ecsProductViewModel.init(currentPage, pageSize)
     }
 
+    fun launchDetails(mecProduct:MECProduct){
+        val fragment = MECProductDetailsFragment().createInstance(Bundle())
+        fragment?.let { replaceFragment(fragment,"asd",false) }
+    }
+
 
     fun shouldFetchNextPage(): Boolean{
 
@@ -236,6 +242,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination {
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
         binding.productCatalogRecyclerView.visibility = View.GONE
     }
+
+
 }
 
 

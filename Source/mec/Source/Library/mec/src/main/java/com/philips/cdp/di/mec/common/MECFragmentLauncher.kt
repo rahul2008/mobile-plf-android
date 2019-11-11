@@ -6,18 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.philips.cdp.di.ecs.error.ECSError
-import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.common.ecsService.ECSConfigServiceRepository
 import com.philips.cdp.di.mec.integration.MECLaunchInput
+import com.philips.cdp.di.mec.screens.Detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.screens.catalog.EcsProductViewModel
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
-import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECFragmentLauncher : MecBaseFragment(){
@@ -67,7 +63,7 @@ class MECFragmentLauncher : MecBaseFragment(){
 
     protected fun launchMECasFragment(landingFragment: Int, result: Boolean) {
         val mecBaseFragment = getFragment(result,landingFragment)
-        mecBaseFragment?.let { addFragment(it,"asd",false) }
+        mecBaseFragment?.let { replaceFragment(it,"asd",false) }
 
     }
 
@@ -80,6 +76,7 @@ class MECFragmentLauncher : MecBaseFragment(){
             MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW -> {
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW -> {
+                fragment = MECProductDetailsFragment()
             }
             MECLaunchInput.MECFlows.MEC_BUY_DIRECT_VIEW -> {
             }
