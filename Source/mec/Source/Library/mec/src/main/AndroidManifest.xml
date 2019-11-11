@@ -3,9 +3,10 @@
     package="com.philips.cdp.di.mec">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <application>
-        <activity android:name=".screens.catalog.DetailsActivity"></activity>
+    <application
+        android:resizeableActivity="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DLS">
         <activity
             android:name=".common.MECLauncherActivity"
             android:label="Products" />
