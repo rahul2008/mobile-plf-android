@@ -1,118 +1,123 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/demoAppMenus"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/demoAppMenus"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:layout_margin="4dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/appversion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp" />
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_login_activity"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/appversion"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Launch As Activity"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_login_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_login_activity"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Launch As Fragment" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/appversion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_Registration"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Logout" />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_login_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appversion"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Launch As Activity" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_RefreshSession"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_logout"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Refresh Session" />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_login_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_login_activity"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Launch As Fragment" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_RegistrationPR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_RefreshSession"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Product Registration" />
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_IAP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_RegistrationPR"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Launch IAP" />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_Registration"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Logout" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_IsOIDCToken"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_logout"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Check OIDC Token" />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_RefreshSession"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_logout"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Refresh Session" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_GetUserDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_logout"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Get User Detail" />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_RegistrationPR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_RefreshSession"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Product Registration" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_MigrateUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_GetUserDetail"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            android:text="Migrate user to PIM" />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_IAP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_RegistrationPR"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Launch IAP" />
 
-        <com.philips.platform.uid.view.widget.Switch
-            android:id="@+id/switch_cookies_consent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:text="Cookies Consent"
-            app:switchPadding="30dp" />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_IsOIDCToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_logout"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Check OIDC Token" />
 
-        <FrameLayout
-            android:id="@+id/pimDemoU_mainFragmentContainer"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" />
-    </LinearLayout>
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_GetUserDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_logout"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Get User Detail" />
 
-</ScrollView>
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_MigrateUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_GetUserDetail"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="Migrate user to PIM" />
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:id="@+id/switch_cookies_consent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:text="Cookies Consent"
+                app:switchPadding="30dp" />
+
+            <FrameLayout
+                android:id="@+id/pimDemoU_mainFragmentContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
