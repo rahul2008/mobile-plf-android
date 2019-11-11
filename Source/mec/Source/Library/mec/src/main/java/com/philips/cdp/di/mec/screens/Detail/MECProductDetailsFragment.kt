@@ -20,14 +20,13 @@ class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
+        setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
     }
 
     override fun handleBackEvent(): Boolean {
