@@ -8,7 +8,7 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.platform.appinfra.AppInfra
 
-enum class ECSServiceRepository {
+enum class ECSCatalogRepository {
 
     INSTANCE;
 

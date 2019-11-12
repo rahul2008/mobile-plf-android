@@ -53,7 +53,7 @@ class MECHandler {
         if (landingScreen == MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW
                 && (mLaunchInput.mMECFlowInput == null || mLaunchInput.mMECFlowInput.getProductCTNs() == null ||
                 (mLaunchInput.mMECFlowInput.getProductCTNs() != null && mLaunchInput.mMECFlowInput.getProductCTNs().size() == 0))) {
-            mLaunchInput.getMecListener().onFailure(MECConstant.MEC_ERROR_INVALID_CTN);
+            mLaunchInput.getMecListener().onFailure(MECConstant.INSTANCE.getMEC_ERROR_INVALID_CTN());
             return false;
         }
         return true;
@@ -62,10 +62,10 @@ class MECHandler {
 
     protected void launchMECasActivity() {
         Intent intent = new Intent(mMECSetting.getContext(), MECLauncherActivity.class);
-        intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView);
+        intent.putExtra(MECConstant.INSTANCE.getMEC_LANDING_SCREEN(), mLaunchInput.mLandingView);
         ActivityLauncher activityLauncher = (ActivityLauncher) mUiLauncher;
         Bundle bundle =  getBundle();
-        bundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
+        bundle.putInt(MECConstant.INSTANCE.getMEC_KEY_ACTIVITY_THEME(), activityLauncher.getUiKitTheme());
         intent.putExtras(bundle);
         mMECSetting.getContext().startActivity(intent);
 
@@ -100,14 +100,14 @@ class MECHandler {
         Bundle mBundle = new Bundle();
         if (mLaunchInput.mMECFlowInput != null) {
             if (mLaunchInput.mMECFlowInput.getProductCTN() != null) {
-                mBundle.putString(MECConstant.MEC_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
+                mBundle.putString(MECConstant.INSTANCE.getMEC_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL(),
                         mLaunchInput.mMECFlowInput.getProductCTN());
             }
             if (mLaunchInput.mMECFlowInput.getProductCTNs() != null) {
-                mBundle.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS,
+                mBundle.putStringArrayList(MECConstant.INSTANCE.getCATEGORISED_PRODUCT_CTNS(),
                         mLaunchInput.mMECFlowInput.getProductCTNs());
             }
-            mBundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, mLaunchInput.getIgnoreRetailers());
+            mBundle.putStringArrayList(MECConstant.INSTANCE.getMEC_IGNORE_RETAILER_LIST(), mLaunchInput.getIgnoreRetailers());
         }
         return mBundle;
     }
