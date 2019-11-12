@@ -373,4 +373,13 @@
         <item name="colorControlActivated">?attr/uidContentItemTertiaryNormalTextColor</item>
     </style>
 
+    <style name="MecTabStyle" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="tabSelectedTextColor">?attr/uidTabsDefaultNormalOnTextColor</item>
+        <item name="tabIndicatorColor">?attr/uidTabsDefaultNormalOnIndicatorColor</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>
