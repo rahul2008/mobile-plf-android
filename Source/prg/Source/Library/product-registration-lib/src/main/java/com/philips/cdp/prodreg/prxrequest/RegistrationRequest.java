@@ -232,34 +232,37 @@ public class RegistrationRequest extends PrxRequest {
     @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
-       // headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
+        // headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
         headers.put(PROD_REG_APIKEY_KEY, getApiKey());
         headers.put(PROD_REG_APIVERSION_KEY, getApiVersion());
         headers.put(PROD_REG_AUTHORIZATION_KEY, PROD_REG_AUTHORIZATION_VALUE + getAccessToken());
         headers.put(PROD_REG_CONTENTTYYPE_KEY, getContentType());
-        headers.put(PROD_REG_ACCEPT_KEY,getContentType());
+        headers.put(PROD_REG_ACCEPT_KEY, getContentType());
 
-        getAuthoraisationProvider(url, headers);
+        if (url != null)
+            getAuthoraisationProvider(url, headers);
+        else
+            ProdRegLogger.i("Product Registration Request", "url is null");
 
         return headers;
     }
 
     private void getAuthoraisationProvider(String url, Map<String, String> headers) {
-        ProdRegLogger.i("Product Registration Request"," isOidcToken "+ isOidcToken);
+        ProdRegLogger.i("Product Registration Request", " isOidcToken " + isOidcToken);
 
-        if(isOidcToken){
-            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+        if (isOidcToken) {
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
                 headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_CN);
             } else {
                 headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_EU);
-                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+                ProdRegLogger.i("Product Registration Request", url + " does not contain china domain.");
             }
-        }else{
-            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+        } else {
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
                 headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_CN);
             } else {
                 headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_EU);
-                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+                ProdRegLogger.i("Product Registration Request", url + " does not contain china domain.");
             }
         }
 
@@ -285,7 +288,7 @@ public class RegistrationRequest extends PrxRequest {
         return getBodyItems();
     }
 
-    private void downloadUrlLocaleFromSD(){
+    private void downloadUrlLocaleFromSD() {
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(serviceID);
 
@@ -301,7 +304,7 @@ public class RegistrationRequest extends PrxRequest {
                     public void onError(ERRORVALUES error, String message) {
                         ProdRegLogger.i("Product Registration Request", "error :" + error.toString() + ":  message : " + message);
                     }
-                },null);
+                }, null);
     }
 
     private String getBodyItems() {
@@ -348,7 +351,6 @@ public class RegistrationRequest extends PrxRequest {
         if (productSerialNumber != null && productSerialNumber.length() > 0)
             params.put(PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
-
 
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
