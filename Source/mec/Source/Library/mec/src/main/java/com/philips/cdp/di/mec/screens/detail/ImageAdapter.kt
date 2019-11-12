@@ -21,7 +21,6 @@ class ImageAdapter(val assets: List<MECAsset>) : PagerAdapter() {
         var binding = MecImagePagerItemBinding.inflate(inflater)
         binding.mecAsset = assets.get(position)
         binding.executePendingBindings()
-
         container.addView(binding.root)
         return binding.root
     }

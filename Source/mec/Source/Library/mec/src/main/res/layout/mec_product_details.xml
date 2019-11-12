@@ -10,6 +10,10 @@
         <variable
             name="detail"
             type="com.philips.cdp.di.mec.screens.detail.MECProductDetail" />
+
+       <!-- <variable
+            name="ecsProduct"
+            type="com.philips.cdp.di.ecs.model.products.ECSProduct" />-->
     </data>
 
 <RelativeLayout
@@ -77,7 +81,7 @@
                     android:layout_height="wrap_content"
                     style="@style/mecCentralesansBoldFont"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                    android:text="Avance Collection Blender with high speed"
+                    android:text="@{detail.productTitle}"
                     android:textSize="20sp" />
 
                 <LinearLayout
@@ -119,7 +123,7 @@
                     android:textSize="12sp"
                     android:layout_marginTop="@dimen/iap_margin_4dp"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                    android:text="Philips 65PUS8901"/>
+                    android:text="@{detail.productCTN}"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_out_of_stock"

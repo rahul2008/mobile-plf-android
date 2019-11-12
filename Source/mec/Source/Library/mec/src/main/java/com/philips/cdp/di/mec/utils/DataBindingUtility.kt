@@ -18,6 +18,7 @@ class DataBindingUtility {
         @BindingAdapter("image_url")
         @JvmStatic
         fun loadImage(imageView: View?, image_url: String?) {
+
             val imageView = imageView as NetworkImageView
             val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
             imageLoader.get(image_url, ImageLoader.getImageListener(imageView,

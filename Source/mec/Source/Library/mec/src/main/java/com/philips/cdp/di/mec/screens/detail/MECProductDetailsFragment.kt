@@ -45,7 +45,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             
             val fetchImageUrlsFromPRXAssets = fetchImageUrlsFromPRXAssets(mutableList as List<Asset>)
 
-            mecProductDetail = MECProductDetail(fetchImageUrlsFromPRXAssets)
+            mecProductDetail = MECProductDetail(fetchImageUrlsFromPRXAssets,mecProduct.name,mecProduct.code)
             binding.detail = mecProductDetail
 
             hideProgressBar()
@@ -58,6 +58,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
 
         ecsProductDetailViewModel = ViewModelProviders.of(this).get(EcsProductDetailViewModel::class.java)
+
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
         ecsProductDetailViewModel.mecError.observe(this,this)
 
@@ -68,7 +69,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         var mecAssets  = mutableListOf<MECAsset>()
         mecAssets.add(MECAsset("just to intit")) //TODO
-        mecProductDetail = MECProductDetail(mecAssets)
+        mecProductDetail = MECProductDetail(mecAssets,mecProduct.name,mecProduct.code)
         binding.detail = mecProductDetail
         return binding.root
     }
