@@ -6,7 +6,7 @@ BranchName = env.BRANCH_NAME
  * Applicable for develop branch and build type is PSRA at 8:00 pm to 9:00 pm
  * Applicable for develop branch and build type is Java API doc at 9:00 pm to 10:00 pm
  */
-String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true \nH H(22-23) * * * %buildType=TICS" : ""
 
 //label for pipeline
 def nodes = 'test'
@@ -36,7 +36,7 @@ pipeline {
      */
     parameters {
         //specify values for buildType (Normal/PSRA/LeakCanary/HPFortify/Javadocs).
-        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck', description: 'What type of build to build?', name: 'buildType')
+        choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs\nBlackDuck\nTICS', description: 'What type of build to build?', name: 'buildType')
     }
 
     /**
@@ -101,7 +101,6 @@ pipeline {
             when {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
-                    not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
                 }
             }
@@ -129,6 +128,7 @@ pipeline {
                     not { expression { return params.buildType == 'HPFortify' } }
                     not { expression { return params.buildType == 'JAVADocs' } }
                     not { expression { return params.buildType == 'BlackDuck' } }
+                    not { expression { return params.buildType == 'TICS' } }
 
                     //publish to artifactory only for master,develop and release/platform_*
                     anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
@@ -213,8 +213,9 @@ pipeline {
         stage('PSRAbuild') {
             //steps will run only for buildType PSRA
             when {
-                allOf {
+                anyOf {
                     expression { return params.buildType == 'PSRA' }
+                    expression { return params.buildType == 'TICS' }
                 }
             }
             //execute command to build assemblePsraRelease for reference app
@@ -233,6 +234,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'LeakCanary' }
+                    not { expression { return params.buildType == 'TICS' } }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
@@ -250,8 +252,10 @@ pipeline {
         stage('java docs') {
             //steps will execute only for JAVADocs build
             when {
-                anyOf {
+                allOf {
                     expression { return params.buildType == 'JAVADocs' }
+                    not { expression { return params.buildType == 'TICS' } }
+
                 }
             }
             steps {
@@ -277,6 +281,7 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'PSRA' }
+                    not { expression { return params.buildType == 'TICS' } }
                 }
             }
 
@@ -296,11 +301,29 @@ pipeline {
             }
         }
 
+        stage('TICS EMS') {
+            when {
+               expression { return params.buildType == 'TICS' }
+        }
+            steps {
+                script {
+                    echo "Running TICS..."
+                    sh """#!/bin/bash -l
+                        set -e
+                        chmod +x run_tics_iet_mobile.sh
+                        dos2unix run_tics_iet_mobile.sh
+                        ./run_tics_iet_mobile.sh
+                    """
+                }
+            }
+        }
+
         //stage to run HPFortify build
         stage('HPFortify') {
             when {
                 allOf {
                     expression { return params.buildType == 'HPFortify' }
+                    not { expression { return params.buildType == 'TICS' } }
                 }
             }
             steps {
@@ -309,42 +332,45 @@ pipeline {
         }
 
 
-        stage('Trigger E2E Test') {
-            when {
-                allOf {
-                    not { expression { return params.buildType == 'LeakCanary' } }
-                    not { expression { return params.buildType == 'BlackDuck' } }
-                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-                }
-            }
-            steps {
-                script {
-                    APK_NAME = readFile("apkname.txt").trim()
-                    if (params.buildType == 'PSRA') {
-                        APK_NAME = APK_NAME.replace('.apk', '_PSRA.apk')
-                    }
-                    echo "APK_NAME = ${APK_NAME}"
+//        stage('Trigger E2E Test') {
+//           when {
+//                allOf {
+//                    not { expression { return params.buildType == 'LeakCanary' } }
+//                    not { expression { return params.buildType == 'BlackDuck' } }
+//                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+//                }
+//            }
+//            steps {
+//                script {
+//                    APK_NAME = readFile("apkname.txt").trim()
+//                    if (params.buildType == 'PSRA') {
+//                        APK_NAME = APK_NAME.replace('.apk', '_PSRA.apk')
+//                    }
+//                    echo "APK_NAME = ${APK_NAME}"
+//
+//                    def jobBranchName = "release_platform_1805"
+//                    if (BranchName =~ /develop.*/) {
+//                        jobBranchName = "develop"
+//                    }
+//                    echo "BranchName changed to ${jobBranchName}"
+//
+//                    sh """#!/bin/bash -le
+//                          curl -X POST curl -X POST http://pil.ietjenkins.pic.philips.com:8080/job/E2E_Tests/job/E2E_Android_${
+//                        jobBranchName
+//                    }/buildWithParameters?APKPATH=$APK_NAME
+//                      """
+//
+//                }
+//            }
+//        }
 
-                    def jobBranchName = "release_platform_1805"
-                    if (BranchName =~ /develop.*/) {
-                        jobBranchName = "develop"
-                    }
-                    echo "BranchName changed to ${jobBranchName}"
 
-                    sh """#!/bin/bash -le
-                          curl -X POST curl -X POST http://pil.ietjenkins.pic.philips.com:8080/job/E2E_Tests/job/E2E_Android_${
-                        jobBranchName
-                    }/buildWithParameters?APKPATH=$APK_NAME
-                      """
-
-                }
-            }
-        }
 
 //        stage('LeakCanary E2E Test') {
 //            when {
 //                allOf {
 //                    expression { return params.buildType == 'LeakCanary' }
+//                    not { expression { return params.buildType == 'TICS' } }
 //                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
 //                }
 //            }
@@ -518,7 +544,7 @@ def BuildHPFortify() {
         echo "*** sourceanalyzer -b 001 -scan -f results.fpr ***"
         sourceanalyzer -b 001 -scan -f results.fpr
         echo "*** fortifyclient -url https://fortify.philips.com/ssc ***"
-        fortifyclient -url https://fortify.philips.com/ssc -authtoken b7f82273-bec3-4cbf-a2df-539274e37cca uploadFPR -file results.fpr -project CDPP_CoCo -version plf_android
+        fortifyclient -url https://fortify.philips.com/ssc -authtoken ea532fe0-0cc0-4111-9c9c-f8e5425c78b1 uploadFPR -file results.fpr -project EMS -version PR_Android
     '''
 }
 

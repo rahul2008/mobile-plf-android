@@ -18,7 +18,19 @@ buildscript {
         //classpath builddeps.cdpSCM
     }
 }
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
 
+task zipDocuments(type: Zip) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
 android {
     signingConfigs {
         release
