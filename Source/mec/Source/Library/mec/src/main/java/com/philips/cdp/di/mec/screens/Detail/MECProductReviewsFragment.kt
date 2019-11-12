@@ -8,16 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
+import com.philips.cdp.di.mec.screens.MecBaseFragment
 
 /**
  * A simple [Fragment] subclass.
  */
-class MECProductReviewsFragment : Fragment() {
+class MECProductReviewsFragment : MecBaseFragment() {
+
+    private lateinit var binding: MecProductReviewFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.mec_product_review_fragment, container, false)
+        binding = MecProductReviewFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
 

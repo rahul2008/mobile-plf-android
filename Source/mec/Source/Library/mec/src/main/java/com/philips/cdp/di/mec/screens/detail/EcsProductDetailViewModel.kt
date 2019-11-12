@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.screens.detail
+package com.philips.cdp.di.mec.screens.Detail
 
 import android.arch.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.model.products.ECSProduct

@@ -1,6 +1,4 @@
-package com.philips.cdp.di.mec.screens.detail
-
-
+package com.philips.cdp.di.mec.screens.Detail
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -28,7 +26,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var mecProduct: MECProduct
-    private lateinit var mecProductDetail:MECProductDetail
+    private lateinit var mecProductDetail: MECProductDetail
 
     private val RTP = 1
     private val APP = 2
@@ -75,7 +73,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
+        setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
     }
 
     override fun onStart() {

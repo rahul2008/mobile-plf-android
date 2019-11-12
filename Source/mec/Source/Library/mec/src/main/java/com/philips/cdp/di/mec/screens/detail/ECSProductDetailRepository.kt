@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.screens.detail
+package com.philips.cdp.di.mec.screens.Detail
 
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
