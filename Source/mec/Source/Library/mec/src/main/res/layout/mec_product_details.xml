@@ -75,9 +75,10 @@
                     android:id="@+id/mec_retailerItem_productName_lebel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/mecCentralesansBoldFont"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:text="Avance Collection Blender with high speed"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -114,7 +115,8 @@
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_retailerItem_ctn_lebel"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="16dp"
+                    android:textSize="12sp"
                     android:layout_marginTop="@dimen/iap_margin_4dp"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:text="Philips 65PUS8901"/>
@@ -122,7 +124,8 @@
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_out_of_stock"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
+                    android:textSize="12sp"
                     android:layout_gravity="right"
                     android:layout_marginTop="@dimen/iap_margin_4dp"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
@@ -133,21 +136,19 @@
             <android.support.design.widget.TabLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabBackground="@drawable/tab_selector"
-                android:background="@color/colorPrimary"
-                app:tabSelectedTextColor="?attr/uidContentItemTertiaryNormalTextColor"
-                app:tabTextColor="@android:color/white"
+                style="@style/MecTabStyle"
+                app:tabTextAppearance="@style/CustomTextAppearanceTab"
                 android:layout_below="@+id/mec_retailerItem_product_layout">
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Info"/>
+                    android:text="@string/mec_info"/>
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reviews"/>
+                    android:text="@string/mec_reviews"/>
 
             </android.support.design.widget.TabLayout>
 
