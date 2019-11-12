@@ -25,7 +25,7 @@ import java.util.*
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
-    private lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
+    lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var mecProduct: MECProduct
     private lateinit var mecProductDetail:MECProductDetail
@@ -89,7 +89,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     open fun executeRequest(){
-        createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
+        createCustomProgressBar(container, MEDIUM)
         val ecsProduct = ECSProduct()
         ecsProduct.code = mecProduct.code
         ecsProductDetailViewModel.getProductDetail(ecsProduct)

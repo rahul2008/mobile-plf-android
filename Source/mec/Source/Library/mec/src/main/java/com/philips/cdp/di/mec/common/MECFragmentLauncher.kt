@@ -13,6 +13,8 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
+import com.philips.cdp.di.mec.screens.detail.MECDirectHybrisProductDetailsFragment
+import com.philips.cdp.di.mec.screens.detail.MECDirectRetailerProductDetailsFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -76,9 +78,16 @@ class MECFragmentLauncher : MecBaseFragment(){
             MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW -> {
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW -> {
-                fragment = MECProductDetailsFragment()
+
+                fragment = MECDirectHybrisProductDetailsFragment()
+                val ctn = bundle?.getString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL,"UNKNOWN")
+
+                if(!isHybris){
+                    fragment = MECDirectRetailerProductDetailsFragment()
+                }
             }
             MECLaunchInput.MECFlows.MEC_BUY_DIRECT_VIEW -> {
+
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW -> {
 
@@ -95,13 +104,13 @@ class MECFragmentLauncher : MecBaseFragment(){
                     }
 
                 }
-                fragment.arguments = bundle
+
             }
             else -> {
                 fragment = MECProductCatalogFragment().createInstance(Bundle())
-                fragment.arguments = bundle
             }
         }
+        fragment?.arguments = bundle
         return fragment
      }
 

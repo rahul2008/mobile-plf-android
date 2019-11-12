@@ -3,6 +3,7 @@
 
     <data>
 
+
         <variable
             name="fragment"
             type="com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment" />
@@ -11,9 +12,6 @@
             name="detail"
             type="com.philips.cdp.di.mec.screens.detail.MECProductDetail" />
 
-       <!-- <variable
-            name="ecsProduct"
-            type="com.philips.cdp.di.ecs.model.products.ECSProduct" />-->
     </data>
 
 <RelativeLayout
