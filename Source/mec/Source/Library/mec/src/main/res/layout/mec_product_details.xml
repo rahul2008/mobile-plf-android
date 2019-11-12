@@ -159,6 +159,28 @@
         </RelativeLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_margin="16dp"
+        >
+        <com.philips.platform.uid.view.widget.ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/mec_view_retailers"
+            />
+
+        <com.philips.platform.uid.view.widget.ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/mec_add_to_cart"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>
 </layout>
