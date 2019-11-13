@@ -19,6 +19,7 @@ import com.philips.cdp.di.mec.screens.Detail.TabPagerAdapter
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.uid.view.widget.Button
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
@@ -38,13 +39,12 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            mec_find_retailer_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
-            mec_add_to_cart_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
+            setButtonIcon(mec_find_retailer_button,getCartIcon())
+            setButtonIcon(mec_add_to_cart_button,getCartIcon())
             hideProgressBar()
         }
 
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -140,12 +140,19 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         tabs_main.setupWithViewPager(viewpager_main)*/
     }
 
-    fun getEmailIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.ic_email_icon, context!!.theme)
-    }
 
     fun getCartIcon(): Drawable? {
         return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
     }
+
+    private fun setButtonIcon(button: Button, drawable: Drawable?){
+        var mutateDrawable = drawable
+        if (drawable != null) {
+            mutateDrawable = drawable.constantState!!.newDrawable().mutate()
+        }
+        button.setImageDrawable(mutateDrawable)
+    }
+
+
 
 }
