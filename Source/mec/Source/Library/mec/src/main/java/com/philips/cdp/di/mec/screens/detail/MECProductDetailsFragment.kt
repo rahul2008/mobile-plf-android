@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 
@@ -17,6 +16,7 @@ import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProduct
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.platform.uid.view.widget.Button
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.util.*
@@ -48,8 +48,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
             mecProductDetail = MECProductDetail(fetchImageUrlsFromPRXAssets,mecProduct.name,mecProduct.code)
             binding.detail = mecProductDetail
-            mec_find_retailer_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
-            mec_add_to_cart_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
+            setButtonIcon(mec_find_retailer_button,getCartIcon())
+            setButtonIcon(mec_add_to_cart_button,getCartIcon())
             hideProgressBar()
         }
 
@@ -152,13 +152,18 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             else -> return -1
         }
     }
-
-    fun getEmailIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.ic_email_icon, context!!.theme)
-    }
+    
 
     fun getCartIcon(): Drawable? {
         return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
+    }
+
+    private fun setButtonIcon(button: Button, drawable: Drawable?){
+        var mutateDrawable = drawable
+        if (drawable != null) {
+            mutateDrawable = drawable.constantState!!.newDrawable().mutate()
+        }
+        button.setImageDrawable(mutateDrawable)
     }
 
 }
