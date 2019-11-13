@@ -313,7 +313,23 @@ public class RegistrationRequest extends PrxRequest {
         attributes.setSerialNumber(getSerialNumber());
         attributes.setPurchased(purchaseDate(getPurchaseDate()));
         attributes.setMicrositeId(Integer.parseInt(PRUiHelper.getInstance().getAppInfraInstance().getAppIdentity().getMicrositeId()));
-        attributes.setLocale(PRUiHelper.getInstance().getLocale());
+
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(serviceID);
+        PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
+                getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+                    @Override
+                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                        String locale = urlMap.get(serviceID).getLocale();
+                        attributes.setLocale(locale);
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        ProdRegLogger.i("Product Registration Request", "error :" + error.toString() + ":  message : " + message);
+                    }
+                },null);
+
         data.setAttributes(attributes);
 
         registrationRequestBody.setData(data);
