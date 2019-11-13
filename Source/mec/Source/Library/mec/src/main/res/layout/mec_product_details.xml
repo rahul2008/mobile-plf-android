@@ -5,11 +5,15 @@
 
         <variable
             name="fragment"
-            type="com.philips.cdp.di.mec.screens.Detail.MECProductDetailsFragment" />
+            type="com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment" />
 
         <variable
             name="detail"
-            type="com.philips.cdp.di.mec.screens.Detail.MECProductDetail" />
+            type="com.philips.cdp.di.mec.screens.detail.MECProductDetail" />
+
+        <variable
+            name="product"
+            type="com.philips.cdp.di.ecs.model.products.ECSProduct" />
     </data>
 
 <RelativeLayout

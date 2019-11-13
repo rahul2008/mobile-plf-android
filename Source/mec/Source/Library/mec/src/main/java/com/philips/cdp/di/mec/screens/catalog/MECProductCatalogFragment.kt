@@ -24,7 +24,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
-import com.philips.cdp.di.mec.screens.Detail.MECProductDetailsFragment
+import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
