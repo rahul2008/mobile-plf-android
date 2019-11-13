@@ -5,10 +5,11 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
+import java.util.*
 
 class ECSProductDetailRepository {
 
-    fun getProductDetail(ecsProduct: ECSProduct , ecsProductDetailViewModel: EcsProductDetailViewModel){
+    fun getProductDetail(ecsProduct: ECSProduct, ecsProductDetailViewModel: EcsProductDetailViewModel){
 
         val eCSServices = MecHolder.INSTANCE.eCSServices
 
@@ -24,4 +25,5 @@ class ECSProductDetailRepository {
             }
         })
     }
+
 }
