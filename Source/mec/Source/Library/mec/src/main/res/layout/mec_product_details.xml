@@ -166,17 +166,27 @@
         android:orientation="horizontal"
         android:layout_margin="16dp"
         >
-        <com.philips.platform.uid.view.widget.ImageButton
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDDefaultButton.UIDImageTextButton"
+            android:id="@+id/mec_find_retailer_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
             android:layout_weight="1"
+            app:uidComponentType="Secondary"
             android:text="@string/mec_view_retailers"
+
             />
 
-        <com.philips.platform.uid.view.widget.ImageButton
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDDefaultButton.UIDImageTextButton"
+            android:id="@+id/mec_add_to_cart_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:layout_marginLeft="2dp"
             android:layout_weight="1"
+            app:uidComponentType="Primary"
             android:text="@string/mec_add_to_cart"
             />
 
