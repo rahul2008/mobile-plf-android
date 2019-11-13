@@ -12,12 +12,4 @@ class EcsProductDetailViewModel : ErrorViewModel() {
         ECSProductDetailRepository().getProductDetail(ecsProduct,this)
     }
 
-    fun getProductDetailForCtn(ctn:String){
-        ECSProductDetailRepository().getProductDetailForCtn(ctn,this)
-    }
-
-    fun getRetailerProductDetailForCtn(ctn:String){
-        ECSProductDetailRepository().getRetailerProductDetailForCtn(ctn,this)
-    }
-
 }

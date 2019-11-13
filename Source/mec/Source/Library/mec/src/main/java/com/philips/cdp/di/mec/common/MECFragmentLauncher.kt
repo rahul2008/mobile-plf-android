@@ -6,26 +6,44 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.integration.MECLaunchInput
-import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
+import com.philips.cdp.di.mec.screens.catalog.MECProduct
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
-import com.philips.cdp.di.mec.screens.detail.MECDirectHybrisProductDetailsFragment
-import com.philips.cdp.di.mec.screens.detail.MECDirectRetailerProductDetailsFragment
+import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECFragmentLauncher : MecBaseFragment(){
 
-    lateinit var ecsConfigViewModel: EcsConfigViewModel
+    lateinit var ecsLauncherViewModel: EcsLauncherViewModel
 
-    val isHybrisObserver : Observer<Boolean> = object :Observer<Boolean>{
+    private val isHybrisObserver : Observer<Boolean> = object :Observer<Boolean>{
         override fun onChanged(result: Boolean?) {
             hideProgressBar()
             launchMECasFragment(landingFragment, result!!)
+        }
+
+    }
+
+    private val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
+
+        override fun onChanged(ecsProduct: ECSProduct?) {
+
+            val mecProductDetailsFragment = MECProductDetailsFragment()
+
+            val mecProduct = MECProduct(ecsProduct!!.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle)
+
+            val bundle = Bundle()
+            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,mecProduct)
+            mecProductDetailsFragment.arguments = bundle
+
+            mecProductDetailsFragment?.let { replaceFragment(it,"asd",false) }
+            hideProgressBar()
         }
 
     }
@@ -36,10 +54,11 @@ class MECFragmentLauncher : MecBaseFragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        ecsConfigViewModel = ViewModelProviders.of(this).get(EcsConfigViewModel::class.java)
+        ecsLauncherViewModel = ViewModelProviders.of(this).get(EcsLauncherViewModel::class.java)
 
-        ecsConfigViewModel.isHybris.observe(this, isHybrisObserver)
-        ecsConfigViewModel.mecError.observe(this,this)
+        ecsLauncherViewModel.isHybris.observe(this, isHybrisObserver)
+        ecsLauncherViewModel.mecError.observe(this,this)
+        ecsLauncherViewModel.ecsProduct.observe(this,productObserver)
 
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }
@@ -59,7 +78,7 @@ class MECFragmentLauncher : MecBaseFragment(){
 
     private fun executeConfigRequest() {
         createCustomProgressBar(container, BIG)
-        ecsConfigViewModel.isHybris()
+        ecsLauncherViewModel.isHybris()
     }
 
 
@@ -79,11 +98,14 @@ class MECFragmentLauncher : MecBaseFragment(){
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW -> {
 
-                fragment = MECDirectHybrisProductDetailsFragment()
+                createCustomProgressBar(container, BIG)
+
                 val ctn = bundle?.getString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL,"UNKNOWN")
 
-                if(!isHybris){
-                    fragment = MECDirectRetailerProductDetailsFragment()
+                if(isHybris){
+                    ecsLauncherViewModel.getProductDetailForCtn(ctn!!)
+                }else{
+                    ecsLauncherViewModel.getRetailerProductDetailForCtn(ctn!!)
                 }
             }
             MECLaunchInput.MECFlows.MEC_BUY_DIRECT_VIEW -> {

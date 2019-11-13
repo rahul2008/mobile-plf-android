@@ -26,36 +26,4 @@ class ECSProductDetailRepository {
         })
     }
 
-    fun getProductDetailForCtn(ctn: String, ecsProductDetailViewModel: EcsProductDetailViewModel) {
-
-        val eCSServices = MecHolder.INSTANCE.eCSServices
-
-        eCSServices.fetchProduct(ctn,object:ECSCallback<ECSProduct,Exception>{
-            override fun onResponse(result: ECSProduct) {
-                getProductDetail(result,ecsProductDetailViewModel)
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsProductDetailViewModel.mecError.value = mecError
-            }
-        })
-    }
-
-    fun getRetailerProductDetailForCtn(ctn: String, ecsProductDetailViewModel: EcsProductDetailViewModel) {
-
-        val eCSServices = MecHolder.INSTANCE.eCSServices
-
-        eCSServices.fetchProductSummaries(Arrays.asList(ctn),object:ECSCallback<List<ECSProduct>,Exception>{
-            override fun onResponse(result: List<ECSProduct>) {
-                getProductDetail(result.get(0),ecsProductDetailViewModel)
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsProductDetailViewModel.mecError.value = mecError
-            }
-        })
-
-    }
 }
