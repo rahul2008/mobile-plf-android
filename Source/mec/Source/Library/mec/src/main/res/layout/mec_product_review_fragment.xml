@@ -5,7 +5,7 @@
 
         <variable
             name="fragment"
-            type="com.philips.cdp.di.mec.screens.Detail.MECProductReviewsFragment" />
+            type="com.philips.cdp.di.mec.screens.detail.MECProductReviewsFragment" />
     </data>
 
     <RelativeLayout

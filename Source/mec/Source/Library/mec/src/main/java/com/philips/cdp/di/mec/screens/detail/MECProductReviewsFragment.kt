@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.screens.Detail
+package com.philips.cdp.di.mec.screens.detail
 
 
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 

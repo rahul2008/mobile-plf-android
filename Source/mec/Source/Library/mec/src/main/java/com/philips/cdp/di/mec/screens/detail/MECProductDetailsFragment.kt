@@ -1,13 +1,14 @@
-package com.philips.cdp.di.mec.screens.Detail
+package com.philips.cdp.di.mec.screens.detail
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 
@@ -29,7 +30,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var mecProduct: MECProduct
     private lateinit var mecProductDetail: MECProductDetail
-    lateinit var adapter: SlidingPagerAdapter
 
     private val RTP = 1
     private val APP = 2
@@ -48,7 +48,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
             mecProductDetail = MECProductDetail(fetchImageUrlsFromPRXAssets,mecProduct.name,mecProduct.code)
             binding.detail = mecProductDetail
-
+            mec_find_retailer_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
+            mec_add_to_cart_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
             hideProgressBar()
         }
 
@@ -65,24 +66,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         binding.indicator.viewPager = binding.pager
 
-        adapter = SlidingPagerAdapter(fragmentManager)
-        binding.viewpager.adapter = adapter
-
-        binding.viewpager.offscreenPageLimit = 1
-        binding.tabLayout.setupWithViewPager(binding.viewpager)
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                binding.viewpager.currentItem = tab!!.position
-            }
-
-        })
 
         val bundle = arguments
         mecProduct = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as MECProduct
@@ -169,6 +152,14 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             "PID" -> return PID
             else -> return -1
         }
+    }
+
+    fun getEmailIcon(): Drawable? {
+        return VectorDrawableCompat.create(resources, R.drawable.ic_email_icon, context!!.theme)
+    }
+
+    fun getCartIcon(): Drawable? {
+        return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
     }
 
 }
