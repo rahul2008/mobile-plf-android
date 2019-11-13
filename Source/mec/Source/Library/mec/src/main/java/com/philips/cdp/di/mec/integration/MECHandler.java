@@ -48,17 +48,6 @@ class MECHandler {
         }
     }
 
-    protected boolean verifyInput() {
-        int landingScreen = mLaunchInput.mLandingView;
-        if (landingScreen == MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW
-                && (mLaunchInput.mMECFlowInput == null || mLaunchInput.mMECFlowInput.getProductCTNs() == null ||
-                (mLaunchInput.mMECFlowInput.getProductCTNs() != null && mLaunchInput.mMECFlowInput.getProductCTNs().size() == 0))) {
-            mLaunchInput.getMecListener().onFailure(MECConstant.INSTANCE.getMEC_ERROR_INVALID_CTN());
-            return false;
-        }
-        return true;
-    }
-
 
     protected void launchMECasActivity() {
         Intent intent = new Intent(mMECSetting.getContext(), MECLauncherActivity.class);
@@ -72,11 +61,8 @@ class MECHandler {
     }
 
     protected void launchMECasFragment() {
-
-
         FragmentLauncher fragmentLauncher = (FragmentLauncher) mUiLauncher;
         Bundle bundle =  getBundle();
-      //  bundle.putSerializable("LaunchInput", (UappLaunchInput) mLaunchInput);
         bundle.putInt("fragment_container", fragmentLauncher.getParentContainerResourceID()); // frame_layout for fragment
         loadDecisionFragment(bundle);
 
@@ -100,7 +86,7 @@ class MECHandler {
         Bundle mBundle = new Bundle();
         if (mLaunchInput.mMECFlowInput != null) {
             if (mLaunchInput.mMECFlowInput.getProductCTN() != null) {
-                mBundle.putString(MECConstant.INSTANCE.getMEC_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL(),
+                mBundle.putString(MECConstant.INSTANCE.getMEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL(),
                         mLaunchInput.mMECFlowInput.getProductCTN());
             }
             if (mLaunchInput.mMECFlowInput.getProductCTNs() != null) {
