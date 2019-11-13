@@ -4,7 +4,6 @@ import android.arch.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.common.ecsService.ECSLauncherRepository
-import com.philips.cdp.di.mec.screens.detail.ECSProductDetailRepository
 
 class EcsLauncherViewModel : ErrorViewModel() {
 

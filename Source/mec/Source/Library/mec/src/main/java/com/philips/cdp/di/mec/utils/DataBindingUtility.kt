@@ -7,8 +7,8 @@ import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
-import com.philips.cdp.di.mec.screens.detail.ImageAdapter
-import com.philips.cdp.di.mec.screens.detail.MECAsset
+import com.philips.cdp.di.mec.screens.Detail.ImageAdapter
+import com.philips.cdp.di.mec.screens.Detail.MECAsset
 
 class DataBindingUtility {
 

@@ -7,7 +7,6 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.common.EcsLauncherViewModel
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
-import com.philips.cdp.di.mec.screens.detail.EcsProductDetailViewModel
 import java.util.*
 
 class ECSLauncherRepository {
