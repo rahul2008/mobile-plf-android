@@ -2,9 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <!--<variable
+            name="product"
+            type="com.philips.cdp.di.mec.screens.catalog.MECProduct" />-->
+
         <variable
             name="product"
-            type="com.philips.cdp.di.mec.screens.catalog.MECProduct" />
+            type="com.philips.cdp.di.ecs.model.products.ECSProduct" />
+
     </data>
 
 
@@ -27,7 +32,7 @@
                 android:layout_height="@dimen/iap_network_image_width_height"
                 android:layout_marginEnd="@dimen/border12_margin"
                 android:tooltipText="@{ product.name}"
-                app:image_url="@{ product.imageUrl}" />
+                app:image_url="@{ product.summary.imageURL}" />
 
 
             <ImageView
@@ -109,7 +114,7 @@
             android:layout_gravity="right"
             android:layout_marginTop="@dimen/iap_margin_4dp"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:text="@{ product.price}"
+            android:text="@{ product.price.formattedValue}"
             android:textSize="16sp" />
 
 

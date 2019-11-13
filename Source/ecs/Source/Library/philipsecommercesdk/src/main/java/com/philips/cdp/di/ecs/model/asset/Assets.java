@@ -7,6 +7,7 @@ package com.philips.cdp.di.ecs.model.asset;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.philips.cdp.di.ecs.util.PRXAssetFilter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class Assets implements Serializable {
      * The asset
      */
     public List<Asset> getAsset() {
-        return asset;
+        return new PRXAssetFilter().getValidPRXAssets(asset);
     }
 
     /**
