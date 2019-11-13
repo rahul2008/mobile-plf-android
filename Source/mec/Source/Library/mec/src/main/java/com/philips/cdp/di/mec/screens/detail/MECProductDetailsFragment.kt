@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.Detail
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProduct
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
+import kotlinx.android.synthetic.main.mec_product_details.*
 import java.util.*
 
 /**
@@ -27,6 +29,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var mecProduct: MECProduct
     private lateinit var mecProductDetail: MECProductDetail
+    lateinit var adapter: SlidingPagerAdapter
 
     private val RTP = 1
     private val APP = 2
@@ -61,6 +64,25 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel.mecError.observe(this,this)
 
         binding.indicator.viewPager = binding.pager
+
+        adapter = SlidingPagerAdapter(fragmentManager)
+        binding.viewpager.adapter = adapter
+
+        binding.viewpager.offscreenPageLimit = 1
+        binding.tabLayout.setupWithViewPager(binding.viewpager)
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                binding.viewpager.currentItem = tab!!.position
+            }
+
+        })
 
         val bundle = arguments
         mecProduct = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as MECProduct
