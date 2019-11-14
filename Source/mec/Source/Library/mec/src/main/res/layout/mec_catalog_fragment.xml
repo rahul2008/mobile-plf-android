@@ -4,9 +4,10 @@
 
     <data>
 
-    <variable
+        <variable
         name="fragment"
         type="com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment" />
+
     </data>
 
 <RelativeLayout

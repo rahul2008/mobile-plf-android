@@ -4,9 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 
-abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<MECProduct>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
+abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<ECSProduct>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
 
     val originalList = items
 
@@ -19,7 +20,7 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
     override fun getFilter(): Filter {
 
-        var filteredList :MutableList<MECProduct> = mutableListOf()
+        var filteredList :MutableList<ECSProduct> = mutableListOf()
 
         return object:Filter(){
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -43,7 +44,7 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                items = results?.values as MutableList<MECProduct>
+                items = results?.values as MutableList<ECSProduct>
                 notifyDataSetChanged()
             }
 

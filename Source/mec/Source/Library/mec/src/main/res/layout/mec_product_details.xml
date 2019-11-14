@@ -7,9 +7,6 @@
             name="fragment"
             type="com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment" />
 
-        <variable
-            name="detail"
-            type="com.philips.cdp.di.mec.screens.detail.MECProductDetail" />
 
         <variable
             name="product"
@@ -54,7 +51,7 @@
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/iap_product_detail_image_height"
-                    app:assets="@{detail.assets}"/>
+                    app:assets="@{product.assets.asset}"/>
             </FrameLayout>
 
             <com.philips.platform.uid.view.widget.DotNavigationIndicator
@@ -81,7 +78,7 @@
                     android:layout_height="wrap_content"
                     style="@style/mecCentralesansBoldFont"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                    android:text="@{detail.productTitle}"
+                    android:text="@{product.summary.productTitle}"
                     android:textSize="20sp" />
 
                 <LinearLayout
@@ -123,7 +120,7 @@
                     android:textSize="12sp"
                     android:layout_marginTop="@dimen/iap_margin_4dp"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                    android:text="@{detail.productCTN}"/>
+                    android:text="@{product.code}"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_out_of_stock"
@@ -183,7 +180,6 @@
             android:id="@+id/mec_add_to_cart_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginLeft="2dp"
             android:layout_weight="1"
             app:uidComponentType="Primary"

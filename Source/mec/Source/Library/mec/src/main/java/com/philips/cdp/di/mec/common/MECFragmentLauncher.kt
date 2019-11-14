@@ -12,7 +12,6 @@ import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
-import com.philips.cdp.di.mec.screens.catalog.MECProduct
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -36,10 +35,8 @@ class MECFragmentLauncher : MecBaseFragment(){
 
             val mecProductDetailsFragment = MECProductDetailsFragment()
 
-            val mecProduct = MECProduct(ecsProduct!!.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle)
-
             val bundle = Bundle()
-            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,mecProduct)
+            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
             mecProductDetailsFragment.arguments = bundle
 
             mecProductDetailsFragment?.let { replaceFragment(it,"asd",false) }

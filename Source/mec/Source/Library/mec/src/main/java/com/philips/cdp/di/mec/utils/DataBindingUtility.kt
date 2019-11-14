@@ -5,10 +5,10 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
+import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.screens.detail.ImageAdapter
-import com.philips.cdp.di.mec.screens.detail.MECAsset
 
 class DataBindingUtility {
 
@@ -31,9 +31,10 @@ class DataBindingUtility {
 
         @JvmStatic
         @BindingAdapter("assets")
-        fun setAdapter(pager: ViewPager,assets :List<MECAsset>) {
+        fun setAdapter(pager: ViewPager,assets :List<Asset>) {
             pager.adapter = ImageAdapter(assets)
         }
     }
+
 
 }

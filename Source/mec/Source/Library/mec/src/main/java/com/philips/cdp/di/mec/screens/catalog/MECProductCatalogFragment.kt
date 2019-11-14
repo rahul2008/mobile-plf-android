@@ -22,6 +22,7 @@ import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
 import android.widget.RelativeLayout
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
@@ -39,9 +40,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     override fun onItemClick(item: Object) {
 
-        val mecProduct = item as MECProduct
+        val ecsProduct = item as ECSProduct
         val bundle = Bundle()
-        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,mecProduct)
+        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
 
         val fragment = MECProductDetailsFragment()
         fragment.arguments = bundle
@@ -70,7 +71,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
             currentPage = ecsProductsList?.get(ecsProductsList.size-1)?.pagination?.currentPage ?: 0
 
-            mecProductList.clear()
+            productList.clear()
 
         if (ecsProductsList != null) {
             binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
@@ -79,7 +80,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             for (ecsProducts in ecsProductsList) {
 
                 for (ecsProduct in ecsProducts.products) {
-                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.price.formattedValue, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
+                    productList.add(ecsProduct)
                 }
             }
         } else{
@@ -98,7 +99,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     lateinit var ecsProductViewModel: EcsProductViewModel
 
 
-    lateinit var mecProductList: MutableList<MECProduct>
+    lateinit var productList: MutableList<ECSProduct>
 
     private lateinit var binding: MecCatalogFragmentBinding
 
@@ -122,7 +123,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.mecGrid.setOnClickListener {
             binding.mecGrid.setBackgroundColor(Color.parseColor("#DCDCDC"))
             binding.mecList.setBackgroundColor(Color.parseColor("#ffffff"))
-            adapter = MECProductCatalogGridAdapter(mecProductList,this)
+            adapter = MECProductCatalogGridAdapter(productList,this)
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
             binding.productCatalogRecyclerView.adapter = adapter
             binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
@@ -136,13 +137,13 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.mecList.setOnClickListener {
             binding.mecList.setBackgroundColor(Color.parseColor("#DCDCDC"))
             binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
-            adapter = MECProductCatalogListAdapter(mecProductList,this)
+            adapter = MECProductCatalogListAdapter(productList,this)
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             binding.productCatalogRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
         }
 
-        mecProductList = mutableListOf<MECProduct>()
+        productList = mutableListOf<ECSProduct>()
 
         binding.mecSearchBox.setSearchBoxHint("Search")
         binding.mecSearchBox.setDecoySearchViewHint("Search")
@@ -200,7 +201,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = MECProductCatalogListAdapter(mecProductList,this)
+        adapter = MECProductCatalogListAdapter(productList,this)
 
         binding.productCatalogRecyclerView.adapter = adapter
 

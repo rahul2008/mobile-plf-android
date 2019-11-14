@@ -3,9 +3,10 @@
 
     <data>
         <import type="android.view.View" />
+
         <variable
             name="product"
-            type="com.philips.cdp.di.mec.screens.catalog.MECProduct" />
+            type="com.philips.cdp.di.ecs.model.products.ECSProduct" />
     </data>
 
 
@@ -29,7 +30,7 @@
                 android:layout_width="@dimen/iap_network_image_width_height"
                 android:layout_height="@dimen/iap_network_image_width_height"
                 android:layout_centerHorizontal="true"
-                app:image_url="@{ product.imageUrl}" />
+                app:image_url="@{ product.summary.imageURL}" />
 
 
             <ImageView
@@ -114,7 +115,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text="@{ product.price}"
+                android:text="@{ product.price.formattedValue}"
                 android:textSize="16sp" />
             </RelativeLayout>
 
