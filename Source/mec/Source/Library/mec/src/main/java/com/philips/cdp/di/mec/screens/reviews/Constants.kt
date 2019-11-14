@@ -3,7 +3,7 @@ package com.philips.cdp.di.mec.screens.reviews
 import com.bazaarvoice.bvandroidsdk.BazaarEnvironment
 
 object Constants {
-    val PRODUCT_ID = "S5420_06"
+    val PRODUCT_ID = "HD9940_00"
     val BAZAAR_ENVIRONMENT = BazaarEnvironment.PRODUCTION
     val USER_NICKNAME = "Ranjitha"
     val REVIEW_TITLE = "Ranjitha review title"

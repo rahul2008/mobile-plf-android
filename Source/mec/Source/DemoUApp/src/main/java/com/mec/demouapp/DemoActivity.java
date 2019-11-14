@@ -526,7 +526,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view == mShopNow) {
             launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
-
+            launchMEC(MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
             launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW, null, null);
 

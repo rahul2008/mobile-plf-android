@@ -87,7 +87,6 @@
                     android:layout_weight="1"
                     android:numStars="1"
                     style="?android:attr/ratingBarStyleSmall"
-                    android:isIndicator="false"
                     android:theme="@style/RatingBar"/>
 
                 <com.philips.platform.uid.view.widget.Label

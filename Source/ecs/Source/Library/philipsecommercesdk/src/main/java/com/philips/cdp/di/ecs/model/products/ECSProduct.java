@@ -63,6 +63,10 @@ public class ECSProduct implements Serializable {
         return code;
     }
 
+    public String getCodeForBazaarVoice(){
+        return this.code.replace("/","_");
+    }
+
     public DiscountPriceEntity getDiscountPrice() {
         return discountPrice;
     }

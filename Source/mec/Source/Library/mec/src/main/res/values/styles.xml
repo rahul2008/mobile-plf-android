@@ -369,8 +369,8 @@
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">#FF4500</item>
-        <item name="colorControlActivated">?attr/uidContentItemTertiaryNormalTextColor</item>
+        <item name="colorControlNormal">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="colorControlActivated">#D2691E</item>
     </style>
 
     <style name="MecTabStyle" parent="Widget.Design.TabLayout">
