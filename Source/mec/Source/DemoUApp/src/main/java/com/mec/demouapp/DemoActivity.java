@@ -338,10 +338,11 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         if (!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())) {
         }
         mMecLaunchInput.setMecListener(this);
-        if (isToggleListener) {
-        } else {
-        }
-        //displayUIOnCartVisible();
+
+
+            mMecLaunchInput.mecBannerEnabler = this::getBannerView;
+
+
     }
 
     /*private void displayUIOnCartVisible() {
@@ -470,7 +471,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 if (isClickable())
-                    launchMEC(MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW, null, null);
+                    launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_SHOPPING_CART_VIEW(), null, null);
             }
         });
     }
@@ -524,16 +525,16 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         if (view == mShoppingCart) {
 
         } else if (view == mShopNow) {
-            launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, null, null);
+            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), null, null);
         } else if (view == mPurchaseHistory) {
-
+            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PURCHASE_HISTORY_VIEW(), null, null);
         } else if (view == mLaunchProductDetail) {
-            launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW, null, null);
+            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), null, null);
 
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList);
-                launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, input, null);
+                launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
             } else {
                 Toast.makeText(DemoActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
@@ -791,12 +792,11 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public View getBannerView() {
-        if (isBannerEnabled) {
+
             LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.banner_view, null);
             return v;
-        }
-        return null;
+
     }
 
     boolean isUserLoggedIn(){

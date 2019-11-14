@@ -144,7 +144,8 @@ dependencies {
 
     // Tests
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.bazaarvoice.bvandroidsdk:conversations:5.0.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.bazaarvoice.bvandroidsdk:conversations:7.0.0'
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.powermock_api_mockito
