@@ -214,10 +214,11 @@
             android:id="@+id/mec_find_retailer_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="1dp"
             android:layout_weight="1"
             app:uidComponentType="Secondary"
             android:text="@string/mec_view_retailers"
+            android:textSize="14sp"
 
             />
 
@@ -226,10 +227,11 @@
             android:id="@+id/mec_add_to_cart_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="1dp"
             android:layout_weight="1"
             app:uidComponentType="Primary"
             android:text="@string/mec_add_to_cart"
+            android:textSize="14sp"
             />
 
     </LinearLayout>
