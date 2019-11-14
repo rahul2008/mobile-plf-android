@@ -1,0 +1,60 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/mec_retailerItem_product_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/iap_margin_10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/iap_margin_4dp">
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/mec_rating_lebel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#D2691E"
+                            android:text="4"
+                            android:textSize="@dimen/iap_product_original_price" />
+
+                        <RatingBar
+                            android:id="@+id/mec_rating"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:numStars="5"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:theme="@style/RatingBar"/>
+
+                    </LinearLayout>
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_retailerItem_productName_lebel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/mecCentralesansBoldFont"
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                        android:text="Avance Collection Blender"
+                        android:textSize="20sp" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_retailerItem_review_submitter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                        android:text="Benk"/>
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_review_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                        android:text="Good Product"/>
+
+ </LinearLayout>

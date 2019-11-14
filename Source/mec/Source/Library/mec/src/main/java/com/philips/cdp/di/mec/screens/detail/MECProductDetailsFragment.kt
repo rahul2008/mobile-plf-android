@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.products.ECSProduct
@@ -16,8 +17,10 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
+import java.text.DecimalFormat
 import java.util.*
 
 /**
@@ -46,6 +49,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
 
+        val context = inflater.context
+
+
         ecsProductDetailViewModel = ViewModelProviders.of(this).get(EcsProductDetailViewModel::class.java)
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
@@ -55,6 +61,13 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         val bundle = arguments
         product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
+
+        //val client = BVConversationsClient.Builder(BVSDK.getInstance()).build()
+        // Send Request
+        val bvClient = MECDataHolder.INSTANCE.bvClient
+        var ctns = mutableListOf(product.codeForBazaarVoice)
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.NativeReviews).build()
+        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
 
         //TODO Adding Default Asset
         var asset = Asset()
@@ -89,6 +102,27 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         val ecsProduct = ECSProduct()
         ecsProduct.code = product.code
         ecsProductDetailViewModel.getProductDetail(ecsProduct)
+    }
+
+    private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
+        override fun onSuccess(response: BulkRatingsResponse) {
+            if (response.results.isEmpty()) {
+                //Util.showMessage(this@DisplayOverallRatingActivity, "Empty results", "No ratings found for this product")
+            } else {
+                updateData(response.results)
+            }
+        }
+
+        override fun onFailure(exception: ConversationsException) {
+            //Util.showMessage(this@DisplayOverallRatingActivity, "Error occurred", Util.bvErrorsToString(exception.errors))
+        }
+    }
+
+    fun updateData(results: List<Statistics>?) {
+        if (results != null) {
+            binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
+            binding.mecRatingLebel.text =  DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
+        }
     }
 
     fun getEmailIcon(): Drawable? {

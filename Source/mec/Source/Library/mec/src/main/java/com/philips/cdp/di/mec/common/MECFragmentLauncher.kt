@@ -14,7 +14,10 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
+import com.philips.cdp.di.mec.screens.detail.MECProductReviewsFragment
+import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECFragmentLauncher : MecBaseFragment(){
@@ -57,6 +60,10 @@ class MECFragmentLauncher : MecBaseFragment(){
         ecsLauncherViewModel.mecError.observe(this,this)
         ecsLauncherViewModel.ecsProduct.observe(this,productObserver)
 
+        //TODO we can also check if SDK is already initialized
+        val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(activity?.application!!)
+        MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
+
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }
 
@@ -92,6 +99,7 @@ class MECFragmentLauncher : MecBaseFragment(){
             MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
             }
             MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW -> {
+                fragment = MECProductReviewsFragment()
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW -> {
 
