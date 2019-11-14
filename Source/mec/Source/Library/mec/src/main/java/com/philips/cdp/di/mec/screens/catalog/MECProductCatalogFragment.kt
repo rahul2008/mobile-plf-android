@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.screens.catalog
+package com. philips.cdp.di.mec.screens.catalog
 
 
 import android.arch.lifecycle.Observer
@@ -157,6 +157,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 adapter.filter.filter(s)
+
+                if(s?.length == 0){
+                    binding.llBannerPlaceHolder.visibility = View.VISIBLE
+                }else binding.llBannerPlaceHolder.visibility = View.GONE
             }
 
         })

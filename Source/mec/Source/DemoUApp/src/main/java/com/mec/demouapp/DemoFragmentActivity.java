@@ -474,7 +474,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onClick(View v) {
                 if (isClickable())
-                    launchMECasFragment(MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW, null, null);
+                    launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_SHOPPING_CART_VIEW(), null, null);
             }
         });
     }
@@ -532,7 +532,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         if (view == mShoppingCart) {
 
         } else if (view == mShopNow) {
-            launchMECasFragment(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, null, null);
+            launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), null, null);
         } else if (view == mPurchaseHistory) {
 
         } else if (view == mLaunchProductDetail) {
@@ -541,7 +541,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList);
-                launchMECasFragment(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, input, null);
+                launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
             } else {
                 Toast.makeText(DemoFragmentActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }

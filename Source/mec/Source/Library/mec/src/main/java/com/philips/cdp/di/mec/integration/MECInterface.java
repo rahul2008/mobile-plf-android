@@ -34,9 +34,6 @@ public class MECInterface implements UappInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
-
-
-
         MECHandler mecHandler = new MECHandler((MECDependencies)mUappDependencies,mMECSettings,uiLauncher,(MECLaunchInput) uappLaunchInput);
         mecHandler.launchMEC();
     }
