@@ -51,7 +51,8 @@ class MECReviewsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             title.text = String.format("%s", review.title)
             reviewBody.text = String.format("%s", review.reviewText)
             rating.text = String.format(Locale.US, "%d", review.rating)
-            authorNick.text = String.format("%s", review.userNickname + " - " +review.submissionDate)
+
+            authorNick.text = String.format("%s", review.userNickname + " - " +review.lastModificationDate)
             ratingBar.setRating((review.rating).toFloat())
 //            submissionDate.text = String.format("Submission Date: %s", review.submissionDate)
 //            pros.text = String.format("Pros: %s", review.additionalFields.get("Pros"))
