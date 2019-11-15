@@ -24,7 +24,6 @@
         android:layout_gravity="center_horizontal"
         android:paddingEnd="@dimen/border16_margin_left_right"
         android:paddingStart="@dimen/border16_margin_left_right"
-        android:paddingTop="@dimen/border24_margin"
         android:layout_marginBottom="16dp"
         android:visibility="visible">
 
@@ -38,7 +37,7 @@
                 android:id="@+id/framelayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/iap_product_detail_image_height"
-                android:layout_marginTop="@dimen/border24_margin">
+                >
 
                 <ProgressBar
                     android:id="@+id/progress_image"
@@ -184,7 +183,7 @@
                     android:layout_marginTop="8dp"
                     android:id="@+id/tabs_main"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
 
                     android:layout_below="@+id/mec_retailerItem_product_layout"
                      />
