@@ -1,13 +1,18 @@
 package com.philips.cdp.di.mec.screens.detail
+
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
+import android.text.Spannable
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
@@ -34,17 +39,19 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var product: ECSProduct
 
-    val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
+    val productObserver: Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            setButtonIcon(mec_find_retailer_button,getCartIcon())
-            setButtonIcon(mec_add_to_cart_button,getCartIcon())
+            setButtonIcon(mec_find_retailer_button, getCartIcon())
+            setButtonIcon(mec_add_to_cart_button, getCartIcon())
+            strikeDiscountedPrice()
             hideProgressBar()
         }
 
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -56,7 +63,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel = ViewModelProviders.of(this).get(EcsProductDetailViewModel::class.java)
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
-        ecsProductDetailViewModel.mecError.observe(this,this)
+        ecsProductDetailViewModel.mecError.observe(this, this)
 
         binding.indicator.viewPager = binding.pager
 
@@ -67,7 +74,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // Send Request
         val bvClient = MECDataHolder.INSTANCE.bvClient
         var ctns = mutableListOf(product.codeForBazaarVoice)
-        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","de_DE").build()
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, "en_US").addCustomDisplayParameter("Locale", "de_DE").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
         /*val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.NativeReviews).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
@@ -77,7 +84,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         asset.asset = "xyz"
         asset.type = "UNKNOWN"
 
-        var assets= Assets()
+        var assets = Assets()
         assets.asset = Arrays.asList(asset)
         product.assets = assets
 
@@ -107,11 +114,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         return super.handleBackEvent()
     }
 
-    open fun executeRequest(){
+    open fun executeRequest() {
         createCustomProgressBar(container, MEDIUM)
-        val ecsProduct = ECSProduct()
-        ecsProduct.code = product.code
-        ecsProductDetailViewModel.getProductDetail(ecsProduct)
+        ecsProductDetailViewModel.getProductDetail(product)
     }
 
     private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
@@ -131,13 +136,13 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     fun updateData(results: List<Statistics>?) {
         if (results != null) {
             binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
-            binding.mecRatingLebel.text =  DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
+            binding.mecRatingLebel.text = DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
         }
         ///////////
-      /*  val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
-        viewpager_main.adapter = fragmentAdapter
+        /*  val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
+          viewpager_main.adapter = fragmentAdapter
 
-        tabs_main.setupWithViewPager(viewpager_main)*/
+          tabs_main.setupWithViewPager(viewpager_main)*/
     }
 
 
@@ -145,7 +150,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
     }
 
-    private fun setButtonIcon(button: Button, drawable: Drawable?){
+    private fun setButtonIcon(button: Button, drawable: Drawable?) {
         var mutateDrawable = drawable
         if (drawable != null) {
             mutateDrawable = drawable.constantState!!.newDrawable().mutate()
@@ -154,5 +159,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
 
+    private fun strikeDiscountedPrice() {
+       mec_discounted_price.paintFlags = mec_discounted_price.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+    }
 
 }
