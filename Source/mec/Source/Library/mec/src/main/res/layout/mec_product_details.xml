@@ -25,6 +25,7 @@
         android:paddingEnd="@dimen/border16_margin_left_right"
         android:paddingStart="@dimen/border16_margin_left_right"
         android:paddingTop="@dimen/border24_margin"
+        android:layout_marginBottom="16dp"
         android:visibility="visible">
 
         <RelativeLayout
@@ -180,23 +181,20 @@
 
 
             <android.support.design.widget.TabLayout
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/tabs_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/mec_retailerItem_product_layout"
+                     />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/MecTabStyle"
-                app:tabTextAppearance="@style/CustomTextAppearanceTab"
-                android:layout_below="@+id/mec_retailerItem_product_layout">
+                android:layout_height="600dp"
+                android:layout_below="@+id/tabs_main"/>
 
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mec_info"/>
-
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mec_reviews"/>
-
-            </android.support.design.widget.TabLayout>
 
         </RelativeLayout>
     </ScrollView>

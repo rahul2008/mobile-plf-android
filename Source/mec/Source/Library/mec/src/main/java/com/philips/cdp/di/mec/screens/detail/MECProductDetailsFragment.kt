@@ -15,6 +15,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
+import com.philips.cdp.di.mec.screens.Detail.TabPagerAdapter
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -82,7 +83,14 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         // Ends here
         binding.product = product
+
+        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
+        binding.viewpagerMain.adapter = fragmentAdapter
+
+        binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
         return binding.root
+
+
     }
 
     override fun onResume() {
@@ -125,6 +133,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
             binding.mecRatingLebel.text =  DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
         }
+        ///////////
+      /*  val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
+        viewpager_main.adapter = fragmentAdapter
+
+        tabs_main.setupWithViewPager(viewpager_main)*/
     }
 
     fun getEmailIcon(): Drawable? {
