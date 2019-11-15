@@ -8,10 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bazaarvoice.bvandroidsdk.ConversationsDisplayCallback
-import com.bazaarvoice.bvandroidsdk.ConversationsException
-import com.bazaarvoice.bvandroidsdk.ReviewResponse
-import com.bazaarvoice.bvandroidsdk.ReviewsRequest
+import com.bazaarvoice.bvandroidsdk.*
 
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -55,8 +52,10 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
 
         val bvClient = MECDataHolder.INSTANCE.bvClient
-        val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).build()
+        val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","de_DE").addCustomDisplayParameter("FilteredStats","Reviews").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
+        /*val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).build()
+        bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
         return binding.root
     }
 
