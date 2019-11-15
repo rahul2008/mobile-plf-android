@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RatingBar
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.philips.cdp.di.ecs.model.asset.Asset
@@ -43,17 +44,6 @@ class DataBindingUtility {
 
             val mecBannerEnabler = MECDataHolder.INSTANCE.mecBannerEnabler
 
-           /* mecBannerEnabler.let {
-                it.bannerView.let {
-                    it.parent.let {
-                        val viewGroup = it as ViewGroup
-                        viewGroup.removeAllViews()
-                    }
-                    layout.addView(it)
-                    layout.visibility = View.VISIBLE
-                }
-            }*/
-
             if (mecBannerEnabler != null && mecBannerEnabler.bannerView != null) {
 
                 if (mecBannerEnabler.bannerView.parent != null) {
@@ -64,6 +54,12 @@ class DataBindingUtility {
                 layout.addView(mecBannerEnabler.bannerView)
                 layout.visibility = View.VISIBLE
             }
+        }
+
+        @JvmStatic
+        @BindingAdapter("setRating")
+        fun setRating(ratingBar: RatingBar, rating: String) {
+            ratingBar.rating = rating.toFloat()
         }
     }
 

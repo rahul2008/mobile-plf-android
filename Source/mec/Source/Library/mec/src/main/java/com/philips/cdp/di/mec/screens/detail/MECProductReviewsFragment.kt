@@ -13,25 +13,37 @@ import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.reviews.Constants
+import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
 /**
  * A simple [Fragment] subclass.
  */
 class MECProductReviewsFragment : MecBaseFragment() {
+
     private var reviewsAdapter: MECReviewsAdapter? = null
+    private lateinit var mecReviews:MutableList<MECReview>
 
     private val reviewsCb = object : ConversationsDisplayCallback<ReviewResponse> {
         override fun onSuccess(response: ReviewResponse) {
-            if (response.results.isEmpty()) {
+
+            val reviews = response.results
+
+            if (reviews.isEmpty()) {
                 //showMessage(this@DisplayReviewsActivity, "Empty results", "No reviews found for this product")
             } else {
-                reviewsAdapter!!.updateData(response.results)
+
+                for(review in reviews){
+                    mecReviews.add(MECReview(review.title,review.reviewText,review.rating.toString(),review.lastModificationDate.toString(),"pros","cons"))
+
+                }
+
+                reviewsAdapter!!.notifyDataSetChanged()
             }
         }
 
         override fun onFailure(exception: ConversationsException) {
-            //showMessage(this@DisplayReviewsActivity, "Error occurred", bvErrorsToString(exception.errors))
+
         }
     }
 
@@ -41,15 +53,15 @@ class MECProductReviewsFragment : MecBaseFragment() {
                               savedInstanceState: Bundle?): View? {
         binding = MecProductReviewFragmentBinding.inflate(inflater, container, false)
 
-        val context = inflater.context
+        mecReviews = mutableListOf<MECReview>()
 
-        reviewsAdapter = MECReviewsAdapter()
+
+        //TODO in binding
+        reviewsAdapter = MECReviewsAdapter(mecReviews)
         binding.recyclerView.adapter = reviewsAdapter
         binding.recyclerView.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-        //binding.recyclerView.layoutManager = LinearLayoutManager(context)
-
 
         val bvClient = MECDataHolder.INSTANCE.bvClient
         val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","de_DE").addCustomDisplayParameter("FilteredStats","Reviews").build()

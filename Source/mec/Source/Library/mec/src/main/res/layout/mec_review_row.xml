@@ -1,4 +1,15 @@
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="mecReview"
+            type="com.philips.cdp.di.mec.screens.reviews.MECReview" />
+
+    </data>
+
+<LinearLayout
                     android:id="@+id/mec_retailerItem_product_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -16,7 +27,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#D2691E"
-                            android:text="4"
+                            android:text="@{mecReview.rating}"
                             android:textSize="@dimen/iap_product_original_price" />
 
                         <RatingBar
@@ -25,6 +36,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:numStars="5"
+                            app:setRating="@{ mecReview.rating}"
                             style="?android:attr/ratingBarStyleSmall"
                             android:theme="@style/RatingBar"/>
 
@@ -35,8 +47,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/mecCentralesansBoldFont"
+                        android:text="@{mecReview.title}"
                         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                        android:text="Avance Collection Blender"
                         android:textSize="20sp" />
 
                     <com.philips.platform.uid.view.widget.Label
@@ -45,8 +57,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:text="@{mecReview.title}"
                         android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                        android:text="Benk"/>
+                        />
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/mec_review_description"
@@ -54,7 +67,10 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:text="@{mecReview.reviewText}"
                         android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                        android:text="Good Product"/>
+                        />
 
  </LinearLayout>
+
+</layout>
