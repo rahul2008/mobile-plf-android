@@ -18,6 +18,8 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
 
     lateinit var mecBannerEnabler: MECBannerEnabler
 
+    lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
+
 
     private var mIgnoreRetailers: ArrayList<String>? = null
     private val mFirstIgnoreRetailers = ArrayList<String>()

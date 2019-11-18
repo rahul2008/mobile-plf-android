@@ -146,6 +146,7 @@ public class ECSServices implements ECSServiceProvider {
                 }else {
                     ECSConfig hybrisConfigResponse = new ECSConfig();
                     hybrisConfigResponse.setLocale(locale);
+                    hybrisConfigResponse.setHybris(false);
                     ecsCallback.onResponse(hybrisConfigResponse);
                 }
             }

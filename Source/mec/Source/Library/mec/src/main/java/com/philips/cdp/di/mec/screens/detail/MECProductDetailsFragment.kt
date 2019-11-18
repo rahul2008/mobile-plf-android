@@ -1,11 +1,16 @@
 package com.philips.cdp.di.mec.screens.detail
-
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextUtils
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,44 +19,36 @@ import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.Detail.TabPagerAdapter
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.platform.uid.view.widget.Button
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
 import java.util.*
-import android.text.SpannableString
-import android.text.Spanned
-
-import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
-import android.text.TextUtils
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StrikethroughSpan
-import com.philips.cdp.di.mec.R
-
 
 /**
  * A simple [Fragment] subclass.
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
-    lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
+
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var product: ECSProduct
 
-    val productObserver: Observer<ECSProduct> = object : Observer<ECSProduct> {
+    lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
+
+    val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            setButtonIcon(mec_find_retailer_button, getCartIcon())
-            setButtonIcon(mec_add_to_cart_button, getCartIcon())
-            showPrice()
+            mec_find_retailer_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
+            mec_add_to_cart_button.setCompoundDrawablesWithIntrinsicBounds(getCartIcon(),null,null,null)
+            showPriceDetail();
             hideProgressBar()
         }
 
@@ -68,7 +65,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel = ViewModelProviders.of(this).get(EcsProductDetailViewModel::class.java)
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
-        ecsProductDetailViewModel.mecError.observe(this, this)
+        ecsProductDetailViewModel.mecError.observe(this,this)
 
         binding.indicator.viewPager = binding.pager
 
@@ -79,7 +76,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // Send Request
         val bvClient = MECDataHolder.INSTANCE.bvClient
         var ctns = mutableListOf(product.codeForBazaarVoice)
-        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, "en_US").addCustomDisplayParameter("Locale", "de_DE").build()
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
         /*val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.NativeReviews).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
@@ -89,14 +86,14 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         asset.asset = "xyz"
         asset.type = "UNKNOWN"
 
-        var assets = Assets()
+        var assets= Assets()
         assets.asset = Arrays.asList(asset)
         product.assets = assets
 
         // Ends here
         binding.product = product
 
-        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
+        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager,product.code)
         binding.viewpagerMain.adapter = fragmentAdapter
 
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
@@ -107,7 +104,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(com.philips.cdp.di.mec.R.string.mec_product_detail, true)
+        setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
     }
 
     override fun onStart() {
@@ -119,9 +116,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         return super.handleBackEvent()
     }
 
-    open fun executeRequest() {
+    open fun executeRequest(){
         createCustomProgressBar(container, MEDIUM)
-        ecsProductDetailViewModel.getProductDetail(product)
+        val ecsProduct = ECSProduct()
+        ecsProduct.code = product.code
+        ecsProductDetailViewModel.getProductDetail(ecsProduct)
     }
 
     private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
@@ -141,71 +140,66 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     fun updateData(results: List<Statistics>?) {
         if (results != null) {
             binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
-            binding.mecRatingLebel.text = DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
+            binding.mecRatingLebel.text =  DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
+            binding.mecReviewLebel.text = " ("+results.get(0).productStatistics.nativeReviewStatistics.totalReviewCount.toString() + " reviews)"
         }
         ///////////
-        /*  val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
-          viewpager_main.adapter = fragmentAdapter
+      /*  val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
+        viewpager_main.adapter = fragmentAdapter
 
-          tabs_main.setupWithViewPager(viewpager_main)*/
+        tabs_main.setupWithViewPager(viewpager_main)*/
     }
 
+    fun getEmailIcon(): Drawable? {
+        return VectorDrawableCompat.create(resources, R.drawable.ic_email_icon, context!!.theme)
+    }
 
     fun getCartIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, com.philips.cdp.di.mec.R.drawable.mec_shopping_cart, context!!.theme)
+        return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
     }
 
-    private fun setButtonIcon(button: Button, drawable: Drawable?) {
-        var mutateDrawable = drawable
-        if (drawable != null) {
-            mutateDrawable = drawable.constantState!!.newDrawable().mutate()
-        }
-        button.setImageDrawable(mutateDrawable)
-    }
+    fun showPriceDetail(){
+        // mec_discounted_price.paintFlags = mec_discounted_price.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
 
-    private fun showPrice() {
-      // mec_discounted_price.paintFlags = mec_discounted_price.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
-
-
-    val textSize16 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_discount_price_label_size);
-    val textSize12 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);
+        val textSize16 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_discount_price_label_size);
+        val textSize12 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);
 
 
         if (product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0) {
-            mecPriceDetailId.visibility=View.VISIBLE
-            mec_priceDetailIcon.visibility=View.VISIBLE
-            mec_priceDiscount.visibility=View.VISIBLE
-            mec_priceDiscountIcon.visibility=View.VISIBLE
-           val  price =  SpannableString(product.price.formattedValue);
-            price.setSpan( AbsoluteSizeSpan (textSize12), 0, product.price.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
-            price.setSpan( StrikethroughSpan(), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            price.setSpan(ForegroundColorSpan(R.attr.uidContentItemTertiaryNormalTextColor), 0, product.price.formattedValue.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            mecPriceDetailId.visibility = View.VISIBLE
+            mec_priceDetailIcon.visibility = View.VISIBLE
+            mec_priceDiscount.visibility = View.VISIBLE
+            mec_priceDiscountIcon.visibility = View.VISIBLE
+            val price = SpannableString(product.price.formattedValue);
+            price.setSpan(AbsoluteSizeSpan(textSize12), 0, product.price.formattedValue.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            price.setSpan(StrikethroughSpan(), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            price.setSpan(ForegroundColorSpan(R.attr.uidContentItemTertiaryNormalTextColor), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-            val  discountPrice =  SpannableString(product.discountPrice.formattedValue);
-            discountPrice.setSpan( AbsoluteSizeSpan (textSize16), 0, product.discountPrice.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
-            val  CharSequence = TextUtils.concat(price, "  ", discountPrice);
-            mecPriceDetailId.text=CharSequence;
-            val discount = (product.price.value - product.discountPrice.value)/product.price.value*100
+            val discountPrice = SpannableString(product.discountPrice.formattedValue);
+            discountPrice.setSpan(AbsoluteSizeSpan(textSize16), 0, product.discountPrice.formattedValue.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            val CharSequence = TextUtils.concat(price, "  ", discountPrice);
+            mecPriceDetailId.text = CharSequence;
+            val discount = (product.price.value - product.discountPrice.value) / product.price.value * 100
 
-            val discountRounded:String = String.format("%.2f", discount).toString()
-            mec_priceDiscount.text=discountRounded+"%"
-        }else if(product.price.formattedValue != null && product.price.formattedValue.length > 0){
-            mecPriceDetailId.visibility=View.VISIBLE
-            mec_priceDetailIcon.visibility=View.VISIBLE
+            val discountRounded: String = String.format("%.2f", discount).toString()
+            mec_priceDiscount.text = discountRounded + "%"
+        } else if (product.price.formattedValue != null && product.price.formattedValue.length > 0) {
+            mecPriceDetailId.visibility = View.VISIBLE
+            mec_priceDetailIcon.visibility = View.VISIBLE
 
-            mec_priceDiscount.visibility=View.GONE
-            mec_priceDiscountIcon.visibility=View.GONE
-            mecPriceDetailId.text=product.price.formattedValue;
+            mec_priceDiscount.visibility = View.GONE
+            mec_priceDiscountIcon.visibility = View.GONE
+            mecPriceDetailId.text = product.price.formattedValue;
 
-        } else{
-            mecPriceDetailId.visibility=View.GONE
-            mec_priceDetailIcon.visibility=View.GONE
-            mec_priceDiscount.visibility=View.GONE
-            mec_priceDiscountIcon.visibility=View.GONE
+        } else {
+            mecPriceDetailId.visibility = View.GONE
+            mec_priceDetailIcon.visibility = View.GONE
+            mec_priceDiscount.visibility = View.GONE
+            mec_priceDiscountIcon.visibility = View.GONE
         }
 
     }
+    
 
 }

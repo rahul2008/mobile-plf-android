@@ -21,13 +21,21 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.widget.RelativeLayout
+import android.widget.TextView
+import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
+import kotlinx.android.synthetic.main.mec_catalog_fragment.view.*
 
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -36,7 +44,6 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
  * A simple [Fragment] subclass.
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
-
 
     override fun onItemClick(item: Object) {
 
@@ -178,9 +185,14 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
         })
 
+        val bvClient = MECDataHolder.INSTANCE.bvClient
+        var ctns = mutableListOf("HD9940_00")
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").build()
+        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
+
+        privacyTextView(binding.mecPrivacy)
         return binding.root
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -195,6 +207,49 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         return super.handleBackEvent()
     }
 
+    private fun privacyTextView(view: TextView) {
+        val spanTxt = SpannableStringBuilder(
+                "Read our")
+        spanTxt.append(" ")
+        spanTxt.append("Privacy Notice")
+        spanTxt.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                showPrivacyFragment()
+                hideProgressBar()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = true
+                ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
+            }
+        }, spanTxt.length - "Privacy Notice".length, spanTxt.length, 0)
+        spanTxt.append(" ")
+        spanTxt.append("for more info")
+        binding.mecPrivacy.setHighlightColor(Color.TRANSPARENT)
+        view.movementMethod = LinkMovementMethod.getInstance()
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE)
+    }
+
+    private fun showPrivacyFragment() {
+        val bundle = Bundle()
+        bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
+        val mecPrivacyFragment = MecPrivacyFragment()
+        mecPrivacyFragment?.let { replaceFragment(it,"asd",false) }
+    }
+
+    private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
+        override fun onSuccess(response: BulkRatingsResponse) {
+            if (response.results.isEmpty()) {
+                //Util.showMessage(this@DisplayOverallRatingActivity, "Empty results", "No ratings found for this product")
+            } else {
+                adapter.updateData(response.results)
+            }
+        }
+
+        override fun onFailure(exception: ConversationsException) {
+            //Util.showMessage(this@DisplayOverallRatingActivity, "Error occurred", Util.bvErrorsToString(exception.errors))
+        }
+    }
 
     public fun createInstance(args: Bundle): MECProductCatalogFragment {
         val fragment = MECProductCatalogFragment()

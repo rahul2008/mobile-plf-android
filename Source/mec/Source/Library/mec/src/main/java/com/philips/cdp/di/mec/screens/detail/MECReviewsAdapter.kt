@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.philips.cdp.di.mec.databinding.MecReviewRowBinding
 import com.philips.cdp.di.mec.screens.reviews.MECReview
+import java.text.SimpleDateFormat
 
 class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

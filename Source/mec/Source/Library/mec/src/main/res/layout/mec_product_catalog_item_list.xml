@@ -82,14 +82,13 @@
                 android:text="4"
                 android:textSize="@dimen/iap_product_original_price" />
 
-            <RatingBar
+            <com.philips.platform.uid.view.widget.RatingBar
                 android:id="@+id/iap_rating_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:numStars="1"
-                style="?android:attr/ratingBarStyleSmall"
-                android:theme="@style/RatingBar"/>
+                style="?android:attr/ratingBarStyleSmall" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/iap_review_lebel"

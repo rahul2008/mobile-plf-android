@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.bazaarvoice.bvandroidsdk.Statistics
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecProductCatalogItemGridBinding
@@ -14,4 +15,9 @@ class MECProductCatalogGridAdapter(private val items: MutableList<ECSProduct> ,p
         var binding = MecProductCatalogItemGridBinding.inflate(inflater)
         return MECProductCatalogGridHolder( binding!!,itemClickListener!!)
     }
+
+    override fun updateData(results: List<Statistics>?) {
+
+    }
+
 }
