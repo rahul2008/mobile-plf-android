@@ -30,7 +30,9 @@ import android.text.Spanned
 import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
 import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import com.philips.cdp.di.mec.R
 
 
 /**
@@ -179,6 +181,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
            val  price =  SpannableString(product.price.formattedValue);
             price.setSpan( AbsoluteSizeSpan (textSize12), 0, product.price.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
             price.setSpan( StrikethroughSpan(), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            price.setSpan(ForegroundColorSpan(R.attr.uidContentItemTertiaryNormalTextColor), 0, product.price.formattedValue.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             val  discountPrice =  SpannableString(product.discountPrice.formattedValue);
             discountPrice.setSpan( AbsoluteSizeSpan (textSize16), 0, product.discountPrice.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
