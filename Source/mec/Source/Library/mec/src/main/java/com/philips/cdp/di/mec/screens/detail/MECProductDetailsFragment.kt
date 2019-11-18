@@ -7,12 +7,9 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
-import android.text.Spannable
-import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
@@ -29,6 +26,16 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
 import java.util.*
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.SpannableString
+import android.text.Spanned
+
+import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
+import android.text.TextUtils
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.StrikethroughSpan
+
 
 /**
  * A simple [Fragment] subclass.
@@ -46,7 +53,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.product = ecsProduct
             setButtonIcon(mec_find_retailer_button, getCartIcon())
             setButtonIcon(mec_add_to_cart_button, getCartIcon())
-            strikeDiscountedPrice()
+            showPrice()
             hideProgressBar()
         }
 
@@ -102,7 +109,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
+        setTitleAndBackButtonVisibility(com.philips.cdp.di.mec.R.string.mec_product_detail, true)
     }
 
     override fun onStart() {
@@ -147,7 +154,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
 
     fun getCartIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
+        return VectorDrawableCompat.create(resources, com.philips.cdp.di.mec.R.drawable.mec_shopping_cart, context!!.theme)
     }
 
     private fun setButtonIcon(button: Button, drawable: Drawable?) {
@@ -159,8 +166,27 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
 
-    private fun strikeDiscountedPrice() {
-       mec_discounted_price.paintFlags = mec_discounted_price.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    private fun showPrice() {
+      // mec_discounted_price.paintFlags = mec_discounted_price.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+
+
+    val textSize16 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_discount_price_label_size);
+    val textSize12 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);
+
+
+        if (product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0) {
+
+           val  price =  SpannableString(product.price.formattedValue);
+            price.setSpan( AbsoluteSizeSpan (textSize12), 0, product.price.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
+            price.setSpan( StrikethroughSpan(), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+            val  discountPrice =  SpannableString(product.discountPrice.formattedValue);
+            discountPrice.setSpan( AbsoluteSizeSpan (textSize16), 0, product.discountPrice.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
+            val  CharSequence = TextUtils.concat(price, "  ", discountPrice);
+            priceDetailId.text=CharSequence;
+        }
 
     }
 

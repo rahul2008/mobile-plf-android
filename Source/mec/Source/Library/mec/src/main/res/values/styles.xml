@@ -388,4 +388,9 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="MecProductDetailPrice" parent="Theme.DLS.Orange.VeryLight">
+        <item name="android:textColor">?attr/uidTokenDefaultNormalBackgroundColor</item>
+
+    </style>
+
 </resources>

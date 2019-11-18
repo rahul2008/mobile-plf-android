@@ -1,4 +1,6 @@
 <resources>
+    <dimen name="mec_product_detail_discount_price_label_size">16sp</dimen>
+    <dimen name="mec_product_detail_price_label_size">12sp</dimen>
     <dimen name="iap_count_drop_down_popup_width">85dp</dimen>
     <dimen name="iap_count_drop_down_popup_height">300dp</dimen>
     <dimen name="iap_count_drop_down_icon_width">10dp</dimen>
