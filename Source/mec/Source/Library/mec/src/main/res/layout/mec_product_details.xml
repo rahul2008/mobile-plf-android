@@ -65,6 +65,7 @@
                 android:layout_marginBottom="20dp"
                 android:textColor="?attr/uidTokenDefaultNormalTextColor"
                 android:textSize="16sp"
+                style="@style/mecCentralesansBoldFont"
                 android:layout_alignBottom="@+id/framelayout"/>
 
             <com.philips.platform.uid.view.widget.Label
