@@ -3,7 +3,7 @@
     >
 
     <solid
-        android:color="@color/uid_level_white"/>
+        android:color="?attr/uidTokenDefaultNormalBackgroundColor"/>
 
 
 
