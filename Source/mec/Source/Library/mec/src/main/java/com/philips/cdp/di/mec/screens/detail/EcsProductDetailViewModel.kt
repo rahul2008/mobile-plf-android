@@ -21,15 +21,18 @@ class EcsProductDetailViewModel : ErrorViewModel() {
 
         @JvmStatic
         @BindingAdapter("setDisclaimer")
-        fun setDisclaimer(label: Label, disclaimers: Disclaimers) {
+        fun setDisclaimer(label: Label, ecsProduct: ECSProduct?) {
 
             val disclaimerStringBuilder = StringBuilder()
 
-            for( disclaimer in disclaimers?.disclaimer){
-                 disclaimer.disclaimerText
-                 disclaimerStringBuilder.append("- ").append(disclaimer.disclaimerText).append(System.getProperty("line.separator"))
+            if (ecsProduct?.disclaimers != null) {
+
+                for (disclaimer in ecsProduct.disclaimers?.disclaimer!!) {
+                    disclaimer.disclaimerText
+                    disclaimerStringBuilder.append("- ").append(disclaimer.disclaimerText).append(System.getProperty("line.separator"))
+                }
+                label.text = disclaimerStringBuilder.toString()
             }
-            label.text = disclaimerStringBuilder.toString()
         }
     }
 
