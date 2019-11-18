@@ -16,7 +16,7 @@ class EcsLauncherViewModel : ErrorViewModel() {
     }
 
     fun getEcsConfig(){
-
+        ECSLauncherRepository().configECSToGetConfig(this)
     }
 
     fun getProductDetailForCtn(ctn:String){

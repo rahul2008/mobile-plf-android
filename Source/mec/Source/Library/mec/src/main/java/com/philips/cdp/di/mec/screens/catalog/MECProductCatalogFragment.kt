@@ -21,13 +21,23 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.widget.RelativeLayout
+import android.widget.TextView
+import com.bazaarvoice.bvandroidsdk.BulkRatingOptions
+import com.bazaarvoice.bvandroidsdk.BulkRatingsRequest
+import com.bazaarvoice.bvandroidsdk.EqualityOperator
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
+import kotlinx.android.synthetic.main.mec_catalog_fragment.view.*
 
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -36,7 +46,6 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
  * A simple [Fragment] subclass.
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
-
 
     override fun onItemClick(item: Object) {
 
@@ -178,9 +187,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
         })
 
+        privacyTextView(binding.mecPrivacy)
         return binding.root
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -193,6 +202,30 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     override fun handleBackEvent(): Boolean {
         return super.handleBackEvent()
+    }
+
+    private fun privacyTextView(view: TextView) {
+        val spanTxt = SpannableStringBuilder(
+                "Read our")
+        spanTxt.append(" ")
+        spanTxt.append("Privacy Notice")
+        spanTxt.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val mecPrivacyFragment = MecPrivacyFragment()
+                mecPrivacyFragment?.let { replaceFragment(it,"asd",false) }
+                hideProgressBar()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = true
+                ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
+            }
+        }, spanTxt.length - "Privacy Notice".length, spanTxt.length, 0)
+        spanTxt.append(" ")
+        spanTxt.append("for more info")
+        binding.mecPrivacy.setHighlightColor(Color.TRANSPARENT)
+        view.movementMethod = LinkMovementMethod.getInstance()
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE)
     }
 
 
