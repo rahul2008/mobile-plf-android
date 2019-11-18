@@ -4,8 +4,7 @@
     android:shape="oval">
 
 
-    <solid
-        android:color="?attr/uidTokenDefaultNormalCircleBackgroundColor"/>
+    <solid android:color="@color/uid_signal_orange_level_40" />/>
 
     <size
         android:height="32dp"

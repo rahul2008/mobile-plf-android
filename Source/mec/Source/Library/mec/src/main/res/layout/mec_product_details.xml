@@ -81,13 +81,13 @@
                 android:layout_alignBottom="@+id/framelayout"/>
 
             <com.philips.platform.uid.view.widget.Label
-                android:background="@drawable/mec_semi_circular"
+                android:background="@drawable/mec_semi_circular_orange"
                 android:id="@+id/mec_priceDiscount"
-                android:paddingRight="3dp"
+                android:paddingRight="5dp"
                 android:paddingLeft="5dp"
                 android:gravity="end|center_vertical"
                 android:layout_width="wrap_content"
-                android:minWidth="84dp"
+                android:minWidth="100dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="70dp"
@@ -97,7 +97,7 @@
                 android:layout_alignBottom="@+id/framelayout"/>
 
             <com.philips.platform.uid.view.widget.Label
-                android:background="@drawable/mec_circular"
+                android:background="@drawable/mec_circular_orange"
                 android:id="@+id/mec_priceDiscountIcon"
                 android:gravity="center"
                 android:layout_width="32dp"
