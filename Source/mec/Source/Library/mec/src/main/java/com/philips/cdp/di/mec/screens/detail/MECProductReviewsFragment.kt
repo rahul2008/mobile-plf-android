@@ -4,7 +4,6 @@ package com.philips.cdp.di.mec.screens.detail
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,8 @@ import com.bazaarvoice.bvandroidsdk.*
 
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.screens.reviews.Constants
 import com.philips.cdp.di.mec.screens.reviews.MECReview
+import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
 /**
@@ -21,7 +20,11 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
  */
 class MECProductReviewsFragment : MecBaseFragment() {
 
+    var offset: Int = 0
+    var limit: Int = 20
+
     private var reviewsAdapter: MECReviewsAdapter? = null
+    var productctn = null
     private lateinit var mecReviews:MutableList<MECReview>
 
     private val reviewsCb = object : ConversationsDisplayCallback<ReviewResponse> {
@@ -34,7 +37,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
             } else {
 
                 for(review in reviews){
-                    mecReviews.add(MECReview(review.title,review.reviewText,review.rating.toString(),review.lastModificationDate.toString(),"pros","cons"))
+                    mecReviews.add(MECReview(review.title,review.reviewText,review.rating.toString(),review.userNickname,review.lastModificationDate,(review.additionalFields.get("Pros").toString()),(review.tagDimensions?.get("Con")?.values.toString())))
 
                 }
 
@@ -55,6 +58,9 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
         mecReviews = mutableListOf<MECReview>()
 
+        val bundle = arguments
+        var productctn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN)
+
 
         //TODO in binding
         reviewsAdapter = MECReviewsAdapter(mecReviews)
@@ -64,7 +70,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
         }
 
         val bvClient = MECDataHolder.INSTANCE.bvClient
-        val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","de_DE").addCustomDisplayParameter("FilteredStats","Reviews").build()
+        val request = ReviewsRequest.Builder("HD9940_00", limit, offset).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").addCustomDisplayParameter("FilteredStats","Reviews").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
         /*val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/

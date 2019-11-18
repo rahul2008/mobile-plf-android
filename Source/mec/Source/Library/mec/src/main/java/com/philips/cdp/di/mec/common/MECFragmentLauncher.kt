@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.integration.MECLaunchInput
@@ -28,6 +29,16 @@ class MECFragmentLauncher : MecBaseFragment(){
         override fun onChanged(result: Boolean?) {
             hideProgressBar()
             launchMECasFragment(landingFragment, result!!)
+        }
+
+    }
+
+    private val configObserver : Observer<ECSConfig> = object :Observer<ECSConfig>{
+        override fun onChanged(config: ECSConfig?) {
+            hideProgressBar()
+
+            MECDataHolder.INSTANCE.locale = config!!.locale
+            launchMECasFragment(landingFragment, config!!.isHybris)
         }
 
     }
@@ -61,8 +72,10 @@ class MECFragmentLauncher : MecBaseFragment(){
         ecsLauncherViewModel.ecsProduct.observe(this,productObserver)
 
         //TODO we can also check if SDK is already initialized
-        val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(activity?.application!!)
-        MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
+        if(MECDataHolder.INSTANCE.bvClient==null) {
+            val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(activity?.application!!)
+            MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
+        }
 
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }

@@ -69,7 +69,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // Send Request
         val bvClient = MECDataHolder.INSTANCE.bvClient
         var ctns = mutableListOf(product.codeForBazaarVoice)
-        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","de_DE").build()
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
         /*val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.NativeReviews).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
@@ -86,7 +86,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // Ends here
         binding.product = product
 
-        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
+        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager,product.code)
         binding.viewpagerMain.adapter = fragmentAdapter
 
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
@@ -134,6 +134,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         if (results != null) {
             binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
             binding.mecRatingLebel.text =  DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
+            binding.mecReviewLebel.text = " ("+results.get(0).productStatistics.nativeReviewStatistics.totalReviewCount.toString() + " reviews)"
         }
         ///////////
       /*  val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)

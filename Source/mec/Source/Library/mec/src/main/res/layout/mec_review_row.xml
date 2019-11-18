@@ -30,15 +30,14 @@
                             android:text="@{mecReview.rating}"
                             android:textSize="@dimen/iap_product_original_price" />
 
-                        <RatingBar
+                        <com.philips.platform.uid.view.widget.RatingBar
                             android:id="@+id/mec_rating"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:numStars="5"
                             app:setRating="@{ mecReview.rating}"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:theme="@style/RatingBar"/>
+                            style="?android:attr/ratingBarStyleSmall" />
 
                     </LinearLayout>
 
@@ -57,9 +56,8 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
-                        android:text="@{mecReview.title}"
-                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                        />
+                        android:text='@{mecReview.submitter+" - "+mecReview.formattedDate}'
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/mec_review_description"
@@ -68,8 +66,29 @@
                         android:textSize="12sp"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
                         android:text="@{mecReview.reviewText}"
-                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                        />
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_review_pros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:drawableTint="#00b300"
+                        android:drawableStart="@drawable/ic_pros"
+                        android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:text="@{mecReview.pros}"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_review_cons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:drawableTint="@color/colorAccent"
+                        android:drawableStart="@drawable/ic_cons"
+                        android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:text="@{mecReview.cons}"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
 
  </LinearLayout>
 

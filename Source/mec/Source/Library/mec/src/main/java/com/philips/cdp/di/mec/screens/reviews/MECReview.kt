@@ -1,9 +1,13 @@
 package com.philips.cdp.di.mec.screens.reviews
 
-class MECReview(val title:String , val reviewText:String, val rating:String,val date:String, val pros:String,val cons:String) {
+import java.text.SimpleDateFormat
+import java.util.*
+
+class MECReview(val title:String , val reviewText:String, val rating:String,val submitter:String,val date:Date, val pros:String,val cons:String) {
 
 
-    fun getFormattedDate():String{
-        return "01/12/2019"
+     fun getFormattedDate(): String? {
+         val formateDate = SimpleDateFormat("dd MMM yyyy").format(date)
+         return formateDate.toString()
+         }
     }
-}

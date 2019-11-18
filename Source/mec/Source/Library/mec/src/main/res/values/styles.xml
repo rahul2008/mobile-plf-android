@@ -373,6 +373,10 @@
         <item name="colorControlActivated">#D2691E</item>
     </style>
 
+    <style name="iapCentralesansMediumFont">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+    </style>
+
     <style name="MecTabStyle" parent="Widget.Design.TabLayout">
 
         <item name="tabBackground">?attr/uidContentPrimaryBackgroundColor</item>

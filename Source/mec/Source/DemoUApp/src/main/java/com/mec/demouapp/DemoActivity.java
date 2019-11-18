@@ -26,12 +26,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.cdp.di.mec.integration.MECBannerEnabler;
+import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
 import com.philips.cdp.di.mec.integration.MECFlowInput;
 import com.philips.cdp.di.mec.integration.MECInterface;
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
 import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
+import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -58,6 +60,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -341,6 +344,28 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
 
             mMecLaunchInput.mecBannerEnabler = this::getBannerView;
+
+        MECBazaarVoiceInput mecBazaarVoiceInput = new MECBazaarVoiceInput() {
+
+            @NotNull
+            @Override
+            public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
+                return BazaarVoiceEnvironment.PRODUCTION;
+            }
+
+            @NotNull
+            @Override
+            public String getBazaarVoiceClientID() {
+                return "philipsglobal";
+            }
+
+            @NotNull
+            @Override
+            public String getBazaarVoiceConversationAPIKey() {
+                return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E";
+            }
+        };
+        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
 
 
     }

@@ -95,6 +95,30 @@
         android:visibility="gone"
         android:textSize="@dimen/iap_product_ctn_12"/>
 
+    <LinearLayout
+        android:id="@+id/mec_privacyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:padding="15dp"
+        android:gravity="end"
+        android:layout_alignParentBottom="true">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mecPrivacy"
+            style="@style/iapCentralesansMediumFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:linksClickable="true"
+            android:visibility="visible"
+            android:text="read"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:textSize="@dimen/iap_product_original_price" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>
 
