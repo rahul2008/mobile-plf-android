@@ -41,7 +41,7 @@
             android:includeFontPadding="false"
             android:paddingBottom="@dimen/border16_margin_left_right"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            app:setDisclaimer="@{ product.disclaimers}"
+            app:setDisclaimer="@{product}"
             android:textSize="12sp"
             android:visibility="visible" />
 

@@ -29,9 +29,11 @@ import java.util.*
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
-    lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
+
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var product: ECSProduct
+
+    lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
 
     val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
 
