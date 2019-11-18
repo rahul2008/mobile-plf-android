@@ -9,6 +9,7 @@ object MECConstant {
     //Keys
     val MEC_KEY_PRODUCT ="mec_key_product"
     val MEC_PRODUCT_CTN ="mec_product_ctn"
+    val MEC_PRIVACY_URL = "MEC_PRIVACY_URL";
 
     //Theme
     val MEC_KEY_ACTIVITY_THEME = "mec_KEY_ACTIVITY_THEME"

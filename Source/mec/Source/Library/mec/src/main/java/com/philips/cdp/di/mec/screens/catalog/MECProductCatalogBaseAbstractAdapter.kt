@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import com.bazaarvoice.bvandroidsdk.Statistics
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import java.text.DecimalFormat
 
 
 abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<ECSProduct>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
@@ -20,21 +22,21 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
     override fun getFilter(): Filter {
 
-        var filteredList :MutableList<ECSProduct> = mutableListOf()
+        var filteredList: MutableList<ECSProduct> = mutableListOf()
 
-        return object:Filter(){
+        return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val searchString = constraint.toString()
                 val filterResults = FilterResults()
                 filterResults.values = originalList
 
-                if(searchString.isEmpty()){
+                if (searchString.isEmpty()) {
                     filteredList = originalList
-                }else{
+                } else {
 
-                    for(mecProducts in originalList){
+                    for (mecProducts in originalList) {
 
-                        if(mecProducts.code.contains(searchString,true) || mecProducts.name.contains(searchString,true)){
+                        if (mecProducts.code.contains(searchString, true) || mecProducts.name.contains(searchString, true)) {
                             filteredList.add(mecProducts)
                         }
                     }
@@ -50,4 +52,8 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
         }
     }
+
+    abstract fun updateData(results: List<Statistics>?)
+
+
 }
