@@ -2,7 +2,6 @@ package com.philips.cdp.di.mec.screens.detail
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
@@ -15,7 +14,6 @@ import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 
-import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.Detail.TabPagerAdapter
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -26,8 +24,6 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
 import java.util.*
-import android.text.style.ForegroundColorSpan
-import android.text.style.RelativeSizeSpan
 import android.text.SpannableString
 import android.text.Spanned
 
@@ -176,16 +172,35 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
 
         if (product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0) {
-
+            mecPriceDetailId.visibility=View.VISIBLE
+            mec_priceDetailIcon.visibility=View.VISIBLE
+            mec_priceDiscount.visibility=View.VISIBLE
+            mec_priceDiscountIcon.visibility=View.VISIBLE
            val  price =  SpannableString(product.price.formattedValue);
             price.setSpan( AbsoluteSizeSpan (textSize12), 0, product.price.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
             price.setSpan( StrikethroughSpan(), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-
             val  discountPrice =  SpannableString(product.discountPrice.formattedValue);
             discountPrice.setSpan( AbsoluteSizeSpan (textSize16), 0, product.discountPrice.formattedValue.length, SPAN_INCLUSIVE_INCLUSIVE);
             val  CharSequence = TextUtils.concat(price, "  ", discountPrice);
-            priceDetailId.text=CharSequence;
+            mecPriceDetailId.text=CharSequence;
+            val discount = (product.price.value - product.discountPrice.value)/product.price.value*100
+
+            val discountRounded:String = String.format("%.2f", discount).toString()
+            mec_priceDiscount.text=discountRounded+"%"
+        }else if(product.price.formattedValue != null && product.price.formattedValue.length > 0){
+            mecPriceDetailId.visibility=View.VISIBLE
+            mec_priceDetailIcon.visibility=View.VISIBLE
+
+            mec_priceDiscount.visibility=View.GONE
+            mec_priceDiscountIcon.visibility=View.GONE
+            mecPriceDetailId.text=product.price.formattedValue;
+
+        } else{
+            mecPriceDetailId.visibility=View.GONE
+            mec_priceDetailIcon.visibility=View.GONE
+            mec_priceDiscount.visibility=View.GONE
+            mec_priceDiscountIcon.visibility=View.GONE
         }
 
     }

@@ -55,7 +55,7 @@
             </FrameLayout>
             <com.philips.platform.uid.view.widget.Label
                 android:background="@drawable/mec_semi_circular"
-                android:id="@+id/priceDetailId"
+                android:id="@+id/mecPriceDetailId"
                 android:paddingRight="5dp"
                 android:gravity="end|center_vertical"
                 android:minWidth="152dp"
@@ -69,35 +69,42 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:background="@drawable/mec_circular"
+                android:id="@+id/mec_priceDetailIcon"
                 android:gravity="center"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="$"
+                android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
                 android:textAlignment="center"
                 android:layout_alignBottom="@+id/framelayout"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:background="@drawable/mec_semi_circular"
+                android:id="@+id/mec_priceDiscount"
                 android:paddingRight="5dp"
                 android:gravity="end|center_vertical"
-                android:layout_width="84dp"
+                android:layout_width="wrap_content"
+                android:minWidth="84dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="70dp"
                 android:textColor="?attr/uidTokenDefaultNormalTextColor"
-                android:text="-17.65"
+                style="@style/mecCentralesansBoldFont"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/framelayout"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:background="@drawable/mec_circular"
+                android:id="@+id/mec_priceDiscountIcon"
                 android:gravity="center"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="70dp"
                 android:text="%"
+                android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
                 android:textAlignment="center"
                 android:layout_alignBottom="@+id/framelayout"/>
 
