@@ -7,7 +7,7 @@ import com.philips.cdp.di.mec.databinding.MecProductCatalogItemListBinding
 
 class MECProductCatalogListHolder(override var binding: ViewDataBinding, override var itemClickListener: ItemClickListener) : MECProductCatalogAbstractViewHolder(binding, itemClickListener) {
 
-    override fun bind(item: ECSProduct) {
+    override fun bind(item: MECProductReview) {
         super.bind(item)
         val mecProductCatalogItemListBinding = binding as MecProductCatalogItemListBinding
         mecProductCatalogItemListBinding.product = item

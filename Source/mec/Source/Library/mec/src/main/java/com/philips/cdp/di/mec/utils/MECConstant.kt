@@ -6,6 +6,7 @@ package com.philips.cdp.di.mec.utils
 
 object MECConstant {
 
+    val KEY_BAZAAR_LOCALE: String? ="Locale"
     //Keys
     val MEC_KEY_PRODUCT ="mec_key_product"
     val MEC_PRODUCT_CTN ="mec_product_ctn"

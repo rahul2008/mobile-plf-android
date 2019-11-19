@@ -8,13 +8,8 @@ import com.philips.cdp.di.mec.common.ItemClickListener
 
 abstract class MECProductCatalogAbstractViewHolder(open val binding: ViewDataBinding, open val itemClickListener: ItemClickListener) : RecyclerView.ViewHolder(binding.root) {
 
-    open fun bind(item: ECSProduct){
+    open fun bind(item: MECProductReview){
 
-        binding.root.setOnClickListener(object : View.OnClickListener{
-
-            override fun onClick(v: View?) {
-                itemClickListener.onItemClick(item as Object)
-            }
-        })
-     }
+        binding.root.setOnClickListener { itemClickListener.onItemClick(item as Object) }
+    }
 }

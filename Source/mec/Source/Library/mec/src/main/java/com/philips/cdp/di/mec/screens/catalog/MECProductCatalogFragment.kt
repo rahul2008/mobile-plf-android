@@ -45,11 +45,26 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
 
+
+
+    private val productReviewObserver : Observer<MutableList<MECProductReview>> = object : Observer<MutableList<MECProductReview>> {
+
+        override fun onChanged(mecProductReviews: MutableList<MECProductReview>?) {
+            productReviewList.clear()
+            mecProductReviews?.let { productReviewList.addAll(it) }
+            adapter.notifyDataSetChanged()
+            hideProgressBar()
+        }
+
+    }
+
+
+
     override fun onItemClick(item: Object) {
 
-        val ecsProduct = item as ECSProduct
+        val ecsProduct = item as MECProductReview
         val bundle = Bundle()
-        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
+        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct.ecsProduct)
 
         val fragment = MECProductDetailsFragment()
         fragment.arguments = bundle
@@ -72,7 +87,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
 
         override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
-            hideProgressBar()
+
 
             totalPages = ecsProductsList?.get(ecsProductsList.size-1)?.pagination?.totalPages ?: 0
 
@@ -90,12 +105,15 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                     productList.add(ecsProduct)
                 }
             }
+
+            ecsProductViewModel.fetchProductReview(productList)
+
         } else{
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
             binding.productCatalogRecyclerView.visibility = View.GONE
         }
         currentPage++
-        adapter.notifyDataSetChanged()
+
 
         }
     }
@@ -106,7 +124,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     lateinit var ecsProductViewModel: EcsProductViewModel
 
 
+    lateinit var productReviewList: MutableList<MECProductReview>
     lateinit var productList: MutableList<ECSProduct>
+
 
     private lateinit var binding: MecCatalogFragmentBinding
 
@@ -121,6 +141,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
 
         ecsProductViewModel.ecsProductsList.observe(this, productObserver)
+        ecsProductViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
         ecsProductViewModel.mecError.observe(this,this)
 
         val bundle = arguments
@@ -130,7 +151,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.mecGrid.setOnClickListener {
             binding.mecGrid.setBackgroundColor(Color.parseColor("#DCDCDC"))
             binding.mecList.setBackgroundColor(Color.parseColor("#ffffff"))
-            adapter = MECProductCatalogGridAdapter(productList,this)
+            adapter = MECProductCatalogGridAdapter(productReviewList,this)
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
             binding.productCatalogRecyclerView.adapter = adapter
             binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
@@ -144,13 +165,15 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.mecList.setOnClickListener {
             binding.mecList.setBackgroundColor(Color.parseColor("#DCDCDC"))
             binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
-            adapter = MECProductCatalogListAdapter(productList,this)
+            adapter = MECProductCatalogListAdapter(productReviewList,this)
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             binding.productCatalogRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
         }
 
-        productList = mutableListOf<ECSProduct>()
+        productList = mutableListOf()
+        productReviewList= mutableListOf()
+
 
         binding.mecSearchBox.setSearchBoxHint("Search")
         binding.mecSearchBox.setDecoySearchViewHint("Search")
@@ -193,10 +216,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             binding.mecSeparator.visibility = View.GONE
         }
 
-        val bvClient = MECDataHolder.INSTANCE.bvClient
-        var ctns = mutableListOf("HD9940_00")
-        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").build()
-        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
+
 
         privacyTextView(binding.mecPrivacy)
         return binding.root
@@ -246,19 +266,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         replaceFragment(mecPrivacyFragment,"privacy",true)
     }
 
-    private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
-        override fun onSuccess(response: BulkRatingsResponse) {
-            if (response.results.isEmpty()) {
-                //Util.showMessage(this@DisplayOverallRatingActivity, "Empty results", "No ratings found for this product")
-            } else {
-                adapter.updateData(response.results)
-            }
-        }
 
-        override fun onFailure(exception: ConversationsException) {
-            //Util.showMessage(this@DisplayOverallRatingActivity, "Error occurred", Util.bvErrorsToString(exception.errors))
-        }
-    }
 
     public fun createInstance(args: Bundle): MECProductCatalogFragment {
         val fragment = MECProductCatalogFragment()
@@ -269,7 +277,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = MECProductCatalogListAdapter(productList,this)
+        adapter = MECProductCatalogListAdapter(productReviewList,this)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
