@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.philips.cdp.di.mec.screens.detail.MECProductInfoFragment
 import com.philips.cdp.di.mec.screens.detail.MECProductReviewsFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 

@@ -7,6 +7,7 @@ package com.philips.cdp.di.mec.screens
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -17,6 +18,10 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.view.widget.ProgressBar
+
+
+
+
 
 abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecError> {
     private var mContext: Context? = null
@@ -86,16 +91,20 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         }
 
         when (size) {
-            BIG -> context!!.theme.applyStyle(R.style.MECCircularPBBig, true)
-            SMALL -> context!!.theme.applyStyle(R.style.MECCircularPBSmall, true)
-            MEDIUM -> context!!.theme.applyStyle(R.style.MECCircularPBMedium, true)
-            else -> context!!.theme.applyStyle(R.style.MECCircularPBMedium, true)
+            BIG -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBBig, true)
+            SMALL -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBSmall, true)
+            MEDIUM -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBMedium, true)
+            else -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBMedium, true)
         }
 
-        mMECBaseFragmentProgressBar = ProgressBar(context!!, null, R.attr.pth_cirucular_pb)
+        mMECBaseFragmentProgressBar = ProgressBar(context!!, null, com.philips.cdp.di.mec.R.attr.pth_cirucular_pb)
         val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_HORIZONTAL)
         params.addRule(gravity)
+
+        if(gravity == RelativeLayout.ALIGN_PARENT_BOTTOM){
+            params.setMargins(0, 0, 0, 130);
+        }
 
         mMECBaseFragmentProgressBar!!.setLayoutParams(params)
 
