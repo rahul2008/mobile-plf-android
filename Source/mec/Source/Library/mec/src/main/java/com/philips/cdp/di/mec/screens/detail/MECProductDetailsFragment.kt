@@ -35,7 +35,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
 
-    val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
+    private val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
 
@@ -55,7 +55,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         val context = inflater.context
 
 
-        ecsProductDetailViewModel = ViewModelProviders.of(this).get(EcsProductDetailViewModel::class.java)
+        ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
         ecsProductDetailViewModel.mecError.observe(this,this)
@@ -71,8 +71,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         var ctns = mutableListOf(product.codeForBazaarVoice)
         val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
-        /*val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.NativeReviews).build()
-        bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
+
 
         //TODO Adding Default Asset
         var asset = Asset()
@@ -83,8 +82,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         assets.asset = Arrays.asList(asset)
         product.assets = assets
 
+        ecsProductDetailViewModel.ecsProduct.value = product
+
         // Ends here
-        binding.product = product
+       // binding.product = product
 
         val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager,product.code)
         binding.viewpagerMain.adapter = fragmentAdapter
@@ -111,9 +112,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     open fun executeRequest(){
         createCustomProgressBar(container, MEDIUM)
-        val ecsProduct = ECSProduct()
-        ecsProduct.code = product.code
-        ecsProductDetailViewModel.getProductDetail(ecsProduct)
+        ecsProductDetailViewModel.getProductDetail(product)
     }
 
     private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
