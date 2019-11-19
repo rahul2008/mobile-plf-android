@@ -103,7 +103,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         params.addRule(gravity)
 
         if(gravity == RelativeLayout.ALIGN_PARENT_BOTTOM){
-            params.setMargins(0, 0, 0, 100);
+            params.setMargins(0, 0, 0, 120);
         }
 
         mMECBaseFragmentProgressBar!!.setLayoutParams(params)
