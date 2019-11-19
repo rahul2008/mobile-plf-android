@@ -49,7 +49,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            setButtonIcon(mec_find_retailer_button, getCartIcon())
+            setButtonIcon(mec_find_retailer_button, getListIcon())
             setButtonIcon(mec_add_to_cart_button, getCartIcon())
             showPriceDetail();
             hideProgressBar()
@@ -153,8 +153,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         tabs_main.setupWithViewPager(viewpager_main)*/
     }
 
-    fun getEmailIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.ic_email_icon, context!!.theme)
+    fun getListIcon(): Drawable? {
+        return VectorDrawableCompat.create(resources, R.drawable.mec_ic_hamburger_icon, context!!.theme)
     }
 
     fun getCartIcon(): Drawable? {
