@@ -14,12 +14,11 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="50dp"
+    android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
     tools:context=".screens.Detail.MECProductInfoFragment">
 
-    <RelativeLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:background="?attr/uidContentSecondaryNeutralBackgroundColor">
+
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mec_product_description"
@@ -29,6 +28,7 @@
             android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
             android:text="@{product.summary.marketingTextHeader}"
             android:textSize="16sp"
+            android:layout_marginTop="30dp"
             />
 
 
@@ -39,13 +39,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/mec_product_description"
             android:includeFontPadding="false"
-            android:paddingBottom="@dimen/border16_margin_left_right"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             app:setDisclaimer="@{product}"
             android:textSize="12sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:layout_marginTop="30dp"/>
 
-    </RelativeLayout>
+
 
 </RelativeLayout>
 
