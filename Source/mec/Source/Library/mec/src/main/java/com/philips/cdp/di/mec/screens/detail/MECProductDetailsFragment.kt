@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
@@ -25,6 +26,7 @@ import com.philips.cdp.di.mec.screens.Detail.TabPagerAdapter
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Button
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
@@ -210,6 +212,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         }
 
     }
-    
+
+
 
 }

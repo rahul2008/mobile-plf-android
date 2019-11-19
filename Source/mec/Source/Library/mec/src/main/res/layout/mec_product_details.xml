@@ -179,14 +179,14 @@
                     android:text="@{product.code}"/>
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/mec_out_of_stock"
+                    android:id="@+id/mec_product_detail_stock_status"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:textSize="12sp"
                     android:layout_gravity="right"
                     android:layout_marginTop="@dimen/iap_margin_4dp"
-                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                    android:text="Out of stock"/>
+                    app:setStockInfo="@{ product}"
+                   />
 
             </LinearLayout>
 
