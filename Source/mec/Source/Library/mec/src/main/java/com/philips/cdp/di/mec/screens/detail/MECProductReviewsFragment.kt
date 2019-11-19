@@ -70,7 +70,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
         }
 
         val bvClient = MECDataHolder.INSTANCE.bvClient
-        val request = ReviewsRequest.Builder("HD9940_00", limit, offset).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").addCustomDisplayParameter("FilteredStats","Reviews").build()
+        val request = ReviewsRequest.Builder("HD9940_00", limit, offset).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter("FilteredStats","Reviews").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
         /*val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
