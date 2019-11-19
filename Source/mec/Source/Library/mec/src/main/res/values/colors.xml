@@ -5,6 +5,7 @@
     <color name="mec_button_border_color">#CCCCCC</color>
     <color name="mec_voucher_header__color">#F5F5F5</color>
     <color name="mec_voucher_header_text__color">#212121</color>
+    <color name="mec_rating_color">#E65800</color>
 
 
 </resources>
