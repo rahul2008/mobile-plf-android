@@ -2,14 +2,10 @@ package com.philips.cdp.di.mec.screens.detail
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
-import android.support.v4.content.ContextCompat
-import android.widget.RatingBar
-import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ErrorViewModel
 import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.cdp.prxclient.datamodels.Disclaimer.Disclaimer
 import com.philips.platform.uid.view.widget.Label
 
 class EcsProductDetailViewModel : ErrorViewModel() {
