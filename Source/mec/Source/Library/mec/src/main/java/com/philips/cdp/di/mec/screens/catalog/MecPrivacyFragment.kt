@@ -12,18 +12,18 @@ import com.philips.cdp.di.ecs.constants.NetworkConstants
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.utils.MECConstant
 
 class MecPrivacyFragment : WebFragment() {
         private var mUrl: String? = null
-        private var termsUrl:String? = null
-        private var faqUrl:String? = null
 
          override fun isJavaScriptEnable(): Boolean {
             return true
         }
 
          override fun getWebUrl(): String? {
-            return "Privacy"
+             mUrl = arguments!!.getString(MECConstant.MEC_PRIVACY_URL)
+             return mUrl
         }
 
         fun createInstance(args: Bundle, animType: MecBaseFragment.AnimationType): MecPrivacyFragment {

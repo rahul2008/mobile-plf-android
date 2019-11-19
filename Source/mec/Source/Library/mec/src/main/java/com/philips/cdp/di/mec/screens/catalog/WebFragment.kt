@@ -80,9 +80,9 @@ abstract class WebFragment : MecBaseFragment() {
             return this@WebFragment.shouldOverrideUrlLoading(request.url.toString())
         }
 
-        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
-            super.onPageStarted(view, url, favicon)
-        }
+//        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+//            super.onPageStarted(view, url, favicon)
+//        }
 
         override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
             super.onReceivedSslError(view, handler, error)

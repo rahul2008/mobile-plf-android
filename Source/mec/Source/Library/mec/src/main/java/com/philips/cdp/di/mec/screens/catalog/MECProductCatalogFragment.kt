@@ -185,6 +185,14 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
         })
 
+        if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
+            binding.mecPrivacyLayout.visibility = View.VISIBLE
+            binding.mecSeparator.visibility = View.VISIBLE
+        } else {
+            binding.mecPrivacyLayout.visibility = View.GONE
+            binding.mecSeparator.visibility = View.GONE
+        }
+
         val bvClient = MECDataHolder.INSTANCE.bvClient
         var ctns = mutableListOf("HD9940_00")
         val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").build()
@@ -234,7 +242,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val bundle = Bundle()
         bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
         val mecPrivacyFragment = MecPrivacyFragment()
-        mecPrivacyFragment?.let { replaceFragment(it,"asd",false) }
+        mecPrivacyFragment.arguments = bundle
+        replaceFragment(mecPrivacyFragment,"privacy",true)
     }
 
     private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {

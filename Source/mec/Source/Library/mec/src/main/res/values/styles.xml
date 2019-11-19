@@ -369,9 +369,10 @@
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">?attr/uidContentItemPrimaryNormalTextColor</item>
-        <item name="colorControlActivated">#D2691E</item>
+        <item name="colorControlNormal">#E65800</item>
+        <item name="colorControlActivated">#E65800</item>
     </style>
+
 
     <style name="iapCentralesansMediumFont">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
