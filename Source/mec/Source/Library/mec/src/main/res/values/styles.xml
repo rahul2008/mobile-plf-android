@@ -369,9 +369,10 @@
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">?attr/uidContentItemPrimaryNormalTextColor</item>
-        <item name="colorControlActivated">#D2691E</item>
+        <item name="colorControlNormal">#E65800</item>
+        <item name="colorControlActivated">#E65800</item>
     </style>
+
 
     <style name="iapCentralesansMediumFont">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
@@ -390,6 +391,11 @@
     <style name="CustomTextAppearanceTab" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="MecProductDetailPrice" parent="Theme.DLS.Orange.VeryLight">
+        <item name="android:textColor">?attr/uidTokenDefaultNormalBackgroundColor</item>
+
     </style>
 
 </resources>

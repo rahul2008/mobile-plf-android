@@ -13,17 +13,32 @@ import com.philips.cdp.di.mec.common.MECFragmentLauncher;
 import com.philips.cdp.di.mec.common.MECLauncherActivity;
 import com.philips.cdp.di.mec.utils.MECConstant;
 import com.philips.cdp.di.mec.utils.MECDataHolder;
+import com.philips.cdp.di.mec.utils.MECutility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 class MECHandler {
     private MECDependencies mMECDependencies;
     private MECSettings mMECSetting;
     private UiLauncher mUiLauncher;
     private MECLaunchInput mLaunchInput;
+    private AppInfra appInfra;
+    private ArrayList<String> listOfServiceId;
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
+    private static final String IAP_PRIVACY_URL = "iap.privacyPolicy";
+    private static final String IAP_FAQ_URL = "iap.faq";
+    private static final String IAP_TERMS_URL = "iap.termOfUse";
+    private static final String IAP_BASE_URL = "iap.baseurl";
 
     MECHandler(MECDependencies pMECDependencies, MECSettings pMecSettings, UiLauncher pUiLauncher, MECLaunchInput pLaunchInput) {
         this.mMECDependencies = pMECDependencies;
@@ -35,19 +50,56 @@ class MECHandler {
 
 
     void launchMEC() {
-        AppInfra appInfra= (AppInfra) mMECDependencies.getAppInfra() ;
+        appInfra= (AppInfra) mMECDependencies.getAppInfra() ;
         AppConfigurationInterface configInterface = appInfra.getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
         ECSServices ecsServices = new ECSServices(propertyForKey,appInfra);
         MecHolder.INSTANCE.eCSServices=ecsServices; // singleton
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.getMecBannerEnabler();
+        getUrl();
         if (mUiLauncher instanceof ActivityLauncher) {
             launchMECasActivity();
         } else {
             launchMECasFragment();
         }
     }
+
+    void getUrl()
+    {
+
+        listOfServiceId = new ArrayList<>();
+        listOfServiceId.add(IAP_BASE_URL);
+        listOfServiceId.add(IAP_PRIVACY_URL);
+        listOfServiceId.add(IAP_FAQ_URL);
+        listOfServiceId.add(IAP_TERMS_URL);
+        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                Collection<ServiceDiscoveryService> collection = map.values();
+
+
+                List<ServiceDiscoveryService> list = new ArrayList<>();
+                list.addAll(collection);
+
+                ServiceDiscoveryService discoveryService = map.get(IAP_PRIVACY_URL);
+                assert discoveryService != null;
+                String privacyUrl = discoveryService.getConfigUrls();
+                if(privacyUrl != null) {
+                    MECDataHolder.INSTANCE.setPrivacyUrl(privacyUrl);
+                }
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                if (errorvalues.name().equals(ERRORVALUES.NO_NETWORK)) {
+                }
+            }
+        };
+        appInfra.getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener,null);
+    }
+
 
 
     protected void launchMECasActivity() {

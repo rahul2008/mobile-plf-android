@@ -22,6 +22,7 @@
     <string name="mec_reviews">Reviews</string>
     <string name="mec_view_retailers">View retailers</string>
     <string name="mec_add_to_cart">Add to cart</string>
-
+    <string name="mec_in_stock">In stock</string>
+    <string name="mec_out_of_stock">Out of stock </string>
 
 </resources>

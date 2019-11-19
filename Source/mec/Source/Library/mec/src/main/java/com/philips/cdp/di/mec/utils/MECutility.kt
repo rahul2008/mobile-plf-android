@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.support.v4.app.FragmentManager
 import android.view.View
+import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
+import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.view.widget.AlertDialogFragment
 
@@ -65,6 +67,23 @@ class MECutility {
                 }
             }
             return false
+        }
+
+        internal fun isStockAvailable(stockLevelStatus: String?, stockLevel: Int): Boolean {
+
+            /* if (if hybris available ) { // todo
+                 return true
+             }*/
+
+            if (stockLevelStatus == null) {
+                return false
+            }
+
+            return if (stockLevelStatus.equals(IN_STOCK, ignoreCase = true) ||
+                    stockLevelStatus.equals(LOW_STOCK, ignoreCase = true) || stockLevel > 0) {
+                true
+            } else false
+
         }
     }
 }

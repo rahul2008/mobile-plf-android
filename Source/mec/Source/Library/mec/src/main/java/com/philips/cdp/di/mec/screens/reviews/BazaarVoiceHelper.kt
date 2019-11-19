@@ -26,6 +26,7 @@ class BazaarVoiceHelper {
          val bvsdk = BVSDK.builder(context, Constants.BAZAAR_ENVIRONMENT)
                 .logLevel(BVLogLevel.VERBOSE)
                 .okHttpClient(getOkHttpClient(loggingInterceptor))
+                 .dryRunAnalytics(false)
                 .build()
 
          var bvClient = BVConversationsClient.Builder(bvsdk).build()

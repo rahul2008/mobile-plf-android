@@ -1,6 +1,9 @@
 package com.philips.cdp.di.mec.utils
 
+import android.annotation.SuppressLint
 import android.databinding.BindingAdapter
+import android.provider.Settings.Global.getString
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +12,12 @@ import android.widget.RatingBar
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.philips.cdp.di.ecs.model.asset.Asset
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.screens.detail.ImageAdapter
+import com.philips.platform.uid.view.widget.Label
+import kotlinx.android.synthetic.main.mec_product_details.*
 
 class DataBindingUtility {
 
@@ -61,6 +67,10 @@ class DataBindingUtility {
         fun setRating(ratingBar: RatingBar, rating: String) {
             ratingBar.rating = rating.toFloat()
         }
+
+
+
+
     }
 
 

@@ -15,6 +15,15 @@ enum class MECDataHolder {
     lateinit var mecBannerEnabler: MECBannerEnabler
     lateinit var locale:String
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
+    private var privacyUrl: String? = null
+
+    fun getPrivacyUrl(): String? {
+        return privacyUrl
+    }
+
+    fun setPrivacyUrl(privacyUrl: String) {
+        this.privacyUrl = privacyUrl
+    }
 
     var bvClient: BVConversationsClient? = null
 

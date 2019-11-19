@@ -4,7 +4,7 @@
 android:shape="oval">
 
 <solid
-    android:color="#2B86B2"/>
+    android:color="?attr/uidTokenDefaultNormalCircleBackgroundColor"/>
 
 <size
     android:height="32dp"
