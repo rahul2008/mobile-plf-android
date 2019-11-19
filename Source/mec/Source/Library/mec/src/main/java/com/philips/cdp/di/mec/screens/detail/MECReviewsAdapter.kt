@@ -19,10 +19,12 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
         val review = mecReviews?.get(position)
         val viewHolder = holder as ViewHolder
         viewHolder.bind(review!!)
-        if(position%2 == 0) {
+        if (position % 2 == 0) {
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentPrimaryBackgroundColor)
-        }else{
-            viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryNeutralBackgroundColor)
+            viewHolder.binding.root.setBackgroundColor(getColor(viewHolder.binding.root.context, R.color.uidColorWhite))
+        } else {
+            // By default uidContentSecondaryNeutralBackgroundColor color is set through XML
+            //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryNeutralBackgroundColor)
         }
     }
 
