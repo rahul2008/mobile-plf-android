@@ -46,6 +46,16 @@
             android:visibility="visible"
             android:layout_marginTop="30dp"/>
 
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mec_productCatalog_empty_label"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/mec_no_reviews_available"
+        android:textSize="@dimen/iap_product_ctn_12"
+        android:visibility="gone" />
+
 
 
 </RelativeLayout>

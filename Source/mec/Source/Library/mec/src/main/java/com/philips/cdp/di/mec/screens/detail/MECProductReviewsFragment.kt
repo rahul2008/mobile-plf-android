@@ -37,13 +37,16 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
         override fun onChanged(reviews: List<Review>?) {
 
+            if(reviews?.isEmpty()!!){
+                binding.mecProductCatalogEmptyLabel.visibility = View.VISIBLE
+                return
+            }
+
             for (review in reviews!!) {
                 val nick = if (review.userNickname != null) review.userNickname else ""
-
                 mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate,ecsProductDetailViewModel. getValueFor("Pros", review),ecsProductDetailViewModel.getValueFor("Cons", review)))
 
             }
-
             reviewsAdapter!!.notifyDataSetChanged()
 
             hideProgressBar()

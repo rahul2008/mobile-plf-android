@@ -46,7 +46,6 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
 
 
-
     private val productReviewObserver : Observer<MutableList<MECProductReview>> = object : Observer<MutableList<MECProductReview>> {
 
         override fun onChanged(mecProductReviews: MutableList<MECProductReview>?) {
@@ -107,10 +106,15 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
 
             ecsProductViewModel.fetchProductReview(productList)
-
+            if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
+                binding.mecPrivacyLayout.visibility = View.VISIBLE
+                binding.mecSeparator.visibility = View.VISIBLE
+            }
         } else{
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
             binding.productCatalogRecyclerView.visibility = View.GONE
+            binding.mecPrivacyLayout.visibility = View.GONE
+            binding.mecSeparator.visibility = View.GONE
         }
         currentPage++
 
@@ -177,7 +181,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         binding.mecSearchBox.setSearchBoxHint("Search")
         binding.mecSearchBox.setDecoySearchViewHint("Search")
-
         binding.mecSearchBox.searchTextView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -191,6 +194,14 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 if(s?.length == 0){
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
                 }else binding.llBannerPlaceHolder.visibility = View.GONE
+
+               if(MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
+                   if (adapter.itemCount != 0) {
+                       binding.mecPrivacyLayout.visibility = View.VISIBLE
+                   } else {
+                       binding.mecPrivacyLayout.visibility = View.GONE
+                   }
+               }
             }
 
         })
@@ -208,19 +219,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
         })
 
-        if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
-            binding.mecPrivacyLayout.visibility = View.VISIBLE
-            binding.mecSeparator.visibility = View.VISIBLE
-        } else {
-            binding.mecPrivacyLayout.visibility = View.GONE
-            binding.mecSeparator.visibility = View.GONE
-        }
-
-
 
         privacyTextView(binding.mecPrivacy)
         return binding.root
     }
+
 
     override fun onStart() {
         super.onStart()
