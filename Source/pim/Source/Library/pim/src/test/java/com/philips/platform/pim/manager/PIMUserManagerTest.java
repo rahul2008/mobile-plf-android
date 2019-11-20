@@ -370,35 +370,7 @@ public class PIMUserManagerTest extends TestCase {
         assertNotNull(tokenType);
         assertNotNull(expiresIn);
         assertNotNull(idToken);
-        //assertNotNull(accessToken);
-
     }
-
-//    @Test
-//    public void testFetchUserDetailsForOtherDetails() {
-//        ArrayList<String> keyList = new ArrayList<>();
-//        keyList.add(UserDetailConstants.ACCESS_TOKEN);
-//        keyList.add(UserDetailConstants.TOKEN_TYPE);
-//        keyList.add(UserDetailConstants.EXPIRES_IN);
-//        keyList.add(UserDetailConstants.ID_TOKEN);
-//        PIMOIDCUserProfile pimoidcUserProfile = new PIMOIDCUserProfile(readUserProfileResponseJson(), mockAuthState);
-//        when(mockAuthState.getAccessToken()).thenReturn("tHFx_gB2uCyswq1f3GNvFJVQZFPRmAfziqAzPljp9P-0VweraIWEk8sec7QuvK5pR");
-//        when(mockAuthState.getLastAuthorizationResponse().idToken).thenReturn("eyJhbGciOiJSUzI1NiIsImtpZCI6IjNhMjdjYmU2Njc3ZDgxMWVvZmY1MGM5UWFiZDZlYTNlMDdiNzszN2QiLCJ0eXAiOiJKV1QifQ.eyJhdF9oYXNoIjoiUzAwOVBSZjBRUzg0cmVTOVBOZW1rZyIsImF1ZCI6WyIxOWEzMjM1Zi04N2U3LTQ2MGMtOTRmNS1lNGY2OWZjZjYxZGYiXSwiYXV0aF90aW1lIjoxNTczNDYxMzY4LCJleHAiOjE1NzM0NjUwNDcsImdsb2JhbF9zdWIiOiJjYXB0dXJlLXYxOi8vcGhpbGlwcy5ldmFsLmphbnJhaW5jYXB0dXJlLmNvbS9udDVkcWhwNnVjazVtY3U1N3NudXk4dWs2Yy91c2VyL2QyMzcwY2IzLTgwMzQtNGFjYy05M2ZkLTRmMmE5MGU4YTc0YSIsImlhdCI6MTU3MzQ2MTQ0NywiaXNzIjoiaHR0cHM6Ly9zdGcuYWNjb3VudHMucGhpbGlwcy5jb20vYzJhNDgzMTAtOTcxNS0zYmViLTg5NWUtMDAwMDAwMDAwMDAwL2xvZ2luIiwianRpIjoic2dfXzEyRGhnRFVBT1hOX2dvRGRNVzd4Iiwic3ViIjoiZDIzNzBjYjMtODAzNC00YWNjLTkzZmQtNGYyYTkwZThhNzRhIn0.UrielsCg-un6bczWnkUWfu9Jc2TJIC3453ip-BIEb9TF8DGLRn1IrdA0PvrDwOylastEosEFdNvVPw9BG3EHaOiCEht_I_fQtVS9v-tALtbXiN-GRaH6Y8ZR8qvcS9opOJwR72vmErooouvDaXt2P6R345CyzNLs7NlzuKMTV8N5aO6345345rf1ItT8Ty83D2GgimET95KVVLGII82AcRRZtMSpZ34zdfQ4-zunbmnssDdSOgNKLv2KQ3RuTXGfWdiwI15a0_SSArG41GkDksffXO6OEtm7qoTdpGXwGkTYn0UYKz41hgznx_EASBEX0IeYUo1IQqMjmPSb5uTr9nSYZOg");
-//        when(mockAuthState.getLastAuthorizationResponse().tokenType).thenReturn("Bearer");
-//        when(mockAuthState.getLastAuthorizationResponse().accessTokenExpirationTime).thenReturn(new Long(3600));
-//        HashMap<String, Object> stringObjectHashMap = pimoidcUserProfile.fetchUserDetails(keyList);
-//        String accessToken = stringObjectHashMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
-//        String tokenType = stringObjectHashMap.get(UserDetailConstants.TOKEN_TYPE).toString();
-//        String expiresIn = stringObjectHashMap.get(UserDetailConstants.EXPIRES_IN).toString();
-//        String idToken = stringObjectHashMap.get(UserDetailConstants.ID_TOKEN).toString();
-//
-//        assertNotNull(tokenType);
-//        assertNotNull(expiresIn);
-//        assertNotNull(idToken);
-//        assertNotNull(accessToken);
-//
-//    }
-
 
     private String readUserProfileResponseJson() {
         String path = "src/test/rs/oidc_userprofile_response.json";
