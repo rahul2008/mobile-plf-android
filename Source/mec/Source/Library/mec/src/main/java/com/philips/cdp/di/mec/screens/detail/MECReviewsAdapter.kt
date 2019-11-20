@@ -33,7 +33,7 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
         } else {
             viewHolder.binding.mecReviewCons.visibility = View.VISIBLE
         }
-        if (position % 2 == 0) {
+        if (position % 2 == 1) {
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentPrimaryBackgroundColor)
             viewHolder.binding.root.setBackgroundColor(getColor(viewHolder.binding.root.context, R.color.uidColorWhite))
         } else {
