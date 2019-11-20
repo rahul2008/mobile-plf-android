@@ -82,11 +82,12 @@
                     android:textSize="@dimen/iap_product_original_price" />
 
                 <com.philips.platform.uid.view.widget.RatingBar
-                    android:id="@+id/mecRating"
+                    android:id="@+id/iap_rating_bar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:numStars="1"
+                    android:rating="1"
                     style="?android:attr/ratingBarStyleSmall" />
 
                 <com.philips.platform.uid.view.widget.Label

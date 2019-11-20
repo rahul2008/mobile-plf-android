@@ -89,8 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:numStars="1"
-                setRating="1"
-                android:progressBackgroundTint="@color/mec_rating_color"
+                android:rating="1"
                 style="?android:attr/ratingBarStyleSmall" />
 
             <com.philips.platform.uid.view.widget.Label
