@@ -57,7 +57,6 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
-                        android:text='@{mecReview.submitter+" - "+mecReview.formattedDate}'
                         android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
 
                     <com.philips.platform.uid.view.widget.Label

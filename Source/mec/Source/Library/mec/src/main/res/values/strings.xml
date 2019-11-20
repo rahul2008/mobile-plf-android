@@ -25,5 +25,6 @@
     <string name="mec_add_to_cart">Add to cart</string>
     <string name="mec_in_stock">In stock</string>
     <string name="mec_out_of_stock">Out of stock </string>
+    <string name="mec_has_used_this_product_for">Has used this product for </string>
 
 </resources>

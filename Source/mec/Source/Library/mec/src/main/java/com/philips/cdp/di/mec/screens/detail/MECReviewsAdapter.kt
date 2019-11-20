@@ -27,6 +27,12 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryNeutralBackgroundColor)
            // viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryBackgroundColor)
         }
+        //android:text='@{ (mecReview.submitter+" - "+mecReview.formattedDate): (mecReview.submitter+" - "+mecReview.formattedDate + "@string/mec_has_used_this_product_for"+mecReview.useDuration) }'
+      var durationUse :String =review.submitter+" - "+review.getFormattedDate();
+       if(review.useDuration.toString()!=null){
+           durationUse = durationUse + " - "+viewHolder.binding.mecRetailerItemReviewSubmitter.context.getString(R.string.mec_has_used_this_product_for)+" "+review.useDuration.toString();
+       }
+        viewHolder.binding.mecRetailerItemReviewSubmitter.text=durationUse;
     }
 
     override fun getItemCount(): Int {
