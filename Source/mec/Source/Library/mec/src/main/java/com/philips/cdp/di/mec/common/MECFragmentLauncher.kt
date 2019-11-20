@@ -68,6 +68,7 @@ class MECFragmentLauncher : MecBaseFragment(){
         ecsLauncherViewModel = ViewModelProviders.of(this).get(EcsLauncherViewModel::class.java)
 
         ecsLauncherViewModel.isHybris.observe(this, isHybrisObserver)
+        ecsLauncherViewModel.ecsConfig.observe(this, configObserver)
         ecsLauncherViewModel.mecError.observe(this,this)
         ecsLauncherViewModel.ecsProduct.observe(this,productObserver)
 
@@ -95,7 +96,7 @@ class MECFragmentLauncher : MecBaseFragment(){
 
     private fun executeConfigRequest() {
         createCustomProgressBar(container, BIG)
-        ecsLauncherViewModel.isHybris()
+        ecsLauncherViewModel.getEcsConfig()
     }
 
 

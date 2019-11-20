@@ -1,12 +1,16 @@
 package com.philips.cdp.di.mec.screens.catalog
 
+import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.appinfra.AppInfra
+import java.text.DecimalFormat
 
 enum class ECSCatalogRepository {
 
@@ -134,6 +138,57 @@ enum class ECSCatalogRepository {
                     pageNumber == ecsProducts.pagination.totalPages - 1 ||
                     ctns.size == ecsProducts.products.size ||
                     ecsProducts.products.size == ecsProducts.pagination.pageSize
+
+
+
+
+    fun fetchProductReview(ecsProducts: List<ECSProduct> , ecsProductViewModel: EcsProductViewModel){
+
+        val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
+            override fun onSuccess(response: BulkRatingsResponse) {
+                if (response.results.isEmpty()) {
+                    //ecsProductViewModel.mecError = //Util.showMessage(this@DisplayOverallRatingActivity, "Empty results", "No ratings found for this product")
+                } else {
+                    createMECProductReviewObject(ecsProducts,response.results)
+                }
+            }
+
+            private fun createMECProductReviewObject(ecsProducts: List<ECSProduct>, statisticsList: List<Statistics>) {
+
+                var mecProductReviewList :MutableList<MECProductReview> = mutableListOf()
+
+                for(ecsProduct in ecsProducts){
+
+                    for(statistics in statisticsList){
+
+                        if(ecsProduct.code.replace("/","_").equals(statistics.productStatistics.productId)){
+
+                            mecProductReviewList.add (MECProductReview(ecsProduct, DecimalFormat("#.#").format(statistics.productStatistics.nativeReviewStatistics.averageOverallRating), " ("+statistics.productStatistics.nativeReviewStatistics.totalReviewCount.toString()+ " reviews)"))
+                        }
+                    }
+                }
+
+                ecsProductViewModel.ecsProductsReviewList.value = mecProductReviewList
+
+            }
+
+            override fun onFailure(exception: ConversationsException) {
+                //Util.showMessage(this@DisplayOverallRatingActivity, "Error occurred", Util.bvErrorsToString(exception.errors))
+            }
+        }
+
+        var ctnList: MutableList<String> = mutableListOf()
+
+        for(ecsProduct in ecsProducts){
+            ctnList.add(ecsProduct.code.replace("/","_"))
+        }
+        val bvClient = MECDataHolder.INSTANCE.bvClient
+        val request = BulkRatingsRequest.Builder(ctnList, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).build()
+        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
+
+    }
+
+
 
 }
 

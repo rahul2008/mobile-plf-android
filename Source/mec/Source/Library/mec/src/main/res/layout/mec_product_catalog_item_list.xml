@@ -5,7 +5,8 @@
 
         <variable
             name="product"
-            type="com.philips.cdp.di.ecs.model.products.ECSProduct" />
+            type="com.philips.cdp.di.mec.screens.catalog.MECProductReview" />
+
 
     </data>
 
@@ -28,8 +29,8 @@
                 android:layout_width="@dimen/iap_network_image_width_height"
                 android:layout_height="@dimen/iap_network_image_width_height"
                 android:layout_marginEnd="@dimen/border12_margin"
-                android:tooltipText="@{ product.name}"
-                app:image_url="@{ product.summary.imageURL}" />
+                android:tooltipText="@{ product.ecsProduct.name}"
+                app:image_url="@{ product.ecsProduct.summary.imageURL}" />
 
 
             <ImageView
@@ -57,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:text="@{ product.name}"
+            android:text="@{ product.ecsProduct.summary.productTitle}"
             android:textSize="16sp" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -66,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:text="@{ product.code}"
+            android:text="@{ product.ecsProduct.code}"
             android:textSize="@dimen/iap_product_original_price" />
 
         <LinearLayout
@@ -79,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/mec_rating_color"
-                android:text="4"
+                android:text="@{ product.overallRating}"
                 android:textSize="@dimen/iap_product_original_price" />
 
             <RatingBar
@@ -96,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/mec_rating_color"
-                android:text=" (3 reviews)"
+                android:text="@{ product.overallReview}"
                 android:textSize="@dimen/iap_product_original_price" />
 
         </LinearLayout>
@@ -110,7 +111,7 @@
             android:layout_gravity="right"
             android:layout_marginTop="@dimen/iap_margin_4dp"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:text="@{ product.price.formattedValue}"
+            android:text="@{ product.ecsProduct.price.formattedValue}"
             android:textSize="16sp" />
 
 

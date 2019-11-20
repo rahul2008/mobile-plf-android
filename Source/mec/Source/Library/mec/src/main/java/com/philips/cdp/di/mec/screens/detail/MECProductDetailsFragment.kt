@@ -79,7 +79,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // Send Request
         val bvClient = MECDataHolder.INSTANCE.bvClient
         var ctns = mutableListOf(product.codeForBazaarVoice)
-        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,"en_US").addCustomDisplayParameter("Locale","en_US").build()
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE,MECDataHolder.INSTANCE.locale).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
 
 

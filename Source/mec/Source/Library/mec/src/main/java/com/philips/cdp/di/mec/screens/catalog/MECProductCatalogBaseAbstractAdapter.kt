@@ -9,7 +9,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import java.text.DecimalFormat
 
 
-abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<ECSProduct>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
+abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<MECProductReview>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
 
     val originalList = items
 
@@ -22,7 +22,7 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
     override fun getFilter(): Filter {
 
-        var filteredList: MutableList<ECSProduct> = mutableListOf()
+        var filteredList: MutableList<MECProductReview> = mutableListOf()
 
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -36,7 +36,7 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
                     for (mecProducts in originalList) {
 
-                        if (mecProducts.code.contains(searchString, true) || mecProducts.name.contains(searchString, true)) {
+                        if (mecProducts.ecsProduct.code.contains(searchString, true) || mecProducts.ecsProduct.name.contains(searchString, true)) {
                             filteredList.add(mecProducts)
                         }
                     }
@@ -46,14 +46,11 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                items = results?.values as MutableList<ECSProduct>
+                items = results?.values as MutableList<MECProductReview>
                 notifyDataSetChanged()
             }
 
         }
     }
-
-    abstract fun updateData(results: List<Statistics>?)
-
 
 }
