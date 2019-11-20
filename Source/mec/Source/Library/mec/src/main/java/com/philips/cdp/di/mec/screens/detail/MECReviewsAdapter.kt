@@ -25,6 +25,7 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
         } else {
             // By default uidContentSecondaryNeutralBackgroundColor color is set through XML
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryNeutralBackgroundColor)
+           // viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryBackgroundColor)
         }
     }
 
