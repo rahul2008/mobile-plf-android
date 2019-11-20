@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
+import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
 import com.google.gson.internal.LinkedTreeMap
 import com.philips.cdp.di.ecs.model.asset.Asset
@@ -83,6 +84,17 @@ class EcsProductDetailViewModel : ErrorViewModel() {
             }
         }
         return if(reviewValue.toString()!=null) reviewValue.toString() else ""
+    }
+
+     fun getValueForUseDuration( review: Review): String {
+        var useDurationValue: String? = ""
+        if (review.contextDataValues != null && review.contextDataValues!!.size>0 && (null!=review.contextDataValues!!.get("HowLongHaveYouBeenUsingThisProduct"))) {
+            val mapUseDuration: ContextDataValue = review.contextDataValues!!.get("HowLongHaveYouBeenUsingThisProduct") as ContextDataValue
+            if(null!=mapUseDuration){
+                useDurationValue=mapUseDuration.valueLabel
+            }
+        }
+        return useDurationValue.toString()
     }
 
 }
