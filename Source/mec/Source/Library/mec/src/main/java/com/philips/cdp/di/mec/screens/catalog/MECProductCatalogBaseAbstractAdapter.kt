@@ -36,7 +36,7 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
                     for (mecProducts in originalList) {
 
-                        if (mecProducts.ecsProduct.code.contains(searchString, true) || mecProducts.ecsProduct.name.contains(searchString, true)) {
+                        if (mecProducts.ecsProduct.code.contains(searchString, true) || mecProducts.ecsProduct.summary.productTitle.contains(searchString, true)) {
                             filteredList.add(mecProducts)
                         }
                     }

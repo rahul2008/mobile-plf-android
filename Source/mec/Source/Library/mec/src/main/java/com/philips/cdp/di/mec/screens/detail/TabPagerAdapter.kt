@@ -1,12 +1,10 @@
-package com.philips.cdp.di.mec.screens.Detail
+package com.philips.cdp.di.mec.screens.detail
 
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
-import com.philips.cdp.di.mec.screens.detail.MECProductReviewsFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
