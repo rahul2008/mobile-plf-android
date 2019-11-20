@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.screens.Detail
+package com.philips.cdp.di.mec.screens.detail
 
 
 import android.arch.lifecycle.Observer
@@ -12,7 +12,6 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 import com.philips.cdp.di.mec.databinding.MecProductInfoFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.screens.detail.EcsProductDetailViewModel
 
 /**
  * A simple [Fragment] subclass.

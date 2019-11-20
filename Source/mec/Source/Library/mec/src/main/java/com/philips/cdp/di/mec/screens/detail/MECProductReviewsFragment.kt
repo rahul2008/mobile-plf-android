@@ -41,7 +41,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
                     binding.mecProductCatalogEmptyLabel.visibility = View.GONE
                     val nick = if (review.userNickname!=null) review.userNickname else ""
 
-                    mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate, getValueFor("Pros", review), getValueFor("Cons", review)))
+                    mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate, getValueFor("Pros", review), getValueFor("Cons", review),getValueForUseDuration(review)))
 
                 }
 
@@ -82,18 +82,31 @@ class MECProductReviewsFragment : MecBaseFragment() {
     }
 
     private fun getValueFor(type: String, review: Review): String {
-        var  reviewValue :String? = null
+        var reviewValue: String? = null
         var mapAdditionalFields: LinkedTreeMap<String, String>? = null
         if (review.additionalFields != null && review.additionalFields.size > 0) {
             mapAdditionalFields = review.additionalFields.get(type) as LinkedTreeMap<String, String>
-            reviewValue= if (mapAdditionalFields != null && mapAdditionalFields?.get("Value") != null) mapAdditionalFields?.get("Value") else ""
+            reviewValue = if (mapAdditionalFields != null && mapAdditionalFields?.get("Value") != null) mapAdditionalFields?.get("Value") else ""
         }
         if (reviewValue == null) {
             if (review.tagDimensions != null && review.tagDimensions!!.size > 0) {
-                val tagD = review.tagDimensions?.get(type.substring(0,type.length-1))
-                reviewValue= tagD?.values.toString()
+                val tagD = review.tagDimensions?.get(type.substring(0, type.length - 1))
+                reviewValue = tagD?.values.toString()
             }
         }
-        return if(reviewValue.toString()!=null) reviewValue.toString() else ""
+        return if (reviewValue.toString() != null) reviewValue.toString() else ""
     }
+
+    private fun getValueForUseDuration( review: Review): String {
+        var useDurationValue: String? = ""
+        if (review.contextDataValues != null && review.contextDataValues!!.size>0 && (null!=review.contextDataValues!!.get("HowLongHaveYouBeenUsingThisProduct"))) {
+            val mapUseDuration: ContextDataValue = review.contextDataValues!!.get("HowLongHaveYouBeenUsingThisProduct") as ContextDataValue
+            if(null!=mapUseDuration){
+                useDurationValue=mapUseDuration.valueLabel
+            }
+        }
+        return useDurationValue.toString()
+    }
+
+
 }

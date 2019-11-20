@@ -1,5 +1,7 @@
 package com.philips.cdp.di.mec.screens.detail
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.support.v4.content.ContextCompat.getColor
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
         return ViewHolder(MecReviewRowBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
+    @SuppressLint("ResourceType")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val review = mecReviews?.get(position)
         val viewHolder = holder as ViewHolder
@@ -34,10 +37,15 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentPrimaryBackgroundColor)
             viewHolder.binding.root.setBackgroundColor(getColor(viewHolder.binding.root.context, R.color.uidColorWhite))
         } else {
-            // By default uidContentSecondaryNeutralBackgroundColor color is set through XML
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryNeutralBackgroundColor)
-           // viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryBackgroundColor)
+            viewHolder.binding.root.setBackgroundColor(Color.parseColor("#F5F5F5"))
         }
+        //android:text='@{ (mecReview.submitter+" - "+mecReview.formattedDate): (mecReview.submitter+" - "+mecReview.formattedDate + "@string/mec_has_used_this_product_for"+mecReview.useDuration) }'
+      var durationUse :String =review.submitter+" - "+review.getFormattedDate();
+       if(review.useDuration.toString()!=null){
+           durationUse = durationUse + " - "+viewHolder.binding.mecRetailerItemReviewSubmitter.context.getString(R.string.mec_has_used_this_product_for)+" "+review.useDuration.toString();
+       }
+        viewHolder.binding.mecRetailerItemReviewSubmitter.text=durationUse;
     }
 
     override fun getItemCount(): Int {
