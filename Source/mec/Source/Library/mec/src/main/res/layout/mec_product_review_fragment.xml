@@ -20,7 +20,7 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/mec_productCatalog_emptyProductCatalogText_lebel"
+            android:id="@+id/mec_productCatalog_empty_label"
             style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

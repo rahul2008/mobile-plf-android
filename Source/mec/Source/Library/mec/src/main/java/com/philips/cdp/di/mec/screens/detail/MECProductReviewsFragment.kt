@@ -33,10 +33,11 @@ class MECProductReviewsFragment : MecBaseFragment() {
             val reviews = response.results
 
             if (reviews.isEmpty()) {
-                //showMessage(this@DisplayReviewsActivity, "Empty results", "No reviews found for this product")
+                binding.mecProductCatalogEmptyLabel.visibility = View.VISIBLE
             } else {
 
                 for(review in reviews){
+                    binding.mecProductCatalogEmptyLabel.visibility = View.GONE
                     val nick = if (review.userNickname!=null) review.userNickname else ""
 
                     mecReviews.add(MECReview(review.title,review.reviewText,review.rating.toString(),nick,review.lastModificationDate,(review.additionalFields.get("Pros").toString()),(review.tagDimensions?.get("Con")?.values.toString())))
