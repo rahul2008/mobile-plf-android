@@ -1,68 +1,78 @@
 package com.philips.cdp.di.mec.screens.detail
 
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import com.bazaarvoice.bvandroidsdk.*
 import com.google.gson.internal.LinkedTreeMap
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import kotlinx.android.synthetic.main.mec_main_activity.*
+import kotlinx.android.synthetic.main.mec_product_details.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class MECProductReviewsFragment : MecBaseFragment() {
 
+
+    private var productctn: String? = null
+
+    private lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
+    private val reviewObserver : Observer<List<Review>> = object : Observer<List<Review>> {
+
+        override fun onChanged(reviews: List<Review>?) {
+
+            for (review in reviews!!) {
+                val nick = if (review.userNickname != null) review.userNickname else ""
+
+                mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate,ecsProductDetailViewModel. getValueFor("Pros", review),ecsProductDetailViewModel.getValueFor("Cons", review)))
+
+            }
+
+            reviewsAdapter!!.notifyDataSetChanged()
+
+            hideProgressBar()
+        }
+
+    }
+
     var offset: Int = 0
     var limit: Int = 20
 
     private var reviewsAdapter: MECReviewsAdapter? = null
-    var productctn = null
     private lateinit var mecReviews: MutableList<MECReview>
 
-    private val reviewsCb = object : ConversationsDisplayCallback<ReviewResponse> {
-        override fun onSuccess(response: ReviewResponse) {
-
-            val reviews = response.results
-
-            if (reviews.isEmpty()) {
-                //showMessage(this@DisplayReviewsActivity, "Empty results", "No reviews found for this product")
-            } else {
-
-                for (review in reviews) {
-                    val nick = if (review.userNickname != null) review.userNickname else ""
-
-                    mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate, getValueFor("Pros", review), getValueFor("Cons", review)))
-
-                }
-
-                reviewsAdapter!!.notifyDataSetChanged()
-            }
-        }
-
-        override fun onFailure(exception: ConversationsException) {
-
-        }
-    }
-
     private lateinit var binding: MecProductReviewFragmentBinding
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = MecProductReviewFragmentBinding.inflate(inflater, container, false)
 
+        ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+
+        ecsProductDetailViewModel.review.observe(this, reviewObserver)
+        ecsProductDetailViewModel.mecError.observe(this,this)
+
         mecReviews = mutableListOf<MECReview>()
 
         val bundle = arguments
-        var productctn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN)
+        productctn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN,"INVALID")
 
 
         //TODO in binding
@@ -72,27 +82,35 @@ class MECProductReviewsFragment : MecBaseFragment() {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
-        val bvClient = MECDataHolder.INSTANCE.bvClient
-        val request = ReviewsRequest.Builder("HD9653_90", limit, offset).addSort(ReviewOptions.Sort.SubmissionTime, SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter("FilteredStats", "Reviews").build()
-        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
-        /*val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).build()
-        bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
+        this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it,offset,limit) }
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                val lay = binding.recyclerView
+                        .layoutManager as LinearLayoutManager
+
+                if(isScrollDown(lay))
+                    executeRequest()
+
+            }
+        })
+
         return binding.root
     }
 
-    private fun getValueFor(type: String, review: Review): String {
-        var  reviewValue :String? = null
-        var mapAdditionalFields: LinkedTreeMap<String, String>? = null
-        if (review.additionalFields != null && review.additionalFields.size > 0) {
-            mapAdditionalFields = review.additionalFields.get(type) as LinkedTreeMap<String, String>
-            reviewValue= if (mapAdditionalFields != null && mapAdditionalFields?.get("Value") != null) mapAdditionalFields?.get("Value") else ""
-        }
-        if (reviewValue == null) {
-            if (review.tagDimensions != null && review.tagDimensions!!.size > 0) {
-                val tagD = review.tagDimensions?.get(type.substring(0,type.length-1))
-                reviewValue= tagD?.values.toString()
-            }
-        }
-        return if(reviewValue.toString()!=null) reviewValue.toString() else ""
+    private fun executeRequest() {
+        createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
+        offset++
+        this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it,offset,limit) }
     }
+
+    private fun isScrollDown(lay: LinearLayoutManager): Boolean {
+        val visibleItemCount = lay.childCount
+        val firstVisibleItemPosition = lay.findFirstVisibleItemPosition()
+        return visibleItemCount + firstVisibleItemPosition >= lay.itemCount && firstVisibleItemPosition >= 0
+    }
+
 }

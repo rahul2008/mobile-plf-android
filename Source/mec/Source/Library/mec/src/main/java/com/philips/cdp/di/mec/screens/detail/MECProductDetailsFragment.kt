@@ -62,9 +62,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
 
-        val context = inflater.context
-
-
         ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
