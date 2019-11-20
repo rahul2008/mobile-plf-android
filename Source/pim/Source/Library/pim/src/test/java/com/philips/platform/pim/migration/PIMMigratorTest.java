@@ -8,6 +8,7 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
@@ -20,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -42,6 +44,8 @@ public class PIMMigratorTest extends TestCase {
     private LoggingInterface mockLoggingInterface;
     @Mock
     private USRTokenManager mockUsrTokenManager;
+    @Mock
+    AppTaggingInterface mockTaggingInterface;
     @Mock
     private PIMMigrationManager mockPimMigrationManager;
     @Mock
@@ -67,6 +71,7 @@ public class PIMMigratorTest extends TestCase {
 
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        when(mockPimSettingManager.getTaggingInterface()).thenReturn(mockTaggingInterface);
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
         whenNew(USRTokenManager.class).withArguments(mockAppInfraInterface).thenReturn(mockUsrTokenManager);
 
