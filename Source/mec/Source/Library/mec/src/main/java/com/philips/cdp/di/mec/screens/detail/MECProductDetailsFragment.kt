@@ -145,11 +145,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.mecRatingLebel.text =  DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
             binding.mecReviewLebel.text = " ("+results.get(0).productStatistics.nativeReviewStatistics.totalReviewCount.toString() + " reviews)"
         }
-        ///////////
-      /*  val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager)
-        viewpager_main.adapter = fragmentAdapter
 
-        tabs_main.setupWithViewPager(viewpager_main)*/
     }
 
     fun getListIcon(): Drawable? {
@@ -170,8 +166,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
 
     fun showPriceDetail(){
-        // mec_discounted_price.paintFlags = mec_discounted_price.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
 
         val textSize16 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_discount_price_label_size);
         val textSize12 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);

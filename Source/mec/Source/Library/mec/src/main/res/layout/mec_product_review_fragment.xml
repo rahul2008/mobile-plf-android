@@ -14,7 +14,6 @@
 
         <android.support.v7.widget.RecyclerView
             android:layout_below="@+id/mec_ll_layout"
-            android:layout_margin="@dimen/iap_margin_20dp"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

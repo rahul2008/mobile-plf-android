@@ -37,7 +37,9 @@ class MECProductReviewsFragment : MecBaseFragment() {
             } else {
 
                 for(review in reviews){
-                    mecReviews.add(MECReview(review.title,review.reviewText,review.rating.toString(),review.userNickname,review.lastModificationDate,(review.additionalFields.get("Pros").toString()),(review.tagDimensions?.get("Con")?.values.toString())))
+                    val nick = if (review.userNickname!=null) review.userNickname else ""
+
+                    mecReviews.add(MECReview(review.title,review.reviewText,review.rating.toString(),nick,review.lastModificationDate,(review.additionalFields.get("Pros").toString()),(review.tagDimensions?.get("Con")?.values.toString())))
 
                 }
 
@@ -70,7 +72,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
         }
 
         val bvClient = MECDataHolder.INSTANCE.bvClient
-        val request = ReviewsRequest.Builder("HD9940_00", limit, offset).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter("FilteredStats","Reviews").build()
+        val request = ReviewsRequest.Builder("HD9653_90", limit, offset).addSort(ReviewOptions.Sort.SubmissionTime,SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale,EqualityOperator.EQ,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter("FilteredStats","Reviews").build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
         /*val request = ReviewsRequest.Builder(Constants.PRODUCT_ID, 20, 0).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)*/
