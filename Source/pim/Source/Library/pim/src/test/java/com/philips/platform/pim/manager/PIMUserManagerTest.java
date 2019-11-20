@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -76,6 +77,8 @@ public class PIMUserManagerTest extends TestCase {
     @Mock
     LoggingInterface mockLoggingInterface;
     @Mock
+    AppTaggingInterface mockTaggingInterface;
+    @Mock
     SharedPreferences mockSharedPreferences;
     @Mock
     SharedPreferences.Editor mockEditor;
@@ -110,6 +113,7 @@ public class PIMUserManagerTest extends TestCase {
         Mockito.when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         Mockito.when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
         Mockito.when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        Mockito.when(mockPimSettingManager.getTaggingInterface()).thenReturn(mockTaggingInterface);
         Mockito.when(mockContext.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE)).thenReturn(mockSharedPreferences);
         Mockito.when(mockSharedPreferences.edit()).thenReturn(mockEditor);
         Mockito.when(mockAppInfraInterface.getSecureStorage()).thenReturn(mockStorageInterface);
