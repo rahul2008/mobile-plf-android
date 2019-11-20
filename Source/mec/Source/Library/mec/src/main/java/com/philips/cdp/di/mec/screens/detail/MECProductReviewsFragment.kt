@@ -95,6 +95,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
                 val lay = binding.recyclerView
                         .layoutManager as LinearLayoutManager
 
+
                 if(isScrollDown(lay))
                     executeRequest()
 
