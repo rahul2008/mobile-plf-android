@@ -1,9 +1,8 @@
 package com.philips.cdp.di.mec.screens.reviews
 
 import android.app.Application
-import com.bazaarvoice.bvandroidsdk.BVConversationsClient
-import com.bazaarvoice.bvandroidsdk.BVLogLevel
-import com.bazaarvoice.bvandroidsdk.BVSDK
+import com.bazaarvoice.bvandroidsdk.*
+import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -18,16 +17,20 @@ class BazaarVoiceHelper {
 
     fun getBazarvoiceClient(context:Application) : BVConversationsClient {
 
-        /*val bvsdk = BVSDK.builderWithConfig(context, Constants.BAZAAR_ENVIRONMENT,bvConfig)
-       .logLevel(BVLogLevel.ERROR)
-       .okHttpClient(getOkHttpClient(loggingInterceptor))
-       .build()*/
+        var bvConfigBuilder = BVConfig.Builder()
+        bvConfigBuilder.clientId("philipsglobal")
+        bvConfigBuilder.apiKeyConversations("caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E")
 
-         val bvsdk = BVSDK.builder(context, Constants.BAZAAR_ENVIRONMENT)
+        val bvsdk = BVSDK.builderWithConfig(context, BazaarEnvironment.PRODUCTION,bvConfigBuilder.build())
+       .logLevel(BVLogLevel.ERROR)
+       .okHttpClient(getOkHttpClient(loggingInterceptor)).dryRunAnalytics(false)
+       .build()
+
+         /*val bvsdk = BVSDK.builder(context, Constants.BAZAAR_ENVIRONMENT)
                 .logLevel(BVLogLevel.VERBOSE)
                 .okHttpClient(getOkHttpClient(loggingInterceptor))
                  .dryRunAnalytics(false)
-                .build()
+                .build()*/
 
          var bvClient = BVConversationsClient.Builder(bvsdk).build()
          return bvClient

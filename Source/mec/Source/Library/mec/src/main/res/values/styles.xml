@@ -378,6 +378,10 @@
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
+    <style name="iapCentralesansBoldFont">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
     <style name="MecTabStyle" parent="Widget.Design.TabLayout">
 
         <item name="tabBackground">?attr/uidContentPrimaryBackgroundColor</item>
