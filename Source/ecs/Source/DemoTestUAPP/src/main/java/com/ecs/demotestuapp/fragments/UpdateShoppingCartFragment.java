@@ -3,6 +3,7 @@ package com.ecs.demotestuapp.fragments;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -45,6 +46,11 @@ public class UpdateShoppingCartFragment extends BaseAPIFragment {
         }
 
         ECSEntries ecsEntriesFromID = getECSEntriesFromID(entryNumber);
+
+        if(ecsEntriesFromID == null){
+            Toast.makeText(getActivity(),"ECSEntries Field is empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         ECSDataHolder.INSTANCE.getEcsServices().updateShoppingCart(quantity, ecsEntriesFromID, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override

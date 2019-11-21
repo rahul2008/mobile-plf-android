@@ -3,6 +3,7 @@ package com.ecs.demotestuapp.fragments;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -51,6 +52,15 @@ public class MakePaymentFragment extends BaseAPIFragment {
         }
 
         ECSAddress ecsAddress = getECSAddress(billingAddressID);
+
+        if(ecsAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(ECSDataHolder.INSTANCE.getEcsOrderDetail() == null){
+            Toast.makeText(getActivity(),"Order Detail can not be null",Toast.LENGTH_SHORT).show();
+        }
 
         ECSDataHolder.INSTANCE.getEcsServices().makePayment(ECSDataHolder.INSTANCE.getEcsOrderDetail(), ecsAddress, new ECSCallback<ECSPaymentProvider, Exception>() {
             @Override

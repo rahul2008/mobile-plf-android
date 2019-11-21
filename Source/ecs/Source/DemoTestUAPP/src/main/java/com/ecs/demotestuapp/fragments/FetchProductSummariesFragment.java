@@ -22,16 +22,21 @@ public class FetchProductSummariesFragment extends BaseAPIFragment {
         super.onResume();
 
         etCTN = getLinearLayout().findViewWithTag("et_one");
-        if(ECSDataHolder.INSTANCE.getEcsProducts()!=null){
+        etCTN.setHint("Add comma separated ctns");
+        /*if(ECSDataHolder.INSTANCE.getEcsProducts()!=null){
             if(ECSDataHolder.INSTANCE.getEcsProducts().getProducts().size()!=0){
                 etCTN.setText(ECSDataHolder.INSTANCE.getEcsProducts().getProducts().get(0).getCode());
             }
-        }
+        }*/
     }
 
     public void executeRequest() {
 
         String ctn = etCTN.getText().toString().trim();
+
+        if(ctn.isEmpty()){
+            return;
+        }
 
         String[] split = ctn.split(",");
 
