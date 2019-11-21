@@ -57,6 +57,7 @@ class MECHandler {
         ECSServices ecsServices = new ECSServices(propertyForKey,appInfra);
         MecHolder.INSTANCE.eCSServices=ecsServices; // singleton
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.getMecBannerEnabler();
+        MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.getMecBazaarVoiceInput();
         getUrl();
         if (mUiLauncher instanceof ActivityLauncher) {
             launchMECasActivity();

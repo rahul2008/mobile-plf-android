@@ -115,6 +115,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isToggleListener = false;
     private RadioGroup rgVoucher,rgLauncher;
     private CheckBox bvCheckBox;
+    private MECBazaarVoiceInput mecBazaarVoiceInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +144,9 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
         mEtPropositionId.setText(propertyForKey);
+
+
+        mecBazaarVoiceInput = new MECBazaarVoiceInput();
 
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,7 +250,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         bvCheckBox = findViewById(R.id.bv_checkbox);
         bvCheckBox.setOnCheckedChangeListener(this);
 
-
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
 
@@ -348,28 +351,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
 
             mMecLaunchInput.mecBannerEnabler = this::getBannerView;
-
-        MECBazaarVoiceInput mecBazaarVoiceInput = new MECBazaarVoiceInput() {
-
-            @NotNull
-            @Override
-            public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
-                return BazaarVoiceEnvironment.PRODUCTION;
-            }
-
-            @NotNull
-            @Override
-            public String getBazaarVoiceClientID() {
-                return "philipsglobal";
-            }
-
-            @NotNull
-            @Override
-            public String getBazaarVoiceConversationAPIKey() {
-                return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E";
-            }
-        };
-        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
 
 
     }
@@ -513,6 +494,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     private void launchMEC(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
 
+        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
+
         if (pIgnoreRetailerList == null)
             mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode);
         else
@@ -527,6 +510,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         } catch (RuntimeException exception) {
             Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void launchMECasFragment(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
@@ -834,7 +818,64 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
         if(isChecked){
+
+            mecBazaarVoiceInput = new MECBazaarVoiceInput() {
+
+                @NotNull
+                @Override
+                public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
+
+                        return BazaarVoiceEnvironment.PRODUCTION;
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceClientID() {
+
+                        return "philipsglobal";
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceConversationAPIKey() {
+
+                        return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E";
+
+                }
+            };
+
+        }else if(!isChecked){
+
+            mecBazaarVoiceInput = new MECBazaarVoiceInput() {
+
+                @NotNull
+                @Override
+                public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
+
+                        return BazaarVoiceEnvironment.STAGING;
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceClientID() {
+
+                        return "philipsglobal";
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceConversationAPIKey() {
+
+                        return "ca23LB5V0eOKLe0cX6kPTz6LpAEJ7SGnZHe21XiWJcshc";
+                }
+            };
         }
     }
 }
