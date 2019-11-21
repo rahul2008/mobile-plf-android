@@ -1,13 +1,17 @@
 package com.mec.demouapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +40,7 @@ import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
+import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -116,6 +121,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup rgVoucher,rgLauncher;
     private CheckBox bvCheckBox;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
+    private SharedPreferences preferences;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +139,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mEtCTN = findViewById(R.id.et_add_ctn);
         mEtVoucherCode = findViewById(R.id.et_add_voucher);
         mAddCTNLl = findViewById(R.id.ll_ctn);
+        bvCheckBox = findViewById(R.id.bv_checkbox);
+        bvCheckBox.setOnCheckedChangeListener(this);
 
 
         mEtPropositionId = findViewById(R.id.et_add_proposition_id);
@@ -247,8 +256,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mLaunchProductDetail.setOnClickListener(this);
 
         mShoppingCart = findViewById(R.id.mec_demo_app_shopping_cart_icon);
-        bvCheckBox = findViewById(R.id.bv_checkbox);
-        bvCheckBox.setOnCheckedChangeListener(this);
 
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
@@ -313,7 +320,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mMecSettings = new MECSettings(this);
         actionBar();
         initializeMECComponant();
-    }
+        initializeBazaarVoice();
+}
 
     private void initializeMECComponant() {
         toggleHybris.setVisibility(View.VISIBLE);
@@ -343,6 +351,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             mMecInterface.init(mIapDependencies, mMecSettings);
         } catch (RuntimeException ex) {
         }
+
         mMecLaunchInput = new MECLaunchInput();
 
         if (!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())) {
@@ -351,6 +360,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
 
             mMecLaunchInput.mecBannerEnabler = this::getBannerView;
+        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
 
 
     }
@@ -818,17 +828,57 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.isPressed()) {
+            showDialog();
+        }
+        initializeMECComponant();
+    }
 
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog OptionDialog = builder.create();
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        setBazaarVoiceEnvironmentToProd();
+                        break;
 
-        if(isChecked){
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        bvCheckBox.setChecked(! bvCheckBox.isChecked());
+                        OptionDialog.dismiss();
+                        break;
+                }
+            }
+        };
 
+        builder.setMessage("Are you sure to change Bazaar voice environment ?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+    private void setBazaarVoiceEnvironmentToProd(){
+        String env= (bvCheckBox.isChecked()) ? BazaarVoiceEnvironment.PRODUCTION.toString(): BazaarVoiceEnvironment.STAGING.toString();
+        SharedPreferences preferences = getSharedPreferences("bvEnv", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("BVEnvironment", env);
+        editor.commit();
+        finishAffinity();
+        System.exit(0);
+    }
+
+    private void initializeBazaarVoice(){
+        SharedPreferences shared = getSharedPreferences("bvEnv", MODE_PRIVATE);
+        String name = (shared.getString("BVEnvironment", BazaarVoiceEnvironment.PRODUCTION.toString()));
+        if(name.equalsIgnoreCase(BazaarVoiceEnvironment.PRODUCTION.toString())) {
+            bvCheckBox.setChecked(true);
             mecBazaarVoiceInput = new MECBazaarVoiceInput() {
 
                 @NotNull
                 @Override
                 public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
 
-                        return BazaarVoiceEnvironment.PRODUCTION;
+                    return BazaarVoiceEnvironment.PRODUCTION;
 
                 }
 
@@ -836,7 +886,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public String getBazaarVoiceClientID() {
 
-                        return "philipsglobal";
+                    return "philipsglobal";
 
                 }
 
@@ -844,20 +894,19 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public String getBazaarVoiceConversationAPIKey() {
 
-                        return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E";
+                    return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E";
 
                 }
             };
-
-        }else if(!isChecked){
-
+        }else{
+            bvCheckBox.setChecked(false);
             mecBazaarVoiceInput = new MECBazaarVoiceInput() {
 
                 @NotNull
                 @Override
                 public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
 
-                        return BazaarVoiceEnvironment.STAGING;
+                    return BazaarVoiceEnvironment.STAGING;
 
                 }
 
@@ -865,7 +914,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public String getBazaarVoiceClientID() {
 
-                        return "philipsglobal";
+                    return "philipsglobal";
 
                 }
 
@@ -873,10 +922,13 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public String getBazaarVoiceConversationAPIKey() {
 
-                        return "ca23LB5V0eOKLe0cX6kPTz6LpAEJ7SGnZHe21XiWJcshc";
+                    return "ca23LB5V0eOKLe0cX6kPTz6LpAEJ7SGnZHe21XiWJcshc";
                 }
             };
         }
+
     }
+
+
 }
 

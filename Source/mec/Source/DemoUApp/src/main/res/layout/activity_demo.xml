@@ -246,7 +246,6 @@
         android:id="@+id/bv_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true"
         android:layout_below="@+id/rg_launcher"
         android:layout_marginStart="@dimen/reg_dimen_8dp"
         android:text="BazaarVoice Production"/>

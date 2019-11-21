@@ -73,7 +73,7 @@ class MECFragmentLauncher : MecBaseFragment(){
         ecsLauncherViewModel.ecsProduct.observe(this,productObserver)
 
         //TODO we can also check if SDK is already initialized
-        if(MECDataHolder.INSTANCE.bvClient==null) {
+        if(MECDataHolder.INSTANCE.bvClient == null) {
             val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(activity?.application!!)
             MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
         }
