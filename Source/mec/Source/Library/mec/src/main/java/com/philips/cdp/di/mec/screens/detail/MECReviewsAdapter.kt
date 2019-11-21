@@ -42,7 +42,7 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
         }
         //android:text='@{ (mecReview.submitter+" - "+mecReview.formattedDate): (mecReview.submitter+" - "+mecReview.formattedDate + "@string/mec_has_used_this_product_for"+mecReview.useDuration) }'
       var durationUse :String =review.submitter+" - "+review.getFormattedDate();
-       if(review.useDuration.toString()!=null){
+       if(review.useDuration.toString()!=null && !review.useDuration.toString().isEmpty()){
            durationUse = durationUse + " - "+viewHolder.binding.mecRetailerItemReviewSubmitter.context.getString(R.string.mec_has_used_this_product_for)+" "+review.useDuration.toString();
        }
         viewHolder.binding.mecRetailerItemReviewSubmitter.text=durationUse;

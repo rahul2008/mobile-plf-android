@@ -73,7 +73,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
         val bundle = arguments
         productctn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN,"INVALID")
-
+        //productctn ="HD9653_90"
 
         //TODO in binding
         reviewsAdapter = MECReviewsAdapter(mecReviews)

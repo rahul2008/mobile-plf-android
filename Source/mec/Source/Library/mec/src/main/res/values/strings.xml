@@ -27,5 +27,7 @@
     <string name="mec_out_of_stock">Out of stock </string>
     <string name="mec_has_used_this_product_for">Has used this product for </string>
     <string name="mec_anonymous">Anonymous</string>
+    <string name="mec_pros_plus">\uFF0B</string>
+    <string name="mec_pros_minus">\uFF0D</string>
 
 </resources>
