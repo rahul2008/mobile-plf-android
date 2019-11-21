@@ -20,5 +20,8 @@ public class UserDetailConstants {
     public static final String RECEIVE_MARKETING_EMAIL = "consent_email_marketing.given";
     public static final String UUID = "uuid";
     public static final String ACCESS_TOKEN = "access_token";
+    public static final String EXPIRES_IN = "expires_in";
+    public static final String TOKEN_TYPE = "token_type";
+    public static final String ID_TOKEN = "id_token";
 
 }

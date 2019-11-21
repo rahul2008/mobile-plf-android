@@ -36,6 +36,7 @@ import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
+import net.openid.appauth.TokenResponse;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -85,6 +86,8 @@ public class PIMUserManagerTest extends TestCase {
     @Mock
     AuthState mockAuthState;
     @Mock
+    TokenResponse mockLastTokenResponse;
+    @Mock
     PIMRestClient mockPimRestClient;
     @Mock
     PIMAuthManager mockPimAuthManager;
@@ -100,6 +103,7 @@ public class PIMUserManagerTest extends TestCase {
     ArgumentCaptor<PIMTokenRequestListener> tokenRequestArgumentCaptor;
 
     private PIMUserManager pimUserManager;
+
 
     public void setUp() throws Exception {
         super.setUp();
@@ -214,6 +218,7 @@ public class PIMUserManagerTest extends TestCase {
         AuthorizationServiceDiscovery mockAuthorizationServiceDiscovery = mock(AuthorizationServiceDiscovery.class);
 
         Mockito.when(mockAuthState.getLastAuthorizationResponse()).thenReturn(mockAuthorizationResponse);
+        Mockito.when(mockAuthState.getLastTokenResponse()).thenReturn(mockLastTokenResponse);
 
         Whitebox.setInternalState(mockAuthorizationResponse, "request", mockAuthorizationRequest);
         Whitebox.setInternalState(mockAuthorizationRequest, "configuration", mockAuthorizationServiceConfiguration);
@@ -329,10 +334,42 @@ public class PIMUserManagerTest extends TestCase {
     public void testFetchUserDetails() {
         ArrayList<String> keyList = new ArrayList<>();
         keyList.add(UserDetailConstants.GIVEN_NAME);
+        keyList.add(UserDetailConstants.FAMILY_NAME);
+        keyList.add(UserDetailConstants.EMAIL);
+        keyList.add(UserDetailConstants.MOBILE_NUMBER);
+        keyList.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+        keyList.add(UserDetailConstants.UUID);
+        keyList.add(UserDetailConstants.GENDER);
+        keyList.add(UserDetailConstants.ACCESS_TOKEN);
+        keyList.add(UserDetailConstants.TOKEN_TYPE);
+        keyList.add(UserDetailConstants.EXPIRES_IN);
+        keyList.add(UserDetailConstants.ID_TOKEN);
+
+        AuthorizationResponse mockAuthorizationResponse = mock(AuthorizationResponse.class);
+        Mockito.when(mockAuthState.getLastTokenResponse()).thenReturn(mockLastTokenResponse);
+
+        Whitebox.setInternalState(mockAuthorizationResponse, "idToken", "tHFx_gB2uCyswq1f3GNvFJVQZFPRmAfziqAzPljp9P-0VweraIWEk8sec7QuvK5pR");
+        Whitebox.setInternalState(mockAuthorizationResponse, "tokenType", "Bearer");
+        Whitebox.setInternalState(mockAuthorizationResponse, "accessTokenExpirationTime", new Long(3600));
+        Mockito.when(mockAuthState.getLastAuthorizationResponse()).thenReturn(mockAuthorizationResponse);
+
         PIMOIDCUserProfile pimoidcUserProfile = new PIMOIDCUserProfile(readUserProfileResponseJson(), mockAuthState);
         HashMap<String, Object> stringObjectHashMap = pimoidcUserProfile.fetchUserDetails(keyList);
-        String s = stringObjectHashMap.get(UserDetailConstants.GIVEN_NAME).toString();
-        assertNotNull(s);
+
+        String givenName = stringObjectHashMap.get(UserDetailConstants.GIVEN_NAME).toString();
+        String email = stringObjectHashMap.get(UserDetailConstants.EMAIL).toString();
+        String uuid = stringObjectHashMap.get(UserDetailConstants.UUID).toString();
+        String gender = stringObjectHashMap.get(UserDetailConstants.GENDER).toString();
+        String tokenType = mockAuthState.getLastAuthorizationResponse().tokenType;
+        String idToken =  mockAuthState.getLastAuthorizationResponse().idToken;
+        Long expiresIn =  mockAuthState.getLastAuthorizationResponse().accessTokenExpirationTime;
+        assertNotNull(givenName);
+        assertNotNull(email);
+        assertNotNull(uuid);
+        assertNotNull(gender);
+        assertNotNull(tokenType);
+        assertNotNull(expiresIn);
+        assertNotNull(idToken);
     }
 
     private String readUserProfileResponseJson() {

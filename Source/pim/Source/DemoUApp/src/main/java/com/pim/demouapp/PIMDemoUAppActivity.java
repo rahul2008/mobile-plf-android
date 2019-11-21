@@ -264,6 +264,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 detailKeys.add(UserDetailConstants.MOBILE_NUMBER);
                 detailKeys.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
                 detailKeys.add(UserDetailConstants.UUID);
+                detailKeys.add(UserDetailConstants.ID_TOKEN);
+                detailKeys.add(UserDetailConstants.EXPIRES_IN);
+                detailKeys.add(UserDetailConstants.TOKEN_TYPE);
                 HashMap<String, Object> userDetails = userDataInterface.getUserDetails(detailKeys);
                 showToast("User Details  are :" + userDetails.toString());
             } catch (UserDataInterfaceException e) {
