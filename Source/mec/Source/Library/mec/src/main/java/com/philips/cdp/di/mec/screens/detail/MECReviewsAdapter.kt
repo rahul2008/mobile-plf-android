@@ -25,13 +25,17 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
         viewHolder.bind(review!!)
         if(review.pros==null || review.pros == "null"){
             viewHolder.binding.mecReviewPros.visibility = View.GONE
+            viewHolder.binding.mecReviewProsIcon.visibility = View.GONE
         } else {
             viewHolder.binding.mecReviewPros.visibility = View.VISIBLE
+            viewHolder.binding.mecReviewProsIcon.visibility = View.VISIBLE
         }
         if(review.cons==null || review.cons == "null"){
             viewHolder.binding.mecReviewCons.visibility = View.GONE
+            viewHolder.binding.mecReviewConsIcon.visibility = View.GONE
         } else {
             viewHolder.binding.mecReviewCons.visibility = View.VISIBLE
+            viewHolder.binding.mecReviewConsIcon.visibility = View.VISIBLE
         }
         if (position % 2 == 1) {
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentPrimaryBackgroundColor)
