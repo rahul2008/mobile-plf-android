@@ -32,7 +32,17 @@ public enum ECSDataHolder {
     List<ECSAddress> ecsAddressList = new ArrayList<>();
     ECSShoppingCart ecsShoppingCart;
     ECSOrderHistory ecsOrderHistory;
-    ECSOrderDetail ecsOrderDetail;
+    ECSOrderDetail ecsOrderDetailPlaceOrder;
+
+    public ECSOrderDetail getEcsOrderDetailOrderHistory() {
+        return ecsOrderDetailOrderHistory;
+    }
+
+    public void setEcsOrderDetailOrderHistory(ECSOrderDetail ecsOrderDetailOrderHistory) {
+        this.ecsOrderDetailOrderHistory = ecsOrderDetailOrderHistory;
+    }
+
+    ECSOrderDetail ecsOrderDetailOrderHistory;
     List<ECSPayment> ecsPayments = new ArrayList<>();
     List<ECSRegion> ecsRegions = new ArrayList<>();
     String janrainID;
@@ -50,11 +60,11 @@ public enum ECSDataHolder {
 
 
     public ECSOrderDetail getEcsOrderDetail() {
-        return ecsOrderDetail;
+        return ecsOrderDetailPlaceOrder;
     }
 
-    public void setEcsOrderDetail(ECSOrderDetail ecsOrderDetail) {
-        this.ecsOrderDetail = ecsOrderDetail;
+    public void setEcsOrderDetail(ECSOrderDetail ecsOrderDetailPlaceOrder) {
+        this.ecsOrderDetailPlaceOrder = ecsOrderDetailPlaceOrder;
     }
 
 
@@ -205,7 +215,7 @@ public enum ECSDataHolder {
         janrainID = null;
 
         ecsOrderHistory = null;
-        ecsOrderDetail = null;
+        ecsOrderDetailPlaceOrder = null;
         ecsPayments = new ArrayList<>();
         ecsRegions = new ArrayList<>();
         vouchers = new ArrayList<>();
