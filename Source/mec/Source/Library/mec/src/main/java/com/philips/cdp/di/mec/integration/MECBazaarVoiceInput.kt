@@ -11,10 +11,10 @@ open class MECBazaarVoiceInput {
 
     open fun getBazaarVoiceConversationAPIKey (): String{
 
-        return "ca23LB5V0eOKLe0cX6kPTz6LpAEJ7SGnZHe21XiWJcshc"
+        return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E"
     }
 
     open fun getBazaarVoiceEnvironment() : BazaarVoiceEnvironment{
-        return BazaarVoiceEnvironment.STAGING
+        return BazaarVoiceEnvironment.PRODUCTION
     }
 }
