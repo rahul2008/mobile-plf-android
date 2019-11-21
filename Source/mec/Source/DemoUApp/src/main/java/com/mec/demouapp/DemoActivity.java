@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -69,7 +70,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DemoActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
-        UserRegistrationUIEventListener, MECBannerEnabler {
+        UserRegistrationUIEventListener, MECBannerEnabler, CompoundButton.OnCheckedChangeListener {
 
     private final String TAG = DemoActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -113,6 +114,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private ToggleButton toggleListener;
     private boolean isToggleListener = false;
     private RadioGroup rgVoucher,rgLauncher;
+    private CheckBox bvCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,6 +243,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mLaunchProductDetail.setOnClickListener(this);
 
         mShoppingCart = findViewById(R.id.mec_demo_app_shopping_cart_icon);
+        bvCheckBox = findViewById(R.id.bv_checkbox);
+        bvCheckBox.setOnCheckedChangeListener(this);
 
 
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
@@ -826,6 +830,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     boolean isUserLoggedIn(){
         return  mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked){
+        }
     }
 }
 

@@ -69,7 +69,7 @@
                         android:textSize="12sp"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
                         android:text="@{mecReview.reviewText}"
-                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/mec_review_pros"
@@ -80,7 +80,7 @@
                         android:drawableStart="@drawable/ic_pros"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
                         android:text="@{mecReview.pros}"
-                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/mec_review_cons"
@@ -91,7 +91,7 @@
                         android:drawableStart="@drawable/ic_cons"
                         android:layout_marginTop="@dimen/iap_margin_4dp"
                         android:text="@{mecReview.cons}"
-                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
  </LinearLayout>
 

@@ -39,7 +39,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
                 for(review in reviews){
                     binding.mecProductCatalogEmptyLabel.visibility = View.GONE
-                    val nick = if (review.userNickname!=null) review.userNickname else ""
+                    val nick = if (review.userNickname!=null) review.userNickname else "Anonymous"
 
                     mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate, getValueFor("Pros", review), getValueFor("Cons", review),getValueForUseDuration(review)))
 
