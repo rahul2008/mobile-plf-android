@@ -40,7 +40,7 @@
                 android:tint="@color/colorAccent"
                 android:src="@drawable/mec_wishlist"
                 android:background="@drawable/mec_circular_background"
-                android:layout_gravity="top|right" />
+                android:layout_gravity="top|end" />
         </FrameLayout>
 
         <LinearLayout

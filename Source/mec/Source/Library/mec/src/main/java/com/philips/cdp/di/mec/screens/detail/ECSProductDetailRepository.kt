@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.screens.detail
 
+import android.arch.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
@@ -34,11 +35,13 @@ class ECSProductDetailRepository {
 
     fun fetchProductReview(ctn : String, pageNumber : Int, pageSize : Int, ecsProductViewModel: EcsProductDetailViewModel){
 
+        val noData = mutableListOf<Review>()
+
         val reviewsCb = object :  ConversationsDisplayCallback<ReviewResponse> {
             override fun onSuccess(response: ReviewResponse) {
                 if (response.results.isEmpty()) {
                  //TODO Handle this
-
+                    ecsProductViewModel.review.value = noData
                 } else {
                     ecsProductViewModel.review.value = response.results
                 }
@@ -46,6 +49,7 @@ class ECSProductDetailRepository {
 
             override fun onFailure(exception: ConversationsException) {
                //TODO HANDLE error through MECError
+                ecsProductViewModel.review.value = noData
             }
         }
         val bvClient = MECDataHolder.INSTANCE.bvClient
