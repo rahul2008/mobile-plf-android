@@ -373,8 +373,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public URNotification getNotification() {
         RLog.d(TAG, "getNotification ");
-        if (notification == null)
-            notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
+        notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
         return notification;
     }
 
