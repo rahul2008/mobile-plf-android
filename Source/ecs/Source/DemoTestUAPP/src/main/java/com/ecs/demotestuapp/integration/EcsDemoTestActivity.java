@@ -112,6 +112,7 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
     private void initializeRegistrationComponant() {
         if (isUserLoggedIn()) {
             setJanRainID();
+            ECSDataHolder.INSTANCE.setUserDataInterface(mUserDataInterface);
             mRegister.setText("Log out");
         } else {
             mRegister.setText("Log in");

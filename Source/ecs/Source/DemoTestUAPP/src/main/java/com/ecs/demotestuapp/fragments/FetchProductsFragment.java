@@ -27,8 +27,8 @@ public class FetchProductsFragment extends BaseAPIFragment {
 
     public void executeRequest() {
 
-        if(!etPageNumber.getText().toString().trim().isEmpty()){
-            pageSize = Integer.valueOf(etPageNumber.getText().toString().trim());
+        if(!etPageSize.getText().toString().trim().isEmpty()){
+            pageSize = Integer.valueOf(etPageSize.getText().toString().trim());
         }
 
         if(!etPageNumber.getText().toString().trim().isEmpty()){

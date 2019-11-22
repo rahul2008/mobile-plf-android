@@ -35,6 +35,7 @@ import com.ecs.demotestuapp.fragments.FetchShoppingCartFragment;
 import com.ecs.demotestuapp.fragments.FetchUserProfileFragment;
 import com.ecs.demotestuapp.fragments.HybrisOAthAuthenticationFragment;
 import com.ecs.demotestuapp.fragments.HybrisRefreshOAuthFragment;
+import com.ecs.demotestuapp.fragments.JanrainRefreshOAuthFragment;
 import com.ecs.demotestuapp.fragments.MakePaymentFragment;
 import com.ecs.demotestuapp.fragments.RemoveVoucherFragment;
 import com.ecs.demotestuapp.fragments.SetAndFetchDeliveryAddressFragment;
@@ -197,6 +198,9 @@ public class InputActivity extends AppCompatActivity {
                 return new FetchOrderDetailForOdersFragment();
             case 38:
                 return new FetchUserProfileFragment();
+
+            case 39:
+                return new JanrainRefreshOAuthFragment();
 
             default:
                 return null;

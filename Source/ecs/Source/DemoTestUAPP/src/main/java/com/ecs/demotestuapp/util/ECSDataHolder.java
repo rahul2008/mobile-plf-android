@@ -14,8 +14,11 @@ import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public enum ECSDataHolder {
@@ -33,6 +36,16 @@ public enum ECSDataHolder {
     ECSShoppingCart ecsShoppingCart;
     ECSOrderHistory ecsOrderHistory;
     ECSOrderDetail ecsOrderDetailPlaceOrder;
+
+    public UserDataInterface getmUserDataInterface() {
+        return mUserDataInterface;
+    }
+
+    public void setmUserDataInterface(UserDataInterface mUserDataInterface) {
+        this.mUserDataInterface = mUserDataInterface;
+    }
+
+    UserDataInterface mUserDataInterface;
 
     public ECSOrderDetail getEcsOrderDetailOrderHistory() {
         return ecsOrderDetailOrderHistory;
@@ -219,5 +232,30 @@ public enum ECSDataHolder {
         ecsPayments = new ArrayList<>();
         ecsRegions = new ArrayList<>();
         vouchers = new ArrayList<>();
+    }
+
+    boolean isUserLoggedIn(){
+        return  mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
+    }
+
+
+
+    public void refreshJanRainID() {
+
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
+        try {
+
+            if(mUserDataInterface!=null && isUserLoggedIn()) {
+
+                HashMap<String, Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+                String janrainID = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+                ECSDataHolder.INSTANCE.setJanrainID(janrainID);
+                ECSDataHolder.INSTANCE.setUserDataInterface(mUserDataInterface);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

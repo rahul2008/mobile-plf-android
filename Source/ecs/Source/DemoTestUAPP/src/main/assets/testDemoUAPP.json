@@ -22,7 +22,13 @@
       {
         "needInput": false,
         "type": "button",
-        "name": "Refresh OAuth",
+        "name": "Refresh Janrain Auth",
+        "apiNumber": 32
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Refresh Hybris OAuth",
         "apiNumber": 3
       },
       {
