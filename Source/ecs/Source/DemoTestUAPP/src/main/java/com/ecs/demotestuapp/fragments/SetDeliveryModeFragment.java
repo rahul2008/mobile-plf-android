@@ -1,7 +1,9 @@
 package com.ecs.demotestuapp.fragments;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -76,6 +78,11 @@ public class SetDeliveryModeFragment extends BaseAPIFragment {
         }
 
         ECSDeliveryMode deliveryMode = getDeliveryMode(selectedDeliveryID);
+
+        if(deliveryMode == null){
+            Toast.makeText(getActivity(),"delivery field can not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
         ECSDataHolder.INSTANCE.getEcsServices().setDeliveryMode(deliveryMode, new ECSCallback<Boolean, Exception>() {

@@ -30,6 +30,16 @@ public class ECSConfig implements Serializable {
     private String helpUrl;
     private String rootCategory;
     private String siteId;
+    private boolean isHybris;
+
+    public boolean isHybris() {
+        return isHybris;
+    }
+
+    public void setHybris(boolean hybris) {
+        isHybris = hybris;
+    }
+
 
     public String getCatalogId() {
         return catalogId;

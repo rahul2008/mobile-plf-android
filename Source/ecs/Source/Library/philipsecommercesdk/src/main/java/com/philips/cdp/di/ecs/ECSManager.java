@@ -92,7 +92,8 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                ecsCallback.onFailure(error, ecsError);
+                ecsCallback.onResponse(false);
+                //ecsCallback.onFailure(error, ecsError);
             }
         }).executeRequest();
 
@@ -105,17 +106,23 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
             public void onResponse(ECSConfig result) {
                 ECSConfiguration.INSTANCE.setSiteId(result.getSiteId());
                 ECSConfiguration.INSTANCE.setRootCategory(result.getRootCategory());
+                result.setLocale(ECSConfiguration.INSTANCE.getLocale());
+                result.setHybris(true);
                 ecsCallback.onResponse(result);
             }
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                ecsCallback.onFailure(error, ecsError);
+                ECSConfig hybrisConfigResponse = new ECSConfig();
+                hybrisConfigResponse.setLocale(ECSConfiguration.INSTANCE.getLocale());
+                hybrisConfigResponse.setHybris(false);
+                ecsCallback.onResponse(hybrisConfigResponse);
             }
         };
         GetConfigurationRequest getConfigurationRequest = getConfigurationRequestObject(ecsCallback1);
         getConfigurationRequest.executeRequest();
     }
+
     GetConfigurationRequest getConfigurationRequestObject(ECSCallback<ECSConfig, Exception> eCSCallback){
         return new GetConfigurationRequest(eCSCallback);
     }

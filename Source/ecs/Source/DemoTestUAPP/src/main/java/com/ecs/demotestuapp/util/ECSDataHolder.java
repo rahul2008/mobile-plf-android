@@ -14,8 +14,11 @@ import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public enum ECSDataHolder {
@@ -32,7 +35,27 @@ public enum ECSDataHolder {
     List<ECSAddress> ecsAddressList = new ArrayList<>();
     ECSShoppingCart ecsShoppingCart;
     ECSOrderHistory ecsOrderHistory;
-    ECSOrderDetail ecsOrderDetail;
+    ECSOrderDetail ecsOrderDetailPlaceOrder;
+
+    public UserDataInterface getmUserDataInterface() {
+        return mUserDataInterface;
+    }
+
+    public void setmUserDataInterface(UserDataInterface mUserDataInterface) {
+        this.mUserDataInterface = mUserDataInterface;
+    }
+
+    UserDataInterface mUserDataInterface;
+
+    public ECSOrderDetail getEcsOrderDetailOrderHistory() {
+        return ecsOrderDetailOrderHistory;
+    }
+
+    public void setEcsOrderDetailOrderHistory(ECSOrderDetail ecsOrderDetailOrderHistory) {
+        this.ecsOrderDetailOrderHistory = ecsOrderDetailOrderHistory;
+    }
+
+    ECSOrderDetail ecsOrderDetailOrderHistory;
     List<ECSPayment> ecsPayments = new ArrayList<>();
     List<ECSRegion> ecsRegions = new ArrayList<>();
     String janrainID;
@@ -49,12 +72,12 @@ public enum ECSDataHolder {
     UserDataInterface userDataInterface;
 
 
-    public ECSOrderDetail getEcsOrderDetail() {
-        return ecsOrderDetail;
+    public ECSOrderDetail getEcsOrderDetailFromPlaceOrder() {
+        return ecsOrderDetailPlaceOrder;
     }
 
-    public void setEcsOrderDetail(ECSOrderDetail ecsOrderDetail) {
-        this.ecsOrderDetail = ecsOrderDetail;
+    public void setEcsOrderDetailOfPlaceOrder(ECSOrderDetail ecsOrderDetailPlaceOrder) {
+        this.ecsOrderDetailPlaceOrder = ecsOrderDetailPlaceOrder;
     }
 
 
@@ -205,9 +228,34 @@ public enum ECSDataHolder {
         janrainID = null;
 
         ecsOrderHistory = null;
-        ecsOrderDetail = null;
+        ecsOrderDetailPlaceOrder = null;
         ecsPayments = new ArrayList<>();
         ecsRegions = new ArrayList<>();
         vouchers = new ArrayList<>();
+    }
+
+    boolean isUserLoggedIn(){
+        return  mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
+    }
+
+
+
+    public void refreshJanRainID() {
+
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
+        try {
+
+            if(mUserDataInterface!=null && isUserLoggedIn()) {
+
+                HashMap<String, Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+                String janrainID = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+                ECSDataHolder.INSTANCE.setJanrainID(janrainID);
+                ECSDataHolder.INSTANCE.setUserDataInterface(mUserDataInterface);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

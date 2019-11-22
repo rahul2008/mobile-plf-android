@@ -17,6 +17,7 @@ public class FetchOrderDetailFragment extends BaseAPIFragment {
     public void onResume() {
         super.onResume();
         etOrderDetailID = getLinearLayout().findViewWithTag("et_one");
+        etOrderDetailID.setText("UNKNNOWN");
     }
 
     public void executeRequest() {
@@ -26,7 +27,7 @@ public class FetchOrderDetailFragment extends BaseAPIFragment {
         ECSDataHolder.INSTANCE.getEcsServices().fetchOrderDetail(orderDetailID, new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
             public void onResponse(ECSOrderDetail ecsOrderDetail) {
-
+                ECSDataHolder.INSTANCE.setEcsOrderDetailOrderHistory(ecsOrderDetail);
                 gotoResultActivity(getJsonStringFromObject(ecsOrderDetail));
                 getProgressBar().setVisibility(View.GONE);
             }

@@ -12,18 +12,27 @@ public class FetchOrderHistoryFragment extends BaseAPIFragment {
 
 
     EditText etPageNumber,etPageSize;
+    int  pageSize = 20,pageNumber =0;
     @Override
     public void onResume() {
         super.onResume();
 
         etPageNumber = getLinearLayout().findViewWithTag("et_one");
+        etPageNumber.setText(pageNumber+"");
         etPageSize = getLinearLayout().findViewWithTag("et_two");
+        etPageSize.setText(pageSize+"");
     }
 
     public void executeRequest() {
 
-        int  pageSize = Integer.valueOf(etPageNumber.getText().toString().trim());
-        int  pageNumber = Integer.valueOf(etPageNumber.getText().toString().trim());
+        if(!etPageSize.getText().toString().trim().isEmpty()){
+            pageSize = Integer.valueOf(etPageSize.getText().toString().trim());
+        }
+
+        if(!etPageNumber.getText().toString().trim().isEmpty()){
+            pageNumber = Integer.valueOf(etPageNumber.getText().toString().trim());
+        }
+
 
         ECSDataHolder.INSTANCE.getEcsServices().fetchOrderHistory(pageNumber, pageSize, new ECSCallback<ECSOrderHistory, Exception>() {
             @Override
