@@ -107,7 +107,7 @@
                                 android:gravity="center_vertical"
                                 android:layout_centerVertical="true"
                                 android:text="@{mecReview.pros}"
-                                android:textSize="12sp"
+                                android:textSize="16sp"
                                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                                 />
 
@@ -150,7 +150,7 @@
             android:gravity="center_vertical"
             android:layout_centerVertical="true"
             android:text="@{mecReview.cons}"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             />
 
