@@ -33,9 +33,9 @@ public class MakePaymentFragment extends BaseAPIFragment {
 
         etOrderDetailID = getLinearLayout().findViewWithTag("et_one");
 
-        if(ECSDataHolder.INSTANCE.getEcsOrderDetail()!=null){
-            ecsOrderDetail = ECSDataHolder.INSTANCE.getEcsOrderDetail();
-            etOrderDetailID.setText(ECSDataHolder.INSTANCE.getEcsOrderDetail().getCode());
+        if(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder()!=null){
+            ecsOrderDetail = ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder();
+            etOrderDetailID.setText(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder().getCode());
         }
 
         spinner2 = getLinearLayout().findViewWithTag("spinner_one");
@@ -58,11 +58,12 @@ public class MakePaymentFragment extends BaseAPIFragment {
             return;
         }
 
-        if(ECSDataHolder.INSTANCE.getEcsOrderDetail() == null){
+        if(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder() == null){
             Toast.makeText(getActivity(),"Order Detail can not be null",Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        ECSDataHolder.INSTANCE.getEcsServices().makePayment(ECSDataHolder.INSTANCE.getEcsOrderDetail(), ecsAddress, new ECSCallback<ECSPaymentProvider, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().makePayment(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder(), ecsAddress, new ECSCallback<ECSPaymentProvider, Exception>() {
             @Override
             public void onResponse(ECSPaymentProvider ecsPaymentProvider) {
 

@@ -79,6 +79,9 @@ public class AddProductToShoppingCartFragment extends BaseAPIFragment {
 
     private ECSProduct getECSProductFromID(String ctn) {
 
+        if(ECSDataHolder.INSTANCE.getEcsProducts() == null){
+            return null;
+        }
         List<ECSProduct> ecsProducts = ECSDataHolder.INSTANCE.getEcsProducts().getProducts();
 
         for(ECSProduct ecsProduct:ecsProducts){

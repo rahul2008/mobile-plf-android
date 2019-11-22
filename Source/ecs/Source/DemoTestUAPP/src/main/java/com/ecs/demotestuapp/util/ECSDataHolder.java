@@ -59,11 +59,11 @@ public enum ECSDataHolder {
     UserDataInterface userDataInterface;
 
 
-    public ECSOrderDetail getEcsOrderDetail() {
+    public ECSOrderDetail getEcsOrderDetailFromPlaceOrder() {
         return ecsOrderDetailPlaceOrder;
     }
 
-    public void setEcsOrderDetail(ECSOrderDetail ecsOrderDetailPlaceOrder) {
+    public void setEcsOrderDetailOfPlaceOrder(ECSOrderDetail ecsOrderDetailPlaceOrder) {
         this.ecsOrderDetailPlaceOrder = ecsOrderDetailPlaceOrder;
     }
 

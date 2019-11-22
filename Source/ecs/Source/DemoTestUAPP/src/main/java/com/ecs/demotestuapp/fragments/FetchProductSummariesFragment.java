@@ -2,6 +2,7 @@ package com.ecs.demotestuapp.fragments;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -35,6 +36,7 @@ public class FetchProductSummariesFragment extends BaseAPIFragment {
         String ctn = etCTN.getText().toString().trim();
 
         if(ctn.isEmpty()){
+            Toast.makeText(getActivity(),"CTN field can not be empty",Toast.LENGTH_SHORT).show();
             return;
         }
 

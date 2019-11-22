@@ -25,6 +25,7 @@ public class UpdateShoppingCartFragment extends BaseAPIFragment {
         super.onResume();
 
         etQuantity = getLinearLayout().findViewWithTag("et_one");
+        etQuantity.setText(1+"");
         spinner = getLinearLayout().findViewWithTag("spinner_one");
 
         fillSpinnerData(spinner);
