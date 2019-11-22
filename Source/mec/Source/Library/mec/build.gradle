@@ -43,6 +43,7 @@ android {
     buildToolsVersion versions.buildtools
 
     testOptions {
+        unitTests.returnDefaultValues = true
         unitTests.all {
             jacoco {
                 includeNoLocationClasses = true
@@ -50,6 +51,7 @@ android {
         }
         unitTests {
             includeAndroidResources = true
+
         }
     }
 
