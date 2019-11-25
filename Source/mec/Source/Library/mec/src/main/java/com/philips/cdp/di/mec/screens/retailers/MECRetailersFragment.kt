@@ -1,8 +1,5 @@
 package com.philips.cdp.di.mec.screens.retailers
 
-
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
@@ -16,13 +13,9 @@ import com.philips.cdp.di.mec.utils.MECConstant
 
 class MECRetailersFragment : BottomSheetDialogFragment() {
 
-    private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
     private lateinit var binding: MecRetailersFragmentBinding
-    private lateinit var productCode: String
+    private lateinit var retailers: ECSRetailerList
 
-    private val eCSRetailerListObserver : Observer<ECSRetailerList> = Observer<ECSRetailerList> {
-        binding.retailerList = it
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -35,13 +28,9 @@ class MECRetailersFragment : BottomSheetDialogFragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         val bundle = arguments
-        productCode = bundle?.getString(MECConstant.MEC_KEY_PRODUCT).toString()
+        retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
 
-        ecsRetailerViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
-
-        ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
-        binding.retailerList = ECSRetailerList()
-        ecsRetailerViewModel.getRetailers(productCode)
+        binding.retailerList = retailers
         return binding.root
     }
 

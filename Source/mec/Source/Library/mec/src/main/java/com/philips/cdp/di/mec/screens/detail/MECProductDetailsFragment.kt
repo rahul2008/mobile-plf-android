@@ -42,12 +42,14 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var product: ECSProduct
+    private lateinit var retailersList: ECSRetailerList
     private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
 
     lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
 
     private val eCSRetailerListObserver : Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
+            retailersList = retailers!!
             binding.mecFindRetailerButton.isEnabled = retailers?.wrbresults?.onlineStoresForProduct!!.stores!=null
         }
 
@@ -226,7 +228,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     fun onSearchClick() {
         val bundle = Bundle()
-        bundle.putString(MECConstant.MEC_KEY_PRODUCT,product.code)
+        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
 
         val bottomSheetFragment = MECRetailersFragment()
         bottomSheetFragment.arguments = bundle
