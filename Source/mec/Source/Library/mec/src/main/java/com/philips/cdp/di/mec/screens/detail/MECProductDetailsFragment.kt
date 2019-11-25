@@ -14,6 +14,7 @@ import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
@@ -22,6 +23,8 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.catalog.MECProductReview
+import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Button
@@ -58,6 +61,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                               savedInstanceState: Bundle?): View? {
 
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
+
+        binding.fragment = this
 
         ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
@@ -200,6 +205,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
+    fun onSearchClick() {
+        val bottomSheetFragment = MECRetailersFragment()
+        bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
+
+    }
 
 
 }
