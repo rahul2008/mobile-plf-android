@@ -21,8 +21,8 @@ import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 
-@RunWith(JUnit4::class)
-//@RunWith(RobolectricTestRunner::class)
+//@RunWith(JUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class EcsProductViewModelTest1{
 
     lateinit var mContext : Context
@@ -55,13 +55,15 @@ class EcsProductViewModelTest1{
     fun shouldTestFetchProduct() {
         ecsProductViewModel.init(0,20)
         Mockito.verify(ECSCatalogRepository.INSTANCE).getProducts(0,20,ecsProductViewModel)
+
     }
 
     @Test
     fun fetchfetchProductReviewSuccess() {
         // Mock API response
-        Mockito.`when`(this.eCSCatalogRepository.fetchProductReview(ArgumentMatchers.anyList(), ecsProductViewModel)).thenAnswer {
-            return@thenAnswer  ArgumentMatchers.anyList<MECProductReview>() //Maybe.just(ArgumentMatchers.anyList<MECProductReview>())
+        Mockito.`when`(this.eCSCatalogRepository.fetchProductReview(ArgumentMatchers.anyList<ECSProduct>(), ecsProductViewModel)).thenAnswer {
+            return@thenAnswer   ArgumentMatchers.anyList<MECProductReview>()  //Maybe.just(ArgumentMatchers.anyList<MECProductReview>())
+
 
             // Attacch fake observer
             val observer = mock(Observer::class.java) as Observer<MutableList<MECProductReview>>
@@ -73,7 +75,7 @@ class EcsProductViewModelTest1{
 
             // Verify
             assertNotNull(this.ecsProductViewModel.ecsProductsReviewList.value)
-          /*  assertEquals(LiveDataResult.Status.SUCCESS, this.mainViewModel.repositoriesLiveData.value?.status)
+
 
 
 
