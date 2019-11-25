@@ -1,0 +1,60 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="mecRetailers"
+            type="com.philips.cdp.di.ecs.model.retailers.ECSRetailer" />
+
+    </data>
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/border16_margin_left_right">
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/mec_retailer_image"
+        android:layout_width="@dimen/iap_network_image_width_height"
+        android:layout_height="@dimen/iap_network_image_width_height"
+        android:layout_centerVertical="true"
+        app:image_url="@{mecRetailers.logoURL}"
+        android:layout_marginEnd="@dimen/border12_margin" />
+
+
+    <LinearLayout
+        android:id="@+id/mec_retailerItem_description_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/mec_retailer_image"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_retailerItem_onlineStoreName_lebel"
+            style="@style/mecCentralesansBookFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="@{mecRetailers.name}"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/iap_retailers_store_name_size" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_retailerItem_onlineStoreAvailability_lebel"
+            style="@style/mecCentralesansBookFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{mecRetailers.availability}"
+            android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mec_retailer_arrow"
+        style="@style/mec_right_arrow_retailer"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true" />
+</RelativeLayout>
+
+</layout>

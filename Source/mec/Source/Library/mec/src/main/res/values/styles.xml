@@ -44,12 +44,20 @@
         <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
-    <style name="mecCentralesansBookFont">
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
-    </style>
-
     <style name="mecCentralesansMediumFont">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
+    </style>
+
+    <style name="mec_right_arrow_retailer" >
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+        <item name="fontPath">fonts/iconfont.ttf</item>
+        <item name="android:text">@string/dls_navigationright</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">?android:attr/listPreferredItemHeight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="tvHeaderTitle">
@@ -368,11 +376,10 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
-    <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">#E65800</item>
-        <item name="colorControlActivated">#E65800</item>
-    </style>
 
+    <style name="mecCentralesansBookFont">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
 
     <style name="iapCentralesansMediumFont">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
