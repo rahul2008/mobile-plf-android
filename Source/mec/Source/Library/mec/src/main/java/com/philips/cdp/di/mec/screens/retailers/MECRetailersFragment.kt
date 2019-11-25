@@ -6,21 +6,19 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
-import android.support.v4.widget.NestedScrollView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.databinding.MecRetailersFragmentBinding
-import android.util.DisplayMetrics
-
-
+import com.philips.cdp.di.mec.utils.MECConstant
 
 
 class MECRetailersFragment : BottomSheetDialogFragment() {
 
     private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
     private lateinit var binding: MecRetailersFragmentBinding
+    private lateinit var productCode: String
 
     private val eCSRetailerListObserver : Observer<ECSRetailerList> = Observer<ECSRetailerList> {
         binding.retailerList = it
@@ -36,11 +34,14 @@ class MECRetailersFragment : BottomSheetDialogFragment() {
         bottomSheetBehavior.peekHeight = metrics.heightPixels / 2
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
+        val bundle = arguments
+        productCode = bundle?.getString(MECConstant.MEC_KEY_PRODUCT).toString()
+
         ecsRetailerViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
 
         ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
         binding.retailerList = ECSRetailerList()
-        ecsRetailerViewModel.getRetailers("HD9911/90")
+        ecsRetailerViewModel.getRetailers(productCode)
         return binding.root
     }
 
