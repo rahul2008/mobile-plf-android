@@ -5,7 +5,7 @@ import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.common.ecsService.ECSLauncherRepository
 
-class EcsLauncherViewModel : ErrorViewModel() {
+class EcsLauncherViewModel : CommonViewModel() {
 
     val isHybris = MutableLiveData<Boolean>()
     val ecsConfig = MutableLiveData<ECSConfig>()

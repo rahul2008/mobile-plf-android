@@ -3,6 +3,7 @@ package com.philips.cdp.di.mec.screens.retailers
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,13 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
 
-class MECRetailersFragment : BottomSheetDialogFragment() {
+class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
+
+    override fun onItemClick(item: Object) {
+
+        Log.d("TAG","ONclick")
+    }
+
     private lateinit var binding: MecRetailersFragmentBinding
     private lateinit var retailers: ECSRetailerList
 
@@ -33,28 +40,9 @@ class MECRetailersFragment : BottomSheetDialogFragment() {
         retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
 
         binding.retailerList = retailers
+        binding.itemClickListener = this
+
         return binding.root
     }
-
-    fun replaceFragment(newFragment: WebBuyFromRetailersFragment,
-                        newFragmentTag: String, isReplaceWithBackStack: Boolean) {
-        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
-            RuntimeException("ActionBarListner and IAPListner cant be null")
-        else {
-            if (!activity!!.isFinishing) {
-
-                val transaction = activity!!.supportFragmentManager.beginTransaction()
-                val simpleName = newFragment.javaClass.simpleName
-
-                if (isReplaceWithBackStack) {
-                    transaction.addToBackStack(newFragmentTag)
-                }
-
-                transaction.replace(id, newFragment, simpleName)
-                transaction.commitAllowingStateLoss()
-            }
-        }
-    }
-
 
 }
