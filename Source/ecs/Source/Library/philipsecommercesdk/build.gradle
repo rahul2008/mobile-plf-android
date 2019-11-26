@@ -97,7 +97,8 @@ dependencies {
 
     implementation deps.support.appcompatv7
     testImplementation deps.junit
-
+    implementation deps.volley
+    implementation deps.gson
 //    implementation philipsdeps.AppInfra
 
 
