@@ -17,6 +17,7 @@ public class SetAndFetchDeliveryAddressFragment extends SetDeliveryAddressFragme
 
         if(ecsAddress == null){
             Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 

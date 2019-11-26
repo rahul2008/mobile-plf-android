@@ -34,6 +34,7 @@ public class CreateAndFetchAddressFragment extends CreateAddressFragment {
 
         if(createdAddress == null){
             Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 

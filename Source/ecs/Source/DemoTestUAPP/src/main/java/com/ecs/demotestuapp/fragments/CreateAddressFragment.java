@@ -38,6 +38,7 @@ public class CreateAddressFragment extends BaseAPIFragment {
 
         if(createdAddress == null){
             Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 
