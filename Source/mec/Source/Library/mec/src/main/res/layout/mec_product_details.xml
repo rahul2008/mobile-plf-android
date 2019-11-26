@@ -227,6 +227,7 @@
             android:layout_marginEnd="1dp"
             android:layout_weight="1"
             app:uidComponentType="Secondary"
+            android:onClick="@{() -> fragment.onSearchClick()}"
             android:text="@string/mec_view_retailers"
             android:textSize="14sp"
 

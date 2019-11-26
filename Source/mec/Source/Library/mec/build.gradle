@@ -43,6 +43,7 @@ android {
     buildToolsVersion versions.buildtools
 
     testOptions {
+        unitTests.returnDefaultValues = true
         unitTests.all {
             jacoco {
                 includeNoLocationClasses = true
@@ -50,6 +51,7 @@ android {
         }
         unitTests {
             includeAndroidResources = true
+
         }
     }
 
@@ -143,6 +145,7 @@ dependencies {
     }
 
     // Tests
+    testImplementation 'org.mockito:mockito-inline:2.13.0' // to mock final class
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     implementation 'com.bazaarvoice.bvandroidsdk:conversations:7.0.0'

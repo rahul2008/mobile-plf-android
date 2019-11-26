@@ -14,14 +14,18 @@ import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
+import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Button
@@ -38,8 +42,18 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var product: ECSProduct
+    private lateinit var retailersList: ECSRetailerList
+    private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
 
     lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
+
+    private val eCSRetailerListObserver : Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
+        override fun onChanged(retailers: ECSRetailerList?) {
+            retailersList = retailers!!
+            binding.mecFindRetailerButton.isEnabled = retailers?.wrbresults?.onlineStoresForProduct!!.stores!=null
+        }
+
+    }
 
     private val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
 
@@ -48,18 +62,26 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.product = ecsProduct
             setButtonIcon(mec_find_retailer_button, getListIcon())
             setButtonIcon(mec_add_to_cart_button, getCartIcon())
-            showPriceDetail();
+            showPriceDetail()
+            getRetailerDetails()
             hideProgressBar()
         }
 
     }
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
 
+        binding.fragment = this
+
         ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        ecsRetailerViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
+
+        ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
         ecsProductDetailViewModel.mecError.observe(this,this)
@@ -117,6 +139,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     open fun executeRequest(){
         createCustomProgressBar(container, MEDIUM)
         ecsProductDetailViewModel.getProductDetail(product)
+    }
+
+    private fun getRetailerDetails() {
+        ecsRetailerViewModel.getRetailers(product.code)
     }
 
     private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
@@ -200,6 +226,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
+    fun onSearchClick() {
+        val bundle = Bundle()
+        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
+
+        val bottomSheetFragment = MECRetailersFragment()
+        bottomSheetFragment.arguments = bundle
+
+        bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
+
+    }
 
 
 }

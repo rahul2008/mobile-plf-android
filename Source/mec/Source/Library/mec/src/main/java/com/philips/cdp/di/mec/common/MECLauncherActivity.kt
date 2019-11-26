@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.common
 
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
@@ -14,6 +15,7 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uid.utils.UIDActivity
 import kotlinx.android.synthetic.main.mec_action_bar.*
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
 
 
@@ -50,6 +52,10 @@ import java.util.*
 
 
     }
+
+     override fun attachBaseContext(newBase: Context) {
+         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+     }
 
     lateinit var bundle: Bundle
 
