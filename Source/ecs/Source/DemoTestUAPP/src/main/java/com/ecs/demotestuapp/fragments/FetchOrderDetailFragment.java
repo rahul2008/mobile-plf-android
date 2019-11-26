@@ -12,17 +12,19 @@ public class FetchOrderDetailFragment extends BaseAPIFragment {
 
 
     EditText etOrderDetailID;
+    String orderDetailID = null;
 
     @Override
     public void onResume() {
         super.onResume();
         etOrderDetailID = getLinearLayout().findViewWithTag("et_one");
-        etOrderDetailID.setText("UNKNNOWN");
     }
 
     public void executeRequest() {
 
-        String orderDetailID = etOrderDetailID.getText().toString().trim();
+        if(etOrderDetailID.getText()!=null) {
+             orderDetailID = etOrderDetailID.getText().toString().trim();
+        }
 
         ECSDataHolder.INSTANCE.getEcsServices().fetchOrderDetail(orderDetailID, new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
