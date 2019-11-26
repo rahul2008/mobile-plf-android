@@ -37,6 +37,7 @@ public class FetchProductSummariesFragment extends BaseAPIFragment {
 
         if(ctn.isEmpty()){
             Toast.makeText(getActivity(),"CTN field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 
