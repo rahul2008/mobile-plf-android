@@ -653,10 +653,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
 
     private void usernameUihandle() {
-        usrCreateScreenFirstNameInputValidation.setValidator(firstName -> firstName.length() > 0);
-        usrCreateScreenLastNameInputValidation.setValidator(lastName -> lastName.length() > 0);
-        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.USR_NameField_ErrorText));
-        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.USR_LastNameField_ErrorMsg));
+        usrCreateScreenFirstNameInputValidation.setValidator(firstName -> FieldsValidator.isValidName(firstName.toString()));
+        usrCreateScreenLastNameInputValidation.setValidator(lastName -> FieldsValidator.isValidName(lastName.toString()));
+        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.USR_InvalidOrMissingName_ErrorMsg));
+        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.USR_InvalidOrMissingName_ErrorMsg));
         usrCreateScreenFirstNameTextField.requestFocus();
         usrCreateScreenFirstNameTextField.addTextChangedListener(new TextWatcher() {
             @Override
