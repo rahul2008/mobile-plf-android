@@ -276,6 +276,7 @@
   <string name="USR_wordpress">Wordpress</string>
   <string name="USR_xing">XING</string>
   <string name="USR_yahoo">Yahoo!</string>
+  <string name="USR_InvalidOrMissingName_ErrorMsg">Please enter a valid name</string>
 
   <!-- Facebook Keys-->
   <string name="facebook_app_id" translatable="false">107243606103710</string>

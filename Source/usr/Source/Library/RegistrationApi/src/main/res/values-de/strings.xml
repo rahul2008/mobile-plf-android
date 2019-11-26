@@ -276,4 +276,6 @@
   <string name="USR_wordpress">WordPress</string>
   <string name="USR_xing">XING</string>
   <string name="USR_yahoo">Yahoo!</string>
+  <string name="USR_InvalidOrMissingName_ErrorMsg">Bitte geben Sie einen gültigen Namen ein</string>
+
 </resources>
