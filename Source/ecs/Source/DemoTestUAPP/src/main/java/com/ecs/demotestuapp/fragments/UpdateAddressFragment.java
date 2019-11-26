@@ -37,6 +37,7 @@ public class UpdateAddressFragment extends BaseAPIFragment {
 
         if(ecsAddress == null){
             Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 

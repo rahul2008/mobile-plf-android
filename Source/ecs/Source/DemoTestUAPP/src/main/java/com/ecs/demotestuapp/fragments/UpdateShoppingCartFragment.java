@@ -50,6 +50,7 @@ public class UpdateShoppingCartFragment extends BaseAPIFragment {
 
         if(ecsEntriesFromID == null){
             Toast.makeText(getActivity(),"ECSEntries Field is empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 
