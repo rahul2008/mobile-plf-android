@@ -80,6 +80,33 @@
           "spinners": [],
           "switches": []
         }
+      ,
+        {
+          "name": "JanrainRefreshOAuth",
+          "apiNumber": 39,
+          "editText": 3,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+            {
+              "tag": "et_one",
+              "text": "secret",
+              "hint": "client secret"
+            },
+            {
+              "tag": "et_two",
+              "text": "mobile_android",
+              "hint": "client ID"
+            },
+            {
+              "tag": "et_three",
+              "text": "refreshToken",
+              "hint": "refresh Token"
+            }
+          ],
+          "spinners": [],
+          "switches": []
+        }
       ]
     },
     {

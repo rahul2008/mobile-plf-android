@@ -66,10 +66,9 @@ public class StateDropDown {
     };
 
      void callOnStateSelect(String isocode) {
-
-        String stateCode = isocode.substring(isocode.length() - 2);
+         String[] stateCode = isocode.split("-");
         mStateListener.stateRegionCode(isocode);
-        mStateListener.onStateSelect(mAnchor, stateCode);
+        mStateListener.onStateSelect(mAnchor, stateCode[1]);
         dismiss();
     }
 

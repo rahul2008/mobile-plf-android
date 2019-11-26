@@ -126,6 +126,7 @@ public abstract class BaseFragment extends Fragment {
         userDataMap.add(UserDetailConstants.FAMILY_NAME);
         userDataMap.add(UserDetailConstants.EMAIL);
         try{
+            if(ECSDataHolder.INSTANCE.getUserDataInterface()!=null)
             userDetails = ECSDataHolder.INSTANCE.getUserDataInterface().getUserDetails(userDataMap);
 
         } catch (UserDataInterfaceException e) {
@@ -181,6 +182,7 @@ public abstract class BaseFragment extends Fragment {
         ecsAddress.setTown(getTextFromEditText(etTown));
         ecsAddress.setHouseNumber(getTextFromEditText(etHouseNumber));
 
+        if(getTextFromSpinner(spinnerSalutation)!=null)
         ecsAddress.setTitleCode(getTextFromSpinner(spinnerSalutation).toLowerCase(Locale.getDefault()));
         ecsAddress.setRegion(getRegionFromName(getTextFromSpinner(spinnerState)));
 

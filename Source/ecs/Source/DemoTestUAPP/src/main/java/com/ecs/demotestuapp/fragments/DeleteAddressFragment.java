@@ -2,6 +2,7 @@ package com.ecs.demotestuapp.fragments;
 
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -27,9 +28,22 @@ public class DeleteAddressFragment extends BaseAPIFragment {
 
     public void executeRequest() {
 
-        ECSDataHolder.INSTANCE.getEcsServices().deleteAddress(getECSAddress(), new ECSCallback<Boolean, Exception>() {
+        final ECSAddress ecsAddress = getECSAddress();
+
+        if(ecsAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
+            return;
+        }
+
+        ECSDataHolder.INSTANCE.getEcsServices().deleteAddress(ecsAddress, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean aBoolean) {
+
+                List<ECSAddress> ecsAddressList = ECSDataHolder.INSTANCE.getEcsAddressList();
+                if(ecsAddressList!=null && ecsAddressList.size()!=0){
+                    ecsAddressList.remove(ecsAddress);
+                }
 
                 gotoResultActivity(aBoolean+"");
                 getProgressBar().setVisibility(View.GONE);
@@ -50,6 +64,8 @@ public class DeleteAddressFragment extends BaseAPIFragment {
 
         List<ECSAddress> ecsAddressList = ECSDataHolder.INSTANCE.getEcsAddressList();
 
+        if(ecsAddressList==null) return;
+
         List<String> list = new ArrayList<>();
 
         for(ECSAddress ecsAddress:ecsAddressList){
@@ -64,6 +80,8 @@ public class DeleteAddressFragment extends BaseAPIFragment {
        ECSAddress ecsAddress = new ECSAddress() ;
 
        List<ECSAddress> ecsAddressList = ECSDataHolder.INSTANCE.getEcsAddressList();
+       if(ecsAddressList == null) return null;
+
         for(ECSAddress ecsAddress1:ecsAddressList){
             if(ecsAddress1.getId().equalsIgnoreCase(addressID)){
                 return ecsAddress1;

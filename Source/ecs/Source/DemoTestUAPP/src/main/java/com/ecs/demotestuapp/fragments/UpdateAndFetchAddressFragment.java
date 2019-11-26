@@ -1,6 +1,7 @@
 package com.ecs.demotestuapp.fragments;
 
 import android.view.View;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -13,6 +14,12 @@ public class UpdateAndFetchAddressFragment extends UpdateAddressFragment {
     public void executeRequest() {
 
         ECSAddress ecsAddress = getUpdatedAddress();
+
+        if(ecsAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
+            return;
+        }
 
         ECSDataHolder.INSTANCE.getEcsServices().updateAndFetchAddress( ecsAddress, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override

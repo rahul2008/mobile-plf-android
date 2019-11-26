@@ -12,6 +12,7 @@ public class FetchOrderDetailFragment extends BaseAPIFragment {
 
 
     EditText etOrderDetailID;
+    String orderDetailID = null;
 
     @Override
     public void onResume() {
@@ -21,12 +22,14 @@ public class FetchOrderDetailFragment extends BaseAPIFragment {
 
     public void executeRequest() {
 
-        String orderDetailID = etOrderDetailID.getText().toString().trim();
+        if(etOrderDetailID.getText()!=null) {
+             orderDetailID = etOrderDetailID.getText().toString().trim();
+        }
 
         ECSDataHolder.INSTANCE.getEcsServices().fetchOrderDetail(orderDetailID, new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
             public void onResponse(ECSOrderDetail ecsOrderDetail) {
-
+                ECSDataHolder.INSTANCE.setEcsOrderDetailOrderHistory(ecsOrderDetail);
                 gotoResultActivity(getJsonStringFromObject(ecsOrderDetail));
                 getProgressBar().setVisibility(View.GONE);
             }

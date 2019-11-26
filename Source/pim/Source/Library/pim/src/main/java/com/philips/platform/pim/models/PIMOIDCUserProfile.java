@@ -33,28 +33,29 @@ public class PIMOIDCUserProfile {
     }
 
     /**
-     *
      * Method to get user profile based on key list
+     *
      * @param keyList list of keys
      * @return user info based on key list
      */
     public HashMap<String, Object> fetchUserDetails(ArrayList<String> keyList) {
-        HashMap<String,Object> userDetailsMap = new HashMap<>();
-        for (String key:
-             keyList) {
-            if(mUserProfileMap.containsKey(key))
-                userDetailsMap.put(key,mUserProfileMap.get(key));
+        HashMap<String, Object> userDetailsMap = new HashMap<>();
+        for (String key :
+                keyList) {
+            if (mUserProfileMap.containsKey(key))
+                userDetailsMap.put(key, mUserProfileMap.get(key));
         }
         return userDetailsMap;
     }
 
     /**
      * Parse json user profile response to map
+     *
      * @param userProfleJson response received on request user profile
      */
     private void parseUserProfileJsonDataToMap(String userProfleJson) {
-        if(userProfleJson == null){
-            mLoggingInterface.log(DEBUG,TAG,"User Profile is not available");
+        if (userProfleJson == null) {
+            mLoggingInterface.log(DEBUG, TAG, "User Profile is not available");
             return;
         }
         try {
@@ -66,11 +67,16 @@ public class PIMOIDCUserProfile {
                 mUserProfileMap.put(key, jsonObject.get(key));
             }
 
-            if(authState != null){
-                mUserProfileMap.put(UserDetailConstants.ACCESS_TOKEN,authState.getAccessToken());
+            if (authState != null) {
+                mUserProfileMap.put(UserDetailConstants.ACCESS_TOKEN, authState.getAccessToken());
+                if (authState.getLastTokenResponse() != null) {
+                    mUserProfileMap.put(UserDetailConstants.ID_TOKEN, authState.getLastTokenResponse().idToken);
+                    mUserProfileMap.put(UserDetailConstants.TOKEN_TYPE, authState.getLastTokenResponse().tokenType);
+                    mUserProfileMap.put(UserDetailConstants.EXPIRES_IN, authState.getLastTokenResponse().accessTokenExpirationTime);
+                }
             }
         } catch (JSONException e) {
-           mLoggingInterface.log(DEBUG,TAG,"parseUserProfileDataToMap : Exception in fetching User Details ");
+            mLoggingInterface.log(DEBUG, TAG, "parseUserProfileDataToMap : Exception in fetching User Details ");
         }
     }
 }

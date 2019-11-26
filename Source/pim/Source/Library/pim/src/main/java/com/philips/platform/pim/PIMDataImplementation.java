@@ -95,6 +95,11 @@ public class PIMDataImplementation implements UserDataInterface {
     }
 
     @Override
+    public void refreshHSDPSession(RefreshSessionListener refreshSessionListener) {
+
+    }
+
+    @Override
     public boolean isOIDCToken() {
         if(pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
             return true;
@@ -231,6 +236,9 @@ public class PIMDataImplementation implements UserDataInterface {
         keyList.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
         keyList.add(UserDetailConstants.UUID);
         keyList.add(UserDetailConstants.ACCESS_TOKEN);
+        keyList.add(UserDetailConstants.ID_TOKEN);
+        keyList.add(UserDetailConstants.EXPIRES_IN);
+        keyList.add(UserDetailConstants.TOKEN_TYPE);
         return keyList;
     }
 

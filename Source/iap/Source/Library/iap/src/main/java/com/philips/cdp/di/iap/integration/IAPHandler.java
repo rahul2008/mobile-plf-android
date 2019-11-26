@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -149,6 +150,7 @@ class IAPHandler {
     }
 
     protected void launchAsFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
+
         InAppBaseFragment target = getFragment(iapLaunchInput.mLandingView, iapLaunchInput);
         addFragment(target, uiLauncher, iapLaunchInput.getIapListener());
     }
@@ -203,12 +205,16 @@ class IAPHandler {
     }
 
     protected void addFragment(InAppBaseFragment newFragment, FragmentLauncher fragmentLauncher, IAPListener iapListener) {
-        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), iapListener);
-        String tag = newFragment.getClass().getName();
-        FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);
-        transaction.addToBackStack(tag);
-        transaction.commitAllowingStateLoss();
+        try {
+            newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), iapListener);
+            String tag = newFragment.getClass().getName();
+            FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);
+            transaction.addToBackStack(tag);
+            transaction.commitAllowingStateLoss();
+        }catch (Exception e){
+            IAPLog.d("IAPHandler","Cant launch Fragment "+e.getMessage());
+        }
     }
 
     protected IAPExposedAPI getExposedAPIImplementor() {

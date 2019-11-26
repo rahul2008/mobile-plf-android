@@ -29,7 +29,7 @@ public class SubmitOrderFragment extends BaseAPIFragment {
         ECSDataHolder.INSTANCE.getEcsServices().submitOrder(cvv, new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
             public void onResponse(ECSOrderDetail ecsOrderDetail) {
-                ECSDataHolder.INSTANCE.setEcsOrderDetail(ecsOrderDetail);
+                ECSDataHolder.INSTANCE.setEcsOrderDetailOfPlaceOrder(ecsOrderDetail);
                 gotoResultActivity(getJsonStringFromObject(ecsOrderDetail));
                 getProgressBar().setVisibility(View.GONE);
 
@@ -47,6 +47,6 @@ public class SubmitOrderFragment extends BaseAPIFragment {
 
     @Override
     public void clearData() {
-        ECSDataHolder.INSTANCE.setEcsOrderDetail(null);
+        ECSDataHolder.INSTANCE.setEcsOrderDetailOfPlaceOrder(null);
     }
 }

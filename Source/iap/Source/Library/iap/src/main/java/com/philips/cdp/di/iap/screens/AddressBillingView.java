@@ -322,8 +322,8 @@ public class AddressBillingView
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
                 mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
             final String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
-            final String stateCode = code.substring(code.length() - 2);
-            mEtStateBilling.setText(stateCode);
+            final String[] stateCode = code.split("-");
+            mEtStateBilling.setText(stateCode[1]);
             mlLStateBilling.setVisibility(View.VISIBLE);
         } else {
             mlLStateBilling.setVisibility(View.GONE);

@@ -3,6 +3,7 @@ package com.ecs.demotestuapp.fragments;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -32,9 +33,9 @@ public class MakePaymentFragment extends BaseAPIFragment {
 
         etOrderDetailID = getLinearLayout().findViewWithTag("et_one");
 
-        if(ECSDataHolder.INSTANCE.getEcsOrderDetail()!=null){
-            ecsOrderDetail = ECSDataHolder.INSTANCE.getEcsOrderDetail();
-            etOrderDetailID.setText(ECSDataHolder.INSTANCE.getEcsOrderDetail().getCode());
+        if(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder()!=null){
+            ecsOrderDetail = ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder();
+            etOrderDetailID.setText(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder().getCode());
         }
 
         spinner2 = getLinearLayout().findViewWithTag("spinner_one");
@@ -52,7 +53,18 @@ public class MakePaymentFragment extends BaseAPIFragment {
 
         ECSAddress ecsAddress = getECSAddress(billingAddressID);
 
-        ECSDataHolder.INSTANCE.getEcsServices().makePayment(ECSDataHolder.INSTANCE.getEcsOrderDetail(), ecsAddress, new ECSCallback<ECSPaymentProvider, Exception>() {
+        if(ecsAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
+            return;
+        }
+
+        if(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder() == null){
+            Toast.makeText(getActivity(),"Order Detail can not be null",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ECSDataHolder.INSTANCE.getEcsServices().makePayment(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder(), ecsAddress, new ECSCallback<ECSPaymentProvider, Exception>() {
             @Override
             public void onResponse(ECSPaymentProvider ecsPaymentProvider) {
 

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
@@ -29,7 +30,15 @@ public class CreateAndFetchAddressFragment extends CreateAddressFragment {
 
     public void executeRequest() {
 
-        ECSDataHolder.INSTANCE.getEcsServices().createAndFetchAddress(getCreatedAddress(), new ECSCallback<List<ECSAddress>, Exception>() {
+        ECSAddress createdAddress = getCreatedAddress();
+
+        if(createdAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
+            return;
+        }
+
+        ECSDataHolder.INSTANCE.getEcsServices().createAndFetchAddress(createdAddress, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
             public void onResponse(List<ECSAddress> ecsAddressList) {
                 ECSDataHolder.INSTANCE.setEcsAddressList(ecsAddressList);
