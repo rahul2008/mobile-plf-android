@@ -9,8 +9,12 @@ object MECConstant {
     val KEY_BAZAAR_LOCALE: String? ="Locale"
     //Keys
     val MEC_KEY_PRODUCT ="mec_key_product"
+    val MEC_KEY_RETAILERS ="mec_key_product"
     val MEC_PRODUCT_CTN ="mec_product_ctn"
     val MEC_PRIVACY_URL = "MEC_PRIVACY_URL";
+    val MEC_BUY_URL = "MEC_BUY_URL";
+    val MEC_IS_PHILIPS_SHOP = "MEC_IS_PHILIPS_SHOP";
+    val MEC_STORE_NAME = "MEC_STORE_NAME";
     internal val IN_STOCK = "inStock"
     internal val LOW_STOCK = "lowStock"
 

@@ -28,7 +28,7 @@ abstract class WebFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val viewGroup = inflater.inflate(R.layout.mec_web_fragment, container, false) as ViewGroup
         mParentContainer = viewGroup.findViewById<View>(R.id.mec_web_container) as RelativeLayout
-        mWebView = viewGroup.findViewById<View>(R.id.mec_payment) as WebView
+        mWebView = viewGroup.findViewById<View>(R.id.mec_webView) as WebView
         mWebView.webViewClient = IAPWebViewClient()
         mWebView.settings.javaScriptEnabled = isJavaScriptEnable()
         mWebView.settings.saveFormData = false

@@ -226,7 +226,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
-    fun onSearchClick() {
+    fun onBuyFromRetailerClick() {
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
 

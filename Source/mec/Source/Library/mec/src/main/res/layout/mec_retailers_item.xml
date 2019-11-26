@@ -14,6 +14,11 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/border16_margin_left_right">
 
+        <RelativeLayout
+            android:id="@+id/rLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/mec_retailer_image"
         android:layout_width="@dimen/iap_network_image_width_height"
@@ -32,7 +37,7 @@
         android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/iap_retailerItem_onlineStoreName_lebel"
+            android:id="@+id/mec_retailerItem_onlineStoreName_lebel"
             style="@style/mecCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,8 +51,22 @@
             style="@style/mecCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{mecRetailers.availability}"
-            android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+            android:layout_marginTop="@dimen/iap_margin_4dp"
+            app:setStock="@{ mecRetailers.availability}"
+            android:textColor="?attr/uidContentItemSignalNormalTextSuccessColor"
+            android:textSize="14dp" />
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_retailerItem_price"
+            style="@style/mecCentralesansMediumFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:layout_marginTop="@dimen/iap_margin_4dp"
+            android:text="@{mecRetailers.philipsOnlinePrice}"
+            android:textSize="@dimen/iap_retailers_store_name_size" />
+
     </LinearLayout>
 
     <com.philips.platform.uid.view.widget.Label
@@ -55,6 +74,17 @@
         style="@style/mec_right_arrow_retailer"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true" />
+
 </RelativeLayout>
+
+    <View
+        android:id="@+id/mec_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/rLayout"
+        android:background="@drawable/uid_shadow_level_two" />
+
+    </RelativeLayout>
 
 </layout>
