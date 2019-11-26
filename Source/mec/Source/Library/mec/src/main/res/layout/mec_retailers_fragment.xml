@@ -7,6 +7,10 @@
             name="retailerList"
             type="com.philips.cdp.di.ecs.model.retailers.ECSRetailerList" />
 
+        <variable
+            name="itemClickListener"
+            type="com.philips.cdp.di.mec.common.ItemClickListener" />
+
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -52,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:retailers="@{retailerList}"
+            app:listener="@{itemClickListener}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     </RelativeLayout>

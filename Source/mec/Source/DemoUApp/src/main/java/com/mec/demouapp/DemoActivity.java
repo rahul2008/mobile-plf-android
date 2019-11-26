@@ -730,6 +730,11 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onPersonalConsentClick(Activity activity) {
+
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
