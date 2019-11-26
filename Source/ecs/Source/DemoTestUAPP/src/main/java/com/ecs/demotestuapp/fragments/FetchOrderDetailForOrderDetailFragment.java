@@ -61,6 +61,7 @@ public class FetchOrderDetailForOrderDetailFragment extends BaseAPIFragment {
         if(ECSDataHolder.INSTANCE.getEcsOrderDetailFromPlaceOrder()==null){
 
             Toast.makeText(getActivity(),"Order Detail field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 

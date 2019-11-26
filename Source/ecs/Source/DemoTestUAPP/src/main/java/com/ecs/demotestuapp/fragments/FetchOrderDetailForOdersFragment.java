@@ -82,6 +82,7 @@ public class FetchOrderDetailForOdersFragment extends BaseAPIFragment {
         if(ecsOrders ==null){
 
             Toast.makeText(getActivity(),"Order  field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 
