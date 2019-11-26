@@ -8,7 +8,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.g
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 
-archivesBaseName =  strings.ecs.artifactName
+archivesBaseName = strings.ecs.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -51,17 +51,17 @@ android {
         multiDexEnabled true
 
 
-        versionName version + "(" + commitHash+ ")"
+        versionName version + "(" + commitHash + ")"
 
     }
-        buildTypes {
-            release {
-                consumerProguardFiles 'proguard-rules-ecs.pro'
-            }
-            debug {
-                debuggable true
-                minifyEnabled false
-            }
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules-ecs.pro'
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
 
     }
 
@@ -99,17 +99,21 @@ android {
 }
 
 
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.support.appcompatv7
     testImplementation deps.junit
+    implementation deps.volley
+    implementation deps.gson
+//    implementation philipsdeps.AppInfra
 
-    implementation philipsdeps.AppInfra
 
-
-
+    if (useprojectdependencies) {
+        implementation project(strings.ail.projectName)
+    } else {
+        implementation philipsdeps.AppInfra
+    }
     // Tests
     testImplementation deps.junit
     testImplementation deps.mockito

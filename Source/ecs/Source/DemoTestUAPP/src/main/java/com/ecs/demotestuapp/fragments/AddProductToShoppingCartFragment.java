@@ -38,6 +38,7 @@ public class AddProductToShoppingCartFragment extends BaseAPIFragment {
 
         if(ecsProduct == null){
             Toast.makeText(getActivity(),"ECSProduct field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 

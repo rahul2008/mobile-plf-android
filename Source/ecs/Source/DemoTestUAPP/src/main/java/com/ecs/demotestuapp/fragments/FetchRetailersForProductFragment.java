@@ -38,6 +38,7 @@ public class FetchRetailersForProductFragment extends BaseAPIFragment {
 
         if(ecsProduct == null){
             Toast.makeText(getActivity(),"Product field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 

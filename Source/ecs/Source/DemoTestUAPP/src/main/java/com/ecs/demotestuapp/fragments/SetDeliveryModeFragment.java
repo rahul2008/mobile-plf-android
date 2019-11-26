@@ -81,6 +81,7 @@ public class SetDeliveryModeFragment extends BaseAPIFragment {
 
         if(deliveryMode == null){
             Toast.makeText(getActivity(),"delivery field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
             return;
         }
 
