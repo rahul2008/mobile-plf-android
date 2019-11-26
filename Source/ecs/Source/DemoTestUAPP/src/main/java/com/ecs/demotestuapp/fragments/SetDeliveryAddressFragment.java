@@ -2,6 +2,7 @@ package com.ecs.demotestuapp.fragments;
 
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -28,6 +29,12 @@ public class SetDeliveryAddressFragment extends BaseAPIFragment {
     public void executeRequest() {
 
         ECSAddress ecsAddress = getECSAddress();
+
+        if(ecsAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ECSDataHolder.INSTANCE.getEcsServices().setDeliveryAddress(true,ecsAddress, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean aBoolean) {

@@ -122,6 +122,7 @@ public enum ECSConfiguration {
     }
 
     private String getCountryFromLocale(String locale) {
+        if(locale == null) return "UNKNOWN";
         String[] localeArray;
         localeArray = locale.split("_");
         return localeArray[1];

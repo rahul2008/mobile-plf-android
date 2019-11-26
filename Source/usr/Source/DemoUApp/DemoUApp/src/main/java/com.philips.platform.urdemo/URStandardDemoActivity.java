@@ -326,21 +326,20 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     }
 
                     if (mEnablePersonalConsentSwitch.isChecked()) {
-                        editor.putBoolean("reg_personal_consent_configuration", true).apply();
-                        InitHsdp init = new InitHsdp();
-                        init.initHSDP(RegUtility.getConfiguration(restoredText), getApplicationContext(), URDemouAppInterface.appInfra);
+                        editor.putBoolean("reg_personal_consent_configuration", mEnablePersonalConsentSwitch.isChecked()).apply();
                         urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
 
-                    } else {
-                        editor.remove("reg_delay_hsdp_configuration").apply();
+                    } else{
+                        editor.remove("reg_personal_consent_configuration").apply();
 
                     }
+
+
                     updateSkipHsdpStatus(mSkipHSDPSwitch.isChecked());
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
                     RLog.d("Restored teest", "" + restoredText);
                 }
-
 
             }
         });
@@ -769,6 +768,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(TAG, " : onTermsAndConditionClick");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
+        activity.startActivity(browserIntent);
+    }
+
+    @Override
+    public void onPersonalConsentClick(Activity activity) {
+
+        RLog.d(TAG, " : onPersonalConsentClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
         activity.startActivity(browserIntent);
     }

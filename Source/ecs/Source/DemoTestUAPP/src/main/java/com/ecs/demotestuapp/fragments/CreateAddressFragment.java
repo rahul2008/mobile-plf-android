@@ -2,6 +2,7 @@ package com.ecs.demotestuapp.fragments;
 
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -32,7 +33,15 @@ public class CreateAddressFragment extends BaseAPIFragment {
 
     public void executeRequest() {
 
-        ECSDataHolder.INSTANCE.getEcsServices().createAddress(getCreatedAddress(), new ECSCallback<ECSAddress, Exception>() {
+
+        ECSAddress createdAddress = getCreatedAddress();
+
+        if(createdAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ECSDataHolder.INSTANCE.getEcsServices().createAddress(createdAddress, new ECSCallback<ECSAddress, Exception>() {
             @Override
             public void onResponse(ECSAddress ecsAddress) {
                 gotoResultActivity(getJsonStringFromObject(ecsAddress));

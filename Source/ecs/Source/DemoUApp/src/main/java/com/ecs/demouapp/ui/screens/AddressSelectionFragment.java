@@ -199,12 +199,15 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if ((msg.obj instanceof Boolean) ) {
-            if((Boolean)msg.obj) {
-                ECSAddress selectedAddress = retrieveSelectedAddress();
-                mIsAddressUpdateAfterDelivery = true;
-               // mAddressController.setDefaultAddress(selectedAddress);
-                checkPaymentDetails();
+            if((Boolean)msg.obj) { // set Delivery Address is success
+
+                if (mDeliveryMode != null) {
+                    mIsAddressUpdateAfterDelivery = true;
+                    checkPaymentDetails();
+                }else{
+                    mAddressController.getDeliveryModes();
                 }
+            }
         } else {
             //TODO remove checkPaymentDetails from here
             //Temp work to test Payment call .
@@ -215,14 +218,22 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onGetDeliveryModes(Message msg) {
+        if ((msg.obj instanceof List )) {
+            List<ECSDeliveryMode> deliveryModeList = (List<ECSDeliveryMode>) msg.obj;
+            mAddressController.setDeliveryMode(deliveryModeList.get(0));
+        }
         handleDeliveryMode(msg, mAddressController);
     }
 
     @Override
     public void onSetDeliveryMode(final Message msg) {
-        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
-            checkPaymentDetails();
-        } else {
+
+        if(msg.obj instanceof Boolean){
+            if((boolean)msg.obj){
+                mIsAddressUpdateAfterDelivery = true;
+                checkPaymentDetails();
+            }
+        }else{
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             hideProgressBar();
         }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
@@ -28,7 +29,15 @@ public class DeleteAndFetchAddressFragment extends DeleteAddressFragment {
 
     public void executeRequest() {
 
-        ECSDataHolder.INSTANCE.getEcsServices().deleteAndFetchAddress(getECSAddress(), new ECSCallback<List<ECSAddress>, Exception>() {
+        ECSAddress ecsAddress = getECSAddress();
+
+        if(ecsAddress == null){
+            Toast.makeText(getActivity(),"Address field can not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        ECSDataHolder.INSTANCE.getEcsServices().deleteAndFetchAddress(ecsAddress, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
             public void onResponse(List<ECSAddress> ecsAddresses) {
 

@@ -2,6 +2,7 @@ package com.ecs.demotestuapp.fragments;
 
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -33,6 +34,11 @@ public class FetchProductDetailsFragment extends BaseAPIFragment {
 
             ECSProduct ecsProduct = getECSProductFromID(ctn);
 
+        if(ecsProduct == null){
+            Toast.makeText(getActivity(),"Product field can not be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
             ECSDataHolder.INSTANCE.getEcsServices().fetchProductDetails(ecsProduct, new ECSCallback<ECSProduct, Exception>() {
                 @Override
                 public void onResponse(ECSProduct ecsProduct) {
@@ -47,6 +53,7 @@ public class FetchProductDetailsFragment extends BaseAPIFragment {
                     getProgressBar().setVisibility(View.GONE);
                 }
             });
+
     }
 
 
@@ -71,6 +78,9 @@ public class FetchProductDetailsFragment extends BaseAPIFragment {
 
     private ECSProduct getECSProductFromID(String ctn) {
 
+        if(ECSDataHolder.INSTANCE.getEcsProducts()==null){
+            return null;
+        }
         List<ECSProduct> ecsProducts = ECSDataHolder.INSTANCE.getEcsProducts().getProducts();
 
         for(ECSProduct ecsProduct:ecsProducts){
