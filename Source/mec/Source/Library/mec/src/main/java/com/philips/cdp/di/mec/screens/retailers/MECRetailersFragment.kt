@@ -12,11 +12,19 @@ import com.philips.cdp.di.mec.databinding.MecRetailersFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.appinfra.AppInfra
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
+import java.util.*
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 
 
-class MECRetailersFragment : BottomSheetDialogFragment() {
+class MECRetailersFragment : BottomSheetDialogFragment(), View.OnClickListener {
+
     private lateinit var binding: MecRetailersFragmentBinding
     private lateinit var retailers: ECSRetailerList
+    lateinit var appInfra: AppInfra
+    lateinit var param : String
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +41,19 @@ class MECRetailersFragment : BottomSheetDialogFragment() {
         retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
 
         binding.retailerList = retailers
+        binding.retailerRecyclerView.setOnClickListener(this)
         return binding.root
+    }
+
+    override fun onClick(v: View?) {
+         param = retailers.retailers.get(0).xactparam
+        val bundle = Bundle()
+        bundle.putString(MECConstant.MEC_BUY_URL, uuidWithSupplierLink(retailers.retailers.get(0).buyURL))
+        bundle.putString(MECConstant.MEC_STORE_NAME, retailers.retailers.get(0).name)
+//        bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, Utility().isPhilipsShop(storeEntity))
+        val fragment = WebBuyFromRetailersFragment()
+        fragment.arguments = bundle
+        replaceFragment(fragment,"detail",true)
     }
 
     fun replaceFragment(newFragment: WebBuyFromRetailersFragment,
@@ -54,6 +74,21 @@ class MECRetailersFragment : BottomSheetDialogFragment() {
                 transaction.commitAllowingStateLoss()
             }
         }
+    }
+
+    private fun uuidWithSupplierLink(buyURL: String): String {
+        val mConfigInterface = appInfra.configInterface
+        val configError = AppConfigurationInterface.AppConfigurationError()
+
+        val propositionId = mConfigInterface.getPropertyForKey("propositionid", "IAP", configError) as String
+
+        if (configError.errorCode != null) {
+            //IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.errorCode.toString())
+        }
+
+        val supplierLinkWithUUID = "$buyURL&wtbSource=mobile_$propositionId&$param="
+
+        return supplierLinkWithUUID + UUID.randomUUID().toString()
     }
 
 
