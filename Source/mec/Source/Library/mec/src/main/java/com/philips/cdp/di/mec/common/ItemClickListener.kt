@@ -1,6 +1,8 @@
 package com.philips.cdp.di.mec.common
 
-interface ItemClickListener {
+import java.io.Serializable
+
+interface ItemClickListener : Serializable{
 
       fun onItemClick(item:Object)
 }

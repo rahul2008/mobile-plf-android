@@ -24,7 +24,6 @@ class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
 
     override fun onItemClick(item: Object) {
 
-        Log.d("TAG","ONclick")
     }
 
     private lateinit var binding: MecRetailersFragmentBinding
@@ -45,11 +44,13 @@ class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
 
         val bundle = arguments
         retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
+        val itemClickListener = bundle.getSerializable("listener") as ItemClickListener
 
         binding.retailerList = retailers
-        binding.itemClickListener = this
+        binding.itemClickListener = itemClickListener
 
         return binding.root
     }
+
 
 }
