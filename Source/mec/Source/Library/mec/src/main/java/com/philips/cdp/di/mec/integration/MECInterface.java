@@ -23,7 +23,6 @@ public class MECInterface implements UappInterface {
         MECDependencies MECDependencies = (MECDependencies) uappDependencies;
         mUserDataInterface = MECDependencies.getUserDataInterface();
 
-        ECSCatalogRepository.INSTANCE.appInfra = new AppInfra.Builder().build(uappDependencies.getAppInfra().getAppInfraContext());
 
         if (null == mUserDataInterface)
             throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");

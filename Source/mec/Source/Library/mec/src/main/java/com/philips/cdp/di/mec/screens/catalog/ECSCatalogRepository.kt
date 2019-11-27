@@ -12,11 +12,9 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.appinfra.AppInfra
 import java.text.DecimalFormat
 
-enum class ECSCatalogRepository {
+ class ECSCatalogRepository {
 
-    INSTANCE;
 
-    lateinit var appInfra: AppInfra
 
 
     fun getProducts(pageNumber: Int, pageSize: Int, ecsProductViewModel: EcsProductViewModel) {
