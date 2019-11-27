@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.philips.cdp.di.ecs.ECSServices
+import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
@@ -46,7 +47,7 @@ class EcsProductViewModelTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        ecsServices = ECSServices("123",)
+        ecsServices = ECSServices("123",ECSConfiguration.INSTANCE.appInfra)
         MecHolder.INSTANCE.eCSServices = ecsServices
 
         ecsProductViewModel = EcsProductViewModel()
