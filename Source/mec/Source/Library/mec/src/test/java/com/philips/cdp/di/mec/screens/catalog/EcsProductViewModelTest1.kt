@@ -54,7 +54,7 @@ class EcsProductViewModelTest1{
     @Test
     fun shouldTestFetchProduct() {
         ecsProductViewModel.init(0,20)
-        Mockito.verify(ECSCatalogRepository.INSTANCE).getProducts(0,20,ecsProductViewModel)
+        Mockito.verify(ECSCatalogRepository()).getProducts(0,20,ecsProductViewModel)
 
     }
 

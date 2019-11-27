@@ -22,7 +22,7 @@ import android.widget.RelativeLayout
 
 class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
 
-    override fun onItemClick(item: Object) {
+    override fun onItemClick(item: Any) {
 
         Log.d("TAG","ONclick")
     }

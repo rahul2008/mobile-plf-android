@@ -13,20 +13,20 @@ class EcsProductViewModel : CommonViewModel() {
 
 
     fun init (pageNumber:Int , pageSize:Int){
-        ECSCatalogRepository.INSTANCE.getProducts(pageNumber,pageSize,this)
+        ECSCatalogRepository().getProducts(pageNumber,pageSize,this)
     }
 
     fun initCategorizedRetailer (ctn: MutableList<String>){
-        ECSCatalogRepository.INSTANCE.getCategorizedProductsforRetailer(ctn,this)
+        ECSCatalogRepository().getCategorizedProductsforRetailer(ctn,this)
     }
 
 
     fun initCategorized(pageNumber:Int , pageSize:Int,ctns :List<String>){
-        ECSCatalogRepository.INSTANCE.getCategorizedProducts(pageNumber,pageSize,ctns,this)
+        ECSCatalogRepository().getCategorizedProducts(pageNumber,pageSize,ctns,this)
     }
 
     fun fetchProductReview(products :List<ECSProduct>){
-        ECSCatalogRepository.INSTANCE.fetchProductReview(products,this)
+        ECSCatalogRepository().fetchProductReview(products,this)
     }
 
 }

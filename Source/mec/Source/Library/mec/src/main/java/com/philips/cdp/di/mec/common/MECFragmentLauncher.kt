@@ -38,7 +38,7 @@ class MECFragmentLauncher : MecBaseFragment(){
             hideProgressBar()
 
             MECDataHolder.INSTANCE.locale = config!!.locale
-            launchMECasFragment(landingFragment, config!!.isHybris)
+            launchMECasFragment(landingFragment, config.isHybris)
         }
 
     }
