@@ -22,14 +22,9 @@ import android.widget.RelativeLayout
 
 class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
 
-    override fun onItemClick(item: Object) {
-
-    }
-
     private lateinit var binding: MecRetailersFragmentBinding
     private lateinit var retailers: ECSRetailerList
     lateinit var appInfra: AppInfra
-    lateinit var param : String
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -44,12 +39,16 @@ class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
 
         val bundle = arguments
         retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
-        val itemClickListener = bundle.getSerializable("listener") as ItemClickListener
+        val itemClickListener = bundle.getSerializable(MECConstant.MEC_CLICK_LISTENER) as ItemClickListener
 
         binding.retailerList = retailers
         binding.itemClickListener = itemClickListener
 
         return binding.root
+    }
+
+    override fun onItemClick(item: Object) {
+
     }
 
 

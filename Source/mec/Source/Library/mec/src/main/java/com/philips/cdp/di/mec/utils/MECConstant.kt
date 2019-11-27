@@ -15,6 +15,7 @@ object MECConstant {
     val MEC_BUY_URL = "MEC_BUY_URL";
     val MEC_IS_PHILIPS_SHOP = "MEC_IS_PHILIPS_SHOP";
     val MEC_STORE_NAME = "MEC_STORE_NAME";
+    val MEC_CLICK_LISTENER = "MEC_CLICK_LISTENER";
     internal val IN_STOCK = "inStock"
     internal val LOW_STOCK = "lowStock"
 
@@ -44,6 +45,7 @@ object MECConstant {
     val SINGLE_BUTTON_DIALOG_TEXT = "SINGLE_BUTTON_DIALOG_TEXT"
 
     val MEC_IGNORE_RETAILER_LIST = "MEC_IGNORE_RETAILER_LIST"
+    val PHILIPS_EXIT_LINK_PARAMETER = "15_global_%s_%s-app_%s-app"
 
     val HTTP_REDIRECT = 307
 

@@ -3,6 +3,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialogFragment
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
 import android.text.SpannableString
@@ -32,8 +33,6 @@ import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.platform.appinfra.AppInfra
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
 import com.philips.platform.uid.view.widget.Button
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
@@ -45,7 +44,8 @@ import java.util.*
  */
 open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
 
-    var appInfra: AppInfra? = null
+    private lateinit var bottomSheetFragment: MECRetailersFragment
+
     lateinit var param : String
 
 
@@ -55,7 +55,10 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
         val bundle = Bundle()
         bundle.putString(MECConstant.MEC_BUY_URL, uuidWithSupplierLink(ecsRetailers.buyURL))
         bundle.putString(MECConstant.MEC_STORE_NAME, ecsRetailers.name)
-        //bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, Utility().isPhilipsShop(storeEntity))
+        bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, isPhilipsShop(ecsRetailers))
+        if(bottomSheetFragment.isAdded && bottomSheetFragment.isVisible){
+            bottomSheetFragment.dismiss()
+        }
         val fragment = WebBuyFromRetailersFragment()
         fragment.arguments = bundle
         addFragment(fragment,"retailers",true)
@@ -251,27 +254,25 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
 
 
     private fun uuidWithSupplierLink(buyURL: String): String {
-        val mConfigInterface = appInfra?.configInterface
-        val configError = AppConfigurationInterface.AppConfigurationError()
 
-        val propositionId = mConfigInterface?.getPropertyForKey("propositionid", "IAP", configError) as String
-
-        if (configError.errorCode != null) {
-            //IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.errorCode.toString())
-        }
+        val propositionId = MECDataHolder.INSTANCE.propositionId
 
         val supplierLinkWithUUID = "$buyURL&wtbSource=mobile_$propositionId&$param="
 
         return supplierLinkWithUUID + UUID.randomUUID().toString()
     }
 
+    fun isPhilipsShop(retailer: ECSRetailer): Boolean {
+        return retailer.isPhilipsStore.equals("Y", ignoreCase = true)
+    }
+
 
     fun onBuyFromRetailerClick() {
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
-        bundle.putSerializable("listener",this)
+        bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER,this)
 
-        val bottomSheetFragment = MECRetailersFragment()
+        bottomSheetFragment = MECRetailersFragment()
         bottomSheetFragment.arguments = bundle
 
         bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
