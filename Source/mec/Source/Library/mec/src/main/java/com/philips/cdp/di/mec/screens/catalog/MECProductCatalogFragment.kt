@@ -59,7 +59,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
 
 
-    override fun onItemClick(item: Object) {
+    override fun onItemClick(item: Any) {
 
         val ecsProduct = item as MECProductReview
         val bundle = Bundle()
