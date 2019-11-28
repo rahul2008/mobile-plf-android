@@ -48,7 +48,7 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
     private var mUpdtedRetailers: ArrayList<ECSRetailer>? = null
 
 
-    override fun onItemClick(item: Object) {
+    override fun onItemClick(item: Any) {
         val ecsRetailers = item as ECSRetailer
         param = ecsRetailers.xactparam
         val bundle = Bundle()
@@ -215,7 +215,7 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
         val textSize12 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);
 
 
-        if (product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0) {
+        if (product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0 && (product.price.value - product.discountPrice.value)>0) {
             mecPriceDetailId.visibility = View.VISIBLE
             mec_priceDetailIcon.visibility = View.VISIBLE
             mec_priceDiscount.visibility = View.VISIBLE
@@ -232,7 +232,7 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
             val discount = (product.price.value - product.discountPrice.value) / product.price.value * 100
 
             val discountRounded: String = String.format("%.2f", discount).toString()
-            mec_priceDiscount.text = discountRounded + "%"
+            mec_priceDiscount.text = "-"+discountRounded + "%"
         } else if (product.price.formattedValue != null && product.price.formattedValue.length > 0) {
             mecPriceDetailId.visibility = View.VISIBLE
             mec_priceDetailIcon.visibility = View.VISIBLE

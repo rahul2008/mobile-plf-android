@@ -87,7 +87,7 @@
                 android:background="@drawable/mec_semi_circular_orange"
                 android:id="@+id/mec_priceDiscount"
                 android:paddingEnd="5dp"
-                android:paddingStart="5dp"
+                android:paddingStart="10dp"
                 android:gravity="end|center_vertical"
                 android:layout_width="wrap_content"
                 android:minWidth="100dp"
@@ -229,7 +229,7 @@
             android:layout_weight="1"
             app:uidComponentType="Secondary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
-            android:text="View retailers long"
+            android:text="@string/mec_view_retailers"
             android:textSize="14sp"
 
             />

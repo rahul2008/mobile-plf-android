@@ -52,7 +52,7 @@ class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
         return binding.root
     }
 
-    override fun onItemClick(item: Object) {
+    override fun onItemClick(item: Any) {
 
     }
 
