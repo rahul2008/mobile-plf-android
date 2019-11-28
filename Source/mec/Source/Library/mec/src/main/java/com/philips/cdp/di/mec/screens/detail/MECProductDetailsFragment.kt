@@ -74,7 +74,11 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            binding.mecFindRetailerButton.isEnabled = retailers?.wrbresults?.onlineStoresForProduct!!.stores != null
+            if(retailers.wrbresults.onlineStoresForProduct.stores!=null){
+                binding.mecFindRetailerButton.isEnabled = true
+            } else {
+                binding.mecFindRetailerButton.isEnabled = false
+            }
         }
 
     }
