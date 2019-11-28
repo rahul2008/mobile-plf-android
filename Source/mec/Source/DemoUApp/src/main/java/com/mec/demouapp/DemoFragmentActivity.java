@@ -730,7 +730,6 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
-        mRegister.setText(this.getString(R.string.log_out));
         initializeMECComponant();
     }
 

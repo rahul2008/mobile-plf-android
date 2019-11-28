@@ -718,7 +718,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
-        mRegister.setText(this.getString(R.string.log_out));
         initializeMECComponant();
     }
 
