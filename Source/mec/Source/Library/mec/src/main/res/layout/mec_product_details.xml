@@ -229,7 +229,7 @@
             android:layout_weight="1"
             app:uidComponentType="Secondary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
-            android:text="View retailers long"
+            android:text="View retailers"
             android:textSize="14sp"
 
             />

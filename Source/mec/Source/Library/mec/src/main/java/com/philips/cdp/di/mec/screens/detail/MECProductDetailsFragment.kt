@@ -48,7 +48,7 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
     private var mUpdtedRetailers: ArrayList<ECSRetailer>? = null
 
 
-    override fun onItemClick(item: Object) {
+    override fun onItemClick(item: Any) {
         val ecsRetailers = item as ECSRetailer
         param = ecsRetailers.xactparam
         val bundle = Bundle()

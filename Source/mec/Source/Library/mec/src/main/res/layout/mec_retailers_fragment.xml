@@ -22,7 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_gravity="bottom"
-        app:behavior_hideable="true"
+        android:visibility="visible"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="5dip"
+        app:behavior_hideable="false"
         app:behavior_peekHeight="350dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
@@ -35,23 +39,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:id="@+id/lLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/uidContentSecondaryNeutralBackgroundColor">
+
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/mec_online_retailers_lebel"
                 style="@style/mecCentralesansBookFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
+                android:paddingBottom="@dimen/iap_margin_20dp"
                 android:text="Online retailers"
                 android:layout_marginTop="@dimen/iap_margin_20dp"
                 android:layout_marginStart="@dimen/iap_margin_20dp"
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="14dp" />
 
+            </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/retailer_recycler_view"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_below="@+id/mec_online_retailers_lebel"
+            android:layout_below="@+id/lLayout"
             android:layout_marginTop="@dimen/iap_margin_10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

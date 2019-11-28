@@ -38,7 +38,6 @@ class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.designBottomSheet)
         val metrics = resources.displayMetrics
         bottomSheetBehavior.peekHeight = metrics.heightPixels / 2
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         val bundle = arguments
         retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
@@ -52,7 +51,7 @@ class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
         return binding.root
     }
 
-    override fun onItemClick(item: Object) {
+    override fun onItemClick(item: Any) {
 
     }
 
