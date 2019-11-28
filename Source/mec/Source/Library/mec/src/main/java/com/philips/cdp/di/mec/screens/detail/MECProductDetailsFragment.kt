@@ -45,10 +45,8 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
     private lateinit var bottomSheetFragment: MECRetailersFragment
 
     lateinit var param: String
-    private var mUpdtedRetailers: ArrayList<ECSRetailer>? = null
 
-
-    override fun onItemClick(item: Object) {
+    override fun onItemClick(item: Any) {
         val ecsRetailers = item as ECSRetailer
         param = ecsRetailers.xactparam
         val bundle = Bundle()
@@ -80,6 +78,13 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
 
     }
 
+    private val ratingObserver: Observer<BulkRatingsResponse> = object : Observer<BulkRatingsResponse> {
+        override fun onChanged(response :BulkRatingsResponse?) {
+            updateData(response?.results)
+        }
+
+    }
+
     private val productObserver: Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
@@ -107,20 +112,15 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
 
         ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
 
+
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
+        ecsProductDetailViewModel.bulkRatingResponse.observe(this, ratingObserver)
         ecsProductDetailViewModel.mecError.observe(this, this)
 
         binding.indicator.viewPager = binding.pager
 
         val bundle = arguments
         product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
-
-        //val client = BVConversationsClient.Builder(BVSDK.getInstance()).build()
-        // Send Request
-        val bvClient = MECDataHolder.INSTANCE.bvClient
-        var ctns = mutableListOf(product.codeForBazaarVoice)
-        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).build()
-        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
 
 
         //TODO Adding Default Asset
@@ -154,11 +154,10 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
     override fun onStart() {
         super.onStart()
         executeRequest()
+        getRatings()
     }
 
-    override fun handleBackEvent(): Boolean {
-        return super.handleBackEvent()
-    }
+
 
     open fun executeRequest() {
         createCustomProgressBar(container, MEDIUM)
@@ -169,20 +168,12 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
         ecsRetailerViewModel.getRetailers(product.code)
     }
 
-    private val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
-        override fun onSuccess(response: BulkRatingsResponse) {
-            if (response.results.isEmpty()) {
-                //Util.showMessage(this@DisplayOverallRatingActivity, "Empty results", "No ratings found for this product")
-            } else {
-                updateData(response.results)
-            }
-        }
-
-        override fun onFailure(exception: ConversationsException) {
-            //Util.showMessage(this@DisplayOverallRatingActivity, "Error occurred", Util.bvErrorsToString(exception.errors))
-        }
+    private fun getRatings(){
+        ecsProductDetailViewModel.getRatings(product.codeForBazaarVoice)
     }
 
+
+    //TODO bind it
     fun updateData(results: List<Statistics>?) {
         if (results != null) {
             binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
@@ -273,7 +264,7 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
         val bundle = Bundle()
         //bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
         bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
-        val removedBlacklistedRetailers = removedBlacklistedRetailers(ecsRetailerList)
+        val removedBlacklistedRetailers = ecsProductDetailViewModel.removedBlacklistedRetailers(ecsRetailerList)
 
         val retailers = removedBlacklistedRetailers.retailers;
 
@@ -295,27 +286,4 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
 
     }
 
-    private fun removedBlacklistedRetailers(ecsRetailers: ECSRetailerList): ECSRetailerList {
-        val list = MECDataHolder.INSTANCE.blackListedRetailers
-
-        for (name in list) {
-
-            val iterator = ecsRetailers.retailers.iterator()
-
-            while (iterator.hasNext()) {
-
-                val retailerName = iterator.next().getName().replace("\\s+".toRegex(), "")
-                if (name.equals(retailerName, true)) {
-
-                    if (MECutility.indexOfSubString(true, retailerName, name) >= 0) {
-                        iterator.remove()
-
-                    }
-                }
-            }
-
-        }
-
-        return ecsRetailers
-    }
 }

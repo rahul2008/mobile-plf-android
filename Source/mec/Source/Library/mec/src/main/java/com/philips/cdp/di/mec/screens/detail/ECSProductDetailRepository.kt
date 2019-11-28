@@ -1,21 +1,17 @@
 package com.philips.cdp.di.mec.screens.detail
 
-import android.arch.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
-import com.philips.cdp.di.mec.screens.catalog.EcsProductViewModel
-import com.philips.cdp.di.mec.screens.catalog.MECProductReview
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import java.text.DecimalFormat
 
-class ECSProductDetailRepository {
+class ECSProductDetailRepository(val ecsProductDetailViewModel: EcsProductDetailViewModel) {
 
-    fun getProductDetail(ecsProduct: ECSProduct, ecsProductDetailViewModel: EcsProductDetailViewModel){
+    fun getProductDetail(ecsProduct: ECSProduct){
 
         val eCSServices = MecHolder.INSTANCE.eCSServices
 
@@ -33,27 +29,52 @@ class ECSProductDetailRepository {
     }
 
 
-    fun fetchProductReview(ctn : String, pageNumber : Int, pageSize : Int, ecsProductViewModel: EcsProductDetailViewModel){
+    fun fetchProductReview(ctn: String, pageNumber: Int, pageSize: Int){
 
         val noData = mutableListOf<Review>()
 
         val reviewsCb = object :  ConversationsDisplayCallback<ReviewResponse> {
             override fun onSuccess(response: ReviewResponse) {
                 if (response.results.isEmpty()) {
-                 //TODO Handle this
-                    ecsProductViewModel.review.value = noData
+                    //TODO Handle this
+                    ecsProductDetailViewModel.review.value = noData
                 } else {
-                    ecsProductViewModel.review.value = response.results
+                    ecsProductDetailViewModel.review.value = response.results
                 }
             }
 
             override fun onFailure(exception: ConversationsException) {
                //TODO HANDLE error through MECError
-                ecsProductViewModel.review.value = noData
+                ecsProductDetailViewModel.review.value = noData
             }
         }
         val bvClient = MECDataHolder.INSTANCE.bvClient
         val request = ReviewsRequest.Builder(ctn.replace("/","_"), pageSize, pageNumber).addSort(ReviewOptions.Sort.SubmissionTime, SortOrder.DESC).addFilter(ReviewOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter("FilteredStats", "Reviews").build()
+        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
+
+    }
+
+    fun getRatings(ctn: String, ecsProductDetailViewModel: EcsProductDetailViewModel) {
+
+        val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
+            override fun onSuccess(response: BulkRatingsResponse) {
+                if (response.results.isEmpty()) {
+                    //Util.showMessage(this@DisplayOverallRatingActivity, "Empty results", "No ratings found for this product")
+                } else {
+                   // updateData(response.results)
+                    ecsProductDetailViewModel.bulkRatingResponse.value = response
+                }
+            }
+
+            override fun onFailure(exception: ConversationsException) {
+                //Util.showMessage(this@DisplayOverallRatingActivity, "Error occurred", Util.bvErrorsToString(exception.errors))
+                //TODO Handle errors
+            }
+        }
+
+        val bvClient = MECDataHolder.INSTANCE.bvClient
+        var ctns = mutableListOf(ctn)
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
 
     }

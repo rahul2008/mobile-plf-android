@@ -22,7 +22,7 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import kotlin.collections.ArrayList
 
 
-class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
+class MECRetailersFragment : BottomSheetDialogFragment(){
 
     private lateinit var binding: MecRetailersFragmentBinding
     private lateinit var retailers: ECSRetailerList
@@ -51,10 +51,5 @@ class MECRetailersFragment : BottomSheetDialogFragment(),ItemClickListener {
 
         return binding.root
     }
-
-    override fun onItemClick(item: Object) {
-
-    }
-
 
 }

@@ -3,13 +3,16 @@ package com.philips.cdp.di.mec.screens.detail
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
+import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
 import com.google.gson.internal.LinkedTreeMap
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.screens.reviews.MECReview
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
 
@@ -17,15 +20,23 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val ecsProduct = MutableLiveData<ECSProduct>()
 
+    val bulkRatingResponse= MutableLiveData<BulkRatingsResponse>()
+
     val review = MutableLiveData<List<Review>>()
 
+    fun getRatings(ctn :String){
+        ECSProductDetailRepository(this).getRatings(ctn,this);
+    }
+
     fun getProductDetail(ecsProduct: ECSProduct){
-        ECSProductDetailRepository().getProductDetail(ecsProduct,this)
+        ECSProductDetailRepository(this).getProductDetail(ecsProduct)
     }
 
     fun getBazaarVoiceReview(ctn : String, pageNumber : Int, pageSize : Int){
-        ECSProductDetailRepository().fetchProductReview(ctn,pageNumber,pageSize,this)
+        ECSProductDetailRepository(this).fetchProductReview(ctn, pageNumber, pageSize)
     }
+
+
     companion object DataBindingAdapter {
 
         @JvmStatic
@@ -93,6 +104,30 @@ class EcsProductDetailViewModel : CommonViewModel() {
             }
         }
         return useDurationValue.toString()
+    }
+
+    fun removedBlacklistedRetailers(ecsRetailers: ECSRetailerList): ECSRetailerList {
+        val list = MECDataHolder.INSTANCE.blackListedRetailers
+
+        for (name in list) {
+
+            val iterator = ecsRetailers.retailers.iterator()
+
+            while (iterator.hasNext()) {
+
+                val retailerName = iterator.next().getName().replace("\\s+".toRegex(), "")
+                if (name.equals(retailerName, true)) {
+
+                    if (MECutility.indexOfSubString(true, retailerName, name) >= 0) {
+                        iterator.remove()
+
+                    }
+                }
+            }
+
+        }
+
+        return ecsRetailers
     }
 
 }
