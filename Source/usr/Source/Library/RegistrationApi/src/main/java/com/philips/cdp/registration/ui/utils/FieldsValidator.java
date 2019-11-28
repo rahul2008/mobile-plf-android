@@ -19,13 +19,21 @@ public class FieldsValidator {
     private static final String TAG = "RegistrationSettingsURL";
 
 
-    public static boolean isValidName(String name) {
-        if (name == null)
+    public static boolean isValidName(String email) {
+        if (email == null)
             return false;
-        if (name.length() > 0)
-            return true;
+        if (email.length() == 0)
+            return false;
+        if (email.length() != email.trim().length())
+            return false;
+        if (email.contains(" "))
+            return false;
 
-        return false;
+        email = email.toLowerCase();
+        String emailPattern = "^(?!.*(?i)(\\p{C}|<|>|\\.com|\\.co\\.|\\.do|\\.ru|\\.it|\\.de|\\.at|\\.ch|\\.nl|\\.be|\\.fr|\\.org|\\.to|\\.do|:\\/\\/|www\\.)(?-i)).*$";
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     public static boolean isValidEmail(String email) {
@@ -39,7 +47,7 @@ public class FieldsValidator {
             return false;
         
         email = email.toLowerCase();
-        String emailPattern = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+        String emailPattern = "^[A-Za-z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+\\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
