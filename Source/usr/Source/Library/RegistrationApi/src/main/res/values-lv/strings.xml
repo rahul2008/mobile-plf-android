@@ -276,4 +276,6 @@
   <string name="USR_wordpress">Wordpress</string>
   <string name="USR_xing">XING</string>
   <string name="USR_yahoo">Yahoo!</string>
+  <string name="USR_InvalidOrMissingName_ErrorMsg">lūdzu, ievadiet derīgu vārdu</string>
+
 </resources>

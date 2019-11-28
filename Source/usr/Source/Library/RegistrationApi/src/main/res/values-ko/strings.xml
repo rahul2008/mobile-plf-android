@@ -276,4 +276,6 @@
   <string name="USR_wordpress">Wordpress</string>
   <string name="USR_xing">XING</string>
   <string name="USR_yahoo">Yahoo!</string>
+  <string name="USR_InvalidOrMissingName_ErrorMsg">유효한 이름을 입력하십시오</string>
+
 </resources>
