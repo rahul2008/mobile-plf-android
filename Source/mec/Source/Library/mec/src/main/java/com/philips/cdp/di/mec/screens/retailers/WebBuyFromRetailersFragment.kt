@@ -19,7 +19,6 @@ import com.philips.cdp.di.mec.utils.MECConstant
 
 class WebBuyFromRetailersFragment : MecBaseFragment(){
 
-val TAG = WebBuyFromRetailersFragment::class.java!!.getName()
 private var mWebView: WebView? = null
 private var mUrl: String? = null
 private var isPhilipsShop = false

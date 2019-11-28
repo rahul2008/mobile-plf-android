@@ -59,6 +59,7 @@ class MECHandler {
         MecHolder.INSTANCE.eCSServices=ecsServices; // singleton
         MECDataHolder.INSTANCE.propositionId = propertyForKey;
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.getMecBannerEnabler();
+        MECDataHolder.INSTANCE.setHybrisEnabled(mLaunchInput.getHybrisEnabled());
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.getMecBazaarVoiceInput();
         MECDataHolder.INSTANCE.blackListedRetailers = Objects.requireNonNull(mLaunchInput.getIgnoreRetailers());
 

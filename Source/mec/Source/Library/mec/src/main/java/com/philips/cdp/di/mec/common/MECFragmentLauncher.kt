@@ -28,7 +28,10 @@ class MECFragmentLauncher : MecBaseFragment(){
     private val isHybrisObserver : Observer<Boolean> = object :Observer<Boolean>{
         override fun onChanged(result: Boolean?) {
             hideProgressBar()
-            launchMECasFragment(landingFragment, result!!)
+            if(MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) {
+                MECDataHolder.INSTANCE.hybrisEnabled = result!!
+            }
+            launchMECasFragment(landingFragment, MECDataHolder.INSTANCE.hybrisEnabled)
         }
 
     }
@@ -37,8 +40,12 @@ class MECFragmentLauncher : MecBaseFragment(){
         override fun onChanged(config: ECSConfig?) {
             hideProgressBar()
 
+            if(MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) {
+                MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: true
+            }
+
             MECDataHolder.INSTANCE.locale = config!!.locale
-            launchMECasFragment(landingFragment, config.isHybris)
+            launchMECasFragment(landingFragment, MECDataHolder.INSTANCE.hybrisEnabled)
         }
 
     }

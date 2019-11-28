@@ -360,6 +360,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
 
             mMecLaunchInput.mecBannerEnabler = this::getBannerView;
+            mMecLaunchInput.setHybrisEnabled(this.isHybrisEnable);
         mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
 
 

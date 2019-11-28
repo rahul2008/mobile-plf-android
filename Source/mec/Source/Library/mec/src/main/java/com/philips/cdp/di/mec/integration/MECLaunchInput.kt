@@ -19,6 +19,7 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
     lateinit var mecBannerEnabler: MECBannerEnabler
 
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
+    var hybrisEnabled : Boolean = true
 
 
     var mIgnoreRetailers: ArrayList<String>? = null
