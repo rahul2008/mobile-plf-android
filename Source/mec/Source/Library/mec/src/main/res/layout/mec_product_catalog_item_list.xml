@@ -111,7 +111,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/iap_margin_4dp"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:text="@{ product.ecsProduct.price.formattedValue}"
+            app:setPriceInfo="@{ product.ecsProduct}"
             android:textSize="16sp" />
 
 
