@@ -20,10 +20,10 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/design_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_gravity="bottom"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="400dp"
+        app:behavior_peekHeight="350dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <RelativeLayout
