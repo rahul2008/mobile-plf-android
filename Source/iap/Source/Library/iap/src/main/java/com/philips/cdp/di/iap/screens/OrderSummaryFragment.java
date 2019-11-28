@@ -248,8 +248,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartOnResume();
         }
-        if(!(ControllerFactory.getInstance().isPlanB()) && ((IAPUtility.getInstance().getPrivacyUrl() != null) && (IAPUtility.getInstance().getTermsUrl() != null) && (IAPUtility.getInstance().getFaqUrl() != null))) {
-            mPrivacy.setVisibility(View.VISIBLE);
+        if(setLinkVisibility()){
+                mPrivacy.setVisibility(View.VISIBLE);
             mTerms.setVisibility(View.VISIBLE);
             mFaq.setVisibility(View.VISIBLE);
         } else {
@@ -326,6 +326,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
         bundle.putString(IAPConstant.IAP_FAQ_URL, IAPUtility.getInstance().getFaqUrl());
         bundle.putString(IAPConstant.IAP_FAQ,IAPConstant.IAP_FAQ);
         addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
+    }
+
+    private boolean setLinkVisibility(){
+        return (!(ControllerFactory.getInstance().isPlanB()) && ((IAPUtility.getInstance().getPrivacyUrl() != null) && (IAPUtility.getInstance().getTermsUrl() != null) && (IAPUtility.getInstance().getFaqUrl() != null))) &&
+                ((CartModelContainer.getInstance().getCountry().equals("DE")) || (CartModelContainer.getInstance().getCountry().equals("CH")) || (CartModelContainer.getInstance().getCountry().equals("AT")) || (CartModelContainer.getInstance().getCountry().equals("SE")));
     }
 
 
