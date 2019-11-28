@@ -115,7 +115,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text="@{ product.ecsProduct.price.formattedValue}"
+                app:setPriceInfo="@{ product.ecsProduct}"
                 android:textSize="16sp" />
             </RelativeLayout>
 
