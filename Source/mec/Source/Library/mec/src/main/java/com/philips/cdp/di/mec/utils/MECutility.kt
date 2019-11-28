@@ -69,6 +69,67 @@ class MECutility {
             return false
         }
 
+        fun indexOfSubString(ignoreCase: Boolean, str: CharSequence?, subString: CharSequence?): Int {
+            if (str == null || subString == null) {
+                return -1
+            }
+            val subStringLen = subString.length
+            val max = str.length - subStringLen
+            for (i in 0..max) {
+                if (regionMatches(ignoreCase, str, i, subString, 0, subStringLen)) {
+                    return i
+                }
+            }
+            return -1
+        }
+
+        fun regionMatches(ignoreCase: Boolean, str: CharSequence?, strOffset: Int,
+                          subStr: CharSequence?, subStrOffset: Int, length: Int): Boolean {
+            if (str == null || subStr == null) {
+                return false
+            }
+
+            if (str is String && subStr is String) {
+                return str.regionMatches(strOffset, (subStr as String?)!!, subStrOffset, length, ignoreCase = ignoreCase)
+            }
+
+            //SubString length is more than string
+            if (subStr.length > str.length) {
+                return false
+            }
+
+            //Invalid start point
+            if (strOffset < 0 || subStrOffset < 0 || length < 0) {
+                return false
+            }
+
+            //Length can't be greater than diff of string length and offset
+            if (str.length - strOffset < length || subStr.length - subStrOffset < length) {
+                return false
+            }
+
+            //Start comparing
+            var strIndex = strOffset
+            var subStrIndex = subStrOffset
+            var tmpLenth = length
+
+            while (tmpLenth-- > 0) {
+                val c1 = str[strIndex++]
+                val c2 = subStr[subStrIndex++]
+
+                if (c1 == c2) {
+                    continue
+                }
+
+                //Same comparison as java framework
+                if (ignoreCase && (Character.toUpperCase(c1) == Character.toUpperCase(c2) || Character.toLowerCase(c1) == Character.toLowerCase(c2))) {
+                    continue
+                }
+                return false
+            }
+            return true
+        }
+
         internal fun isStockAvailable(stockLevelStatus: String?, stockLevel: Int): Boolean {
 
             /* if (if hybris available ) { // todo

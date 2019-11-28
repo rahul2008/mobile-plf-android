@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 class MECHandler {
     private MECDependencies mMECDependencies;
@@ -56,8 +57,12 @@ class MECHandler {
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
         ECSServices ecsServices = new ECSServices(propertyForKey,appInfra);
         MecHolder.INSTANCE.eCSServices=ecsServices; // singleton
+        MECDataHolder.INSTANCE.propositionId = propertyForKey;
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.getMecBannerEnabler();
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.getMecBazaarVoiceInput();
+        MECDataHolder.INSTANCE.blackListedRetailers = Objects.requireNonNull(mLaunchInput.getIgnoreRetailers());
+
+
         getUrl();
         if (mUiLauncher instanceof ActivityLauncher) {
             launchMECasActivity();

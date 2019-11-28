@@ -14,20 +14,23 @@ import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
 import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
+import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Button
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
@@ -37,7 +40,29 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductDetailsFragment : MecBaseFragment() {
+open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
+
+    private lateinit var bottomSheetFragment: MECRetailersFragment
+
+    lateinit var param: String
+    private var mUpdtedRetailers: ArrayList<ECSRetailer>? = null
+
+
+    override fun onItemClick(item: Object) {
+        val ecsRetailers = item as ECSRetailer
+        param = ecsRetailers.xactparam
+        val bundle = Bundle()
+        bundle.putString(MECConstant.MEC_BUY_URL, uuidWithSupplierLink(ecsRetailers.buyURL))
+        bundle.putString(MECConstant.MEC_STORE_NAME, ecsRetailers.name)
+        bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, isPhilipsShop(ecsRetailers))
+        if (bottomSheetFragment.isAdded && bottomSheetFragment.isVisible) {
+            bottomSheetFragment.dismiss()
+        }
+        val fragment = WebBuyFromRetailersFragment()
+        fragment.arguments = bundle
+        addFragment(fragment, "retailers", true)
+
+    }
 
 
     private lateinit var binding: MecProductDetailsBinding
@@ -47,15 +72,15 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
 
-    private val eCSRetailerListObserver : Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
+    private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            binding.mecFindRetailerButton.isEnabled = retailers?.wrbresults?.onlineStoresForProduct!!.stores!=null
+            binding.mecFindRetailerButton.isEnabled = retailers?.wrbresults?.onlineStoresForProduct!!.stores != null
         }
 
     }
 
-    private val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
+    private val productObserver: Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
 
@@ -68,7 +93,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         }
 
     }
-
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -84,7 +108,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
-        ecsProductDetailViewModel.mecError.observe(this,this)
+        ecsProductDetailViewModel.mecError.observe(this, this)
 
         binding.indicator.viewPager = binding.pager
 
@@ -95,7 +119,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // Send Request
         val bvClient = MECDataHolder.INSTANCE.bvClient
         var ctns = mutableListOf(product.codeForBazaarVoice)
-        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale,EqualityOperator.EQ,MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE,MECDataHolder.INSTANCE.locale).build()
+        val request = BulkRatingsRequest.Builder(ctns, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).build()
         bvClient!!.prepareCall(request).loadAsync(reviewsCb)
 
 
@@ -104,16 +128,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         asset.asset = "xyz"
         asset.type = "UNKNOWN"
 
-        var assets= Assets()
+        var assets = Assets()
         assets.asset = Arrays.asList(asset)
         product.assets = assets
 
         ecsProductDetailViewModel.ecsProduct.value = product
 
         // Ends here
-       // binding.product = product
+        // binding.product = product
 
-        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager,product.code)
+        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager, product.code)
         binding.viewpagerMain.adapter = fragmentAdapter
 
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
@@ -136,7 +160,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         return super.handleBackEvent()
     }
 
-    open fun executeRequest(){
+    open fun executeRequest() {
         createCustomProgressBar(container, MEDIUM)
         ecsProductDetailViewModel.getProductDetail(product)
     }
@@ -162,8 +186,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     fun updateData(results: List<Statistics>?) {
         if (results != null) {
             binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
-            binding.mecRatingLebel.text =  DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
-            binding.mecReviewLebel.text = " ("+results.get(0).productStatistics.nativeReviewStatistics.totalReviewCount.toString() + " reviews)"
+            binding.mecRatingLebel.text = DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
+            binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.nativeReviewStatistics.totalReviewCount.toString() + " reviews)"
         }
 
     }
@@ -176,7 +200,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
     }
 
-    private fun setButtonIcon(button: Button, drawable: Drawable?){
+    private fun setButtonIcon(button: Button, drawable: Drawable?) {
         var mutateDrawable = drawable
         if (drawable != null) {
             mutateDrawable = drawable.constantState!!.newDrawable().mutate()
@@ -185,7 +209,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
 
-    fun showPriceDetail(){
+    fun showPriceDetail() {
 
         val textSize16 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_discount_price_label_size);
         val textSize12 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);
@@ -226,16 +250,72 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
-    fun onBuyFromRetailerClick() {
-        val bundle = Bundle()
-        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
 
-        val bottomSheetFragment = MECRetailersFragment()
-        bottomSheetFragment.arguments = bundle
+    private fun uuidWithSupplierLink(buyURL: String): String {
 
-        bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
+        val propositionId = MECDataHolder.INSTANCE.propositionId
 
+        val supplierLinkWithUUID = "$buyURL&wtbSource=mobile_$propositionId&$param="
+
+        return supplierLinkWithUUID + UUID.randomUUID().toString()
+    }
+
+    fun isPhilipsShop(retailer: ECSRetailer): Boolean {
+        return retailer.isPhilipsStore.equals("Y", ignoreCase = true)
     }
 
 
+    fun onBuyFromRetailerClick() {
+        buyFromRetailers(retailersList)
+    }
+
+    private fun buyFromRetailers(ecsRetailerList: ECSRetailerList) {
+        val bundle = Bundle()
+        //bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
+        bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
+        val removedBlacklistedRetailers = removedBlacklistedRetailers(ecsRetailerList)
+
+        val retailers = removedBlacklistedRetailers.retailers;
+
+        if (retailers.size.equals(1) && retailers.get(0).isPhilipsStore.equals("Y")) {
+            bundle.putString(MECConstant.MEC_BUY_URL, retailers.get(0).buyURL)
+            bundle.putString(MECConstant.MEC_STORE_NAME, retailers.get(0).name)
+            bundle.putString(MECConstant.MEC_IS_PHILIPS_SHOP, isPhilipsShop(retailers.get(0)).toString())
+            val fragment = WebBuyFromRetailersFragment()
+            fragment.arguments = bundle
+            addFragment(fragment, "retailers", true)
+        } else {
+            bottomSheetFragment = MECRetailersFragment()
+            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
+            bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
+            bottomSheetFragment.arguments = bundle
+            bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
+        }
+
+
+    }
+
+    private fun removedBlacklistedRetailers(ecsRetailers: ECSRetailerList): ECSRetailerList {
+        val list = MECDataHolder.INSTANCE.blackListedRetailers
+
+        for (name in list) {
+
+            val iterator = ecsRetailers.retailers.iterator()
+
+            while (iterator.hasNext()) {
+
+                val retailerName = iterator.next().getName().replace("\\s+".toRegex(), "")
+                if (name.equals(retailerName, true)) {
+
+                    if (MECutility.indexOfSubString(true, retailerName, name) >= 0) {
+                        iterator.remove()
+
+                    }
+                }
+            }
+
+        }
+
+        return ecsRetailers
+    }
 }

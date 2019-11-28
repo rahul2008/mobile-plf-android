@@ -1,11 +1,14 @@
 package com.philips.cdp.di.mec.screens.retailers
 
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecRetailersItemBinding
+import com.philips.cdp.di.mec.utils.MECDataHolder
 
 class MECRetailersAdapter (private val mecRetailers: List<ECSRetailer>? ,val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -26,6 +29,18 @@ class MECRetailersAdapter (private val mecRetailers: List<ECSRetailer>? ,val ite
         open fun bind(retailer: ECSRetailer) {
             binding.mecRetailer = retailer
             binding.itemClickListener = itemClickListener
+
+            if(retailer.isPhilipsStore.equals("Y")){
+                    itemView.visibility = View.GONE
+                } else {
+                    itemView.visibility = View.VISIBLE
+                }
+            if (TextUtils.isDigitsOnly(retailer.philipsOnlinePrice)) {
+                binding.mecRetailerItemPrice.visibility = View.GONE
+            } else {
+                binding.mecRetailerItemPrice.visibility = View.VISIBLE
+            }
+
         }
     }
 

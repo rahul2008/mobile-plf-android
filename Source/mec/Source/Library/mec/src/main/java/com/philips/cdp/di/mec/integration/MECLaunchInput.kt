@@ -21,7 +21,7 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
 
 
-    private var mIgnoreRetailers: ArrayList<String>? = null
+    var mIgnoreRetailers: ArrayList<String>? = null
     private val mFirstIgnoreRetailers = ArrayList<String>()
     private var voucherCode: String? = null
 
@@ -35,6 +35,8 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
 
     val ignoreRetailers: ArrayList<String>?
         get() {
+//            mIgnoreRetailers?.add("Factoryoutletstore.com")
+//            mIgnoreRetailers?.add("Encompass.com")
             if (mIgnoreRetailers == null || mIgnoreRetailers!!.size == 0) return mIgnoreRetailers
             for (str in mIgnoreRetailers!!) {
                 val first = str.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()

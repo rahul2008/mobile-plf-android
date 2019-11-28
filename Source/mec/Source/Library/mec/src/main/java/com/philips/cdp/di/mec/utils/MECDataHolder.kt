@@ -5,6 +5,7 @@ import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.platform.uappframework.listener.ActionBarListener
+import java.util.ArrayList
 
 enum class MECDataHolder {
 
@@ -14,6 +15,8 @@ enum class MECDataHolder {
     lateinit var mecListener: MECListener
     lateinit var mecBannerEnabler: MECBannerEnabler
     lateinit var locale:String
+    lateinit var propositionId:String
+    lateinit var blackListedRetailers: ArrayList<String>
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     private var privacyUrl: String? = null
 
@@ -24,6 +27,8 @@ enum class MECDataHolder {
     fun setPrivacyUrl(privacyUrl: String) {
         this.privacyUrl = privacyUrl
     }
+
+
 
     var bvClient: BVConversationsClient? = null
 
