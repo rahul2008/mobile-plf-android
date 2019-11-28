@@ -4,5 +4,5 @@ import java.io.Serializable
 
 interface ItemClickListener : Serializable{
 
-      fun onItemClick(item:Object)
+      fun onItemClick(item:Any)
 }
