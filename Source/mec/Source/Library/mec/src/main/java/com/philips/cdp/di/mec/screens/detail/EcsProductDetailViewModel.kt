@@ -84,7 +84,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
         var mapAdditionalFields: LinkedTreeMap<String, String>? = null
         if (review.additionalFields != null && review.additionalFields.size > 0 ) {
             mapAdditionalFields = review.additionalFields.get(type) as LinkedTreeMap<String, String>
-            reviewValue= if (mapAdditionalFields != null && mapAdditionalFields?.get("Value") != null) mapAdditionalFields?.get("Value") else ""
+            reviewValue= if (mapAdditionalFields.get("Value") != null) mapAdditionalFields?.get("Value") else ""
         }
         if (reviewValue == null) {
             if (review.tagDimensions != null && review.tagDimensions!!.size > 0) {
@@ -92,16 +92,14 @@ class EcsProductDetailViewModel : CommonViewModel() {
                 reviewValue= tagD?.values.toString()
             }
         }
-        return if(reviewValue.toString()!=null) reviewValue.toString() else ""
+        return reviewValue.toString()
     }
 
      fun getValueForUseDuration( review: Review): String {
         var useDurationValue: String? = ""
         if (review.contextDataValues != null && review.contextDataValues!!.size>0 && (null!=review.contextDataValues!!.get("HowLongHaveYouBeenUsingThisProduct"))) {
             val mapUseDuration: ContextDataValue = review.contextDataValues!!.get("HowLongHaveYouBeenUsingThisProduct") as ContextDataValue
-            if(null!=mapUseDuration){
-                useDurationValue=mapUseDuration.valueLabel
-            }
+            useDurationValue=mapUseDuration.valueLabel
         }
         return useDurationValue.toString()
     }
