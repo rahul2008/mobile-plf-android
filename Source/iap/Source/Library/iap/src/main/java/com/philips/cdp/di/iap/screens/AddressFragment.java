@@ -59,6 +59,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     private boolean isShippingAddressFilled = false;
     private boolean isBillingAddressFilled = false;
     private boolean isAddressFilledFromDeliveryAddress = false;
+    private boolean isDeliveryFirstTimeUser = Utility.isDelvieryFirstTimeUser;
     private AddressFieldEnabler addressFieldEnabler;
 
     @Override
@@ -418,7 +419,10 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         return isAddressFilledFromDeliveryAddress;
     }
 
-
+    @Override
+    public boolean isDeliveryFirstTimeUser() {
+        return isDeliveryFirstTimeUser;
+    }
 
     @Override
     public void setShippingAddressFilledStatus(boolean status) {
@@ -433,6 +437,11 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void setAddressFilledFromDeliveryAddressStatus(boolean status) {
         this.isAddressFilledFromDeliveryAddress = status;
+    }
+
+    @Override
+    public void setDeliveryFirstTimeUserStatus(boolean status) {
+        this.isDeliveryFirstTimeUser = status;
     }
 
     @Override
