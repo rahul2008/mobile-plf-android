@@ -239,9 +239,11 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
             //Show discounts ==========
-            if(null!= mData.get(0) && mData.get(0).getAppliedOrderPromotionEntityList()!=null) {
+            if(null!=mData && mData.size()>0 && null!= mData.get(0) && mData.get(0).getAppliedOrderPromotionEntityList()!=null) {
                 for (int i = 0; i < mData.get(0).getAppliedOrderPromotionEntityList().size(); i++) {
-                    if (null != mData.get(i) && null != mData.get(i).getAppliedOrderPromotionEntityList()
+                    if (i<mData.size()
+                            && null != mData.get(i)
+                            && null != mData.get(i).getAppliedOrderPromotionEntityList()
                             && null != mData.get(i).getAppliedOrderPromotionEntityList().get(i)
                             && null != mData.get(i).getAppliedOrderPromotionEntityList().get(i).getPromotion()
                             && null != mData.get(i).getAppliedOrderPromotionEntityList().get(i).getPromotion().getPromotionDiscount()) {
@@ -255,9 +257,9 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                 }
             }
-            if(null!=mData.get(0) && mData.get(0).getAppliedVouchers()!=null) {
+            if(null!=mData && mData.size()>0 && null!=mData.get(0) && mData.get(0).getAppliedVouchers()!=null) {
                 for (int i = 0; i < mData.get(0).getAppliedVouchers().size(); i++) {
-                    if (null != mData.get(i) && null != mData.get(i).getAppliedVouchers() && null != mData.get(i).getAppliedVouchers().get(i)
+                    if (i<mData.size() && null != mData.get(i) && null != mData.get(i).getAppliedVouchers() && null != mData.get(i).getAppliedVouchers().get(i)
                             && null != mData.get(i).getAppliedVouchers().get(i).getAppliedValue()) {
                         View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
                         TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
