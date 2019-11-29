@@ -311,7 +311,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         if (getActivity() == null) return;
         
-        if(mData!=null && mData.get(0)!=null) {
+        if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
 
             onOutOfStock(false);
             mAdapter = new ShoppingCartAdapter(getActivity(), mData, this);
@@ -329,9 +329,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
             numberOfProducts = String.format(numberOfProducts, mData.size());
             mNumberOfProducts.setText(numberOfProducts);
             mNumberOfProducts.setVisibility(View.VISIBLE);
-        }/*else {
+        }else {
             mAddressController.getDeliveryModes();
-        }*/
+        }
         if(voucherCode!=null) {
             mVoucherController.applyCoupon(voucherCode);
             Utility.setVoucherCode(null);

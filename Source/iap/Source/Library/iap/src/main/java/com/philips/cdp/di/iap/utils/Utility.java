@@ -34,6 +34,7 @@ import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 public class Utility {
     public static final String TAG = Utility.class.getName();
     private static AlertDialogFragment alertDialogFragment;
+    public static boolean isDelvieryFirstTimeUser = false;
     public static String voucherCodeVal;
     public static boolean isPromotionRunning=false;
 

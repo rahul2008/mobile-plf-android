@@ -118,6 +118,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         initializeViews(rootView);
+        Utility.isDelvieryFirstTimeUser=true;
 
         return rootView;
     }
@@ -527,6 +528,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onSetDeliveryMode(Message msg) {
+        Utility.isDelvieryFirstTimeUser=false;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             updateCartOnResume();
         } else {
