@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -173,13 +174,13 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            Addresses selectedAddress = retrieveSelectedAddress();
-            mIsAddressUpdateAfterDelivery = true;
-            mAddressController.setDefaultAddress(selectedAddress);
-            /*if (mDeliveryMode == null)
-                mAddressController.getDeliveryModes();
-            else*/
+
+            if (mDeliveryMode != null) {
+                mIsAddressUpdateAfterDelivery = true;
                 checkPaymentDetails();
+            }else{
+                mAddressController.getDeliveryModes();
+            }
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             hideProgressBar();
@@ -194,6 +195,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public void onSetDeliveryMode(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            mIsAddressUpdateAfterDelivery = true;
             checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);

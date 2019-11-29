@@ -267,7 +267,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             if (deliveryModeList.size() > 0) {
                 CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-               // addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+                addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             }
         }
     }

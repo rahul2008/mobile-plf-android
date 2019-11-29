@@ -220,6 +220,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 shoppingCartFooter.mVatValue.setText(data.getVatValue());
                 if (null != data.getDeliveryMode()) {
                     handleTax(data, shoppingCartFooter);
+                    shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
@@ -232,21 +233,26 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if(Utility.isPromotionRunning())
                     {
                         shoppingCartFooter.mDeliveryModeFree.setText(R.string.iap_free_Delivery);
+                        shoppingCartFooter.mDeliveryModeFree.setVisibility(View.VISIBLE);
                     }
 
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
-                    shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
+                    shoppingCartFooter.mDeliveryPrice.setVisibility(View.VISIBLE);
 
-                    if (deliveryMethod != null) {
-                        String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_ups_parcel);
-                        freeDeliverySpendOn = String.format(freeDeliverySpendOn, deliveryMethod);
-                        shoppingCartFooter.mDeliveryTitle.setText(freeDeliverySpendOn);
-                    } else {
-                        shoppingCartFooter.mDeliveryTitle.setVisibility(View.GONE);
-                    }
-                    shoppingCartFooter.mDeliveryModeDescription.setText(deliveryModeDescription);
-                    shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
+
+                    shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
+
+
+                    shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
+                    String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_ups_parcel);
+                    freeDeliverySpendOn = String.format(freeDeliverySpendOn, deliveryMethod);
+                    shoppingCartFooter.mDeliveryTitle.setText(freeDeliverySpendOn);
+                    shoppingCartFooter.mDeliveryTitle.setVisibility(View.VISIBLE);
+
+                    shoppingCartFooter.mDeliveryModeDescription.setText(deliveryModeDescription);
+                    shoppingCartFooter.mDeliveryModeDescription.setVisibility(View.VISIBLE);
+
 
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -306,17 +312,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
 
-            if(Utility.isVoucherEnable() || Utility.isDelvieryFirstTimeUser){
+            if(Utility.isVoucherEnable()){
                 shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
-            }else{
-                shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
             }
 
-            if(Utility.isDelvieryFirstTimeUser ){
-                setDelvieryVisibility(true);
-            }else {
-                setDelvieryVisibility(false);
-            }
 
             if(Utility.isVoucherEnable()) {
                 shoppingCartFooter.mVoucherContainer.setVisibility(View.VISIBLE);
@@ -405,22 +404,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public boolean isFreeDelivery() {
         return mIsFreeDelivery;
-    }
-
-    public void setDelvieryVisibility(boolean visibility){
-        if (visibility) {
-            shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
-            shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
-            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
-            shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
-            shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
-            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
-            shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-        }
     }
 
     @Override
