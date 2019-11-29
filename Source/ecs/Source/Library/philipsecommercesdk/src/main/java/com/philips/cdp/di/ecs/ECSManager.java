@@ -669,8 +669,8 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
         }).executeRequest();
     }
 
-     void getOrderHistory(int pageNumber, ECSCallback<ECSOrderHistory, Exception> ecsCallback) {
-        new GetOrderHistoryRequest(pageNumber, ecsCallback).executeRequest();
+     void getOrderHistory(int pageNumber, int pageSize, ECSCallback<ECSOrderHistory, Exception> ecsCallback) {
+        new GetOrderHistoryRequest(pageNumber,pageSize, ecsCallback).executeRequest();
     }
 
 
