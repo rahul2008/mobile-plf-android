@@ -220,7 +220,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
             createCustomProgressBar(mParentLayout, BIG);
-            mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
+            if(mAdapter.getSelectedItemPosition()>0) {
+                mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
+            }
 
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_UPDATE_PRODUCT_COUNT)) {
             createCustomProgressBar(mParentLayout, BIG);
