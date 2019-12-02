@@ -29,6 +29,25 @@
             android:textSize="@dimen/iap_product_ctn_12"
             android:visibility="gone" />
 
+        <LinearLayout
+            android:id="@+id/mec_progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true">
+
+            <com.philips.platform.uid.view.widget.ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/UIDProgressBarCircularIndeterminateSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </layout>

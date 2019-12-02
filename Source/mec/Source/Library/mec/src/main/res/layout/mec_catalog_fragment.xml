@@ -15,24 +15,23 @@
     android:layout_height="match_parent">
 
 
-
     <LinearLayout
         android:id="@+id/mec_ll_layout"
         android:layout_width="match_parent"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:layout_height="56dp"
         android:gravity="center"
-        android:layout_height="56dp">
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:id="@+id/mec_list"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:clickable="true"
             android:background="#DCDCDC"
-            android:src="@drawable/mec_list"/>
+            android:clickable="true"
+            android:src="@drawable/mec_list" />
 
         <ImageView
             android:id="@+id/mec_grid"
@@ -75,15 +74,68 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/ll_banner_place_holder"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="30dp"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        />
+        android:layout_below="@+id/ll_banner_place_holder"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_above="@+id/mec_progress_layout"
+        android:clipToPadding="false"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    <LinearLayout
+        android:id="@+id/mec_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/UIDProgressBarCircularIndeterminateSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/mec_separator"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_above="@+id/mec_privacyLayout"
+            android:visibility="gone"
+            android:background="@drawable/uid_shadow_level_two" />
+
+        <LinearLayout
+            android:id="@+id/mec_privacyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="?attr/uidContentPrimaryBackgroundColor"
+            android:layout_below="@+id/mec_progress_layout"
+            android:padding="15dp"
+            android:visibility="gone">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/mecPrivacy"
+                style="@style/iapCentralesansMediumFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:linksClickable="true"
+                android:visibility="visible"
+                android:text="read"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
+                android:textSize="@dimen/iap_product_original_price" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/mec_productCatalog_emptyText_label"
@@ -94,38 +146,6 @@
         android:text="@string/mec_no_product_available"
         android:visibility="gone"
         android:textSize="@dimen/iap_product_ctn_12"/>
-
-    <View
-        android:id="@+id/mec_separator"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_above="@+id/mec_privacyLayout"
-        android:visibility="gone"
-        android:background="@drawable/uid_shadow_level_two" />
-
-    <LinearLayout
-        android:id="@+id/mec_privacyLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="?attr/uidContentPrimaryBackgroundColor"
-        android:padding="15dp"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true">
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/mecPrivacy"
-            style="@style/iapCentralesansMediumFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="all"
-            android:linksClickable="true"
-            android:visibility="visible"
-            android:text="read"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            android:textSize="@dimen/iap_product_original_price" />
-
-    </LinearLayout>
 
 
 </RelativeLayout>

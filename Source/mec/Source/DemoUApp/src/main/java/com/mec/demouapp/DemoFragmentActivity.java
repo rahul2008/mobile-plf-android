@@ -1,9 +1,12 @@
 package com.mec.demouapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -17,6 +20,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -28,12 +32,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.cdp.di.mec.integration.MECBannerEnabler;
+import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
 import com.philips.cdp.di.mec.integration.MECFlowInput;
 import com.philips.cdp.di.mec.integration.MECInterface;
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
 import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
+import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -61,6 +67,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,8 +76,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class DemoFragmentActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
-        UserRegistrationUIEventListener, MECBannerEnabler, ActionBarListener {
+        UserRegistrationUIEventListener, MECBannerEnabler, ActionBarListener, CompoundButton.OnCheckedChangeListener {
 
     private final String TAG = DemoActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -90,6 +99,8 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<String> mCategorizedProductList;
     private TextView mTitleTextView;
     private TextView mCountText;
+    private CheckBox bvCheckBox;
+    private MECBazaarVoiceInput mecBazaarVoiceInput;
 
     private MECInterface mMecInterface;
     private MECLaunchInput mMecLaunchInput;
@@ -138,6 +149,8 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
         mEtPropositionId = findViewById(R.id.et_add_proposition_id);
         mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
+        bvCheckBox = findViewById(R.id.bv_checkbox);
+        bvCheckBox.setOnCheckedChangeListener(this);
 
 
         //////////////////
@@ -153,6 +166,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
         mEtPropositionId.setText(propertyForKey);
+        mecBazaarVoiceInput = new MECBazaarVoiceInput();
 
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,6 +316,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar();
         initializeMECComponant();
+        initializeBazaarVoice();
     }
 
     private void initializeMECComponant() {
@@ -340,6 +355,10 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         if (isToggleListener) {
         } else {
         }
+
+        mMecLaunchInput.mecBannerEnabler = this::getBannerView;
+        mMecLaunchInput.setHybrisEnabled(this.isHybrisEnable);
+        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
         //displayUIOnCartVisible();
     }
 
@@ -391,6 +410,12 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
         mPurchaseHistory.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.GONE);
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     private void displayFlowViews(boolean b) {
 
@@ -507,6 +532,7 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
 
     private void launchMECasFragment(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
 
+        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
         if (pIgnoreRetailerList == null)
             mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode);
         else
@@ -888,8 +914,107 @@ public class DemoFragmentActivity extends AppCompatActivity implements View.OnCl
     }
 
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.isPressed()) {
+            showDialog();
+        }
+        initializeMECComponant();
+    }
 
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog OptionDialog = builder.create();
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        setBazaarVoiceEnvironmentToProd();
+                        break;
 
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        bvCheckBox.setChecked(! bvCheckBox.isChecked());
+                        OptionDialog.dismiss();
+                        break;
+                }
+            }
+        };
 
+        builder.setMessage("Are you sure to change Bazaar voice environment ?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+    private void setBazaarVoiceEnvironmentToProd(){
+        String env= (bvCheckBox.isChecked()) ? BazaarVoiceEnvironment.PRODUCTION.toString(): BazaarVoiceEnvironment.STAGING.toString();
+        SharedPreferences preferences = getSharedPreferences("bvEnv", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("BVEnvironment", env);
+        editor.commit();
+        finishAffinity();
+        System.exit(0);
+    }
+
+    private void initializeBazaarVoice(){
+        SharedPreferences shared = getSharedPreferences("bvEnv", MODE_PRIVATE);
+        String name = (shared.getString("BVEnvironment", BazaarVoiceEnvironment.PRODUCTION.toString()));
+        if(name.equalsIgnoreCase(BazaarVoiceEnvironment.PRODUCTION.toString())) {
+            bvCheckBox.setChecked(true);
+            mecBazaarVoiceInput = new MECBazaarVoiceInput() {
+
+                @NotNull
+                @Override
+                public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
+
+                    return BazaarVoiceEnvironment.PRODUCTION;
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceClientID() {
+
+                    return "philipsglobal";
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceConversationAPIKey() {
+
+                    return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E";
+
+                }
+            };
+        }else{
+            bvCheckBox.setChecked(false);
+            mecBazaarVoiceInput = new MECBazaarVoiceInput() {
+
+                @NotNull
+                @Override
+                public BazaarVoiceEnvironment getBazaarVoiceEnvironment() {
+
+                    return BazaarVoiceEnvironment.STAGING;
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceClientID() {
+
+                    return "philipsglobal";
+
+                }
+
+                @NotNull
+                @Override
+                public String getBazaarVoiceConversationAPIKey() {
+
+                    return "ca23LB5V0eOKLe0cX6kPTz6LpAEJ7SGnZHe21XiWJcshc";
+                }
+            };
+        }
+
+    }
 }
 

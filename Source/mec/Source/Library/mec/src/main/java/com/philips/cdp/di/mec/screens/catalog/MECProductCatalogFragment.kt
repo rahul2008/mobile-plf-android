@@ -31,6 +31,7 @@ import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -52,7 +53,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             productReviewList.clear()
             mecProductReviews?.let { productReviewList.addAll(it) }
             adapter.notifyDataSetChanged()
-            hideProgressBar()
+            binding.progressBar.visibility = View.GONE
+                    // hideProgressBar()
         }
 
     }
@@ -234,10 +236,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
     }
 
-    override fun handleBackEvent(): Boolean {
-        return super.handleBackEvent()
-    }
-
     private fun privacyTextView(view: TextView) {
         val spanTxt = SpannableStringBuilder(
                 "Read our")
@@ -246,7 +244,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
-                hideProgressBar()
+                binding.progressBar.visibility = View.GONE
+               // hideProgressBar()
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -297,7 +296,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     open fun executeRequest(){
-        createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
+        binding.progressBar.visibility = View.VISIBLE
+        //createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
         ecsProductViewModel.init(currentPage, pageSize)
     }
 

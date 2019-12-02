@@ -50,7 +50,8 @@ class MECProductReviewsFragment : MecBaseFragment() {
                 binding.mecProductReviewEmptyLabel.visibility = View.VISIBLE
             }
             reviewsAdapter!!.notifyDataSetChanged()
-            hideProgressBar()
+            binding.mecProgressLayout.visibility = View.GONE
+            //hideProgressBar()
         }
 
     }
@@ -105,8 +106,10 @@ class MECProductReviewsFragment : MecBaseFragment() {
         return binding.root
     }
 
+
     private fun executeRequest() {
-        createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
+        binding.mecProgressLayout.visibility = View.VISIBLE
+        //createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
         offset++
         this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it,offset,limit) }
     }

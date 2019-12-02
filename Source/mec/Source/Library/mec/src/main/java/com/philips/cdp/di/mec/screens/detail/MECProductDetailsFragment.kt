@@ -23,6 +23,7 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
@@ -161,8 +162,6 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
         executeRequest()
         getRatings()
     }
-
-
 
     open fun executeRequest() {
         createCustomProgressBar(container, MEDIUM)
