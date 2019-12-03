@@ -69,7 +69,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
                               savedInstanceState: Bundle?): View? {
         binding = MecProductReviewFragmentBinding.inflate(inflater, container, false)
 
-        ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        ecsProductDetailViewModel = this.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }
 
         ecsProductDetailViewModel.review.observe(this, reviewObserver)
         ecsProductDetailViewModel.mecError.observe(this,this)
@@ -87,7 +87,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
-        this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it,offset,limit) }
+            this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it, offset, limit) }
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
