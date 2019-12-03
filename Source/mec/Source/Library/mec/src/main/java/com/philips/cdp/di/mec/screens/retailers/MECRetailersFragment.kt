@@ -20,13 +20,30 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import kotlin.collections.ArrayList
+import android.app.Activity
+import android.content.Intent
 
 
-class MECRetailersFragment : BottomSheetDialogFragment(){
+
+
+class MECRetailersFragment : BottomSheetDialogFragment(), ItemClickListener{
+
+    override fun onItemClick(item: Any) {
+
+        val ecsRetailer = item as ECSRetailer
+
+        val bundle = Bundle()
+        bundle.putSerializable(MECConstant.SELECTED_RETAILER, ecsRetailer)
+
+        val intent = Intent().putExtras(bundle)
+
+        targetFragment!!.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+
+        this.dismiss()
+    }
 
     private lateinit var binding: MecRetailersFragmentBinding
     private lateinit var retailers: ECSRetailerList
-    private lateinit var list: ArrayList<ECSRetailer>
     lateinit var appInfra: AppInfra
 
 
@@ -42,11 +59,8 @@ class MECRetailersFragment : BottomSheetDialogFragment(){
         val bundle = arguments
         retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
 
-
-        val itemClickListener = bundle.getSerializable(MECConstant.MEC_CLICK_LISTENER) as ItemClickListener
-
         binding.retailerList = retailers
-        binding.itemClickListener = itemClickListener
+        binding.itemClickListener = this
 
         return binding.root
     }
