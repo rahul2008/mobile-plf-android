@@ -8,15 +8,46 @@
             type="com.philips.cdp.di.mec.screens.detail.MECProductReviewsFragment" />
     </data>
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/mec_bv_trustmark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/uidContentSecondaryNeutralBackgroundColor">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/iap_margin_10dp"
+                android:src="@drawable/mec_bv_trustmark" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:padding="@dimen/iap_margin_10dp"
+                android:autoLink="web"
+                android:text="@string/mec_bv_privacy" />
+
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/mec_ll_layout"
+            android:layout_below="@+id/mec_bv_trustmark"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/iap_margin_10dp"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -44,10 +75,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </LinearLayout>
 
     </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </layout>

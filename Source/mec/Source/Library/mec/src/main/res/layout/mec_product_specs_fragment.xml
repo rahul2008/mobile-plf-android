@@ -1,0 +1,15 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.cdp.di.mec.screens.detail.MECProductSpecsFragment" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/uid_level_white">
+    </RelativeLayout>
+</layout>

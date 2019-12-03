@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <View
             android:id="@+id/mec_separator"
