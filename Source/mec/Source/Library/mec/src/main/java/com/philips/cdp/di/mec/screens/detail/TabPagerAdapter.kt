@@ -15,6 +15,9 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePager
             0 -> {
                 MECProductInfoFragment()
             }
+            1 -> {
+                MECProductSpecsFragment()
+            }
             else -> {
                 val bundle = Bundle()
                 bundle.putString(MECConstant.MEC_PRODUCT_CTN,ctn)
@@ -26,12 +29,13 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePager
     }
 
     override fun getCount(): Int {
-        return 2
+        return 3
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             0 -> "Info"
+            1 -> "Specs"
             else -> {
                 return "Reviews"
             }

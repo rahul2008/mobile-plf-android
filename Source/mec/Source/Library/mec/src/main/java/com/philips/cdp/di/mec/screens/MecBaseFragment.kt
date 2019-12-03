@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
@@ -151,6 +152,12 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             if (activity != null) {
                 activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
+        }
+    }
+
+    protected fun finishActivity() {
+        if (activity != null && activity is MECLauncherActivity && !activity!!.isFinishing) {
+            activity!!.finish()
         }
     }
 

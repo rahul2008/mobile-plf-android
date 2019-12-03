@@ -88,7 +88,6 @@ class MECFragmentLauncher : MecBaseFragment(){
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
@@ -120,7 +119,7 @@ class MECFragmentLauncher : MecBaseFragment(){
             MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
             }
             MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW -> {
-                fragment = MECProductReviewsFragment()
+
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW -> {
 
