@@ -14,14 +14,15 @@ import android.webkit.*
 import com.philips.cdp.di.ecs.constants.NetworkConstants
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 class WebBuyFromRetailersFragment : MecBaseFragment(){
 
-private var mWebView: WebView? = null
-private var mUrl: String? = null
-private var isPhilipsShop = false
+    private var mWebView: WebView? = null
+    private var mUrl: String? = null
+    private var isPhilipsShop = false
 
 override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val group = inflater.inflate(R.layout.mec_web_fragment, container, false) as ViewGroup
@@ -38,6 +39,8 @@ override fun onResume() {
     setTitleAndBackButtonVisibility(title, true)
     mWebView!!.onResume()
 }
+
+    //TODO take this code to a separate class
 
 internal fun initializeWebView(group: View) {
     mWebView = group.findViewById<View>(R.id.mec_webView) as WebView

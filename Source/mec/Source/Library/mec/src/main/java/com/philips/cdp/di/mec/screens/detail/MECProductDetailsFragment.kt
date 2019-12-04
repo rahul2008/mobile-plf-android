@@ -1,6 +1,8 @@
 package com.philips.cdp.di.mec.screens.detail
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
@@ -41,29 +43,11 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
+open class MECProductDetailsFragment : MecBaseFragment() {
 
     private lateinit var bottomSheetFragment: MECRetailersFragment
 
     lateinit var param: String
-
-
-    override fun onItemClick(item: Any) {
-        val ecsRetailers = item as ECSRetailer
-        param = ecsRetailers.xactparam
-        val bundle = Bundle()
-        bundle.putString(MECConstant.MEC_BUY_URL, uuidWithSupplierLink(ecsRetailers.buyURL))
-        bundle.putString(MECConstant.MEC_STORE_NAME, ecsRetailers.name)
-        bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, isPhilipsShop(ecsRetailers))
-        if (bottomSheetFragment.isAdded && bottomSheetFragment.isVisible) {
-            bottomSheetFragment.dismiss()
-        }
-        val fragment = WebBuyFromRetailersFragment()
-        fragment.arguments = bundle
-        addFragment(fragment, "retailers", true)
-
-    }
-
 
     private lateinit var binding: MecProductDetailsBinding
     private lateinit var product: ECSProduct
@@ -75,11 +59,7 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            if(retailers.wrbresults.onlineStoresForProduct.stores!=null){
-                binding.mecFindRetailerButton.isEnabled = true
-            } else {
-                binding.mecFindRetailerButton.isEnabled = false
-            }
+            binding.mecFindRetailerButton.isEnabled = retailers.wrbresults.onlineStoresForProduct.stores!=null
         }
 
     }
@@ -246,18 +226,7 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
     }
 
 
-    private fun uuidWithSupplierLink(buyURL: String): String {
 
-        val propositionId = MECDataHolder.INSTANCE.propositionId
-
-        val supplierLinkWithUUID = "$buyURL&wtbSource=mobile_$propositionId&$param="
-
-        return supplierLinkWithUUID + UUID.randomUUID().toString()
-    }
-
-    fun isPhilipsShop(retailer: ECSRetailer): Boolean {
-        return retailer.isPhilipsStore.equals("Y", ignoreCase = true)
-    }
 
 
     fun onBuyFromRetailerClick() {
@@ -275,19 +244,40 @@ open class MECProductDetailsFragment : MecBaseFragment(), ItemClickListener {
         if (retailers.size.equals(1) && retailers.get(0).isPhilipsStore.equals("Y")) {
             bundle.putString(MECConstant.MEC_BUY_URL, retailers.get(0).buyURL)
             bundle.putString(MECConstant.MEC_STORE_NAME, retailers.get(0).name)
-            bundle.putString(MECConstant.MEC_IS_PHILIPS_SHOP, isPhilipsShop(retailers.get(0)).toString())
+            bundle.putString(MECConstant.MEC_IS_PHILIPS_SHOP, ecsProductDetailViewModel.isPhilipsShop(retailers.get(0)).toString())
             val fragment = WebBuyFromRetailersFragment()
             fragment.arguments = bundle
             addFragment(fragment, "retailers", true)
         } else {
             bottomSheetFragment = MECRetailersFragment()
             bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
-            bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
             bottomSheetFragment.arguments = bundle
+            bottomSheetFragment.setTargetFragment(this,MECConstant.RETAILER_REQUEST_CODE)
             bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
         }
 
 
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == MECConstant.RETAILER_REQUEST_CODE && requestCode == Activity.RESULT_OK){
+
+            if (data?.extras?.containsKey(MECConstant.SELECTED_RETAILER)!!) {
+                val ecsRetailer : ECSRetailer = data.getSerializableExtra(MECConstant.SELECTED_RETAILER) as ECSRetailer
+                param = ecsRetailer.xactparam
+                val bundle = Bundle()
+                bundle.putString(MECConstant.MEC_BUY_URL, ecsProductDetailViewModel.uuidWithSupplierLink(ecsRetailer.buyURL,param))
+                bundle.putString(MECConstant.MEC_STORE_NAME, ecsRetailer.name)
+                bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, ecsProductDetailViewModel.isPhilipsShop(ecsRetailer))
+
+                val fragment = WebBuyFromRetailersFragment()
+                fragment.arguments = bundle
+                addFragment(fragment, "retailers", true)
+            }
+        }
     }
 
 }

@@ -4,9 +4,10 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/banner"
+        android:src="@drawable/banner_new"
         />
 </RelativeLayout>

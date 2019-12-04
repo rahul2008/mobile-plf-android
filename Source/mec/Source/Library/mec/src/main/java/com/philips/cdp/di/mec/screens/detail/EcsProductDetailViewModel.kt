@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
+import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.google.gson.internal.LinkedTreeMap
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
@@ -15,6 +17,7 @@ import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
+import java.util.*
 
 class EcsProductDetailViewModel : CommonViewModel() {
 
@@ -22,7 +25,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val bulkRatingResponse= MutableLiveData<BulkRatingsResponse>()
 
-    val review = MutableLiveData<List<Review>>()
+    val review = MutableLiveData<ReviewResponse>()
 
     fun getRatings(ctn :String){
         ECSProductDetailRepository(this).getRatings(ctn,this);
@@ -126,6 +129,19 @@ class EcsProductDetailViewModel : CommonViewModel() {
         }
 
         return ecsRetailers
+    }
+
+    fun uuidWithSupplierLink(buyURL: String ,param :String): String {
+
+        val propositionId = MECDataHolder.INSTANCE.propositionId
+
+        val supplierLinkWithUUID = "$buyURL&wtbSource=mobile_$propositionId&$param="
+
+        return supplierLinkWithUUID + UUID.randomUUID().toString()
+    }
+
+    fun isPhilipsShop(retailer: ECSRetailer): Boolean {
+        return retailer.isPhilipsStore.equals("Y", ignoreCase = true)
     }
 
 }
