@@ -58,7 +58,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             mecProductReviews?.let { productReviewList.addAll(it) }
             adapter.notifyDataSetChanged()
             binding.progressBar.visibility = View.GONE
-                    // hideProgressBar()
         }
 
     }
@@ -81,11 +80,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     private lateinit var mecCatalogUIModel: MECCatalogUIModel
-    val TAG = MECProductCatalogFragment::class.java.name
 
     var totalPages: Int = 0
     var currentPage: Int = 0
-    var pageSize: Int = 8
+    var pageSize: Int = 20
 
 
     val productObserver : Observer<MutableList<ECSProducts>> = object : Observer<MutableList<ECSProducts>> {
@@ -308,7 +306,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     open fun executeRequest(){
         binding.progressBar.visibility = View.VISIBLE
-        //createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
         ecsProductViewModel.init(currentPage, pageSize)
     }
 
@@ -329,14 +326,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         return false;
     }
 
-    open fun enableLoadMore() : Boolean{
-        return false
-    }
-
     override fun processError(mecError: MecError?){
         super.processError(mecError)
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
         binding.productCatalogRecyclerView.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
 }
