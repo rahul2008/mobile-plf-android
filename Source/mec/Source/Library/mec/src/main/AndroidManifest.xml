@@ -9,6 +9,7 @@
         android:theme="@style/Theme.DLS">
         <activity
             android:name=".common.MECLauncherActivity"
+            android:screenOrientation="portrait"
             android:label="Products" />
     </application>
 

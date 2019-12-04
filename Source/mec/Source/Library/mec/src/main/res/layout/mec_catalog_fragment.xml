@@ -23,23 +23,23 @@
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
+        android:orientation="horizontal"
+        android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
         android:paddingBottom="8dp">
 
-        <ImageView
-            android:id="@+id/mec_list"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="#DCDCDC"
-            android:clickable="true"
-            android:src="@drawable/mec_list" />
 
-        <ImageView
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_list"
+            style="@style/mec_dls_list"
+
+            />
+
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mec_grid"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="10dp"
-            android:clickable="true"
-            android:src="@drawable/mec_grid" />
+            style="@style/mec_dls_grid"
+
+             />
+
 
         <com.philips.platform.uid.view.widget.SearchBox
             android:id="@+id/mec_search_box"

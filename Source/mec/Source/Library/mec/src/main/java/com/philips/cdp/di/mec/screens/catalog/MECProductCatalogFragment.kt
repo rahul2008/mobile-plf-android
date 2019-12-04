@@ -3,9 +3,13 @@ package com. philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.res.TypedArray
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -155,8 +159,13 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
 
         binding.mecGrid.setOnClickListener {
-            binding.mecGrid.setBackgroundColor(Color.parseColor("#DCDCDC"))
-            binding.mecList.setBackgroundColor(Color.parseColor("#ffffff"))
+            val cd: ColorDrawable = binding.mecList.getBackground() as ColorDrawable;
+            val colorCode: Int  = cd.getColor();
+            binding.mecGrid.setBackgroundColor(colorCode)
+            binding.mecList.setBackgroundColor(ContextCompat.getColor( binding.mecList.context, R.color.uidTransparent))
+
+
+
             adapter = MECProductCatalogGridAdapter(productReviewList,this)
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
             binding.productCatalogRecyclerView.adapter = adapter
@@ -169,8 +178,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         }
 
         binding.mecList.setOnClickListener {
-            binding.mecList.setBackgroundColor(Color.parseColor("#DCDCDC"))
-            binding.mecGrid.setBackgroundColor(Color.parseColor("#ffffff"))
+            val cd: ColorDrawable = binding.mecGrid.getBackground() as ColorDrawable;
+            val colorCode: Int  = cd.getColor();
+            binding.mecList.setBackgroundColor(colorCode)
+            binding.mecGrid.setBackgroundColor(ContextCompat.getColor( binding.mecGrid.context, R.color.uidTransparent))
             adapter = MECProductCatalogListAdapter(productReviewList,this)
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             binding.productCatalogRecyclerView.adapter = adapter

@@ -9,11 +9,13 @@
     <application android:theme="@style/Theme.DLS">
         <activity
             android:name=".DemoActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
         <activity
             android:name=".DemoFragmentActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
     </application>
 
