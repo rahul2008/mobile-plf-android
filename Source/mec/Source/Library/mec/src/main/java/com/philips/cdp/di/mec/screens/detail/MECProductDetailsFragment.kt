@@ -251,7 +251,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         } else {
             bottomSheetFragment = MECRetailersFragment()
             bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
-            bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
             bottomSheetFragment.arguments = bundle
             bottomSheetFragment.setTargetFragment(this,MECConstant.RETAILER_REQUEST_CODE)
             bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
