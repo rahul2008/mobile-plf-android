@@ -35,17 +35,15 @@ class ECSProductDetailRepository(val ecsProductDetailViewModel: EcsProductDetail
 
         val reviewsCb = object :  ConversationsDisplayCallback<ReviewResponse> {
             override fun onSuccess(response: ReviewResponse) {
-                if (response.results.isEmpty()) {
-                    //TODO Handle this
-                    ecsProductDetailViewModel.review.value = noData
-                } else {
-                    ecsProductDetailViewModel.review.value = response.results
-                }
+
+                    ecsProductDetailViewModel.review.value = response
+
             }
 
             override fun onFailure(exception: ConversationsException) {
-               //TODO HANDLE error through MECError
-                ecsProductDetailViewModel.review.value = noData
+                //TODO
+                val mecError = MecError(null, null)
+                ecsProductDetailViewModel.mecError.value = mecError
             }
         }
         val bvClient = MECDataHolder.INSTANCE.bvClient

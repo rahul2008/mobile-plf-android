@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
+import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.google.gson.internal.LinkedTreeMap
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
@@ -24,7 +25,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val bulkRatingResponse= MutableLiveData<BulkRatingsResponse>()
 
-    val review = MutableLiveData<List<Review>>()
+    val review = MutableLiveData<ReviewResponse>()
 
     fun getRatings(ctn :String){
         ECSProductDetailRepository(this).getRatings(ctn,this);

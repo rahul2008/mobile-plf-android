@@ -5,9 +5,11 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +22,7 @@ import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECConstant
-import com.philips.cdp.di.mec.utils.MECDataHolder
-import kotlinx.android.synthetic.main.mec_main_activity.*
-import kotlinx.android.synthetic.main.mec_product_details.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -31,12 +31,18 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
 
     private var productctn: String? = null
+    var offset: Int = 0
+    var limit: Int = 20
+    var totalPages: Int = 0
 
     private lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
-    private val reviewObserver : Observer<List<Review>> = object : Observer<List<Review>> {
+    private val reviewObserver : Observer<ReviewResponse> = object : Observer<ReviewResponse> {
 
-        override fun onChanged(reviews: List<Review>?) {
+        override fun onChanged(reviewResponse:  ReviewResponse?) {
 
+            val reviews = reviewResponse?.results
+
+            totalPages = reviewResponse?.totalResults ?: 0
                 for (review in reviews!!) {
                     val nick = if (review.userNickname != null) review.userNickname else "Anonymous"
 
@@ -46,8 +52,10 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
             if(mecReviews.size>0){
                 binding.mecProductReviewEmptyLabel.visibility = View.GONE
+                binding.mecBvTrustmark.visibility = View.VISIBLE
             } else{
                 binding.mecProductReviewEmptyLabel.visibility = View.VISIBLE
+                binding.mecBvTrustmark.visibility = View.GONE
             }
             reviewsAdapter!!.notifyDataSetChanged()
             binding.mecProgressLayout.visibility = View.GONE
@@ -55,9 +63,6 @@ class MECProductReviewsFragment : MecBaseFragment() {
         }
 
     }
-
-    var offset: Int = 0
-    var limit: Int = 20
 
     private var reviewsAdapter: MECReviewsAdapter? = null
     private lateinit var mecReviews: MutableList<MECReview>
@@ -89,22 +94,22 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
             this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it, offset, limit) }
 
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
+        binding.mecNestedScroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 val lay = binding.recyclerView
                         .layoutManager as LinearLayoutManager
 
                 if(isScrollDown(lay))
-                    executeRequest()
-
+                    if (isAllFetched()) {
+                        executeRequest()
+                    }
             }
         })
 
         return binding.root
     }
+
+    private fun isAllFetched() = totalPages != 0 && reviewsAdapter!!.itemCount < totalPages
 
 
     private fun executeRequest() {
