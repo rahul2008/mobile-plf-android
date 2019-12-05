@@ -30,7 +30,7 @@
     <string name="mec_pros_plus">\uFF0B</string>
     <string name="mec_pros_minus">\uFF0D</string>
     <string name="mec_bv_privacy">These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.
-        Details at  <font color='#06a7eb'><u>"http://www.bazaarvoice.com/trustmark/" </u></font></string>
+        \nDetails at  <font color="?attr/uidHyperlinkDefaultNormalTextColor"><u>"http://www.bazaarvoice.com/trustmark/" </u></font></string>
 
 
 

@@ -23,7 +23,7 @@
             android:id="@+id/mec_bv_trustmark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uidContentSecondaryNeutralBackgroundColor">
+            android:background="?attr/uidContentTertiaryBackgroundColor">
 
             <ImageView
                 android:layout_width="120dp"
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:padding="@dimen/iap_margin_10dp"
                 android:autoLink="web"
                 android:text="@string/mec_bv_privacy" />

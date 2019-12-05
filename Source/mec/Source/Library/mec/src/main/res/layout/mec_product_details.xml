@@ -218,8 +218,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_margin="16dp"
-        >
+        android:layout_margin="16dp">
+
         <com.philips.platform.uid.view.widget.Button
             style="@style/UIDDefaultButton.UIDImageTextButton"
             android:id="@+id/mec_find_retailer_button"
@@ -228,6 +228,7 @@
             android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:enabled="false"
+            android:textAlignment="center"
             app:uidComponentType="Secondary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
             android:text="@string/mec_view_retailers"

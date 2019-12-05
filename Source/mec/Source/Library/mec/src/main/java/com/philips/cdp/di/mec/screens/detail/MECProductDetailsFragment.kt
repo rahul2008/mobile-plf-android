@@ -79,6 +79,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             setButtonIcon(mec_find_retailer_button, getListIcon())
             setButtonIcon(mec_add_to_cart_button, getCartIcon())
             showPriceDetail()
+            binding.product?.let { addToCartVisibility(it) }
             getRetailerDetails()
             hideProgressBar()
         }
@@ -104,6 +105,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel.mecError.observe(this, this)
 
         binding.indicator.viewPager = binding.pager
+
 
         val bundle = arguments
         product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
@@ -141,6 +143,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         super.onStart()
         executeRequest()
         getRatings()
+    }
+
+    fun addToCartVisibility(product : ECSProduct){
+        if(MECDataHolder.INSTANCE.hybrisEnabled.equals(false)){
+            binding.mecAddToCartButton.visibility = View.GONE
+        } else if((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+            binding.mecAddToCartButton.isEnabled = false
+        } else{
+            binding.mecAddToCartButton.visibility = View.VISIBLE
+        }
     }
 
     open fun executeRequest() {
