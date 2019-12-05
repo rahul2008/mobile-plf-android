@@ -79,7 +79,7 @@
                 android:id="@+id/iap_rating_lebel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/mec_rating_color"
+                android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
                 android:text="@{ product.overallRating}"
                 android:textSize="@dimen/iap_product_original_price" />
 
@@ -96,7 +96,7 @@
                 android:id="@+id/iap_review_lebel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/mec_rating_color"
+                android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
                 android:text="@{ product.overallReview}"
                 android:textSize="@dimen/iap_product_original_price" />
 

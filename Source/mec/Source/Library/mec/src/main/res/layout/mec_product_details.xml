@@ -149,7 +149,7 @@
                         android:id="@+id/mec_rating_lebel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/mec_rating_color"
+                        android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
                         android:text="4"
                         android:textSize="@dimen/iap_product_original_price" />
 
@@ -165,7 +165,7 @@
                         android:id="@+id/mec_review_lebel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/mec_rating_color"
+                        android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
                         android:text=" (3 reviews)"
                         android:textSize="@dimen/iap_product_original_price" />
 
