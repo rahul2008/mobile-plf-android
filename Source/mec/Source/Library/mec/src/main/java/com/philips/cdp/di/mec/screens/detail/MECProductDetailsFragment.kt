@@ -99,7 +99,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.fragment = this
 
         ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
-        ecsRetailerViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
+        ecsRetailerViewModel = this!!?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
 
         ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
 

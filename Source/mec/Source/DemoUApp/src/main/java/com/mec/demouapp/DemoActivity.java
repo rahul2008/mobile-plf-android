@@ -284,12 +284,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         SCF170/22
         SCF782/28*/
 
-        mCategorizedProductList.add("SCF184/13");
+       /* mCategorizedProductList.add("SCF184/13");
         mCategorizedProductList.add("SCF782/10");
         mCategorizedProductList.add("SCF782/28");
         mCategorizedProductList.add("SCF170/22");
 
-        mCategorizedProductList.add("PABITRA/22");
+        mCategorizedProductList.add("PABITRA/22");*/
 
 
 
@@ -553,7 +553,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view == mPurchaseHistory) {
             launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PURCHASE_HISTORY_VIEW(), null, null);
         } else if (view == mLaunchProductDetail) {
-            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), null, null);
+            MECFlowInput input = new MECFlowInput(mCategorizedProductList.get(0));
+            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
 
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {

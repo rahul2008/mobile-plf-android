@@ -71,6 +71,7 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
             val MEC_PURCHASE_HISTORY_VIEW = 2
             val MEC_PRODUCT_DETAIL_VIEW = 3
             val MEC_BUY_DIRECT_VIEW = 4
+            val MEC_CATEGORIZED_VIEW = 5
         }
     }
 }
