@@ -40,6 +40,7 @@ import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.uid.view.widget.Label
 import kotlinx.android.synthetic.main.mec_catalog_fragment.view.*
 
 import kotlinx.android.synthetic.main.mec_main_activity.*
@@ -58,7 +59,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             mecProductReviews?.let { productReviewList.addAll(it) }
             adapter.notifyDataSetChanged()
             binding.progressBar.visibility = View.GONE
-                    // hideProgressBar()
         }
 
     }
@@ -81,11 +81,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     private lateinit var mecCatalogUIModel: MECCatalogUIModel
-    val TAG = MECProductCatalogFragment::class.java.name
 
     var totalPages: Int = 0
     var currentPage: Int = 0
-    var pageSize: Int = 8
+    var pageSize: Int = 20
 
 
     val productObserver : Observer<MutableList<ECSProducts>> = object : Observer<MutableList<ECSProducts>> {
@@ -159,33 +158,34 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
 
         binding.mecGrid.setOnClickListener {
-            val cd: ColorDrawable = binding.mecList.getBackground() as ColorDrawable;
-            val colorCode: Int  = cd.getColor();
-            binding.mecGrid.setBackgroundColor(colorCode)
-            binding.mecList.setBackgroundColor(ContextCompat.getColor( binding.mecList.context, R.color.uidTransparent))
-
-
-
-            adapter = MECProductCatalogGridAdapter(productReviewList,this)
-            binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
-            binding.productCatalogRecyclerView.adapter = adapter
-            binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
-            val Hdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL)
-            val Vdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.VERTICAL)
-            binding.productCatalogRecyclerView.addItemDecoration(Hdivider)
-            binding.productCatalogRecyclerView.addItemDecoration(Vdivider)
-            adapter.notifyDataSetChanged()
+            if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
+                val cd: ColorDrawable = binding.mecList.getBackground() as ColorDrawable;
+                val colorCode: Int = cd.getColor();
+                binding.mecGrid.setBackgroundColor(colorCode)
+                binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
+                adapter = MECProductCatalogGridAdapter(productReviewList, this)
+                binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
+                binding.productCatalogRecyclerView.adapter = adapter
+                binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
+                val Hdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL)
+                val Vdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.VERTICAL)
+                binding.productCatalogRecyclerView.addItemDecoration(Hdivider)
+                binding.productCatalogRecyclerView.addItemDecoration(Vdivider)
+                adapter.notifyDataSetChanged()
+            }
         }
 
         binding.mecList.setOnClickListener {
-            val cd: ColorDrawable = binding.mecGrid.getBackground() as ColorDrawable;
-            val colorCode: Int  = cd.getColor();
-            binding.mecList.setBackgroundColor(colorCode)
-            binding.mecGrid.setBackgroundColor(ContextCompat.getColor( binding.mecGrid.context, R.color.uidTransparent))
-            adapter = MECProductCatalogListAdapter(productReviewList,this)
-            binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            binding.productCatalogRecyclerView.adapter = adapter
-            adapter.notifyDataSetChanged()
+            if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
+                val cd: ColorDrawable = binding.mecGrid.getBackground() as ColorDrawable;
+                val colorCode: Int = cd.getColor();
+                binding.mecList.setBackgroundColor(colorCode)
+                binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
+                adapter = MECProductCatalogListAdapter(productReviewList, this)
+                binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                binding.productCatalogRecyclerView.adapter = adapter
+                adapter.notifyDataSetChanged()
+            }
         }
 
         productList = mutableListOf()
@@ -235,6 +235,13 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         privacyTextView(binding.mecPrivacy)
         return binding.root
+    }
+
+   private  fun getBackgroundColorOfFontIcon (label: Label):Int{
+        val cd: ColorDrawable = label.background as ColorDrawable;
+        val colorCode: Int  = cd.color;
+        return colorCode
+
     }
 
 
@@ -308,7 +315,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     open fun executeRequest(){
         binding.progressBar.visibility = View.VISIBLE
-        //createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
         ecsProductViewModel.init(currentPage, pageSize)
     }
 
@@ -329,14 +335,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         return false;
     }
 
-    open fun enableLoadMore() : Boolean{
-        return false
-    }
-
     override fun processError(mecError: MecError?){
         super.processError(mecError)
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
         binding.productCatalogRecyclerView.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
 }
