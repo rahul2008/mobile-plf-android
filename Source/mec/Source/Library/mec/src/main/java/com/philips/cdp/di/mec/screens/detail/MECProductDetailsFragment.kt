@@ -255,22 +255,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
         val removedBlacklistedRetailers = ecsProductDetailViewModel.removedBlacklistedRetailers(ecsRetailerList)
 
-        val retailers = removedBlacklistedRetailers.retailers;
-
-        if (retailers.size.equals(1) && retailers.get(0).isPhilipsStore.equals("Y")) {
-            bundle.putString(MECConstant.MEC_BUY_URL, retailers.get(0).buyURL)
-            bundle.putString(MECConstant.MEC_STORE_NAME, retailers.get(0).name)
-            bundle.putString(MECConstant.MEC_IS_PHILIPS_SHOP, ecsProductDetailViewModel.isPhilipsShop(retailers.get(0)).toString())
-            val fragment = WebBuyFromRetailersFragment()
-            fragment.arguments = bundle
-            addFragment(fragment, "retailers", true)
-        } else {
             bottomSheetFragment = MECRetailersFragment()
             bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
             bottomSheetFragment.arguments = bundle
             bottomSheetFragment.setTargetFragment(this,MECConstant.RETAILER_REQUEST_CODE)
             bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
-        }
 
 
     }
