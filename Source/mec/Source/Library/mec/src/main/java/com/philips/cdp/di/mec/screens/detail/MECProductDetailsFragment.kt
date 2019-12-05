@@ -59,7 +59,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            binding.mecFindRetailerButton.isEnabled = retailers.wrbresults.onlineStoresForProduct.stores!=null
+            if(retailers.wrbresults.onlineStoresForProduct.stores!=null) {
+                binding.mecFindRetailerButton.isEnabled = true
+            } else {
+                binding.mecFindRetailerButton.isEnabled = false
+            }
         }
 
     }
@@ -275,7 +279,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == MECConstant.RETAILER_REQUEST_CODE && requestCode == Activity.RESULT_OK){
+        if(requestCode == MECConstant.RETAILER_REQUEST_CODE && resultCode == Activity.RESULT_OK){
 
             if (data?.extras?.containsKey(MECConstant.SELECTED_RETAILER)!!) {
                 val ecsRetailer : ECSRetailer = data.getSerializableExtra(MECConstant.SELECTED_RETAILER) as ECSRetailer
