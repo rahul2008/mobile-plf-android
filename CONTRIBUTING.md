@@ -13,7 +13,7 @@ To send us a pull request, please:
 4. Ensure that local build and required test cases pass.
 5. After completing the work, Rebase and then push the changes to repository ( git push origin <your branch>).
 6. Create Pull request to review and merge code (Refer https://docs.microsoft.com/en-us/vsts/git/pull-requests?view=vsts#from-the-code-view-on-the-web if you need help to raise a pull request).
-7. The default mandatory code Reviewers are rahul@philips.com, b.j.shravan.kumar@philips.com, indrajit.kumar@philips.com and anurag.gautam@philips.com
+7. The default mandatory code Reviewers are rahul@philips.com , indrajit.kumar@philips.com and anurag.gautam@philips.com
 
 
 
