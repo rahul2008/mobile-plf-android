@@ -8,15 +8,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import com.bazaarvoice.bvandroidsdk.*
-import com.google.gson.internal.LinkedTreeMap
-import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -33,7 +28,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
     private var productctn: String? = null
     var offset: Int = 0
     var limit: Int = 20
-    var totalPages: Int = 0
+    var totalReview: Int = 0
 
     private lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
     private val reviewObserver : Observer<ReviewResponse> = object : Observer<ReviewResponse> {
@@ -42,7 +37,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
             val reviews = reviewResponse?.results
 
-            totalPages = reviewResponse?.totalResults ?: 0
+            totalReview = reviewResponse?.totalResults ?: 0
                 for (review in reviews!!) {
                     val nick = if (review.userNickname != null) review.userNickname else "Anonymous"
 
@@ -109,13 +104,13 @@ class MECProductReviewsFragment : MecBaseFragment() {
         return binding.root
     }
 
-    private fun isAllFetched() = totalPages != 0 && reviewsAdapter!!.itemCount < totalPages
+    private fun isAllFetched() = totalReview != 0 && reviewsAdapter!!.itemCount < totalReview
 
 
     private fun executeRequest() {
         binding.mecProgressLayout.visibility = View.VISIBLE
         //createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
-        offset++
+        offset += limit
         this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it,offset,limit) }
     }
 
