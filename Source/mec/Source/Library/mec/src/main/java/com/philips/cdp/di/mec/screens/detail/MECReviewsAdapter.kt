@@ -37,12 +37,12 @@ class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView
             viewHolder.binding.mecReviewCons.visibility = View.VISIBLE
             viewHolder.binding.mecReviewConsIcon.visibility = View.VISIBLE
         }
-        if (position % 2 == 1) {
+        if (position % 2 == 0) {
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentPrimaryBackgroundColor)
-            viewHolder.binding.root.setBackgroundColor(getColor(viewHolder.binding.root.context, R.color.uidColorWhite))
+            viewHolder.binding.mecRetailerItemProductLayout.setBackgroundColor(getColor(viewHolder.binding.root.context, R.color.uidColorWhite))
         } else {
             //viewHolder.binding.root.setBackgroundColor(R.attr.uidContentSecondaryNeutralBackgroundColor)
-            viewHolder.binding.root.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            viewHolder.binding.mecRetailerItemProductLayout.setBackgroundColor(Color.parseColor("#F5F5F5"))
         }
         //android:text='@{ (mecReview.submitter+" - "+mecReview.formattedDate): (mecReview.submitter+" - "+mecReview.formattedDate + "@string/mec_has_used_this_product_for"+mecReview.useDuration) }'
       var durationUse :String =review.submitter+" - "+review.getFormattedDate();
