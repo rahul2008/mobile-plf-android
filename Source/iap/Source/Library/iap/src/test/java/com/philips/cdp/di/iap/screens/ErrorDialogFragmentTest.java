@@ -6,7 +6,7 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;

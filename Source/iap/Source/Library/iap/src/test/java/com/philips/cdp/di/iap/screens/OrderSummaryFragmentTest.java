@@ -8,7 +8,7 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,7 +28,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;

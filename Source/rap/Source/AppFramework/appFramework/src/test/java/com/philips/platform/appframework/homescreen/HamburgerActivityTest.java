@@ -6,12 +6,11 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Resources;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.LayoutInflater;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.philips.platform.TestAppFrameworkApplication;

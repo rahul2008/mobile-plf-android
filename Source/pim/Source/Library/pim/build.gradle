@@ -77,12 +77,12 @@ dependencies {
     }
     implementation deps.adobemobilelib
 
-    implementation deps.constraintlayout
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
-    implementation deps.support.design
-    implementation deps.support.supportv4
-    implementation deps.support.annotations
+//    implementation deps.constraintlayout
+//    implementation deps.support.appcompatv7
+//    implementation deps.support.supportv4
+//    implementation deps.support.design
+//    implementation deps.support.supportv4
+    implementation deps.androidx.annotations
     implementation deps.volley
     implementation deps.openid_appauth
     implementation deps.livedata_extensions

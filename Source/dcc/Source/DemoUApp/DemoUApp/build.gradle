@@ -41,7 +41,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.support.design
     implementation philipsdeps.uid
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
@@ -55,9 +54,6 @@ dependencies {
         implementation philipsdeps.productselection
     }
 
-    implementation deps.support.recyclerview
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
     implementation deps.calligraphy
 
     implementation project(strings.dcc.projectName)

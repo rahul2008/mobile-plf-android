@@ -6,8 +6,8 @@
 package com.philips.platform.baseapp.screens.consumercare;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.CcDependencies;

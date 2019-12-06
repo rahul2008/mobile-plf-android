@@ -3,11 +3,8 @@ package com.philips.platform.pim.manager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
-import com.adobe.mobile.Analytics;
-import com.adobe.mobile.Visitor;
-import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
@@ -16,11 +13,9 @@ import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.listeners.PIMUserMigrationListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
-import com.philips.platform.pim.utilities.UserCustomClaims;
 
 import net.openid.appauth.AuthorizationRequest;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

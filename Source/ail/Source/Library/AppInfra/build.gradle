@@ -81,21 +81,12 @@ dependencies {
     implementation deps.adobemobilelib
     implementation deps.gson
     implementation deps.volley
-    implementation deps.support.design
-    implementation deps.support.supportv4
-    implementation deps.support.annotations
+    implementation deps.androidx.annotations
     implementation deps.joda_time
     implementation deps.rxjava2
     implementation deps.junit
 
-    api deps.room_runtime, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-    }
-    api deps.livedata, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-    }
+
     annotationProcessor deps.room_compiler
     annotationProcessor deps.livedata_compiler
 

@@ -8,13 +8,12 @@ package com.philips.platform.baseapp.screens.cookiesconsent;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.text.style.ClickableSpan;
+import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
@@ -24,7 +23,6 @@ import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.view.widget.Label;
 
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>

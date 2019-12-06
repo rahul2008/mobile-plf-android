@@ -68,7 +68,7 @@
             android:layout_height="@dimen/uid_divider_Height"
             android:background="?attr/uidSeparatorButtonNormalBackgroundColor"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/prodbuttonsParent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

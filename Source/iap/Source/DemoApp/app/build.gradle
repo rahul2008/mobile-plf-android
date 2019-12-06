@@ -136,7 +136,7 @@ dependencies {
     implementation deps.constraintlayout
     implementation deps.support.design
     implementation deps.support.supportv4
-    implementation deps.support.annotations
+    implementation deps.androidx.annotations
     implementation deps.support.appcompatv7
     implementation philipsdeps.uid
     if (useprojectdependencies) {

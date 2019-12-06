@@ -7,7 +7,7 @@ package com.philips.platform.baseapp.screens.webview;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;

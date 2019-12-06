@@ -1,7 +1,7 @@
 package com.philips.cdp.registration.controller;
 
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;

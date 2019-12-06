@@ -101,7 +101,7 @@ dependencies {
     implementation deps.calligraphy
     implementation deps.gson
     implementation deps.libphonenumber
-    implementation deps.support.appcompatv7
+//    implementation deps.support.appcompatv7
     implementation deps.volley
     implementation(philipsdeps.uid) {
         exclude group: 'com.android.support'

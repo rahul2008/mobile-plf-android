@@ -5,7 +5,7 @@
 
 package com.philips.cdp.registration.ui.traditional.countrySelection;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.philips.cdp.registration.dao.Country;

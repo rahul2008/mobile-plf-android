@@ -8,7 +8,7 @@
 
 package com.philips.cdp.registration.configuration;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;

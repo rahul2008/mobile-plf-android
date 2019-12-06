@@ -1,6 +1,6 @@
 package com.philips.cdp.prodreg.launcher;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;

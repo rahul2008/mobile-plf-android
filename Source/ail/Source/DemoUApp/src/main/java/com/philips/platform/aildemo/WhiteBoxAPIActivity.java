@@ -1,7 +1,7 @@
 package com.philips.platform.aildemo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;

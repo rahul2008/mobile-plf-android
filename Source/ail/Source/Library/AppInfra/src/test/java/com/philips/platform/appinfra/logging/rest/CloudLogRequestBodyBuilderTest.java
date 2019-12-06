@@ -6,7 +6,7 @@
 package com.philips.platform.appinfra.logging.rest;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;

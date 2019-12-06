@@ -1,7 +1,7 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.janrain.android.engage.JREngage;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;

@@ -82,7 +82,7 @@ dependencies {
     implementation deps.glide
     implementation deps.support.appcompatv7
     implementation deps.support.design
-    implementation deps.support.annotations
+    implementation deps.androidx.annotations
 }
 
 tasks.withType(Test) {

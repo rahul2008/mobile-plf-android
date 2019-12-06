@@ -1,7 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;

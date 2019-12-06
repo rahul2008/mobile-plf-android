@@ -1,7 +1,7 @@
 package com.philips.cdp.di.iapdemo.idlingResources;
 
 import android.app.Activity;
-import android.support.test.espresso.IdlingResource;
+import androidx.test.espresso.IdlingResource;
 import android.widget.Button;
 
 import com.philips.cdp.di.iapdemo.R;

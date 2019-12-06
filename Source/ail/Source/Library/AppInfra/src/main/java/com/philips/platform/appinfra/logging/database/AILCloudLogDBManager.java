@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra.logging.database;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.db.SupportSQLiteDatabase;
+import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;

@@ -1,7 +1,7 @@
 package com.philips.platform.prdemoapp;
 
 import android.app.Application;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 
 import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;

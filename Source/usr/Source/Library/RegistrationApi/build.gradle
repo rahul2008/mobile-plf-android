@@ -93,19 +93,19 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.butterknife
     implementation deps.calligraphy
-    implementation deps.constraintlayout
+//    implementation deps.constraintlayout
     implementation deps.dagger.dagger
     implementation deps.facebook
     implementation deps.greenrobot
     implementation deps.javax_annotation
     implementation deps.libphonenumber
-    implementation deps.multidex
+//    implementation deps.multidex
     implementation deps.okhttp
     implementation deps.rxbinding
     implementation deps.rxjava2
-    implementation deps.support.appcompatv7
-    implementation deps.support.recyclerview
-    implementation deps.support.supportv4
+//    implementation deps.support.appcompatv7
+//    implementation deps.support.recyclerview
+//    implementation deps.support.supportv4
     implementation deps.volley
     implementation deps.wechat
     implementation deps.jackson_annotations
@@ -138,7 +138,7 @@ dependencies {
     androidTestImplementation deps.androidx_test.rules
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.junit
-    androidTestImplementation deps.uiautomator
+//    androidTestImplementation deps.uiautomator
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

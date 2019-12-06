@@ -9,7 +9,7 @@
 package com.philips.cdp.registration.app.tagging;
 
 import android.app.Activity;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;

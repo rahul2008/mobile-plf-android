@@ -106,15 +106,11 @@ configurations.all {
 
 dependencies {
     //3rd party
-    implementation deps.constraintlayout
-    implementation deps.support.recyclerview
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
     implementation deps.volley
     implementation deps.calligraphy
     implementation deps.gson
     implementation deps.libphonenumber
-    implementation deps.support.annotations
+    implementation deps.androidx.annotations
 
     // Philips components
     implementation philipsdeps.uid
@@ -143,30 +139,29 @@ dependencies {
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_utils
     testImplementation deps.adobemobilelib
-    testImplementation deps.support.design
 
     testImplementation project(strings.pif.projectName)
 
     // Android test
     androidTestImplementation deps.assertj
-    androidTestImplementation deps.espresso_web
-    androidTestImplementation deps.uiautomator
+//    androidTestImplementation deps.espresso_web
+//    androidTestImplementation deps.uiautomator
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.androidx_test.rules
 
     // Espresso support
-    androidTestImplementation(deps.espresso_core, {
+/*    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    })*/
 
-    androidTestImplementation(deps.espresso_contrib) {
+/*    androidTestImplementation(deps.espresso_contrib) {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
-    }
+    }*/
 
     // add this for webview testing support
-    androidTestImplementation deps.espresso_web
+//    androidTestImplementation deps.espresso_web
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

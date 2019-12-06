@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.shoppingcart;
 
 import android.content.Context;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryListExecutor;
@@ -36,7 +35,6 @@ import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;

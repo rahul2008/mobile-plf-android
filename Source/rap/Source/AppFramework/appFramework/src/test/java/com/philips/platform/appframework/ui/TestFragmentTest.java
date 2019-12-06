@@ -7,9 +7,9 @@ package com.philips.platform.appframework.ui;
 
 
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.FrameLayout;
 
 import com.philips.platform.TestActivity;

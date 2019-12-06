@@ -8,7 +8,7 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;

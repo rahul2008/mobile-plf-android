@@ -95,7 +95,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.support.appcompatv7
+//    implementation deps.support.appcompatv7
     testImplementation deps.junit
     implementation deps.volley
     implementation deps.gson

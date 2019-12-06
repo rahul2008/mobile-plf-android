@@ -4,7 +4,7 @@
  */
 package com.philips.platform.baseapp.screens.splash;
 
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;

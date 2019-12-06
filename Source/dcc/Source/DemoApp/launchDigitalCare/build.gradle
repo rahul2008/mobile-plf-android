@@ -116,7 +116,7 @@ dependencies {
         androidTestImplementation deps.uiautomator
     }
 
-    androidTestImplementation deps.support.annotations
+    androidTestimplementation deps.androidx.annotations
     androidTestImplementation deps.testing_support
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.androidx_test.rules

@@ -1,6 +1,6 @@
 package com.philips.platform.pim.migration;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -12,7 +12,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
-import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.PIMRestClient;

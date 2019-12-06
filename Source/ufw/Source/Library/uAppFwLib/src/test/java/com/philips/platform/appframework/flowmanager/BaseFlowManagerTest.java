@@ -3,7 +3,7 @@ package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;

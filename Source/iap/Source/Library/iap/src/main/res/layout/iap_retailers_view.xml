@@ -6,7 +6,7 @@
     android:layout_gravity="center_horizontal"
     android:background="?attr/uidContentPrimaryBackgroundColor">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/iap_retailer_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

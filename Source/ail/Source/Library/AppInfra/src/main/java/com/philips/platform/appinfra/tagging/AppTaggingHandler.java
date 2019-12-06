@@ -8,8 +8,7 @@ package com.philips.platform.appinfra.tagging;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 

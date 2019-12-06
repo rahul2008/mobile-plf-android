@@ -9,7 +9,7 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;

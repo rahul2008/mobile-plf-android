@@ -69,9 +69,9 @@ android {
 
 dependencies {
     implementation deps.shamanland_fonticon
-    implementation deps.constraintlayout
-    implementation deps.support.supportv4
-    implementation deps.support.appcompatv7
+//    implementation deps.constraintlayout
+//    implementation deps.support.supportv4
+//    implementation deps.support.appcompatv7
     implementation deps.calligraphy
     implementation deps.volley
 
@@ -88,9 +88,9 @@ dependencies {
         implementation philipsdeps.AppInfra
     }
 
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+//    androidTestImplementation deps.espresso_core, {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    }
     androidTestImplementation deps.androidx_test.runner
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'

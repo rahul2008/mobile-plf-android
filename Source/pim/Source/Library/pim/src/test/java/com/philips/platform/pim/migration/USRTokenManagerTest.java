@@ -1,7 +1,7 @@
 package com.philips.platform.pim.migration;
 
 import android.net.Uri;
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import android.text.Html;
 
 import com.android.volley.Response;

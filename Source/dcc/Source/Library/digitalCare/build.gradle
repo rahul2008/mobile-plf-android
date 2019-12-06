@@ -118,10 +118,7 @@ dependencies {
     }
 
     implementation deps.play_services_maps
-    implementation deps.constraintlayout
     implementation deps.calligraphy
-    implementation deps.support.appcompatv7
-    implementation deps.support.recyclerview
     implementation deps.gson
     implementation deps.volley
     implementation deps.shamanland_fonticon
