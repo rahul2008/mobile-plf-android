@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.screens.catalog
 
+import android.arch.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
@@ -9,12 +10,9 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.platform.appinfra.AppInfra
 import java.text.DecimalFormat
 
- class ECSCatalogRepository {
-
-
+class ECSCatalogRepository {
 
 
     fun getProducts(pageNumber: Int, pageSize: Int, ecsProductViewModel: EcsProductViewModel) {
@@ -31,16 +29,16 @@ import java.text.DecimalFormat
 
                 val mutableLiveData = ecsProductViewModel.ecsProductsList
 
-                var value = mutableLiveData.value;
+                val value = mutableList(mutableLiveData)
 
-                if (value == null) value = mutableListOf<ECSProducts>()
-
-                value?.add(ecsProducts)
+                value.add(ecsProducts)
                 mutableLiveData.value = value
             }
 
         })
     }
+
+
 
     fun getCategorizedProductsforRetailer(ctn: MutableList<String>, ecsProductViewModel: EcsProductViewModel) {
 
@@ -49,14 +47,12 @@ import java.text.DecimalFormat
             override fun onResponse(result: List<ECSProduct>) {
                 val mutableLiveData = ecsProductViewModel.ecsProductsList
 
-                var value = mutableLiveData.value;
-
-                if (value == null) value = mutableListOf<ECSProducts>()
+                val value = mutableList(mutableLiveData)
 
                 val ecsProducts = ECSProducts()
                 ecsProducts.products = result
 
-                value?.add(ecsProducts)
+                value.add(ecsProducts)
                 mutableLiveData.value = value
             }
 
@@ -81,9 +77,7 @@ import java.text.DecimalFormat
 
                 val mutableLiveData = ecsProductViewModel.ecsProductsList
 
-                var value = mutableLiveData.value;
-
-                if (value == null) value = mutableListOf<ECSProducts>()
+                val value = mutableList(mutableLiveData)
 
                 //add logic
                 val ecsProductList = mutableListOf<ECSProduct>()
@@ -99,7 +93,7 @@ import java.text.DecimalFormat
                 }
 
                 ecsProducts.products = ecsProductList
-                value?.add(ecsProducts)
+                value.add(ecsProducts)
 
 
                 if(shouldBreakTheLoop(pageNumber, ecsProducts, ctns)){
@@ -107,7 +101,7 @@ import java.text.DecimalFormat
                 }else{
 
                     var tempCTNS = getCTNsToBeSearched(ctns as MutableList<String>,ecsProductList);
-                    var newPageNumber :Int = pageNumber+1
+                    var newPageNumber :Int = pageNumber + 1
                     getCategorizedProducts(newPageNumber,pageSize,tempCTNS,ecsProductViewModel)
                 }
 
@@ -159,7 +153,7 @@ import java.text.DecimalFormat
 
                     for(statistics in statisticsList){
 
-                        if(ecsProduct.code.replace("/","_").equals(statistics.productStatistics.productId)){
+                        if(ecsProduct.code isEqualsTo statistics.productStatistics.productId){
 
                             mecProductReviewList.add (MECProductReview(ecsProduct, DecimalFormat("#.#").format(statistics.productStatistics.nativeReviewStatistics.averageOverallRating), " ("+statistics.productStatistics.nativeReviewStatistics.totalReviewCount.toString()+ " reviews)"))
                         }
@@ -167,7 +161,6 @@ import java.text.DecimalFormat
                 }
 
                 ecsProductViewModel.ecsProductsReviewList.value = mecProductReviewList
-
             }
 
             override fun onFailure(exception: ConversationsException) {
@@ -186,7 +179,11 @@ import java.text.DecimalFormat
 
     }
 
+    infix fun String.isEqualsTo(value: String): Boolean = this.replace("/", "_").equals(value)
 
-
+    private fun mutableList(mutableLiveData: MutableLiveData<MutableList<ECSProducts>>): MutableList<ECSProducts> {
+        if (mutableLiveData.value.isNullOrEmpty()) mutableLiveData.value = mutableListOf<ECSProducts>()
+        return mutableLiveData.value!!
+    }
 }
 

@@ -28,7 +28,7 @@ class MECFragmentLauncher : MecBaseFragment(){
     private val isHybrisObserver : Observer<Boolean> = object :Observer<Boolean>{
         override fun onChanged(result: Boolean?) {
             hideProgressBar()
-            if(MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) {
+            if(MECDataHolder.INSTANCE.hybrisEnabled) {
                 MECDataHolder.INSTANCE.hybrisEnabled = result!!
             }
             launchMECasFragment(landingFragment, MECDataHolder.INSTANCE.hybrisEnabled)
@@ -40,8 +40,8 @@ class MECFragmentLauncher : MecBaseFragment(){
         override fun onChanged(config: ECSConfig?) {
             hideProgressBar()
 
-            if(MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) {
-                MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: true
+            if(MECDataHolder.INSTANCE.hybrisEnabled) {
+                MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
             }
 
             MECDataHolder.INSTANCE.locale = config!!.locale
@@ -60,7 +60,7 @@ class MECFragmentLauncher : MecBaseFragment(){
             bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
             mecProductDetailsFragment.arguments = bundle
 
-            mecProductDetailsFragment?.let { replaceFragment(it,"asd",false) }
+            mecProductDetailsFragment.let { replaceFragment(it,"asd",false) }
             hideProgressBar()
         }
 
@@ -73,11 +73,11 @@ class MECFragmentLauncher : MecBaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         ecsLauncherViewModel = ViewModelProviders.of(this).get(EcsLauncherViewModel::class.java)
-
         ecsLauncherViewModel.isHybris.observe(this, isHybrisObserver)
         ecsLauncherViewModel.ecsConfig.observe(this, configObserver)
         ecsLauncherViewModel.mecError.observe(this,this)
         ecsLauncherViewModel.ecsProduct.observe(this,productObserver)
+
 
         //TODO we can also check if SDK is already initialized
         if(MECDataHolder.INSTANCE.bvClient == null) {
@@ -117,6 +117,7 @@ class MECFragmentLauncher : MecBaseFragment(){
         bundle = arguments
         when (screen) {
             MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
+
             }
             MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW -> {
 
@@ -142,14 +143,12 @@ class MECFragmentLauncher : MecBaseFragment(){
 
                 fragment = MECProductCatalogFragment()
 
-                if(isCategorized?.isNotEmpty() == true){
-
-                    if(isHybris){
-                        fragment = MECProductCatalogCategorizedFragment()
+                if(!isCategorized!!.isNullOrEmpty()){
+                    fragment = if(isHybris){
+                         MECProductCatalogCategorizedFragment()
                     }else{
-                        fragment = MECCategorizedRetailerFragment()
+                         MECCategorizedRetailerFragment()
                     }
-
                 }
 
             }
