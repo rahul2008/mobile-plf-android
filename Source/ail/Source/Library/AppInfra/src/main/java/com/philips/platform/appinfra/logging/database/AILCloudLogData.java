@@ -1,7 +1,5 @@
 package com.philips.platform.appinfra.logging.database;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 
 /**

@@ -12,7 +12,6 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.annotation.VisibleForTesting;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
