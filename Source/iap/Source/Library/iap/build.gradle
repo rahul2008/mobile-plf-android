@@ -146,8 +146,8 @@ dependencies {
     androidTestImplementation deps.assertj
 //    androidTestImplementation deps.espresso_web
 //    androidTestImplementation deps.uiautomator
-    androidTestImplementation deps.androidx_test.runner
-    androidTestImplementation deps.androidx_test.rules
+    androidTestImplementation deps.androidx.runner
+    androidTestImplementation deps.androidx.rules
 
     // Espresso support
 /*    androidTestImplementation(deps.espresso_core, {

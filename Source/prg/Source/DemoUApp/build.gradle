@@ -115,7 +115,7 @@ dependencies {
 //        exclude module: "com.android.support"
 //        exclude module: "support-annotations"
 //    }
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.apache_commons_lang
 }
 

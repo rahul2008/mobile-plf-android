@@ -74,7 +74,7 @@ dependencies {
 
     testImplementation deps.junit
 
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.mockito_android
 //    androidTestImplementation deps.espresso_core, {
 //        exclude group: 'com.android.support', module: 'support-annotations'

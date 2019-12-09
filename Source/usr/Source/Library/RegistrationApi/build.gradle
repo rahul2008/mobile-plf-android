@@ -135,8 +135,8 @@ dependencies {
     testImplementation deps.openid_appauth
 
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.androidx_test.rules
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.rules
+    androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.junit
 //    androidTestImplementation deps.uiautomator
 }

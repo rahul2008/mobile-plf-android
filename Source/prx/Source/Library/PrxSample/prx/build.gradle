@@ -78,7 +78,7 @@ dependencies {
 
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
 }
 
 tasks.withType(Test) {

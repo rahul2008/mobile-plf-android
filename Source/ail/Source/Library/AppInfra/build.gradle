@@ -97,7 +97,7 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
 
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.dexmaker_mockito
     androidTestImplementation deps.junit
 }
