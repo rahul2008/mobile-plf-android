@@ -93,6 +93,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
 
+            if (! ecsProductsList .isNullOrEmpty()) {
 
             totalPages = ecsProductsList?.get(ecsProductsList.size-1)?.pagination?.totalPages ?: 0
 
@@ -100,7 +101,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
             productList.clear()
 
-        if (ecsProductsList != null) {
+
             binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
             binding.productCatalogRecyclerView.visibility = View.VISIBLE
 
@@ -123,7 +124,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             binding.mecSeparator.visibility = View.GONE
         }
         currentPage++
-
 
         }
     }

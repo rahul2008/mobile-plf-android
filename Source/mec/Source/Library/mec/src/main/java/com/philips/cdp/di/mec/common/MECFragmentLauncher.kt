@@ -143,7 +143,7 @@ class MECFragmentLauncher : MecBaseFragment(){
 
                 fragment = MECProductCatalogFragment()
 
-                if(!isCategorized!!.isNullOrEmpty()){
+                if(!isCategorized.isNullOrEmpty()){
                     fragment = if(isHybris){
                          MECProductCatalogCategorizedFragment()
                     }else{
