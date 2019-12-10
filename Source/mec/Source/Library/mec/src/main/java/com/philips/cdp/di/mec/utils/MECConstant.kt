@@ -6,6 +6,7 @@ package com.philips.cdp.di.mec.utils
 
 object MECConstant {
 
+    val COMPONENT_NAME: String = "mec"
     const val SELECTED_RETAILER: String ="SELECTED_RETAILER"
     const val RETAILER_REQUEST_CODE: Int = 5000
     val KEY_BAZAAR_LOCALE: String? ="Locale"

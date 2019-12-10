@@ -57,6 +57,7 @@ class MECHandler {
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
         ECSServices ecsServices = new ECSServices(propertyForKey,appInfra);
         MecHolder.INSTANCE.eCSServices=ecsServices; // singleton
+        MECDataHolder.INSTANCE.appinfra = appInfra;
         MECDataHolder.INSTANCE.propositionId = propertyForKey;
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.getMecBannerEnabler();
         MECDataHolder.INSTANCE.setHybrisEnabled(mLaunchInput.getHybrisEnabled());

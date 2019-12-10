@@ -381,8 +381,14 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
+    <style name="mecCentralesansBookFontHeader">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
     <style name="iapCentralesansMediumFont">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="iapCentralesansBoldFont">
