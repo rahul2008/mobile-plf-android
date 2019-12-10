@@ -3,6 +3,9 @@ package com.philips.platform.appinfra.logging.sync;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
 import android.text.TextUtils;
 import android.util.Log;
 

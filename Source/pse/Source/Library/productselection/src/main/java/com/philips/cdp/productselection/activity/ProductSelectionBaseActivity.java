@@ -17,7 +17,7 @@ import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.platform.uid.utils.UIDActivity;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 //import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
@@ -137,6 +137,6 @@ public abstract class ProductSelectionBaseActivity extends UIDActivity {
 
     @Override
     protected void attachBaseContext(final Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }

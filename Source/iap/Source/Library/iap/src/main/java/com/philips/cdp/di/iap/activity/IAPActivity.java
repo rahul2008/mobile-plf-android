@@ -47,7 +47,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 public class IAPActivity extends UIDActivity implements ActionBarListener, IAPListener {
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -64,7 +64,7 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

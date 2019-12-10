@@ -47,7 +47,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 public class ECSActivity extends UIDActivity implements ActionBarListener, ECSListener {
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -64,7 +64,7 @@ public class ECSActivity extends UIDActivity implements ActionBarListener, ECSLi
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

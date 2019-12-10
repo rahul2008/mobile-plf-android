@@ -32,7 +32,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by 310166779 on 3/21/2017.
@@ -268,7 +268,7 @@ public class CCDemoUAppFragmentActivity extends UIDActivity implements View.OnCl
 
     @Override
     protected void attachBaseContext(final Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }
 

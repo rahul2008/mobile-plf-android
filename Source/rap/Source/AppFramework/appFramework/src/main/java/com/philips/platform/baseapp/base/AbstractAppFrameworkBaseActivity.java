@@ -37,7 +37,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -92,7 +92,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends  UIDActivity impl
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @StyleRes

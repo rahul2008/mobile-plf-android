@@ -37,7 +37,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT;
 
@@ -91,7 +91,7 @@ public class ProdRegBaseActivity extends UIDActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
 

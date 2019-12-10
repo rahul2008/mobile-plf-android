@@ -47,7 +47,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 
 public class DemoAppActivity extends UIDActivity {
@@ -105,7 +105,7 @@ public class DemoAppActivity extends UIDActivity {
     }
     @Override
     protected void attachBaseContext(final Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     public void saveThemeSettings() {

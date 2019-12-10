@@ -46,6 +46,7 @@ public class ThemeSelectionActivity extends UIDActivity{
         setContentView(R.layout.theme_activity);
         initToolBar();
         fragment = (ThemeSettingsFragment) getSupportFragmentManager().findFragmentById(R.id.selection_fragment);
+        get
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -43,7 +43,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 public class RegistrationActivity extends UIDActivity implements
         ActionBarListener {
@@ -138,7 +138,7 @@ public class RegistrationActivity extends UIDActivity implements
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
 
     }
 

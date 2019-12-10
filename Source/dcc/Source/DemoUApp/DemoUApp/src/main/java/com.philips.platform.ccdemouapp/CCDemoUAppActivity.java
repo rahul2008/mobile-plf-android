@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 public class CCDemoUAppActivity extends FragmentActivity implements View.OnClickListener,
         CcListener {
@@ -398,7 +398,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }
 

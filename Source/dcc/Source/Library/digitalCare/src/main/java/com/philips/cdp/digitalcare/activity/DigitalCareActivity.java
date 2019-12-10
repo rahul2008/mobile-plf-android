@@ -22,7 +22,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * The Acitivity Class used while the component used as Activity Invoking.
@@ -90,6 +90,6 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }

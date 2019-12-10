@@ -24,6 +24,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.design
+    implementation deps.constraintlayout
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
