@@ -40,6 +40,8 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     override fun handleBackEvent(): Boolean {
+
+
         return false
     }
 

@@ -9,41 +9,51 @@
 
     </data>
 
-    <LinearLayout
+   <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_lebel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:padding="@dimen/iap_margin_4dp"
             android:weightSum="2">
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="0dp"
-                android:layout_height="@dimen/iap_wrap_content"
+                style="@style/mecCentralesansBookFont"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="@dimen/iap_margin_4dp"
-                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:padding="2dp"
+                android:singleLine="false"
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
                 android:text="@{csItemItem.csItemName}" />
 
             <com.philips.platform.uid.view.widget.Label
+                style="@style/mecCentralesansBookFont"
+                android:textSize="12sp"
+                android:padding="2dp"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/iap_wrap_content"
-                android:padding="@dimen/iap_margin_4dp"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:lineSpacingExtra="6dp"
                 android:layout_weight="1"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                app:setCsValueItems="@{csItemItem.csValue}" />
+                app:setCsValueItems="@{csItemItem}" />
 
         </LinearLayout>
 
         <View
+            android:layout_below="@+id/ll_lebel"
             android:layout_marginTop="1dp"
             android:layout_width="match_parent"
             android:background="@drawable/uid_shadow_level_two"
             android:layout_height="1dp"/>
 
-    </LinearLayout>
+   </RelativeLayout>
 
 </layout>

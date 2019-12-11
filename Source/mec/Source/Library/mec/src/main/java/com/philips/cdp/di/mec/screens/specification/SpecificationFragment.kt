@@ -40,39 +40,7 @@ class SpecificationFragment : MecBaseFragment() {
 
         context?.let { prxSpecificationViewModel.fetchSpecification(it,productCtn) }
 
-        //TODO Default set
-        val specificationModel = createDefaultValue()
-
-        binding.specificationModel = createDefaultValue()
-
         return binding.root
     }
 
-    private fun createDefaultValue(): SpecificationModel {
-        val specificationModel = SpecificationModel()
-        val data = Data()
-
-        val csValueItem = CsValueItem()
-        val csValueItems = mutableListOf<CsValueItem>()
-        csValueItems.add(csValueItem)
-
-        val csItemItem = CsItemItem()
-        csItemItem.csValue = csValueItems
-        val csItemItemList = mutableListOf<CsItemItem>()
-        csItemItemList.add(csItemItem)
-
-        val csChapterItems = mutableListOf<CsChapterItem>()
-
-        val csChapterItem = CsChapterItem()
-        csChapterItem.csItem = csItemItemList
-        csChapterItems.add(csChapterItem)
-
-        val mutableListOf = mutableListOf(csChapterItem)
-        mutableListOf.add(csChapterItem)
-
-
-        data.csChapter = csChapterItems
-        specificationModel.data = data
-        return specificationModel
-    }
 }
