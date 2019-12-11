@@ -1,0 +1,49 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="csItemItem"
+            type="com.philips.cdp.prxclient.datamodels.specification.CsItemItem" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="0dp"
+                android:layout_height="@dimen/iap_wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/iap_margin_4dp"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:text="@{csItemItem.csItemName}" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="0dp"
+                android:layout_height="@dimen/iap_wrap_content"
+                android:padding="@dimen/iap_margin_4dp"
+                android:layout_weight="1"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                app:setCsValueItems="@{csItemItem.csValue}" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/uid_shadow_level_two"
+            android:layout_height="1dp"/>
+
+    </LinearLayout>
+
+</layout>

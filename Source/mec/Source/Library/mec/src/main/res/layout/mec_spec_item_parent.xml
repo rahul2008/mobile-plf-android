@@ -1,0 +1,47 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="csChapterItem"
+            type="com.philips.cdp.prxclient.datamodels.specification.CsChapterItem" />
+
+    </data>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/uidContentSecondaryNeutralBackgroundColor">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mec_online_retailers_lebel"
+        style="@style/mecCentralesansBookFontHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:paddingLeft="@dimen/border8_margin"
+        android:paddingBottom="@dimen/iap_margin_20dp"
+        android:layout_marginTop="@dimen/iap_margin_20dp"
+        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+        android:text="@{csChapterItem.csChapterName}"
+        />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:items="@{csChapterItem.csItem}"/>
+
+</LinearLayout>
+
+</layout>
