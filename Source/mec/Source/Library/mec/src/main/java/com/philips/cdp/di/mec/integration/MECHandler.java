@@ -124,6 +124,7 @@ class MECHandler {
     protected void launchMECasFragment() {
         FragmentLauncher fragmentLauncher = (FragmentLauncher) mUiLauncher;
         Bundle bundle =  getBundle();
+        bundle.putInt(MECConstant.INSTANCE.getMEC_LANDING_SCREEN(), mLaunchInput.getMLandingView());
         bundle.putInt("fragment_container", fragmentLauncher.getParentContainerResourceID()); // frame_layout for fragment
         loadDecisionFragment(bundle);
 

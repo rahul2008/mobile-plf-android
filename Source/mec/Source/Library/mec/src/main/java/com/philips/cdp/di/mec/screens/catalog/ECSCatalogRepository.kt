@@ -155,7 +155,7 @@ class ECSCatalogRepository {
 
                         if(ecsProduct.code isEqualsTo statistics.productStatistics.productId){
 
-                            mecProductReviewList.add (MECProductReview(ecsProduct, DecimalFormat("#.#").format(statistics.productStatistics.nativeReviewStatistics.averageOverallRating), " ("+statistics.productStatistics.nativeReviewStatistics.totalReviewCount.toString()+ " reviews)"))
+                            mecProductReviewList.add (MECProductReview(ecsProduct, DecimalFormat("#.#").format(statistics.productStatistics.reviewStatistics.averageOverallRating), " ("+statistics.productStatistics.reviewStatistics.totalReviewCount.toString()+ " reviews)"))
                         }
                     }
                 }

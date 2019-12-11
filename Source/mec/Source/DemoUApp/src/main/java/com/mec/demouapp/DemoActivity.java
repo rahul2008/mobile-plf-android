@@ -553,9 +553,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view == mPurchaseHistory) {
             launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PURCHASE_HISTORY_VIEW(), null, null);
         } else if (view == mLaunchProductDetail) {
-            MECFlowInput input = new MECFlowInput(mCategorizedProductList.get(0));
-            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
-
+            if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
+                MECFlowInput input = new MECFlowInput(mCategorizedProductList.get(0));
+                launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
+            } else {
+                Toast.makeText(DemoActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+            }
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList);
