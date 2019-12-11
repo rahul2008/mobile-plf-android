@@ -13,6 +13,7 @@ import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uappframework.listener.ActionBarListener
+import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.utils.UIDActivity
 import kotlinx.android.synthetic.main.mec_action_bar.*
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
@@ -141,6 +142,20 @@ import java.util.*
 
      override fun onFailure(errorCode: Int) {
          TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+     }
+
+     override fun onBackPressed() {
+
+         val fragmentManager = supportFragmentManager
+         val currentFrag = fragmentManager.findFragmentById(R.id.mec_fragment_container)
+         var backState = false
+
+         if (currentFrag != null && currentFrag is BackEventListener) {
+             backState = (currentFrag as BackEventListener).handleBackEvent()
+         }
+         if (!backState) {
+             super.onBackPressed()
+         }
      }
 
 }

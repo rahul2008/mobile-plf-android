@@ -85,7 +85,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
     fun getValueFor(type: String, review: Review): String {
         var  reviewValue :String? = null
         var mapAdditionalFields: LinkedTreeMap<String, String>? = null
-        if (review.additionalFields != null && review.additionalFields.size > 0 ) {
+        if (review.additionalFields != null && review.additionalFields.get(type)!=null && review.additionalFields.size > 0 ) {
             mapAdditionalFields = review.additionalFields.get(type) as LinkedTreeMap<String, String>
             reviewValue= if (mapAdditionalFields.get("Value") != null) mapAdditionalFields?.get("Value") else ""
         }
@@ -97,6 +97,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
         }
         return reviewValue.toString()
     }
+
 
      fun getValueForUseDuration( review: Review): String {
         var useDurationValue: String? = ""

@@ -77,12 +77,13 @@ class DataBindingUtility {
         //For specification
         @JvmStatic
         @BindingAdapter("items")
-        fun setAdapter(recyclerView: RecyclerView, csItemItems: List<CsItemItem>) {
+        fun setAdapter(recyclerView: RecyclerView, csItemItems: List<CsItemItem>?) {
+            if(csItemItems!=null)
             recyclerView.adapter = SpecificationChildRecyclerAdapter(csItemItems)
         }
         @JvmStatic
         @BindingAdapter("specification")
-        fun setSpecificationAdapter(recyclerView: RecyclerView, specificationModel: SpecificationModel) {
+        fun setSpecificationAdapter(recyclerView: RecyclerView, specificationModel: SpecificationModel?) {
             if(specificationModel!=null)
             recyclerView.adapter = SpecificationParentRecyclerAdapter(specificationModel)
         }
@@ -92,7 +93,7 @@ class DataBindingUtility {
         fun setCSItem(label: Label,csItemItem: CsItemItem) {
 
             val csValueItems = csItemItem.csValue
-            var unit:String =""
+            var unit =""
 
             if(csItemItem.unitOfMeasure!=null){
                 unit = csItemItem.unitOfMeasure.unitOfMeasureSymbol
@@ -103,7 +104,7 @@ class DataBindingUtility {
             if (!csValueItems.isNullOrEmpty()) {
 
                 if(csValueItems.size == 1){
-                    label.text =    csValueItems.get(0).csValueName +" "+unit
+                    label.text = csValueItems.get(0).csValueName +" "+unit
                     return
                 }
 
