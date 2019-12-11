@@ -10,38 +10,34 @@
     </data>
 
 
+
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/lLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/uidContentSecondaryNeutralBackgroundColor">
+
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/mec_online_retailers_lebel"
-        style="@style/mecCentralesansBookFontHeader"
+        style="@style/iapCentralesansBoldFont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        android:paddingLeft="@dimen/border8_margin"
-        android:paddingBottom="@dimen/iap_margin_20dp"
-        android:layout_marginTop="@dimen/iap_margin_20dp"
-        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+        android:padding="@dimen/border8_margin"
+        android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:text="@{csChapterItem.csChapterName}"
         />
-    </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_child"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        android:layout_height="wrap_content"
         app:items="@{csChapterItem.csItem}"/>
 
 </LinearLayout>
+
 
 </layout>

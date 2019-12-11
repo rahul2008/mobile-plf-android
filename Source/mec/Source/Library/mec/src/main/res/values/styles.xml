@@ -393,6 +393,7 @@
 
     <style name="iapCentralesansBoldFont">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="MecTabStyle" parent="Widget.Design.TabLayout">

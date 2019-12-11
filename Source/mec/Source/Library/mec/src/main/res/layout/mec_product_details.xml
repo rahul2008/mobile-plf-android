@@ -25,7 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:paddingEnd="@dimen/border16_margin_left_right"
         android:paddingStart="@dimen/border16_margin_left_right"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="65dp"
         android:visibility="visible">
 
         <RelativeLayout
@@ -214,6 +214,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

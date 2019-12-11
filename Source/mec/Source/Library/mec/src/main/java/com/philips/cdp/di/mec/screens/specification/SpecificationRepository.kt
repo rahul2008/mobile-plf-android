@@ -19,7 +19,7 @@ class SpecificationRepository {
 
         // "SCF251/02"
 
-        var productSpecificationRequest  = ProductSpecificationRequest("SCF251/02",null)
+        var productSpecificationRequest  = ProductSpecificationRequest(ctn,null)
         productSpecificationRequest.sector = PrxConstants.Sector.B2C;
         productSpecificationRequest.catalog = PrxConstants.Catalog.CONSUMER;
         productSpecificationRequest.requestTimeOut = NetworkConstants.DEFAULT_TIMEOUT_MS;
