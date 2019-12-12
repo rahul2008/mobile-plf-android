@@ -2,18 +2,22 @@ package com.ecs.demotestuapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.R;
+import com.ecs.demotestuapp.model.FetchProductInput;
 import com.ecs.demotestuapp.model.PropertyItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 
 import java.util.ArrayList;
 import java.util.List;

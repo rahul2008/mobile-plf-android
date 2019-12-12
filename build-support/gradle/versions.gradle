@@ -161,7 +161,7 @@ ext.deps = [
         wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.4.0',
         apache_commons_lang           : 'org.apache.commons:commons-lang3:3.8.1',
         assertj                       : 'com.squareup.assertj:assertj-android:1.2.0',
-        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
+        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:10.2.0',
         butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:10.2.0', // Held at 8.4.0 since 10.0.0 is giving an issue
 
         dexmaker_mockito              : 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1', // Compiled against sdk 25
