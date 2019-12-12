@@ -32,6 +32,8 @@ android {
         versionName version
         multiDexEnabled true
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
+        minSdkVersion 23
+        targetSdkVersion 24
     }
 
     packagingOptions {
