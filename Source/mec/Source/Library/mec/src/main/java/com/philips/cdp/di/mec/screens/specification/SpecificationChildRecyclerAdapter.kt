@@ -7,7 +7,7 @@ import com.philips.cdp.di.mec.databinding.MecSpecItemChildBinding
 import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
 
 
-class SpecificationChildRecyclerAdapter (val csItem: List<CsItemItem>) : RecyclerView.Adapter<SpecificationChildViewHolder>() {
+class SpecificationChildRecyclerAdapter (private val csItem: List<CsItemItem>) : RecyclerView.Adapter<SpecificationChildViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): SpecificationChildViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,6 +20,6 @@ class SpecificationChildRecyclerAdapter (val csItem: List<CsItemItem>) : Recycle
     }
 
     override fun onBindViewHolder(viewHolder : SpecificationChildViewHolder, position: Int) {
-       viewHolder.bind(csItem.get(position))
+       viewHolder.bind(csItem[position])
     }
 }
