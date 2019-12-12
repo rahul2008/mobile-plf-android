@@ -43,11 +43,11 @@ class EcsProductViewModelTest {
     @Mock
     lateinit var eCSCatalogRepository: ECSCatalogRepository
 
+
+
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-
-        ecsServices = ECSServices("123",ECSConfiguration.INSTANCE.appInfra)
         MecHolder.INSTANCE.eCSServices = ecsServices
 
         ecsProductViewModel = EcsProductViewModel()

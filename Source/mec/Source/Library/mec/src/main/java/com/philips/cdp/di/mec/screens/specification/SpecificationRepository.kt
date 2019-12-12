@@ -16,9 +16,7 @@ import com.philips.cdp.prxclient.response.ResponseListener
 class SpecificationRepository {
 
     fun fetchSpecification(context: Context , ctn: String , prxSpecificationViewModel: SpecificationViewModel){
-
         // "SCF251/02"
-
         var productSpecificationRequest  = ProductSpecificationRequest(ctn,null)
         productSpecificationRequest.sector = PrxConstants.Sector.B2C;
         productSpecificationRequest.catalog = PrxConstants.Catalog.CONSUMER;
@@ -26,8 +24,8 @@ class SpecificationRepository {
 
         val mRequestManager = RequestManager()
         val prxDependencies = PRXDependencies(context,MECDataHolder.INSTANCE.appinfra, MECConstant.COMPONENT_NAME)
-
         mRequestManager.init(prxDependencies)
+
 
         mRequestManager.executeRequest(productSpecificationRequest,object:ResponseListener{
             override fun onResponseSuccess(responseData: ResponseData?) {

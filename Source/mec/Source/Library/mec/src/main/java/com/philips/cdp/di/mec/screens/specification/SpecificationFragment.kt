@@ -15,7 +15,7 @@ import com.philips.cdp.prxclient.datamodels.specification.*
 class SpecificationFragment : MecBaseFragment() {
 
     private lateinit var binding: MecProductSpecsFragmentBinding
-    lateinit var prxSpecificationViewModel: SpecificationViewModel
+    private lateinit var prxSpecificationViewModel: SpecificationViewModel
 
     private val specificationObserver : Observer<SpecificationModel> = object : Observer<SpecificationModel> {
 

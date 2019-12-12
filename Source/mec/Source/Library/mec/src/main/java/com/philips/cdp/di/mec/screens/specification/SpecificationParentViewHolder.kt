@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager
 
 class SpecificationParentViewHolder (val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root){
 
-
     fun bind(item: CsChapterItem) {
         val mecSpecItemParentBinding = binding as MecSpecItemParentBinding
 
