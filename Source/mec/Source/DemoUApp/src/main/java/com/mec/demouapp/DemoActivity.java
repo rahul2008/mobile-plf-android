@@ -824,10 +824,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public View getBannerView() {
-
+        if (isBannerEnabled) {
             LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.banner_view, null);
             return v;
+        }
+        return null;
 
     }
 

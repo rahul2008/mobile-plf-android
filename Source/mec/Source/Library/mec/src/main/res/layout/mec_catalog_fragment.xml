@@ -55,11 +55,47 @@
         android:layout_height="0.05dp"
         android:background="?attr/uidContentItemTertiaryNormalTextColor" />
 
+    <LinearLayout
+        android:id="@+id/mec_empty_result"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:visibility="gone"
+        android:padding="@dimen/border16_margin_left_right">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_empty_list_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            style="@style/iapCentralesansBoldFont"
+            android:text="@string/mec_zero_results_found"
+            android:background="@color/uidColorWhite"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:drawableStart="@android:drawable/ic_menu_info_details"
+            />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:padding="4dp"
+            android:id="@+id/tv_empty_list_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mec_zero_results_message"
+            android:background="@color/uidColorWhite"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/mec_nestedScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view"
+        android:layout_below="@+id/mec_empty_result"
         android:layout_marginBottom="40dp"
         android:fillViewport="true">
 

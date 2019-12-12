@@ -78,7 +78,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     override fun isPaginationSupported(): Boolean {
-        return true
+        return shouldSupportPagination
     }
 
     private lateinit var mecCatalogUIModel: MECCatalogUIModel
@@ -86,6 +86,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     var totalPages: Int = 0
     var currentPage: Int = 0
     var pageSize: Int = 20
+    var shouldSupportPagination = true
 
 
     val productObserver : Observer<MutableList<ECSProducts>> = object : Observer<MutableList<ECSProducts>> {
@@ -130,9 +131,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(productList.size!=0){
                 binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
                 binding.mecLlLayout.visibility = View.VISIBLE
+                binding.llBannerPlaceHolder.visibility = View.VISIBLE
             } else{
                 binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
                 binding.mecLlLayout.visibility = View.GONE
+                binding.llBannerPlaceHolder.visibility = View.GONE
                 hideProgressBar()
             }
         currentPage++
@@ -204,9 +207,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         productList = mutableListOf()
         productReviewList= mutableListOf()
 
-
+        val mClearIconView = binding.mecSearchBox.getClearIconView()
         binding.mecSearchBox.setSearchBoxHint("Search")
         binding.mecSearchBox.setDecoySearchViewHint("Search")
+        val searchText = binding.mecSearchBox.searchTextView
         binding.mecSearchBox.searchTextView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -218,16 +222,32 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 adapter.filter.filter(s)
 
                 if(s?.length == 0){
+                    shouldSupportPagination = true
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
-                }else binding.llBannerPlaceHolder.visibility = View.GONE
+                    binding.mecEmptyResult.visibility = View.GONE
+                }else {
+                    shouldSupportPagination = false
+                    binding.llBannerPlaceHolder.visibility = View.GONE
+                    binding.mecEmptyResult.visibility = View.VISIBLE
+                }
+
+                val text = String.format(context?.getResources()?.getText(R.string.mec_zero_results_found).toString(), s)
+                binding.tvEmptyListFound.text = text
 
                 if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
                     if (adapter.itemCount != 0) {
                        binding.mecPrivacyLayout.visibility = View.VISIBLE
+                        binding.mecEmptyResult.visibility = View.GONE
                    } else {
                        binding.mecPrivacyLayout.visibility = View.GONE
+                        binding.mecEmptyResult.visibility = View.VISIBLE
                    }
                }
+
+                mClearIconView.setOnClickListener {
+                    searchText.text.clear()
+                        binding.mecEmptyResult.visibility = View.GONE
+                }
             }
 
         })
