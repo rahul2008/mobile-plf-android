@@ -176,9 +176,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     //TODO bind it
     fun updateData(results: List<Statistics>?) {
         if (results != null) {
-            binding.mecRating.setRating((results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating).toFloat())
-            binding.mecRatingLebel.text = DecimalFormat("#.#").format(results.get(0).productStatistics.nativeReviewStatistics.averageOverallRating)
-            binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.nativeReviewStatistics.totalReviewCount.toString() + " reviews)"
+            binding.mecRating.setRating((results.get(0).productStatistics.reviewStatistics.averageOverallRating).toFloat())
+            binding.mecRatingLebel.text = DecimalFormat("#.#").format(results.get(0).productStatistics.reviewStatistics.averageOverallRating)
+            binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " reviews)"
         }
 
     }
