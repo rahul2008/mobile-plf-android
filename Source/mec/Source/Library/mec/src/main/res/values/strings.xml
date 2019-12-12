@@ -26,7 +26,9 @@
     <string name="mec_in_stock">In stock</string>
     <string name="mec_out_of_stock">Out of stock </string>
     <string name="mec_has_used_this_product_for">Has used this product for </string>
+    <string name="mec_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
     <string name="mec_anonymous">Anonymous</string>
+    <string name="mec_zero_results_found">0 results found for %s</string>
     <string name="mec_pros_plus">\uFF0B</string>
     <string name="mec_pros_minus">\uFF0D</string>
     <string name="mec_bv_privacy">These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.

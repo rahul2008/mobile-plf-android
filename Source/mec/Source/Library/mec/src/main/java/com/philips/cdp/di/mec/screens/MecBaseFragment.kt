@@ -21,9 +21,6 @@ import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.view.widget.ProgressBar
 
 
-
-
-
 abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecError> {
     private var mContext: Context? = null
 
@@ -40,8 +37,13 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     override fun handleBackEvent(): Boolean {
-
-
+        val currentFragment = activity?.supportFragmentManager?.fragments?.last()
+        if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
+        {
+            setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
+        }  else{
+            setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
+        }
         return false
     }
 

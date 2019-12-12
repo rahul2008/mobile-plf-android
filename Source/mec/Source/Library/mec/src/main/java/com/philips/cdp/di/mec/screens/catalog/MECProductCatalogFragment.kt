@@ -102,7 +102,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             productList.clear()
 
 
-            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
             binding.productCatalogRecyclerView.visibility = View.VISIBLE
 
             for (ecsProducts in ecsProductsList) {
@@ -113,16 +112,29 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
 
             ecsProductViewModel.fetchProductReview(productList)
-            if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
+
+            if (productList.size!=0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
                 binding.mecPrivacyLayout.visibility = View.VISIBLE
                 binding.mecSeparator.visibility = View.VISIBLE
+                binding.mecLlLayout.visibility = View.VISIBLE
             }
         } else{
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
             binding.productCatalogRecyclerView.visibility = View.GONE
             binding.mecPrivacyLayout.visibility = View.GONE
             binding.mecSeparator.visibility = View.GONE
+                binding.mecLlLayout.visibility = View.GONE
+                hideProgressBar()
         }
+
+            if(productList.size!=0){
+                binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+                binding.mecLlLayout.visibility = View.VISIBLE
+            } else{
+                binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+                binding.mecLlLayout.visibility = View.GONE
+                hideProgressBar()
+            }
         currentPage++
 
         }
@@ -209,8 +221,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
                 }else binding.llBannerPlaceHolder.visibility = View.GONE
 
-               if(MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
-                   if (adapter.itemCount != 0) {
+                if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
+                    if (adapter.itemCount != 0) {
                        binding.mecPrivacyLayout.visibility = View.VISIBLE
                    } else {
                        binding.mecPrivacyLayout.visibility = View.GONE

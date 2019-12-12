@@ -106,11 +106,12 @@ private fun shouldHandleError(errorCode: Int): Boolean {
             || errorCode == WebViewClient.ERROR_HOST_LOOKUP)
 }
 
-override fun handleBackEvent(): Boolean {
+/*override fun handleBackEvent(): Boolean {
     if (mWebView!!.canGoBack()) {
         mWebView!!.goBack()
         return true
     }
     return false
-}
+}*/
+
 }
