@@ -161,6 +161,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     open fun executeRequest() {
         createCustomProgressBar(container, MEDIUM)
+        binding.progressImage.visibility = View.VISIBLE
         ecsProductDetailViewModel.getProductDetail(product)
     }
 

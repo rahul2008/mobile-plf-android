@@ -40,13 +40,14 @@
                 android:layout_height="@dimen/iap_product_detail_image_height"
                 >
 
-                <ProgressBar
+                <com.philips.platform.uid.view.widget.ProgressBar
                     android:id="@+id/progress_image"
-                    style="?android:attr/progressBarStyle"
+                    style="@style/UIDProgressBarCircularIndeterminateSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:visibility="gone" />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"

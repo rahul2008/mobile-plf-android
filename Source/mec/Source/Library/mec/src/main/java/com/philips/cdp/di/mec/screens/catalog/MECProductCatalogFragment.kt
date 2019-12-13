@@ -115,9 +115,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             ecsProductViewModel.fetchProductReview(productList)
 
             if (productList.size!=0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
-                binding.mecPrivacyLayout.visibility = View.VISIBLE
-                binding.mecSeparator.visibility = View.VISIBLE
-                binding.mecLlLayout.visibility = View.VISIBLE
+                    binding.mecPrivacyLayout.visibility = View.VISIBLE
+                    binding.mecSeparator.visibility = View.VISIBLE
+                    binding.mecLlLayout.visibility = View.VISIBLE
             }
         } else{
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
@@ -287,9 +287,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     private fun privacyTextView(view: TextView) {
         val spanTxt = SpannableStringBuilder(
-                "Read our")
+                getString(R.string.mec_read_privacy))
         spanTxt.append(" ")
-        spanTxt.append("Privacy Notice")
+        spanTxt.append(getString(R.string.mec_privacy_notice))
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
@@ -301,9 +301,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - "Privacy Notice".length, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_privacy_notice).length, spanTxt.length, 0)
         spanTxt.append(" ")
-        spanTxt.append("for more info")
+        spanTxt.append(getString(R.string.mec_more_info))
         binding.mecPrivacy.setHighlightColor(Color.TRANSPARENT)
         view.movementMethod = LinkMovementMethod.getInstance()
         view.setText(spanTxt, TextView.BufferType.SPANNABLE)
@@ -335,6 +335,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.productCatalogRecyclerView.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
+
+
     }
 
 
