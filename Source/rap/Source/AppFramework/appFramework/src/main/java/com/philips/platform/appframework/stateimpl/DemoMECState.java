@@ -3,6 +3,9 @@ package com.philips.platform.appframework.stateimpl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+/*import com.mec.demouapp.MecDemoAppSettings;
+import com.mec.demouapp.MecDemoUAppDependencies;
+import com.mec.demouapp.MecDemoUAppInterface;*/
 import com.mec.demouapp.MecDemoAppSettings;
 import com.mec.demouapp.MecDemoUAppDependencies;
 import com.mec.demouapp.MecDemoUAppInterface;
@@ -27,6 +30,9 @@ public class DemoMECState extends DemoBaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
+
+
+
         MecDemoUAppInterface uAppInterface = getMecDemoUAppInterface();
         try {
             uAppInterface.init(new MecDemoUAppDependencies(((AppFrameworkApplication) appContext.getApplicationContext()).getAppInfra()), new MecDemoAppSettings(appContext));

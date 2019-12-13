@@ -19,7 +19,6 @@ buildscript {
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     dexOptions {
         jumboMode true

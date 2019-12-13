@@ -39,7 +39,6 @@ artifacts {
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionCode 3
