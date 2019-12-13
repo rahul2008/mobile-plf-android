@@ -40,7 +40,6 @@ task zipDocuments(type: Zip) {
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     testOptions {
         unitTests.returnDefaultValues = true

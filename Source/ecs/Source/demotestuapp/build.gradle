@@ -17,7 +17,6 @@ archivesBaseName = strings.ecstestuapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"

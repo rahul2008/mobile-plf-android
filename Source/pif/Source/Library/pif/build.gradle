@@ -14,7 +14,6 @@ archivesBaseName = strings.pif.artifactName
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     testOptions {
         unitTests.all {
