@@ -79,7 +79,7 @@ public class PIMAuthManager {
      * @return intent
      * @throws ActivityNotFoundException
      */
-    Intent getAuthorizationRequestIntent(@NonNull AuthorizationServiceConfiguration authServiceConfiguration, @NonNull String clientID, @NonNull String redirectUrl, Map parameter) throws ActivityNotFoundException {
+    Intent getAuthorizationRequestIntent(@NonNull AuthorizationServiceConfiguration authServiceConfiguration, @NonNull String clientID, @NonNull String redirectUrl, Map<String, String> parameter) throws ActivityNotFoundException {
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
                         authServiceConfiguration,
@@ -98,7 +98,7 @@ public class PIMAuthManager {
         return authIntent;
     }
 
-    AuthorizationRequest createAuthRequestUriForMigration(Map additionalParameter) {
+    AuthorizationRequest createAuthRequestUriForMigration(Map<String, String> additionalParameter) {
         PIMOIDCConfigration pimOidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(

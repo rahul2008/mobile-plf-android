@@ -12,7 +12,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
-import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.PIMRestClient;
@@ -50,7 +49,7 @@ class USRTokenManager {
     private LoggingInterface mLoggingInterface;
     private AppInfraInterface appInfraInterface;
 
-    public USRTokenManager(AppInfraInterface mAppInfraInterface) {
+    USRTokenManager(AppInfraInterface mAppInfraInterface) {
         this.appInfraInterface = mAppInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
