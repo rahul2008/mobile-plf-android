@@ -42,7 +42,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
  * @since TODO:Shashi need to update pim version
  */
 public class PIMInterface implements UappInterface {
-    private static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
+    static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
     private final String TAG = PIMInterface.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
 
@@ -72,7 +72,7 @@ public class PIMInterface implements UappInterface {
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
         pimUserManager.init(context, uappDependencies.getAppInfra());
         PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
-        pimConfigManager.init(uappSettings.getContext(),uappDependencies.getAppInfra().getServiceDiscovery());
+        pimConfigManager.init(uappSettings.getContext(), uappDependencies.getAppInfra().getServiceDiscovery());
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
@@ -106,7 +106,7 @@ public class PIMInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
+            launchAsActivity(((ActivityLauncher) uiLauncher), (PIMLaunchInput) uappLaunchInput);
             mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as activity");
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, (PIMLaunchInput) uappLaunchInput);
@@ -116,7 +116,7 @@ public class PIMInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
-        pimFragment.setActionbarListener(uiLauncher.getActionbarListener(),pimLaunchInput.getUserLoginListener());
+        pimFragment.setActionbarListener(uiLauncher.getActionbarListener(), pimLaunchInput.getUserLoginListener());
         addFragment(uiLauncher, pimFragment);
     }
 
@@ -128,10 +128,14 @@ public class PIMInterface implements UappInterface {
                 .commit();
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        Intent intent = new Intent(uiLauncher.getActivityContext(), PIMActivity.class);
-        intent.putExtra(PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
-        uiLauncher.getActivityContext().startActivity(intent);
+    private void launchAsActivity(ActivityLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
+        if (null != pimLaunchInput) {
+            Intent intent = new Intent(uiLauncher.getActivityContext(), PIMActivity.class);
+            intent.putExtra(PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
+            PIMSettingManager.getInstance().setUserLoginInerface(pimLaunchInput.getUserLoginListener());
+
+            uiLauncher.getActivityContext().startActivity(intent);
+        }
     }
 
     /**

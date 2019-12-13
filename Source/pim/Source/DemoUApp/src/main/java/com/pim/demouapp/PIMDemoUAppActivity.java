@@ -178,6 +178,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         if (v == btnLaunchAsActivity) {
             if (!isUSR) {
                 PIMLaunchInput launchInput = new PIMLaunchInput();
+                launchInput.setUserLoginListener(this);
                 ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
                 pimInterface.launch(activityLauncher, launchInput);
             }
