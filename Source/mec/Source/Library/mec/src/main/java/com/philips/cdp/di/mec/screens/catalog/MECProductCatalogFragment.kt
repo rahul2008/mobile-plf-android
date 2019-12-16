@@ -365,7 +365,18 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
         }
 
-        return false;
+        return false
+    }
+
+    override fun handleBackEvent(): Boolean {
+        if (activity != null && activity is MECLauncherActivity) {
+            val count = fragmentManager!!.backStackEntryCount
+            for (i in 0 until count) {
+                fragmentManager!!.popBackStack()
+            }
+            finishActivity()
+        }
+        return super.handleBackEvent()
     }
 
     override fun processError(mecError: MecError?){
