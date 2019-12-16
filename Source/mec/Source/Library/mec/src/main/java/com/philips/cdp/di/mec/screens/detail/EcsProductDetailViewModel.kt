@@ -27,16 +27,18 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val review = MutableLiveData<ReviewResponse>()
 
+    var ecsProductDetailRepository = ECSProductDetailRepository(this)
+
     fun getRatings(ctn :String){
-        ECSProductDetailRepository(this).getRatings(ctn,this);
+        ecsProductDetailRepository.getRatings(ctn)
     }
 
     fun getProductDetail(ecsProduct: ECSProduct){
-        ECSProductDetailRepository(this).getProductDetail(ecsProduct)
+        ecsProductDetailRepository.getProductDetail(ecsProduct)
     }
 
     fun getBazaarVoiceReview(ctn : String, pageNumber : Int, pageSize : Int){
-        ECSProductDetailRepository(this).fetchProductReview(ctn, pageNumber, pageSize)
+        ecsProductDetailRepository.fetchProductReview(ctn, pageNumber, pageSize)
     }
 
 

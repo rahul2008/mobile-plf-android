@@ -37,6 +37,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MECLauncherActivity
+import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant

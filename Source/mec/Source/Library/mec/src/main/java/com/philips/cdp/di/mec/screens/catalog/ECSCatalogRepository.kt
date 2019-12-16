@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.*
+import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
@@ -15,10 +16,9 @@ import java.text.DecimalFormat
 class ECSCatalogRepository {
 
 
-    fun getProducts(pageNumber: Int, pageSize: Int, ecsProductViewModel: EcsProductViewModel) {
+    fun getProducts(pageNumber: Int, pageSize: Int, ecsProductViewModel:EcsProductViewModel, eCSServices: ECSServices) {
 
-        val ecsServices = MecHolder.INSTANCE.eCSServices
-        ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
+        eCSServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
 
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
                 val mecError = MecError(error, ecsError)
@@ -27,7 +27,7 @@ class ECSCatalogRepository {
 
             override fun onResponse(ecsProducts: ECSProducts) {
 
-                val mutableLiveData = ecsProductViewModel.ecsProductsList
+               val mutableLiveData = ecsProductViewModel.ecsProductsList
 
                 val value = mutableList(mutableLiveData)
 
