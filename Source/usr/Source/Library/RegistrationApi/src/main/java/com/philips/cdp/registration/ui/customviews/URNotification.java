@@ -22,7 +22,6 @@ public class URNotification {
     private NotificationType mNotificationType = NotificationType.NOTIFICATION_BAR;
     private NotificationBarView notificationBarView;
     private URNotificationInterface notificationInterface;
-    private URNotification urNotificationInstance;
 
 
     public interface URNotificationInterface {
@@ -52,17 +51,11 @@ public class URNotification {
 
     }
 
-    public URNotification getURNotificationInstance() {
-        if (urNotificationInstance == null)
-            urNotificationInstance = new URNotification();
-        return urNotificationInstance;
-    }
-
-    /*public URNotification(Activity mActivity, URNotificationInterface notificationInterface) {
+    public URNotification(Activity mActivity, URNotificationInterface notificationInterface) {
         RLog.d(TAG, "URNotification");
         this.mActivity = mActivity;
         this.notificationInterface = notificationInterface;
-    }*/
+    }
 
     public void showNotification(NotificationMessage notificationMessage) {
 
@@ -83,7 +76,7 @@ public class URNotification {
 
             case NOTIFICATION_BAR:
                 RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
-                if (!notificationBarView.isNotificationBarViewShowing() && mActivity != null) {
+                if (!notificationBarView.isNotificationBarViewShowing() && mActivity!=null) {
 //                    if (!isNetworkError)
 
                     notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));

@@ -74,7 +74,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
     @Test
     public void testDisplayChapterList(){
         testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
-        SupportFragmentTestUtil.startFragment(testFragment);
+//        SupportFragmentTestUtil.startFragment(testFragment);
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
@@ -105,7 +105,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
     @Test
     public void testCoCoName() {
         testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
-        SupportFragmentTestUtil.startFragment(testFragment);
+//        SupportFragmentTestUtil.startFragment(testFragment);
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();

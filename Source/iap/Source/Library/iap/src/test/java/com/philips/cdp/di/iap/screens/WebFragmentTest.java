@@ -50,18 +50,18 @@ public class WebFragmentTest {
 
     @Test(expected = IllegalStateException.class)
     public void shouldDisplayWebPaymentFragment() {
-        SupportFragmentTestUtil.startFragment(webFragment);
+//        SupportFragmentTestUtil.startFragment(webFragment);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldonViewCreated() {
         webFragment.onViewCreated(mock(View.class), mock(Bundle.class));
-        SupportFragmentTestUtil.startFragment(webFragment);
+//        SupportFragmentTestUtil.startFragment(webFragment);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldonPause() {
         webFragment.onPause();
-        SupportFragmentTestUtil.startFragment(webFragment);
+//        SupportFragmentTestUtil.startFragment(webFragment);
     }
 }

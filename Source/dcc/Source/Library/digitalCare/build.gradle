@@ -135,8 +135,10 @@ dependencies {
     testImplementation deps.powermock_junit_rule_agent
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
+    //debugImplementation deps.androidx.fragment_testing
 
     androidTestImplementation deps.androidx.runner
+    androidTestImplementation deps.androidx.monitor
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -64,7 +65,8 @@ public class FaqDetailedFragmentTest {
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
-        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
+        //SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
+       // FragmentScenario.launch(fragment.getClass());
         rootView=fragment.getView();
     }
 

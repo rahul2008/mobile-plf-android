@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class CCDemoUAppActivity extends FragmentActivity implements View.OnClickListener,
         CcListener {

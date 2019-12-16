@@ -32,7 +32,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 /**
  * Created by 310166779 on 3/21/2017.

@@ -22,7 +22,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
-import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 /**
  * The Acitivity Class used while the component used as Activity Invoking.

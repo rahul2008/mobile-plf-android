@@ -71,6 +71,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
+
     testOptions {
         unitTests.all {
             jacoco {

@@ -22,6 +22,7 @@ android {
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
         multiDexEnabled true
+        manifestPlaceholders = ['appAuthRedirectScheme': '']
 
     }
 
@@ -62,6 +63,10 @@ android {
         exclude 'lib/x86/libRSSupport.so'
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 
 }
 

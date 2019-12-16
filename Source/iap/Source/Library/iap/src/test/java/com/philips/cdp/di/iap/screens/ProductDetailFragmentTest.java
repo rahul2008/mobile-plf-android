@@ -113,7 +113,7 @@ public class ProductDetailFragmentTest {
         mContext = getInstrumentation().getContext();
 
         productDetailFragment = ProductDetailFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
-        SupportFragmentController.of(productDetailFragment).create().start().resume();
+//        SupportFragmentController.of(productDetailFragment).create().start().resume();
     }
 
     @Test

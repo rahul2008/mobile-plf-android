@@ -79,6 +79,11 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
+
     testOptions {
         unitTests.all {
             jacoco {

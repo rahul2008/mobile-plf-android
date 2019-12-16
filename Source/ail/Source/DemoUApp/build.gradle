@@ -27,6 +27,7 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.design
     implementation deps.constraintlayout
+    implementation deps.androidx.localbroadcastmanager
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)

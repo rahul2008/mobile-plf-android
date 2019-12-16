@@ -55,7 +55,7 @@ public class ErrorDialogFragmentTest {
 
     @Test(expected = Exception.class)
     public void shouldDisplayAddressSelectionFragment() {
-        SupportFragmentTestUtil.startFragment(errorDialogFragment);
+//        SupportFragmentTestUtil.startFragment(errorDialogFragment);
     }
 
     @Test

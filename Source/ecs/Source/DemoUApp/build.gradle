@@ -22,6 +22,7 @@ android {
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
         multiDexEnabled true
+        manifestPlaceholders = ['appAuthRedirectScheme': '']
 
     }
 
@@ -83,6 +84,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.androidx.appcompat
 
     implementation deps.volley
     implementation deps.calligraphy

@@ -68,7 +68,7 @@ public class MyaBaseFragmentTest {
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
-        SupportFragmentTestUtil.startFragment(myaBaseFragment);
+//        SupportFragmentTestUtil.startFragment(myaBaseFragment);
         assertNotNull(myaBaseFragment.getFragmentActivity());
     }
 
@@ -146,7 +146,7 @@ public class MyaBaseFragmentTest {
         ActionBarListener actionBarListener = mock(ActionBarListener.class);
         myaBaseFragment = new MyaSettingsFragment();
         myaBaseFragment.setActionbarUpdateListener(actionBarListener);
-        startFragment(myaBaseFragment);
+//        startFragment(myaBaseFragment);
         verify(actionBarListener).updateActionBar(myaBaseFragment.getActionbarTitleResId(),myaBaseFragment.getBackButtonState());
         verify(actionBarListener).updateActionBar(myaBaseFragment.getActionbarTitle(RuntimeEnvironment.application),myaBaseFragment.getBackButtonState());
     }

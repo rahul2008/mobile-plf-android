@@ -70,7 +70,7 @@ public class MyaSettingsFragmentTest {
         MyaHelper.getInstance().setAppInfra(appInfra);
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
-        SupportFragmentTestUtil.startFragment(myaSettingsFragment);
+//        SupportFragmentTestUtil.startFragment(myaSettingsFragment);
         myaLaunchInput.setSettingsMenuList(arrayList);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }

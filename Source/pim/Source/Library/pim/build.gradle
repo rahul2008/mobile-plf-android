@@ -55,6 +55,11 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 }
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'

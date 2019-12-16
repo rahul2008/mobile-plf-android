@@ -47,7 +47,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class IAPActivity extends UIDActivity implements ActionBarListener, IAPListener {
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;

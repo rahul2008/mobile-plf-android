@@ -60,7 +60,7 @@ public class MyaProfileFragmentTest {
         AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
         myaProfileFragment = new MyaProfileFragment();
-        SupportFragmentTestUtil.startFragment(myaProfileFragment);
+//        SupportFragmentTestUtil.startFragment(myaProfileFragment);
         myaProfileFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
 

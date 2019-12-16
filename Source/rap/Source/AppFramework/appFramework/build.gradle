@@ -151,6 +151,11 @@ android {
         def buildtype = "${variant.buildType.name.capitalize()}"
         tasks["compile${productFlavor}${buildtype}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildtype}Assets"])
     }
+
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 }
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'

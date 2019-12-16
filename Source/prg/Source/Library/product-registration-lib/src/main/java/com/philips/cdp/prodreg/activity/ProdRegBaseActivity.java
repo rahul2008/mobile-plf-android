@@ -37,7 +37,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.ArrayList;
 
-import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT;
 

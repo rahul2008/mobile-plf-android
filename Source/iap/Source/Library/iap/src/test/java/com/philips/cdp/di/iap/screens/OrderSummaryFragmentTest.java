@@ -79,7 +79,7 @@ public class OrderSummaryFragmentTest {
     @Test(expected = RuntimeException.class)
     public void shouldDisplayAddressSelectionFragment() {
 
-        SupportFragmentTestUtil.startFragment(orderSummaryFragment);
+//        SupportFragmentTestUtil.startFragment(orderSummaryFragment);
     }
 
     @Test

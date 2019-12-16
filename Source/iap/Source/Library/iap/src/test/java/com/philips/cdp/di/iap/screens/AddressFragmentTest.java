@@ -83,7 +83,7 @@ public class AddressFragmentTest {
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
 
-        SupportFragmentTestUtil.startFragment(addressFragment);
+//        SupportFragmentTestUtil.startFragment(addressFragment);
     }
 
     @Test(expected = NullPointerException.class)

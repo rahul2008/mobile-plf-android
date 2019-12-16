@@ -62,7 +62,7 @@ public class ChatFragmentTest {
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
-        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
+//        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
     }
 
@@ -82,7 +82,7 @@ public class ChatFragmentTest {
 
     @Test
     public void tesChatNow(){
-        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
+//        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
         digitalCareBaseFragmentspy=spy(fragment);
         DigitalCareBaseFragment.isInternetAvailable = true;
         digitalCareBaseFragmentspy.getView().findViewById(R.id.chatNow).performClick();

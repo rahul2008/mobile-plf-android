@@ -37,7 +37,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
 
-import io.github.inflationx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.

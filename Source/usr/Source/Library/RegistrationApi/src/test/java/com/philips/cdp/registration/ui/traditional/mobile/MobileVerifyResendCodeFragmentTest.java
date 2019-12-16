@@ -38,6 +38,6 @@ public class MobileVerifyResendCodeFragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void should_startFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(mobileVerifyResendCodeFragment);
+//        SupportFragmentTestUtil.startFragment(mobileVerifyResendCodeFragment);
     }
 }
