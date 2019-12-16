@@ -40,7 +40,6 @@ class EcsProductViewModelTest {
     @Mock
     lateinit var ecsServices: ECSServices
 
-    @Mock
     lateinit var eCSCatalogRepository: ECSCatalogRepository
 
 
@@ -51,6 +50,7 @@ class EcsProductViewModelTest {
         MecHolder.INSTANCE.eCSServices = ecsServices
 
         ecsProductViewModel = EcsProductViewModel()
+        eCSCatalogRepository = ECSCatalogRepository()
     }
 
 
@@ -58,25 +58,5 @@ class EcsProductViewModelTest {
     fun fetchProductReview_Success() {
         ecsProductViewModel.init(0,20)
         Mockito.verify(ecsCatalogRepository)?.getProducts(0,20,ecsProductViewModel)
-    }
-
-    @Test
-    fun fetchProductReview_error() {
-        // Mock response with error
-        Mockito.`when`(this.eCSCatalogRepository.fetchProductReview(ArgumentMatchers.anyList(), ecsProductViewModel)).thenAnswer {
-            return@thenAnswer   SocketException(SocketException("No network here").toString())
-        }
-
-        // Attacch fake observer
-        val observer = Mockito.mock(Observer::class.java) as Observer<MutableList<MECProductReview>>
-        this.ecsProductViewModel.ecsProductsReviewList.observeForever(observer)
-
-        // Invoke
-        this.ecsProductViewModel.fetchProductReview(ArgumentMatchers.anyList())
-
-        // Assertions
-        assertNotNull(this.ecsProductViewModel.ecsProductsReviewList.value)
-       // assertEquals(LiveDataResult.Status.ERROR, this.mainViewModel.repositoriesLiveData.value?.status)
-        //assert(this.ecsProductViewModel.ecsProductsReviewList.value?.err is Throwable)
     }
 }
