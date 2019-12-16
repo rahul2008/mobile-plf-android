@@ -100,5 +100,6 @@ public class PIMActivity extends UIDActivity implements ActionBarListener, UserL
     public void onLoginFailed(Error error) {
         mUserLoginListener.onLoginFailed(error);
         mLoggingInterface.log(DEBUG, TAG, "Login Failed : Code " + error.getErrCode() + "and error description " + error.getErrDesc());
+        this.finish();
     }
 }
