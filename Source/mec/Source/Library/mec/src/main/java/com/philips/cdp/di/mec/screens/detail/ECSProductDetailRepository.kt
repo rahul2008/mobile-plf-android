@@ -52,7 +52,7 @@ class ECSProductDetailRepository(val ecsProductDetailViewModel: EcsProductDetail
 
     }
 
-    fun getRatings(ctn: String, ecsProductDetailViewModel: EcsProductDetailViewModel) {
+    fun getRatings(ctn: String) {
 
         val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
             override fun onSuccess(response: BulkRatingsResponse) {

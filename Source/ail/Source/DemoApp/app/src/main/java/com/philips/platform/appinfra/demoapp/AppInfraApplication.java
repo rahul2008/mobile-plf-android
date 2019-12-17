@@ -15,7 +15,7 @@ import com.philips.platform.appinfra.demoapp.abtesting.AbTestingImpl;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class AppInfraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
 
         AbTestingImpl abTestingImpl = new AbTestingImpl();
         abTestingImpl.initFireBase();

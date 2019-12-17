@@ -8,10 +8,14 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import com.philips.cdp.di.ecs.ECSServices
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
 import kotlinx.android.synthetic.main.mec_product_details.*
@@ -22,22 +26,26 @@ class EcsProductViewModel : CommonViewModel() {
 
     val ecsProductsReviewList = MutableLiveData<MutableList<MECProductReview>>()
 
+    val ecsServices = MecHolder.INSTANCE.eCSServices
+
+    var ecsCatalogRepository = ECSCatalogRepository()
+
 
     fun init(pageNumber: Int, pageSize: Int) {
-        ECSCatalogRepository().getProducts(pageNumber, pageSize, this)
+        ecsCatalogRepository.getProducts(pageNumber, pageSize,this,ecsServices)
     }
 
     fun initCategorizedRetailer(ctn: MutableList<String>) {
-        ECSCatalogRepository().getCategorizedProductsforRetailer(ctn, this)
+        ecsCatalogRepository.getCategorizedProductsforRetailer(ctn, this)
     }
 
 
     fun initCategorized(pageNumber: Int, pageSize: Int, ctns: List<String>) {
-        ECSCatalogRepository().getCategorizedProducts(pageNumber, pageSize, ctns, this)
+        ecsCatalogRepository.getCategorizedProducts(pageNumber, pageSize, ctns, this)
     }
 
     fun fetchProductReview(products: List<ECSProduct>) {
-        ECSCatalogRepository().fetchProductReview(products, this)
+        ecsCatalogRepository.fetchProductReview(products, this)
     }
 
 

@@ -24,7 +24,6 @@ group = 'com.philips.platform'
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     testOptions {
         unitTests.all {
