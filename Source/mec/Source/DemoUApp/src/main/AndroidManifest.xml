@@ -7,6 +7,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application android:theme="@style/Theme.DLS">
+        <activity android:name=".DemoLauncherActivity"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".LaunchAsFragment" />
+        <activity android:name=".LaunchAsActivity" />
+        <activity android:name=".BaseDemoActivity" />
         <activity
             android:name=".DemoActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"

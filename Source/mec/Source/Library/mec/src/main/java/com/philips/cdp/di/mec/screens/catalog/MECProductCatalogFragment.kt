@@ -315,7 +315,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
         val mecPrivacyFragment = MecPrivacyFragment()
         mecPrivacyFragment.arguments = bundle
-        replaceFragment(mecPrivacyFragment,"privacy",true)
+        addFragment(mecPrivacyFragment,"privacy",true)
     }
 
 
@@ -366,7 +366,18 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
         }
 
-        return false;
+        return false
+    }
+
+    override fun handleBackEvent(): Boolean {
+        if (activity != null && activity is MECLauncherActivity) {
+            val count = fragmentManager!!.backStackEntryCount
+            for (i in 0 until count) {
+                fragmentManager!!.popBackStack()
+            }
+            finishActivity()
+        }
+        return super.handleBackEvent()
     }
 
     override fun processError(mecError: MecError?){

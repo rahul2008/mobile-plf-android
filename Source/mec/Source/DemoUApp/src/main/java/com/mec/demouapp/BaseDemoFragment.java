@@ -1,5 +1,6 @@
 package com.mec.demouapp;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,22 +11,22 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -40,7 +41,6 @@ import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
-import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -56,6 +56,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -73,11 +74,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class DemoActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
-        UserRegistrationUIEventListener, MECBannerEnabler, CompoundButton.OnCheckedChangeListener {
+import static android.content.Context.MODE_PRIVATE;
 
-    private final String TAG = DemoActivity.class.getSimpleName();
+
+public class BaseDemoFragment extends Fragment implements View.OnClickListener, MECListener,
+        UserRegistrationUIEventListener, MECBannerEnabler,ActionBarListener, CompoundButton.OnCheckedChangeListener {
+
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private LinearLayout mAddCTNLl, mLL_voucher;
     private FrameLayout mShoppingCart;
@@ -95,6 +99,9 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> mCategorizedProductList;
     private TextView mTitleTextView;
     private TextView mCountText;
+    private RelativeLayout DemoContentBody;
+    private FrameLayout fragmentContainer;
+    private ImageView mBackImage;
 
     private MECInterface mMecInterface;
     private MECLaunchInput mMecLaunchInput;
@@ -121,31 +128,31 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup rgVoucher,rgLauncher;
     private CheckBox bvCheckBox;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
+    private View rootView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        initTheme();
-        super.onCreate(savedInstanceState);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         urInterface = new URInterface();
-        urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new MecDemoAppSettings(getApplicationContext()));
+        urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
 
         ignorelistedRetailer = new ArrayList<>();
-        setContentView(R.layout.activity_demo);
-
-        showAppVersion();
-        mEtCTN = findViewById(R.id.et_add_ctn);
-        mEtVoucherCode = findViewById(R.id.et_add_voucher);
-        mAddCTNLl = findViewById(R.id.ll_ctn);
-        bvCheckBox = findViewById(R.id.bv_checkbox);
+        rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
+        mEtCTN = rootView.findViewById(R.id.et_add_ctn);
+        mEtVoucherCode = rootView.findViewById(R.id.et_add_voucher);
+        mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
+        bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
         bvCheckBox.setOnCheckedChangeListener(this);
 
+        DemoContentBody  = rootView.findViewById(R.id.demo_content_layout);
+        fragmentContainer  = rootView.findViewById(R.id.mec_fragment_container);
 
-        mEtPropositionId = findViewById(R.id.et_add_proposition_id);
-        mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
+
+        mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
+        mBtnSetPropositionId = rootView.findViewById(R.id.btn_set_proposition_id);
 
 
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
         AppConfigurationInterface configInterface = appInfra.getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
@@ -154,20 +161,19 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
 
         mecBazaarVoiceInput = new MECBazaarVoiceInput();
-
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 configInterface.setPropertyForKey("propositionid", "MEC", mEtPropositionId.getText().toString(), configError);
 
-                Toast.makeText(DemoActivity.this, "Proposition id is set", Toast.LENGTH_SHORT).show();
-                finishAffinity();
+                Toast.makeText(getActivity(), "Proposition id is set", Toast.LENGTH_SHORT).show();
+                getActivity().finishAffinity();
                 System.exit(0);
             }
         });
 
-        toggleMock = findViewById(R.id.toggleMock);
+        toggleMock = rootView.findViewById(R.id.toggleMock);
 
         toggleMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -178,7 +184,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        toggleBanner = findViewById(R.id.toggleBanner);
+        toggleBanner = rootView.findViewById(R.id.toggleBanner);
 
         toggleBanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -189,7 +195,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        toggleHybris = findViewById(R.id.toggleHybris);
+        toggleHybris = rootView.findViewById(R.id.toggleHybris);
         toggleHybris.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -198,8 +204,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        rgVoucher = findViewById(R.id.rg_voucher);
-        rgLauncher = findViewById(R.id.rg_launcher);
+        rgVoucher = rootView.findViewById(R.id.rg_voucher);
+        rgLauncher = rootView.findViewById(R.id.rg_launcher);
 
 
 
@@ -217,7 +223,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        toggleListener = findViewById(R.id.toggleListener);
+        toggleListener = rootView.findViewById(R.id.toggleListener);
 
         toggleListener.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -227,7 +233,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        Button btnSetMaxCount = findViewById(R.id.btn_set_max_Count);
+        Button btnSetMaxCount = rootView.findViewById(R.id.btn_set_max_Count);
 
         btnSetMaxCount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,90 +242,59 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        mEtMaxCartCount = findViewById(R.id.et_max_cart_count);
+        mEtMaxCartCount = rootView.findViewById(R.id.et_max_cart_count);
 
-        mRegister = findViewById(R.id.btn_register);
+        mRegister = rootView.findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
 
-        mBuyDirect = findViewById(R.id.btn_buy_direct);
+        mBuyDirect = rootView.findViewById(R.id.btn_buy_direct);
         mBuyDirect.setOnClickListener(this);
 
-        mShopNow = findViewById(R.id.btn_shop_now);
+        mShopNow = rootView.findViewById(R.id.btn_shop_now);
         mShopNow.setOnClickListener(this);
 
-        mPurchaseHistory = findViewById(R.id.btn_purchase_history);
+        mPurchaseHistory = rootView.findViewById(R.id.btn_purchase_history);
         mPurchaseHistory.setOnClickListener(this);
 
-        mLaunchProductDetail = findViewById(R.id.btn_launch_product_detail);
+        mLaunchProductDetail = rootView.findViewById(R.id.btn_launch_product_detail);
         mLaunchProductDetail.setOnClickListener(this);
 
-        mShoppingCart = findViewById(R.id.mec_demo_app_shopping_cart_icon);
+        mShoppingCart = rootView.findViewById(R.id.mec_demo_app_shopping_cart_icon);
 
-        mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
+        mShopNowCategorized = rootView.findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
 
 
-        mLL_voucher = findViewById(R.id.ll_voucher);
-        mLL_propositionId = findViewById(R.id.ll_enter_proposition_id);
+        mLL_voucher = rootView.findViewById(R.id.ll_voucher);
+        mLL_propositionId = rootView.findViewById(R.id.ll_enter_proposition_id);
 
-        mAddCtn = findViewById(R.id.btn_add_ctn);
+        mAddCtn = rootView.findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
-        mBtn_add_voucher = findViewById(R.id.btn_add_voucher);
+        mBtn_add_voucher = rootView.findViewById(R.id.btn_add_voucher);
         mBtn_add_voucher.setOnClickListener(this);
 
-        mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
+        mShopNowCategorizedWithRetailer = rootView.findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
 
-        mCartIcon = findViewById(R.id.mec_demo_app_cart_iv);
-        mCountText = findViewById(R.id.mec_demo_app_item_count);
+        mCartIcon = rootView.findViewById(R.id.mec_demo_app_cart_iv);
+        mCountText = rootView.findViewById(R.id.mec_demo_app_item_count);
 
         mCategorizedProductList = new ArrayList<>();
-
-       /* SCF184/13
-        SCF782/10
-        SCF782/28
-        SCF170/22
-        SCF782/28*/
-
-       /* mCategorizedProductList.add("SCF184/13");
-        mCategorizedProductList.add("SCF782/10");
-        mCategorizedProductList.add("SCF782/28");
-        mCategorizedProductList.add("SCF170/22");
-
-        mCategorizedProductList.add("PABITRA/22");*/
-
-
-
-        //  ["HD9745/90","HD9630/90","HD9240/90","HD9621/90","HD9651/90","HD9650/90R1","HD9652/90","HD9910/20","HD9654/90",
-        //  "HD9216/80","HD9630/20","HD9220/20","HD9621/80","HD9750/90","HD9750/20","HD9762/90","HD9216/80R1","HD9621/70","HD9741/10"]
-
-       /* mCategorizedProductList.add("HD9745/90000");
-        mCategorizedProductList.add("HD9630/90");
-        mCategorizedProductList.add("HD9240/90");
-        mCategorizedProductList.add("HD9621/90");
-        mCategorizedProductList.add("HD9651/90");
-        mCategorizedProductList.add("HD9650/90");
-        mCategorizedProductList.add("HD9910/20");
-        mCategorizedProductList.add("HD9654/90");
-        mCategorizedProductList.add("HD9216/80");
-        mCategorizedProductList.add("HD9630/20");
-        mCategorizedProductList.add("HD9220/20");
-        mCategorizedProductList.add("HD9621/80");
-        mCategorizedProductList.add("HD9750/20");
-        mCategorizedProductList.add("HD9216/80R1");
-        mCategorizedProductList.add("HD9621/70");
-        mCategorizedProductList.add("HD9741/10");*/
 
         mUserDataInterface = urInterface.getUserDataInterface();
 
 
         mMecInterface = new MECInterface();
-        mMecSettings = new MECSettings(this);
+        mMecSettings = new MECSettings(getActivity());
         actionBar();
         initializeMECComponant();
         initializeBazaarVoice();
-}
+
+
+        return rootView;
+
+    }
 
     private void initializeMECComponant() {
         toggleHybris.setVisibility(View.VISIBLE);
@@ -338,12 +313,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         ignorelistedRetailer.add("Amazon - US");
         ignorelistedRetailer.add("BestBuy.com");
 
-        UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(this));
-        UappSettings uappSettings = new UappSettings(getApplicationContext());
+        UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(getActivity()));
+        UappSettings uappSettings = new UappSettings(getContext());
 
         urInterface.init(uappDependencies, uappSettings);
 
-        MECDependencies mIapDependencies = new MECDependencies(new AppInfra.Builder().build(this), urInterface.getUserDataInterface());
+        MECDependencies mIapDependencies = new MECDependencies(new AppInfra.Builder().build(getActivity()), urInterface.getUserDataInterface());
 
         try {
             mMecInterface.init(mIapDependencies, mMecSettings);
@@ -357,42 +332,15 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mMecLaunchInput.setMecListener(this);
 
 
-            mMecLaunchInput.mecBannerEnabler = this::getBannerView;
-            mMecLaunchInput.setHybrisEnabled(this.isHybrisEnable);
+        mMecLaunchInput.mecBannerEnabler = this::getBannerView;
+        mMecLaunchInput.setHybrisEnabled(this.isHybrisEnable);
         mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
 
 
     }
 
-    /*private void displayUIOnCartVisible() {
-        if(isUserLoggedIn()) {
-            showProgressDialog();
-            mMecInterface.isCartVisible(this);
-        }
-    }
-
-
-
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        //This is added to clear pagination data from app memory . This should be taken in tech debt .
-        //CartModelContainer.getInstance().clearProductList();
-        MECUtility.getInstance().resetPegination();
-
-
-        if(isUserLoggedIn()) {
-            try {
-               // mIapInterface.getProductCartCount(this);
-            }catch (Exception e){
-
-            }
-        }
-    }*/
-
-    @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         mShoppingCart.setOnClickListener(this);
     }
@@ -434,7 +382,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mShoppingCart.setVisibility(View.VISIBLE);
 
         dismissProgressDialog();
-       // mIapInterface.getProductCartCount(this);
+        // mIapInterface.getProductCartCount(this);
 
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
@@ -450,42 +398,33 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void initTheme() {
-        int themeResourceID = new ThemeHelper(this).getThemeResourceId();
-        int themeIndex = themeResourceID;
-        if (themeIndex <= 0) {
-            themeIndex = DEFAULT_THEME;
-        }
-        getTheme().applyStyle(themeIndex, true);
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-
-    }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         mCategorizedProductList.clear();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
     }
 
     private void actionBar() {
-        FrameLayout frameLayout = findViewById(R.id.mec_demo_app_header_back_button_framelayout);
+        FrameLayout frameLayout = rootView.findViewById(R.id.mec_demo_app_header_back_button_framelayout);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onBackPressed();
+                getActivity().onBackPressed();
             }
         });
 
-        ImageView mBackImage = findViewById(R.id.mec_demo_app_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.mec_demo_app_back_arrow, getTheme());
+        mBackImage = rootView.findViewById(R.id.mec_demo_app_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.mec_demo_app_back_arrow, getActivity().getTheme());
         mBackImage.setBackground(mBackDrawable);
-        mTitleTextView = findViewById(R.id.mec_demo_app_header_title);
-        setTitle(getString(R.string.mec_app_name));
+        mTitleTextView = rootView.findViewById(R.id.mec_demo_app_header_title);
+        mTitleTextView.setText(R.string.mec_app_name);
+        //getActivity().setTitle(getString(R.string.mec_app_name));
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -495,11 +434,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
-        mTitleTextView.setText(title);
-    }
+
 
     private void launchMEC(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
 
@@ -511,34 +446,38 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode, pIgnoreRetailerList);
 
         try {
-            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+            DemoContentBody.setVisibility(View.VISIBLE);
+            fragmentContainer.setVisibility(View.GONE);
+            int themeResourceID = new ThemeHelper(getActivity()).getThemeResourceId();
             mMecInterface.launch(new ActivityLauncher
-                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
+                            (getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
                     mMecLaunchInput);
 
         } catch (RuntimeException exception) {
-            Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void launchMECasFragment(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
 
+        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
         if (pIgnoreRetailerList == null)
             mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode);
         else
             mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode, pIgnoreRetailerList);
 
         try {
-            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
-            mMecInterface.launch(new FragmentLauncher(this, R.id.mec_fragment_container, null),
+
+            DemoContentBody.setVisibility(View.GONE);
+            fragmentContainer.setVisibility(View.VISIBLE);
+            mMecInterface.launch(new FragmentLauncher(getActivity(), R.id.mec_fragment_container, this),
                     mMecLaunchInput);
 
         } catch (RuntimeException exception) {
-            Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public void onClick(final View view) {
@@ -547,22 +486,34 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         if (view == mShoppingCart) {
 
         } else if (view == mShopNow) {
-            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), null, null);
+            if(getActivity() instanceof LaunchAsActivity) {
+                launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), null, null);
+            } else if (getActivity() instanceof LaunchAsFragment) {
+                launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), null, null);
+            }
         } else if (view == mPurchaseHistory) {
-            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PURCHASE_HISTORY_VIEW(), null, null);
+
         } else if (view == mLaunchProductDetail) {
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList.get(0));
-                launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
+                if(getActivity() instanceof LaunchAsActivity) {
+                    launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
+                } else if (getActivity() instanceof LaunchAsFragment) {
+                    launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
+                }
             } else {
-                Toast.makeText(DemoActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList);
-                launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                if(getActivity() instanceof LaunchAsActivity) {
+                    launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                } else if (getActivity() instanceof LaunchAsFragment) {
+                    launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                }
             } else {
-                Toast.makeText(DemoActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mShopNowCategorizedWithRetailer) {
 
@@ -574,20 +525,20 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                     mUserDataInterface.logoutSession(new LogoutSessionListener() {
                         @Override
                         public void logoutSessionSuccess() {
-                            finish();
+                            getActivity().finish();
                         }
 
                         @Override
                         public void logoutSessionFailed(Error error) {
-                            Toast.makeText(DemoActivity.this, "Logout went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Logout went wrong", Toast.LENGTH_SHORT).show();
                         }
 
                     });
                 } else {
-                    Toast.makeText(DemoActivity.this, "User is not logged in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "User is not logged in", Toast.LENGTH_SHORT).show();
                 }
             } else
-             {
+            {
 
                 gotoLogInScreen();
             }
@@ -620,7 +571,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
 
 
-        ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.
+        ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.
                 ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
         urInterface.launch(activityLauncher, urLaunchInput);
     }
@@ -628,11 +579,11 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private void showAppVersion() {
         String code = null;
         try {
-            code = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            code = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             //IAPLog.e(IAPLog.LOG, e.getMessage());
         }
-        TextView versionView = findViewById(R.id.appversion);
+        TextView versionView = rootView.findViewById(R.id.appversion);
         versionView.setText(String.valueOf(code));
     }
 
@@ -650,7 +601,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             errorText = "Invalid ctn";
         }
         if (errorText != null) {
-            Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity(), errorText, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -742,31 +693,22 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "landscape", Toast.LENGTH_SHORT).show();
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "portrait", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        startActivity(intent);
-    }
 
     public void showProgressDialog() {
-        mProgressDialog = new ProgressDialog(UIDHelper.getPopupThemedContext(this));
+        mProgressDialog = new ProgressDialog(UIDHelper.getPopupThemedContext(getActivity()));
         mProgressDialog.getWindow().setGravity(Gravity.CENTER);
         mProgressDialog.setCancelable(false);
         mProgressDialog.setMessage("Please wait" + "...");
 
-        if ((!mProgressDialog.isShowing()) && !(DemoActivity.this).isFinishing()) {
+        if ((!mProgressDialog.isShowing()) && !(getActivity()).isFinishing()) {
             mProgressDialog.show();
-           mProgressDialog.setContentView(R.layout.progressbar_dls);
+            mProgressDialog.setContentView(R.layout.progressbar_dls);
         }
     }
 
@@ -805,7 +747,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     public String loadJSONFromAsset(String fileName) {
         String json = null;
         try {
-            InputStream is = this.getAssets().open(fileName);
+            InputStream is = getActivity().getAssets().open(fileName);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -823,7 +765,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public View getBannerView() {
         if (isBannerEnabled) {
-            LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.banner_view, null);
             return v;
         }
@@ -844,7 +786,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         AlertDialog OptionDialog = builder.create();
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -868,16 +810,16 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setBazaarVoiceEnvironmentToProd(){
         String env= (bvCheckBox.isChecked()) ? BazaarVoiceEnvironment.PRODUCTION.toString(): BazaarVoiceEnvironment.STAGING.toString();
-        SharedPreferences preferences = getSharedPreferences("bvEnv", MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences("bvEnv", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("BVEnvironment", env);
         editor.commit();
-        finishAffinity();
+        getActivity().finishAffinity();
         System.exit(0);
     }
 
     private void initializeBazaarVoice(){
-        SharedPreferences shared = getSharedPreferences("bvEnv", MODE_PRIVATE);
+        SharedPreferences shared = getActivity().getSharedPreferences("bvEnv", MODE_PRIVATE);
         String name = (shared.getString("BVEnvironment", BazaarVoiceEnvironment.PRODUCTION.toString()));
         if(name.equalsIgnoreCase(BazaarVoiceEnvironment.PRODUCTION.toString())) {
             bvCheckBox.setChecked(true);
@@ -939,5 +881,31 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void updateActionBar(int resId, boolean enableBackKey) {
+        updateActionBar(getString(resId),enableBackKey);
+    }
+
+    /**
+     * For setting the title of action bar and to set back key Enabled/Disabled
+     *
+     * @param resString     The String to be displayed
+     * @param enableBackKey To set back key enabled or disabled
+     * @since 1.0.0
+     */
+    @Override
+    public void updateActionBar(String resString, boolean enableBackKey) {
+        mTitleTextView.setText(resString);
+        if (enableBackKey) {
+            mBackImage.setVisibility(View.VISIBLE);
+            // For arabic, Hebrew and Perssian the back arrow change from left to right
+            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
+                mBackImage.setRotation(180);
+            }
+        } else {
+            mBackImage.setVisibility(View.GONE);
+        }
+    }
 }
+
 
