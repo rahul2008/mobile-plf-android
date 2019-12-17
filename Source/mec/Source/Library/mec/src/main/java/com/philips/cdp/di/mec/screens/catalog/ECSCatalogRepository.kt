@@ -1,6 +1,5 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import android.arch.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.error.ECSError
@@ -16,26 +15,8 @@ import java.text.DecimalFormat
 class ECSCatalogRepository {
 
 
-    fun getProducts(pageNumber: Int, pageSize: Int, ecsProductViewModel:EcsProductViewModel, eCSServices: ECSServices) {
-
-        eCSServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsProductViewModel.mecError.value = mecError
-            }
-
-            override fun onResponse(ecsProducts: ECSProducts) {
-
-               val mutableLiveData = ecsProductViewModel.ecsProductsList
-
-                val value = mutableList(mutableLiveData)
-
-                value.add(ecsProducts)
-                mutableLiveData.value = value
-            }
-
-        })
+    fun getProducts(pageNumber: Int, pageSize: Int, ecsCallback: ECSProductsCallback, eCSServices: ECSServices) {
+        eCSServices.fetchProducts(pageNumber, pageSize, ecsCallback)
     }
 
 
@@ -181,9 +162,5 @@ class ECSCatalogRepository {
 
     infix fun String.isEqualsTo(value: String): Boolean = this.replace("/", "_").equals(value)
 
-    private fun mutableList(mutableLiveData: MutableLiveData<MutableList<ECSProducts>>): MutableList<ECSProducts> {
-        if (mutableLiveData.value.isNullOrEmpty()) mutableLiveData.value = mutableListOf<ECSProducts>()
-        return mutableLiveData.value!!
-    }
 }
 
