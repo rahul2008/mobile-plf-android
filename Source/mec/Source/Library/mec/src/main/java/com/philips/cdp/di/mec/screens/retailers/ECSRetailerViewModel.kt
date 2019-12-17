@@ -4,20 +4,23 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.platform.uid.view.widget.Label
 
 class ECSRetailerViewModel : CommonViewModel() {
 
     val ecsRetailerList = MutableLiveData<ECSRetailerList>()
 
+    var ecsServices = MecHolder.INSTANCE.eCSServices
+
+    var ecsRetailersRepository =  ECSRetailersRepository(ecsServices,this)
 
     fun getRetailers (ctn:String){
-        ECSRetailersRepository().getRetailers(ctn,this)
+        ecsRetailersRepository.getRetailers(ctn)
     }
 
     companion object DataBindingAdapter {

@@ -25,16 +25,6 @@ class SpecificationRepository {
         val mRequestManager = RequestManager()
         val prxDependencies = PRXDependencies(context,MECDataHolder.INSTANCE.appinfra, MECConstant.COMPONENT_NAME)
         mRequestManager.init(prxDependencies)
-
-
-        mRequestManager.executeRequest(productSpecificationRequest,object:ResponseListener{
-            override fun onResponseSuccess(responseData: ResponseData?) {
-                prxSpecificationViewModel.specification.value = responseData as SpecificationModel
-            }
-
-            override fun onResponseError(prxError: PrxError?) {
-                val description = prxError?.description
-            }
-        })
+        mRequestManager.executeRequest(productSpecificationRequest,PRXSpecificationResponseCallback(prxSpecificationViewModel))
     }
 }

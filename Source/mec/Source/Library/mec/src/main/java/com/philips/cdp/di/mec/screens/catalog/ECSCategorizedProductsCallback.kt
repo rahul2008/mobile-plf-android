@@ -5,7 +5,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.common.MecError
 
-class ECSProductsCallback(private var ecsProductViewModel:EcsProductViewModel) : ECSCallback<ECSProducts, Exception> {
+class ECSCategorizedProductsCallback(private var  ctns: List<String> ,private var ecsProductViewModel:EcsProductViewModel) : ECSCallback<ECSProducts, Exception> {
 
     override fun onResponse(ecsProducts: ECSProducts?) {
 
