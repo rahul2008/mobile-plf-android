@@ -82,7 +82,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class BaseDemoFragment extends Fragment implements View.OnClickListener, MECListener,
         UserRegistrationUIEventListener, MECBannerEnabler,ActionBarListener, CompoundButton.OnCheckedChangeListener {
 
-    private final String TAG = DemoActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private LinearLayout mAddCTNLl, mLL_voucher;
     private FrameLayout mShoppingCart;
