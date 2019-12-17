@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.mec_product_details.*
 
 class EcsProductViewModel : CommonViewModel() {
 
-    val ecsProductsList = MutableLiveData<MutableList<ECSProducts>>()
+    var ecsProductsList = MutableLiveData<MutableList<ECSProducts>>()
 
     val ecsProductsReviewList = MutableLiveData<MutableList<MECProductReview>>()
 
@@ -30,9 +30,11 @@ class EcsProductViewModel : CommonViewModel() {
 
     var ecsCatalogRepository = ECSCatalogRepository()
 
+    var ecsProductsCallback = ECSProductsCallback(this)
+
 
     fun init(pageNumber: Int, pageSize: Int) {
-        ecsCatalogRepository.getProducts(pageNumber, pageSize,this,ecsServices)
+        ecsCatalogRepository.getProducts(pageNumber, pageSize,ecsProductsCallback,ecsServices)
     }
 
     fun initCategorizedRetailer(ctn: MutableList<String>) {
