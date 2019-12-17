@@ -424,7 +424,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.mec_demo_app_back_arrow, getActivity().getTheme());
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = rootView.findViewById(R.id.mec_demo_app_header_title);
-        getActivity().setTitle(getString(R.string.mec_app_name));
+        mTitleTextView.setText(R.string.mec_app_name);
+        //getActivity().setTitle(getString(R.string.mec_app_name));
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -492,18 +493,26 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), null, null);
             }
         } else if (view == mPurchaseHistory) {
-            launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PURCHASE_HISTORY_VIEW(), null, null);
+
         } else if (view == mLaunchProductDetail) {
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList.get(0));
-                launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
+                if(getActivity() instanceof LaunchAsActivity) {
+                    launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
+                } else if (getActivity() instanceof LaunchAsFragment) {
+                    launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
+                }
             } else {
                 Toast.makeText(getActivity(), "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList);
-                launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                if(getActivity() instanceof LaunchAsActivity) {
+                    launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                } else if (getActivity() instanceof LaunchAsFragment) {
+                    launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                }
             } else {
                 Toast.makeText(getActivity(), "Please add CTN", Toast.LENGTH_SHORT).show();
             }
