@@ -49,7 +49,7 @@ class USRTokenManager {
     private LoggingInterface mLoggingInterface;
     private AppInfraInterface appInfraInterface;
 
-    public USRTokenManager(AppInfraInterface mAppInfraInterface) {
+    USRTokenManager(AppInfraInterface mAppInfraInterface) {
         this.appInfraInterface = mAppInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }

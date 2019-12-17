@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -162,6 +161,13 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void initTheme() {
         int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
         if (themeIndex <= 0) {
@@ -176,6 +182,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         if (v == btnLaunchAsActivity) {
             if (!isUSR) {
                 PIMLaunchInput launchInput = new PIMLaunchInput();
+                launchInput.setUserLoginListener(this);
                 ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
                 pimInterface.launch(activityLauncher, launchInput);
             }

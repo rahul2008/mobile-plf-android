@@ -40,7 +40,7 @@ class PIMMigrationManager {
     private PIMUserMigrationListener pimUserMigrationListener;
     private final String MIGRATION_BASE_URL = "userreg.janrainoidc.migration";
 
-    public PIMMigrationManager(Context context, PIMUserMigrationListener pimUserMigrationListener) {
+    PIMMigrationManager(Context context, PIMUserMigrationListener pimUserMigrationListener) {
         mContext = context;
         this.pimUserMigrationListener = pimUserMigrationListener;
         pimLoginManager = new PIMLoginManager(mContext, PIMSettingManager.getInstance().getPimOidcConfigration());
@@ -52,8 +52,8 @@ class PIMMigrationManager {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 ServiceDiscoveryService serviceDiscoveryService = urlMap.get(MIGRATION_BASE_URL);
-                String idAssertionUrl = serviceDiscoveryService.getConfigUrls();
-                String locale = serviceDiscoveryService.getLocale();
+                String idAssertionUrl = serviceDiscoveryService != null ? serviceDiscoveryService.getConfigUrls() : null;
+                String locale = serviceDiscoveryService != null ? serviceDiscoveryService.getLocale() : null;
                 mLoggingInterface.log(DEBUG, TAG, "downloadIDAssertionUrlFromSD onSuccess. Url : " + idAssertionUrl + " Locale : " + locale);
                 performIDAssertion(idAssertionUrl, usrAccessToken);
             }
@@ -81,7 +81,7 @@ class PIMMigrationManager {
         authorizationRequest = pimLoginManager.createAuthRequestUriForMigration(createAdditionalParameterForMigration(id_token_hint));
         if (authorizationRequest == null) {
             mLoggingInterface.log(DEBUG, TAG, "performAuthorization failed. Cause : authorizationRequest is null.");
-            pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
+            pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
             return;
         }
         PIMMigrationAuthRequest pimMigrationAuthRequest = new PIMMigrationAuthRequest(authorizationRequest.toUri().toString());
@@ -90,10 +90,10 @@ class PIMMigrationManager {
         pimRestClient.invokeRequest(pimMigrationAuthRequest, getSuccessListener(pimMigrationAuthRequest), getErrorListener(pimMigrationAuthRequest));
     }
 
-    private Response.Listener getSuccessListener(PIMRequestInterface reqType) {
-        return (Response.Listener<String>) response -> {
+    private Response.Listener<String> getSuccessListener(PIMRequestInterface reqType) {
+        return response -> {
             if (response == null) {
-                pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
+                pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
                 return;
             }
             if (reqType instanceof IDAssertionRequest) {
@@ -102,7 +102,7 @@ class PIMMigrationManager {
                 performAuthorization(id_token_hint);
             } else if (reqType instanceof PIMMigrationAuthRequest) {
                 mLoggingInterface.log(DEBUG, TAG, "Token auth request failed."); //PIMMigrationAuthRequest response comes with 302 code and volley throw 302 response code in error.So,handling in error listener
-                pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
+                pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
             }
         };
     }
@@ -116,7 +116,7 @@ class PIMMigrationManager {
 
             if (reqType instanceof IDAssertionRequest) {
                 mLoggingInterface.log(DEBUG, TAG, "Failed in ID Assertion Request. Error : " + error.getMessage());
-                pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
+                pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
             } else if (reqType instanceof PIMMigrationAuthRequest) {
                 NetworkResponse networkResponse = error.networkResponse;
                 if (networkResponse != null && networkResponse.statusCode == 302) {
@@ -125,7 +125,7 @@ class PIMMigrationManager {
                     pimLoginManager.exchangeAuthorizationCodeForMigration(authorizationRequest, authRsponse, pimUserMigrationListener);
                 } else {
                     mLoggingInterface.log(DEBUG, TAG, "Token auth request failed.");
-                    pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
+                    pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
                 }
             }
         };
@@ -143,11 +143,10 @@ class PIMMigrationManager {
         try {
             JSONObject jsonObject = new JSONObject(jsonResponse);
             JSONObject dataObject = jsonObject.getJSONObject("data");
-            String id_token_hint = dataObject.getString("identityAssertion");
-            return id_token_hint;
+            return dataObject.getString("identityAssertion");
         } catch (JSONException e) {
             mLoggingInterface.log(DEBUG, TAG, "parseIDAssertionFromJSONResponse failed. Error : " + e.getMessage());
-            pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
+            pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
         }
         return null;
     }

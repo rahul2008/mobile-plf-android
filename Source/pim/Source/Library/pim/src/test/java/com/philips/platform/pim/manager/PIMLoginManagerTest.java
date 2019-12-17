@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.adobe.mobile.Analytics;
-import com.adobe.mobile.Visitor;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -142,7 +141,7 @@ public class PIMLoginManagerTest extends TestCase {
     @Test
     public void testExchangeAuthorizeCode() throws Exception {
         pimLoginManager.exchangeAuthorizationCode(mockIntent);
-        verify(mockAuthManager).performTokenRequest(eq(mockIntent), listenerArgumentCaptor.capture());
+        verify(mockAuthManager).performTokenRequestFromLogin(eq(mockIntent), listenerArgumentCaptor.capture());
         PIMTokenRequestListener requestListener = listenerArgumentCaptor.getValue();
         requestListener.onTokenRequestSuccess();
 
@@ -156,7 +155,7 @@ public class PIMLoginManagerTest extends TestCase {
     public void testRequestUserProfile() throws Exception {
         Whitebox.setInternalState(pimLoginManager, "mPimLoginListener", mockPimLoginListener);
         pimLoginManager.exchangeAuthorizationCode(mockIntent);
-        verify(mockAuthManager).performTokenRequest(eq(mockIntent), listenerArgumentCaptor.capture());
+        verify(mockAuthManager).performTokenRequestFromLogin(eq(mockIntent), listenerArgumentCaptor.capture());
         PIMTokenRequestListener requestListener = listenerArgumentCaptor.getValue();
         requestListener.onTokenRequestSuccess();
 
@@ -176,7 +175,7 @@ public class PIMLoginManagerTest extends TestCase {
         PIMUserMigrationListener mockMigrationListener = mock(PIMUserMigrationListener.class);
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
         pimLoginManager.exchangeAuthorizationCodeForMigration(mockAuthorizationRequest, authResponse, mockMigrationListener);
-        verify(mockAuthManager).performTokenRequest(eq(mockAuthorizationRequest), eq(authResponse), listenerArgumentCaptor.capture());
+        verify(mockAuthManager).performTokenRequestFromLogin(eq(mockAuthorizationRequest), eq(authResponse), listenerArgumentCaptor.capture());
         PIMTokenRequestListener requestListener = listenerArgumentCaptor.getValue();
         requestListener.onTokenRequestSuccess();
         verify(mockUserManager).requestUserProfile(eq(mockAuthState), userProfileDwnldLstnrCaptor.capture());

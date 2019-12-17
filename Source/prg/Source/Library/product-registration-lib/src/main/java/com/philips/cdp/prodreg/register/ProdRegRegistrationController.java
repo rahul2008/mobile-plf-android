@@ -31,6 +31,7 @@ import java.util.List;
 
 import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRG_PROD_REG_SUCCESS_EVENT;
 import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRODUCT_MODEL_KEY;
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.SPECIAL_EVENTS;
 
 public class ProdRegRegistrationController {
 
@@ -200,7 +201,7 @@ public class ProdRegRegistrationController {
                     registerControllerCallBacks.buttonClickable(true);
                     registerControllerCallBacks.dismissLoadingDialog();
                     updateRegisteredProductsList(registeredProduct);
-                    registerControllerCallBacks.tagEvents(PRG_PROD_REG_SUCCESS_EVENT, PRODUCT_MODEL_KEY, registeredProduct.getCtn());
+                    registerControllerCallBacks.tagEvents(PRG_PROD_REG_SUCCESS_EVENT, SPECIAL_EVENTS, registeredProduct.getCtn());
                     registerControllerCallBacks.showSuccessLayout();
                 }
             }

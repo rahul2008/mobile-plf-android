@@ -54,7 +54,7 @@ public class PIMLoginManager {
     }
 
     public void exchangeAuthorizationCode(@NonNull Intent dataIntent) {
-        mPimAuthManager.performTokenRequest(dataIntent, new PIMTokenRequestListener() {
+        mPimAuthManager.performTokenRequestFromLogin(dataIntent, new PIMTokenRequestListener() {
             @Override
             public void onTokenRequestSuccess() {
                 mPimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), new PIMUserProfileDownloadListener() {
@@ -79,12 +79,12 @@ public class PIMLoginManager {
         });
     }
 
-    public AuthorizationRequest createAuthRequestUriForMigration(Map additionalParameter) {
+    public AuthorizationRequest createAuthRequestUriForMigration(Map<String, String> additionalParameter) {
         return mPimAuthManager.createAuthRequestUriForMigration(additionalParameter);
     }
 
     public void exchangeAuthorizationCodeForMigration(AuthorizationRequest authorizationRequest, String authResponse, PIMUserMigrationListener pimUserMigrationListener) {
-        mPimAuthManager.performTokenRequest(authorizationRequest, authResponse, new PIMTokenRequestListener() {
+        mPimAuthManager.performTokenRequestFromLogin(authorizationRequest, authResponse, new PIMTokenRequestListener() {
             @Override
             public void onTokenRequestSuccess() {
                 mLoggingInterface.log(DEBUG, TAG, "exchangeAuthorizationCodeForMigration success");

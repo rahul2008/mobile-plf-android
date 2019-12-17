@@ -7,6 +7,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pim.BuildConfig;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.utilities.PIMInitState;
@@ -29,6 +30,7 @@ public class PIMSettingManager {
     private final String TAG = PIMSettingManager.class.getSimpleName();
     private String locale;
     private MutableLiveData<PIMInitState> pimInitLiveData;
+    private UserLoginListener pimUserLoginListener;
 
     private PIMSettingManager() {
     }
@@ -50,7 +52,7 @@ public class PIMSettingManager {
         mLoggingInterface = mAppInfraInterface.getLogging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mTaggingInterface = mAppInfraInterface.getTagging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mRestInterface = mAppInfraInterface.getRestClient();
-        mLoggingInterface.log(DEBUG,TAG,"PIMSettingManager : dependecies initialized");
+        mLoggingInterface.log(DEBUG, TAG, "PIMSettingManager : dependecies initialized");
     }
 
     public AppInfraInterface getAppInfraInterface() {
@@ -83,18 +85,26 @@ public class PIMSettingManager {
 
     //TODO: '_' is replaced by '-' to support backend. Need to change once backend supports standard locale.
     public void setLocale(String locale) {
-        if(locale.contains("_")){
+        if (locale.contains("_")) {
             String[] splitLocal = locale.split("_");
-            locale = splitLocal[0]+"-"+splitLocal[1];
+            locale = splitLocal[0] + "-" + splitLocal[1];
         }
         this.locale = locale;
     }
 
-    public void setPIMInitLiveData(MutableLiveData<PIMInitState> pimInitLiveData){
+    public void setPIMInitLiveData(MutableLiveData<PIMInitState> pimInitLiveData) {
         this.pimInitLiveData = pimInitLiveData;
     }
 
     public MutableLiveData<PIMInitState> getPimInitLiveData() {
         return pimInitLiveData;
+    }
+
+    public void setUserLoginInerface(UserLoginListener userLoginListener) {
+        this.pimUserLoginListener = userLoginListener;
+    }
+
+    public UserLoginListener getPimUserLoginListener() {
+        return pimUserLoginListener;
     }
 }

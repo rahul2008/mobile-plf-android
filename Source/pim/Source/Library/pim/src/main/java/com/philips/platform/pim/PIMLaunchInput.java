@@ -19,7 +19,7 @@ public class PIMLaunchInput extends UappLaunchInput {
 
     private UserLoginListener userLoginListener;
     
-    public UserLoginListener getUserLoginListener() {
+    UserLoginListener getUserLoginListener() {
         return userLoginListener;
     }
 

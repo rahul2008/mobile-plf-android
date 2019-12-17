@@ -49,7 +49,6 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
     private ProgressBar pimLoginProgreassBar;
     private boolean isInitRequiredAgain = true;
     private MutableLiveData<PIMInitState> liveData;
-    private ActionBarListener mActionbarUpdateListener;
     private UserLoginListener mUserLoginListener;
     private final String USER_PROFILE_URL = "userreg.janrainoidc.userprofile";
 
@@ -71,7 +70,6 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
     }
 
     public void setActionbarListener(ActionBarListener actionbarListener, UserLoginListener userLoginListener) {
-        mActionbarUpdateListener = actionbarListener;
         mUserLoginListener = userLoginListener;
     }
 
@@ -160,7 +158,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
             Intent authReqIntent = new Intent(Intent.ACTION_VIEW);
             authReqIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             authReqIntent.setData(userrofileURI);
-            mLoggingInterface.log(DEBUG,TAG,"Launching user profile : "+userrofileURI.toString());
+            mLoggingInterface.log(DEBUG, TAG, "Launching user profile : " + userrofileURI.toString());
             startActivityForResult(authReqIntent, 200);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching user profile page failed."
