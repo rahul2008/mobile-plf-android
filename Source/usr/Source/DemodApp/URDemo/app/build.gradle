@@ -43,7 +43,7 @@ dependencies {
     })
     implementation project(':URDemo')
     implementation deps.support.appcompat - v7
-    implementation deps.constraintlayout
+    implementation deps.androidx.constraintlayout
     implementation deps.support.design
     testImplementation deps.junit
 }

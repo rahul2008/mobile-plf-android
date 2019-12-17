@@ -170,13 +170,6 @@ configurations.all {
 }
 
 dependencies {
-//    implementation(deps.support.annotations) {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    }
-
-//    implementation deps.support.customtabs
-//    implementation deps.support.design
-//    implementation deps.support.supportv4
     implementation deps.gson
     implementation deps.wechat
     implementation deps.shamanland_fonticon

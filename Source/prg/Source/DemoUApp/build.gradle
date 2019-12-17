@@ -36,8 +36,8 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         versionCode 1
@@ -62,13 +62,15 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation deps.calligraphy
-//    implementation deps.support.design
     implementation(philipsdeps.uid) {
         exclude group: 'com.android.support'
     }
@@ -89,18 +91,6 @@ dependencies {
         implementation philipsdeps.pif
     }
 
-//    implementation(deps.support.recyclerview) {
-//        exclude module: "com.android.support"
-//    }
-//    implementation(deps.support.cardview) {
-//        exclude module: "com.android.support"
-//    }
-//    implementation(deps.support.appcompatv7) {
-//        exclude module: "com.android.support"
-//    }
-
-//    implementation deps.support.cardview
-
     implementation(deps.butterknife) {
         exclude module: "com.android.support"
     }
@@ -111,10 +101,6 @@ dependencies {
         exclude module: "support-annotations"
     }
 
-//    androidTestImplementation(deps.espresso_core) {
-//        exclude module: "com.android.support"
-//        exclude module: "support-annotations"
-//    }
     androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.apache_commons_lang
 }

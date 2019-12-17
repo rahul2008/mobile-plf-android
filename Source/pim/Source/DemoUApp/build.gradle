@@ -100,16 +100,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    implementation deps.support.appcompatv7
-//    implementation deps.support.supportv4
-//    implementation deps.constraintlayout
     implementation deps.adobemobilelib
-//    androidTestImplementation(deps.espresso_core, {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
 
     testImplementation deps.junit
-//    implementation deps.support.design
     implementation deps.greenrobot
     implementation philipsdeps.uid
     implementation project(path: ':product-registration-lib')

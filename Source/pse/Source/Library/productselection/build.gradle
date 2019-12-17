@@ -69,9 +69,6 @@ android {
 
 dependencies {
     implementation deps.shamanland_fonticon
-//    implementation deps.constraintlayout
-//    implementation deps.support.supportv4
-//    implementation deps.support.appcompatv7
     implementation deps.calligraphy
     implementation deps.volley
 

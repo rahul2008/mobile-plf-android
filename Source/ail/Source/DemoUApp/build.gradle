@@ -25,8 +25,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.androidx.appcompat
-    implementation deps.androidx.design
-    implementation deps.constraintlayout
+    implementation deps.design
+    implementation deps.androidx.constraintlayout
     implementation deps.androidx.localbroadcastmanager
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)

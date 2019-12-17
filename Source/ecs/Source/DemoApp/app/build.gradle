@@ -130,11 +130,8 @@ dependencies {
     implementation project(strings.ecsuapp.projectName)
     implementation project(strings.ecstestuapp.projectName)
 
-    implementation deps.constraintlayout
-    implementation deps.support.design
-    implementation deps.support.supportv4
+    implementation deps.androidx.constraintlayout
     implementation deps.androidx.annotations
-    implementation deps.support.appcompatv7
     implementation philipsdeps.uid
    // implementation project('ecsuapp')
     if (useprojectdependencies) {
@@ -144,12 +141,7 @@ dependencies {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
     } else {
-        implementation(philipsdeps.registrationApi) {
-            exclude group: 'com.android.support', module: 'support-design'
-            exclude group: 'com.android.support', module: 'support-supportv4'
-            exclude group: 'com.android.support', module: 'support-appcompatv7'
-            exclude group: 'com.android.support', module: 'support-annotations'
-        }
+        implementation(philipsdeps.registrationApi)
         implementation philipsdeps.prx
 
     }

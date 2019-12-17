@@ -97,10 +97,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle
 dependencies {
     //3rd party
     implementation deps.gson
-//    implementation deps.support.appcompatv7
-//    implementation deps.support.supportv4
-//    implementation deps.support.recyclerview
-//    implementation deps.support.design
     implementation deps.calligraphy
 
     // Philips components

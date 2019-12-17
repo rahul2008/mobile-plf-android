@@ -26,10 +26,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    configurations.all {
-        resolutionStrategy.force deps.support.supportcompat
-    }
-
     defaultConfig {
         applicationId "com.philips.cl.di.dev.pa"
         generatedDensities = []
@@ -97,9 +93,6 @@ android {
 }
 
 dependencies {
-    implementation deps.support.recyclerview
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
     implementation project(strings.dccuapp.projectName)
     implementation project(strings.ail.projectName)
     implementation project(strings.ufw.projectName)

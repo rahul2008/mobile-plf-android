@@ -81,12 +81,6 @@ dependencies {
         implementation philipsdeps.pif
     }
     implementation deps.adobemobilelib
-
-//    implementation deps.constraintlayout
-//    implementation deps.support.appcompatv7
-//    implementation deps.support.supportv4
-//    implementation deps.support.design
-//    implementation deps.support.supportv4
     implementation deps.androidx.annotations
     implementation deps.volley
     implementation deps.openid_appauth

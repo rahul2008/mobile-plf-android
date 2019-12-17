@@ -109,7 +109,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':UserRegistrationUApp')
     implementation deps.support.appcompatv7
-    implementation deps.constraintlayout
+    implementation deps.androidx.constraintlayout
     implementation deps.support.design
     implementation deps.multidex
     implementation deps.greenrobot
