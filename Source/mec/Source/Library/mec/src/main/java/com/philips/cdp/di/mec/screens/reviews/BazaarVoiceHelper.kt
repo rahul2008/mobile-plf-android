@@ -31,14 +31,9 @@ class BazaarVoiceHelper {
        .okHttpClient(getOkHttpClient(loggingInterceptor)).dryRunAnalytics(false)
        .build()
 
-         /*val bvsdk = BVSDK.builder(context, Constants.BAZAAR_ENVIRONMENT)
-                .logLevel(BVLogLevel.VERBOSE)
-                .okHttpClient(getOkHttpClient(loggingInterceptor))
-                 .dryRunAnalytics(false)
-                .build()*/
 
-         var bvClient = BVConversationsClient.Builder(bvsdk).build()
-         return bvClient
+        var bvClient = BVConversationsClient.Builder(bvsdk).build()
+        return bvClient
     }
 
     private fun getOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {

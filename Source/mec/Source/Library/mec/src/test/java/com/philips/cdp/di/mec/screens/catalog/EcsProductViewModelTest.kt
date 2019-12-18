@@ -5,7 +5,6 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.integration.MecHolder
 import org.junit.Before
 
-import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -52,7 +51,7 @@ class EcsProductViewModelTest {
         val arrayList = ArrayList<String>()
         arrayList.add("CTN")
         ecsProductViewModel.initCategorizedRetailer(arrayList)
-        Mockito.verify(eCSCatalogRepository).getCategorizedProductsforRetailer(arrayList,ecsProductViewModel)
+        Mockito.verify(eCSCatalogRepository).getCategorizedProductsForRetailer(arrayList,ecsProductViewModel)
     }
 
     @Test

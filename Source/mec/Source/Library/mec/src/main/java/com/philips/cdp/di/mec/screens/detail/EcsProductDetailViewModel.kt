@@ -8,11 +8,13 @@ import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
 import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.google.gson.internal.LinkedTreeMap
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
@@ -27,7 +29,9 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val review = MutableLiveData<ReviewResponse>()
 
-    var ecsProductDetailRepository = ECSProductDetailRepository(this)
+    var ecsServices = MecHolder.INSTANCE.eCSServices
+
+    var ecsProductDetailRepository = ECSProductDetailRepository(this,ecsServices)
 
     fun getRatings(ctn :String){
         ecsProductDetailRepository.getRatings(ctn)

@@ -10,7 +10,6 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import java.text.DecimalFormat
 
 class ECSCatalogRepository {
 
@@ -19,32 +18,11 @@ class ECSCatalogRepository {
         eCSServices.fetchProducts(pageNumber, pageSize, ecsCallback)
     }
 
-
-
-    fun getCategorizedProductsforRetailer(ctn: MutableList<String>, ecsProductViewModel: EcsProductViewModel) {
-
-        val ecsServices = MecHolder.INSTANCE.eCSServices
-        ecsServices.fetchProductSummaries(ctn, object : ECSCallback<List<ECSProduct>, Exception> {
-            override fun onResponse(result: List<ECSProduct>) {
-                val mutableLiveData = ecsProductViewModel.ecsProductsList
-
-                val value = mutableList(mutableLiveData)
-
-                val ecsProducts = ECSProducts()
-                ecsProducts.products = result
-
-                value.add(ecsProducts)
-                mutableLiveData.value = value
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsProductViewModel.mecError.value = mecError
-            }
-
-        })
+    fun getCategorizedProductsForRetailer(ctnS: MutableList<String>, ecsProductListCallback: ECSProductListCallback, eCSServices: ECSServices) {
+        eCSServices.fetchProductSummaries(ctnS,ecsProductListCallback)
     }
 
+    //TODO
     fun getCategorizedProducts(pageNumber: Int, pageSize: Int, ctns: List<String>, ecsProductViewModel: EcsProductViewModel) {
         val ecsServices = MecHolder.INSTANCE.eCSServices
         ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
@@ -113,42 +91,9 @@ class ECSCatalogRepository {
                     ecsProducts.products.size == ecsProducts.pagination.pageSize
 
 
-
-
     fun fetchProductReview(ecsProducts: List<ECSProduct> , ecsProductViewModel: EcsProductViewModel){
 
-        val reviewsCb = object : ConversationsDisplayCallback<BulkRatingsResponse> {
-            override fun onSuccess(response: BulkRatingsResponse) {
-                if (response.results.isEmpty()) {
-                    //ecsProductViewModel.mecError = //Util.showMessage(this@DisplayOverallRatingActivity, "Empty results", "No ratings found for this product")
-                } else {
-                    createMECProductReviewObject(ecsProducts,response.results)
-                }
-            }
-
-            private fun createMECProductReviewObject(ecsProducts: List<ECSProduct>, statisticsList: List<Statistics>) {
-
-                var mecProductReviewList :MutableList<MECProductReview> = mutableListOf()
-
-                for(ecsProduct in ecsProducts){
-
-                    for(statistics in statisticsList){
-
-                        if(ecsProduct.code isEqualsTo statistics.productStatistics.productId){
-
-                            mecProductReviewList.add (MECProductReview(ecsProduct, DecimalFormat("#.#").format(statistics.productStatistics.reviewStatistics.averageOverallRating), " ("+statistics.productStatistics.reviewStatistics.totalReviewCount.toString()+ " reviews)"))
-                        }
-                    }
-                }
-
-                ecsProductViewModel.ecsProductsReviewList.value = mecProductReviewList
-            }
-
-            override fun onFailure(exception: ConversationsException) {
-                //Util.showMessage(this@DisplayOverallRatingActivity, "Error occurred", Util.bvErrorsToString(exception.errors))
-            }
-        }
-
+        val mecConversationsDisplayCallback = MECBulkRatingConversationsDisplayCallback(ecsProducts, ecsProductViewModel)
         var ctnList: MutableList<String> = mutableListOf()
 
         for(ecsProduct in ecsProducts){
@@ -156,11 +101,9 @@ class ECSCatalogRepository {
         }
         val bvClient = MECDataHolder.INSTANCE.bvClient
         val request = BulkRatingsRequest.Builder(ctnList, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).build()
-        bvClient!!.prepareCall(request).loadAsync(reviewsCb)
+        bvClient!!.prepareCall(request).loadAsync(mecConversationsDisplayCallback)
 
     }
-
-    infix fun String.isEqualsTo(value: String): Boolean = this.replace("/", "_").equals(value)
 
 }
 

@@ -2,17 +2,22 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.common.MecError
 
-class ECSProductsCallback(private var ecsProductViewModel:EcsProductViewModel) : ECSCallback<ECSProducts, Exception> {
+class ECSProductListCallback(private var ecsProductViewModel:EcsProductViewModel) :ECSCallback<List<ECSProduct>, Exception> {
 
-    override fun onResponse(ecsProducts: ECSProducts?) {
+    override fun onResponse(ecsProductList: List<ECSProduct>?) {
 
         val mutableLiveData = ecsProductViewModel.ecsProductsList
-        var value = mutableLiveData.value
-        if (value.isNullOrEmpty()) value = mutableListOf<ECSProducts>()
-        value?.add(ecsProducts!!)
+
+        val value = mutableList(mutableLiveData)
+
+        val ecsProducts = ECSProducts()
+        ecsProducts.products = ecsProductList
+
+        value.add(ecsProducts)
         mutableLiveData.value = value
     }
 
