@@ -8,13 +8,14 @@ package com.philips.platform.pim;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;

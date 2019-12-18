@@ -103,7 +103,7 @@ dependencies {
         implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
-      //  implementation project(strings.ecs.projectName)
+        implementation project(strings.ecs.projectName)
        // implementation project(path: strings.ecs.projectName, configuration: 'default')
     } else {
        // implementation philipsdeps.iap
