@@ -228,6 +228,7 @@ dependencies {
         implementation project(strings.iapuapp.projectName)
         implementation project(strings.ecsuapp.projectName)
         implementation project(strings.ecstestuapp.projectName)
+        implementation project(strings.ecs.projectName)
 
         implementation project(strings.prguapp.projectName)
         implementation project(strings.usruapp.projectName)
@@ -244,7 +245,7 @@ dependencies {
         implementation philipsdeps.pif
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
-       // implementation philipsdeps.philipsecommercesdk
+        implementation philipsdeps.philipsecommercesdk
 
         implementation philipsdeps.productselection
         implementation philipsdeps.prx
