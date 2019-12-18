@@ -10,8 +10,8 @@ class ECSProductsCallback(private val ecsProductViewModel:EcsProductViewModel) :
     override fun onResponse(ecsProducts: ECSProducts?) {
 
         val mutableLiveData = ecsProductViewModel.ecsProductsList
-        val value = mutableLiveData.value
-        if (value.isNullOrEmpty()) mutableLiveData.value = mutableListOf<ECSProducts>()
+        var value = mutableLiveData.value
+        if (value.isNullOrEmpty()) value = mutableListOf<ECSProducts>()
         value?.add(ecsProducts!!)
         mutableLiveData.value = value
     }

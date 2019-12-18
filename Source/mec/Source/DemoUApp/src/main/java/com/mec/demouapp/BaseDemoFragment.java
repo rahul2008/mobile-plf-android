@@ -145,7 +145,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         bvCheckBox.setOnCheckedChangeListener(this);
 
         DemoContentBody  = rootView.findViewById(R.id.demo_content_layout);
-        fragmentContainer  = rootView.findViewById(R.id.mec_fragment_container);
+       // fragmentContainer  = rootView.findViewById(R.id.mec_fragment_container);
 
 
         mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
@@ -287,7 +287,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         mMecInterface = new MECInterface();
         mMecSettings = new MECSettings(getActivity());
-        actionBar();
+        //actionBar();
         initializeMECComponant();
         initializeBazaarVoice();
 
@@ -446,8 +446,6 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode, pIgnoreRetailerList);
 
         try {
-            DemoContentBody.setVisibility(View.VISIBLE);
-            fragmentContainer.setVisibility(View.GONE);
             int themeResourceID = new ThemeHelper(getActivity()).getThemeResourceId();
             mMecInterface.launch(new ActivityLauncher
                             (getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
@@ -469,9 +467,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         try {
 
-            DemoContentBody.setVisibility(View.GONE);
-            fragmentContainer.setVisibility(View.VISIBLE);
-            mMecInterface.launch(new FragmentLauncher(getActivity(), R.id.mec_fragment_container, this),
+            mMecInterface.launch(new FragmentLauncher(getActivity(), R.id.container_base_demo, this),
                     mMecLaunchInput);
 
         } catch (RuntimeException exception) {

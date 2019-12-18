@@ -108,8 +108,7 @@ class MECFragmentLauncher : MecBaseFragment(){
 
     protected fun launchMECasFragment(landingFragment: Int, result: Boolean) {
         val mecBaseFragment = getFragment(result,landingFragment)
-        mecBaseFragment?.let { replaceFragment(it,"asd",false) }
-
+        mecBaseFragment?.let { addFragment(it,"asd",false) }
     }
 
     protected fun getFragment(isHybris : Boolean,screen: Int): MecBaseFragment? {

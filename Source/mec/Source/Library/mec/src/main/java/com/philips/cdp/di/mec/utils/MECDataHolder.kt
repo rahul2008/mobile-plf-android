@@ -7,6 +7,7 @@ import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.uappframework.listener.ActionBarListener
 import java.util.ArrayList
+import kotlin.properties.Delegates
 
 enum class MECDataHolder {
 

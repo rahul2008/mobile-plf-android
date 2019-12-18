@@ -315,7 +315,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
         val mecPrivacyFragment = MecPrivacyFragment()
         mecPrivacyFragment.arguments = bundle
-        addFragment(mecPrivacyFragment,"privacy",true)
+        replaceFragment(mecPrivacyFragment,"privacy",true)
     }
 
 
