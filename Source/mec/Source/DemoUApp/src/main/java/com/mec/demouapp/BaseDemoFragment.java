@@ -287,7 +287,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         mMecInterface = new MECInterface();
         mMecSettings = new MECSettings(getActivity());
-        //actionBar();
+        actionBar();
         initializeMECComponant();
         initializeBazaarVoice();
 
