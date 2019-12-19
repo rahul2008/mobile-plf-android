@@ -51,10 +51,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:paddingBottom="@dimen/iap_margin_20dp"
+                android:paddingBottom="10dp"
                 android:text="Online retailers"
-                android:layout_marginTop="@dimen/iap_margin_20dp"
-                android:layout_marginStart="@dimen/iap_margin_20dp"
+                android:paddingTop="10dp"
+                android:paddingStart="16dp"
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="14dp" />
 
@@ -62,10 +62,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/retailer_recycler_view"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_below="@+id/lLayout"
-            android:layout_marginTop="@dimen/iap_margin_10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:retailers="@{retailerList}"

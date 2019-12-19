@@ -17,7 +17,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
         android:onClick="@{(view) -> itemClickListener.onItemClick(mecRetailer)}"
-    android:padding="@dimen/border16_margin_left_right">
+    android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="16dp">
 
         <RelativeLayout
             android:id="@+id/rLayout"
@@ -26,8 +28,8 @@
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/mec_retailer_image"
-        android:layout_width="@dimen/iap_network_image_width_height"
-        android:layout_height="@dimen/iap_network_image_width_height"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerVertical="true"
         app:image_url="@{mecRetailer.logoURL}"
         android:layout_marginEnd="@dimen/border12_margin" />
@@ -46,7 +48,6 @@
             style="@style/mecCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
             android:text="@{mecRetailer.name}"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/iap_retailers_store_name_size" />
@@ -86,7 +87,7 @@
         android:id="@+id/mec_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/rLayout"
         android:background="@drawable/uid_shadow_level_two" />
 
