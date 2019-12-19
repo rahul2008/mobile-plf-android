@@ -23,9 +23,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingEnd="@dimen/border16_margin_left_right"
-        android:paddingStart="@dimen/border16_margin_left_right"
+        android:layout_marginStart="@dimen/border16_margin_left_right"
+        android:layout_marginEnd="@dimen/border16_margin_left_right"
         android:layout_marginBottom="65dp"
+        android:fadeScrollbars="true"
+        android:scrollbarSize="0dp"
         android:visibility="visible">
 
         <RelativeLayout
@@ -139,12 +141,12 @@
                     style="@style/mecCentralesansBoldFont"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:text="@{product.summary.productTitle}"
-                    android:textSize="20sp" />
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/iap_margin_4dp">
+                    android:layout_marginTop="@dimen/iap_margin_10dp">
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/mec_rating_lebel"
@@ -159,6 +161,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginStart="5dp"
                         android:numStars="5"
                         style="?android:attr/ratingBarStyleSmall" />
 
@@ -166,28 +169,39 @@
                         android:id="@+id/mec_review_lebel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
                         android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
                         android:text=" (3 reviews)"
                         android:textSize="@dimen/iap_product_original_price" />
 
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mec_ctn_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/mec_retailerItem_product_layout"
+                android:layout_marginTop="@dimen/iap_margin_10dp">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_retailerItem_ctn_lebel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textSize="12sp"
-                    android:layout_marginTop="@dimen/iap_margin_4dp"
+                    style="@style/mecCentralesansBookFont"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:text="@{product.code}"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_product_detail_stock_status"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:textSize="12sp"
+                    android:gravity="end"
                     android:layout_gravity="end"
-                    android:layout_marginTop="@dimen/iap_margin_4dp"
                     app:setStockInfo="@{ product}"
                    />
 
@@ -202,7 +216,7 @@
                     android:layout_height="match_parent"
                     style="@style/MecTabStyle"
                     app:tabTextAppearance="@style/CustomTextAppearanceTab"
-                    android:layout_below="@+id/mec_retailerItem_product_layout" />
+                    android:layout_below="@+id/mec_ctn_label" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager_main"

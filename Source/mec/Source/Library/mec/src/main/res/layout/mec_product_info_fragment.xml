@@ -15,7 +15,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="50dp"
-    android:paddingLeft="5dp"
     android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
     tools:context=".screens.detail.MECProductInfoFragment">
 
@@ -29,12 +28,12 @@
             android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
             android:text="@{product.summary.marketingTextHeader}"
             android:textSize="16sp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="28dp" />
 
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mec_product_disclaimer"
-            style="@style/UIDLabel"
+            style="@style/mecCentralesansBookFont"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mec_product_description"
@@ -43,7 +42,7 @@
             app:setDisclaimer="@{product}"
             android:textSize="12sp"
             android:visibility="visible"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="16dp"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/mec_productCatalog_empty_label"
