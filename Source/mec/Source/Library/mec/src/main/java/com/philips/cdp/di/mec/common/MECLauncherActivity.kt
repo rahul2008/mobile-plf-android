@@ -100,7 +100,7 @@ import java.util.*
              mECFragmentLauncher.arguments = bundle
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(com.philips.cdp.di.mec.R.id.mec_fragment_container, mECFragmentLauncher, mECFragmentLauncher.TAG)
-           // transaction.addToBackStack(mECFragmentLauncher.TAG)
+            //transaction.addToBackStack(mECFragmentLauncher.TAG)
             transaction.commitAllowingStateLoss()
 
     }

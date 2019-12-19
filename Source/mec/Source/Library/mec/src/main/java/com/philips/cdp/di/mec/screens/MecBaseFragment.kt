@@ -15,6 +15,7 @@ import android.widget.RelativeLayout
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uappframework.listener.BackEventListener
@@ -41,7 +42,8 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
         {
             setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
-        }  else{
+        }
+        else{
             setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
         }
         return false

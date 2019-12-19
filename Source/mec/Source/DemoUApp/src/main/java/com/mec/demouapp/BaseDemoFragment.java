@@ -57,6 +57,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListene
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -79,7 +80,7 @@ import java.util.Locale;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class BaseDemoFragment extends Fragment implements View.OnClickListener, MECListener,
+public class BaseDemoFragment extends Fragment implements View.OnClickListener, MECListener, BackEventListener,
         UserRegistrationUIEventListener, MECBannerEnabler,ActionBarListener, CompoundButton.OnCheckedChangeListener {
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -102,6 +103,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private RelativeLayout DemoContentBody;
     private FrameLayout fragmentContainer;
     private ImageView mBackImage;
+    private BaseDemoActivity activity;
+    private TextView text;
 
     private MECInterface mMecInterface;
     private MECLaunchInput mMecLaunchInput;
@@ -128,6 +131,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private RadioGroup rgVoucher,rgLauncher;
     private CheckBox bvCheckBox;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
+    private TextView versionView;
     private View rootView;
 
     @Override
@@ -143,6 +147,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
         bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
         bvCheckBox.setOnCheckedChangeListener(this);
+
+        text = getActivity().findViewById(R.id.mec_demo_app_header_title);
+        versionView = getActivity().findViewById(R.id.appversion);
+        mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
 
         DemoContentBody  = rootView.findViewById(R.id.demo_content_layout);
        // fragmentContainer  = rootView.findViewById(R.id.mec_fragment_container);
@@ -259,7 +267,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mLaunchProductDetail = rootView.findViewById(R.id.btn_launch_product_detail);
         mLaunchProductDetail.setOnClickListener(this);
 
-        mShoppingCart = rootView.findViewById(R.id.mec_demo_app_shopping_cart_icon);
+       // mShoppingCart = rootView.findViewById(R.id.mec_demo_app_shopping_cart_icon);
 
         mShopNowCategorized = rootView.findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
@@ -287,7 +295,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         mMecInterface = new MECInterface();
         mMecSettings = new MECSettings(getActivity());
-        actionBar();
+        //actionBar();
         initializeMECComponant();
         initializeBazaarVoice();
 
@@ -307,6 +315,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             // Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void initMEC() {
         ignorelistedRetailer.add("Frys.com");
@@ -342,7 +351,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onStart() {
         super.onStart();
-        mShoppingCart.setOnClickListener(this);
+        //mShoppingCart.setOnClickListener(this);
     }
 
     private void onResumeRetailer() {
@@ -379,22 +388,22 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mShopNow.setEnabled(true);
         mPurchaseHistory.setVisibility(View.VISIBLE);
         mPurchaseHistory.setEnabled(true);
-        mShoppingCart.setVisibility(View.VISIBLE);
+        //.setVisibility(View.VISIBLE);
 
         dismissProgressDialog();
         // mIapInterface.getProductCartCount(this);
 
-        if (b) {
-            mCartIcon.setVisibility(View.VISIBLE);
-            mCountText.setVisibility(View.VISIBLE);
-            mShoppingCart.setVisibility(View.VISIBLE);
-            //mMecInterface.getProductCartCount(this);
-        } else {
-            mCartIcon.setVisibility(View.GONE);
-            mCountText.setVisibility(View.GONE);
-            mShoppingCart.setVisibility(View.GONE);
-            dismissProgressDialog();
-        }
+//        if (b) {
+//            mCartIcon.setVisibility(View.VISIBLE);
+//            mCountText.setVisibility(View.VISIBLE);
+//            mShoppingCart.setVisibility(View.VISIBLE);
+//            //mMecInterface.getProductCartCount(this);
+//        } else {
+//            mCartIcon.setVisibility(View.GONE);
+//            mCountText.setVisibility(View.GONE);
+//            mShoppingCart.setVisibility(View.GONE);
+//            dismissProgressDialog();
+//        }
 
     }
 
@@ -606,20 +615,20 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     //In-App listener functions
     @Override
     public void onGetCartCount(int count) {
-        if (count > 0) {
-            mCountText.setText(count + "");
-            mCountText.setVisibility(View.VISIBLE);
-        } else if (count == 0) {
-            mCountText.setVisibility(View.GONE);
-        } else if (count == -1) {
-            //Plan B
-            mShoppingCart.setVisibility(View.GONE);
-        }
-
-        try {
-            mMecInterface.getCompleteProductList(this);
-        } catch (Exception e) {
-        }
+//        if (count > 0) {
+//            mCountText.setText(count + "");
+//            mCountText.setVisibility(View.VISIBLE);
+//        } else if (count == 0) {
+//            mCountText.setVisibility(View.GONE);
+//        } else if (count == -1) {
+//            //Plan B
+//            mShoppingCart.setVisibility(View.GONE);
+//        }
+//
+//        try {
+//            mMecInterface.getCompleteProductList(this);
+//        } catch (Exception e) {
+//        }
 
     }
 
@@ -630,18 +639,18 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
-        if (shouldShow) {
-            mShoppingCart.setVisibility(View.VISIBLE);
-            mCountText.setVisibility(View.VISIBLE);
-        } else {
-            mShoppingCart.setVisibility(View.GONE);
-            mCountText.setVisibility(View.GONE);
-        }
+//        if (shouldShow) {
+//            mShoppingCart.setVisibility(View.VISIBLE);
+//            mCountText.setVisibility(View.VISIBLE);
+//        } else {
+//            mShoppingCart.setVisibility(View.GONE);
+//            mCountText.setVisibility(View.GONE);
+//        }
     }
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        mShoppingCart.setOnClickListener(this);
+        //mShoppingCart.setOnClickListener(this);
         dismissProgressDialog();
     }
 
@@ -876,6 +885,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
     }
 
+    public void setTextView(TextView tv){
+        text = tv;
+    }
+
 
     @Override
     public void updateActionBar(int resId, boolean enableBackKey) {
@@ -891,7 +904,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
      */
     @Override
     public void updateActionBar(String resString, boolean enableBackKey) {
-        mTitleTextView.setText(resString);
+        text.setText(resString);
+        versionView.setVisibility(View.GONE);
         if (enableBackKey) {
             mBackImage.setVisibility(View.VISIBLE);
             // For arabic, Hebrew and Perssian the back arrow change from left to right
@@ -901,6 +915,11 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         } else {
             mBackImage.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return false;
     }
 }
 

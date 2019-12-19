@@ -1,26 +1,13 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/uidColorWhite"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <include
-        android:id="@+id/app_actionbar"
-        layout="@layout/mec_demo_app_action_bar" />
-
-
-
 
         <RelativeLayout
             android:id="@+id/demo_content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/app_actionbar">
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/appversion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal" />
+            android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/ll_ctn"
                 android:layout_width="match_parent"
