@@ -42,7 +42,7 @@ public interface URLProvider {
     String getAddToCartUrl();
 
     //Address
-    String getRegionsUrl();
+    String getRegionsUrl(String countryISO);
 
     String getUserUrl();
 

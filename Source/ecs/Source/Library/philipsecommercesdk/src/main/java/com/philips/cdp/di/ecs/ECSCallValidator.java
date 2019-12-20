@@ -192,11 +192,11 @@ import java.util.List;
 
     }
 
-    public void getRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
+    public void getRegions(String countryISO, ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getRegionsError();
         if (ecsErrorWrapper == null) {
-            ecsManager.getRegions(ecsCallback);
+            ecsManager.getRegions(countryISO,ecsCallback);
         } else {
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }

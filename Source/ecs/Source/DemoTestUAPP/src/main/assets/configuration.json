@@ -1,7 +1,7 @@
 {
   "group": [
     {
-      "name": "Config",
+      "name": "Configure ECS Microservices",
       "subgroup": [
         {
           "name": "configureECS",
@@ -14,7 +14,7 @@
           "switches": []
         },
         {
-          "name": "configureECSToGetConfiguration",
+          "name": "ConfigureECSWithConfiguration",
           "apiNumber": 2,
           "editText": 0,
           "spinner": 0,
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "name": "OAuth",
+      "name": "OAuth Microservices",
       "subgroup": [
         {
           "name": "hybrisOAthAuthentication",
@@ -82,7 +82,7 @@
         }
       ,
         {
-          "name": "JanrainRefreshOAuth",
+          "name": "refreshJanrain",
           "apiNumber": 39,
           "editText": 3,
           "spinner": 0,
@@ -110,7 +110,7 @@
       ]
     },
     {
-      "name": "Product",
+      "name": "Products Microservices",
       "subgroup": [
         {
           "name": "fetchProducts",
@@ -135,7 +135,7 @@
           "switches": []
         },
         {
-          "name": "fetchProduct",
+          "name": "fetchProductForCTN",
           "apiNumber": 6,
           "editText": 1,
           "spinner": 0,
@@ -151,7 +151,7 @@
           "switches": []
         },
         {
-          "name": "fetchProductDetails",
+          "name": "fetchProductDetailsForProduct",
           "apiNumber": 7,
           "editText": 0,
           "spinner": 1,
@@ -167,7 +167,7 @@
           "switches": []
         },
         {
-          "name": "fetchProductSummaries",
+          "name": "fetchProductSummariesForCTNs",
           "apiNumber": 8,
           "editText": 1,
           "spinner": 0,
@@ -185,7 +185,7 @@
       ]
     },
     {
-      "name": "Cart",
+      "name": "Cart Microservices",
       "subgroup": [
         {
           "name": "fetchShoppingCart",
@@ -249,7 +249,7 @@
       ]
     },
     {
-      "name": "Voucher",
+      "name": "Voucher Microservices",
       "subgroup": [
         {
           "name": "applyVoucher",
@@ -296,7 +296,7 @@
       ]
     },
     {
-      "name": "DeliveryMode",
+      "name": "Delivery Mode Microservices",
       "subgroup": [
         {
           "name": "fetchDeliveryModes",
@@ -327,22 +327,28 @@
       ]
     },
     {
-      "name": "Region",
+      "name": "Fetch Regions Microservices",
       "subgroup": [
         {
-          "name": "fetchRegions",
+          "name": "fetchRegionsForCountryISO",
           "apiNumber": 18,
           "editText": 0,
           "spinner": 0,
           "button": 0,
-          "editTexts": [],
+          "editTexts": [
+
+            {
+              "tag": "et_one",
+              "hint": "enter Country ISO code"
+            }
+          ],
           "spinners": [],
           "switches": []
         }
       ]
     },
     {
-      "name": "Address",
+      "name": "Address Microservices",
       "subgroup": [
         {
           "name": "fetchSavedAddresses",
@@ -355,7 +361,7 @@
           "switches": []
         },
         {
-          "name": "createAddress",
+          "name": "createAddressWithSingleAddressReturn",
           "apiNumber": 20,
           "editText": 0,
           "spinner": 0,
@@ -432,7 +438,7 @@
           "switches": []
         },
         {
-          "name": "createAndFetchAddress",
+          "name": "createAddressWithAddressListReturn",
           "apiNumber": 21,
           "editText": 0,
           "spinner": 0,
@@ -509,7 +515,7 @@
           "switches": []
         },
         {
-          "name": "updateAddress",
+          "name": "UpdateAddressWithSuccessReturn",
           "apiNumber": 22,
           "editText": 0,
           "spinner": 0,
@@ -591,7 +597,7 @@
           "switches": []
         },
         {
-          "name": "updateAndFetchAddress",
+          "name": "UpdateAddressWithAddressListReturn",
           "apiNumber": 23,
           "editText": 0,
           "spinner": 0,
@@ -673,7 +679,7 @@
           "switches": []
         },
         {
-          "name": "setDeliveryAddress",
+          "name": "setDeliveryAddressWithSuccessReturn",
           "apiNumber": 24,
           "editText": 0,
           "spinner": 0,
@@ -689,7 +695,7 @@
           "switches": []
         },
         {
-          "name": "setAndFetchDeliveryAddress",
+          "name": "setDeliveryAddressWithAddressListReturn",
           "apiNumber": 25,
           "editText": 0,
           "spinner": 0,
@@ -706,7 +712,7 @@
           "switches": []
         },
         {
-          "name": "deleteAddress",
+          "name": "deleteAddressWithSuccessReturn",
           "apiNumber": 26,
           "editText": 0,
           "spinner": 0,
@@ -723,7 +729,7 @@
           "switches": []
         },
         {
-          "name": "deleteAndFetchAddress",
+          "name": "deleteAddressWithAddressListReturn",
           "apiNumber": 27,
           "editText": 0,
           "spinner": 0,
@@ -780,7 +786,7 @@
       ]
     },
     {
-      "name": "Payment",
+      "name": "Place order Microservices",
       "subgroup": [
         {
           "name": "FetchPayments Details",
@@ -812,7 +818,7 @@
           "switches": []
         },
         {
-          "name": "Make Payment",
+          "name": "makePaymentForOrder",
           "apiNumber": 32,
           "editText": 0,
           "spinner": 0,
@@ -931,10 +937,10 @@
       ]
     },
     {
-      "name": "Profile",
+      "name": "Profile Microservices",
       "subgroup": [
         {
-          "name": "Fetch Profile",
+          "name": "fetchUserProfile",
           "apiNumber": 38,
           "editText": 0,
           "spinner": 0,

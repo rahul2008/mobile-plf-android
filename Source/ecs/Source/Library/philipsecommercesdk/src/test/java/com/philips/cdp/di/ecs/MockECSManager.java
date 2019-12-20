@@ -83,7 +83,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
+    public void getRegions(String countryISO, ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
         new MockGetRegionsRequest(getJsonFileNameMockECSManager(), new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
             public void onResponse(List<ECSRegion> result) {
