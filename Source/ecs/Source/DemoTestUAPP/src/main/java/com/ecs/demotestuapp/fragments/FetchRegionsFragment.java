@@ -2,6 +2,7 @@ package com.ecs.demotestuapp.fragments;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -26,6 +27,12 @@ public class FetchRegionsFragment extends BaseAPIFragment {
 
         if(etCountryISO.getText() != null){
             countryISO =  etCountryISO.getText().toString();
+        }
+
+        if(countryISO == null){
+            Toast.makeText(getActivity(),"Country field can not be empty",Toast.LENGTH_SHORT).show();
+            getProgressBar().setVisibility(View.GONE);
+            return;
         }
 
         ECSDataHolder.INSTANCE.getEcsServices().fetchRegions(countryISO,new ECSCallback<List<ECSRegion>, Exception>() {
