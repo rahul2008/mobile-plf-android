@@ -6,6 +6,7 @@ import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class FetchRegionsFragment extends BaseAPIFragment {
 
     public void executeRequest() {
 
-        ECSDataHolder.INSTANCE.getEcsServices().fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().fetchRegions(ECSConfiguration.INSTANCE.getCountry(),new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
             public void onResponse(List<ECSRegion> ecsRegions) {
 
