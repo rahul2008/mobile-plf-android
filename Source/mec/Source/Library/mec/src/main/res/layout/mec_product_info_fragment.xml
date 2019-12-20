@@ -28,6 +28,8 @@
             android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
             android:text="@{product.summary.marketingTextHeader}"
             android:textSize="16sp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:layout_marginTop="28dp" />
 
 
@@ -41,8 +43,11 @@
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             app:setDisclaimer="@{product}"
             android:textSize="12sp"
+            android:paddingTop="16dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
             android:visibility="visible"
-            android:layout_marginTop="16dp"/>
+            />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/mec_productCatalog_empty_label"

@@ -101,7 +101,7 @@ class MECFragmentLauncher : MecBaseFragment(){
     }
 
     private fun executeConfigRequest() {
-        createCustomProgressBar(container, BIG)
+        createCustomProgressBar(container, MEDIUM)
         ecsLauncherViewModel.getEcsConfig()
     }
 
@@ -123,7 +123,7 @@ class MECFragmentLauncher : MecBaseFragment(){
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW -> {
 
-                createCustomProgressBar(container, BIG)
+                createCustomProgressBar(container, MEDIUM)
 
                 val ctn = bundle?.getString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL,"UNKNOWN")
 

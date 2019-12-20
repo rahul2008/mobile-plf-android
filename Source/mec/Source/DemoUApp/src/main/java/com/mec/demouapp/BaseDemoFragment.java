@@ -149,7 +149,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         bvCheckBox.setOnCheckedChangeListener(this);
 
         text = getActivity().findViewById(R.id.mec_demo_app_header_title);
-        versionView = getActivity().findViewById(R.id.appversion);
+        versionView = getActivity().findViewById(R.id.demoappversion);
         mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
 
         DemoContentBody  = rootView.findViewById(R.id.demo_content_layout);

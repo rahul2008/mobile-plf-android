@@ -34,10 +34,7 @@ class DataBindingUtility {
 
             val imageView = imageView as NetworkImageView
             val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
-            imageLoader.get(image_url, ImageLoader.getImageListener(imageView,
-                    com.philips.cdp.di.mec.R.drawable
-                            .no_icon, com.philips.cdp.di.mec.R.drawable
-                    .no_icon))
+            imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0,com.philips.cdp.di.mec.R.drawable.no_icon))
 
             imageView.setImageUrl(image_url!!, imageLoader)
         }

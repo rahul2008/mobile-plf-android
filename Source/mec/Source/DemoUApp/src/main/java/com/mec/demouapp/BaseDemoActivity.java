@@ -74,7 +74,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         } catch (PackageManager.NameNotFoundException e) {
             //IAPLog.e(IAPLog.LOG, e.getMessage());
         }
-        TextView versionView = findViewById(R.id.appversion);
+        TextView versionView = findViewById(R.id.demoappversion);
         versionView.setText(String.valueOf(code));
     }
 
@@ -160,8 +160,8 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
             super.onBackPressed();
         }
         if(currentFrag instanceof MECProductCatalogFragment){
-            showAppVersion();
             actionBar();
+            showAppVersion();
         }
         getSupportFragmentManager().getBackStackEntryCount();
         if(currentFrag instanceof BaseDemoFragment){

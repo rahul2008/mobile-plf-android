@@ -61,6 +61,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             mecProductReviews?.let { productReviewList.addAll(it) }
             adapter.notifyDataSetChanged()
             binding.progressBar.visibility = View.GONE
+            hideProgressBar()
         }
 
     }
@@ -209,8 +210,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         productReviewList= mutableListOf()
 
         val mClearIconView = binding.mecSearchBox.getClearIconView()
-        binding.mecSearchBox.setSearchBoxHint("Search")
-        binding.mecSearchBox.setDecoySearchViewHint("Search")
         val searchText = binding.mecSearchBox.searchTextView
         binding.mecSearchBox.searchTextView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -266,6 +265,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
 
         privacyTextView(binding.mecPrivacy)
+
+
         return binding.root
     }
 
@@ -279,6 +280,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     override fun onStart() {
         super.onStart()
+        createCustomProgressBar(container,MEDIUM)
         executeRequest()
     }
     override fun onResume() {
@@ -315,7 +317,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
         val mecPrivacyFragment = MecPrivacyFragment()
         mecPrivacyFragment.arguments = bundle
-        replaceFragment(mecPrivacyFragment,"privacy",true)
+        addFragment(mecPrivacyFragment,"privacy",true)
     }
 
 

@@ -8,7 +8,7 @@
         android:id="@+id/app_actionbar"
         layout="@layout/mec_demo_app_action_bar" />
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/appversion"
+        android:id="@+id/demoappversion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

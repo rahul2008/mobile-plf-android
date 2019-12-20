@@ -17,6 +17,9 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
                     android:paddingTop="16dp"
+                    android:paddingRight="@dimen/border8_margin"
+                    android:paddingLeft="@dimen/border8_margin"
+
                     android:background="?attr/uidContentSecondaryBackgroundColor"
                     android:orientation="vertical">
 
