@@ -258,8 +258,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
 
                 if(shouldFetchNextPage())
+                    binding.progressBar.visibility = View.VISIBLE
                     executeRequest()
-
             }
         })
 
@@ -338,8 +338,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.productCatalogRecyclerView.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-
-
     }
 
 
@@ -350,7 +348,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     open fun executeRequest(){
-        binding.progressBar.visibility = View.VISIBLE
         ecsProductViewModel.init(currentPage, pageSize)
     }
 
@@ -369,17 +366,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         }
 
         return false
-    }
-
-    override fun handleBackEvent(): Boolean {
-        if (activity != null && activity is MECLauncherActivity) {
-            val count = fragmentManager!!.backStackEntryCount
-            for (i in 0 until count) {
-                fragmentManager!!.popBackStack()
-            }
-            finishActivity()
-        }
-        return super.handleBackEvent()
     }
 
     override fun processError(mecError: MecError?){

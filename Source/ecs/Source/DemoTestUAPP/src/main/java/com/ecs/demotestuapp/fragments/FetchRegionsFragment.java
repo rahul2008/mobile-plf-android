@@ -14,7 +14,7 @@ public class FetchRegionsFragment extends BaseAPIFragment {
 
     public void executeRequest() {
 
-        ECSDataHolder.INSTANCE.getEcsServices().fetchRegions(ECSConfiguration.INSTANCE.getCountry(),new ECSCallback<List<ECSRegion>, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
             public void onResponse(List<ECSRegion> ecsRegions) {
 
@@ -27,7 +27,6 @@ public class FetchRegionsFragment extends BaseAPIFragment {
             public void onFailure(Exception e, ECSError ecsError) {
 
                 String errorString = getFailureString(e,ecsError);
-
                 gotoResultActivity(errorString);
                 getProgressBar().setVisibility(View.GONE);
             }
