@@ -3,18 +3,15 @@ package com. philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
-import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -30,20 +27,15 @@ import android.text.SpannableStringBuilder
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.widget.RelativeLayout
 import android.widget.TextView
-import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
-import com.philips.cdp.di.mec.common.MECLauncherActivity
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Label
-import kotlinx.android.synthetic.main.mec_catalog_fragment.view.*
 
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -54,16 +46,12 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
 
 
-    private val productReviewObserver : Observer<MutableList<MECProductReview>> = object : Observer<MutableList<MECProductReview>> {
-
-        override fun onChanged(mecProductReviews: MutableList<MECProductReview>?) {
-            productReviewList.clear()
-            mecProductReviews?.let { productReviewList.addAll(it) }
-            adapter.notifyDataSetChanged()
-            binding.progressBar.visibility = View.GONE
-            hideProgressBar()
-        }
-
+    private val productReviewObserver : Observer<MutableList<MECProductReview>> = Observer<MutableList<MECProductReview>> { mecProductReviews ->
+        productReviewList.clear()
+        mecProductReviews?.let { productReviewList.addAll(it) }
+        adapter.notifyDataSetChanged()
+        binding.progressBar.visibility = View.GONE
+        hideProgressBar()
     }
 
 
@@ -91,16 +79,12 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     var shouldSupportPagination = true
 
 
-    val productObserver : Observer<MutableList<ECSProducts>> = object : Observer<MutableList<ECSProducts>> {
+    private val productObserver : Observer<MutableList<ECSProducts>> = Observer<MutableList<ECSProducts>> { ecsProductsList ->
+        if (! ecsProductsList .isNullOrEmpty()) {
 
+            totalPages = ecsProductsList.get(ecsProductsList.size-1).pagination?.totalPages ?: 0
 
-        override fun onChanged(ecsProductsList: MutableList<ECSProducts>?) {
-
-            if (! ecsProductsList .isNullOrEmpty()) {
-
-            totalPages = ecsProductsList?.get(ecsProductsList.size-1)?.pagination?.totalPages ?: 0
-
-            currentPage = ecsProductsList?.get(ecsProductsList.size-1)?.pagination?.currentPage ?: 0
+            currentPage = ecsProductsList.get(ecsProductsList.size-1).pagination?.currentPage ?: 0
 
             productList.clear()
 
@@ -117,32 +101,30 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             ecsProductViewModel.fetchProductReview(productList)
 
             if (productList.size!=0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
-                    binding.mecPrivacyLayout.visibility = View.VISIBLE
-                    binding.mecSeparator.visibility = View.VISIBLE
-                    binding.mecLlLayout.visibility = View.VISIBLE
+                binding.mecPrivacyLayout.visibility = View.VISIBLE
+                binding.mecSeparator.visibility = View.VISIBLE
+                binding.mecLlLayout.visibility = View.VISIBLE
             }
         } else{
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
             binding.productCatalogRecyclerView.visibility = View.GONE
             binding.mecPrivacyLayout.visibility = View.GONE
             binding.mecSeparator.visibility = View.GONE
-                binding.mecLlLayout.visibility = View.GONE
-                hideProgressBar()
+            binding.mecLlLayout.visibility = View.GONE
+            hideProgressBar()
         }
 
-            if(productList.size!=0){
-                binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
-                binding.mecLlLayout.visibility = View.VISIBLE
-                binding.llBannerPlaceHolder.visibility = View.VISIBLE
-            } else{
-                binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-                binding.mecLlLayout.visibility = View.GONE
-                binding.llBannerPlaceHolder.visibility = View.GONE
-                hideProgressBar()
-            }
+        if(productList.size!=0){
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+            binding.mecLlLayout.visibility = View.VISIBLE
+            binding.llBannerPlaceHolder.visibility = View.VISIBLE
+        } else{
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+            binding.mecLlLayout.visibility = View.GONE
+            binding.llBannerPlaceHolder.visibility = View.GONE
+            hideProgressBar()
+        }
         currentPage++
-
-        }
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -151,7 +133,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     lateinit var ecsProductViewModel: EcsProductViewModel
 
 
-    lateinit var productReviewList: MutableList<MECProductReview>
+    private lateinit var productReviewList: MutableList<MECProductReview>
     lateinit var productList: MutableList<ECSProduct>
 
 
@@ -178,7 +160,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.mecGrid.setOnClickListener {
             if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
                 val cd: ColorDrawable = binding.mecList.getBackground() as ColorDrawable;
-                val colorCode: Int = cd.getColor();
+                val colorCode: Int = cd.color
                 binding.mecGrid.setBackgroundColor(colorCode)
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
                 adapter = MECProductCatalogGridAdapter(productReviewList, this)
@@ -196,7 +178,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.mecList.setOnClickListener {
             if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
                 val cd: ColorDrawable = binding.mecGrid.getBackground() as ColorDrawable;
-                val colorCode: Int = cd.getColor();
+                val colorCode: Int = cd.color
                 binding.mecList.setBackgroundColor(colorCode)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
                 adapter = MECProductCatalogListAdapter(productReviewList, this)
