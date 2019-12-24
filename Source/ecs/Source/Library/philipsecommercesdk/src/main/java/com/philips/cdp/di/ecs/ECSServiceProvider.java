@@ -172,7 +172,7 @@ import java.util.List;
      *
      * @param ecsCallback the ecs callback containing list of ECSRegion object
      */
-    void fetchRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback);
+    void fetchRegions(String countryISO,ECSCallback<List<ECSRegion>, Exception> ecsCallback);
 
     /**
      * Fetch saved addresses.

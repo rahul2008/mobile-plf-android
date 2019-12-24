@@ -57,7 +57,7 @@ public class AddressController {
 
     public void getRegions() {
 
-        ECSUtility.getInstance().getEcsServices().fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchRegions(ECSConfiguration.INSTANCE.getCountry(),new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
             public void onResponse(List<ECSRegion> result) {
                 CartModelContainer.getInstance().setRegionList(result);

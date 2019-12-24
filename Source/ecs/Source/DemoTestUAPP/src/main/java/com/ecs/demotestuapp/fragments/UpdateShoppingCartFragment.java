@@ -85,7 +85,7 @@ public class UpdateShoppingCartFragment extends BaseAPIFragment {
             if (entries!=null && entries.size() != 0) {
 
                 for (ECSEntries ecsEntries : entries) {
-                    ctns.add(ecsEntries.getEntryNumber() + "");
+                    ctns.add(ecsEntries.getProduct().getCode() + "");
                 }
 
                 fillSpinner(spinner, ctns);
@@ -101,7 +101,7 @@ public class UpdateShoppingCartFragment extends BaseAPIFragment {
         if (entries.size() != 0) {
 
             for (ECSEntries ecsEntries : entries) {
-                if (ctn.equalsIgnoreCase(ecsEntries.getEntryNumber() + "")) {
+                if (ctn.equalsIgnoreCase(ecsEntries.getProduct().getCode() + "")) {
                     return ecsEntries;
                 }
             }

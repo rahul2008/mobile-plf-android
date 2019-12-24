@@ -9,7 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
@@ -29,9 +28,11 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements Response.Listener<JSONObject>{
 
     private final ECSCallback<List<ECSRegion>,Exception> ecsCallback;
+    private String countryISO;
 
-    public GetRegionsRequest(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
+    public GetRegionsRequest(String countryISO, ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
+        this.countryISO = countryISO;
     }
 
 
@@ -42,7 +43,7 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
     @Override
     public String getURL() {
-        return new ECSURLBuilder().getRegionsUrl();
+        return new ECSURLBuilder().getRegionsUrl(countryISO);
     }
 
 
