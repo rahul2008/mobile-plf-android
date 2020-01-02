@@ -51,7 +51,7 @@ class EcsProductViewModelTest {
         val arrayList = ArrayList<String>()
         arrayList.add("CTN")
         ecsProductViewModel.initCategorizedRetailer(arrayList)
-        Mockito.verify(eCSCatalogRepository).getCategorizedProductsForRetailer(arrayList,ecsProductViewModel)
+        //Mockito.verify(eCSCatalogRepository).getCategorizedProductsForRetailer(arrayList,ecsProductViewModel,ecsServices)
     }
 
     @Test

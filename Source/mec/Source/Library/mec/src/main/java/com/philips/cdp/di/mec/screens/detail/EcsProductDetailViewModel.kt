@@ -66,9 +66,9 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
         @JvmStatic
         @BindingAdapter("setStockInfo")
-        fun setStockInfo(stockLabel : Label, product: ECSProduct) {
-            if(null!=product!!.stock ) {
-                if (MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel)) {
+        fun setStockInfo(stockLabel : Label, product: ECSProduct?) {
+            if(null!=product && null!= product.stock) {
+                if (MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) {
                     stockLabel.text = stockLabel.context.getString(R.string.mec_in_stock)
                     stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_green_level_30))
                     // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextSuccessColor)
