@@ -79,7 +79,7 @@ public class PIMAuthManager {
      * @return intent
      * @throws ActivityNotFoundException
      */
-    Intent getAuthorizationRequestIntent(@NonNull AuthorizationServiceConfiguration authServiceConfiguration, @NonNull String clientID, @NonNull String redirectUrl, Map parameter) throws ActivityNotFoundException {
+    Intent getAuthorizationRequestIntent(@NonNull AuthorizationServiceConfiguration authServiceConfiguration, @NonNull String clientID, @NonNull String redirectUrl, Map<String, String> parameter) throws ActivityNotFoundException {
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
                         authServiceConfiguration,
@@ -98,7 +98,7 @@ public class PIMAuthManager {
         return authIntent;
     }
 
-    AuthorizationRequest createAuthRequestUriForMigration(Map additionalParameter) {
+    AuthorizationRequest createAuthRequestUriForMigration(Map<String, String> additionalParameter) {
         PIMOIDCConfigration pimOidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
@@ -133,32 +133,17 @@ public class PIMAuthManager {
      * @param dataIntent              to create authorization response and exception
      * @param pimTokenRequestListener A callback to invoke upon completion
      */
-    void performTokenRequest(@NonNull Intent dataIntent, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
+    void performTokenRequestFromLogin(@NonNull Intent dataIntent, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
 
         AuthorizationResponse response = AuthorizationResponse.fromIntent(dataIntent);
         AuthorizationException exception = AuthorizationException.fromIntent(dataIntent);
 
         mAuthState = new AuthState(response, exception);
 
-        TokenRequest tokenRequest = response.createTokenExchangeRequest();
-        AuthorizationService authorizationService = new AuthorizationService(mContext);
-        authorizationService.performTokenRequest(tokenRequest, (response1, ex) -> {
-            if (response1 != null) {
-                mAuthState.update(response1, ex);
-                mLoggingInterface.log(DEBUG, TAG, "onTokenRequestCompleted => access token : " + response1.accessToken);
-                pimTokenRequestListener.onTokenRequestSuccess();
-            }
-
-            if (ex != null) {
-                mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage() + "with code : " + ex.code);
-                Error error = new Error(PIMErrorEnums.getErrorCode(ex.code), PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.getErrorCode(ex.code)));
-                pimTokenRequestListener.onTokenRequestFailed(error);
-            }
-            authorizationService.dispose();
-        });
+        performTokenRequest(pimTokenRequestListener, response);
     }
 
-    public void performTokenRequest(@NonNull AuthorizationRequest authorizationRequest, @NonNull String authResponse, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
+    void performTokenRequestFromLogin(@NonNull AuthorizationRequest authorizationRequest, @NonNull String authResponse, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
         AuthorizationResponse authorizationResponse = new AuthorizationResponse.Builder(authorizationRequest).fromUri(Uri.parse(authResponse)).build();
         if (authorizationResponse == null || authorizationResponse.authorizationCode == null) {
             AuthorizationException authorizationException = AuthorizationException.fromOAuthRedirect(Uri.parse(authResponse));
@@ -170,6 +155,10 @@ public class PIMAuthManager {
         mAuthState = new AuthState(authorizationResponse, null);
 
 
+        performTokenRequest(pimTokenRequestListener, authorizationResponse);
+    }
+
+    private void performTokenRequest(@NonNull PIMTokenRequestListener pimTokenRequestListener, AuthorizationResponse authorizationResponse) {
         TokenRequest tokenRequest = authorizationResponse.createTokenExchangeRequest();
         AuthorizationService authorizationService = new AuthorizationService(mContext);
         authorizationService.performTokenRequest(tokenRequest, (response1, ex) -> {

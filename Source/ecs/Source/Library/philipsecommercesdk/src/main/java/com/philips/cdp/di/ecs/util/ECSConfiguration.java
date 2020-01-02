@@ -75,11 +75,7 @@ public enum ECSConfiguration {
     public void setDefaultRetryPolicy(DefaultRetryPolicy defaultRetryPolicy) {
         this.defaultRetryPolicy = defaultRetryPolicy;
     }
-
-
-
-
-
+    
     public AppInfra getAppInfra() {
         return appInfra;
     }

@@ -92,7 +92,7 @@ public class GetRegionsRequestTest {
     @Test
     public void getRegionRequestSuccess() {
         mockInputValidator.setJsonFileName("GetRegionsSuccess.json");
-        mockECSServices.fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
+        mockECSServices.fetchRegions("en",new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
             public void onResponse(List<ECSRegion> result) {
                 assertNotNull(result);
@@ -112,7 +112,7 @@ public class GetRegionsRequestTest {
     @Test
     public void getRegionRequestFailure() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
+        mockECSServices.fetchRegions("en",new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
             public void onResponse(List<ECSRegion> result) {
                 assertTrue(true);
@@ -135,7 +135,7 @@ public class GetRegionsRequestTest {
 
         //acc.us.pil.shop.philips.com/pilcommercewebservices/v2/metainfo/regions/null?fields=FULL&lang=en_US
 
-        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+"metainfo/regions/"+StaticBlock.getCountry()+"?fields=FULL&lang="+StaticBlock.getLocale();
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+"metainfo/regions/"+"en"+"?fields=FULL&lang="+StaticBlock.getLocale();
         Assert.assertEquals(excepted,mockGetRegionsRequest.getURL());
     }
 

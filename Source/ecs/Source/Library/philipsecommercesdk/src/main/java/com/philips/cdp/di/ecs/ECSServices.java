@@ -344,8 +344,8 @@ public class ECSServices implements ECSServiceProvider {
      * @param ecsCallback the ecs callback containing list of ECSRegion object
      */
     @Override
-    public void fetchRegions(@NonNull ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
-        ecsCallValidator.getRegions(ecsCallback);
+    public void fetchRegions(@NonNull String countryISO, @NonNull ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
+        ecsCallValidator.getRegions(countryISO,ecsCallback);
     }
 
     // ==== Address starts

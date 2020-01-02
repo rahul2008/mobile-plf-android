@@ -22,9 +22,6 @@ public static final String  mockAccessToken = "acceesstoken";
         ECSConfiguration.INSTANCE.setAuthToken(mockAccessToken);
     }
 
-    public static  String getCountry(){
-        return ECSConfiguration.INSTANCE.getCountry();
-    }
     public static  String getBaseURL(){
         return ECSConfiguration.INSTANCE.getBaseURL();
     }
