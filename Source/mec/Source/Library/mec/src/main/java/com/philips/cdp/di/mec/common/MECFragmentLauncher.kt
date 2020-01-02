@@ -138,18 +138,20 @@ class MECFragmentLauncher : MecBaseFragment(){
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW -> {
 
-                val isCategorized: ArrayList<String>? = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
-
                 fragment = MECProductCatalogFragment()
+
+            }
+            MECLaunchInput.MECFlows.MEC_CATEGORIZED_VIEW ->{
+
+                val isCategorized: ArrayList<String>? = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
 
                 if(!isCategorized.isNullOrEmpty()){
                     fragment = if(isHybris){
-                         MECProductCatalogCategorizedFragment()
+                        MECProductCatalogCategorizedFragment()
                     }else{
-                         MECCategorizedRetailerFragment()
+                        MECCategorizedRetailerFragment()
                     }
                 }
-
             }
             else -> {
                 fragment = MECProductCatalogFragment().createInstance(Bundle())
