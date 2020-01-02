@@ -33,9 +33,9 @@ class MECProductInfoFragment : MecBaseFragment() {
 
         binding = MecProductInfoFragmentBinding.inflate(inflater, container, false)
 
-        ecsProductDetailViewModel = this.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        ecsProductDetailViewModel = activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
-        ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
+        ecsProductDetailViewModel.ecsProduct.observe(activity!!, productObserver)
 
         return binding.root
     }

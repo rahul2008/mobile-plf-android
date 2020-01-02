@@ -4,8 +4,12 @@
  */
 package com.philips.cdp.di.mec.utils
 
+import com.philips.cdp.di.mec.R
+
 object MECConstant {
 
+    val DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight
+    val IAP_KEY_ACTIVITY_THEME: String? = "IAP_KEY_ACTIVITY_THEME"
     val COMPONENT_NAME: String = "mec"
     const val SELECTED_RETAILER: String ="SELECTED_RETAILER"
     const val RETAILER_REQUEST_CODE: Int = 5000
