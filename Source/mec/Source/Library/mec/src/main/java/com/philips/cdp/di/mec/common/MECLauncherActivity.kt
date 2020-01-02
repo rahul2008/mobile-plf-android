@@ -11,9 +11,12 @@ import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
 
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECConstant.DEFAULT_THEME
+import com.philips.cdp.di.mec.utils.MECConstant.IAP_KEY_ACTIVITY_THEME
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener
+import com.philips.platform.uid.thememanager.*
 import com.philips.platform.uid.utils.UIDActivity
 import kotlinx.android.synthetic.main.mec_action_bar.*
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
@@ -63,6 +66,7 @@ import java.util.*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initTheme()
         DataBindingUtil.setContentView<MecActivityLauncherBinding>(this, R.layout.mec_activity_launcher)
 
         setSupportActionBar(mec_toolbar)
@@ -156,6 +160,15 @@ import java.util.*
          if (!backState) {
              super.onBackPressed()
          }
+     }
+
+     private fun initTheme() {
+         var themeIndex = intent.getIntExtra(IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME)
+         if (themeIndex <= 0) {
+             themeIndex = DEFAULT_THEME
+         }
+         theme.applyStyle(themeIndex, true)
+         UIDHelper.init(ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE))
      }
 
 }

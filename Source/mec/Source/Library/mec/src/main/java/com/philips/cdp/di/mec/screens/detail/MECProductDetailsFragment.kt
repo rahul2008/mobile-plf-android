@@ -98,13 +98,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         binding.fragment = this
 
-        ecsProductDetailViewModel = this!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+
         ecsRetailerViewModel = this!!?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
 
         ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
 
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
+
+
         ecsProductDetailViewModel.bulkRatingResponse.observe(this, ratingObserver)
         ecsProductDetailViewModel.mecError.observe(this, this)
 
