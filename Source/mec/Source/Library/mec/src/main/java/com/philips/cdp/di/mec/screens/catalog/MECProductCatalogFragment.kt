@@ -248,6 +248,14 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         privacyTextView(binding.mecPrivacy)
 
+        adapter = MECProductCatalogListAdapter(productReviewList,this)
+
+        binding.productCatalogRecyclerView.adapter = adapter
+
+        binding.productCatalogRecyclerView.apply {
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
+
 
         return binding.root
     }
@@ -310,18 +318,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         return fragment
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        adapter = MECProductCatalogListAdapter(productReviewList,this)
-
-        binding.productCatalogRecyclerView.adapter = adapter
-
-        binding.productCatalogRecyclerView.apply {
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
-    }
-
 
     private fun isScrollDown(lay: LinearLayoutManager): Boolean {
         val visibleItemCount = lay.childCount
@@ -351,7 +347,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     override fun processError(mecError: MecError?){
-        super.processError(mecError)
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
         binding.productCatalogRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.GONE

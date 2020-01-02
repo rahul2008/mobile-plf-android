@@ -98,7 +98,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         binding.fragment = this
 
-        ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        ecsProductDetailViewModel = this!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
         ecsRetailerViewModel = this!!?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
 
         ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
@@ -108,9 +108,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel.bulkRatingResponse.observe(this, ratingObserver)
         ecsProductDetailViewModel.mecError.observe(this, this)
 
+
         binding.indicator.viewPager = binding.pager
-
-
         val bundle = arguments
         product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
 
@@ -130,12 +129,12 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // binding.product = product
 
         val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
+        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager, product.code)
         binding.viewpagerMain.adapter = fragmentAdapter
-
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
+
+
         return binding.root
-
-
     }
 
     override fun onResume() {

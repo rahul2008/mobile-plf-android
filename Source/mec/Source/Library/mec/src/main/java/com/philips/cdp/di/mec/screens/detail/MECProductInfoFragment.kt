@@ -26,7 +26,6 @@ class MECProductInfoFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
             binding.product = ecsProduct
         }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +33,7 @@ class MECProductInfoFragment : MecBaseFragment() {
 
         binding = MecProductInfoFragmentBinding.inflate(inflater, container, false)
 
-        ecsProductDetailViewModel = this!!.activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        ecsProductDetailViewModel = this.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
 

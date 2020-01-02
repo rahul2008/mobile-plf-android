@@ -41,7 +41,8 @@ class DataBindingUtility {
 
         @JvmStatic
         @BindingAdapter("assets")
-        fun setAdapter(pager: ViewPager, assets: List<Asset>) {
+        fun setAdapter(pager: ViewPager, assets: List<Asset> ?) {
+            if(assets!=null)
             pager.adapter = ImageAdapter(assets)
         }
 
