@@ -23,7 +23,7 @@ import java.util.*
 
 class EcsProductDetailViewModel : CommonViewModel() {
 
-    val ecsProduct = MutableLiveData<ECSProduct>()
+    var ecsProduct = MutableLiveData<ECSProduct>()
 
     val bulkRatingResponse= MutableLiveData<BulkRatingsResponse>()
 

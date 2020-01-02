@@ -8,6 +8,7 @@ import com.philips.cdp.di.mec.common.MecError
 class ECSProductDetailCallback(private val ecsProductDetailViewModel: EcsProductDetailViewModel)  : ECSCallback<ECSProduct, Exception> {
 
     override fun onResponse(ecsProduct: ECSProduct?) {
+        ecsProductDetailViewModel.ecsProduct
         ecsProductDetailViewModel.ecsProduct.value = ecsProduct
     }
 

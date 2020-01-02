@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @since 1.0.0
  */
 public class MECFlowInput implements Serializable {
+
     private String productCTN;
     private ArrayList<String> productCTNs;
 

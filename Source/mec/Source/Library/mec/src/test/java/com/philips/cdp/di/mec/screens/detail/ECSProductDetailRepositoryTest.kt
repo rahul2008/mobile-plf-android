@@ -2,10 +2,12 @@ package com.philips.cdp.di.mec.screens.detail
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
+import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -15,8 +17,7 @@ import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.*
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 
 import java.lang.Exception
 
@@ -35,17 +36,66 @@ class ECSProductDetailRepositoryTest {
     lateinit var  eCSProductDetailRepository : ECSProductDetailRepository
 
     @Mock
+    lateinit var ecsProductDetailCallBack :ECSProductDetailCallback
+
+    @Mock
     lateinit var ecsServices: ECSServices
 
-    lateinit var eCSProduct : ECSProduct;
+    @Mock
+    lateinit var loadCallDisplayRatingsMock : LoadCallDisplay<BulkRatingsRequest, BulkRatingsResponse>
+
+    @Mock
+    lateinit var loadCallDisplayReviewMock : LoadCallDisplay<ReviewsRequest, ReviewResponse>
+
+
+    @Mock
+    lateinit var bVConversationsClient : BVConversationsClient
+
+    @Mock
+    lateinit var mECReviewConversationsDisplayCallback : MECReviewConversationsDisplayCallback
+
+    @Mock
+    lateinit var mECDetailBulkRatingConversationsDisplayCallback : MECDetailBulkRatingConversationsDisplayCallback
+
+    lateinit var eCSProduct : ECSProduct
 
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
+        eCSProductDetailRepository = ECSProductDetailRepository(ecsProductDetailViewModel,ecsServices)
+        eCSProductDetailRepository.ecsProductDetailCallBack = ecsProductDetailCallBack
+
         eCSProduct = ECSProduct()
         eCSProduct.code = "HX12345/00"
+
+        MECDataHolder.INSTANCE.locale = "en"
+        eCSProductDetailRepository.bvClient = bVConversationsClient
+        eCSProductDetailRepository.reviewsCb = mECReviewConversationsDisplayCallback
+        eCSProductDetailRepository.ratingCb = mECDetailBulkRatingConversationsDisplayCallback
+
+        MECDataHolder.INSTANCE.bvClient = bVConversationsClient
     }
 
 
+    @Test
+    fun getProductDetailShouldFetchProductDetail() {
+        eCSProductDetailRepository.getProductDetail(eCSProduct)
+        Mockito.verify(ecsServices).fetchProductDetails(eCSProduct,ecsProductDetailCallBack)
+    }
+
+
+    @Test
+    fun fetchProductReviewShouldLoadRequest() {
+        Mockito.`when`(bVConversationsClient.prepareCall(ArgumentMatchers.any(ReviewsRequest::class.java))).thenReturn(loadCallDisplayReviewMock)
+        eCSProductDetailRepository.fetchProductReview("CTN",0,20)
+        Mockito.verify(loadCallDisplayReviewMock).loadAsync(mECReviewConversationsDisplayCallback)
+    }
+
+    @Test
+    fun getRatingsShouldFetchBVRatings() {
+        Mockito.`when`(bVConversationsClient.prepareCall(ArgumentMatchers.any(BulkRatingsRequest::class.java))).thenReturn(loadCallDisplayRatingsMock)
+        eCSProductDetailRepository.getRatings("CTN")
+        Mockito.verify(loadCallDisplayRatingsMock).loadAsync(mECDetailBulkRatingConversationsDisplayCallback)
+    }
 }
