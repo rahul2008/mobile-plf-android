@@ -129,7 +129,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // binding.product = product
 
         val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
-        val fragmentAdapter = TabPagerAdapter(activity!!.supportFragmentManager, product.code)
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
 
