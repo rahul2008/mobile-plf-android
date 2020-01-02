@@ -60,7 +60,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 val simpleName = newFragment.javaClass.simpleName
 
                 if (isReplaceWithBackStack) {
-                    transaction.addToBackStack(newFragmentTag)
+                    transaction.addToBackStack(null)
                 }
 
                 transaction.replace(id, newFragment, simpleName)
@@ -71,7 +71,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
 
     fun addFragment(newFragment: MecBaseFragment,
-                        newFragmentTag: String, isReplaceWithBackStack: Boolean) {
+                        newFragmentTag: String, isAddWithBackStack: Boolean) {
         if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
             RuntimeException("ActionBarListner and IAPListner cant be null")
         else {
@@ -80,8 +80,8 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 val simpleName = newFragment.javaClass.simpleName
 
-                if (isReplaceWithBackStack) {
-                    transaction.addToBackStack(newFragmentTag)
+                if (isAddWithBackStack) {
+                    transaction.addToBackStack(null)
                 }
 
                 transaction.add(id, newFragment, simpleName)

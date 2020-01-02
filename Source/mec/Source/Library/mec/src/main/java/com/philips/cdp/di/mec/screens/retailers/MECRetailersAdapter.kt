@@ -30,13 +30,6 @@ class MECRetailersAdapter (private val mecRetailers: List<ECSRetailer>? ,val ite
             binding.mecRetailer = retailer
             binding.itemClickListener = itemClickListener
 
-            if(retailer.isPhilipsStore.equals("Y")){
-                    itemView.visibility = View.GONE
-                itemView.layoutParams = RecyclerView.LayoutParams(0,0)
-                } else {
-                    itemView.visibility = View.VISIBLE
-                    itemView.layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
-                }
             if (TextUtils.isDigitsOnly(retailer.philipsOnlinePrice)) {
                 binding.mecRetailerItemPrice.visibility = View.GONE
             } else {
