@@ -64,7 +64,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         val fragment = MECProductDetailsFragment()
         fragment.arguments = bundle
-        replaceFragment(fragment,"detail",true)
+        addFragment(fragment,"detail",true)
     }
 
     override fun isPaginationSupported(): Boolean {
