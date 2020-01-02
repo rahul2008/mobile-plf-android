@@ -501,6 +501,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         } else if (view == mLaunchProductDetail) {
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList.get(0));
+
                 if(getActivity() instanceof LaunchAsActivity) {
                     launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_DETAIL_VIEW(), input, null);
                 } else if (getActivity() instanceof LaunchAsFragment) {
@@ -512,10 +513,11 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 MECFlowInput input = new MECFlowInput(mCategorizedProductList);
+
                 if(getActivity() instanceof LaunchAsActivity) {
-                    launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                    launchMEC(MECLaunchInput.MECFlows.Companion.getMEC_CATEGORIZED_VIEW(), input, null);
                 } else if (getActivity() instanceof LaunchAsFragment) {
-                    launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_PRODUCT_CATALOG_VIEW(), input, null);
+                    launchMECasFragment(MECLaunchInput.MECFlows.Companion.getMEC_CATEGORIZED_VIEW(), input, null);
                 }
             } else {
                 Toast.makeText(getActivity(), "Please add CTN", Toast.LENGTH_SHORT).show();

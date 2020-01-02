@@ -14,16 +14,6 @@
         <activity android:name=".LaunchAsFragment" />
         <activity android:name=".LaunchAsActivity" />
         <activity android:name=".BaseDemoActivity" />
-        <activity
-            android:name=".DemoActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
-        <activity
-            android:name=".DemoFragmentActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
     </application>
 
 </manifest>
