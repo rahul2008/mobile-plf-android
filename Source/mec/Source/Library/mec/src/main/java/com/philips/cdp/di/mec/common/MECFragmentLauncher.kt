@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.integration.MECFlowInput
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -20,9 +21,11 @@ import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.android.synthetic.main.mec_main_activity.*
+import java.io.Serializable
 
 class MECFragmentLauncher : MecBaseFragment(){
 
+    lateinit var  mFlowInput: MECFlowInput
     lateinit var ecsLauncherViewModel: EcsLauncherViewModel
 
     private val isHybrisObserver : Observer<Boolean> = object :Observer<Boolean>{
@@ -91,6 +94,7 @@ class MECFragmentLauncher : MecBaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
+        mFlowInput = bundle?.getSerializable(MECConstant.FLOW_INPUT) as MECFlowInput
         landingFragment =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
 
     }
@@ -113,7 +117,7 @@ class MECFragmentLauncher : MecBaseFragment(){
 
     protected fun getFragment(isHybris : Boolean,screen: Int): MecBaseFragment? {
         var fragment: MecBaseFragment? = null
-        bundle = arguments
+
         when (screen) {
             MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
 
@@ -143,7 +147,7 @@ class MECFragmentLauncher : MecBaseFragment(){
             }
             MECLaunchInput.MECFlows.MEC_CATEGORIZED_VIEW ->{
 
-                val isCategorized: ArrayList<String>? = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
+                val isCategorized: ArrayList<String>? = mFlowInput.productCTNs
 
                 if(!isCategorized.isNullOrEmpty()){
                     fragment = if(isHybris){
