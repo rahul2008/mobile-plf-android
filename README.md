@@ -1,25 +1,32 @@
-Introduction
-Mobility Platform is an app development concept, where a single platform (ReferenceApp) is used as the app core over which proposition specific uApps are connected to form proposition specific mobile apps.
-In other words, Mobility Platform is a single platform that can be used to create, derive, and deploy mobile apps for any Philips proposition. This also helps in developing and maintaining features (common components) generic to the proposition. The components are depicted in the following figure in a simple architectural block diagram.
+Introduction:
 
-Architecture
+Mobile Platform is basically a classification of common components that helps the proposition app
+rapid development. The components are generic and not specific to a business.
+It can be used to create, derive, and deploy mobile apps for any Philips proposition.
+The components are depicted in the following figure in a simple architectural block diagram.
+
+Proposition apps consume these common components to suffice there requirement.
+And deploy mobile apps for any Philips proposition. This also helps in developing and maintaining features (common components) generic to the proposition. The components are depicted in the following figure in a simple architectural block diagram.
+
+
+Architecture : https://confluence.atlas.philips.com/display/MOB/Architecture
 
 Architectural Advantages:
-
-Developer friendly
-Improved maintainability, extensibility, reusability, reliability, consistency, and diversity management of apps
-Seamless integration with Philips platforms
-Integrated test framework for all the common component in a single app called ReferenceApp
+    * Developer friendly
+    * Improved maintainability, extensibility, reusability, reliability, consistency, and diversified management of apps
+    * Seamless integration with other Philips platforms
+    * Integrated test framework for all the common component in a single app called ReferenceApp
 
 
 Business Advantages:
 
-* Cost reduction through platform approach
-* Faster time to market
-* Single user experience for consumer
-* Easy Eco System management
-* Leverage knowledge and reuse across Philips propositions
-* Creation of faster and richer cross-BG solutions.
+    * Cost reduction through platform approach
+    * Faster time to market
+    * Single user experience for consumer
+    * Easy Eco System management
+    * Leverage knowledge and reuse across Philips propositions
+    * Creation of faster and richer cross-BG solutions.
+
 
 Terms used in EMS-Platform:
 ----------------------------------------------------------------------------------------------------------------|
@@ -52,6 +59,7 @@ Terms used in EMS-Platform:
 |               | layer for optimal app development. App Infra provides logging, tagging, secure storage,       |
 |               | service discovery, and many other functions.                                                  |
 ----------------------------------------------------------------------------------------------------------------|
+
 Pull requests:
 PRs are essential part of the workflow. Master, development and release branches are protected and you can not push directly to them. You need to create a PR, someone has to approve it and the build has to pass on the CircleCI (static checkers, lint and tests)
 
