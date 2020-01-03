@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                    android:text="4"
+                    android:text="@{ product.overallRating}"
                     android:textSize="@dimen/iap_product_original_price" />
 
                 <com.philips.platform.uid.view.widget.RatingBar
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                    android:text="(3 reviews)"
+                    android:text="@{ product.overallReview}"
                     android:textSize="@dimen/iap_product_original_price" />
 
             </LinearLayout>

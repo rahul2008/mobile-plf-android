@@ -1,15 +1,16 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import android.widget.RelativeLayout
+import com.google.gson.Gson
+import com.philips.cdp.di.mec.integration.MECFlowInput
 import com.philips.cdp.di.mec.utils.MECConstant
-import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     override fun executeRequest(){
         val bundle = arguments
-        var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
-        ecsProductViewModel.initCategorized(currentPage, pageSize,ctns)
+        val str = bundle?.getString(MECConstant.FLOW_INPUT)
+        val isCategorized = Gson().fromJson(str, MECFlowInput::class.java)
+        ecsProductViewModel.initCategorized(currentPage, pageSize, isCategorized.productCTNs!!)
     }
 
     override fun isPaginationSupported(): Boolean {
