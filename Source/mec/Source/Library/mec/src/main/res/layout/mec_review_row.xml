@@ -91,7 +91,8 @@
                         <RelativeLayout
                             android:id="@+id/mec_pros_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/iap_product_ctn_12">
                             <com.philips.platform.uid.view.widget.Label
                                 android:id="@+id/mec_review_pros_icon"
                                 android:layout_width="wrap_content"
@@ -134,7 +135,6 @@
         android:id="@+id/mec_cons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="24dp">
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mec_review_cons_icon"
