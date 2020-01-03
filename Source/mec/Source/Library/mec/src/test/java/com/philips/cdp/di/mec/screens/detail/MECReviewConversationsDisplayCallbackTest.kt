@@ -3,6 +3,7 @@ package com.philips.cdp.di.mec.screens.detail
 import android.arch.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ConversationsException
+import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.philips.cdp.di.mec.common.MecError
 import org.junit.Test
 
@@ -15,19 +16,12 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class MECDetailBulkRatingConversationsDisplayCallbackTest {
+class MECReviewConversationsDisplayCallbackTest {
 
-
-    lateinit var mECDetailBulkRatingConversationsDisplayCallback : MECDetailBulkRatingConversationsDisplayCallback
+    lateinit var mecReviewConversationsDisplayCallback: MECReviewConversationsDisplayCallback
 
     @Mock
     lateinit var ecsProductDetailViewModelMock: EcsProductDetailViewModel
-
-    @Mock
-    lateinit var responseMock: BulkRatingsResponse
-
-    @Mock
-    lateinit var mutableLiveDataMock : MutableLiveData<BulkRatingsResponse>
 
     @Mock
     lateinit var exceptionMock: ConversationsException
@@ -35,19 +29,24 @@ class MECDetailBulkRatingConversationsDisplayCallbackTest {
     @Mock
     lateinit var mutableLiveDataMecErrorMock : MutableLiveData<MecError>
 
+    @Mock
+    lateinit var mutableLiveDataMock : MutableLiveData<ReviewResponse>
+
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        Mockito.`when`(ecsProductDetailViewModelMock.bulkRatingResponse).thenReturn(mutableLiveDataMock)
+        Mockito.`when`(ecsProductDetailViewModelMock.review).thenReturn(mutableLiveDataMock)
         Mockito.`when`(ecsProductDetailViewModelMock.mecError).thenReturn(mutableLiveDataMecErrorMock)
-        mECDetailBulkRatingConversationsDisplayCallback = MECDetailBulkRatingConversationsDisplayCallback(ecsProductDetailViewModelMock)
+        mecReviewConversationsDisplayCallback = MECReviewConversationsDisplayCallback(ecsProductDetailViewModelMock)
     }
 
     @Test
     fun onSuccess() {
-        mECDetailBulkRatingConversationsDisplayCallback.onSuccess(responseMock)
-        assertNotNull(ecsProductDetailViewModelMock.bulkRatingResponse)
+
+        val reviewResponse = ReviewResponse()
+        mecReviewConversationsDisplayCallback.onSuccess(reviewResponse)
+        assertNotNull(ecsProductDetailViewModelMock.review)
 
         //TODO
         //assertNotNull(ecsProductDetailViewModelMock.bulkRatingResponse.value)
@@ -55,8 +54,9 @@ class MECDetailBulkRatingConversationsDisplayCallbackTest {
 
     @Test
     fun onFailure() {
-        mECDetailBulkRatingConversationsDisplayCallback.onFailure(exceptionMock)
+        mecReviewConversationsDisplayCallback.onFailure(exceptionMock)
         assertNotNull(ecsProductDetailViewModelMock.mecError)
+        //TODO
         //assertNotNull(ecsProductDetailViewModelMock.mecError.value)
     }
 }

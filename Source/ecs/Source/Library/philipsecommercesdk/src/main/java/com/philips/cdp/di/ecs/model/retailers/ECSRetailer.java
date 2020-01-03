@@ -5,6 +5,8 @@
  */
 package com.philips.cdp.di.ecs.model.retailers;
 
+import android.support.annotation.VisibleForTesting;
+
 import java.io.Serializable;
 
 public class ECSRetailer implements Serializable{
@@ -12,6 +14,12 @@ public class ECSRetailer implements Serializable{
     private static final long serialVersionUID = -4549397314749988036L;
     private String name;
     private String availability;
+
+    @VisibleForTesting
+    public void setIsPhilipsStore(String isPhilipsStore) {
+        this.isPhilipsStore = isPhilipsStore;
+    }
+
     private String isPhilipsStore;
     private String philipsOnlinePrice;
     private int logoHeight;
