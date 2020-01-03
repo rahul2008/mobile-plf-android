@@ -14,6 +14,7 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical">
 
 
@@ -24,7 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        android:padding="@dimen/border8_margin"
+        android:paddingTop="@dimen/border8_margin"
+        android:paddingBottom="@dimen/border8_margin"
+        android:paddingRight="@dimen/border16_margin_left_right"
+        android:paddingLeft="@dimen/border16_margin_left_right"
         android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:text="@{csChapterItem.csChapterName}"

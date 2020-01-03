@@ -12,6 +12,8 @@
    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+       android:paddingRight="@dimen/border16_margin_left_right"
+       android:paddingLeft="@dimen/border16_margin_left_right"
         android:orientation="vertical">
 
         <LinearLayout
