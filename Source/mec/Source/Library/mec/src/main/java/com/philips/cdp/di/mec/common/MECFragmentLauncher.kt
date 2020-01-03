@@ -94,7 +94,7 @@ class MECFragmentLauncher : MecBaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
-        mFlowInput = bundle?.getSerializable(MECConstant.FLOW_INPUT) as MECFlowInput
+//        mFlowInput = bundle?.getSerializable(MECConstant.FLOW_INPUT) as MECFlowInput
         landingFragment =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
 
     }
