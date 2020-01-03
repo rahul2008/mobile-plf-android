@@ -22,6 +22,9 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import java.io.Serializable
+import com.google.gson.Gson
+
+
 
 class MECFragmentLauncher : MecBaseFragment(){
 
@@ -94,7 +97,6 @@ class MECFragmentLauncher : MecBaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
-//        mFlowInput = bundle?.getSerializable(MECConstant.FLOW_INPUT) as MECFlowInput
         landingFragment =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
 
     }
@@ -147,14 +149,10 @@ class MECFragmentLauncher : MecBaseFragment(){
             }
             MECLaunchInput.MECFlows.MEC_CATEGORIZED_VIEW ->{
 
-                val isCategorized: ArrayList<String>? = mFlowInput.productCTNs
-
-                if(!isCategorized.isNullOrEmpty()){
                     fragment = if(isHybris){
                         MECProductCatalogCategorizedFragment()
                     }else{
                         MECCategorizedRetailerFragment()
-                    }
                 }
             }
             else -> {

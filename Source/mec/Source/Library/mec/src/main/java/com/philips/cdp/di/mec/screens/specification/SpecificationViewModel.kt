@@ -14,6 +14,7 @@ class SpecificationViewModel : CommonViewModel() {
 
     val specification = MutableLiveData<SpecificationModel>()
 
+
     fun fetchSpecification(context: Context,ctn :String){
         SpecificationRepository().fetchSpecification(context,ctn,this)
     }

@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.common.ecsService
 
+import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.config.ECSConfig
@@ -9,72 +10,29 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import java.util.*
 
-class ECSLauncherRepository {
+class ECSLauncherRepository(private val ecsServices: ECSServices, private val ecsLauncherViewModel: EcsLauncherViewModel) {
 
-    fun configECS(ecsLauncherViewModel: EcsLauncherViewModel){
-        val ecsServices = MecHolder.INSTANCE.eCSServices
+    var configBooleanCallback = ConfigBooleanCallback(ecsLauncherViewModel)
 
-        ecsServices.configureECS( object : ECSCallback<Boolean, Exception>{
-            override fun onResponse(result: Boolean?) {
-                ecsLauncherViewModel.isHybris.value = result
-            }
+    var configurationCallback = ConfigurationCallback(ecsLauncherViewModel)
 
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsLauncherViewModel.mecError.value = mecError
-            }
+    var ecsProductCallback = ECSProductCallback(ecsLauncherViewModel)
 
-        })
+    var ecsProductListCallback = ECSProductListCallback(ecsLauncherViewModel)
+
+    fun configECS() {
+        ecsServices.configureECS(configBooleanCallback)
     }
 
-
-    fun configECSToGetConfig(ecsLauncherViewModel: EcsLauncherViewModel){
-
-        val ecsServices = MecHolder.INSTANCE.eCSServices
-
-        ecsServices.configureECSToGetConfiguration(object:ECSCallback<ECSConfig,Exception>{
-            override fun onResponse(result: ECSConfig?) {
-                ecsLauncherViewModel.ecsConfig.value = result
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsLauncherViewModel.mecError.value = mecError
-            }
-
-        })
+    fun configECSToGetConfig() {
+        ecsServices.configureECSToGetConfiguration(configurationCallback)
     }
 
-
-    fun getProductDetailForCtn(ctn: String, ecsLauncherViewModel: EcsLauncherViewModel) {
-
-        val eCSServices = MecHolder.INSTANCE.eCSServices
-
-        eCSServices.fetchProduct(ctn,object:ECSCallback<ECSProduct,Exception>{
-            override fun onResponse(result: ECSProduct) {
-                ecsLauncherViewModel.ecsProduct.value = result
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsLauncherViewModel.mecError.value = mecError
-            }
-        })
+    fun getProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProduct(ctn, ecsProductCallback)
     }
 
-    fun getRetailerProductDetailForCtn(ctn: String, ecsLauncherViewModel: EcsLauncherViewModel) {
-
-        val eCSServices = MecHolder.INSTANCE.eCSServices
-
-        eCSServices.fetchProductSummaries(Arrays.asList(ctn),object:ECSCallback<List<ECSProduct>,Exception>{
-            override fun onResponse(result: List<ECSProduct>) {
-                ecsLauncherViewModel.ecsProduct.value = result.get(0)
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mecError = MecError(error, ecsError)
-                ecsLauncherViewModel.mecError.value = mecError
-            }
-        })
+    fun getRetailerProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProductSummaries(Arrays.asList(ctn), ecsProductListCallback)
     }
 }

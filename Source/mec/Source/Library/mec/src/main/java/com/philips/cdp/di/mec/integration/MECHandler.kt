@@ -27,7 +27,8 @@ import com.philips.platform.uappframework.launcher.UiLauncher
 
 import java.util.ArrayList
 import java.util.Objects
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK as NO_NETWORK1
+import com.google.gson.Gson
+
 
 internal class MECHandler(private val mMECDependencies: MECDependencies, private val mMECSetting: MECSettings, private val mUiLauncher: UiLauncher, private val mLaunchInput: MECLaunchInput) {
     private var appInfra: AppInfra? = null
@@ -115,6 +116,11 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView)
         val activityLauncher = mUiLauncher as ActivityLauncher
         val bundle = getBundle()
+        if (mLaunchInput.mMECFlowInput == null){
+            MECFlowInput()
+        }
+        val str = Gson().toJson(mLaunchInput.mMECFlowInput)
+        bundle.putString(MECConstant.FLOW_INPUT, str)
         bundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.uiKitTheme)
         intent.putExtras(bundle)
         mMECSetting.context.startActivity(intent)
@@ -132,6 +138,13 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     }
 
     fun loadDecisionFragment(bundle: Bundle) {
+
+        if (mLaunchInput.mMECFlowInput == null){
+            MECFlowInput()
+        }
+        val str = Gson().toJson(mLaunchInput.mMECFlowInput)
+        bundle.putString(MECConstant.FLOW_INPUT, str)
+
         val mecFragmentLauncher = MECFragmentLauncher()
         mecFragmentLauncher.arguments = bundle
 
