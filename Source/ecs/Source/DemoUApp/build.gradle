@@ -63,6 +63,15 @@ android {
         exclude 'lib/x86/libRSSupport.so'
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+        disable 'GradleCompatible'
+        disable 'MissingTranslation'
+        disable 'TypographyFractions', 'TypographyQuotes'
+        absolutePaths false
+        lintConfig file('lint.xml')
+    }
 
 }
 
@@ -103,7 +112,7 @@ dependencies {
         implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
-        implementation project(strings.ecs.projectName)
+      //  implementation project(strings.ecs.projectName)
        // implementation project(path: strings.ecs.projectName, configuration: 'default')
     } else {
        // implementation philipsdeps.iap
