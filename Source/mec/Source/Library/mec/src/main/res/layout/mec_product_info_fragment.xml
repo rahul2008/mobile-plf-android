@@ -30,7 +30,6 @@
             android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
             android:text="@{product.summary.marketingTextHeader}"
             android:textSize="16sp"
-            android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:layout_marginTop="28dp" />
 
@@ -47,7 +46,6 @@
             android:textSize="12sp"
             android:paddingTop="16dp"
             android:paddingRight="8dp"
-            android:paddingLeft="8dp"
             android:visibility="visible"
             />
 
