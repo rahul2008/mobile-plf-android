@@ -1,0 +1,29 @@
+package com.philips.cdp.prxclient.datamodels.features;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class FeatureItem implements Serializable {
+
+	@SerializedName("featureLongDescription")
+	public String featureLongDescription;
+
+	@SerializedName("featureCode")
+	public String featureCode;
+
+	@SerializedName("featureRank")
+	public String featureRank;
+
+	@SerializedName("featureName")
+	public String featureName;
+
+	@SerializedName("featureGlossary")
+	public String featureGlossary;
+
+	@SerializedName("featureReferenceName")
+	public String featureReferenceName;
+
+	@SerializedName("featureTopRank")
+	public String featureTopRank;
+}
