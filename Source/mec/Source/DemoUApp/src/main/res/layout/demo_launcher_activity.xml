@@ -10,14 +10,14 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:onClick="launchAsActivity"
-        android:text="Launch as Activity"
-        android:visibility="visible" />
+        android:text="@string/launch_as_activity"
+        android:visibility="gone" />
     <Button
         android:id="@+id/btn_launch_as_fragment"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:onClick="launchAsFragment"
-        android:text="Launch as Fragment"
+        android:text="@string/launch_as_fragment"
         android:visibility="visible" />
 </LinearLayout>
