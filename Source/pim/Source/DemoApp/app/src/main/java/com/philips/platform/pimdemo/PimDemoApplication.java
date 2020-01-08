@@ -4,7 +4,6 @@ package com.philips.platform.pimdemo;
 import android.app.Application;
 import android.content.Context;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.squareup.leakcanary.LeakCanary;
@@ -24,13 +23,13 @@ public class PimDemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        mAppInfraInterface = new AppInfra.Builder().build(this);
+//        mAppInfraInterface = new AppInfra.Builder().build(this);
 
     }
 
 
-    public AppInfraInterface getAppInfra() {
-        return mAppInfraInterface;
-    }
+//    public AppInfraInterface getAppInfra() {
+//        return mAppInfraInterface;
+//    }
 
 }
