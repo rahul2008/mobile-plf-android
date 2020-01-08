@@ -10,14 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.Button;
 import com.pim.demouapp.PIMDemoUAppActivity;
-import com.pim.demouapp.PIMDemoUAppDependencies;
 import com.pim.demouapp.PIMDemoUAppInterface;
-import com.pim.demouapp.PIMDemoUAppLaunchInput;
-import com.pim.demouapp.PIMDemoUAppSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +28,8 @@ public class PimDemoActivity extends UIDActivity {
     private PIMDemoUAppInterface uAppInterface;
     private Spinner spinnerCountrySelection;
     private AppCompatSpinner selectLibreary;
-
+    private HomeCountryUpdateReceiver receiver;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +58,11 @@ public class PimDemoActivity extends UIDActivity {
         List<String> countryList = new ArrayList<>(Arrays.asList(stringArray));
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,countryList);
         spinnerCountrySelection.setAdapter(arrayAdapter);
+        appInfraInterface.getServiceDiscovery().setHomeCountry(countryList.get(0));
         spinnerCountrySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String countrycode = getCountryCode(countryList.get(position));
-
                 appInfraInterface.getServiceDiscovery().setHomeCountry(countrycode);
             }
 
@@ -74,7 +72,10 @@ public class PimDemoActivity extends UIDActivity {
             }
         });
 
-        uAppInterface.init(new PIMDemoUAppDependencies(appInfraInterface), new PIMDemoUAppSettings(getApplicationContext()));
+        mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
+        receiver = new HomeCountryUpdateReceiver(appInfraInterface);
+        mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
+
     }
 
     public String getCountryCode(String countryName) {
@@ -90,5 +91,11 @@ public class PimDemoActivity extends UIDActivity {
         }
 
         return countryMap.get(countryName);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mServiceDiscoveryInterface.unRegisterHomeCountrySet(receiver);
     }
 }
