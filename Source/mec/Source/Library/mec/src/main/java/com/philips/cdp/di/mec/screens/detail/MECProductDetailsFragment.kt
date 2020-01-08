@@ -80,8 +80,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            setButtonIcon(mec_find_retailer_button, getListIcon())
-            setButtonIcon(mec_add_to_cart_button, getCartIcon())
+            //setButtonIcon(mec_find_retailer_button, getListIcon())
+            //setButtonIcon(mec_add_to_cart_button, getCartIcon())
             showPriceDetail()
             binding.product?.let { addToCartVisibility(it) }
             getRetailerDetails()

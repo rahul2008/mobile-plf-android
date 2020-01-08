@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+
         android:layout_marginBottom="65dp"
         android:fadeScrollbars="true"
         android:scrollbarSize="0dp"
@@ -225,8 +226,10 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="300dp"
+
                 android:layout_below="@+id/tabs_main"/>
+
 
         </RelativeLayout>
     </ScrollView>
@@ -250,8 +253,9 @@
             android:textAlignment="center"
             app:uidComponentType="Secondary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
-            android:text="@string/mec_buy_from_retailers"
-            android:textSize="14sp"
+            fontPath="fonts/iconfont.ttf"
+            android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
+            android:textSize="16sp"
 
             />
 
@@ -262,9 +266,11 @@
             android:layout_height="match_parent"
             android:layout_marginStart="1dp"
             android:layout_weight="1"
+            android:gravity="center"
             app:uidComponentType="Primary"
-            android:text="@string/mec_add_to_cart"
-            android:textSize="14sp"
+            fontPath="fonts/mec_iconfont.ttf"
+            android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
+            android:textSize="17sp"
             />
 
     </LinearLayout>

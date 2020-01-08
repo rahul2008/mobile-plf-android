@@ -21,7 +21,9 @@
     <string name="mec_error">Error</string>
     <string name="mec_info">Info</string>
     <string name="mec_reviews">Reviews</string>
-    <string name="mec_buy_from_retailers">Buy From Retailer</string>
+    <string name="mec_view_retailers">&#160;View retailers</string>
+    <string name="mec_add_to_cart">&#160;Add to cart</string>
+    <string name="mec_buy_from_retailers">&#160;Buy From Retailer</string>
     <string name="mec_add_to_cart">Add to cart</string>
     <string name="mec_in_stock">In stock</string>
     <string name="mec_out_of_stock">Out of stock </string>
@@ -37,6 +39,7 @@
     <string name="mec_privacy_notice">Privacy Notice</string>
     <string name="mec_more_info">for more info</string>
     <string name="mec_currency">\u00A4</string>
+
 
 
 </resources>
