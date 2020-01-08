@@ -54,7 +54,6 @@ class MECProductReviewsFragment : MecBaseFragment() {
             }
             reviewsAdapter!!.notifyDataSetChanged()
             binding.mecProgressLayout.visibility = View.GONE
-            //hideProgressBar()
         }
 
     }
@@ -78,7 +77,6 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
         val bundle = arguments
         productctn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN,"INVALID")
-        //productctn ="HD9653_90"
 
         //TODO in binding
         reviewsAdapter = MECReviewsAdapter(mecReviews)
@@ -109,7 +107,6 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
     private fun executeRequest() {
         binding.mecProgressLayout.visibility = View.VISIBLE
-        //createCustomProgressBar(container, MEDIUM, RelativeLayout.ALIGN_PARENT_BOTTOM)
         offset += limit
         this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it,offset,limit) }
     }

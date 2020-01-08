@@ -17,22 +17,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <android.support.v4.widget.NestedScrollView
+
+    <RelativeLayout
         android:id="@+id/design_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="320dp"
         android:layout_gravity="bottom"
         android:visibility="visible"
         android:scrollbars="vertical"
         android:fadeScrollbars="false"
         android:scrollbarSize="5dip"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="350dp"
+        app:behavior_peekHeight="320dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/rLayout"
@@ -72,7 +69,6 @@
     </RelativeLayout>
     </RelativeLayout>
 
-    </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
