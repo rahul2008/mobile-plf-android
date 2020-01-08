@@ -249,7 +249,6 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
             android:layout_weight="1"
-            
             android:enabled="false"
             android:textAlignment="center"
             app:uidComponentType="Secondary"

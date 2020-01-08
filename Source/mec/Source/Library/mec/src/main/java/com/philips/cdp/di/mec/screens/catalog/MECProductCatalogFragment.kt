@@ -206,11 +206,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 if(s?.length == 0){
                     shouldSupportPagination = true
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
-                    binding.mecEmptyResult.visibility = View.GONE
                 }else {
                     shouldSupportPagination = false
                     binding.llBannerPlaceHolder.visibility = View.GONE
-                    binding.mecEmptyResult.visibility = View.VISIBLE
                 }
 
                 val text = String.format(context?.getResources()?.getText(R.string.mec_zero_results_found).toString(), s)
@@ -219,12 +217,16 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
                     if (adapter.itemCount != 0) {
                        binding.mecPrivacyLayout.visibility = View.VISIBLE
-                        binding.mecEmptyResult.visibility = View.GONE
                    } else {
                        binding.mecPrivacyLayout.visibility = View.GONE
-                        binding.mecEmptyResult.visibility = View.VISIBLE
                    }
                }
+
+                if (adapter.itemCount != 0) {
+                    binding.mecEmptyResult.visibility = View.GONE
+                } else {
+                    binding.mecEmptyResult.visibility = View.VISIBLE
+                }
 
                 mClearIconView.setOnClickListener {
                     searchText.text.clear()

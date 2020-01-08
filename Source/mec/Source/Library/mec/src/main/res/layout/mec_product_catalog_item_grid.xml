@@ -39,6 +39,7 @@
                 android:layout_height="32dp"
                 android:tint="@color/colorAccent"
                 android:src="@drawable/mec_wishlist"
+                android:visibility="invisible"
                 android:background="@drawable/mec_circular_background"
                 android:layout_gravity="top|end" />
         </FrameLayout>
