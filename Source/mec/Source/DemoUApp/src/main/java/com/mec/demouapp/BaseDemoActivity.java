@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
 import com.philips.cdp.di.mec.integration.MecHolder;
+import com.philips.cdp.di.mec.screens.catalog.MECCategorizedHybrisFragment;
+import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment;
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment;
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment;
 import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -159,7 +162,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         if (!backState) {
             super.onBackPressed();
         }
-        if(currentFrag instanceof MECProductCatalogFragment){
+        if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
             actionBar();
             showAppVersion();
         }

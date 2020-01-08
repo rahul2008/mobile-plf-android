@@ -248,22 +248,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
 
     fun onBuyFromRetailerClick() {
-        buyFromRetailers(retailersList)
+        buyFromRetailers()
     }
 
-    private fun buyFromRetailers(ecsRetailerList: ECSRetailerList) {
+    private fun buyFromRetailers() {
         val bundle = Bundle()
-        //bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,retailersList)
-        bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
-        val removedBlacklistedRetailers = ecsProductDetailViewModel.removedBlacklistedRetailers(ecsRetailerList)
-
             bottomSheetFragment = MECRetailersFragment()
             bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
             bottomSheetFragment.arguments = bundle
             bottomSheetFragment.setTargetFragment(this,MECConstant.RETAILER_REQUEST_CODE)
             bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
-
-
     }
 
 

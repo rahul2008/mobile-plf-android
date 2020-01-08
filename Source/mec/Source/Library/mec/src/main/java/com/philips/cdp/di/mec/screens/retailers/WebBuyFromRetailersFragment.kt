@@ -26,7 +26,7 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val group = inflater.inflate(R.layout.mec_web_fragment, container, false) as ViewGroup
-        createCustomProgressBar(group, BIG)
+        createCustomProgressBar(group, MEDIUM)
         mUrl = getArguments()!!.getString(MECConstant.MEC_BUY_URL)
         isPhilipsShop = arguments!!.getBoolean(MECConstant.MEC_IS_PHILIPS_SHOP)
         initializeWebView(group)

@@ -31,7 +31,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/iap_margin_10dp"
+                android:layout_marginStart="@dimen/iap_text_size_16sp"
                 android:src="@drawable/mec_bv_trustmark" />
 
             <com.philips.platform.uid.view.widget.Label

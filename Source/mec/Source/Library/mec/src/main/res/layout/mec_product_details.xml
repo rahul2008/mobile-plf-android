@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
         android:layout_marginBottom="65dp"
         android:fadeScrollbars="true"
         android:scrollbarSize="0dp"
@@ -227,7 +226,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_below="@+id/tabs_main"/>
-
 
         </RelativeLayout>
     </ScrollView>

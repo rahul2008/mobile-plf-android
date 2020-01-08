@@ -14,7 +14,6 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="50dp"
     android:paddingRight="@dimen/border16_margin_left_right"
     android:paddingLeft="@dimen/border16_margin_left_right"
     android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
