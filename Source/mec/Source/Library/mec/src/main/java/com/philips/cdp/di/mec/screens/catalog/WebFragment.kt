@@ -32,7 +32,7 @@ abstract class WebFragment : MecBaseFragment() {
         mWebView.webViewClient = IAPWebViewClient()
         mWebView.settings.javaScriptEnabled = isJavaScriptEnable()
         mWebView.settings.saveFormData = false
-        createCustomProgressBar(mParentContainer, BIG)
+        createCustomProgressBar(mParentContainer, MEDIUM)
 
         mUrl = getWebUrl()
         return viewGroup
