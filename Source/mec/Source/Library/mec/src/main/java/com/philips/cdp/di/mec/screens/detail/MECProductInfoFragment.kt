@@ -40,5 +40,4 @@ class MECProductInfoFragment : MecBaseFragment() {
         return binding.root
     }
 
-
 }

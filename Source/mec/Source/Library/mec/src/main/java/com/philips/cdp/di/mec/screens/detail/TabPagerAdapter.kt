@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import com.philips.cdp.di.mec.screens.features.MECProductFeaturesFragment
 import com.philips.cdp.di.mec.screens.specification.SpecificationFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
@@ -27,6 +28,11 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePager
                 specificationFragment.arguments = bundle
                 return specificationFragment
             }
+            2 -> {
+                val specificationFragment = MECProductFeaturesFragment()
+                specificationFragment.arguments = bundle
+                return specificationFragment
+            }
             else -> {
 
                 val fragment = MECProductReviewsFragment()
@@ -37,13 +43,14 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePager
     }
 
     override fun getCount(): Int {
-        return 3
+        return 4
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             0 -> "Info"
             1 -> "Specs"
+            2 -> "Features"
             else -> {
                 return "Reviews"
             }
