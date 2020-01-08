@@ -37,5 +37,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="launch_as_activity">Launch as Activity</string>
+    <string name="launch_as_fragment">Launch as Fragment</string>
 </resources>
 

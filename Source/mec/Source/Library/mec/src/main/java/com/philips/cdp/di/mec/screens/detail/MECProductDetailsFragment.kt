@@ -80,8 +80,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            setButtonIcon(mec_find_retailer_button, getListIcon())
-            setButtonIcon(mec_add_to_cart_button, getCartIcon())
+            //setButtonIcon(mec_find_retailer_button, getListIcon())
+            //setButtonIcon(mec_add_to_cart_button, getCartIcon())
             showPriceDetail()
             binding.product?.let { addToCartVisibility(it) }
             getRetailerDetails()
@@ -112,6 +112,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel.mecError.observe(this, this)
 
 
+
         binding.indicator.viewPager = binding.pager
         val bundle = arguments
         product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
@@ -132,6 +133,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // binding.product = product
 
         val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
+        binding.viewpagerMain.offscreenPageLimit = 3
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
 

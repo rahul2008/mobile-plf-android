@@ -4,12 +4,13 @@ package com.philips.cdp.di.mec.screens.detail
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.philips.cdp.di.mec.screens.specification.SpecificationFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
-class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePagerAdapter(fm) {
+class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentPagerAdapter(fm) {
 
 
 
@@ -27,11 +28,14 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePager
                 specificationFragment.arguments = bundle
                 return specificationFragment
             }
-            else -> {
+            2 -> {
 
                 val fragment = MECProductReviewsFragment()
                 fragment.arguments = bundle
                 return fragment
+            }
+            else ->{
+                MECProductInfoFragment()
             }
         }
     }
@@ -44,8 +48,11 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePager
         return when (position) {
             0 -> "Info"
             1 -> "Specs"
-            else -> {
+            2 -> {
                 return "Reviews"
+            }
+            else -> {
+                "Info"
             }
         }
     }
