@@ -28,12 +28,17 @@ import com.philips.platform.uappframework.launcher.UiLauncher
 import java.util.ArrayList
 import java.util.Objects
 import com.google.gson.Gson
+import com.philips.cdp.di.mec.integration.serviceDiscovery.ServiceDiscoveryMapListener
 
 
 internal class MECHandler(private val mMECDependencies: MECDependencies, private val mMECSetting: MECSettings, private val mUiLauncher: UiLauncher, private val mLaunchInput: MECLaunchInput) {
     private var appInfra: AppInfra? = null
     private var listOfServiceId: ArrayList<String>? = null
     lateinit var serviceUrlMapListener: OnGetServiceUrlMapListener
+
+
+    private val IAP_PRIVACY_URL = "iap.privacyPolicy"
+
 
     // mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.getMMECFlowInput());
     fun getBundle(): Bundle {
@@ -50,7 +55,6 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
                     mBundle.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS,
                             mLaunchInput.mMECFlowInput!!.productCTNs)
                 }
-                mBundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, mLaunchInput.ignoreRetailers)
             }
             return mBundle
         }
@@ -68,7 +72,6 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerEnabler
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.hybrisEnabled
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput
-        MECDataHolder.INSTANCE.blackListedRetailers = Objects.requireNonNull<ArrayList<String>>(mLaunchInput.ignoreRetailers)
 
 
         getUrl()
@@ -82,31 +85,8 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     fun getUrl() {
 
         listOfServiceId = ArrayList()
-        listOfServiceId!!.add(IAP_BASE_URL)
         listOfServiceId!!.add(IAP_PRIVACY_URL)
-        listOfServiceId!!.add(IAP_FAQ_URL)
-        listOfServiceId!!.add(IAP_TERMS_URL)
-        serviceUrlMapListener = object : OnGetServiceUrlMapListener {
-            override fun onSuccess(map: Map<String, ServiceDiscoveryService>) {
-                val collection = map.values
-
-
-                val list = ArrayList<ServiceDiscoveryService>()
-                list.addAll(collection)
-
-                val discoveryService = map[IAP_PRIVACY_URL]!!
-                val privacyUrl = discoveryService.configUrls
-                if (privacyUrl != null) {
-                    MECDataHolder.INSTANCE.setPrivacyUrl(privacyUrl)
-                }
-
-            }
-
-            override fun onError(errorvalues: ERRORVALUES, s: String) {
-               /* if (errorvalues.name == NO_NETWORK1) {
-                }*/
-            }
-        }
+        serviceUrlMapListener = ServiceDiscoveryMapListener()
         appInfra!!.serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener, null)
     }
 
@@ -127,17 +107,15 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
     }
 
-    protected fun launchMECasFragment() {
+    private fun launchMECasFragment() {
         val fragmentLauncher = mUiLauncher as FragmentLauncher
         val bundle = getBundle()
-        bundle.putInt(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView)
+        bundle.putInt(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView.)
         bundle.putInt("fragment_container", fragmentLauncher.parentContainerResourceID) // frame_layout for fragment
         loadDecisionFragment(bundle)
-
-
     }
 
-    fun loadDecisionFragment(bundle: Bundle) {
+    private fun loadDecisionFragment(bundle: Bundle) {
 
         if (mLaunchInput.mMECFlowInput == null){
             MECFlowInput()
@@ -157,13 +135,5 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         transaction.commitAllowingStateLoss()
 
     }
-
-    companion object {
-        private val IAP_PRIVACY_URL = "iap.privacyPolicy"
-        private val IAP_FAQ_URL = "iap.faq"
-        private val IAP_TERMS_URL = "iap.termOfUse"
-        private val IAP_BASE_URL = "iap.baseurl"
-    }
-
 
 }

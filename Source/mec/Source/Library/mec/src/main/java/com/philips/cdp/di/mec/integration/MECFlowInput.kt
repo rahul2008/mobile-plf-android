@@ -14,34 +14,12 @@ class MECFlowInput : Serializable {
      * @return productCTN  return product CTN
      * @since 1.0.0
      */
-    var  productCTN: String? = null
+    lateinit var  productCTN: String
     /**
      * returns product array of CTN number
      * @return productCTNs  returns array of product CTNs
      * @since 1.0.0
      */
-    var productCTNs: ArrayList<String>? = null
-
-
-    /**
-     * creates instance of IAPFlowInput from product CTN number
-     * @param productCTN  pass one product CTN as string
-     * @since 1.0.0
-     */
-    constructor(productCTN: String) {
-        this.productCTN = productCTN
-
-    }
-
-    /**
-     * creates instance of IAPFlowInput from list of CTN numbers
-     * @param prductCTNs  pass bunch of product CTNs as an array of string
-     * @since 1.0.0
-     */
-    constructor(prductCTNs: ArrayList<String>) {
-        this.productCTNs = prductCTNs
-    }
-
-    constructor()
+    lateinit var productCTNs: ArrayList<String>
 
 }

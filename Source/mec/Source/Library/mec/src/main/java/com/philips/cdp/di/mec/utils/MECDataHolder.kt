@@ -19,7 +19,6 @@ enum class MECDataHolder {
     lateinit var mecBannerEnabler: MECBannerEnabler
     lateinit var locale:String
     lateinit var propositionId:String
-    lateinit var blackListedRetailers: ArrayList<String>
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     private var privacyUrl: String? = null
     var hybrisEnabled: Boolean = true
