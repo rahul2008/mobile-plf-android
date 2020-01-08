@@ -226,7 +226,6 @@
                 android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-
                 android:layout_below="@+id/tabs_main"/>
 
         </RelativeLayout>
@@ -251,7 +250,7 @@
             android:textAlignment="center"
             app:uidComponentType="Secondary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
-            android:text="@string/mec_view_retailers"
+            android:text="@string/mec_buy_from_retailers"
             android:textSize="14sp"
 
             />
