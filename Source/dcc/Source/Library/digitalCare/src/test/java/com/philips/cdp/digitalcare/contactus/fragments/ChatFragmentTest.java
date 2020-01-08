@@ -6,6 +6,7 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.view.View;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
@@ -28,11 +29,12 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+import org.robolectric.annotation.Config;
 
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@Config(sdk = Build.VERSION_CODES.P)
 @RunWith(RobolectricTestRunner.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.apache.xerces", "javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
@@ -62,7 +64,6 @@ public class ChatFragmentTest {
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
-//        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
     }
 
@@ -82,7 +83,7 @@ public class ChatFragmentTest {
 
     @Test
     public void tesChatNow(){
-//        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
+        //SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
         digitalCareBaseFragmentspy=spy(fragment);
         DigitalCareBaseFragment.isInternetAvailable = true;
         digitalCareBaseFragmentspy.getView().findViewById(R.id.chatNow).performClick();

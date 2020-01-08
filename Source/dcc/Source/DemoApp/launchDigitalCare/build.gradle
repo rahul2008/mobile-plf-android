@@ -110,7 +110,6 @@ dependencies {
     }
 
     androidTestimplementation deps.androidx.annotations
-    androidTestImplementation deps.testing_support
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.androidx_test.rules
     androidTestImplementation deps.jsr305

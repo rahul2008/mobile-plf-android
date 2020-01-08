@@ -42,8 +42,8 @@ android {
         testApplicationId "com.philips.cdp.digitalcare.test"
         multiDexEnabled true
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
-        minSdkVersion 23
-        targetSdkVersion 25
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
     }
 
     testOptions {
@@ -136,8 +136,11 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
 
-    androidTestImplementation deps.androidx.runner
-    androidTestImplementation deps.androidx.monitor
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:monitor:{strictly 1.1.1}'
+    androidTestImplementation 'androidx.test:core:1.1.0'
+
+    debugImplementation 'androidx.fragment:fragment-testing:1.1.0'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
