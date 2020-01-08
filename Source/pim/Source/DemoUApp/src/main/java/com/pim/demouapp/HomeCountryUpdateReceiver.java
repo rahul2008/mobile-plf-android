@@ -1,4 +1,4 @@
-package com.philips.platform.pimdemo;
+package com.pim.demouapp;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,9 +8,6 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.pim.demouapp.PIMDemoUAppDependencies;
-import com.pim.demouapp.PIMDemoUAppInterface;
-import com.pim.demouapp.PIMDemoUAppSettings;
 
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_HOME_COUNTRY;
 
