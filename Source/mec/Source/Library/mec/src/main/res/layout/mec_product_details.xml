@@ -256,7 +256,7 @@
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
-            android:textSize="15sp"
+            android:textSize="16sp"
 
             />
 
