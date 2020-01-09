@@ -64,14 +64,19 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         appInfra = mMECDependencies.appInfra as AppInfra
         val configInterface = appInfra!!.configInterface
         val configError = AppConfigurationInterface.AppConfigurationError()
-        val propertyForKey = configInterface.getPropertyForKey("propositionid", "MEC", configError) as String
+        val propositionID = configInterface.getPropertyForKey("propositionid", "MEC", configError)
+        var propertyForKey = ""
+        if(propositionID!=null) {
+            propertyForKey = propositionID as String
+        }
         val ecsServices = ECSServices(propertyForKey, appInfra!!)
         MecHolder.INSTANCE.eCSServices = ecsServices // singleton
         MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
         MECDataHolder.INSTANCE.propositionId = propertyForKey
-        MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerEnabler
+        MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerEnabler!!
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.hybrisEnabled
-        MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput
+        MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.retailerEnabled
+        MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
 
 
         getUrl()
@@ -93,7 +98,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
     protected fun launchMECasActivity() {
         val intent = Intent(mMECSetting.context, MECLauncherActivity::class.java)
-        intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView)
+      //  intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView) //TODO
         val activityLauncher = mUiLauncher as ActivityLauncher
         val bundle = getBundle()
         if (mLaunchInput.mMECFlowInput == null){
@@ -110,7 +115,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     private fun launchMECasFragment() {
         val fragmentLauncher = mUiLauncher as FragmentLauncher
         val bundle = getBundle()
-        bundle.putInt(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView.)
+        bundle.putInt(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView?.ordinal!!) // passing enum to other fragment
         bundle.putInt("fragment_container", fragmentLauncher.parentContainerResourceID) // frame_layout for fragment
         loadDecisionFragment(bundle)
     }

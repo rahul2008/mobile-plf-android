@@ -59,11 +59,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            if(retailers.wrbresults.onlineStoresForProduct.stores!=null) {
-                binding.mecFindRetailerButton.isEnabled = true
-            } else {
-                binding.mecFindRetailerButton.isEnabled = false
-            }
+            binding.mecFindRetailerButton.isEnabled = retailers.wrbresults.onlineStoresForProduct.stores!=null && retailers.wrbresults.onlineStoresForProduct.stores.retailerList.size!=0
         }
 
     }
@@ -80,8 +76,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            //setButtonIcon(mec_find_retailer_button, getListIcon())
-            //setButtonIcon(mec_add_to_cart_button, getCartIcon())
             showPriceDetail()
             binding.product?.let { addToCartVisibility(it) }
             getRetailerDetails()
@@ -153,9 +147,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartVisibility(product : ECSProduct){
-        if(MECDataHolder.INSTANCE.hybrisEnabled.equals(false)){
+
+        if(!MECDataHolder.INSTANCE.hybrisEnabled){
             binding.mecAddToCartButton.visibility = View.GONE
-        } else if((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+        } else if(!(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
             binding.mecAddToCartButton.isEnabled = false
         } else{
             binding.mecAddToCartButton.visibility = View.VISIBLE

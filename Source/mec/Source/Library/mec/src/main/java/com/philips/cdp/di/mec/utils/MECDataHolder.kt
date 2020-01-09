@@ -19,9 +19,11 @@ enum class MECDataHolder {
     lateinit var mecBannerEnabler: MECBannerEnabler
     lateinit var locale:String
     lateinit var propositionId:String
+    var blackListedRetailers: ArrayList<String> ?=null
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     private var privacyUrl: String? = null
     var hybrisEnabled: Boolean = true
+    var retailerEnabled :Boolean = true
 
     fun getPrivacyUrl(): String? {
         return privacyUrl

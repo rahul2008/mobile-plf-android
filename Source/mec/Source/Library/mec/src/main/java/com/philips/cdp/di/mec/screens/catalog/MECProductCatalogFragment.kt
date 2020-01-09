@@ -311,15 +311,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         addFragment(mecPrivacyFragment,"privacy",true)
     }
 
-
-
-    public fun createInstance(args: Bundle): MECProductCatalogFragment {
-        val fragment = MECProductCatalogFragment()
-        fragment.arguments = args
-        return fragment
-    }
-
-
     private fun isScrollDown(lay: LinearLayoutManager): Boolean {
         val visibleItemCount = lay.childCount
         val firstVisibleItemPosition = lay.findFirstVisibleItemPosition()

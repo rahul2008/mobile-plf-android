@@ -74,8 +74,6 @@ import java.util.*
 
         mec_header_back_button_framelayout.setOnClickListener(this)
         bundle = intent.getExtras()
-        val landingScreen:Int = bundle.getInt(MECConstant.MEC_LANDING_SCREEN)
-
 
         createActionBar();
         loadDecisionFragment();
