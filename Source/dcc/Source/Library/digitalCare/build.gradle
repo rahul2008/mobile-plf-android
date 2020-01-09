@@ -136,9 +136,9 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
 
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test:monitor:{strictly 1.1.1}'
-    androidTestImplementation 'androidx.test:core:1.1.0'
+    androidTestImplementation deps.androidx.runner
+    androidTestImplementation deps.androidx.monitor
+    //androidTestImplementation 'androidx.test:core:1.1.0'
 
     debugImplementation 'androidx.fragment:fragment-testing:1.1.0'
 }

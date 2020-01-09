@@ -144,24 +144,8 @@ dependencies {
 
     // Android test
     androidTestImplementation deps.assertj
-//    androidTestImplementation deps.espresso_web
-//    androidTestImplementation deps.uiautomator
     androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.androidx.rules
-
-    // Espresso support
-/*    androidTestImplementation(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })*/
-
-/*    androidTestImplementation(deps.espresso_contrib) {
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    }*/
-
-    // add this for webview testing support
-//    androidTestImplementation deps.espresso_web
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

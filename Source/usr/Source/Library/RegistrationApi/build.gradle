@@ -140,7 +140,6 @@ dependencies {
     androidTestImplementation deps.androidx.rules
     androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.junit
-//    androidTestImplementation deps.uiautomator
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
