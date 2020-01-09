@@ -82,7 +82,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/mec_currency"
-                android:textSize="20sp"
+                android:textSize="18sp"
+                android:paddingBottom="1dp"
                 android:textAlignment="center"
                 android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
                 android:layout_alignBottom="@+id/framelayout"/>
