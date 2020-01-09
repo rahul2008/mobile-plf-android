@@ -2,8 +2,10 @@ package com.philips.cdp.di.mec.screens.detail
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
@@ -13,6 +15,7 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,11 +62,15 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            if(retailers.wrbresults.onlineStoresForProduct.stores!=null) {
+            if(retailers.wrbresults.onlineStoresForProduct!=null) {
                 binding.mecFindRetailerButton.isEnabled = true
+                if(binding.mecAddToCartButton.visibility == View.GONE) {
+                    binding.mecFindRetailerButton.textSize = resources.getDimension(R.dimen.mec_retailer_button_text_big)
+                }
             } else {
                 binding.mecFindRetailerButton.isEnabled = false
             }
+            ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus,product,retailersList)
         }
 
     }
@@ -185,22 +192,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " reviews)"
         }
 
-    }
-
-    fun getListIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.mec_ic_hamburger_icon, context!!.theme)
-    }
-
-    fun getCartIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
-    }
-
-    private fun setButtonIcon(button: Button, drawable: Drawable?) {
-        var mutateDrawable = drawable
-        if (drawable != null) {
-            mutateDrawable = drawable.constantState!!.newDrawable().mutate()
-        }
-        button.setImageDrawable(mutateDrawable)
     }
 
 

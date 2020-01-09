@@ -82,10 +82,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/mec_currency"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textAlignment="center"
                 android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
-
                 android:layout_alignBottom="@+id/framelayout"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -167,6 +166,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="5dp"
                         android:numStars="5"
+                        android:stepSize="0.1"
                         style="?android:attr/ratingBarStyleSmall" />
 
                     <com.philips.platform.uid.view.widget.Label
@@ -208,7 +208,6 @@
                     android:textSize="12sp"
                     android:gravity="end"
                     android:layout_gravity="end"
-                    app:setStockInfo="@{ product}"
                    />
 
             </LinearLayout>
@@ -228,7 +227,6 @@
                 android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-
                 android:layout_below="@+id/tabs_main"/>
 
 
@@ -244,16 +242,16 @@
         android:layout_margin="16dp">
 
         <com.philips.platform.uid.view.widget.Button
-            style="@style/UIDDefaultButton.UIDImageTextButton"
+            style="@style/MecRetailersButton"
             android:id="@+id/mec_find_retailer_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
             android:layout_weight="1"
-            android:gravity="center|center_vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:enabled="false"
             app:uidComponentType="Secondary"
-
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
@@ -271,6 +269,7 @@
             android:gravity="center|center_vertical"
             app:uidComponentType="Primary"
             android:textAlignment="center"
+            android:visibility="gone"
             fontPath="fonts/mec_iconfont.ttf"
             android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
             android:textSize="15sp"

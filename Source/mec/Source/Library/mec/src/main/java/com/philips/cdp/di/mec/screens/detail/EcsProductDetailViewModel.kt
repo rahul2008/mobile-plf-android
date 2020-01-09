@@ -151,4 +151,61 @@ class EcsProductDetailViewModel : CommonViewModel() {
         return retailer.isPhilipsStore.equals("Y", ignoreCase = true)
     }
 
+    fun setStockInfoWithRetailer(stockLabel : Label, product: ECSProduct? ,ecsRetailers: ECSRetailerList) {
+            if(!MECDataHolder.INSTANCE.hybrisEnabled) {
+                if (ecsRetailers.retailers.size>0) {
+                    var availability=false
+                    for (i in 0..ecsRetailers.retailers.size) {
+                        if(ecsRetailers.retailers.get(i).availability.contains("YES")){
+                            availability=true
+                            break
+                        }
+                    }
+                    if (availability) {
+                        stockLabel.text = stockLabel.context.getString(R.string.mec_in_stock)
+                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_green_level_30))
+                    } else {
+                        stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
+                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                    }
+
+                } else if (ecsRetailers.retailers.size==0) {
+                    stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
+                    stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                }
+            }
+            else if(MECDataHolder.INSTANCE.hybrisEnabled){
+                if(null!=product && null!= product.stock) {
+                    if (MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) {
+                        stockLabel.text = stockLabel.context.getString(R.string.mec_in_stock)
+                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_green_level_30))
+                        // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextSuccessColor)
+                    } else {
+                        stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
+                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                        // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextErrorColor)
+                    }
+                }
+
+             else if (ecsRetailers.retailers.size>0) {
+                    var availability=false
+                    for (i in 0..ecsRetailers.retailers.size) {
+                        if(ecsRetailers.retailers.get(i).availability.contains("YES")){
+                            availability=true
+                            break
+                        }
+                    }
+                    if (availability) {
+                        stockLabel.text = stockLabel.context.getString(R.string.mec_in_stock)
+                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_green_level_30))
+                    } else {
+                        stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
+                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+
+
+                }
+            }
+        }
+    }
+
 }

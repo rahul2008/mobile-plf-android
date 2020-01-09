@@ -11,10 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
-import com.philips.cdp.di.ecs.constants.NetworkConstants
 
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
@@ -104,6 +102,14 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
                 || errorCode == WebViewClient.ERROR_BAD_URL
                 || errorCode == WebViewClient.ERROR_TIMEOUT
                 || errorCode == WebViewClient.ERROR_HOST_LOOKUP)
+    }
+
+    override fun handleBackEvent(): Boolean {
+        if (mWebView?.canGoBack()!!) {
+            mWebView?.goBack()
+            return true
+        }
+        return false
     }
 
 
