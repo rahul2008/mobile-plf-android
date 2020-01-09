@@ -4,6 +4,7 @@ package com.pim.demouapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -13,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
@@ -30,7 +34,9 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
@@ -55,13 +61,19 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    public static final String SELECTED_COUNTRY = "SELECTED_COUNTRY";
+
 
     private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
     private Switch aSwitch;
@@ -70,14 +82,17 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private URInterface urInterface;
     private boolean isUSR;
     private Context mContext;
-
+    private Spinner spinnerCountrySelection;
+    private Label spinnerCountryText;
     @NonNull
     private AppInfraInterface appInfraInterface;
     private IAPInterface mIapInterface;
     private IAPSettings mIAPSettings;
     private IAPLaunchInput mIapLaunchInput;
     private ArrayList<String> mCategorizedProductList;
-
+    private SharedPreferences sharedPreferences;
+    private HomeCountryUpdateReceiver receiver;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initTheme();
@@ -88,7 +103,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
 
-        appInfraInterface = PIMDemoUAppInterface.mAppInfra;
+        appInfraInterface = new AppInfra.Builder().build(this);//PIMDemoUAppInterface.mAppInfra;
 
         btnGetUserDetail = findViewById(R.id.btn_GetUserDetail);
         btnGetUserDetail.setOnClickListener(this);
@@ -119,6 +134,53 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
             }
         });
+        viewInitlization(pimDemoUAppDependencies, pimDemoUAppSettings);
+//        pimInterface = new PIMInterface();
+//        pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
+//        userDataInterface = pimInterface.getUserDataInterface();
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
+        spinnerCountryText = findViewById(R.id.spinner_Text);
+        if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
+            spinnerCountrySelection.setVisibility(View.VISIBLE);
+            spinnerCountryText.setVisibility(View.GONE);
+            String[] stringArray = getResources().getStringArray(R.array.countries_array);
+
+            List<String> countryList = new ArrayList<>(Arrays.asList(stringArray));
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countryList);
+            spinnerCountrySelection.setAdapter(arrayAdapter);
+            spinnerCountrySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String countrycode = getCountryCode(countryList.get(position));
+                    appInfraInterface.getServiceDiscovery().setHomeCountry(countrycode);
+                    editor.putString(SELECTED_COUNTRY, countryList.get(position));
+                    editor.apply();
+                    pimInterface = new PIMInterface();
+                    pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
+                    userDataInterface = pimInterface.getUserDataInterface();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } else {
+            String selectedCountry = sharedPreferences.getString(SELECTED_COUNTRY, "");
+            spinnerCountryText.setVisibility(View.VISIBLE);
+            spinnerCountryText.setText(selectedCountry);
+            spinnerCountrySelection.setVisibility(View.GONE);
+        }
+
+        mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
+        receiver = new HomeCountryUpdateReceiver(appInfraInterface);
+        mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
+    }
+
+    private void viewInitlization(PIMDemoUAppDependencies pimDemoUAppDependencies, PIMDemoUAppSettings pimDemoUAppSettings) {
         if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
             isUSR = true;
             Log.i(TAG, "Selected Liberary : USR");
@@ -161,6 +223,20 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    public String getCountryCode(String countryName) {
+        String[] isoCountryCodes = Locale.getISOCountries();
+        Map<String, String> countryMap = new HashMap<>();
+        Locale locale;
+        String name;
+
+        for (String code : isoCountryCodes) {
+            locale = new Locale("", code);
+            name = locale.getDisplayCountry();
+            countryMap.put(name, code);
+        }
+
+        return countryMap.get(countryName);
+    }
 
     @Override
     public void onBackPressed() {
@@ -381,6 +457,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     public void onLoginSuccess() {
         showToast("PIM Login Success");
         btnLaunchAsActivity.setVisibility(View.GONE);
+        String selectedCountry = sharedPreferences.getString(SELECTED_COUNTRY, "");
+        spinnerCountryText.setVisibility(View.VISIBLE);
+        spinnerCountryText.setText(selectedCountry);
+        spinnerCountrySelection.setVisibility(View.GONE);
         btnLaunchAsFragment.setText("Launch User Profile");
     }
 
@@ -423,4 +503,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     public void onFailure(int errorCode) {
 
     }
+
+
 }

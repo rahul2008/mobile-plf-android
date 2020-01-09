@@ -201,11 +201,11 @@ public class ECSURLBuilder implements URLProvider {
 
     //Address
     @Override
-    public String getRegionsUrl() {
+    public String getRegionsUrl(String countryISO) {
        return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
                  METAINFO+SEPERATOR+
                  REGIONS+SEPERATOR+
-                 ECSConfiguration.INSTANCE.getCountry()+FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
+                countryISO+FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override

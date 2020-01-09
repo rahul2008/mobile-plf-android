@@ -559,8 +559,8 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
         new SetDeliveryModesRequest(deliveryModeID, ecsCallback).executeRequest();
     }
 
-     void getRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
-        new GetRegionsRequest(ecsCallback).executeRequest();
+     void getRegions(String countryISO, ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
+        new GetRegionsRequest(countryISO,ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================
 
