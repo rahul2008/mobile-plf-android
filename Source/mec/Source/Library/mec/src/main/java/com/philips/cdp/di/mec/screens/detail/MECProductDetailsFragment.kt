@@ -60,6 +60,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
             binding.mecFindRetailerButton.isEnabled = retailers.wrbresults.onlineStoresForProduct.stores!=null && retailers.wrbresults.onlineStoresForProduct.stores.retailerList.size!=0
+            hideProgressBar()
         }
 
     }
@@ -77,9 +78,12 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
             binding.product = ecsProduct
             showPriceDetail()
-            binding.product?.let { addToCartVisibility(it) }
-            getRetailerDetails()
-            hideProgressBar()
+            addToCartVisibility(ecsProduct!!)
+            if(MECDataHolder.INSTANCE.retailerEnabled){
+                getRetailerDetails()
+            }else{
+                hideProgressBar()
+            }
         }
 
     }
