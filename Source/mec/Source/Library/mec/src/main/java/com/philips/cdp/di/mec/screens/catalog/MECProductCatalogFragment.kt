@@ -3,10 +3,12 @@ package com. philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
@@ -27,6 +29,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
@@ -62,6 +65,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct.ecsProduct)
 
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
         val fragment = MECProductDetailsFragment()
         fragment.arguments = bundle
         addFragment(fragment,"detail",true)
