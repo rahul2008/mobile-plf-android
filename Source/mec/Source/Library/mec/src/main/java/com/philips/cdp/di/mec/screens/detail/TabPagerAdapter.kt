@@ -29,9 +29,9 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentStatePager
                 return specificationFragment
             }
             2 -> {
-                val specificationFragment = MECProductFeaturesFragment()
-                specificationFragment.arguments = bundle
-                return specificationFragment
+                val productFeaturesFragment = MECProductFeaturesFragment()
+                productFeaturesFragment.arguments = bundle
+                return productFeaturesFragment
             }
             else -> {
 

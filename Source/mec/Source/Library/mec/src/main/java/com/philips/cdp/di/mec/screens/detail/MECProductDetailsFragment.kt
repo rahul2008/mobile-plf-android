@@ -244,9 +244,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
 
-
-
-
     fun onBuyFromRetailerClick() {
         buyFromRetailers(retailersList)
     }

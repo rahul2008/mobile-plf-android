@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philips.cdp.di.mec.databinding.MecProductFeaturesFragmentBinding
 import com.philips.cdp.di.mec.databinding.MecProductSpecsFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -13,13 +14,13 @@ import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 
 class MECProductFeaturesFragment : MecBaseFragment() {
 
-    private lateinit var binding: MecProductSpecsFragmentBinding
+    private lateinit var binding: MecProductFeaturesFragmentBinding
     private lateinit var productFeaturesViewModel: ProductFeaturesViewModel
 
     private val featuresObserver : Observer<FeaturesModel> = object : Observer<FeaturesModel> {
 
         override fun onChanged(featuresModel: FeaturesModel?) {
-           // binding.specificationModel = specification
+           binding.featureModel = featuresModel
         }
 
     }
@@ -27,7 +28,7 @@ class MECProductFeaturesFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = MecProductSpecsFragmentBinding.inflate(inflater, container, false)
+        binding = MecProductFeaturesFragmentBinding.inflate(inflater, container, false)
 
         productFeaturesViewModel = ViewModelProviders.of(this).get(ProductFeaturesViewModel::class.java)
 

@@ -19,8 +19,10 @@ import com.philips.cdp.prxclient.datamodels.specification.CsValueItem
 import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
 import com.philips.platform.uid.view.widget.Label
 import android.widget.TextView
-
-
+import com.philips.cdp.di.mec.screens.features.ProductFeatureChildRecyclerAdapter
+import com.philips.cdp.di.mec.screens.features.ProductFeatureParentRecyclerAdapter
+import com.philips.cdp.prxclient.datamodels.features.FeatureItem
+import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 
 
 class DataBindingUtility {
@@ -32,6 +34,20 @@ class DataBindingUtility {
         @JvmStatic
         fun loadImage(imageView: View?, image_url: String?) {
 
+            val imageView = imageView as NetworkImageView
+            val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
+            imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0,com.philips.cdp.di.mec.R.drawable.no_icon))
+
+            imageView.setImageUrl(image_url!!, imageLoader)
+        }
+
+        @BindingAdapter("nullable_image_url")
+        @JvmStatic
+        fun loadNonNullImage(imageView: View?, image_url: String?) {
+
+            if(image_url == null){
+                return
+            }
             val imageView = imageView as NetworkImageView
             val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
             imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0,com.philips.cdp.di.mec.R.drawable.no_icon))
@@ -85,6 +101,27 @@ class DataBindingUtility {
             if(specificationModel!=null)
             recyclerView.adapter = SpecificationParentRecyclerAdapter(specificationModel)
         }
+
+        //For Product Features
+
+        @JvmStatic
+        @BindingAdapter("featureItems")
+        fun setProductFeatureChildAdapter(recyclerView: RecyclerView,featureItems: List<FeatureItem>, featuresModel: FeaturesModel?) {
+            if(featuresModel!=null){
+                recyclerView.adapter = ProductFeatureChildRecyclerAdapter(featureItems,featuresModel)
+            }
+
+        }
+
+        @JvmStatic
+        @BindingAdapter("feature")
+        fun setProductFeatureParentAdapter(recyclerView: RecyclerView, featuresModel: FeaturesModel?) {
+            if(featuresModel!=null){
+                recyclerView.adapter = ProductFeatureParentRecyclerAdapter(featuresModel)
+            }
+
+        }
+
 
         @JvmStatic
         @BindingAdapter("setCsValueItems")

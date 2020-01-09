@@ -14,4 +14,18 @@ public class Data implements Serializable {
 
 	@SerializedName("featureHighlight")
 	public List<FeatureHighlightItem> featureHighlight;
+
+	public String getSingleAssetImageFromFeatureCode(String featureCode){
+
+		for (CodeItem codeItem:code) {
+			if(isImage(codeItem.extension)){
+              return codeItem.asset;
+			}
+		}
+		return null;
+	}
+
+	private boolean isImage(String extension) {
+		return true;
+	}
 }
