@@ -65,8 +65,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             if(retailers.wrbresults.onlineStoresForProduct!=null) {
                 binding.mecFindRetailerButton.isEnabled = true
                 if(binding.mecAddToCartButton.visibility == View.GONE) {
-                    //binding.mecFindRetailerButton.textSize = resources.getDimension(R.dimen.mec_retailer_button_text_big)
-                }
+
+                       }
             } else {
                 binding.mecFindRetailerButton.isEnabled = false
             }

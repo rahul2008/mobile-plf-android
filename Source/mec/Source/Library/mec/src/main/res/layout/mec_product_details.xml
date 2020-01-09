@@ -256,12 +256,12 @@
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
-            android:textSize="13sp"
+            android:textSize="15sp"
 
             />
 
         <com.philips.platform.uid.view.widget.Button
-            style="@style/UIDDefaultButton.UIDImageTextButton"
+            style="@style/MecAddToCartButton"
             android:id="@+id/mec_add_to_cart_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -273,7 +273,7 @@
             android:visibility="gone"
             fontPath="fonts/mec_iconfont.ttf"
             android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
-            android:textSize="15sp"
+            android:textSize="16sp"
             />
 
     </LinearLayout>
