@@ -5,9 +5,7 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.os.Build;
 
-import androidx.fragment.app.testing.FragmentScenario;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -17,8 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
