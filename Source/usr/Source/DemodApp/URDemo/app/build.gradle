@@ -38,9 +38,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation(deps.espresso_core)
     implementation project(':URDemo')
     implementation deps.support.appcompat - v7
     implementation deps.androidx.constraintlayout

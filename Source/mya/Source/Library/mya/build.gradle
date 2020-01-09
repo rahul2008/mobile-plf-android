@@ -98,6 +98,7 @@ dependencies {
     //3rd party
     implementation deps.gson
     implementation deps.calligraphy
+    implementation deps.viewpump
 
     // Philips components
 

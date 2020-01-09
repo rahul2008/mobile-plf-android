@@ -57,6 +57,7 @@ dependencies {
     }
 
     implementation deps.calligraphy
+    implementation deps.viewpump
 
     implementation project(strings.dcc.projectName)
 }

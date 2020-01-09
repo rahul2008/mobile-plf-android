@@ -68,17 +68,12 @@ dependencies {
     api deps.sqlcipher
 
     implementation deps.ormlite.android
-//    implementation deps.support.appcompatv7
-//    implementation deps.support.design
     implementation deps.androidx.annotations
 
     testImplementation deps.junit
 
     androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.mockito_android
-//    androidTestImplementation deps.espresso_core, {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    }
 }
 
 tasks.withType(Test) {

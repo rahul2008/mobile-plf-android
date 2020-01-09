@@ -86,6 +86,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends  UIDActivity impl
         final int themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
         themeConfig.add(navigationColor);
         themeConfig.add(accentColorRange);
+        UIDHelper.injectCalligraphyFonts();
         setTheme(themeResourceId);
         UIDHelper.init(themeConfig);
     }

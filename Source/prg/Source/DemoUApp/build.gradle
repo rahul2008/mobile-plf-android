@@ -71,9 +71,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation(philipsdeps.uid) {
-        exclude group: 'com.android.support'
-    }
+    implementation(philipsdeps.uid)
     if (useprojectdependencies) {
         
         implementation project(strings.prg.projectName)

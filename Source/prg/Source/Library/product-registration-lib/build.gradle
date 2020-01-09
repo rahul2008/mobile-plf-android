@@ -104,13 +104,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.gson
     implementation deps.libphonenumber
 //    implementation deps.support.appcompatv7
     implementation deps.volley
-    implementation(philipsdeps.uid) {
-        exclude group: 'com.android.support'
-    }
+    implementation(philipsdeps.uid)
     if (useprojectdependencies) {
         implementation project(strings.pif.projectName)
         implementation project(strings.prx.projectName)

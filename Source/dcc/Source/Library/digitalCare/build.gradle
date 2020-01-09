@@ -121,6 +121,7 @@ dependencies {
 
     implementation deps.play_services_maps
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.gson
     implementation deps.volley
     implementation deps.shamanland_fonticon

@@ -98,6 +98,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.butterknife
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.androidx.constraintlayout
     implementation deps.dagger.dagger
     implementation deps.facebook
