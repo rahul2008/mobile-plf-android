@@ -214,7 +214,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                     binding.llBannerPlaceHolder.visibility = View.GONE
                 }
 
-                val text = String.format(context?.getResources()?.getText(R.string.mec_zero_results_found).toString(), s)
+                val text = String.format(context?.getResources()?.getText(R.string.mec_no_result).toString(), s)
                 binding.tvEmptyListFound.text = text
 
                 if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
@@ -280,7 +280,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
+        setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
     }
 
     private fun privacyTextView(view: TextView) {

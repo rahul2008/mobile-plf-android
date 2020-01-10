@@ -4,10 +4,12 @@
  */
 package com.philips.cdp.di.mec.screens
 
+import android.app.ProgressDialog
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -19,6 +21,7 @@ import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uappframework.listener.BackEventListener
+import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.view.widget.ProgressBar
 
 
@@ -31,6 +34,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     protected val SMALL = 0
     protected val MEDIUM = 1
     protected val BIG = 2
+    private var mProgressDialog: ProgressDialog? = null
     private var mMECBaseFragmentProgressBar: ProgressBar? = null
 
     enum class AnimationType {
@@ -41,10 +45,10 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         val currentFragment = activity?.supportFragmentManager?.fragments?.last()
         if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
         {
-            setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
+            setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
         }
         else{
-            setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
+            setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
         }
         return false
     }
@@ -158,6 +162,24 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             if (activity != null) {
                 activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
+        }
+    }
+
+    fun showProgressDialog() {
+        mProgressDialog = ProgressDialog(UIDHelper.getPopupThemedContext(activity!!))
+        mProgressDialog!!.getWindow()!!.setGravity(Gravity.CENTER)
+        mProgressDialog!!.setCancelable(false)
+        mProgressDialog!!.setMessage("Please wait" + "...")
+
+        if (!mProgressDialog!!.isShowing() && !activity!!.isFinishing()) {
+            mProgressDialog!!.show()
+            mProgressDialog!!.setContentView(R.layout.progressbar_dls)
+        }
+    }
+
+    fun dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog!!.isShowing()) {
+            mProgressDialog!!.dismiss()
         }
     }
 

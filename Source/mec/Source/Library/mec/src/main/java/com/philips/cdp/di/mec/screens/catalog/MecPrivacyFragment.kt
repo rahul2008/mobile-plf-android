@@ -32,7 +32,7 @@ class MecPrivacyFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility("Privacy", true)
+        setTitleAndBackButtonVisibility(getString(R.string.mec_privacy_title), true)
         mWebView!!.onResume()
     }
 
@@ -107,6 +107,7 @@ class MecPrivacyFragment : MecBaseFragment() {
             mWebView?.goBack()
             return true
         }
+        super.handleBackEvent()
         return false
     }
 

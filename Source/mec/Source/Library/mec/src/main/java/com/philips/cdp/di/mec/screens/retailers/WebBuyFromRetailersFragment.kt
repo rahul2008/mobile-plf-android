@@ -105,11 +105,14 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
     }
 
     override fun handleBackEvent(): Boolean {
+
         if (mWebView?.canGoBack()!!) {
             mWebView?.goBack()
             return true
         }
+        super.handleBackEvent()
         return false
+
     }
 
 
