@@ -59,9 +59,4 @@
     <string name="mec_threshold_title">Request threshold reached</string>
     <string name="mec_threshold_message">This might take more time. Do you wish to continue?</string>
 
-
-
-
-    <string name="mec_privacy_title">Privacy</string>
-
 </resources>

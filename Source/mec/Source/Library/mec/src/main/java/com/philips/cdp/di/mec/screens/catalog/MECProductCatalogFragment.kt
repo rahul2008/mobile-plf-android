@@ -164,6 +164,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         highLightedBackgroundColor=getListAndGridHighlightedBackgroundColor()
 
+
         binding.mecGrid.setOnClickListener {
             if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
                 binding.mecGrid.setBackgroundColor(highLightedBackgroundColor)
@@ -206,6 +207,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 adapter.filter.filter(s)
 
+
                 if(s?.length == 0){
                     shouldSupportPagination = true
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
@@ -225,11 +227,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                    }
                }
 
-                if (adapter.itemCount != 0) {
+                if(s?.length == 0){
                     binding.mecEmptyResult.visibility = View.GONE
-                } else {
-                    binding.mecEmptyResult.visibility = View.VISIBLE
                 }
+
 
                 mClearIconView.setOnClickListener {
                     searchText.text.clear()
@@ -260,6 +261,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.productCatalogRecyclerView.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
+
+        adapter.setEmptyView(binding.mecEmptyResult)
 
 
         return binding.root
