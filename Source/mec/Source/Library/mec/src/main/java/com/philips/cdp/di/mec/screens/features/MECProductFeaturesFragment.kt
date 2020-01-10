@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductFeaturesFragmentBinding
-import com.philips.cdp.di.mec.databinding.MecProductSpecsFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
@@ -41,6 +41,11 @@ class MECProductFeaturesFragment : MecBaseFragment() {
         context?.let { productFeaturesViewModel.fetchProductFeatures(it,productCtn) }
 
         return binding.root
+    }
+
+    //TODO Do something for error
+    override fun processError(mecError: MecError?) {
+        super.processError(mecError)
     }
 
 }

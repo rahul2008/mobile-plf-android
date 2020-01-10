@@ -48,6 +48,10 @@ class DataBindingUtility {
             if(image_url == null){
                 return
             }
+
+            image_url + "?wid=" + 220 +
+                    "&hei=" + 220 + "&\$pnglarge$" + "&fit=fit,1"
+
             val imageView = imageView as NetworkImageView
             val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
             imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0,com.philips.cdp.di.mec.R.drawable.no_icon))
@@ -105,9 +109,9 @@ class DataBindingUtility {
         //For Product Features
 
         @JvmStatic
-        @BindingAdapter("featureItems")
-        fun setProductFeatureChildAdapter(recyclerView: RecyclerView,featureItems: List<FeatureItem>, featuresModel: FeaturesModel?) {
-            if(featuresModel!=null){
+        @BindingAdapter(value=["featureItems", "featuresModel"], requireAll=true)
+        fun setProductFeatureChildAdapter(recyclerView: RecyclerView,featureItems: List<FeatureItem>?, featuresModel: FeaturesModel?) {
+            if(featureItems!=null && featuresModel!=null){
                 recyclerView.adapter = ProductFeatureChildRecyclerAdapter(featureItems,featuresModel)
             }
 

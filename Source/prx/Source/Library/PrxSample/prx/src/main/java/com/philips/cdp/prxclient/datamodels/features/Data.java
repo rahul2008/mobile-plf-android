@@ -1,10 +1,19 @@
 package com.philips.cdp.prxclient.datamodels.features;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class Data implements Serializable {
+
+	public static List videoExtensionList;
+	public static String[] videoExtensions = {"WEBM","MPG","MP2","MPEG","MPE","MPV","OGG","MP4","M4P","M4V","AVI","WMV","MOV","QT","FLV","SWF","AVCHD"};
+
+	static {
+		videoExtensionList = Arrays.asList(videoExtensions);
+	}
 
 	@SerializedName("keyBenefitArea")
 	public List<KeyBenefitAreaItem> keyBenefitArea;
@@ -26,6 +35,6 @@ public class Data implements Serializable {
 	}
 
 	private boolean isImage(String extension) {
-		return true;
+		return !videoExtensionList.contains(extension);
 	}
 }

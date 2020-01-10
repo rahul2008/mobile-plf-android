@@ -56,7 +56,7 @@
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/iap_product_detail_image_height"
-                    app:assets="@{product.assets.asset}"/>
+                    app:assets="@{product.assets.validPRXImageAssets}"/>
             </FrameLayout>
             <com.philips.platform.uid.view.widget.Label
                 android:background="@drawable/mec_semi_circular"

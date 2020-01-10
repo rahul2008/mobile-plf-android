@@ -29,7 +29,6 @@ class ImageAdapter(val assets: List<Asset>) : PagerAdapter() {
         asset.asset + "?wid=" + getHeightAndWidth.width +
                 "&hei=" + getHeightAndWidth.height + "&\$pnglarge$" + "&fit=fit,1"
 
-
         binding.asset = asset
         binding.executePendingBindings()
         container.addView(binding.root)

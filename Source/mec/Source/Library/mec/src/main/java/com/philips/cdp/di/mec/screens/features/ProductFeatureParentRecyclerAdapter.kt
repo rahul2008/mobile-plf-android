@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.philips.cdp.di.mec.databinding.MecFeaturesItemParentBinding
 import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 
-class ProductFeatureParentRecyclerAdapter (val featuresModel:FeaturesModel) : RecyclerView.Adapter<ProductFeatureParentViewHolder>() {
+class ProductFeatureParentRecyclerAdapter (private val featuresModel:FeaturesModel) : RecyclerView.Adapter<ProductFeatureParentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ProductFeatureParentViewHolder {
 

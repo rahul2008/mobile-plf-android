@@ -13,10 +13,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  * @since 1.0.0
  */
 public class MECSettings extends UappSettings {
-    private boolean mUseLocalData;
-    private String mProposition;
-    private String mHostPort;
-
 
     public MECSettings(Context applicationContext) {
         super(applicationContext);

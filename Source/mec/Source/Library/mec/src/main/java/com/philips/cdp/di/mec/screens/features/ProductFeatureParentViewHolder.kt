@@ -12,8 +12,10 @@ import com.philips.cdp.prxclient.datamodels.features.KeyBenefitAreaItem
 class ProductFeatureParentViewHolder (val binding: ViewDataBinding,val featuresModel: FeaturesModel) : RecyclerView.ViewHolder(binding.root){
 
     fun bind(item: KeyBenefitAreaItem) {
+
         val mecFeaturesItemParentBinding = binding as MecFeaturesItemParentBinding
 
+        //Disabling child recycler view scroll
         val mLayoutManager = object : LinearLayoutManager(binding.root.context) {
             override fun canScrollVertically(): Boolean {
                 return false

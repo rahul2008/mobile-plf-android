@@ -26,4 +26,14 @@ public class FeatureItem implements Serializable {
 
 	@SerializedName("featureTopRank")
 	public String featureTopRank;
+
+	public String getSingleFeatureImage() {
+		return singleFeatureImage;
+	}
+
+	public void setSingleFeatureImage(String singleFeatureImage) {
+		this.singleFeatureImage = singleFeatureImage;
+	}
+
+	public String singleFeatureImage;
 }
