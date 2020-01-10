@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.opengl.Visibility
 import android.os.Bundle
@@ -63,12 +64,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
             if(retailers.wrbresults.onlineStoresForProduct!=null) {
-                binding.mecFindRetailerButton.isEnabled = true
+                binding.mecFindRetailerButtonPrimary.isEnabled = true
+                binding.mecFindRetailerButtonSecondary.isEnabled = true
                 if(binding.mecAddToCartButton.visibility == View.GONE) {
+
+
 
                        }
             } else {
-                binding.mecFindRetailerButton.isEnabled = false
+               binding.mecFindRetailerButtonPrimary.isEnabled = false
+                binding.mecFindRetailerButtonSecondary.isEnabled = false
             }
             ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus,product,retailersList)
         }
@@ -104,6 +109,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
 
         binding.fragment = this
+        binding.mecDataHolder = MECDataHolder.INSTANCE
 
         ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 

@@ -11,6 +11,16 @@
         <variable
             name="product"
             type="com.philips.cdp.di.ecs.model.products.ECSProduct" />
+
+        <import type="android.view.View"/>
+        <variable
+            name="MecDataHolder"
+            type="com.philips.cdp.di.mec.utils.MECDataHolder" />
+
+
+
+
+
     </data>
 
 <RelativeLayout
@@ -243,8 +253,26 @@
         android:layout_margin="16dp">
 
         <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/mec_find_retailer_button_primary"
             style="@style/MecRetailersButton"
-            android:id="@+id/mec_find_retailer_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:enabled="false"
+            app:uidComponentType="Primary"
+            android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
+            fontPath="fonts/iconfont.ttf"
+            android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
+            android:textSize="16sp"
+            android:visibility="@{MecDataHolder.hybrisEnabled ? View.GONE : View.VISIBLE  }"
+            />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/mec_find_retailer_button_secondary"
+            style="@style/MecRetailersButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
@@ -257,7 +285,7 @@
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
             android:textSize="16sp"
-
+            android:visibility="@{MecDataHolder.hybrisEnabled ? View.VISIBLE : View.GONE}"
             />
 
         <com.philips.platform.uid.view.widget.Button

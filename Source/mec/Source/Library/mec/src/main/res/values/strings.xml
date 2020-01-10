@@ -38,7 +38,8 @@
     <string name="mec_more_info">for more info</string>
     <string name="mec_currency">\u00A4</string>
     <string name="mec_buy_from_retailers">&#160;Buy From Retailer</string>
-
+    <string name="mec_primary">Primary</string>
+    <string name="mec_secondary">Secondary</string>
 
 
 </resources>
