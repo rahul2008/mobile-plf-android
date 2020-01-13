@@ -70,6 +70,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.supportsHybris
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
+        MECDataHolder.INSTANCE.blackListedRetailers = mLaunchInput.blackListedRetailerNames
 
 
         getUrl()
@@ -91,7 +92,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
     protected fun launchMECasActivity() {
         val intent = Intent(mMECSetting.context, MECLauncherActivity::class.java)
-      //  intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView) //TODO
+      //  intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.landingView) //TODO
         val activityLauncher = mUiLauncher as ActivityLauncher
         val bundle = getBundle()
         if (mLaunchInput.flowConfigurator == null){
@@ -108,7 +109,6 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     private fun launchMECasFragment() {
         val fragmentLauncher = mUiLauncher as FragmentLauncher
         val bundle = getBundle()
-        bundle.putInt(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView?.ordinal!!) // passing enum to other fragment
         bundle.putInt("fragment_container", fragmentLauncher.parentContainerResourceID) // frame_layout for fragment
         loadDecisionFragment(bundle)
     }

@@ -51,6 +51,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
+            ecsProductDetailViewModel.removeBlacklistedRetailers(retailersList)
             if(retailers.wrbresults.onlineStoresForProduct!=null) {
                 if (retailersList.wrbresults.onlineStoresForProduct.stores.retailerList.size > 0) {
                     binding.mecFindRetailerButtonPrimary.isEnabled = true

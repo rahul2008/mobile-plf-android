@@ -297,9 +297,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     }
 
 
-    private void launchMEC(MECLaunchInput.MECLandingView mecLandingView, MECFlowConfigurator pMecFlowConfigurator, ArrayList<String> pIgnoreRetailerList) {
+    private void launchMEC(MECFlowConfigurator.MECLandingView mecLandingView, MECFlowConfigurator pMecFlowConfigurator, ArrayList<String> pIgnoreRetailerList) {
 
-        mMecLaunchInput.setMLandingView(mecLandingView);
+        pMecFlowConfigurator.setLandingView(mecLandingView);
         mMecLaunchInput.setFlowConfigurator(pMecFlowConfigurator);
 
 
@@ -315,9 +315,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    private void launchMECasFragment(MECLaunchInput.MECLandingView mecLandingView, MECFlowConfigurator pMecFlowConfigurator, ArrayList<String> pIgnoreRetailerList) {
+    private void launchMECasFragment(MECFlowConfigurator.MECLandingView mecLandingView, MECFlowConfigurator pMecFlowConfigurator, ArrayList<String> pIgnoreRetailerList) {
 
-        mMecLaunchInput.setMLandingView(mecLandingView);
+        pMecFlowConfigurator.setLandingView(mecLandingView);
         mMecLaunchInput.setFlowConfigurator(pMecFlowConfigurator);
         mMecInterface.launch(new FragmentLauncher(getActivity(), R.id.container_base_demo, this),
                 mMecLaunchInput);
@@ -330,9 +330,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         if (view == mShopNow) {
             if (getActivity() instanceof LaunchAsActivity) {
-                launchMEC(MECLaunchInput.MECLandingView.MEC_PRODUCT_LIST_VIEW, null, null);
+                launchMEC(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, new MECFlowConfigurator(), null);
             } else if (getActivity() instanceof LaunchAsFragment) {
-                launchMECasFragment(MECLaunchInput.MECLandingView.MEC_PRODUCT_LIST_VIEW, null, null);
+                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, new MECFlowConfigurator(), null);
             }
         } else if (view == mLaunchProductDetail) {
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
@@ -340,9 +340,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 input.productCTN = mCategorizedProductList.get(0);
 
                 if (getActivity() instanceof LaunchAsActivity) {
-                    launchMEC(MECLaunchInput.MECLandingView.MEC_PRODUCT_DETAILS_VIEW, input, null);
+                    launchMEC(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW, input, null);
                 } else if (getActivity() instanceof LaunchAsFragment) {
-                    launchMECasFragment(MECLaunchInput.MECLandingView.MEC_PRODUCT_DETAILS_VIEW, input, null);
+                    launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW, input, null);
                 }
             } else {
                 Toast.makeText(getActivity(), "Please add CTN", Toast.LENGTH_SHORT).show();
@@ -353,9 +353,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 input.productCTNs = mCategorizedProductList;
 
                 if (getActivity() instanceof LaunchAsActivity) {
-                    launchMEC(MECLaunchInput.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW, input, null);
+                    launchMEC(MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW, input, null);
                 } else if (getActivity() instanceof LaunchAsFragment) {
-                    launchMECasFragment(MECLaunchInput.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW, input, null);
+                    launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW, input, null);
                 }
             } else {
                 Toast.makeText(getActivity(), "Please add CTN", Toast.LENGTH_SHORT).show();

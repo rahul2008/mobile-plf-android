@@ -8,9 +8,8 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     override fun executeRequest(){
         val bundle = arguments
-        val str = bundle?.getString(MECConstant.FLOW_INPUT)
-        val isCategorized = Gson().fromJson(str, MECFlowConfigurator::class.java)
-        ecsProductViewModel.initCategorized(currentPage, pageSize, isCategorized.productCTNs!!)
+        var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
+        ecsProductViewModel.initCategorized(currentPage, pageSize, ctns)
     }
 
     override fun isPaginationSupported(): Boolean {
