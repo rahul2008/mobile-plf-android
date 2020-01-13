@@ -15,9 +15,11 @@ import java.util.List;
 public class MockGetRegionsRequest extends GetRegionsRequest {
 
     private   String jsonFile;
-    public MockGetRegionsRequest(String jsonFile,ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
+    private final String countryISO;
+    public MockGetRegionsRequest(String jsonFile, ECSCallback<List<ECSRegion>, Exception> ecsCallback, String countryISO) {
         super(countryISO, ecsCallback);
         this.jsonFile = jsonFile;
+        this.countryISO = countryISO;
     }
 
     @Override
