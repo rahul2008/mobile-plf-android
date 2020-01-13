@@ -64,14 +64,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
             if(retailers.wrbresults.onlineStoresForProduct!=null) {
-                binding.mecFindRetailerButtonPrimary.isEnabled = true
-                binding.mecFindRetailerButtonSecondary.isEnabled = true
-                if(binding.mecAddToCartButton.visibility == View.GONE) {
-
-
-
-                       }
-            } else {
+                if (retailersList.wrbresults.onlineStoresForProduct.stores.retailerList.size > 0) {
+                    binding.mecFindRetailerButtonPrimary.isEnabled = true
+                    binding.mecFindRetailerButtonSecondary.isEnabled = true
+                }
+            }else {
                binding.mecFindRetailerButtonPrimary.isEnabled = false
                 binding.mecFindRetailerButtonSecondary.isEnabled = false
             }

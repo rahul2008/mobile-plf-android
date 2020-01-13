@@ -175,15 +175,17 @@ class EcsProductDetailViewModel : CommonViewModel() {
                 }
             }
             else if(MECDataHolder.INSTANCE.hybrisEnabled){
-                if(null!=product && null!= product.stock) {
-                    if (MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) {
-                        stockLabel.text = stockLabel.context.getString(R.string.mec_in_stock)
-                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_green_level_30))
-                        // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextSuccessColor)
-                    } else {
-                        stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
-                        stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
-                        // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextErrorColor)
+                if(ecsRetailers.retailers.size==0) {
+                    if (null != product && null != product.stock) {
+                        if (MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) {
+                            stockLabel.text = stockLabel.context.getString(R.string.mec_in_stock)
+                            stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_green_level_30))
+                            // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextSuccessColor)
+                        } else {
+                            stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
+                            stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                            // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextErrorColor)
+                        }
                     }
                 }
 
@@ -204,6 +206,9 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
 
                 }
+            }  else  {
+                stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
+                stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
             }
         }
     }
