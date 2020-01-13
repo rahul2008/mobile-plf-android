@@ -15,13 +15,13 @@ class MECFlowConfigurator : Serializable {
      * @return productCTN  return product CTN
      * @since 1.0.0
      */
-    var  productCTN: String ? = null
+    lateinit var  productCTN: String
     /**
      * returns product array of CTN number
      * @return productCTNs  returns array of product CTNs
      * @since 1.0.0
      */
-    var productCTNs: ArrayList<String> ? = null
+    lateinit var productCTNs: ArrayList<String>
 
     var landingView: MECLandingView? =null
 
