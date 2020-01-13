@@ -17,10 +17,6 @@
             name="MecDataHolder"
             type="com.philips.cdp.di.mec.utils.MECDataHolder" />
 
-
-
-
-
     </data>
 
 <RelativeLayout
@@ -28,12 +24,17 @@
     android:layout_height="match_parent"
     android:background="@color/uid_level_white">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"/>
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
         android:layout_marginBottom="65dp"
         android:fadeScrollbars="true"
         android:scrollbarSize="0dp"
@@ -268,7 +269,7 @@
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
             android:textSize="16sp"
-            android:visibility="@{MecDataHolder.retailerEnabled ? View.VISIBLE : View.GONE  }"
+            android:visibility="gone"
             />
 
         <com.philips.platform.uid.view.widget.Button
@@ -286,7 +287,7 @@
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
             android:textSize="16sp"
-            android:visibility="@{MecDataHolder.retailerEnabled ? View.VISIBLE : View.GONE  }"
+            android:visibility="gone"
             />
 
         <com.philips.platform.uid.view.widget.Button
@@ -299,7 +300,7 @@
             android:gravity="center|center_vertical"
             app:uidComponentType="Primary"
             android:textAlignment="center"
-            android:visibility="@{MecDataHolder.hybrisEnabled ? View.VISIBLE : View.GONE  }"
+            android:visibility="gone"
             fontPath="fonts/mec_iconfont.ttf"
             android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
             android:textSize="16sp"

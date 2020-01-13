@@ -84,6 +84,19 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             if(MECDataHolder.INSTANCE.retailerEnabled){
                 getRetailerDetails()
             }else{
+                binding.mecFindRetailerButtonPrimary.visibility = View.GONE
+                binding.mecFindRetailerButtonSecondary.visibility = View.GONE
+                if(MECDataHolder.INSTANCE.hybrisEnabled) {
+                        if (null != product && null != product.stock) {
+                            if (MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) {
+                                binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_in_stock)
+                                binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_green_level_30))
+                            } else {
+                                binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
+                                binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
+                            }
+                        }
+                }
                 hideProgressBar()
             }
         }
@@ -140,13 +153,24 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onStart() {
         super.onStart()
+        if(MECDataHolder.INSTANCE.hybrisEnabled){
+            binding.mecFindRetailerButtonPrimary.visibility = View.GONE
+            binding.mecFindRetailerButtonSecondary.visibility = View.VISIBLE
+        } else if(!MECDataHolder.INSTANCE.hybrisEnabled) {
+            binding.mecFindRetailerButtonPrimary.visibility = View.VISIBLE
+            binding.mecFindRetailerButtonSecondary.visibility = View.GONE
+        }
         executeRequest()
         getRatings()
     }
 
     fun addToCartVisibility(product : ECSProduct){
-        if(!(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+        if(MECDataHolder.INSTANCE.hybrisEnabled.equals(false)){
+            binding.mecAddToCartButton.visibility = View.GONE
+        } else if((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
             binding.mecAddToCartButton.isEnabled = false
+        } else{
+            binding.mecAddToCartButton.visibility = View.VISIBLE
         }
     }
 
