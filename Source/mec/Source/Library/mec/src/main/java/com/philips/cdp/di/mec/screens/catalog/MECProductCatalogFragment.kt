@@ -3,10 +3,13 @@ package com. philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
@@ -27,6 +30,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
@@ -46,6 +50,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
 
 
+
     private val productReviewObserver : Observer<MutableList<MECProductReview>> = Observer<MutableList<MECProductReview>> { mecProductReviews ->
         productReviewList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
@@ -62,6 +67,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct.ecsProduct)
 
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
         val fragment = MECProductDetailsFragment()
         fragment.arguments = bundle
         addFragment(fragment,"detail",true)
@@ -72,6 +79,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     private lateinit var mecCatalogUIModel: MECCatalogUIModel
+    private  var highLightedBackgroundColor:Int = 0
 
     var totalPages: Int = 0
     var currentPage: Int = 0
@@ -124,7 +132,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             binding.llBannerPlaceHolder.visibility = View.GONE
             hideProgressBar()
         }
-        currentPage++
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -155,13 +162,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         val bundle = arguments
 
-
+        highLightedBackgroundColor=getListAndGridHighlightedBackgroundColor()
 
         binding.mecGrid.setOnClickListener {
             if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
-                val cd: ColorDrawable = binding.mecList.getBackground() as ColorDrawable;
-                val colorCode: Int = cd.color
-                binding.mecGrid.setBackgroundColor(colorCode)
+                binding.mecGrid.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
                 adapter = MECProductCatalogGridAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
@@ -177,9 +182,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         binding.mecList.setOnClickListener {
             if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
-                val cd: ColorDrawable = binding.mecGrid.getBackground() as ColorDrawable;
-                val colorCode: Int = cd.color
-                binding.mecList.setBackgroundColor(colorCode)
+                binding.mecList.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
                 adapter = MECProductCatalogListAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -206,11 +209,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 if(s?.length == 0){
                     shouldSupportPagination = true
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
-                    binding.mecEmptyResult.visibility = View.GONE
                 }else {
                     shouldSupportPagination = false
                     binding.llBannerPlaceHolder.visibility = View.GONE
-                    binding.mecEmptyResult.visibility = View.VISIBLE
                 }
 
                 val text = String.format(context?.getResources()?.getText(R.string.mec_zero_results_found).toString(), s)
@@ -219,12 +220,16 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
                     if (adapter.itemCount != 0) {
                        binding.mecPrivacyLayout.visibility = View.VISIBLE
-                        binding.mecEmptyResult.visibility = View.GONE
                    } else {
                        binding.mecPrivacyLayout.visibility = View.GONE
-                        binding.mecEmptyResult.visibility = View.VISIBLE
                    }
                }
+
+                if (adapter.itemCount != 0) {
+                    binding.mecEmptyResult.visibility = View.GONE
+                } else {
+                    binding.mecEmptyResult.visibility = View.VISIBLE
+                }
 
                 mClearIconView.setOnClickListener {
                     searchText.text.clear()
@@ -267,12 +272,12 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     }
 
-
-    override fun onStart() {
-        super.onStart()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         createCustomProgressBar(container,MEDIUM)
         executeRequest()
     }
+
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
@@ -310,15 +315,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         addFragment(mecPrivacyFragment,"privacy",true)
     }
 
-
-
-    public fun createInstance(args: Bundle): MECProductCatalogFragment {
-        val fragment = MECProductCatalogFragment()
-        fragment.arguments = args
-        return fragment
-    }
-
-
     private fun isScrollDown(lay: LinearLayoutManager): Boolean {
         val visibleItemCount = lay.childCount
         val firstVisibleItemPosition = lay.findFirstVisibleItemPosition()
@@ -339,6 +335,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         if (isScrollDown(lay)) {
             if (currentPage < totalPages) {
+                currentPage = currentPage+1
               return true
             }
         }
@@ -350,6 +347,14 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
         binding.productCatalogRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
+    }
+
+    private fun getListAndGridHighlightedBackgroundColor():Int{
+        val numbers: IntArray = intArrayOf(R.attr.uidToggleButtonInputQuietNormalOnBackgroundColor)
+        var typedArray:TypedArray  = context!!.obtainStyledAttributes(numbers)
+        val colorCodeHighlighted:Int = typedArray.getColor(0,0)
+        typedArray.recycle();
+        return colorCodeHighlighted
     }
 
 }

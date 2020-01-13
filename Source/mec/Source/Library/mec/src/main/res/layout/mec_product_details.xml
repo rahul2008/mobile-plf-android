@@ -81,9 +81,11 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
-                android:text="$"
-                android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
+                android:text="@string/mec_currency"
+                android:textSize="24sp"
                 android:textAlignment="center"
+                android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
+
                 android:layout_alignBottom="@+id/framelayout"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -225,7 +227,8 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="300dp"
+
                 android:layout_below="@+id/tabs_main"/>
 
 
@@ -238,6 +241,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
+        android:weightSum="2"
         android:layout_margin="16dp">
 
         <com.philips.platform.uid.view.widget.Button
@@ -247,12 +251,13 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
             android:layout_weight="1"
+            android:gravity="center|center_vertical"
             android:enabled="false"
-            android:textAlignment="center"
             app:uidComponentType="Secondary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
-            android:text="@string/mec_view_retailers"
-            android:textSize="14sp"
+            fontPath="fonts/iconfont.ttf"
+            android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
+            android:textSize="13sp"
 
             />
 
@@ -263,9 +268,12 @@
             android:layout_height="match_parent"
             android:layout_marginStart="1dp"
             android:layout_weight="1"
+            android:gravity="center|center_vertical"
             app:uidComponentType="Primary"
-            android:text="@string/mec_add_to_cart"
-            android:textSize="14sp"
+            android:textAlignment="center"
+            fontPath="fonts/mec_iconfont.ttf"
+            android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
+            android:textSize="15sp"
             />
 
     </LinearLayout>

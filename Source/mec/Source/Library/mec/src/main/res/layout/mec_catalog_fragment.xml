@@ -23,6 +23,7 @@
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
+        android:paddingStart="8dp"
         android:orientation="horizontal"
         android:visibility="gone"
         android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
@@ -121,6 +122,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/mec_progress_layout"
         android:clipToPadding="false"
+        android:layoutAnimation="@anim/down_to_up"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         </LinearLayout>
@@ -189,7 +191,6 @@
         android:text="@string/mec_no_product_available"
         android:visibility="gone"
         android:textSize="@dimen/iap_product_ctn_12"/>
-
 
 </RelativeLayout>
 

@@ -6,28 +6,22 @@ package com.philips.cdp.di.mec.integration
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.FragmentTransaction
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.mec.common.MECFragmentLauncher
 import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.*
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnErrorListener.*
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.*
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService
 import com.philips.platform.uappframework.launcher.ActivityLauncher
 import com.philips.platform.uappframework.launcher.FragmentLauncher
 import com.philips.platform.uappframework.launcher.UiLauncher
 
 import java.util.ArrayList
-import java.util.Objects
 import com.google.gson.Gson
+import com.philips.cdp.di.mec.integration.serviceDiscovery.ServiceDiscoveryMapListener
 
 
 internal class MECHandler(private val mMECDependencies: MECDependencies, private val mMECSetting: MECSettings, private val mUiLauncher: UiLauncher, private val mLaunchInput: MECLaunchInput) {
@@ -35,22 +29,25 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     private var listOfServiceId: ArrayList<String>? = null
     lateinit var serviceUrlMapListener: OnGetServiceUrlMapListener
 
-    // mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.getMMECFlowInput());
+
+    private val IAP_PRIVACY_URL = "iap.privacyPolicy"
+
+
+    // mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.getFlowConfigurator());
     fun getBundle(): Bundle {
             val mBundle = Bundle()
-            if (mLaunchInput.mMECFlowInput != null) {
+            if (mLaunchInput.flowConfigurator != null) {
 
-                mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.mMECFlowInput)
+                mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.flowConfigurator)
 
-                if (mLaunchInput.mMECFlowInput!!.productCTN != null) {
+                if (mLaunchInput.flowConfigurator!!.productCTN != null) {
                     mBundle.putString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL,
-                            mLaunchInput.mMECFlowInput!!.productCTN)
+                            mLaunchInput.flowConfigurator!!.productCTN)
                 }
-                if (mLaunchInput.mMECFlowInput!!.productCTNs != null) {
+                if (mLaunchInput.flowConfigurator!!.productCTNs != null) {
                     mBundle.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS,
-                            mLaunchInput.mMECFlowInput!!.productCTNs)
+                            mLaunchInput.flowConfigurator!!.productCTNs)
                 }
-                mBundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, mLaunchInput.ignoreRetailers)
             }
             return mBundle
         }
@@ -60,15 +57,19 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         appInfra = mMECDependencies.appInfra as AppInfra
         val configInterface = appInfra!!.configInterface
         val configError = AppConfigurationInterface.AppConfigurationError()
-        val propertyForKey = configInterface.getPropertyForKey("propositionid", "MEC", configError) as String
+        val propositionID = configInterface.getPropertyForKey("propositionid", "MEC", configError)
+        var propertyForKey = ""
+        if(propositionID!=null) {
+            propertyForKey = propositionID as String
+        }
         val ecsServices = ECSServices(propertyForKey, appInfra!!)
         MecHolder.INSTANCE.eCSServices = ecsServices // singleton
         MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
         MECDataHolder.INSTANCE.propositionId = propertyForKey
-        MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerEnabler
-        MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.hybrisEnabled
-        MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput
-        MECDataHolder.INSTANCE.blackListedRetailers = Objects.requireNonNull<ArrayList<String>>(mLaunchInput.ignoreRetailers)
+        MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator!!
+        MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.supportsHybris
+        MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
+        MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
 
 
         getUrl()
@@ -82,44 +83,21 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     fun getUrl() {
 
         listOfServiceId = ArrayList()
-        listOfServiceId!!.add(IAP_BASE_URL)
         listOfServiceId!!.add(IAP_PRIVACY_URL)
-        listOfServiceId!!.add(IAP_FAQ_URL)
-        listOfServiceId!!.add(IAP_TERMS_URL)
-        serviceUrlMapListener = object : OnGetServiceUrlMapListener {
-            override fun onSuccess(map: Map<String, ServiceDiscoveryService>) {
-                val collection = map.values
-
-
-                val list = ArrayList<ServiceDiscoveryService>()
-                list.addAll(collection)
-
-                val discoveryService = map[IAP_PRIVACY_URL]!!
-                val privacyUrl = discoveryService.configUrls
-                if (privacyUrl != null) {
-                    MECDataHolder.INSTANCE.setPrivacyUrl(privacyUrl)
-                }
-
-            }
-
-            override fun onError(errorvalues: ERRORVALUES, s: String) {
-               /* if (errorvalues.name == NO_NETWORK1) {
-                }*/
-            }
-        }
+        serviceUrlMapListener = ServiceDiscoveryMapListener()
         appInfra!!.serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener, null)
     }
 
 
     protected fun launchMECasActivity() {
         val intent = Intent(mMECSetting.context, MECLauncherActivity::class.java)
-        intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView)
+      //  intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView) //TODO
         val activityLauncher = mUiLauncher as ActivityLauncher
         val bundle = getBundle()
-        if (mLaunchInput.mMECFlowInput == null){
-            MECFlowInput()
+        if (mLaunchInput.flowConfigurator == null){
+            MECFlowConfigurator()
         }
-        val str = Gson().toJson(mLaunchInput.mMECFlowInput)
+        val str = Gson().toJson(mLaunchInput.flowConfigurator)
         bundle.putString(MECConstant.FLOW_INPUT, str)
         bundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.uiKitTheme)
         intent.putExtras(bundle)
@@ -127,22 +105,20 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
     }
 
-    protected fun launchMECasFragment() {
+    private fun launchMECasFragment() {
         val fragmentLauncher = mUiLauncher as FragmentLauncher
         val bundle = getBundle()
-        bundle.putInt(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView)
+        bundle.putInt(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView?.ordinal!!) // passing enum to other fragment
         bundle.putInt("fragment_container", fragmentLauncher.parentContainerResourceID) // frame_layout for fragment
         loadDecisionFragment(bundle)
-
-
     }
 
-    fun loadDecisionFragment(bundle: Bundle) {
+    private fun loadDecisionFragment(bundle: Bundle) {
 
-        if (mLaunchInput.mMECFlowInput == null){
-            MECFlowInput()
+        if (mLaunchInput.flowConfigurator == null){
+            MECFlowConfigurator()
         }
-        val str = Gson().toJson(mLaunchInput.mMECFlowInput)
+        val str = Gson().toJson(mLaunchInput.flowConfigurator)
         bundle.putString(MECConstant.FLOW_INPUT, str)
 
         val mecFragmentLauncher = MECFragmentLauncher()
@@ -157,13 +133,5 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         transaction.commitAllowingStateLoss()
 
     }
-
-    companion object {
-        private val IAP_PRIVACY_URL = "iap.privacyPolicy"
-        private val IAP_FAQ_URL = "iap.faq"
-        private val IAP_TERMS_URL = "iap.termOfUse"
-        private val IAP_BASE_URL = "iap.baseurl"
-    }
-
 
 }

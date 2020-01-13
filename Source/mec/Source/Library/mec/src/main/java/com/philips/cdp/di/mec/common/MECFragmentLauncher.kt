@@ -9,84 +9,77 @@ import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.integration.MECFlowInput
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
-import com.philips.cdp.di.mec.screens.detail.MECProductReviewsFragment
 import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.android.synthetic.main.mec_main_activity.*
-import java.io.Serializable
-import com.google.gson.Gson
 
 
+class MECFragmentLauncher : MecBaseFragment() {
 
-class MECFragmentLauncher : MecBaseFragment(){
-
-    lateinit var  mFlowInput: MECFlowInput
     lateinit var ecsLauncherViewModel: EcsLauncherViewModel
+    private var bundle: Bundle? = null
+    private var mecFlowOrdinal: Int = 0
+    lateinit var mecFlows: MECLaunchInput.MECLandingView
+    val TAG = MECFragmentLauncher::class.java.name
 
-    private val isHybrisObserver : Observer<Boolean> = object :Observer<Boolean>{
+    private val isHybrisObserver: Observer<Boolean> = object : Observer<Boolean> {
         override fun onChanged(result: Boolean?) {
             hideProgressBar()
-            if(MECDataHolder.INSTANCE.hybrisEnabled) {
+            if (MECDataHolder.INSTANCE.hybrisEnabled) {
                 MECDataHolder.INSTANCE.hybrisEnabled = result!!
             }
-            launchMECasFragment(landingFragment, MECDataHolder.INSTANCE.hybrisEnabled)
+            launchMECasFragment(MECDataHolder.INSTANCE.hybrisEnabled)
         }
 
     }
 
-    private val configObserver : Observer<ECSConfig> = object :Observer<ECSConfig>{
+    private val configObserver: Observer<ECSConfig> = object : Observer<ECSConfig> {
         override fun onChanged(config: ECSConfig?) {
             hideProgressBar()
 
-            if(MECDataHolder.INSTANCE.hybrisEnabled) {
+            if (MECDataHolder.INSTANCE.hybrisEnabled) {
                 MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
             }
 
             MECDataHolder.INSTANCE.locale = config!!.locale
-            launchMECasFragment(landingFragment, MECDataHolder.INSTANCE.hybrisEnabled)
+            launchMECasFragment(MECDataHolder.INSTANCE.hybrisEnabled)
         }
 
     }
 
-    private val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
+    private val productObserver: Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             val mecProductDetailsFragment = MECProductDetailsFragment()
 
             val bundle = Bundle()
-            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
+            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, ecsProduct)
             mecProductDetailsFragment.arguments = bundle
-
-            mecProductDetailsFragment.let { replaceFragment(it,"asd",false) }
+            mecProductDetailsFragment.let { replaceFragment(it, "asd", false) }
             hideProgressBar()
         }
 
     }
-
-    private var bundle: Bundle? = null
-    private var landingFragment: Int = 0
-    val TAG = MECFragmentLauncher::class.java.name
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         ecsLauncherViewModel = ViewModelProviders.of(this).get(EcsLauncherViewModel::class.java)
         ecsLauncherViewModel.isHybris.observe(this, isHybrisObserver)
         ecsLauncherViewModel.ecsConfig.observe(this, configObserver)
-        ecsLauncherViewModel.mecError.observe(this,this)
-        ecsLauncherViewModel.ecsProduct.observe(this,productObserver)
+        ecsLauncherViewModel.mecError.observe(this, this)
+        ecsLauncherViewModel.ecsProduct.observe(this, productObserver)
 
 
         //TODO we can also check if SDK is already initialized
-        if(MECDataHolder.INSTANCE.bvClient == null) {
+        if (MECDataHolder.INSTANCE.bvClient == null) {
             val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(activity?.application!!)
             MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
         }
@@ -97,7 +90,8 @@ class MECFragmentLauncher : MecBaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
-        landingFragment =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
+        mecFlowOrdinal = bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
+        mecFlows = MECLaunchInput.MECLandingView.values()[mecFlowOrdinal] // getting enum from previous fragment
 
     }
 
@@ -112,55 +106,54 @@ class MECFragmentLauncher : MecBaseFragment(){
     }
 
 
-    protected fun launchMECasFragment(landingFragment: Int, result: Boolean) {
-        val mecBaseFragment = getFragment(result,landingFragment)
-        mecBaseFragment?.let { replaceFragment(it,"asd",false) }
+    protected fun launchMECasFragment(result: Boolean) {
+        val mecBaseFragment = getFragment(result, mecFlows)
+        mecBaseFragment?.let { replaceFragment(it, "asd", false) }
     }
 
-    protected fun getFragment(isHybris : Boolean,screen: Int): MecBaseFragment? {
+    private fun getFragment(isHybris: Boolean, screen: MECLaunchInput.MECLandingView): MecBaseFragment? {
         var fragment: MecBaseFragment? = null
 
         when (screen) {
-            MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
 
+            MECLaunchInput.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
+                fetchProductDetailForCtn(isHybris)
             }
-            MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW -> {
 
-            }
-            MECLaunchInput.MECFlows.MEC_PRODUCT_DETAIL_VIEW -> {
-
-                createCustomProgressBar(container, MEDIUM)
-
-                val ctn = bundle?.getString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL,"UNKNOWN")
-
-                if(isHybris){
-                    ecsLauncherViewModel.getProductDetailForCtn(ctn!!)
-                }else{
-                    ecsLauncherViewModel.getRetailerProductDetailForCtn(ctn!!)
-                }
-            }
-            MECLaunchInput.MECFlows.MEC_BUY_DIRECT_VIEW -> {
-
-            }
-            MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW -> {
-
+            MECLaunchInput.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
                 fragment = MECProductCatalogFragment()
-
             }
-            MECLaunchInput.MECFlows.MEC_CATEGORIZED_VIEW ->{
-
-                    fragment = if(isHybris){
-                        MECProductCatalogCategorizedFragment()
-                    }else{
-                        MECCategorizedRetailerFragment()
-                }
+            MECLaunchInput.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
+                fragment = getCategorizedFragment(isHybris)
             }
             else -> {
-                fragment = MECProductCatalogFragment().createInstance(Bundle())
+                fragment = MECProductCatalogFragment()
             }
         }
         fragment?.arguments = bundle
         return fragment
-     }
+    }
+
+
+
+    private fun fetchProductDetailForCtn(isHybris: Boolean) {
+        createCustomProgressBar(container, MEDIUM)
+
+        val ctn = bundle?.getString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL, "UNKNOWN")
+
+        if (isHybris) {
+            ecsLauncherViewModel.getProductDetailForCtn(ctn!!)
+        } else {
+            ecsLauncherViewModel.getRetailerProductDetailForCtn(ctn!!)
+        }
+    }
+
+    private fun getCategorizedFragment(isHybris: Boolean): MecBaseFragment? {
+        if (isHybris) {
+            return MECProductCatalogCategorizedFragment()
+        } else {
+            return MECCategorizedRetailerFragment()
+        }
+    }
 
 }

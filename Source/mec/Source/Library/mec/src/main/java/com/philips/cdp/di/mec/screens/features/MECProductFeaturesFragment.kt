@@ -20,9 +20,20 @@ class MECProductFeaturesFragment : MecBaseFragment() {
     private val featuresObserver : Observer<FeaturesModel> = object : Observer<FeaturesModel> {
 
         override fun onChanged(featuresModel: FeaturesModel?) {
-           binding.featureModel = featuresModel
+            setImageForFeatureItem(featuresModel)
+            binding.featureModel = featuresModel
         }
 
+    }
+
+    private fun setImageForFeatureItem(featuresModel: FeaturesModel?) {
+        for (keyBenefitAreaItem in featuresModel!!.data.keyBenefitArea) {
+
+            for (featureItem in keyBenefitAreaItem.feature) {
+                val singleAssetImageFromFeatureCode = featuresModel.data.getSingleAssetImageFromFeatureCode(featureItem.featureCode)
+                featureItem.setSingleFeatureImage(singleAssetImageFromFeatureCode)
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

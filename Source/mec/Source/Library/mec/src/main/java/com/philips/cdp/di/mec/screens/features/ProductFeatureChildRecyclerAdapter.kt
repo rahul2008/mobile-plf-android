@@ -4,19 +4,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.philips.cdp.di.mec.databinding.MecFeatureItemChildBinding
-import com.philips.cdp.di.mec.databinding.MecSpecItemChildBinding
-import com.philips.cdp.di.mec.screens.specification.SpecificationChildViewHolder
 import com.philips.cdp.prxclient.datamodels.features.FeatureItem
-import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
-import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
 
 
-class ProductFeatureChildRecyclerAdapter (private val featureItems: List<FeatureItem> , private val featuresModel: FeaturesModel) : RecyclerView.Adapter<ProductFeatureChildViewHolder>() {
+class ProductFeatureChildRecyclerAdapter(private val featureItems: List<FeatureItem>) : RecyclerView.Adapter<ProductFeatureChildViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ProductFeatureChildViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MecFeatureItemChildBinding.inflate(inflater)
-        return ProductFeatureChildViewHolder(binding,featuresModel)
+        return ProductFeatureChildViewHolder(binding)
     }
 
     override fun getItemCount(): Int {

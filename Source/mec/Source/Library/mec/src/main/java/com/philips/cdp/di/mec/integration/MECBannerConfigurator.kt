@@ -6,6 +6,6 @@ import android.view.View
  * Created by philips on 4/26/19.
  */
 
-interface MECBannerEnabler {
-    val bannerView: View
+interface MECBannerConfigurator {
+    val bannerViewProductList: View
 }

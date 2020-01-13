@@ -15,10 +15,8 @@ import com.philips.cdp.di.mec.screens.detail.ImageAdapter
 import com.philips.cdp.di.mec.screens.specification.SpecificationChildRecyclerAdapter
 import com.philips.cdp.di.mec.screens.specification.SpecificationParentRecyclerAdapter
 import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
-import com.philips.cdp.prxclient.datamodels.specification.CsValueItem
 import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
 import com.philips.platform.uid.view.widget.Label
-import android.widget.TextView
 import com.philips.cdp.di.mec.screens.features.ProductFeatureChildRecyclerAdapter
 import com.philips.cdp.di.mec.screens.features.ProductFeatureParentRecyclerAdapter
 import com.philips.cdp.prxclient.datamodels.features.FeatureItem
@@ -45,18 +43,16 @@ class DataBindingUtility {
         @JvmStatic
         fun loadNonNullImage(imageView: View?, image_url: String?) {
 
-            if(image_url == null){
-                return
+            if(image_url != null) {
+                image_url + "?wid=" + 220 +
+                        "&hei=" + 220 + "&\$pnglarge$" + "&fit=fit,1"
+
+                val imageView = imageView as NetworkImageView
+                val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
+                imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0, com.philips.cdp.di.mec.R.drawable.no_icon))
+
+                imageView.setImageUrl(image_url!!, imageLoader)
             }
-
-            image_url + "?wid=" + 220 +
-                    "&hei=" + 220 + "&\$pnglarge$" + "&fit=fit,1"
-
-            val imageView = imageView as NetworkImageView
-            val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
-            imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0,com.philips.cdp.di.mec.R.drawable.no_icon))
-
-            imageView.setImageUrl(image_url!!, imageLoader)
         }
 
         @JvmStatic
@@ -72,14 +68,14 @@ class DataBindingUtility {
 
             val mecBannerEnabler = MECDataHolder.INSTANCE.mecBannerEnabler
 
-            if (mecBannerEnabler != null && mecBannerEnabler.bannerView != null) {
+            if (mecBannerEnabler != null && mecBannerEnabler.bannerViewProductList != null) {
 
-                if (mecBannerEnabler.bannerView.parent != null) {
-                    val viewGroup = mecBannerEnabler.bannerView.parent as ViewGroup
+                if (mecBannerEnabler.bannerViewProductList.parent != null) {
+                    val viewGroup = mecBannerEnabler.bannerViewProductList.parent as ViewGroup
                     viewGroup.removeAllViews()
                 }
 
-                layout.addView(mecBannerEnabler.bannerView)
+                layout.addView(mecBannerEnabler.bannerViewProductList)
                 layout.visibility = View.VISIBLE
             }
         }
@@ -109,10 +105,10 @@ class DataBindingUtility {
         //For Product Features
 
         @JvmStatic
-        @BindingAdapter(value=["featureItems", "featuresModel"], requireAll=true)
-        fun setProductFeatureChildAdapter(recyclerView: RecyclerView,featureItems: List<FeatureItem>?, featuresModel: FeaturesModel?) {
-            if(featureItems!=null && featuresModel!=null){
-                recyclerView.adapter = ProductFeatureChildRecyclerAdapter(featureItems,featuresModel)
+        @BindingAdapter("featureItems")
+        fun setProductFeatureChildAdapter(recyclerView: RecyclerView,featureItems: List<FeatureItem>?) {
+            if(featureItems!=null){
+                recyclerView.adapter = ProductFeatureChildRecyclerAdapter(featureItems)
             }
 
         }

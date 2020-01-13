@@ -59,11 +59,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            if(retailers.wrbresults.onlineStoresForProduct.stores!=null) {
-                binding.mecFindRetailerButton.isEnabled = true
-            } else {
-                binding.mecFindRetailerButton.isEnabled = false
-            }
+            binding.mecFindRetailerButton.isEnabled = retailers.wrbresults.onlineStoresForProduct.stores!=null && retailers.wrbresults.onlineStoresForProduct.stores.retailerList.size!=0
+            hideProgressBar()
         }
 
     }
@@ -80,12 +77,13 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         override fun onChanged(ecsProduct: ECSProduct?) {
 
             binding.product = ecsProduct
-            setButtonIcon(mec_find_retailer_button, getListIcon())
-            setButtonIcon(mec_add_to_cart_button, getCartIcon())
             showPriceDetail()
-            binding.product?.let { addToCartVisibility(it) }
-            getRetailerDetails()
-            hideProgressBar()
+            addToCartVisibility(ecsProduct!!)
+            if(MECDataHolder.INSTANCE.retailerEnabled){
+                getRetailerDetails()
+            }else{
+                hideProgressBar()
+            }
         }
 
     }
@@ -112,6 +110,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel.mecError.observe(this, this)
 
 
+
         binding.indicator.viewPager = binding.pager
         val bundle = arguments
         product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
@@ -132,6 +131,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         // binding.product = product
 
         val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
+        binding.viewpagerMain.offscreenPageLimit = 4
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
 
@@ -151,9 +151,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartVisibility(product : ECSProduct){
-        if(MECDataHolder.INSTANCE.hybrisEnabled.equals(false)){
+
+        if(!MECDataHolder.INSTANCE.hybrisEnabled){
             binding.mecAddToCartButton.visibility = View.GONE
-        } else if((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+        } else if(!(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
             binding.mecAddToCartButton.isEnabled = false
         } else{
             binding.mecAddToCartButton.visibility = View.VISIBLE
@@ -245,14 +246,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
 
     fun onBuyFromRetailerClick() {
-        buyFromRetailers(retailersList)
+        buyFromRetailers()
     }
 
-    private fun buyFromRetailers(ecsRetailerList: ECSRetailerList) {
+    private fun buyFromRetailers() {
         val bundle = Bundle()
-        bundle.putSerializable(MECConstant.MEC_CLICK_LISTENER, this)
-        val removedBlacklistedRetailers = ecsProductDetailViewModel.removedBlacklistedRetailers(ecsRetailerList)
-
             bottomSheetFragment = MECRetailersFragment()
             bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
             bottomSheetFragment.arguments = bundle

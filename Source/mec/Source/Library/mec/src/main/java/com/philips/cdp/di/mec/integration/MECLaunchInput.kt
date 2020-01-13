@@ -4,7 +4,6 @@ package com.philips.cdp.di.mec.integration
 import com.philips.platform.uappframework.uappinput.UappLaunchInput
 
 import java.io.Serializable
-import java.util.ArrayList
 
 /**
  * MECLaunchInput is responsible for initializing the settings required for launching.
@@ -13,65 +12,22 @@ import java.util.ArrayList
 class MECLaunchInput : UappLaunchInput(), Serializable {
 
 
-    var mLandingView: Int = 0
-    var mMECFlowInput: MECFlowInput? = null
-
-    lateinit var mecBannerEnabler: MECBannerEnabler
-
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
-    var hybrisEnabled : Boolean = true
+    lateinit var mecBannerConfigurator: MECBannerConfigurator
 
+    //TODO :-Blacklist retailer
+    var mecListener: MECListener ? =null
+    var flowConfigurator: MECFlowConfigurator ? =null
 
-    var mIgnoreRetailers: ArrayList<String>? = null
-    private val mFirstIgnoreRetailers = ArrayList<String>()
-    private var voucherCode: String? = null
+    //TODO Remove this
+    var mLandingView: MECLandingView? =null
 
+    var supportsHybris: Boolean = true
+    var supportsRetailer : Boolean = true
 
-    var mecListener: MECListener? = null
-        get() {
-            if (field == null) RuntimeException("Set IAPListener in your vertical app ")
-            return field
-        }
-
-
-    val ignoreRetailers: ArrayList<String>?
-        get() {
-//            mIgnoreRetailers?.add("Factoryoutletstore.com")
-//            mIgnoreRetailers?.add("Encompass.com")
-            if (mIgnoreRetailers == null || mIgnoreRetailers!!.size == 0) return mIgnoreRetailers
-            for (str in mIgnoreRetailers!!) {
-                val first = str.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val firstNameOfRetailer = first[0]
-                mFirstIgnoreRetailers.add(firstNameOfRetailer)
-            }
-            return mFirstIgnoreRetailers
-        }
-
-
-    fun setMECFlow(pLandingView: Int, pMecFlowInput: MECFlowInput?, voucherCode: String?, pBlackListedRetailer: ArrayList<String>) {
-        mLandingView = pLandingView
-        mMECFlowInput = pMecFlowInput
-        this.voucherCode = voucherCode
-        mIgnoreRetailers = pBlackListedRetailer
-    }
-
-
-    fun setMECFlow(pLandingView: Int, pMecFlowInput: MECFlowInput?, voucherCode: String?) {
-        mLandingView = pLandingView
-        mMECFlowInput = pMecFlowInput
-        this.voucherCode = voucherCode
-        mIgnoreRetailers = ArrayList()
-    }
-
-
-    interface MECFlows {
-        companion object {
-            val MEC_PRODUCT_CATALOG_VIEW = 0
-            val MEC_SHOPPING_CART_VIEW = 1
-            val MEC_PURCHASE_HISTORY_VIEW = 2
-            val MEC_PRODUCT_DETAIL_VIEW = 3
-            val MEC_BUY_DIRECT_VIEW = 4
-            val MEC_CATEGORIZED_VIEW = 5
-        }
+     enum class MECLandingView{
+        MEC_PRODUCT_LIST_VIEW,
+        MEC_PRODUCT_DETAILS_VIEW,
+        MEC_CATEGORIZED_PRODUCT_LIST_VIEW
     }
 }

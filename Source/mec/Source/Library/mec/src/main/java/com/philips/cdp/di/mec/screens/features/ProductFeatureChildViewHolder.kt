@@ -8,12 +8,11 @@ import com.philips.cdp.prxclient.datamodels.features.FeatureItem
 import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
 
-class ProductFeatureChildViewHolder(val binding: ViewDataBinding,private val featuresModel: FeaturesModel) : RecyclerView.ViewHolder(binding.root){
+class ProductFeatureChildViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root){
 
      fun bind(item: FeatureItem) {
 
          val mecFeatureItemChildBinding = binding as MecFeatureItemChildBinding
-         item.setSingleFeatureImage(featuresModel.data.getSingleAssetImageFromFeatureCode(item.featureCode))
          mecFeatureItemChildBinding.featureItem = item
      }
 }

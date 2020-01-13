@@ -1,6 +1,6 @@
 package com.philips.cdp.di.mec.integration
 
-import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceEnvironment
+import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment
 
 open class MECBazaarVoiceInput {
 
@@ -14,7 +14,7 @@ open class MECBazaarVoiceInput {
         return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E"
     }
 
-    open fun getBazaarVoiceEnvironment() : BazaarVoiceEnvironment{
-        return BazaarVoiceEnvironment.PRODUCTION
+    open fun getBazaarVoiceEnvironment() : MECBazaarVoiceEnvironment{
+        return MECBazaarVoiceEnvironment.PRODUCTION
     }
 }

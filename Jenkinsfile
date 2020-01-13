@@ -459,6 +459,7 @@ def BuildAndUnitTest() {
             :pif:testReleaseUnitTest \
             :pim:testReleaseUnitTest \
             :philipsecommercesdk:testReleaseUnitTest \
+            :mec:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest
             
     '''
@@ -681,7 +682,7 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :philipsecommercesdk:zipJavadoc :referenceApp:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :philipsecommercesdk:zipJavadoc :mec:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
  
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip
@@ -692,7 +693,7 @@ def DeployingJavaDocs() {
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/product-registration-lib/$platformVersion/ -T ./Source/prg/Documents/External/product-registration-lib-api.zip
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/productselection/$platformVersion/ -T ./Source/pse/Documents/External/productselection-api.zip
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/philipsecommercesdk/$platformVersion/ -T ./Source/ecs/Documents/External/philipsecommercesdk-api.zip
-
+ curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/mec/$platformVersion/ -T ./Source/mec/Documents/External/mec-api.zip
 
 
         if [ $? != 0 ]
@@ -709,7 +710,8 @@ def DeployingJavaDocs() {
  * publishing junit test case report
  */
 def PublishUnitTestsResults() {
-    junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/philipsecommercesdk/build/test-results/testReleaseUnitTest/*.xml'
+    junit allowEmptyResults: true, testResults: 'Source/ecs/Source/Library/philipsecommercesdk/build/test-results/testReleaseUnitTest/*.xml'
+    junit allowEmptyResults: true, testResults: 'Source/mec/Source/Library/mec/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/AppInfra/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
@@ -779,6 +781,7 @@ def PublishJavaDocs() {
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/usr/Documents/External/registrationApi-api", reportFiles: 'index.html', reportName: "User registration Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/sdb/Documents/External/securedblibrary-api", reportFiles: 'index.html', reportName: "Secure db Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ecs/Documents/External/philipsecommercesdk-api", reportFiles: 'index.html', reportName: "philipsecommercesdk Library API documentation"])
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/mec/Documents/External/mec-api", reportFiles: 'index.html', reportName: "mec Library API documentation"])
 
 }
 

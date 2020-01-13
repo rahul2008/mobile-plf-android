@@ -1,13 +1,12 @@
 package com.philips.cdp.di.mec.utils
 
-import com.philips.cdp.di.mec.integration.MECBannerEnabler
+import com.philips.cdp.di.mec.integration.MECBannerConfigurator
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.uappframework.listener.ActionBarListener
 import java.util.ArrayList
-import kotlin.properties.Delegates
 
 enum class MECDataHolder {
 
@@ -16,13 +15,14 @@ enum class MECDataHolder {
     lateinit var appinfra: AppInfraInterface
     lateinit var actionbarUpdateListener: ActionBarListener
     lateinit var mecListener: MECListener
-    lateinit var mecBannerEnabler: MECBannerEnabler
+    lateinit var mecBannerEnabler: MECBannerConfigurator
     lateinit var locale:String
     lateinit var propositionId:String
-    lateinit var blackListedRetailers: ArrayList<String>
+    var blackListedRetailers: ArrayList<String> ?=null
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     private var privacyUrl: String? = null
     var hybrisEnabled: Boolean = true
+    var retailerEnabled :Boolean = true
 
     fun getPrivacyUrl(): String? {
         return privacyUrl

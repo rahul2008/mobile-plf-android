@@ -27,8 +27,10 @@ public class Data implements Serializable {
 	public String getSingleAssetImageFromFeatureCode(String featureCode){
 
 		for (CodeItem codeItem:code) {
-			if(isImage(codeItem.extension)){
-              return codeItem.asset;
+			if(codeItem.code.equalsIgnoreCase(featureCode)) {
+				if (isImage(codeItem.extension)) {
+					return codeItem.asset;
+				}
 			}
 		}
 		return null;
