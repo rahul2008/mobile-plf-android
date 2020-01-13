@@ -107,7 +107,7 @@ dependencies {
     implementation deps.viewpump
     implementation deps.gson
     implementation deps.libphonenumber
-//    implementation deps.support.appcompatv7
+    implementation deps.androidx.appcompat
     implementation deps.volley
     implementation(philipsdeps.uid)
     if (useprojectdependencies) {

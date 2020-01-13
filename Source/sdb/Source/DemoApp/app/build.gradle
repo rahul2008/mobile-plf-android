@@ -128,8 +128,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(':securedblibrary')
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
+    implementation deps.androidx.appcompat
+    implementation deps.design
     implementation deps.androidx.annotations
 
     testImplementation deps.junit

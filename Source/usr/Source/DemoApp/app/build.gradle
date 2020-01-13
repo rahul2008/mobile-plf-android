@@ -108,9 +108,9 @@ dependencies {
     implementation project(':registrationApi')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':UserRegistrationUApp')
-    implementation deps.support.appcompatv7
+    implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
-    implementation deps.support.design
+    implementation deps.design
     implementation deps.multidex
     implementation deps.greenrobot
     implementation deps.wechat

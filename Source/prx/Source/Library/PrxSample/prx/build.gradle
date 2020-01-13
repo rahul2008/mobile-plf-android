@@ -59,8 +59,8 @@ configurations.all {
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
-//    implementation deps.support.appcompatv7
-//    implementation deps.support.design
+    implementation deps.androidx.appcompat
+    implementation deps.design
     implementation deps.androidx.annotations
     implementation deps.gson
     implementation deps.volley

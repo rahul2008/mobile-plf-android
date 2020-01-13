@@ -58,8 +58,7 @@ dependencies {
     }
     implementation deps.gson
     implementation deps.leakcanary
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
+    implementation deps.design
 
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)

@@ -82,7 +82,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation deps.androidx.annotations
-//    implementation deps.support.appcompatv7
+    implementation deps.androidx.appcompat
     implementation deps.gson
 
     testImplementation deps.junit

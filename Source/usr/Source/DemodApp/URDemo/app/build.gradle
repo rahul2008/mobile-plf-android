@@ -40,8 +40,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation(deps.espresso_core)
     implementation project(':URDemo')
-    implementation deps.support.appcompat - v7
+    implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
-    implementation deps.support.design
+    implementation deps.design
     testImplementation deps.junit
 }
