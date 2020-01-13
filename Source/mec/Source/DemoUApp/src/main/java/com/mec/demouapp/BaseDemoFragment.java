@@ -337,7 +337,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         } else if (view == mLaunchProductDetail) {
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
                 MECFlowConfigurator input = new MECFlowConfigurator();
-                input.productCTN = mCategorizedProductList.get(0);
+                input.setCTN(mCategorizedProductList.get(0)) ;
 
                 if (getActivity() instanceof LaunchAsActivity) {
                     launchMEC(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW, input, null);
@@ -350,7 +350,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 MECFlowConfigurator input = new MECFlowConfigurator();
-                input.productCTNs = mCategorizedProductList;
+                input.setCTNs(mCategorizedProductList);
 
                 if (getActivity() instanceof LaunchAsActivity) {
                     launchMEC(MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW, input, null);
