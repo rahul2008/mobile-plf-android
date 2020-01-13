@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.Gson
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.integration.MECFlowConfigurator
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -23,10 +25,10 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECFragmentLauncher : MecBaseFragment() {
 
-    lateinit var ecsLauncherViewModel: EcsLauncherViewModel
+    private lateinit var ecsLauncherViewModel: EcsLauncherViewModel
     private var bundle: Bundle? = null
-    private var mecFlowOrdinal: Int = 0
-    lateinit var mecFlows: MECLaunchInput.MECLandingView
+
+    private lateinit var mecFlows: MECFlowConfigurator.MECLandingView
     val TAG = MECFragmentLauncher::class.java.name
 
     private val isHybrisObserver: Observer<Boolean> = object : Observer<Boolean> {
@@ -84,15 +86,18 @@ class MECFragmentLauncher : MecBaseFragment() {
             MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
         }
 
+
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments
-        mecFlowOrdinal = bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN)
-        mecFlows = MECLaunchInput.MECLandingView.values()[mecFlowOrdinal] // getting enum from previous fragment
 
+        val str = bundle?.getString(MECConstant.FLOW_INPUT)
+        var mecConfiguration = Gson().fromJson(str, MECFlowConfigurator::class.java)
+        mecFlows = mecConfiguration.landingView!!
+        bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS ,mecConfiguration.productCTNs)
     }
 
     override fun onStart() {
@@ -111,23 +116,20 @@ class MECFragmentLauncher : MecBaseFragment() {
         mecBaseFragment?.let { replaceFragment(it, "asd", false) }
     }
 
-    private fun getFragment(isHybris: Boolean, screen: MECLaunchInput.MECLandingView): MecBaseFragment? {
+    private fun getFragment(isHybris: Boolean, screen: MECFlowConfigurator.MECLandingView): MecBaseFragment? {
         var fragment: MecBaseFragment? = null
 
         when (screen) {
 
-            MECLaunchInput.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
+            MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
                 fetchProductDetailForCtn(isHybris)
             }
 
-            MECLaunchInput.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
+            MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
                 fragment = MECProductCatalogFragment()
             }
-            MECLaunchInput.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
+            MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
                 fragment = getCategorizedFragment(isHybris)
-            }
-            else -> {
-                fragment = MECProductCatalogFragment()
             }
         }
         fragment?.arguments = bundle

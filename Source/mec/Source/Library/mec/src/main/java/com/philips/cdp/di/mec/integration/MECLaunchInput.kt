@@ -17,17 +17,10 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
 
     //TODO :-Blacklist retailer
     var mecListener: MECListener ? =null
+    var blackListedRetailerNames : List<String>? = null
     var flowConfigurator: MECFlowConfigurator ? =null
-
-    //TODO Remove this
-    var mLandingView: MECLandingView? =null
 
     var supportsHybris: Boolean = true
     var supportsRetailer : Boolean = true
 
-     enum class MECLandingView{
-        MEC_PRODUCT_LIST_VIEW,
-        MEC_PRODUCT_DETAILS_VIEW,
-        MEC_CATEGORIZED_PRODUCT_LIST_VIEW
-    }
 }

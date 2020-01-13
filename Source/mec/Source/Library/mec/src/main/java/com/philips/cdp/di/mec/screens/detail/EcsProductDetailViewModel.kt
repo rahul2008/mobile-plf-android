@@ -115,7 +115,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
         return useDurationValue.toString()
     }
 
-    fun removedBlacklistedRetailers(ecsRetailers: ECSRetailerList): ECSRetailerList {
+    fun removeBlacklistedRetailers(ecsRetailers: ECSRetailerList): ECSRetailerList {
         val list = MECDataHolder.INSTANCE.blackListedRetailers
 
         for (name in list!!) {
