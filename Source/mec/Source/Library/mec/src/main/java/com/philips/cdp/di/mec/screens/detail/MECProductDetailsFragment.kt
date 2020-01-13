@@ -2,13 +2,8 @@ package com.philips.cdp.di.mec.screens.detail
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
-import android.content.res.TypedArray
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import android.os.Bundle
-import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
 import android.text.SpannableString
 import android.text.Spanned
@@ -16,20 +11,15 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bazaarvoice.bvandroidsdk.*
-import com.philips.cdp.di.ecs.model.asset.Asset
-import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.common.ItemClickListener
-import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
@@ -38,11 +28,9 @@ import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.platform.uid.view.widget.Button
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -130,28 +118,19 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
 
 
-        //TODO Adding Default Asset
-        var asset = Asset()
-        asset.asset = "xyz"
-        asset.type = "UNKNOWN"
-
-        var assets = Assets()
-        assets.asset = Arrays.asList(asset)
-        product.assets = assets
+        //if assets are not available , we should show one Default image
+        ecsProductDetailViewModel.addNoAsset(product)
 
         ecsProductDetailViewModel.ecsProduct.value = product
-
-        // Ends here
-        // binding.product = product
 
         val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
         binding.viewpagerMain.offscreenPageLimit = 4
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
 
-
         return binding.root
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -165,12 +144,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartVisibility(product : ECSProduct){
-        if(MECDataHolder.INSTANCE.hybrisEnabled.equals(false)){
-            binding.mecAddToCartButton.visibility = View.GONE
-        } else if((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+        if(!(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
             binding.mecAddToCartButton.isEnabled = false
-        } else{
-            binding.mecAddToCartButton.visibility = View.VISIBLE
         }
     }
 

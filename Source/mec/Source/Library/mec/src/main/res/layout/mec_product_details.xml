@@ -268,7 +268,7 @@
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
             android:textSize="16sp"
-            android:visibility="@{MecDataHolder.hybrisEnabled ? View.GONE : View.VISIBLE  }"
+            android:visibility="@{MecDataHolder.retailerEnabled ? View.VISIBLE : View.GONE  }"
             />
 
         <com.philips.platform.uid.view.widget.Button
@@ -286,7 +286,7 @@
             fontPath="fonts/iconfont.ttf"
             android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
             android:textSize="16sp"
-            android:visibility="@{MecDataHolder.hybrisEnabled ? View.VISIBLE : View.GONE}"
+            android:visibility="@{MecDataHolder.retailerEnabled ? View.VISIBLE : View.GONE  }"
             />
 
         <com.philips.platform.uid.view.widget.Button
@@ -299,7 +299,7 @@
             android:gravity="center|center_vertical"
             app:uidComponentType="Primary"
             android:textAlignment="center"
-            android:visibility="gone"
+            android:visibility="@{MecDataHolder.hybrisEnabled ? View.VISIBLE : View.GONE  }"
             fontPath="fonts/mec_iconfont.ttf"
             android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
             android:textSize="16sp"

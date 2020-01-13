@@ -8,7 +8,8 @@ import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
 import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.google.gson.internal.LinkedTreeMap
-import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory
+import com.philips.cdp.di.ecs.model.asset.Asset
+import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
@@ -211,6 +212,17 @@ class EcsProductDetailViewModel : CommonViewModel() {
                 stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
             }
         }
+    }
+
+    fun addNoAsset(product: ECSProduct) {
+        var asset = Asset()
+        asset.asset = "xyz"
+        asset.type = "UNKNOWN"
+
+        var assets = Assets()
+        assets.asset = Arrays.asList(asset)
+        product.assets = assets
+
     }
 
 }
