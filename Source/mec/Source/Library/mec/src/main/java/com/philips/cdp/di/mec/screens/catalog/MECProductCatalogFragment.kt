@@ -113,16 +113,19 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 binding.mecSeparator.visibility = View.VISIBLE
                 binding.mecLlLayout.visibility = View.VISIBLE
             }
+
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+            binding.mecLlLayout.visibility = View.VISIBLE
+            binding.llBannerPlaceHolder.visibility = View.VISIBLE
+
         } else{
-            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-            binding.productCatalogRecyclerView.visibility = View.GONE
-            binding.mecPrivacyLayout.visibility = View.GONE
-            binding.mecSeparator.visibility = View.GONE
-            binding.mecLlLayout.visibility = View.GONE
+            showNoProduct()
             hideProgressBar()
         }
 
-        if(productList.size!=0){
+
+
+     /*   if(productList.size!=0){
             binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
             binding.mecLlLayout.visibility = View.VISIBLE
             binding.llBannerPlaceHolder.visibility = View.VISIBLE
@@ -131,7 +134,16 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             binding.mecLlLayout.visibility = View.GONE
             binding.llBannerPlaceHolder.visibility = View.GONE
             hideProgressBar()
-        }
+        }*/
+    }
+
+    private fun showNoProduct() {
+        binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+        binding.productCatalogRecyclerView.visibility = View.GONE
+        binding.mecPrivacyLayout.visibility = View.GONE
+        binding.mecSeparator.visibility = View.GONE
+        binding.mecLlLayout.visibility = View.GONE
+        binding.llBannerPlaceHolder.visibility = View.GONE
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -169,7 +181,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
                 binding.mecGrid.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
-                adapter = MECProductCatalogGridAdapter(productReviewList, this)
+               // adapter = MECProductCatalogGridAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
                 binding.productCatalogRecyclerView.adapter = adapter
                 binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
@@ -185,7 +197,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
                 binding.mecList.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
-                adapter = MECProductCatalogListAdapter(productReviewList, this)
+               // adapter = MECProductCatalogListAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
@@ -325,7 +337,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     }
 
     open fun executeRequest(){
-        ecsProductViewModel.init(currentPage, pageSize)
+        if(MECDataHolder.INSTANCE.hybrisEnabled) {
+            ecsProductViewModel.init(currentPage, pageSize)
+        }else{
+           showNoProduct()
+        }
     }
 
     fun shouldFetchNextPage(): Boolean{
