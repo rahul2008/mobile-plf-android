@@ -122,7 +122,6 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/mec_progress_layout"
         android:clipToPadding="false"
-        android:layoutAnimation="@anim/down_to_up"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         </LinearLayout>

@@ -10,7 +10,7 @@ import com.philips.cdp.di.mec.screens.specification.SpecificationFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
-class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentPagerAdapter(fm) {
+class TabPagerAdapter (var fm: FragmentManager,var ctn: String) : FragmentPagerAdapter(fm) {
 
 
 
@@ -19,19 +19,23 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentPagerAdapt
         val bundle = Bundle()
         bundle.putString(MECConstant.MEC_PRODUCT_CTN,ctn)
 
+        
+
         return when (position) {
             0 -> {
                 MECProductInfoFragment()
             }
             1 -> {
-                val specificationFragment = SpecificationFragment()
-                specificationFragment.arguments = bundle
-                return specificationFragment
-            }
-            2 -> {
                 val productFeaturesFragment = MECProductFeaturesFragment()
                 productFeaturesFragment.arguments = bundle
                 return productFeaturesFragment
+            }
+            2 -> {
+
+
+                val specificationFragment = SpecificationFragment()
+                specificationFragment.arguments = bundle
+                return specificationFragment
             }
 
             3 -> {
@@ -53,8 +57,8 @@ class TabPagerAdapter (fm: FragmentManager,var ctn: String) : FragmentPagerAdapt
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             0 -> "Info"
-            1 -> "Specs"
-            2 -> "Features"
+            1 -> "Features"
+            2 -> "Specs"
             3 -> "Reviews"
             else -> {
                 "Info"

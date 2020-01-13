@@ -76,6 +76,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 binding.mecFindRetailerButtonSecondary.isEnabled = false
             }
             ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus,product,retailersList)
+            hideProgressBar()
         }
 
     }
