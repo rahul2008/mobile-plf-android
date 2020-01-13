@@ -153,7 +153,8 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
         try {
             String[] userprofileBaseString = userProfileUrl.split("\\?"); //TODO: Shashi, Need to remove later, once correct url will be uploaded to Service Discovery
             Uri userrofileURI = Uri.parse(userprofileBaseString[0]).buildUpon().appendQueryParameter("client_id", clientId).build();
-            userrofileURI = Uri.parse(userrofileURI.toString()).buildUpon().appendQueryParameter("ui_locales", "en-US").build();
+            String locale = pimSettingManager.getLocale();
+            userrofileURI = Uri.parse(userrofileURI.toString()).buildUpon().appendQueryParameter("ui_locales", locale != null ? locale : "en-US").build();
             userrofileURI = Uri.parse(userrofileURI.toString()).buildUpon().appendQueryParameter("adobe_mc", urlStringWithVisitorId[1]).build();
             Intent authReqIntent = new Intent(Intent.ACTION_VIEW);
             authReqIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
