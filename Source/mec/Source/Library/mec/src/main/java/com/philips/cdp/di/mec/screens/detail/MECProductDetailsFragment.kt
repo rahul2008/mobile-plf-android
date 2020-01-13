@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
@@ -54,8 +55,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             ecsProductDetailViewModel.removeBlacklistedRetailers(retailersList)
             if(retailers.wrbresults.onlineStoresForProduct!=null) {
                 if (retailersList.wrbresults.onlineStoresForProduct.stores.retailerList.size > 0) {
-                    binding.mecFindRetailerButtonPrimary.isEnabled = true
                     binding.mecFindRetailerButtonSecondary.isEnabled = true
+                    binding.mecFindRetailerButtonPrimary.isEnabled = true
                 }
             }else {
                binding.mecFindRetailerButtonPrimary.isEnabled = false
@@ -97,8 +98,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                             }
                         }
                 }
-                hideProgressBar()
             }
+            hideProgressBar()
         }
 
     }
