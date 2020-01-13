@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bazaarvoice.bvandroidsdk.*
+import com.philips.cdp.di.mec.R
 
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -39,7 +40,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
             totalReview = reviewResponse?.totalResults ?: 0
                 for (review in reviews!!) {
-                    val nick = if (review.userNickname != null) review.userNickname else "Anonymous"
+                    val nick = if (review.userNickname != null) review.userNickname else getString(R.string.mec_anonymous)
 
                     mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate, ecsProductDetailViewModel.getValueFor("Pros", review), ecsProductDetailViewModel.getValueFor("Cons", review), ecsProductDetailViewModel.getValueForUseDuration(review)))
 

@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.net.http.SslError
@@ -59,7 +60,21 @@ abstract class WebFragment : MecBaseFragment() {
     protected abstract fun getWebUrl(): String?
 
     protected fun shouldOverrideUrlLoading(url: String): Boolean {
-        return false
+        if (url == null) return false
+
+        try {
+            if (url.startsWith("http:") || url.startsWith("https:")) {
+                return true
+            } else {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+                return true
+            }
+        } catch (e: Exception) {
+            // Avoid crash due to not installed app which can handle the specific url scheme
+            return false
+        }
+
     }
 
     private fun shouldHandleError(errorCode: Int): Boolean {
@@ -107,5 +122,13 @@ abstract class WebFragment : MecBaseFragment() {
             hideProgressBar()
             super.onPageFinished(view, url)
         }
+    }
+
+    override fun handleBackEvent(): Boolean {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack()
+            return true
+        }
+        return false
     }
 }

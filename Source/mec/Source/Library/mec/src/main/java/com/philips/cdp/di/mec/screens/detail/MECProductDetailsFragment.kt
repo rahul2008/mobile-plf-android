@@ -2,8 +2,11 @@ package com.philips.cdp.di.mec.screens.detail
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
+import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.Fragment
@@ -13,6 +16,7 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,8 +63,19 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            binding.mecFindRetailerButton.isEnabled = retailers.wrbresults.onlineStoresForProduct.stores!=null && retailers.wrbresults.onlineStoresForProduct.stores.retailerList.size!=0
-            hideProgressBar()
+            if(retailers.wrbresults.onlineStoresForProduct!=null) {
+                binding.mecFindRetailerButtonPrimary.isEnabled = true
+                binding.mecFindRetailerButtonSecondary.isEnabled = true
+                if(binding.mecAddToCartButton.visibility == View.GONE) {
+
+
+
+                       }
+            } else {
+               binding.mecFindRetailerButtonPrimary.isEnabled = false
+                binding.mecFindRetailerButtonSecondary.isEnabled = false
+            }
+            ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus,product,retailersList)
         }
 
     }
@@ -95,6 +110,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding = MecProductDetailsBinding.inflate(inflater, container, false)
 
         binding.fragment = this
+        binding.mecDataHolder = MECDataHolder.INSTANCE
 
         ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
@@ -141,7 +157,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_product_detail, true)
+        setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
     }
 
     override fun onStart() {
@@ -151,10 +167,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartVisibility(product : ECSProduct){
-
-        if(!MECDataHolder.INSTANCE.hybrisEnabled){
+        if(MECDataHolder.INSTANCE.hybrisEnabled.equals(false)){
             binding.mecAddToCartButton.visibility = View.GONE
-        } else if(!(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+        } else if((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
             binding.mecAddToCartButton.isEnabled = false
         } else{
             binding.mecAddToCartButton.visibility = View.VISIBLE
@@ -184,22 +199,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " reviews)"
         }
 
-    }
-
-    fun getListIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.mec_ic_hamburger_icon, context!!.theme)
-    }
-
-    fun getCartIcon(): Drawable? {
-        return VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, context!!.theme)
-    }
-
-    private fun setButtonIcon(button: Button, drawable: Drawable?) {
-        var mutateDrawable = drawable
-        if (drawable != null) {
-            mutateDrawable = drawable.constantState!!.newDrawable().mutate()
-        }
-        button.setImageDrawable(mutateDrawable)
     }
 
 
@@ -245,6 +244,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
 
+
+
+
     fun onBuyFromRetailerClick() {
         buyFromRetailers()
     }
@@ -256,7 +258,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             bottomSheetFragment.arguments = bundle
             bottomSheetFragment.setTargetFragment(this,MECConstant.RETAILER_REQUEST_CODE)
             bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
-
     }
 
 

@@ -41,7 +41,7 @@
                 android:textSize="10sp"
                 android:padding="@dimen/iap_margin_10dp"
                 android:autoLink="web"
-                android:text="@string/mec_bv_privacy" />
+                android:text="@{@string/mec_bazaarVoice_Terms_And_Condition + @string/mec_bazaarVoice_Detail_at + @string/mec_bazaarVoice_link}" />
 
         </LinearLayout>
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
-            android:text="@string/mec_no_reviews_available"
+            android:text="@string/mec_no_review_available"
             android:textSize="@dimen/iap_product_ctn_12"
             android:visibility="gone" />
 

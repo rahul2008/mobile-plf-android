@@ -1,6 +1,7 @@
 package com.philips.cdp.di.mec.screens.catalog
 
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -12,6 +13,8 @@ import java.text.DecimalFormat
 abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<MECProductReview>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
 
     val originalList = items
+
+    private lateinit var emptyView:View
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogAbstractViewHolder
 
@@ -25,15 +28,15 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
         var filteredList: MutableList<MECProductReview> = mutableListOf()
 
         return object : Filter() {
+
+
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val searchString = constraint.toString()
-                val filterResults = FilterResults()
-                filterResults.values = originalList
+
 
                 if (searchString.isEmpty()) {
                     filteredList = originalList
                 } else {
-
                     for (mecProducts in originalList) {
 
                         if (mecProducts.ecsProduct.code.contains(searchString, true) || mecProducts.ecsProduct.summary.productTitle.contains(searchString, true)) {
@@ -41,16 +44,27 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
                         }
                     }
                 }
+                val filterResults = FilterResults()
                 filterResults.values = filteredList
                 return filterResults
             }
 
+
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 items = results?.values as MutableList<MECProductReview>
+                if(items.size == 0){
+                    emptyView.visibility = View.VISIBLE
+                }else{
+                    emptyView.visibility = View.GONE
+                }
                 notifyDataSetChanged()
             }
 
         }
+    }
+
+    fun setEmptyView(view :View){
+        emptyView = view
     }
 
 }

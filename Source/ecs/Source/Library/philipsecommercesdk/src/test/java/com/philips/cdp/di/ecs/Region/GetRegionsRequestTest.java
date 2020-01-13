@@ -13,7 +13,6 @@ import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -36,7 +35,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetRegionsRequestTest {
@@ -86,7 +84,7 @@ public class GetRegionsRequestTest {
             }
         };
 
-        mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",ecsCallback);
+        mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",ecsCallback, "en");
     }
 
     @Test
@@ -159,7 +157,7 @@ public class GetRegionsRequestTest {
     public void verifyOnResponseSuccess() {
 
         ECSCallback<List<ECSRegion>, Exception> spy1 = Mockito.spy(ecsCallback);
-        mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",spy1);
+        mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",spy1, "en");
 
         JSONObject jsonObject = getJsonObject("GetProductForCTN.json");
 
@@ -173,7 +171,7 @@ public class GetRegionsRequestTest {
     @Test
     public void verifyOnResponseError() {
         ECSCallback<List<ECSRegion>, Exception> spy1 = Mockito.spy(ecsCallback);
-        mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",spy1);
+        mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",spy1, "en");
         VolleyError volleyError = new NoConnectionError();
         mockGetRegionsRequest.onErrorResponse(volleyError);
         Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));

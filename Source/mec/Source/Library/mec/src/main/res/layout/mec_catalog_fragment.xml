@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
             style="@style/iapCentralesansBoldFont"
-            android:text="@string/mec_zero_results_found"
+            android:text="@string/mec_no_result"
             android:background="@color/uidColorWhite"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp"
@@ -144,6 +144,7 @@
             style="@style/UIDProgressBarCircularIndeterminateSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
             android:visibility="gone" />

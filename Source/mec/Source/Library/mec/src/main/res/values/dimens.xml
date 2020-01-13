@@ -137,6 +137,7 @@
     <dimen name="iap_title_padding">4dp</dimen>
     <dimen name="iap_body_text_line_spacing_extra">6dp</dimen>
     <dimen name="reg_scroll_margin">15dip</dimen>
+    <dimen name="mec_retailer_button_text_big">16sp</dimen>
 
 
 </resources>

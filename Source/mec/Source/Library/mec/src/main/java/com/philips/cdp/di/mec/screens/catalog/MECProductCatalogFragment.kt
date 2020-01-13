@@ -164,6 +164,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         highLightedBackgroundColor=getListAndGridHighlightedBackgroundColor()
 
+
         binding.mecGrid.setOnClickListener {
             if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
                 binding.mecGrid.setBackgroundColor(highLightedBackgroundColor)
@@ -206,6 +207,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 adapter.filter.filter(s)
 
+
                 if(s?.length == 0){
                     shouldSupportPagination = true
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
@@ -214,7 +216,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                     binding.llBannerPlaceHolder.visibility = View.GONE
                 }
 
-                val text = String.format(context?.getResources()?.getText(R.string.mec_zero_results_found).toString(), s)
+                val text = String.format(context?.getResources()?.getText(R.string.mec_no_result).toString(), s)
                 binding.tvEmptyListFound.text = text
 
                 if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
@@ -225,11 +227,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                    }
                }
 
-                if (adapter.itemCount != 0) {
+                if(s?.length == 0){
                     binding.mecEmptyResult.visibility = View.GONE
-                } else {
-                    binding.mecEmptyResult.visibility = View.VISIBLE
                 }
+
 
                 mClearIconView.setOnClickListener {
                     searchText.text.clear()
@@ -261,6 +262,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
+        adapter.setEmptyView(binding.mecEmptyResult)
+
 
         return binding.root
     }
@@ -280,7 +283,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_product_catalog, true)
+        setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
     }
 
     private fun privacyTextView(view: TextView) {
