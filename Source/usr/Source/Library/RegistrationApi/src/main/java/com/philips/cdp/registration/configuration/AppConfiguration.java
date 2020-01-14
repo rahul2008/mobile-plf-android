@@ -14,7 +14,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.CUSTOMOPTIN;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FALLBACK_HOME_COUNTRY;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED;
@@ -27,7 +26,6 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SIGNIN_PROVIDERS;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.SKIPOPTIN;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SUPPORTED_HOME_COUNTRIES;
 
 public class AppConfiguration extends BaseConfiguration {
@@ -174,14 +172,4 @@ public class AppConfiguration extends BaseConfiguration {
     public Object getFacebookSDKSupportStatus() {
         return appInfraWrapper.getURProperty(IS_FACEBOOK_SDK_SUPPORTED);
     }
-
-    public Object getCustomOptinStatus() {
-        return appInfraWrapper.getURProperty(CUSTOMOPTIN);
-    }
-
-
-    public Object getSkipOptinStatus() {
-        return appInfraWrapper.getURProperty(SKIPOPTIN);
-    }
-
 }
