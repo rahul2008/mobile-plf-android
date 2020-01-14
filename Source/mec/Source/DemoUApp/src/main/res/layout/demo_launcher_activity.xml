@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:onClick="launchAsActivity"
         android:text="@string/launch_as_activity"
-        android:visibility="gone" />
+     />
     <Button
         android:id="@+id/btn_launch_as_fragment"
         android:layout_width="match_parent"

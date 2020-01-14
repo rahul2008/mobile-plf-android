@@ -187,8 +187,8 @@
         style="@style/mecCentralesansBoldFont"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:text="@string/mec_no_product_available"
         android:visibility="gone"
         android:textSize="@dimen/iap_product_ctn_12"/>

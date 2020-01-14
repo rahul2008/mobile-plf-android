@@ -126,18 +126,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             hideProgressBar()
         }
 
-
-
-     /*   if(productList.size!=0){
-            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
-            binding.mecLlLayout.visibility = View.VISIBLE
-            binding.llBannerPlaceHolder.visibility = View.VISIBLE
-        } else{
-            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-            binding.mecLlLayout.visibility = View.GONE
-            binding.llBannerPlaceHolder.visibility = View.GONE
-            hideProgressBar()
-        }*/
     }
 
     private fun showNoProduct() {
