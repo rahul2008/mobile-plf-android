@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
@@ -185,14 +184,14 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
                 binding.mecGrid.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
-                adapter = MECProductCatalogGridAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
-                binding.productCatalogRecyclerView.adapter = adapter
                 binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
                 val Hdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL)
                 val Vdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.VERTICAL)
                 binding.productCatalogRecyclerView.addItemDecoration(Hdivider)
                 binding.productCatalogRecyclerView.addItemDecoration(Vdivider)
+                adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.GRID
+                binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
             }
         }
@@ -201,8 +200,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
                 binding.mecList.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
-                adapter = MECProductCatalogListAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.LIST
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
             }
@@ -270,7 +269,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         privacyTextView(binding.mecPrivacy)
 
-        adapter = MECProductCatalogListAdapter(productReviewList,this)
+        adapter = MECProductCatalogAdapter(productReviewList,this)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
@@ -278,7 +277,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
-        adapter.setEmptyView(binding.mecEmptyResult)
+        adapter.emptyView = binding.mecEmptyResult
 
 
         return binding.root
