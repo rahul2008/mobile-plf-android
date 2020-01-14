@@ -14,7 +14,7 @@
 
         <import type="android.view.View"/>
         <variable
-            name="MecDataHolder"
+            name="mecDataHolder"
             type="com.philips.cdp.di.mec.utils.MECDataHolder" />
 
     </data>

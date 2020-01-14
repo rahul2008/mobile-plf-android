@@ -90,6 +90,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.product = ecsProduct
             showPriceDetail()
             addToCartVisibility(ecsProduct!!)
+            if(!MECDataHolder.INSTANCE.hybrisEnabled && !MECDataHolder.INSTANCE.retailerEnabled){
+                binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
+                binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
+            }
             if(MECDataHolder.INSTANCE.retailerEnabled){
                 getRetailerDetails()
             }else{
@@ -250,11 +254,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             mec_priceDiscountIcon.visibility = View.GONE
         }
 
-    }
-
-    override fun processError(mecError: MecError?) {
-        super.processError(mecError)
-        binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
     }
 
 
