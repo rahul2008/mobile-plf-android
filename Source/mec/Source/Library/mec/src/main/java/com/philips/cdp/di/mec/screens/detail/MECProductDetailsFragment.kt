@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
@@ -251,8 +252,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
-
-
+    override fun processError(mecError: MecError?) {
+        super.processError(mecError)
+        binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
+    }
 
 
     fun onBuyFromRetailerClick() {
@@ -288,5 +291,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             }
         }
     }
+
+
 
 }
