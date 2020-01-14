@@ -1,5 +1,7 @@
 package com.philips.cdp.di.mec.screens.specification
 
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
 import com.philips.cdp.prxclient.error.PrxError
 import com.philips.cdp.prxclient.response.ResponseData
@@ -12,7 +14,12 @@ class PRXSpecificationResponseCallback(private val prxSpecificationViewModel: Sp
     }
 
     override fun onResponseError(prxError: PrxError?) {
-        TODO("not implemented")
+
         val description = prxError?.description
+
+        val exception = Exception(description)
+        val ecsError = ECSError(1000,description)
+        val mecError = MecError(exception, ecsError)
+        prxSpecificationViewModel.mecError.value = mecError
     }
 }

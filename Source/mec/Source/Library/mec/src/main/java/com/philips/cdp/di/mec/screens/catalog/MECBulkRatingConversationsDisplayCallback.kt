@@ -4,7 +4,9 @@ import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ConversationsDisplayCallback
 import com.bazaarvoice.bvandroidsdk.ConversationsException
 import com.bazaarvoice.bvandroidsdk.Statistics
+import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.mec.common.MecError
 import java.text.DecimalFormat
 
 class MECBulkRatingConversationsDisplayCallback(val ecsProducts: List<ECSProduct>, val ecsProductViewModel: EcsProductViewModel) : ConversationsDisplayCallback<BulkRatingsResponse> {
@@ -20,7 +22,10 @@ class MECBulkRatingConversationsDisplayCallback(val ecsProducts: List<ECSProduct
     }
 
     override fun onFailure(exception: ConversationsException) {
-       //implement error
+
+        val ecsError = ECSError(1000,exception.localizedMessage)
+        val mecError = MecError(exception, ecsError)
+        ecsProductViewModel.mecError.value = mecError
     }
 
 
