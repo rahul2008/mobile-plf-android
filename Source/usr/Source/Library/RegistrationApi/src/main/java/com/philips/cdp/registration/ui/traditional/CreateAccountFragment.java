@@ -543,19 +543,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void launchMarketingAccountFragment() {
-        if(RegistrationConfiguration.getInstance().isCustomOptoin()){
-            completeRegistration();
-        } else if(RegistrationConfiguration.getInstance().isSkipOptin()){
-            if (FieldsValidator.isValidEmail(getEmail())) {
-                launchAccountActivateFragment();
-            } else {
-                launchMobileVerifyCodeFragment();
-            }
-        } else{
-            addFragment(new MarketingAccountFragment());
-            trackPage(AppTaggingPages.MARKETING_OPT_IN);
-
-        }
+        addFragment(new MarketingAccountFragment());
+        trackPage(AppTaggingPages.MARKETING_OPT_IN);
     }
 
     @Override
