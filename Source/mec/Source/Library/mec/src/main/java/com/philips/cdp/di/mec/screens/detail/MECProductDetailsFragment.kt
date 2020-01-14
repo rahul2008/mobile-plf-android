@@ -55,8 +55,15 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             ecsProductDetailViewModel.removeBlacklistedRetailers(retailersList)
             if(retailers.wrbresults.onlineStoresForProduct!=null) {
                 if (retailersList.wrbresults.onlineStoresForProduct.stores.retailerList.size > 0) {
-                    binding.mecFindRetailerButtonSecondary.isEnabled = true
-                    binding.mecFindRetailerButtonPrimary.isEnabled = true
+                    if (binding.mecAddToCartButton.visibility == View.GONE) {
+                        binding.mecFindRetailerButtonPrimary.visibility = View.VISIBLE
+                        binding.mecFindRetailerButtonSecondary.visibility = View.GONE
+                        binding.mecFindRetailerButtonPrimary.isEnabled = true
+                    } else if (binding.mecAddToCartButton.visibility == View.VISIBLE) {
+                        binding.mecFindRetailerButtonSecondary.visibility = View.VISIBLE
+                        binding.mecFindRetailerButtonPrimary.visibility = View.GONE
+                        binding.mecFindRetailerButtonSecondary.isEnabled = true
+                    }
                 }
             }else {
                binding.mecFindRetailerButtonPrimary.isEnabled = false
