@@ -16,11 +16,18 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
     private lateinit var emptyView:View
 
+    var isSearchInProgress = true
+
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogAbstractViewHolder
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int {
+     return  items.size
+    }
 
-    override fun onBindViewHolder(holder: MECProductCatalogAbstractViewHolder, position: Int) = holder.bind(items[position])
+    override fun onBindViewHolder(holder: MECProductCatalogAbstractViewHolder, position: Int) {
+
+        holder.bind(items[position])
+    }
 
 
     override fun getFilter(): Filter {

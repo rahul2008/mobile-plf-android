@@ -20,7 +20,7 @@ class MECBulkRatingConversationsDisplayCallback(val ecsProducts: List<ECSProduct
     }
 
     override fun onFailure(exception: ConversationsException) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+       //implement error
     }
 
 

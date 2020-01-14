@@ -96,15 +96,16 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
             productList.clear()
 
-
-            binding.productCatalogRecyclerView.visibility = View.VISIBLE
-
             for (ecsProducts in ecsProductsList) {
 
                 for (ecsProduct in ecsProducts.products) {
                     productList.add(ecsProduct)
                 }
             }
+
+
+
+
 
             ecsProductViewModel.fetchProductReview(productList)
 
@@ -114,9 +115,12 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 binding.mecLlLayout.visibility = View.VISIBLE
             }
 
-            binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
-            binding.mecLlLayout.visibility = View.VISIBLE
-            binding.llBannerPlaceHolder.visibility = View.VISIBLE
+            if(productList.size!=0) {
+                binding.productCatalogRecyclerView.visibility = View.VISIBLE
+                binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+                binding.mecLlLayout.visibility = View.VISIBLE
+                binding.llBannerPlaceHolder.visibility = View.VISIBLE
+            }
 
         } else{
             showNoProduct()
@@ -181,7 +185,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
                 binding.mecGrid.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
-               // adapter = MECProductCatalogGridAdapter(productReviewList, this)
+                adapter = MECProductCatalogGridAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
                 binding.productCatalogRecyclerView.adapter = adapter
                 binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
@@ -197,7 +201,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
                 binding.mecList.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
-               // adapter = MECProductCatalogListAdapter(productReviewList, this)
+                adapter = MECProductCatalogListAdapter(productReviewList, this)
                 binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
@@ -340,6 +344,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         if(MECDataHolder.INSTANCE.hybrisEnabled) {
             ecsProductViewModel.init(currentPage, pageSize)
         }else{
+            hideProgressBar()
            showNoProduct()
         }
     }
