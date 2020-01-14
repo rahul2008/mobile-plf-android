@@ -14,7 +14,8 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
     val originalList = items
 
-    private lateinit var emptyView:View
+    lateinit var emptyView:View
+    var catalogView = CatalogView.LIST
 
     var isSearchInProgress = true
 
@@ -70,8 +71,11 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
         }
     }
 
-    fun setEmptyView(view :View){
-        emptyView = view
+
+    enum class CatalogView{
+
+         GRID,
+         LIST
     }
 
 }
