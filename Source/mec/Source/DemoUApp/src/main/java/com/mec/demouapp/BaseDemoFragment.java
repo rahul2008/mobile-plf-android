@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -388,6 +389,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             if (!mCategorizedProductList.contains(str)) {
                 mCategorizedProductList.add(str);
             }
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             mEtCTN.setText("");
         }
     }

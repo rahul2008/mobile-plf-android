@@ -24,20 +24,15 @@
     android:layout_height="match_parent"
     android:background="@color/uid_level_white">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="65dp"
         android:fadeScrollbars="true"
         android:scrollbarSize="0dp"
+        android:layout_above="@+id/ll_button"
         android:visibility="visible">
 
         <RelativeLayout
@@ -93,9 +88,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/mec_currency"
-                android:textSize="18sp"
+                android:textSize="28sp"
                 android:paddingBottom="1dp"
                 android:textAlignment="center"
+                style="@style/mecCentralesansBoldFont"
                 android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
                 android:layout_alignBottom="@+id/framelayout"/>
 
@@ -252,7 +248,10 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:layout_margin="16dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/mec_find_retailer_button_primary"
