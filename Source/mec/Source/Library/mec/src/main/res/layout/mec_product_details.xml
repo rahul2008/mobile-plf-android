@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     style="@style/mecCentralesansBoldFont"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                    android:text="@{product.summary.productTitle}"
+                    android:text='@{product.summary.productTitle ?? ""}'
                     android:textSize="20dp" />
 
                 <LinearLayout
@@ -207,7 +207,7 @@
                     android:textSize="12sp"
                     style="@style/mecCentralesansBookFont"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                    android:text="@{product.code}"/>
+                    android:text='@{product.code ?? ""}' />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_product_detail_stock_status"
