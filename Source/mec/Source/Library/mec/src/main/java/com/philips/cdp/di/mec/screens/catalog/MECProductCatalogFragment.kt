@@ -91,7 +91,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
             totalPages = ecsProductsList.get(ecsProductsList.size-1).pagination?.totalPages ?: 0
 
-            currentPage = ecsProductsList.get(ecsProductsList.size-1).pagination?.currentPage ?: 0
+           // currentPage = ecsProductsList.get(ecsProductsList.size-1).pagination?.currentPage ?: 0
 
             productList.clear()
 
@@ -220,9 +220,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                adapter.filter.filter(s)
-
-
                 if(s?.length == 0){
                     shouldSupportPagination = true
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
@@ -231,6 +228,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                     binding.llBannerPlaceHolder.visibility = View.GONE
                 }
 
+
+                adapter.filter.filter(s)
+
+                
                 val text = String.format(context?.getResources()?.getText(R.string.mec_no_result).toString(), s)
                 binding.tvEmptyListFound.text = text
 
@@ -358,7 +359,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         if (isScrollDown(lay)) {
             if (currentPage < totalPages) {
-                currentPage = currentPage+1
+                ++currentPage
               return true
             }
         }
