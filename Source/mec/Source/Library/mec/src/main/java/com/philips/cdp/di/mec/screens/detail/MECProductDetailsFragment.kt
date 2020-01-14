@@ -51,7 +51,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val eCSRetailerListObserver: Observer<ECSRetailerList> = object : Observer<ECSRetailerList> {
         override fun onChanged(retailers: ECSRetailerList?) {
             retailersList = retailers!!
-            ecsProductDetailViewModel.removeBlacklistedRetailers(retailersList)
+           // ecsProductDetailViewModel.removeBlacklistedRetailers(retailersList)
             if(retailers.wrbresults.onlineStoresForProduct!=null) {
                 if (retailersList.wrbresults.onlineStoresForProduct.stores.retailerList.size > 0) {
                     binding.mecFindRetailerButtonPrimary.isEnabled = true
@@ -206,7 +206,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         val textSize12 = getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);
 
 
-        if (product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0 && (product.price.value - product.discountPrice.value)>0) {
+        if (product.discountPrice!=null && product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0 && (product.price.value - product.discountPrice.value)>0) {
             mecPriceDetailId.visibility = View.VISIBLE
             mec_priceDetailIcon.visibility = View.VISIBLE
             mec_priceDiscount.visibility = View.VISIBLE
@@ -224,7 +224,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
             val discountRounded: String = String.format("%.2f", discount).toString()
             mec_priceDiscount.text = "-"+discountRounded + "%"
-        } else if (product.price.formattedValue != null && product.price.formattedValue.length > 0) {
+        } else if (product.price!=null && product.price.formattedValue != null && product.price.formattedValue.length > 0) {
             mecPriceDetailId.visibility = View.VISIBLE
             mec_priceDetailIcon.visibility = View.VISIBLE
 

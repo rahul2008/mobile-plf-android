@@ -56,7 +56,7 @@ class EcsProductViewModel : CommonViewModel() {
         fun setPriceInfo(priceLabel: Label, product: ECSProduct) {
             val textSize16 = priceLabel.context.getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_discount_price_label_size);
             val textSize12 = priceLabel.context.getResources().getDimensionPixelSize(com.philips.cdp.di.mec.R.dimen.mec_product_detail_price_label_size);
-            if (product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0 && (product.price.value - product.discountPrice.value) > 0) {
+            if (product!=null && product.discountPrice!=null && product.discountPrice.formattedValue != null && product.discountPrice.formattedValue.length > 0 && (product.price.value - product.discountPrice.value) > 0) {
                 val price = SpannableString(product.price.formattedValue);
                 price.setSpan(AbsoluteSizeSpan(textSize12), 0, product.price.formattedValue.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 price.setSpan(StrikethroughSpan(), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -67,6 +67,7 @@ class EcsProductViewModel : CommonViewModel() {
                 val CharSequence = TextUtils.concat(price, "  ", discountPrice);
                 priceLabel.text = CharSequence;
             } else {
+                if(product.price!=null)
                 priceLabel.text = product.price.formattedValue;
             }
         }
