@@ -9,13 +9,6 @@ import java.util.ArrayList
  */
 class MECFlowConfigurator : Serializable {
 
-    //TODO Remove productCTN
-    /**
-     * returns product CTN number
-     * @return productCTN  return product CTN
-     * @since 1.0.0
-     */
-    var  productCTN: String ?=null
     /**
      * returns product array of CTN number
      * @return productCTNs  returns array of product CTNs
@@ -25,15 +18,10 @@ class MECFlowConfigurator : Serializable {
 
     var landingView: MECLandingView? =null
 
-    fun setCTN(ctn : String){
-        productCTN = ctn
-    }
 
     fun setCTNs(ctns:ArrayList<String>){
         productCTNs =ctns
     }
-
-
 
 
     enum class MECLandingView{

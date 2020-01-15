@@ -14,12 +14,18 @@
 
         <import type="android.view.View"/>
         <variable
-            name="MecDataHolder"
+            name="mecDataHolder"
             type="com.philips.cdp.di.mec.utils.MECDataHolder" />
 
     </data>
 
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="horizontal">
+
 <RelativeLayout
+    android:id="@+id/details_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/uid_level_white">
@@ -308,4 +314,15 @@
     </LinearLayout>
 
 </RelativeLayout>
+       <com.philips.platform.uid.view.widget.Label
+           android:id="@+id/mec_productDetails_emptyText_label"
+           style="@style/mecCentralesansBoldFont"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:gravity="center"
+           android:layout_centerInParent="true"
+           android:text="@string/mec_no_product_available"
+           android:visibility="visible"
+           android:textSize="@dimen/iap_product_ctn_12"/>
+   </LinearLayout>
 </layout>

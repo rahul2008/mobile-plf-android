@@ -68,7 +68,7 @@ class DataBindingUtility {
 
             val mecBannerEnabler = MECDataHolder.INSTANCE.mecBannerEnabler
 
-            if (mecBannerEnabler != null && mecBannerEnabler.bannerViewProductList != null && MECDataHolder.INSTANCE.hybrisEnabled) {
+            if (mecBannerEnabler != null && mecBannerEnabler.bannerViewProductList != null) {
 
                 if (mecBannerEnabler.bannerViewProductList.parent != null) {
                     val viewGroup = mecBannerEnabler.bannerViewProductList.parent as ViewGroup

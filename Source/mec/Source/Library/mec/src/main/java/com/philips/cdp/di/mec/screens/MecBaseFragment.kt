@@ -43,11 +43,13 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     override fun handleBackEvent(): Boolean {
         val currentFragment = activity?.supportFragmentManager?.fragments?.last()
-        if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
+        if (currentFragment?.getTag().equals("MECProductCatalogFragment")){
+
+        }else  if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
         {
             setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
         }
-        else{
+        else if (currentFragment?.getTag().equals("MECProductDetailsFragment")){
             setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
         }
         return false
@@ -96,7 +98,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
 
     protected fun setTitleAndBackButtonVisibility(resourceId: Int, isVisible: Boolean) {
-        mTitle = getString(resourceId)
         if (MECDataHolder.INSTANCE.actionbarUpdateListener != null)
             MECDataHolder.INSTANCE.actionbarUpdateListener!!.updateActionBar(resourceId, isVisible)
 
@@ -104,7 +105,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
 
     protected fun setTitleAndBackButtonVisibility(title: String, isVisible: Boolean) {
-        mTitle = title
         if (MECDataHolder.INSTANCE.actionbarUpdateListener != null)
             MECDataHolder.INSTANCE.actionbarUpdateListener!!.updateActionBar(title, isVisible)
     }

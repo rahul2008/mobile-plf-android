@@ -53,7 +53,7 @@ class MECutility {
             if (alertDialogFragment == null) {
                 alertDialogFragment = fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG) as AlertDialogFragment?
             }
-            if (alertDialogFragment != null && alertDialogFragment.isVisible && isCallingFragmentVisible(fragmentManager))
+            if (alertDialogFragment != null  && isCallingFragmentVisible(fragmentManager))
                 alertDialogFragment.dismiss()
         }
 

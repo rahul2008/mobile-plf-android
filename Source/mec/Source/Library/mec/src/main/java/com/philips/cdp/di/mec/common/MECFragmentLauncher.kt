@@ -141,7 +141,9 @@ class MECFragmentLauncher : MecBaseFragment() {
     private fun fetchProductDetailForCtn(isHybris: Boolean) {
         createCustomProgressBar(container, MEDIUM)
 
-        val ctn = bundle?.getString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL, "UNKNOWN")
+        var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
+
+        val ctn = ctns.get(0)
 
         if (isHybris) {
             ecsLauncherViewModel.getProductDetailForCtn(ctn!!)

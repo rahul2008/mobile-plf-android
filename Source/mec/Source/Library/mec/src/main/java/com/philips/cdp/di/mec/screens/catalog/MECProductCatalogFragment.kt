@@ -142,11 +142,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     open fun showNoProduct() {
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-        binding.productCatalogRecyclerView.visibility = View.GONE
-        binding.mecPrivacyLayout.visibility = View.GONE
-        binding.mecSeparator.visibility = View.GONE
-        binding.mecLlLayout.visibility = View.GONE
-        binding.llBannerPlaceHolder.visibility = View.GONE
+        binding.mecCatalogParentLayout.visibility = View.GONE
+
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -345,6 +342,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             ecsProductViewModel.init(currentPage, pageSize)
         }else{
             hideProgressBar()
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+            binding.mecCatalogParentLayout.visibility = View.GONE
             showNoProduct()
         }
     }
@@ -359,8 +358,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         if (isScrollDown(lay)) {
             if (currentPage < totalPages) {
-
-                incrementCurrentPage();
+                ++currentPage
               return true
             }
         }
@@ -368,15 +366,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         return false
     }
 
-    open fun incrementCurrentPage() {
-        ++currentPage
-    }
-
-    override fun processError(mecError: MecError?){
-        binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-        binding.productCatalogRecyclerView.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
-    }
 
     private fun getListAndGridHighlightedBackgroundColor():Int{
         val numbers: IntArray = intArrayOf(R.attr.uidToggleButtonInputQuietNormalOnBackgroundColor)

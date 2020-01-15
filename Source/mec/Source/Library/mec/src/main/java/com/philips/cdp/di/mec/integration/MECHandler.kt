@@ -40,10 +40,6 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
                 mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.flowConfigurator)
 
-                if (mLaunchInput.flowConfigurator!!.productCTN != null) {
-                    mBundle.putString(MECConstant.MEC_PRODUCT_CTN_NUMBER_FROM_VERTICAL,
-                            mLaunchInput.flowConfigurator!!.productCTN)
-                }
                 if (mLaunchInput.flowConfigurator!!.productCTNs != null) {
                     mBundle.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS,
                             mLaunchInput.flowConfigurator!!.productCTNs)

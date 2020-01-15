@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
@@ -89,6 +90,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.product = ecsProduct
             showPriceDetail()
             addToCartVisibility(ecsProduct!!)
+            if(!MECDataHolder.INSTANCE.hybrisEnabled && !MECDataHolder.INSTANCE.retailerEnabled){
+                binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
+                binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
+            }
             if(MECDataHolder.INSTANCE.retailerEnabled){
                 getRetailerDetails()
             }else{
@@ -252,9 +257,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
 
-
-
-
     fun onBuyFromRetailerClick() {
         buyFromRetailers()
     }
@@ -287,6 +289,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 addFragment(fragment, "retailers", true)
             }
         }
+    }
+
+    override fun onChanged(mecError: MecError?) {
+        binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
+
     }
 
 }
