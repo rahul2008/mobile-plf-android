@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations
 @RunWith(JUnit4::class)
 class ConfigBooleanCallbackTest {
 
-     @Mock
+    /* @Mock
      lateinit var ecsLauncherViewModelMock: EcsLauncherViewModel
 
      lateinit var configBooleanCallback: ConfigBooleanCallback
@@ -23,7 +23,7 @@ class ConfigBooleanCallbackTest {
      @Mock
      lateinit var mutableLiveDataMock : MutableLiveData<Boolean>
 
- /*   @Before
+    @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         Mockito.`when`(ecsLauncherViewModelMock.isHybris).thenReturn(mutableLiveDataMock)

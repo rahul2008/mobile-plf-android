@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations
 class SpecificationRepositoryTest {
 
 
-    lateinit var specificationRepository: SpecificationRepository
+    /*lateinit var specificationRepository: SpecificationRepository
     lateinit var specificationViewModel : SpecificationViewModel
     lateinit var requestManager : RequestManager
     lateinit var  productSpecificationRequest :ProductSpecificationRequest
@@ -28,7 +28,7 @@ class SpecificationRepositoryTest {
     @Mock
     lateinit var appInfra :AppInfra
 
-   /* @Before
+    @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         `when`(MECDataHolder.INSTANCE.appinfra).thenReturn(appInfra)
