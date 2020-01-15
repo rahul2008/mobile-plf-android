@@ -338,7 +338,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         } else if (view == mLaunchProductDetail) {
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
                 MECFlowConfigurator input = new MECFlowConfigurator();
-                input.setCTN(mCategorizedProductList.get(0)) ;
+                input.setCTNs(mCategorizedProductList) ;
 
                 if (getActivity() instanceof LaunchAsActivity) {
                     launchMEC(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW, input, null);
