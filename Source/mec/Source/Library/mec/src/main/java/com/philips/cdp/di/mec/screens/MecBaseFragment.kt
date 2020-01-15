@@ -98,7 +98,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
 
     protected fun setTitleAndBackButtonVisibility(resourceId: Int, isVisible: Boolean) {
-        mTitle = getString(resourceId)
         if (MECDataHolder.INSTANCE.actionbarUpdateListener != null)
             MECDataHolder.INSTANCE.actionbarUpdateListener!!.updateActionBar(resourceId, isVisible)
 
@@ -106,7 +105,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
 
     protected fun setTitleAndBackButtonVisibility(title: String, isVisible: Boolean) {
-        mTitle = title
         if (MECDataHolder.INSTANCE.actionbarUpdateListener != null)
             MECDataHolder.INSTANCE.actionbarUpdateListener!!.updateActionBar(title, isVisible)
     }

@@ -166,7 +166,6 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
             actionBar();
             showAppVersion();
         }
-
         if(currentFrag instanceof BaseDemoFragment){
             super.onBackPressed();
         finish();
