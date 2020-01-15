@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_launch"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:onClick="launchAsActivity"
+        android:text="@string/launch_as_activity"
+     />
+    <Button
+        android:id="@+id/btn_launch_as_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:onClick="launchAsFragment"
+        android:text="@string/launch_as_fragment"
+        android:visibility="visible" />
+</LinearLayout>

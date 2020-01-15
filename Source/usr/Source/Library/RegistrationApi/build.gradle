@@ -36,7 +36,11 @@ artifacts {
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"

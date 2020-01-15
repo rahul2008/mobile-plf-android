@@ -2,9 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.platform.ccdemouapplibrary">
 
-    <uses-sdk android:minSdkVersion="23"
-        android:targetSdkVersion="24"/>
-
     <!--Credentials For LocatePhilips Near you feature(Google Map)-->
     <uses-permission android:name="com.philips.cl.di.dev.pa.permission.MAPS_RECEIVE" />
     <!--  <permission

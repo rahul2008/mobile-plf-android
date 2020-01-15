@@ -24,12 +24,17 @@ buildscript {
 }
 archivesBaseName = strings.ail.artifactName
 android {
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     signingConfigs {
         release
     }
 
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"

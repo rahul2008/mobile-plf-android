@@ -49,7 +49,6 @@ task tgzTask(type: Tar) {
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     defaultConfig {
         multiDexEnabled true

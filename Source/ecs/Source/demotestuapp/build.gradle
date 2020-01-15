@@ -17,7 +17,6 @@ archivesBaseName = strings.ecstestuapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
@@ -36,6 +35,10 @@ android {
             shrinkResources false
             debuggable true
         }
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     packagingOptions {
@@ -96,7 +99,7 @@ dependencies {
     testImplementation deps.junit
     implementation philipsdeps.uid
 
-    implementation project(path: ':philipsecommercesdk' , configuration: 'default')
+   // implementation project(path: ':philipsecommercesdk' , configuration: 'default')
     if (useprojectdependencies) {
         // implementation project(strings.iap.projectName)
         implementation project(strings.prx.projectName)
@@ -104,6 +107,7 @@ dependencies {
         implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
+        implementation project(strings.ecs.projectName)
         //  implementation project(strings.ecs.projectName)
         // implementation project(path: strings.ecs.projectName, configuration: 'default')
     } else {

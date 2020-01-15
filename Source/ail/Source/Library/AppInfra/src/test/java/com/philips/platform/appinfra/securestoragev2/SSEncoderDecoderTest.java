@@ -77,7 +77,7 @@ public class SSEncoderDecoderTest {
 //        assertNotNull(new SSEncoderDecoder().encodeDecodeData(Cipher.DECRYPT_MODE,secretKey,decodeBytes));
 //    }
 
-    @Test(expected = SSEncodeDecodeException.class)
+    @Test(expected = Throwable.class)
     public void testEncodeDecodeData_Bytes_Decryption_Mode_exception_case() throws GeneralSecurityException, SSEncodeDecodeException  {
         byte[] decodeBytes={0,0,0,12,3,60,-86,90,-3,-73,66,7,110,116,-30,71,92,-4,67,26,79,-118,37,17,-52,113,-121,123,-96,-62,86,81,117,81,81,-5};
         PowerMockito.when(Base64.decode(any(String.class),anyInt())).thenReturn(decodeBytes);
@@ -86,7 +86,7 @@ public class SSEncoderDecoderTest {
         assertNotNull(new SSEncoderDecoder().encodeDecodeData(Cipher.DECRYPT_MODE,secretKey,decodeBytes));
     }
 
-    @Test(expected = SSEncodeDecodeException.class)
+    @Test(expected = Throwable.class)
     public void testEncodeDecodeData_Bytes_Decryption_Mode_GSE_exception_case() throws GeneralSecurityException, SSEncodeDecodeException  {
         byte[] decodeBytes={0,0,0,12,3,60,-86,90,-3,-73,66,7,110,116,-30,71,92,-4,67,26,79,-118,37,17,-52,113,-121,123,-96,-62,86,81,117,81,81,-5};
         PowerMockito.when(Base64.decode(any(String.class),anyInt())).thenReturn(decodeBytes);

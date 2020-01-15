@@ -46,7 +46,7 @@ ext.builddeps = [
         buildinfoextractor : 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.5',
         cdpSCM             : [group: 'com.philips.platform', name: 'scmPlugin', version: '4.3.1', changing: false],
         googleservices     : 'com.google.gms:google-services:4.0.1', // Version 4.1.0 causes the build to fail in creating the dependency tree
-        gradle             : 'com.android.tools.build:gradle:3.1.4',
+        gradle             : 'com.android.tools.build:gradle:3.5.2',
         hockeyapp          : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
         jruby_gradle       : 'com.github.jruby-gradle:jruby-gradle-plugin:1.6.0',
         mobilej            : 'de.mobilej.unmock:UnMockPlugin:0.6.5',
@@ -83,7 +83,9 @@ ext.philipsdeps = [
         pimUApp                     : [group: 'com.philips.platform', name: strings.pimuapp.artifactName, version: platformversionsuffix, changing: true],
         UserRegistrationUApp        : [group: 'com.philips.platform', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true],
         philipsecommercesdk         : [group: 'com.philips.platform', name: strings.ecs.artifactName, version: platformversionsuffix, changing: true],
-        ecsUapp                     : [group: 'com.philips.platform', name: strings.ecsuapp.artifactName, version: platformversionsuffix, changing: true]
+        ecsUapp                     : [group: 'com.philips.platform', name: strings.ecsuapp.artifactName, version: platformversionsuffix, changing: true],
+        mec                         : [group: 'com.philips.platform', name: strings.mec.artifactName, version: platformversionsuffix, changing: true],
+        mecUApp                     : [group: 'com.philips.platform', name: strings.mecuapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 
 /**
@@ -110,7 +112,7 @@ ext.repos.hsdprelease = ext.repos.base+"/HSDP-pkgs-android-release"
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.17.8',
         jump                          : 'com.janrain.android:jump-android:7.1.1',   //Consuming from the forked version of jump in azure repo.
-        butterknife                   : 'com.jakewharton:butterknife:8.8.1',
+        butterknife                   : 'com.jakewharton:butterknife:9.0.0-rc2',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         constraintlayout              : 'com.android.support.constraint:constraint-layout:1.1.3',
         dagger                        : [
@@ -164,8 +166,8 @@ ext.deps = [
         ],
         apache_commons_lang           : 'org.apache.commons:commons-lang3:3.8.1',
         assertj                       : 'com.squareup.assertj:assertj-android:1.2.0',
-        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
-        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.4.0', // Held at 8.4.0 since 10.0.0 is giving an issue
+        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:9.0.0-rc2',
+        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc2', // Held at 8.4.0 since 10.0.0 is giving an issue
 
         dexmaker_mockito              : 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1', // Compiled against sdk 25
         espresso_contrib              : 'com.android.support.test.espresso:espresso-contrib:3.0.2',

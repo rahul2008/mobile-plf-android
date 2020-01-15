@@ -1,0 +1,47 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="csChapterItem"
+            type="com.philips.cdp.prxclient.datamodels.specification.CsChapterItem" />
+
+    </data>
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mec_online_retailers_lebel"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:paddingTop="@dimen/border8_margin"
+        android:paddingBottom="@dimen/border8_margin"
+        android:paddingRight="@dimen/border16_margin_left_right"
+        android:paddingLeft="@dimen/border16_margin_left_right"
+        android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        android:text="@{csChapterItem.csChapterName}"
+        />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_child"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:items="@{csChapterItem.csItem}"/>
+
+</LinearLayout>
+
+
+</layout>

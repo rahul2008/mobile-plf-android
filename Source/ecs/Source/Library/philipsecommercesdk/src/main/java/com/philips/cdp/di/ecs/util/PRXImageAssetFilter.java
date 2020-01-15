@@ -5,7 +5,7 @@ import com.philips.cdp.di.ecs.model.asset.Asset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PRXAssetFilter {
+public class PRXImageAssetFilter {
 
     private static final int RTP = 1;
     private static final int APP = 2;
