@@ -10,11 +10,6 @@
 
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
 <RelativeLayout
     android:id="@+id/mecCatalogParentLayout"
     android:layout_width="match_parent"
@@ -188,7 +183,7 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mec_productCatalog_emptyText_label"
             style="@style/mecCentralesansBoldFont"
@@ -199,6 +194,6 @@
             android:text="@string/mec_no_product_available"
             android:visibility="gone"
             android:textSize="@dimen/iap_product_ctn_12"/>
-    </LinearLayout>
+</RelativeLayout>
 
 </layout>

@@ -121,10 +121,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 }
 
 
-                binding.productCatalogRecyclerView.visibility = View.VISIBLE
-                binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
-                binding.mecLlLayout.visibility = View.VISIBLE
-                binding.llBannerPlaceHolder.visibility = View.VISIBLE
+
+                    binding.productCatalogRecyclerView.visibility = View.VISIBLE
+                    binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
+                    binding.mecLlLayout.visibility = View.VISIBLE
+                    binding.llBannerPlaceHolder.visibility = View.VISIBLE
 
 
 
@@ -141,13 +142,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     })
 
     open fun showNoProduct() {
+        binding.llBannerPlaceHolder.visibility = View.GONE
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
         binding.productCatalogRecyclerView.visibility = View.GONE
-        binding.mecPrivacyLayout.visibility = View.GONE
-        binding.mecSeparator.visibility = View.GONE
         binding.mecLlLayout.visibility = View.GONE
-        binding.llBannerPlaceHolder.visibility = View.GONE
-
+        binding.mecPrivacyLayout.visibility = View.GONE
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -346,8 +345,12 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             ecsProductViewModel.init(currentPage, pageSize)
         }else{
             hideProgressBar()
+            binding.llBannerPlaceHolder.visibility = View.GONE
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-            binding.mecCatalogParentLayout.visibility = View.GONE
+            binding.productCatalogRecyclerView.visibility = View.GONE
+            binding.mecLlLayout.visibility = View.GONE
+            binding.mecPrivacyLayout.visibility = View.GONE
+
         }
     }
 
