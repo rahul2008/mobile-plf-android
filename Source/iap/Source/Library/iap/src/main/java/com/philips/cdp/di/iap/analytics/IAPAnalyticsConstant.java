@@ -88,5 +88,10 @@ public class IAPAnalyticsConstant {
 
     public static final String KEY_EXIT_LINK_RETAILER = "exitlinkname";
     public static final String PHILIPS_EXIT_LINK_PARAMETER = "15_global_%s_%s-app_%s-app";
+
+    public static final String PRODUCT = "Product";
+    public static final String RETAILER_LIST = "retailerList";
+    public static final String RETAILER_NAME = "retailerName";
+    public static final String STOCK_STATUS = "stockStatus";
 }
 

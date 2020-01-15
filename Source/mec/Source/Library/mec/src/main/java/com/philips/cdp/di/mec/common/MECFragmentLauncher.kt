@@ -17,10 +17,12 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
+import com.philips.cdp.di.mec.screens.catalog.mutableList
 import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.android.synthetic.main.mec_main_activity.*
+import java.util.ArrayList
 
 
 class MECFragmentLauncher : MecBaseFragment() {
@@ -97,7 +99,17 @@ class MECFragmentLauncher : MecBaseFragment() {
         val str = bundle?.getString(MECConstant.FLOW_INPUT)
         var mecConfiguration = Gson().fromJson(str, MECFlowConfigurator::class.java)
         mecFlows = mecConfiguration.landingView!!
-        bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS ,mecConfiguration.productCTNs)
+
+        var ctnList: ArrayList<String>? = ArrayList()
+
+        if (mecConfiguration.productCTNs != null) {
+
+            for (ctn in mecConfiguration.productCTNs!!) {
+                ctnList?.add(ctn.replace("_", "/"))
+            }
+        }
+
+        bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, ctnList)
     }
 
     override fun onStart() {
