@@ -333,7 +333,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             ecsProductViewModel.init(currentPage, pageSize)
         }else{
             hideProgressBar()
-           showNoProduct()
+            binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
+            binding.mecCatalogParentLayout.visibility = View.GONE
         }
     }
 
@@ -355,11 +356,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         return false
     }
 
-    override fun processError(mecError: MecError?){
-        binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-        binding.productCatalogRecyclerView.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
-    }
 
     private fun getListAndGridHighlightedBackgroundColor():Int{
         val numbers: IntArray = intArrayOf(R.attr.uidToggleButtonInputQuietNormalOnBackgroundColor)

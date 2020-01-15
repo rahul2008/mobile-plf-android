@@ -291,6 +291,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         }
     }
 
+    override fun onChanged(mecError: MecError?) {
+        binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
 
+    }
 
 }
