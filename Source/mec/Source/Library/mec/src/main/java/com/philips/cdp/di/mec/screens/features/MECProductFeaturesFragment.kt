@@ -31,10 +31,11 @@ class MECProductFeaturesFragment : MecBaseFragment() {
 
             for (featureItem in keyBenefitAreaItem.feature) {
 
-                val singleAssetImageFromFeatureCode = featuresModel.data.getSingleAssetImageFromFeatureCode(featureItem.featureCode)
+                var singleAssetImageFromFeatureCode = featuresModel.data.getSingleAssetImageFromFeatureCode(featureItem.featureCode)
 
                 if(singleAssetImageFromFeatureCode!=null){
-                    singleAssetImageFromFeatureCode + "?wid=" + 220 + "&hei=" + 220 + "&\$pnglarge$" + "&fit=fit,1"
+                    singleAssetImageFromFeatureCode = singleAssetImageFromFeatureCode + "?wid=" + 220 +
+                              "&hei=" + 220 + "&\$pnglarge$" + "&fit=fit,1"
                 }
 
                 featureItem.setSingleFeatureImage(singleAssetImageFromFeatureCode)
