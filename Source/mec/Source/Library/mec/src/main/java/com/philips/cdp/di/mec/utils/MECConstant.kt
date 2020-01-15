@@ -8,6 +8,7 @@ import com.philips.cdp.di.mec.R
 
 object MECConstant {
 
+    val THRESHOLD = 5
     val FLOW_INPUT: String? ="FLOW_INPUT"
     val DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight
     val IAP_KEY_ACTIVITY_THEME: String? = "IAP_KEY_ACTIVITY_THEME"

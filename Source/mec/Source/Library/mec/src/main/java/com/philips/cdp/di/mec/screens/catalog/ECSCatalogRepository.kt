@@ -10,6 +10,7 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import okhttp3.internal.Internal
 
 class ECSCatalogRepository {
 
@@ -19,11 +20,14 @@ class ECSCatalogRepository {
     }
 
     fun getCategorizedProductsForRetailer(ctnS: MutableList<String>, ecsProductListCallback: ECSProductListCallback, eCSServices: ECSServices) {
-        eCSServices.fetchProductSummaries(ctnS,ecsProductListCallback)
+        eCSServices.fetchProductSummaries(ctnS, ecsProductListCallback)
     }
 
     //TODO
-    fun getCategorizedProducts(pageNumber: Int, pageSize: Int, ctns: List<String>, ecsProductViewModel: EcsProductViewModel) {
+    fun getCategorizedProducts(pageNumber: Int, pageSize: Int,numberOFCTnsTobeSerached: Int, ctns: List<String>, existingList : MutableList<ECSProducts>?, ecsProductViewModel: EcsProductViewModel) {
+
+
+        var modifiedList = existingList
         val ecsServices = MecHolder.INSTANCE.eCSServices
         ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
 
@@ -36,39 +40,52 @@ class ECSCatalogRepository {
 
                 val mutableLiveData = ecsProductViewModel.ecsProductsList
 
-                val value = mutableList(mutableLiveData)
 
                 //add logic
-                val ecsProductList = mutableListOf<ECSProduct>()
+                val ecsProductFoundList = mutableListOf<ECSProduct>()
 
-                for (ctn in ctns){
+                for (ctn in ctns) {
 
-                    for(ecsProduct in ecsProducts.products){
+                    for (ecsProduct in ecsProducts.products) {
 
-                        if(ecsProduct.code.equals(ctn,true)){
-                            ecsProductList.add(ecsProduct)
+                        if (ecsProduct.code.equals(ctn, true)) {
+                            ecsProductFoundList.add(ecsProduct)
                         }
                     }
                 }
 
-                ecsProducts.products = ecsProductList
-                value.add(ecsProducts)
 
 
-                if(shouldBreakTheLoop(pageNumber, ecsProducts, ctns)){
-                    mutableLiveData.value = value
-                }else{
 
-                    var tempCTNS = getCTNsToBeSearched(ctns as MutableList<String>,ecsProductList);
-                    var newPageNumber :Int = pageNumber + 1
-                    getCategorizedProducts(newPageNumber,pageSize,tempCTNS,ecsProductViewModel)
+                if (modifiedList == null) {
+                    modifiedList = mutableListOf()
+                }
+
+                ecsProducts.products = ecsProductFoundList
+                modifiedList!!.add(ecsProducts)
+
+                if(ecsProductFoundList.size!=0){
+                    //Found one product
+                    mutableLiveData.value = modifiedList
+                }
+
+
+                if (shouldBreakTheLoop(pageNumber, modifiedList!!, numberOFCTnsTobeSerached)) {
+
+                    mutableLiveData.value = modifiedList
+
+                } else {
+
+                    var tempCTNS = getCTNsToBeSearched(ctns as MutableList<String>, ecsProductFoundList);
+                    var newPageNumber: Int = pageNumber + 1
+                    getCategorizedProducts(newPageNumber, pageSize,numberOFCTnsTobeSerached, tempCTNS,modifiedList, ecsProductViewModel)
                 }
 
             }
 
             //Remove already found ctns from search list
             private fun getCTNsToBeSearched(ctns: MutableList<String>, ecsProductList: MutableList<ECSProduct>): MutableList<String> {
-                for (ecsProduct in ecsProductList){
+                for (ecsProduct in ecsProductList) {
                     ctns.remove(ecsProduct.code)
                 }
                 return ctns
@@ -79,16 +96,44 @@ class ECSCatalogRepository {
 
     /*
     *   These are the below conditions to break the loop
+    *   1- if pageNumer equals to 4 -- Means 5 Pages are searched
     *   2- Searched for all the pages completed
     *   3- ALl CTNs are found
     *   4- Only show products of page size at a time .
 
     * */
 
-    private fun shouldBreakTheLoop(pageNumber: Int, ecsProducts: ECSProducts, ctns: List<String>) =
-                    pageNumber == ecsProducts.pagination.totalPages - 1 ||
-                    ctns.size == ecsProducts.products.size ||
-                    ecsProducts.products.size == ecsProducts.pagination.pageSize
+    private fun shouldBreakTheLoop(pageNumber: Int, ecsProductsList: MutableList<ECSProducts>, numberOFCTnsTobeSerached: Int) :Boolean {
+        return shouldDoFivePageCall(pageNumber, ecsProductsList, numberOFCTnsTobeSerached)
+
+    }
+
+    private fun shouldDoFivePageCall(pageNumber: Int, ecsProducts: MutableList<ECSProducts>, numberOFCTnsTobeSerached: Int): Boolean {
+        return  (isProductNotFound(ecsProducts) && didReachThreshold(pageNumber))||
+                didReachLastPage(pageNumber , ecsProducts) ||
+                isAllProductsFound(numberOFCTnsTobeSerached,ecsProducts) ||
+                didProductsFondReachPageSize(ecsProducts)
+    }
+
+    private fun getAllProductCount(ecsProductsList: MutableList<ECSProducts>):Int{
+
+        var count = 0
+
+        for(ecsProducts in ecsProductsList){
+            count += ecsProducts.products.size
+        }
+        return count
+    }
+
+    private fun didProductsFondReachPageSize(ecsProducts: MutableList<ECSProducts>) = getAllProductCount(ecsProducts) == ecsProducts.get(ecsProducts.size -1).pagination.pageSize
+
+    private fun isProductNotFound(ecsProducts: MutableList<ECSProducts>) = getAllProductCount(ecsProducts) == 0
+
+    private fun isAllProductsFound(ctnsTobeSearchedSize: Int ,ecsProducts: MutableList<ECSProducts>) = ctnsTobeSearchedSize == getAllProductCount(ecsProducts)
+
+    private fun didReachThreshold(pageNumber : Int) =  0 == (pageNumber + 1) % MECConstant.THRESHOLD
+
+    private fun didReachLastPage(pageNumber : Int,ecsProducts: MutableList<ECSProducts>) = pageNumber == ecsProducts.get(ecsProducts.size -1).pagination.totalPages - 1
 
 
     fun fetchProductReview(ecsProducts: List<ECSProduct> , ecsProductViewModel: EcsProductViewModel){

@@ -13,4 +13,9 @@ class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
         var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
         ecsProductViewModel.initCategorizedRetailer(ctns)
     }
+
+    override fun isCategorizedHybrisPagination(): Boolean {
+        return false
+    }
+
 }

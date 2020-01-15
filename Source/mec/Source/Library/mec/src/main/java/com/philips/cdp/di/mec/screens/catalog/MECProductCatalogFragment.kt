@@ -47,7 +47,9 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
  * A simple [Fragment] subclass.
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
-
+    override fun isCategorizedHybrisPagination(): Boolean {
+        return false
+    }
 
 
     private val productReviewObserver : Observer<MutableList<MECProductReview>> = Observer<MutableList<MECProductReview>> { mecProductReviews ->
@@ -56,8 +58,16 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         adapter.notifyDataSetChanged()
         binding.progressBar.visibility = View.GONE
         hideProgressBar()
+
+        //For categorized
+        if(isCategorizedHybrisPagination()){
+            doProgressbarOperation()
+        }
     }
 
+    open fun doProgressbarOperation() {
+        //do nothing
+    }
 
 
     override fun onItemClick(item: Any) {
@@ -86,12 +96,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     var shouldSupportPagination = true
 
 
-    private val productObserver : Observer<MutableList<ECSProducts>> = Observer<MutableList<ECSProducts>> { ecsProductsList ->
-        if (! ecsProductsList .isNullOrEmpty()) {
+    private val productObserver : Observer<MutableList<ECSProducts>> = Observer<MutableList<ECSProducts>>(fun(ecsProductsList: MutableList<ECSProducts>?) {
+        if (!ecsProductsList.isNullOrEmpty()) {
 
-            totalPages = ecsProductsList.get(ecsProductsList.size-1).pagination?.totalPages ?: 0
-
-           // currentPage = ecsProductsList.get(ecsProductsList.size-1).pagination?.currentPage ?: 0
+            totalPages = ecsProductsList.get(ecsProductsList.size - 1).pagination?.totalPages ?: 0
+            currentPage = ecsProductsList.get(ecsProductsList.size - 1).pagination?.currentPage ?: 0
 
             productList.clear()
 
@@ -102,39 +111,39 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 }
             }
 
+            if (productList.size != 0) {
+                ecsProductViewModel.fetchProductReview(productList)
+
+                if (productList.size != 0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") || MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
+                    binding.mecPrivacyLayout.visibility = View.VISIBLE
+                    binding.mecSeparator.visibility = View.VISIBLE
+                    binding.mecLlLayout.visibility = View.VISIBLE
+                }
 
 
-
-
-            ecsProductViewModel.fetchProductReview(productList)
-
-            if (productList.size!=0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
-                binding.mecPrivacyLayout.visibility = View.VISIBLE
-                binding.mecSeparator.visibility = View.VISIBLE
-                binding.mecLlLayout.visibility = View.VISIBLE
-            }
-
-            if(productList.size!=0) {
                 binding.productCatalogRecyclerView.visibility = View.VISIBLE
                 binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
                 binding.mecLlLayout.visibility = View.VISIBLE
                 binding.llBannerPlaceHolder.visibility = View.VISIBLE
+
+
+
+            } else {
+
+                hideProgressBar()
+                showNoProduct()
             }
 
-        } else{
-            showNoProduct()
+        } else {
             hideProgressBar()
+            showNoProduct()
         }
+    })
 
-    }
-
-    private fun showNoProduct() {
+    open fun showNoProduct() {
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-        binding.productCatalogRecyclerView.visibility = View.GONE
-        binding.mecPrivacyLayout.visibility = View.GONE
-        binding.mecSeparator.visibility = View.GONE
-        binding.mecLlLayout.visibility = View.GONE
-        binding.llBannerPlaceHolder.visibility = View.GONE
+        binding.mecCatalogParentLayout.visibility = View.GONE
+
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -147,7 +156,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     lateinit var productList: MutableList<ECSProduct>
 
 
-    private lateinit var binding: MecCatalogFragmentBinding
+    lateinit var binding: MecCatalogFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -335,10 +344,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             hideProgressBar()
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
             binding.mecCatalogParentLayout.visibility = View.GONE
+            showNoProduct()
         }
     }
 
-    fun shouldFetchNextPage(): Boolean{
+   open fun shouldFetchNextPage(): Boolean{
 
         if(!isPaginationSupported()){
             return false
