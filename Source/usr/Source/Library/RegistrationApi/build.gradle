@@ -105,9 +105,12 @@ dependencies {
     implementation deps.greenrobot
     implementation deps.javax_annotation
     implementation deps.libphonenumber
+    implementation deps.androidx.multidex
     implementation deps.okhttp
     implementation deps.rxbinding
     implementation deps.rxjava2
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recyclerview
     implementation deps.volley
     implementation deps.wechat
     implementation deps.jackson_annotations
@@ -141,6 +144,7 @@ dependencies {
     androidTestImplementation deps.androidx.rules
     androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.junit
+    androidTestImplementation deps.androidx.uiautomator
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

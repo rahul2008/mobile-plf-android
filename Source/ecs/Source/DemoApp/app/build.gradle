@@ -131,7 +131,9 @@ dependencies {
     implementation project(strings.ecstestuapp.projectName)
 
     implementation deps.androidx.constraintlayout
+    implementation deps.design
     implementation deps.androidx.annotations
+    implementation deps.androidx.appcompat
     implementation philipsdeps.uid
    // implementation project('ecsuapp')
     if (useprojectdependencies) {

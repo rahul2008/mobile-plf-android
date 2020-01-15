@@ -171,6 +171,8 @@ configurations.all {
 
 dependencies {
     implementation deps.androidx.annotations
+    implementation deps.androidx.customtabs
+    implementation deps.design
     implementation deps.gson
     implementation deps.wechat
     implementation deps.shamanland_fonticon
@@ -191,6 +193,7 @@ dependencies {
 
     implementation deps.ormlite.core
     implementation deps.ormlite.android
+    implementation deps.androidx.multidex
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
     implementation philipsdeps.uid

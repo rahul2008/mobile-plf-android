@@ -135,6 +135,8 @@ dependencies {
 
     implementation deps.androidx.constraintlayout
     implementation deps.androidx.annotations
+    implementation deps.androidx.appcompat
+    implementation deps.design
     implementation philipsdeps.uid
     if (useprojectdependencies) {
         implementation project(strings.usr.projectName)

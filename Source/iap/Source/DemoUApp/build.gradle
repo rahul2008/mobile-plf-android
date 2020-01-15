@@ -100,6 +100,10 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
+
+    androidTestImplementation deps.androidx.espresso_core
 
     testImplementation deps.junit
     implementation philipsdeps.uid

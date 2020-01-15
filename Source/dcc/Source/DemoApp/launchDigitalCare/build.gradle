@@ -93,6 +93,8 @@ android {
 }
 
 dependencies {
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.appcompatv7
     implementation project(strings.dccuapp.projectName)
     implementation project(strings.ail.projectName)
     implementation project(strings.ufw.projectName)

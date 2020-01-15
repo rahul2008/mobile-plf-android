@@ -120,8 +120,10 @@ dependencies {
     }
 
     implementation deps.play_services_maps
+    implementation deps.androidx.constraintlayout
     implementation deps.calligraphy
-    implementation deps.viewpump
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recyclerview
     implementation deps.gson
     implementation deps.volley
     implementation deps.shamanland_fonticon
@@ -139,9 +141,6 @@ dependencies {
 
     androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.androidx.monitor
-    //androidTestImplementation 'androidx.test:core:1.1.0'
-
-    debugImplementation 'androidx.fragment:fragment-testing:1.1.0'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

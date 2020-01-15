@@ -80,6 +80,9 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
+
+    implementation deps.design
+    implementation deps.androidx.appcompat
     implementation deps.adobemobilelib
     implementation deps.androidx.annotations
     implementation deps.volley

@@ -63,15 +63,6 @@ android {
         exclude 'lib/x86/libRSSupport.so'
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'InvalidPackage'
-        disable 'GradleCompatible'
-        disable 'MissingTranslation'
-        disable 'TypographyFractions', 'TypographyQuotes'
-        absolutePaths false
-        lintConfig file('lint.xml')
-    }
 
 }
 

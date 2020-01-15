@@ -71,6 +71,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
+    implementation deps.calligraphy
+    implementation deps.viewpump
+    implementation deps.design
     implementation(philipsdeps.uid)
     if (useprojectdependencies) {
         

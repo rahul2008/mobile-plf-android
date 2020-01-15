@@ -141,7 +141,7 @@ ext.deps = [
                 annotations          : "androidx.annotation:annotation:1.1.0",
                 appcompat            : "androidx.appcompat:appcompat:1.1.0",
                 cardview             : "androidx.cardview:cardview:1.1.0",
-                customtabs           : "androidx.browser:browser:1.1.0",
+                customtabs           : "androidx.browser:browser:1.2.0",
                 recyclerview         : "androidx.recyclerview:recyclerview:1.1.0",
                 livedata             : 'androidx.lifecycle:lifecycle-livedata:2.1.0',
                 livedata_compiler    : 'androidx.lifecycle:lifecycle-compiler:2.1.0',
@@ -157,7 +157,7 @@ ext.deps = [
                 espresso_contrib     : 'androidx.test.espresso:espresso-contrib:3.2.0',
                 espresso_core        : 'androidx.test.espresso:espresso-core:3.2.0',
                 espresso_web         : 'androidx.test.espresso:espresso-web:3.2.0',
-                multidex             : 'androidx.test.espresso:espresso-web:2.0.1',
+                multidex             : 'androidx.multidex:multidex:2.0.1',
                 fragment_testing     : "androidx.fragment:fragment-testing:1.1.0"
         ],
 

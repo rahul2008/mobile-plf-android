@@ -15,7 +15,6 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath 'com.android.tools.build.jetifier:jetifier-processor:1.0.0-beta02'
         //classpath builddeps.cdpSCM
     }
 }

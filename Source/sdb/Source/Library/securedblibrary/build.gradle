@@ -68,6 +68,8 @@ dependencies {
     api deps.sqlcipher
 
     implementation deps.ormlite.android
+    implementation deps.androidx.appcompat
+    implementation deps.design
     implementation deps.androidx.annotations
 
     testImplementation deps.junit

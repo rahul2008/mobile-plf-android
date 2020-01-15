@@ -66,7 +66,6 @@ public class FaqDetailedFragmentTest {
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
         //SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
-       // FragmentScenario.launch(fragment.getClass());
         rootView=fragment.getView();
     }
 

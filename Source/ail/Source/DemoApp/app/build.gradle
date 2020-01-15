@@ -58,6 +58,7 @@ dependencies {
     }
     implementation deps.gson
     implementation deps.leakcanary
+    implementation deps.androidx.appcompat
     implementation deps.design
 
     if (useprojectdependencies) {
