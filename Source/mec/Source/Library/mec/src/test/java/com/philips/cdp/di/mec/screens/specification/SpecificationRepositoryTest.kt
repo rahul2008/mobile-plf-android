@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations
 class SpecificationRepositoryTest {
 
 
-    lateinit var specificationRepository: SpecificationRepository
+    /*lateinit var specificationRepository: SpecificationRepository
     lateinit var specificationViewModel : SpecificationViewModel
     lateinit var requestManager : RequestManager
     lateinit var  productSpecificationRequest :ProductSpecificationRequest
@@ -43,5 +43,5 @@ class SpecificationRepositoryTest {
     fun fetchSpecificationTest() {
         specificationRepository.fetchSpecification(context,"ctn",specificationViewModel)
         Mockito.verify(requestManager).executeRequest(productSpecificationRequest,PRXSpecificationResponseCallback(specificationViewModel))
-    }
+    }*/
 }
