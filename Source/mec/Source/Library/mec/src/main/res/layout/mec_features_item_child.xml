@@ -9,14 +9,18 @@
     </data>
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/border16_margin_left_right"
+        android:paddingLeft="@dimen/border16_margin_left_right"
+        >
 
         <LinearLayout
             android:id="@+id/ll_lebel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right"
             android:paddingBottom="@dimen/border8_margin"
             android:paddingTop="@dimen/border8_margin"
             android:background="?attr/uidContentPrimaryBackgroundColor"
@@ -35,7 +39,7 @@
                 android:layout_marginTop="10sp"
                 android:id="@+id/network_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
                 app:nullable_image_url="@{featureItem.singleFeatureImage}"
@@ -54,5 +58,5 @@
 
         </LinearLayout>
 
-
+    </RelativeLayout>
 </layout>
