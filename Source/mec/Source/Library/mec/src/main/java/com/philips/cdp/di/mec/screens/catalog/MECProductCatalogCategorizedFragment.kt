@@ -2,8 +2,10 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.os.Bundle
 import android.view.View
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.view.widget.AlertDialogFragment
+import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
@@ -103,6 +105,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
                 isAllProductsFound() ||
                 didProductsFondReachPageSize()
     }
+
 
 }
 
