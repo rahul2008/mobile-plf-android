@@ -43,9 +43,10 @@ class DataBindingUtility {
         @JvmStatic
         fun loadNonNullImage(imageView: View, image_url: String?) {
 
+            val imageView = imageView as NetworkImageView
+
             if(image_url != null) {
                 imageView.visibility = View.VISIBLE
-                val imageView = imageView as NetworkImageView
                 val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
                 imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0, com.philips.cdp.di.mec.R.drawable.no_icon))
 

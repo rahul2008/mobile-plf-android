@@ -17,7 +17,7 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
 
@@ -26,7 +26,6 @@
         style="@style/iapCentralesansBoldFont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:includeFontPadding="false"
         android:paddingTop="@dimen/border8_margin"
         android:paddingBottom="@dimen/border8_margin"
         android:paddingRight="@dimen/border16_margin_left_right"
@@ -41,7 +40,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_child"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:featureItems="@{keyBenefitAreaItem.feature}"
        />
 
