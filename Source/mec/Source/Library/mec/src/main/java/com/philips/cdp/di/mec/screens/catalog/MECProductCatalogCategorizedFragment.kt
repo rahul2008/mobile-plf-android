@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.screens.catalog
 
+import android.os.Bundle
 import android.view.View
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.view.widget.AlertDialogFragment
@@ -8,17 +9,22 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     lateinit var ctns : ArrayList<String>
+    var totalProductsTobeSearched : Int = 0
+
     override fun executeRequest(){
-        val bundle = arguments
-        ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
-
-
+        
         if(isAllProductsFound()) {
             binding.progressBar.visibility = View.GONE
             hideProgressBar()
         }else{
             ecsProductViewModel.initCategorized(currentPage, pageSize, ctns)
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        ctns = arguments!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
+        totalProductsTobeSearched = ctns.size
+        super.onActivityCreated(savedInstanceState)
     }
 
     override fun isPaginationSupported(): Boolean {
@@ -85,7 +91,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     private fun isProductNotFound() = productList.size == 0
 
-    private fun isAllProductsFound() = ctns.size == productList.size
+    private fun isAllProductsFound() = totalProductsTobeSearched == productList.size
 
     private fun didReachThreshold() =  0 == (currentPage + 1) % MECConstant.THRESHOLD
 

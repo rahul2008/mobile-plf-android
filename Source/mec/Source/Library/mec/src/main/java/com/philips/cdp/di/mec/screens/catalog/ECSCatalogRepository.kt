@@ -49,7 +49,21 @@ class ECSCatalogRepository {
                     for (ecsProduct in ecsProducts.products) {
 
                         if (ecsProduct.code.equals(ctn, true)) {
-                            ecsProductFoundList.add(ecsProduct)
+
+                           //TODO below code is added to avoide duplicate but duplicate call should be avoided  as well
+
+                            var allProductExistingCTNs : MutableList<String> = mutableListOf()
+
+                            if(modifiedList!=null){
+                                 allProductExistingCTNs = getAllProductCTNs(modifiedList!!)
+                            }
+                            if(allProductExistingCTNs.contains(ecsProduct.code) ){
+                                //dont add againn
+                            }else{
+                                ecsProductFoundList.add(ecsProduct)
+                            }
+
+
                         }
                     }
                 }
@@ -123,6 +137,21 @@ class ECSCatalogRepository {
             count += ecsProducts.products.size
         }
         return count
+    }
+
+
+    private fun getAllProductCTNs(ecsProductsList: MutableList<ECSProducts>):ArrayList<String>{
+
+        var ctnList: MutableList<String> = mutableListOf()
+
+        for(ecsProducts in ecsProductsList){
+
+            for(product in ecsProducts.products){
+
+                ctnList.add(product.code)
+            }
+        }
+        return ctnList as ArrayList<String>
     }
 
     private fun didProductsFondReachPageSize(ecsProducts: MutableList<ECSProducts>) = getAllProductCount(ecsProducts) == ecsProducts.get(ecsProducts.size -1).pagination.pageSize
