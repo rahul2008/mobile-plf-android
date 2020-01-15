@@ -40,7 +40,7 @@ class EcsProductViewModel : CommonViewModel() {
 
 
     fun initCategorized(pageNumber: Int, pageSize: Int, ctns: List<String>) {
-        ecsCatalogRepository.getCategorizedProducts(pageNumber, pageSize, ctns, this)
+        ecsCatalogRepository.getCategorizedProducts(pageNumber, pageSize,ctns.size, ctns,this.ecsProductsList.value, this)
     }
 
     fun fetchProductReview(products: List<ECSProduct>) {

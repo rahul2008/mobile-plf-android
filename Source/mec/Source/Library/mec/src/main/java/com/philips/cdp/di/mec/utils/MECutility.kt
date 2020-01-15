@@ -57,7 +57,7 @@ class MECutility {
                 alertDialogFragment.dismiss()
         }
 
-        internal fun isCallingFragmentVisible(fragmentManager: FragmentManager?): Boolean {
+        fun isCallingFragmentVisible(fragmentManager: FragmentManager?): Boolean {
 
             if (fragmentManager != null) {
                 val fragments = fragmentManager.fragments
