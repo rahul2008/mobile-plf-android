@@ -166,7 +166,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
             actionBar();
             showAppVersion();
         }
-        getSupportFragmentManager().getBackStackEntryCount();
+
         if(currentFrag instanceof BaseDemoFragment){
             super.onBackPressed();
         finish();

@@ -43,11 +43,13 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     override fun handleBackEvent(): Boolean {
         val currentFragment = activity?.supportFragmentManager?.fragments?.last()
-        if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
+        if (currentFragment?.getTag().equals("MECProductCatalogFragment")){
+
+        }else  if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
         {
             setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
         }
-        else{
+        else if (currentFragment?.getTag().equals("MECProductDetailsFragment")){
             setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
         }
         return false
