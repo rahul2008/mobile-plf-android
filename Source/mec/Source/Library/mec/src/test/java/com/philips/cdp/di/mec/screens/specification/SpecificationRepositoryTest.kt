@@ -28,7 +28,7 @@ class SpecificationRepositoryTest {
     @Mock
     lateinit var appInfra :AppInfra
 
-    @Before
+   /* @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         `when`(MECDataHolder.INSTANCE.appinfra).thenReturn(appInfra)
@@ -43,5 +43,5 @@ class SpecificationRepositoryTest {
     fun fetchSpecificationTest() {
         specificationRepository.fetchSpecification(context,"ctn",specificationViewModel)
         Mockito.verify(requestManager).executeRequest(productSpecificationRequest,PRXSpecificationResponseCallback(specificationViewModel))
-    }
+    }*/
 }
