@@ -39,6 +39,7 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Label
+import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -114,20 +115,13 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if (productList.size != 0) {
                 ecsProductViewModel.fetchProductReview(productList)
 
+                binding.mecCatalogParentLayout.visibility = View.VISIBLE
+
                 if (productList.size != 0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") || MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
                     binding.mecPrivacyLayout.visibility = View.VISIBLE
                     binding.mecSeparator.visibility = View.VISIBLE
                     binding.mecLlLayout.visibility = View.VISIBLE
                 }
-
-
-
-                    binding.productCatalogRecyclerView.visibility = View.VISIBLE
-                    binding.mecProductCatalogEmptyTextLabel.visibility = View.GONE
-                    binding.mecLlLayout.visibility = View.VISIBLE
-                    binding.llBannerPlaceHolder.visibility = View.VISIBLE
-
-
 
             } else {
 
@@ -142,11 +136,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     })
 
     open fun showNoProduct() {
-        binding.llBannerPlaceHolder.visibility = View.GONE
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-        binding.productCatalogRecyclerView.visibility = View.GONE
-        binding.mecLlLayout.visibility = View.GONE
-        binding.mecPrivacyLayout.visibility = View.GONE
     }
 
     private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
@@ -345,11 +335,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             ecsProductViewModel.init(currentPage, pageSize)
         }else{
             hideProgressBar()
-            binding.llBannerPlaceHolder.visibility = View.GONE
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-            binding.productCatalogRecyclerView.visibility = View.GONE
-            binding.mecLlLayout.visibility = View.GONE
-            binding.mecPrivacyLayout.visibility = View.GONE
 
         }
     }
