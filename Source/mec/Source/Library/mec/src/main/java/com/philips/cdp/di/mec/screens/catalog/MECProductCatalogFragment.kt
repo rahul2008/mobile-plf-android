@@ -142,7 +142,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     open fun showNoProduct() {
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
-        binding.mecCatalogParentLayout.visibility = View.GONE
+        binding.productCatalogRecyclerView.visibility = View.GONE
+        binding.mecPrivacyLayout.visibility = View.GONE
+        binding.mecSeparator.visibility = View.GONE
+        binding.mecLlLayout.visibility = View.GONE
+        binding.llBannerPlaceHolder.visibility = View.GONE
 
     }
 
@@ -344,7 +348,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             hideProgressBar()
             binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
             binding.mecCatalogParentLayout.visibility = View.GONE
-            showNoProduct()
         }
     }
 
