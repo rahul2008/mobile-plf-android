@@ -267,4 +267,4 @@ public static <fields>;
 #------------------------------ Added for fixing Amwell intake 4.0.5 (Should not be checked-in in develop) END ------------------------------------
 
 #--------- bazarVoice Model -------
--keep class com.bazaarvoice.bvandroidsdk.**
+-keep class com.bazaarvoice.bvandroidsdk.** {*;}
