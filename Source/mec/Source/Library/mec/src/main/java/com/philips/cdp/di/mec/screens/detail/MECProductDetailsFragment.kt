@@ -30,6 +30,7 @@ import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
+import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
@@ -290,6 +291,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             }
         }
     }
+
+    override fun processError(mecError: MecError?) {
+        binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
+    }
+
 
     override fun onChanged(mecError: MecError?) {
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE

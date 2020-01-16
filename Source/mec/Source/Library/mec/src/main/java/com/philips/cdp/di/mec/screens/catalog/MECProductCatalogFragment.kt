@@ -58,6 +58,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         mecProductReviews?.let { productReviewList.addAll(it) }
         adapter.notifyDataSetChanged()
         binding.progressBar.visibility = View.GONE
+        binding.CircularProgressBar.visibility = View.GONE
         hideProgressBar()
 
         //For categorized
@@ -283,7 +284,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        createCustomProgressBar(container,MEDIUM)
+        binding.CircularProgressBar.visibility = View.VISIBLE
+        //createCustomProgressBar(container,MEDIUM)
         executeRequest()
     }
 

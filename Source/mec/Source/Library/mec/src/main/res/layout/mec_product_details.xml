@@ -94,7 +94,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/mec_currency"
-                android:textSize="28sp"
+                android:textSize="18sp"
                 android:paddingBottom="1dp"
                 android:textAlignment="center"
                 style="@style/mecCentralesansBoldFont"
