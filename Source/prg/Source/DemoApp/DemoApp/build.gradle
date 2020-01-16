@@ -103,5 +103,5 @@ dependencies {
         implementation philipsdeps.product_registration_libUApp
     }
 
-    androidTestImplementation deps.espresso_core
+    androidTestImplementation deps.androidx.espresso_core
 }

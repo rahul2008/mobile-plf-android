@@ -94,20 +94,18 @@ android {
 
 dependencies {
     implementation deps.androidx.recyclerview
-    implementation deps.androidx.appcompatv7
+    implementation deps.androidx.appcompat
     implementation project(strings.dccuapp.projectName)
     implementation project(strings.ail.projectName)
     implementation project(strings.ufw.projectName)
 
-    androidTestImplementation deps.espresso_core
+    androidTestImplementation deps.androidx.espresso_core
 
-    androidTestImplementation deps.espresso_contrib, {
-        androidTestImplementation deps.uiautomator
-    }
+    androidTestImplementation deps.androidx.espresso_contrib
 
-    androidTestimplementation deps.androidx.annotations
-    androidTestImplementation deps.androidx_test.runner
-    androidTestImplementation deps.androidx_test.rules
+    implementation deps.androidx.annotations
+    androidTestImplementation deps.androidx.runner
+    androidTestImplementation deps.androidx.rules
     androidTestImplementation deps.jsr305
 }
 

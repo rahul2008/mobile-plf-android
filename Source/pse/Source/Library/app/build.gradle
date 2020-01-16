@@ -92,7 +92,7 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.recyclerview
 
-    androidTestImplementation deps.espresso_core
+    androidTestImplementation deps.androidx.espresso_core
 }
 
 tasks.withType(Test) {

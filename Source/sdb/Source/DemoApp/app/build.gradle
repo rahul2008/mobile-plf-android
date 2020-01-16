@@ -134,7 +134,7 @@ dependencies {
 
     testImplementation deps.junit
 
-    androidTestImplementation deps.espresso_core
+    androidTestImplementation deps.androidx.espresso_core
 }
 
 tasks.withType(Test) {

@@ -177,7 +177,7 @@ dependencies {
     implementation deps.androidx.multidex
     implementation project(strings.usr.projectName)
 
-    androidTestImplementation deps.espresso_core
+    androidTestImplementation deps.androidx.espresso_core
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

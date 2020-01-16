@@ -88,7 +88,7 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
     implementation deps.design
-    implementation deps.multidex
+    implementation deps.androidx.multidex
     implementation deps.greenrobot
     implementation deps.butterknife
     implementation deps.adobemobilelib
