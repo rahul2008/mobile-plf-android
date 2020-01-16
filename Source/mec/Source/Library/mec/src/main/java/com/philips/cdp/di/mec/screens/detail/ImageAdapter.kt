@@ -26,7 +26,7 @@ class ImageAdapter(val assets: List<Asset>) : PagerAdapter() {
 
         val getHeightAndWidth = GetHeightAndWidth(binding.root.context).invoke()
 
-        asset.asset + "?wid=" + getHeightAndWidth.width +
+        asset.asset =  asset.asset + "?wid=" + getHeightAndWidth.width +
                 "&hei=" + getHeightAndWidth.height + "&\$pnglarge$" + "&fit=fit,1"
 
         binding.asset = asset
