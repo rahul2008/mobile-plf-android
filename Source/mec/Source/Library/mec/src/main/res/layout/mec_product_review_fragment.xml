@@ -1,0 +1,89 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.cdp.di.mec.screens.detail.MECProductReviewsFragment" />
+    </data>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/mec_nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/mec_bv_trustmark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="?attr/uidContentTertiaryBackgroundColor">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/iap_text_size_16sp"
+                android:src="@drawable/mec_bv_trustmark" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:padding="@dimen/iap_margin_10dp"
+                android:autoLink="web"
+                android:text="@{@string/mec_bazaarVoice_Terms_And_Condition + @string/mec_bazaarVoice_Detail_at + @string/mec_bazaarVoice_link}" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/mec_bv_trustmark"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_productReview_empty_label"
+            style="@style/iapCentralesansBoldFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="@string/mec_no_review_available"
+            android:textSize="@dimen/iap_product_ctn_12"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/mec_progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true">
+
+            <com.philips.platform.uid.view.widget.ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/UIDProgressBarCircularIndeterminateSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>

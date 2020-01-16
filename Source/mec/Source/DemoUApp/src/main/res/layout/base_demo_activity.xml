@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uidColorWhite"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+        android:id="@+id/app_actionbar"
+        layout="@layout/mec_demo_app_action_bar" />
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/demoappversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal" />
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/app_actionbar"
+    android:id="@+id/container_base_demo">
+
+</FrameLayout>
+</RelativeLayout>

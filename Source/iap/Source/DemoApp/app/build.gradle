@@ -22,7 +22,6 @@ archivesBaseName = 'iapApp'
 
 android {
     compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
 
 
     defaultConfig {

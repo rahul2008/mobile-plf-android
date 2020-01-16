@@ -4,12 +4,19 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPUtility;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class WebPrivacy extends WebFragment {
@@ -52,5 +59,39 @@ public class WebPrivacy extends WebFragment {
         } else {
             setTitleAndBackButtonVisibility(R.string.iap_privacy,true);
         }
+    }
+
+    private void tagExitLink(String urlClicked){
+
+          String UrlWithTrackingCode =  getPhilipsFormattedUrl(urlClicked);
+
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,UrlWithTrackingCode);
+
+    }
+
+    public String getPhilipsFormattedUrl(String url) {
+
+        String appName = IAPUtility.getInstance().getAppName();
+        String localeTag = IAPUtility.getInstance().getLocaleTag();
+        Uri.Builder builder = new Uri.Builder().appendQueryParameter("origin", String.format(IAPAnalyticsConstant.PHILIPS_EXIT_LINK_PARAMETER,localeTag,appName,appName));
+
+        if(isParameterizedURL(url)){
+            return  url + "&" + builder.toString().replace("?","");
+        }else{
+            return url + builder.toString();
+        }
+    }
+
+    private boolean isParameterizedURL(String url) {
+
+        try {
+            URL urlString  = new URL(url);
+            return urlString.getQuery() != null;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

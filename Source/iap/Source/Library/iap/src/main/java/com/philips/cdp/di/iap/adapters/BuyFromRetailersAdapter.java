@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
@@ -29,17 +30,19 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private  ImageLoader mImageLoader;
     private ArrayList<StoreEntity> mStoreList;
     private BuyFromRetailersListener mBuyFromRetailersListener;
+    private String mSelectedCTN;
 
     public interface BuyFromRetailersListener {
         void onClickAtRetailer(String buyURL, StoreEntity storeEntity);
     }
 
     public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager,
-                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener) {
+                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener, String selectedCTN) {
         mContext = context;
         mFragmentManager = fragmentManager;
         mStoreList = storeList;
         mBuyFromRetailersListener = pBuyFromRetailersListener;
+        mSelectedCTN= selectedCTN;
     }
 
     @Override
@@ -133,11 +136,20 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.RETAILER_SELECTED,
                         mStoreList.get(getAdapterPosition()).getName());
+                tagStockStatus(mStoreList.get(getAdapterPosition()).getAvailability());
                 boolean isSelected = this.itemView.isSelected();
                 this.itemView.setSelected(!isSelected);
                 this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_list_item_background_selector));
                 mBuyFromRetailersListener.onClickAtRetailer(buyURL, mStoreList.get(getAdapterPosition()));
             }
+        }
+
+        private void tagStockStatus(String stockStatus){
+            String stockStatusToTag = stockStatus.equalsIgnoreCase("")? "available" : "out of stock";
+            final HashMap<String, String> map = new HashMap<>();
+            map.put(IAPAnalyticsConstant.STOCK_STATUS, stockStatusToTag);
+            map.put(IAPAnalyticsConstant.PRODUCT, mSelectedCTN);
+            IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
         }
     }
 

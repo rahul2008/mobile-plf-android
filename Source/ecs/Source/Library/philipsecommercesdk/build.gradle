@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
@@ -35,6 +36,12 @@ android {
     signingConfigs {
         release
     }
+
+    dataBinding {
+        enabled = true
+    }
+
+
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
@@ -76,6 +83,7 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/*.kotlin_module'
         exclude 'lib/arm64-v8a/librsjni.so'
         exclude 'lib/arm64-v8a/libRSSupport.so'
         exclude 'lib/armeabi-v7a/libblasV8.so'

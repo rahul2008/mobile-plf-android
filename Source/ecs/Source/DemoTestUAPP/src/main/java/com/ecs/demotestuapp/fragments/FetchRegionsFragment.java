@@ -50,7 +50,6 @@ public class FetchRegionsFragment extends BaseAPIFragment {
             public void onFailure(Exception e, ECSError ecsError) {
 
                 String errorString = getFailureString(e,ecsError);
-
                 gotoResultActivity(errorString);
                 getProgressBar().setVisibility(View.GONE);
             }

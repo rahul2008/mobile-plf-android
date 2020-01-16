@@ -26,6 +26,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFromRetailersAdapter.BuyFromRetailersListener {
@@ -36,6 +37,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     private RecyclerView mRecyclerView;
     private ArrayList<StoreEntity> mStoreEntity;
     private String param;
+    private String selectedCTN;
 
     public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
@@ -67,7 +69,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         mRecyclerView = rootView.findViewById(R.id.iap_retailer_list);
         if (getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO) != null)
             mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO);
-
+        selectedCTN=getArguments().getString("productCTN");
         return rootView;
     }
 
@@ -78,9 +80,10 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         setTitleAndBackButtonVisibility(R.string.iap_select_retailer, true);
         setCartIconVisibility(false);
         if (mStoreEntity != null) {
-            BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
+            BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this,selectedCTN);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+            tagRetailerList(mStoreEntity);
         }
     }
 
@@ -107,6 +110,22 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         String supplierLinkWithUUID = buyURL.concat("&wtbSource=mobile_").concat(propositionId).concat("&").concat(param).concat("=");
 
         return supplierLinkWithUUID + String.valueOf(UUID.randomUUID());
+    }
+
+    private void tagRetailerList(ArrayList<StoreEntity> storeEntities){
+        if(storeEntities.size()>0) {
+            String retailerList = "";
+            for (StoreEntity storeEntity : storeEntities) {
+                retailerList += "|" + storeEntity.getName();
+            }
+            retailerList=retailerList.substring(1,retailerList.length()-1);
+
+            final HashMap<String, String> map = new HashMap<>();
+            map.put(IAPAnalyticsConstant.RETAILER_LIST, retailerList);
+            map.put(IAPAnalyticsConstant.PRODUCT, selectedCTN);
+            IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
+        }
+
     }
 
 }

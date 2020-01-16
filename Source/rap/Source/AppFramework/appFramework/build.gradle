@@ -4,6 +4,13 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    generateStubs = true
+}
 
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
@@ -121,6 +128,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     applicationVariants.all { variant ->
         buildType = variant.buildType.name // sets the current build type
         println "*****BuildType****" + buildType
@@ -196,6 +207,7 @@ dependencies {
     implementation deps.androidx.multidex
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
+    kapt deps.butterknife_compiler
     implementation philipsdeps.uid
     implementation project(strings.mya.projectName)
 
@@ -204,11 +216,14 @@ dependencies {
 
     implementation project(strings.pim.projectName)
     implementation project(strings.pimuapp.projectName)
-
+    implementation project(strings.mecuapp.projectName)
     implementation (philipsdeps.csw){
         exclude group: 'com.philips.platform'
     }
     if (useprojectdependencies) {
+
+        implementation project(strings.mec.projectName)
+
         implementation project(strings.prg.projectName)
 
         implementation project(strings.pif.projectName)
@@ -229,6 +244,7 @@ dependencies {
         implementation project(strings.dccuapp.projectName)
 //        implementation project(strings.ufwuapp.projectName)
         implementation project(strings.iapuapp.projectName)
+        implementation project(strings.mecuapp.projectName)
         implementation project(strings.ecsuapp.projectName)
         implementation project(strings.ecstestuapp.projectName)
 
@@ -243,6 +259,9 @@ dependencies {
         implementation project(strings.tse.projectName)
         implementation project(strings.ailuapp.projectName)
     } else {
+
+        implementation philipsdeps.mec
+
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.pif
         implementation philipsdeps.uAppFwLib
@@ -279,6 +298,14 @@ dependencies {
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_shadows_multidex
+    //compile project(path: ':mecUApp')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    annotationProcessor deps.androidx.livedata_compiler
+
+    //Kotlin test
+    kaptAndroidTest "android.databinding:databinding-compiler:$kotlin_version"
 }
 
 task copyToLib(type: Copy) {

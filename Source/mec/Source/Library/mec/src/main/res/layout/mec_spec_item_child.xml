@@ -1,0 +1,66 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="csItemItem"
+            type="com.philips.cdp.prxclient.datamodels.specification.CsItemItem" />
+
+    </data>
+
+   <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:paddingRight="@dimen/border16_margin_left_right"
+       android:paddingLeft="@dimen/border16_margin_left_right"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_lebel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/iap_margin_4dp"
+            android:weightSum="2">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="0dp"
+                style="@style/mecCentralesansBookFont"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:singleLine="false"
+                android:hyphenationFrequency="none"
+                android:ellipsize="none"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:text="@{csItemItem.csItemName}" />
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/mecCentralesansBookFont"
+                android:textSize="14sp"
+                android:padding="2dp"
+                android:paddingStart="3dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:lineSpacingExtra="6dp"
+                android:layout_weight="1"
+                android:hyphenationFrequency="none"
+                android:ellipsize="none"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                app:setCsValueItems="@{csItemItem}" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_below="@+id/ll_lebel"
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/uid_shadow_level_two"
+            android:layout_height="1dp"/>
+
+   </RelativeLayout>
+
+</layout>

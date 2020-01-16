@@ -1,0 +1,3 @@
+include ':app', ':mecUApp'
+project(':mecUApp').projectDir = new File('../DemoUApp')
+

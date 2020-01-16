@@ -1,0 +1,43 @@
+<resources>
+    <string name="demo_app_name">Mec App</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="no_stock">No Stock</string>
+    <string name="please_wait">Please wait</string>
+    <string name="app_title">E-Commerce Demo App</string>
+    <string name="info_txt">Press Back button once logged in from user registration.</string>
+    <string name="register">Login</string>
+    <string name="activity">Launch as Fragment</string>
+    <string name="adding_to_cart">Adding To Cart</string>
+    <string name="loading_cart">Loading Cart</string>
+    <string name="select_country">Select Country</string>
+    <string name="select_env">Select Environment</string>
+    <string name="shop_now">Shop Now</string>
+    <string name="order_history">Order History</string>
+    <string name="launch_product_detail">Launch Product Detail</string>
+    <string name="mec_unknown_error">Unknown Error</string>
+    <string name="mec_no_connection">No Connection, Connect to network and try again.</string>
+    <string name="mec_connection_timeout">Connection Timeout</string>
+    <string name="mec_auth_failure">Authentication Failure</string>
+    <string name="mec_prod_out_of_stock">Products out of stock</string>
+    <string name="categorized_shop_now">Shop Now(Categorized)</string>
+    <string name="categorized_shop_now_ignore_retailer">Shop With Ignored Retailer "%s"</string>
+    <string name="buy_direct">Buy Direct</string>
+    //Theme Settings
+    <string name="page_title_theme_settings">Theme Setting</string>
+    <string name="tonal_range_label">Content tonal range</string>
+    <string name="for_content_area_text">For Contents Area</string>
+    <string name="for_navigation_area_text">For Navigation Area</string>
+    <string name="accent_color_range_text">Accent color range</string>
+    <string name="content_desc_close">close</string>
+    <string name="color_ranges_label">Color range</string>
+    <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
+    <string name="set_theme_settings">Set</string>
+    <string name="log_out">Log out</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="launch_as_activity">Launch as Activity</string>
+    <string name="launch_as_fragment">Launch as Fragment</string>
+</resources>
+

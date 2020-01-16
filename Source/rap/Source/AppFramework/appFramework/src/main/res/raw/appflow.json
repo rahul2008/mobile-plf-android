@@ -376,6 +376,15 @@
               }
             ]
           },
+          {
+            "eventId": "TestMobileEcommerceEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoMecState"
+              }
+            ]
+          },
 
           {
             "eventId": "AppInfra",

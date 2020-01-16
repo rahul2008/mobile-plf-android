@@ -325,7 +325,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             return;
         mProgresImage.setVisibility(View.GONE);
         ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
-        mAsset = fetchImageUrlsFromPRXAssets(assets.getAsset());
+        mAsset = fetchImageUrlsFromPRXAssets(assets.getValidPRXImageAssets());
         CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
         if(mAsset.size() == 0){
             mAsset.add("default image");

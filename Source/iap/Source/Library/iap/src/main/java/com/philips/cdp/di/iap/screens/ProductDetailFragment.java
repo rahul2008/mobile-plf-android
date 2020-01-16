@@ -460,6 +460,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 onRetailerError(NetworkUtility.getInstance().
                         createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
             } else {
+                bundle.putString("productCTN",mCTNValue);
                 addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
                         BuyFromRetailersFragment.TAG, true);
             }

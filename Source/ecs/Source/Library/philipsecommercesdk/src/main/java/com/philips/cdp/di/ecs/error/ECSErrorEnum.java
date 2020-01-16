@@ -85,9 +85,6 @@ public enum ECSErrorEnum {
         this.errorCode = errorCode;
     }
 
-
-
-
     public static ECSErrorEnum getErrorEnumFromType(String errorType) {
         return ECSErrorEnum.valueOf(errorType);
     }

@@ -20,6 +20,7 @@ include ext.strings.mya.projectName
 include ext.strings.ail.projectName
 include ext.strings.prx.projectName
 include ext.strings.iap.projectName
+include ext.strings.mec.projectName
 include ext.strings.usr.projectName
 include ext.strings.pse.projectName
 
@@ -30,7 +31,8 @@ include ext.strings.prg.projectName
 
 
 include ext.strings.ailuapp.projectName
-include ext.strings.iapuapp.projectName
+include ext.strings.mecuapp.projectName
+//include ext.strings.DemoUApp.projectName
 include ext.strings.usruapp.projectName
 include ext.strings.dccuapp.projectName
 //include ext.strings.ufwuapp.projectName
@@ -41,6 +43,7 @@ include ext.strings.pimuapp.projectName
 
 include ext.strings.ecs.projectName
 include ext.strings.ecsuapp.projectName
+include ext.strings.iapuapp.projectName
 
 
 //opa archive references:
@@ -78,6 +81,9 @@ project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Sou
 //project(ext.strings.ecstestuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 
+project(ext.strings.mec.projectName).projectDir = new File('./Source/mec/Source/Library/mec')
+project(ext.strings.mecuapp.projectName).projectDir = new File('./Source/mec/Source/DemoUApp')
+
 
 
 
@@ -107,8 +113,16 @@ project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/
 include(':ecsTestUApp')
 project(':ecsTestUApp').projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 
+//include(':mecUApp')
+//project(':mecUApp').projectDir = new File('./Source/mec/Source/DemoUApp')
+
+//include(':mecApp')
+//project(':mecApp').projectDir = new File('./Source/mec/Source/DemoApp/app')
+
+
 //include(':philipsecommercesdk')
 //project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
+
 
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')

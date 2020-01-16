@@ -1,0 +1,169 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="mecReview"
+            type="com.philips.cdp.di.mec.screens.reviews.MECReview" />
+
+    </data>
+
+<LinearLayout
+                    android:id="@+id/mec_retailerItem_product_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:paddingTop="16dp"
+                    android:paddingRight="@dimen/border16_margin_left_right"
+                    android:paddingLeft="@dimen/border16_margin_left_right"
+
+                    android:background="?attr/uidContentSecondaryBackgroundColor"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/iap_margin_4dp">
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/mec_rating_lebel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
+                            android:text="@{mecReview.rating}"
+                            android:textSize="@dimen/iap_product_original_price" />
+
+                        <com.philips.platform.uid.view.widget.RatingBar
+                            android:id="@+id/mec_rating"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:numStars="5"
+                            android:layout_marginStart="5dp"
+                            app:setRating="@{ mecReview.rating}"
+                            style="?android:attr/ratingBarStyleSmall" />
+
+                    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/mec_retailerItem_productName_lebel"
+        style="@style/mecCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@{mecReview.title}"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        android:textSize="@dimen/iap_text_size_16sp" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_retailerItem_review_submitter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_marginTop="@dimen/iap_margin_4dp"
+                        style="@style/mecCentralesansBookFont"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_review_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_marginTop="12dp"
+                        android:text="@{mecReview.reviewText}"
+                        style="@style/mecCentralesansBookFont"
+                        android:layout_marginBottom="16dp"
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
+
+                  <!--  <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_review_pros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:drawableTint="#00b300"
+                        android:drawableStart="@drawable/ic_pros"
+                        android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:text="@{mecReview.pros}"
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />-->
+                        <RelativeLayout
+                            android:id="@+id/mec_pros_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/iap_product_ctn_12">
+                            <com.philips.platform.uid.view.widget.Label
+                                android:id="@+id/mec_review_pros_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:textColor="@color/uid_level_white"
+                                android:gravity="center"
+                                android:layout_alignParentStart="true"
+                                android:background="@drawable/mec_circle_green"
+                                android:text="@string/mec_pros_plus"
+                                />
+                            <com.philips.platform.uid.view.widget.Label
+                                android:id="@+id/mec_review_pros"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_toEndOf="@+id/mec_review_pros_icon"
+                                android:gravity="center_vertical"
+                                android:layout_centerVertical="true"
+                                android:text="@{mecReview.pros}"
+                                android:textSize="12sp"
+                                style="@style/mecCentralesansBookFont"
+                                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                                />
+
+                        </RelativeLayout>
+
+               <!--     <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_review_cons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:drawableTint="@color/colorAccent"
+                        android:drawableStart="@drawable/ic_cons"
+                        android:layout_marginTop="@dimen/iap_margin_4dp"
+                        android:text="@{mecReview.cons}"
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />-->
+
+    <RelativeLayout
+        android:id="@+id/mec_cons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_review_cons_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/uid_level_white"
+            android:gravity="center"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/mec_circle_red"
+            android:text="@string/mec_pros_minus"
+
+            />
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_review_cons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@+id/mec_review_cons_icon"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="@{mecReview.cons}"
+            android:textSize="12sp"
+            style="@style/mecCentralesansBookFont"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            />
+
+    </RelativeLayout>
+
+ </LinearLayout>
+
+</layout>
