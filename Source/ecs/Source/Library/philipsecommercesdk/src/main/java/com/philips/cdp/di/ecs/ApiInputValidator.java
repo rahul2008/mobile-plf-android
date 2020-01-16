@@ -147,6 +147,13 @@ import java.util.List;
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
+     public ECSErrorWrapper getPRXProductDetailAPIValidateError(ECSProduct product) {
+         if(isINValidString(product.getCode())){
+             return getECSErrorWrapper(ECSErrorEnum.ECSCtnNotProvided);
+         }
+         return null;
+     }
+
     public ECSErrorWrapper getAddProductToShoppingCartError(ECSProduct product) {
         return getProductDetailAPIValidateError(product);
     }

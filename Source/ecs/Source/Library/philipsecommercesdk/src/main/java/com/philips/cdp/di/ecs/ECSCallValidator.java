@@ -113,7 +113,7 @@ import java.util.List;
     }
 
     public void getProductDetail(ECSProduct product, ECSCallback<ECSProduct, Exception> ecsCallback) {
-        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getProductDetailAPIValidateError(product);
+        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getPRXProductDetailAPIValidateError(product);
         if (ecsErrorWrapper == null) {
             ecsManager.getProductDetail(product,ecsCallback);
         } else {
