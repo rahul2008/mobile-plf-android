@@ -23,6 +23,10 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productDetails
 import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProduct
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -158,6 +162,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
         MECAnalytics.trackPage(productDetails)
+        tagActions(product.code);
         return binding.root
     }
 
@@ -302,6 +307,13 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onChanged(mecError: MecError?) {
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
 
+    }
+
+    private fun tagActions(ctn : String) {
+        var map = HashMap<String, String>()
+        map.put(specialEvents,prodView)
+        map.put(mecProduct,ctn)
+        MECAnalytics.trackMultipleActions(sendData,map)
     }
 
 }
