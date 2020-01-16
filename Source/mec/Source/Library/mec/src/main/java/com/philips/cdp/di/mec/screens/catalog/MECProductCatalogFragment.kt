@@ -48,6 +48,8 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
  * A simple [Fragment] subclass.
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
+
+
     override fun isCategorizedHybrisPagination(): Boolean {
         return false
     }
@@ -252,9 +254,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
 
 
-                if(shouldFetchNextPage())
+                if(shouldFetchNextPage()) {
                     binding.progressBar.visibility = View.VISIBLE
                     executeRequest()
+                }
             }
         })
 
@@ -341,8 +344,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         }
     }
-
-   open fun shouldFetchNextPage(): Boolean{
+    fun shouldFetchNextPage(): Boolean{
 
         if(!isPaginationSupported()){
             return false
