@@ -21,6 +21,8 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productDetails
+import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -155,7 +157,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.viewpagerMain.offscreenPageLimit = 4
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
-
+        MECAnalytics.trackPage(productDetails)
         return binding.root
     }
 

@@ -33,6 +33,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productCatalogue
+import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -274,7 +276,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         adapter.emptyView = binding.mecEmptyResult
 
-
+        MECAnalytics.trackPage(productCatalogue)
         return binding.root
     }
 
