@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.os.Bundle
 import android.view.View
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.view.widget.AlertDialogFragment
@@ -51,7 +52,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
         builder.setCancelable(false)
 
         var alertDialogFragment = builder.create()
-        builder.setMessage("Load More");
+        builder.setMessage(resources.getString(R.string.mec_threshold_message))
         builder.setPositiveButton("OK", fun(it: View) {
 
             if(productList.size==0) {
@@ -69,7 +70,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
             alertDialogFragment.dismiss()
         })
 
-        builder.setTitle("Load More DATA")
+        builder.setTitle(resources.getString(R.string.mec_threshold_title))
         alertDialogFragment.show(fragmentManager,"ALERT_DIALOG_TAG")
 
     }
