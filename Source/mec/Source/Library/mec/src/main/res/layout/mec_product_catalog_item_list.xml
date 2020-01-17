@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             style="@style/mecCentralesansBookFont"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:text="@{ product.ecsProduct.summary.productTitle}"
+            android:text='@{product.ecsProduct.summary.productTitle ?? ""}'
             android:textSize="16sp" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:text="@{ product.ecsProduct.code}"
+            android:text='@{ product.ecsProduct.code ?? ""}'
             android:textSize="@dimen/iap_product_original_price" />
 
         <LinearLayout
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                android:text="@{ product.overallRating}"
+                android:text='@{ product.overallRating ?? ""}'
                 android:textSize="@dimen/iap_product_original_price" />
 
             <com.philips.platform.uid.view.widget.RatingBar
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                android:text="@{ product.overallReview}"
+                android:text='@{ product.overallReview ?? ""}'
                 android:textSize="@dimen/iap_product_original_price" />
 
         </LinearLayout>
