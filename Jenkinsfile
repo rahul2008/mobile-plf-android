@@ -203,10 +203,16 @@ pipeline {
 //        }
 
         //stage to run lint and jacoco
-        stage('Lint+Jacoco') {
+         stage('Jacoco Reports') {
             steps {
-                BuildLint()
+                PublishingJacocoTestReport()
             }
+        }
+
+        stage('Lint+Jacoco') {
+             steps {
+                BuildLint()  
+            } 
         }
 
         //stage to run PSRA build
@@ -800,5 +806,17 @@ def analyzeWithBlackduck() {
     echo "-----------------------------"
     echo "Completing Blackduck Analytics"
     echo "-----------------------------"
+}
+
+def PublishingJacocoTestReport() {
+    sh '''#!/bin/bash -l
+        set -e
+        /bin/chmod -R 755 .
+        ./gradlew jacocoTestReport
+    
+    '''
+
+    //archive the apk type files from below source
+    archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
 }
 
