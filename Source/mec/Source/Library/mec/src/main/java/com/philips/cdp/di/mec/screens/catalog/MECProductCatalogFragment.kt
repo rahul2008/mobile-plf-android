@@ -21,7 +21,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
-import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
@@ -41,9 +40,6 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Label
-import kotlinx.android.synthetic.main.mec_catalog_fragment.*
-
-import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
 /**
@@ -63,6 +59,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         adapter.notifyDataSetChanged()
         binding.progressBar.visibility = View.GONE
         binding.CircularProgressBar.visibility = View.GONE
+        isCallOnProgress = false
         hideProgressBar()
 
         //For categorized
@@ -98,8 +95,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     var totalPages: Int = 0
     var currentPage: Int = 0
-    var pageSize: Int = 20
+    var pageSize: Int = 4
     var shouldSupportPagination = true
+    var  isCallOnProgress : Boolean= true
 
 
     private val productObserver : Observer<MutableList<ECSProducts>> = Observer<MutableList<ECSProducts>>(fun(ecsProductsList: MutableList<ECSProducts>?) {
@@ -141,6 +139,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     })
 
     open fun showNoProduct() {
+        isCallOnProgress =false
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
     }
 
@@ -256,7 +255,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
 
 
-                if(shouldFetchNextPage()) {
+                if(shouldFetchNextPage() && !isCallOnProgress) {
                     binding.progressBar.visibility = View.VISIBLE
                     executeRequest()
                 }
@@ -339,6 +338,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     open fun executeRequest(){
         if(MECDataHolder.INSTANCE.hybrisEnabled) {
+            isCallOnProgress =true
             ecsProductViewModel.init(currentPage, pageSize)
         }else{
             hideProgressBar()
@@ -355,7 +355,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 .layoutManager as LinearLayoutManager
 
         if (isScrollDown(lay)) {
-            if (currentPage < totalPages) {
+            if (currentPage != totalPages-1) {
                 ++currentPage
               return true
             }
