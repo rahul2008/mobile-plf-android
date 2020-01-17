@@ -2,7 +2,7 @@ package com.philips.cdp.di.mec.analytics
 
 object MECAnalyticsConstant {
 
-    val COMPONENT_NAME = "iap"
+    val COMPONENT_NAME = "mec"
 
     val exitLinkNameKey              = "exitLinkName"
     val retailerList                 = "retailerList"
@@ -17,8 +17,8 @@ object MECAnalyticsConstant {
     val productListLayout            = "productListLayout"
     val listView                     = "List View"
     val gridView                     = "Grid View"
-    val country                      = "Country"
-    val currency                     = "Currency"
+    val country                      = "country"
+    val currency                     = "currency"
     val retailer                     = "Retailer"
     val productListKey               = "&&products"
     val technicalError               = "technicalError"

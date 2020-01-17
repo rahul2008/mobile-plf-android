@@ -2,8 +2,13 @@ package com.philips.cdp.di.mec.analytics
 
 import android.app.Activity
 import android.util.Log
+import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.country
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.productListKey
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.platform.appinfra.tagging.AppTaggingInterface
 import com.philips.cdp.di.mec.integration.MECDependencies
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.appinfra.BuildConfig
 
 
@@ -13,20 +18,22 @@ class MECAnalytics {
 
         var mAppTaggingInterface: AppTaggingInterface? = null
         var previousPageName = "uniquePageName";
+        var countryCode = ""
 
         @JvmStatic
         fun initMECAnalytics(dependencies: MECDependencies) {
             mAppTaggingInterface = dependencies.appInfra.tagging.createInstanceForComponent(MECAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME)
+            countryCode = dependencies.appInfra.serviceDiscovery.homeCountry
         }
 
         @JvmStatic
         fun trackPage(currentPage: String) {
             if (mAppTaggingInterface != null && currentPage != null) {
-                val map = HashMap<String, String>()
+                var map = HashMap<String, String>()
                 if (currentPage != previousPageName) {
                     previousPageName = currentPage
                     Log.v("MEC_LOG", "trackPage" + currentPage);
-                    mAppTaggingInterface!!.trackPageWithInfo(currentPage, map)
+                    mAppTaggingInterface!!.trackPageWithInfo(currentPage, addCountry(map))
                 }
             }
         }
@@ -44,7 +51,7 @@ class MECAnalytics {
         fun trackMultipleActions(state: String, map: Map<String, String>) {
             if (mAppTaggingInterface != null)
                 Log.v("MEC_LOG", "trackMtlutipleAction " )
-                mAppTaggingInterface!!.trackActionWithInfo(state, map)
+                mAppTaggingInterface!!.trackActionWithInfo(state, addCountry(map))
         }
 
 
@@ -60,6 +67,45 @@ class MECAnalytics {
             if (mAppTaggingInterface != null)
                 mAppTaggingInterface!!.collectLifecycleInfo(activity)
         }
+
+        private fun addCountry( map: Map<String,String>) :Map<String,String>{
+            //var newMap = map.toMap<String,>()
+            var newMap = HashMap(map)
+            newMap.put(country,countryCode)
+            return newMap;
+
+        }
+
+        @JvmStatic
+         fun tagActions(ctn : String) {
+            var map = HashMap<String, String>()
+            map.put(MECAnalyticsConstant.specialEvents, MECAnalyticsConstant.prodView)
+            map.put(MECAnalyticsConstant.mecProduct,ctn)
+            MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData,map)
+        }
+
+        @JvmStatic
+        fun tagProductList(productList :MutableList<ECSProduct>){
+            val mutableProductIterator = productList.iterator()
+            var productList :String=""
+            for(product in mutableProductIterator){
+                productList+=","+getProductInfo(product)
+            }
+            productList=productList.substring(1,productList.length-1)
+            Log.v("MEC_LOG", "prodList : "+productList )
+            trackAction(sendData,productListKey,productList)
+        }
+
+        @JvmStatic
+        fun getProductInfo(product :ECSProduct):String{
+            var protuctDetail: String=MECDataHolder.INSTANCE.rootCategory
+            protuctDetail+= ";"+product.code
+            protuctDetail+= ";"+ (if (product.stock !=null && product.stock.stockLevel!=null ) product.stock.stockLevel else 0)
+            protuctDetail+= ";"+product.discountPrice.value
+            return protuctDetail
+        }
+
+
     }
 
 }

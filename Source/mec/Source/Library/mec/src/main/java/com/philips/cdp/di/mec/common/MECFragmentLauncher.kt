@@ -50,9 +50,11 @@ class MECFragmentLauncher : MecBaseFragment() {
 
             if (MECDataHolder.INSTANCE.hybrisEnabled) {
                 MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
+
             }
 
             MECDataHolder.INSTANCE.locale = config!!.locale
+            MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
             launchMECasFragment(MECDataHolder.INSTANCE.hybrisEnabled)
         }
 

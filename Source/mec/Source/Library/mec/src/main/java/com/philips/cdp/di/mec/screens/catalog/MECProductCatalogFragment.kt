@@ -118,6 +118,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
 
             if (productList.size != 0) {
+                MECAnalytics.tagProductList(productList)
                 ecsProductViewModel.fetchProductReview(productList)
 
                 binding.mecCatalogParentLayout.visibility = View.VISIBLE
