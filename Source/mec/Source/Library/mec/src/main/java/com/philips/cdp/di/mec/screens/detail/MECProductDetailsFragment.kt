@@ -25,8 +25,10 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productDetails
 import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProduct
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.retailerName
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.stockStatus
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -293,6 +295,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 bundle.putString(MECConstant.MEC_STORE_NAME, ecsRetailer.name)
                 bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, ecsProductDetailViewModel.isPhilipsShop(ecsRetailer))
 
+                tagActionsforRetailer(ecsRetailer.name,MECutility.stockStatus(ecsRetailer.availability))
                 val fragment = WebBuyFromRetailersFragment()
                 fragment.arguments = bundle
                 addFragment(fragment, "retailers", true)
@@ -314,6 +317,13 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         var map = HashMap<String, String>()
         map.put(specialEvents,prodView)
         map.put(mecProduct,ctn)
+        MECAnalytics.trackMultipleActions(sendData,map)
+    }
+
+    private fun tagActionsforRetailer(name : String, status : String) {
+        var map = HashMap<String, String>()
+        map.put(retailerName,name)
+        map.put(stockStatus,status)
         MECAnalytics.trackMultipleActions(sendData,map)
     }
 
