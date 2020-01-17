@@ -35,7 +35,7 @@
                 android:hyphenationFrequency="none"
                 android:ellipsize="none"
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                android:text="@{csItemItem.csItemName}" />
+                android:text='@{ csItemItem.csItemName ?? ""}' />
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/mecCentralesansBookFont"

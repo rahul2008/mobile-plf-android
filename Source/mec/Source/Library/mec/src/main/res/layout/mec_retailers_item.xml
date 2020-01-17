@@ -48,7 +48,7 @@
             style="@style/mecCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{mecRetailer.name}"
+            android:text='@{ mecRetailer.name ?? ""}'
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/iap_retailers_store_name_size" />
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:layout_marginTop="@dimen/iap_margin_4dp"
-            android:text="@{mecRetailer.philipsOnlinePrice}"
+            android:text='@{ mecRetailer.philipsOnlinePrice ?? ""}'
             android:textSize="@dimen/iap_retailers_store_name_size" />
 
     </LinearLayout>

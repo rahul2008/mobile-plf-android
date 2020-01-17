@@ -73,6 +73,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             }
             ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus,product,retailersList)
             hideProgressBar()
+            binding.progressImage.visibility = View.GONE
         }
 
     }
