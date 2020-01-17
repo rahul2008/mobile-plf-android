@@ -395,6 +395,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        View v = getActivity().getWindow().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
+
     private void gotoLogInScreen() {
 
         URLaunchInput urLaunchInput = new URLaunchInput();

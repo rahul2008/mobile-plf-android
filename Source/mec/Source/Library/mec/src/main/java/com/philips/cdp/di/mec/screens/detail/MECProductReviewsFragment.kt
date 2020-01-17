@@ -13,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
 
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -101,6 +103,20 @@ class MECProductReviewsFragment : MecBaseFragment() {
         })
 
         return binding.root
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if(isVisibleToUser) {
+            productctn?.let { tagActions(it) }
+        }
+    }
+
+    private fun tagActions(ctn : String) {
+        var map = HashMap<String, String>()
+        map.put(MECAnalyticsConstant.specialEvents, MECAnalyticsConstant.userReviewsViewed)
+        map.put(MECAnalyticsConstant.mecProduct,ctn)
+        MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData,map)
     }
 
     private fun isAllFetched() = totalReview != 0 && reviewsAdapter!!.itemCount < totalReview

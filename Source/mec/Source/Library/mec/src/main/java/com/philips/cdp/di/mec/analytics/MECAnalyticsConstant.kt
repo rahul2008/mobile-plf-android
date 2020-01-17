@@ -5,6 +5,7 @@ object MECAnalyticsConstant {
     val COMPONENT_NAME = "mec"
 
     val exitLinkNameKey              = "exitLinkName"
+    val exitLinkParameter              = "15_global_%s_%s-app_%s-app"
     val retailerList                 = "retailerList"
     val retailerName                 = "retailerName"
     val stockStatus                  = "stockStatus"

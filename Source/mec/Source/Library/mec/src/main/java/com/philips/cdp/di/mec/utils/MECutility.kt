@@ -146,5 +146,14 @@ class MECutility {
             } else false
 
         }
+
+        fun stockStatus(availability : String): String {
+            if(availability.equals("YES")){
+                return "available"
+            } else if(availability.equals("NO")){
+                return "out of stock"
+            }
+            return ""
+        }
     }
 }
