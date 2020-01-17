@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.webkit.*
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.retailerListPage
+import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
@@ -28,6 +30,7 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
         mUrl = getArguments()!!.getString(MECConstant.MEC_BUY_URL)
         isPhilipsShop = arguments!!.getBoolean(MECConstant.MEC_IS_PHILIPS_SHOP)
         initializeWebView(group)
+        MECAnalytics.trackPage(retailerListPage)
         return group
     }
 
