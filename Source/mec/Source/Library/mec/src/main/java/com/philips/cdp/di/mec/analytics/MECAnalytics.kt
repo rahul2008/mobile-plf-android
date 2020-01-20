@@ -4,12 +4,15 @@ import android.app.Activity
 import android.util.Log
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.country
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.currency
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.productListKey
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.platform.appinfra.tagging.AppTaggingInterface
 import com.philips.cdp.di.mec.integration.MECDependencies
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.appinfra.BuildConfig
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class MECAnalytics {
@@ -19,11 +22,13 @@ class MECAnalytics {
         var mAppTaggingInterface: AppTaggingInterface? = null
         var previousPageName = "uniquePageName";
         var countryCode = ""
+        var currencyCode= ""
 
         @JvmStatic
         fun initMECAnalytics(dependencies: MECDependencies) {
             mAppTaggingInterface = dependencies.appInfra.tagging.createInstanceForComponent(MECAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME)
             countryCode = dependencies.appInfra.serviceDiscovery.homeCountry
+            currencyCode = Currency.getInstance(countryCode).currencyCode
         }
 
         @JvmStatic
@@ -33,7 +38,7 @@ class MECAnalytics {
                 if (currentPage != previousPageName) {
                     previousPageName = currentPage
                     Log.v("MEC_LOG", "trackPage" + currentPage);
-                    mAppTaggingInterface!!.trackPageWithInfo(currentPage, addCountry(map))
+                    mAppTaggingInterface!!.trackPageWithInfo(currentPage, addCountryAndCurrency(map))
                 }
             }
         }
@@ -51,7 +56,7 @@ class MECAnalytics {
         fun trackMultipleActions(state: String, map: Map<String, String>) {
             if (mAppTaggingInterface != null)
                 Log.v("MEC_LOG", "trackMtlutipleAction " )
-                mAppTaggingInterface!!.trackActionWithInfo(state, addCountry(map))
+                mAppTaggingInterface!!.trackActionWithInfo(state, addCountryAndCurrency(map))
         }
 
 
@@ -68,10 +73,11 @@ class MECAnalytics {
                 mAppTaggingInterface!!.collectLifecycleInfo(activity)
         }
 
-        private fun addCountry( map: Map<String,String>) :Map<String,String>{
+        private fun addCountryAndCurrency(map: Map<String,String>) :Map<String,String>{
             //var newMap = map.toMap<String,>()
             var newMap = HashMap(map)
             newMap.put(country,countryCode)
+            newMap.put(currency,currencyCode)
             return newMap;
 
         }

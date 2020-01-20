@@ -91,7 +91,9 @@ public class IAPAnalyticsConstant {
 
     public static final String PRODUCT = "Product";
     public static final String RETAILER_LIST = "retailerList";
-    public static final String RETAILER_NAME = "retailerName";
     public static final String STOCK_STATUS = "stockStatus";
+
+    public static final String IAP_COUNTRY = "country";
+    public static final String IAP_CURRENCY = "currency";
 }
 
