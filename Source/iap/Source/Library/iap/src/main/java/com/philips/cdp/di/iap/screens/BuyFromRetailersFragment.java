@@ -123,7 +123,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
             final HashMap<String, String> map = new HashMap<>();
             map.put(IAPAnalyticsConstant.RETAILER_LIST, retailerList);
-            map.put(IAPAnalyticsConstant.PRODUCT, selectedCTN);
+            map.put(IAPAnalyticsConstant.PRODUCTS, selectedCTN);
             IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
         }
 
