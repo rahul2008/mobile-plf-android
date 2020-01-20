@@ -115,7 +115,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
     private fun tagActions(ctn : String) {
         var map = HashMap<String, String>()
         map.put(MECAnalyticsConstant.specialEvents, MECAnalyticsConstant.userReviewsViewed)
-        map.put(MECAnalyticsConstant.mecProduct,ctn)
+        map.put(MECAnalyticsConstant.mecProducts,ctn)
         MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData,map)
     }
 

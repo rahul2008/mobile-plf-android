@@ -34,6 +34,9 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productCatalogue
 import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalytics.Companion.tagProductList
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -188,6 +191,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.GRID
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
+                MECAnalytics.tagProductList(productList,gridView)
             }
         }
 
@@ -199,6 +203,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.LIST
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
+                MECAnalytics.tagProductList(productList,listView)
             }
         }
 
@@ -277,6 +282,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         adapter.emptyView = binding.mecEmptyResult
 
         MECAnalytics.trackPage(productCatalogue)
+        MECAnalytics.tagProductList(productList,listView)
         return binding.root
     }
 

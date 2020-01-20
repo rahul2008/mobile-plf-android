@@ -5,7 +5,8 @@ import android.util.Log
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.country
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.currency
-import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.productListKey
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProducts
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.productListLayout
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.platform.appinfra.tagging.AppTaggingInterface
 import com.philips.cdp.di.mec.integration.MECDependencies
@@ -86,20 +87,54 @@ class MECAnalytics {
          fun tagActions(ctn : String) {
             var map = HashMap<String, String>()
             map.put(MECAnalyticsConstant.specialEvents, MECAnalyticsConstant.prodView)
-            map.put(MECAnalyticsConstant.mecProduct,ctn)
+            map.put(MECAnalyticsConstant.mecProducts,ctn)
             MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData,map)
         }
 
+
+        /*
+        * Each product list fetch including pagination/swipe willshall be tagged by this method
+        * Here product list will be normally of page size (eg 20) or less that page size(Only for last page)
+        *
+        * */
         @JvmStatic
         fun tagProductList(productList :MutableList<ECSProduct>){
-            val mutableProductIterator = productList.iterator()
-            var productList :String=""
-            for(product in mutableProductIterator){
-                productList+=","+getProductInfo(product)
+            if(productList!=null&&productList.size>0) {
+                val mutableProductIterator = productList.iterator()
+                var productListString: String = ""
+                for (product in mutableProductIterator) {
+                    productListString += "," + getProductInfo(product)
+                }
+                productListString = productListString.substring(1, productListString.length - 1)
+                Log.v("MEC_LOG", "prodList : " + productListString)
+                trackAction(sendData, mecProducts, productListString)
             }
-            productList=productList.substring(1,productList.length-1)
-            Log.v("MEC_LOG", "prodList : "+productList )
-            trackAction(sendData,productListKey,productList)
+        }
+
+
+        /*
+        * To tag list or grid, during first launch list will be tagged and productList shall be empty
+        * upon switch of grid and list top 10 products(or all available products with count less that 10) from product list will be tagged
+        * */
+        @JvmStatic
+        fun tagProductList(productList :MutableList<ECSProduct>, listOrGrid :String){
+            var map = HashMap<String, String>()
+            map.put(productListLayout, listOrGrid)
+            if(productList!=null&&productList.size>0) {
+                val mutableProductIterator = productList.iterator()
+                var productListString: String = ""
+                var maxProductCount = 10
+                for (product in mutableProductIterator) {
+                    productListString += "," + getProductInfo(product)
+                    if (--maxProductCount == 0) {
+                        break
+                    }
+                }
+                productListString = productListString.substring(1, productListString.length - 1)
+                Log.v("MEC_LOG", "prodList : " + productListString)
+                map.put(mecProducts, productListString);
+            }
+            trackMultipleActions(sendData, map)
         }
 
         @JvmStatic

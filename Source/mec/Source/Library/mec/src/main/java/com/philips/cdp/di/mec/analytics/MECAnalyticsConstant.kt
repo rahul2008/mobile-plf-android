@@ -11,7 +11,6 @@ object MECAnalyticsConstant {
     val stockStatus                  = "stockStatus"
     val available                    = "Available"
     val outOfStock                   = "outOfStock"
-    val mecProduct                   = "Product"
     val specialEvents                = "specialEvents"
     val prodView                     = "prodView"
     val userReviewsViewed            = "userReviewsViewed"
@@ -21,7 +20,7 @@ object MECAnalyticsConstant {
     val country                      = "country"
     val currency                     = "currency"
     val retailer                     = "Retailer"
-    val productListKey               = "&&products"
+    val mecProducts                  = "&&products"
     val technicalError               = "technicalError"
     val sendData                     = "sendData"
 

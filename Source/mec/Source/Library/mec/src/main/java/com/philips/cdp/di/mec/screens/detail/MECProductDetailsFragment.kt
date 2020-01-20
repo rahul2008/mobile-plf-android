@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
@@ -23,8 +22,8 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productDetails
 import com.philips.cdp.di.mec.analytics.MECAnalytics
-import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProduct
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProducts
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.retailerName
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
@@ -38,7 +37,6 @@ import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
-import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
@@ -323,7 +321,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private fun tagActions(product : ECSProduct) {
         var map = HashMap<String, String>()
         map.put(specialEvents,prodView)
-        map.put(mecProduct,MECAnalytics.getProductInfo(product))
+        map.put(mecProducts,MECAnalytics.getProductInfo(product))
         MECAnalytics.trackMultipleActions(sendData,map)
     }
 
@@ -331,7 +329,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         var map = HashMap<String, String>()
         map.put(retailerName,name)
         map.put(stockStatus,status)
-        map.put(mecProduct,MECAnalytics.getProductInfo(product))
+        map.put(mecProducts,MECAnalytics.getProductInfo(product))
         MECAnalytics.trackMultipleActions(sendData,map)
     }
 
