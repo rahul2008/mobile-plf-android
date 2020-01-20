@@ -82,8 +82,15 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus,product,retailersList)
             hideProgressBar()
             binding.progressImage.visibility = View.GONE
+            //getStock(binding.mecProductDetailStockStatus.text.toString())
         }
 
+    }
+
+    fun getStock(stock:String){
+        if(stock.equals(R.string.mec_out_of_stock)){
+
+        }
     }
 
     private val ratingObserver: Observer<BulkRatingsResponse> = object : Observer<BulkRatingsResponse> {

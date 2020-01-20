@@ -95,7 +95,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     var totalPages: Int = 0
     var currentPage: Int = 0
-    var pageSize: Int = 4
+    var pageSize: Int = 20
     var shouldSupportPagination = true
     var  isCallOnProgress : Boolean= true
 
@@ -191,7 +191,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         }
 
         binding.mecList.setOnClickListener {
-            if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
+            if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if List is currently not selected
                 binding.mecList.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
                 binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
