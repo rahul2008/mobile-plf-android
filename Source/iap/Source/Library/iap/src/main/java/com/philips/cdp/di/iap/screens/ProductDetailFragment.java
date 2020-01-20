@@ -234,7 +234,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         int stockCount = mBundle.getInt(IAPConstant.PRODUCT_STOCK,0);
 
         if (mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE) != null) {
-            productPrice = mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE);
+            productPrice = mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE,"0.0");
         }
         product = product.append(IAPAnalytics.mCategory).append(";")
                 .append(mCTNValue).append(";")

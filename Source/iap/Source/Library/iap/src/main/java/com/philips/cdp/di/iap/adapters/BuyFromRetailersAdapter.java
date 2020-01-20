@@ -153,7 +153,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         String ProductInfo = IAPAnalytics.mCategory;
         ProductInfo+=";"+mBundle.getString("productCTN","");
         ProductInfo+=";"+mBundle.getInt("productStock",0);
-        ProductInfo+=";"+mBundle.getString("productPrice","");
+        ProductInfo+=";"+mBundle.getString("productPrice","0.0");
         map.put(IAPAnalyticsConstant.PRODUCTS, ProductInfo);
         IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
     }
