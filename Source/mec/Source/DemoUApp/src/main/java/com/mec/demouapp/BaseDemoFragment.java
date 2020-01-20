@@ -34,6 +34,7 @@ import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
+import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -218,8 +219,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecInterface = new MECInterface();
         mMecSettings = new MECSettings(getActivity());
         //actionBar();
-        initializeMECComponant();
         initializeBazaarVoice();
+        initializeMECComponant();
 
 
         return rootView;
@@ -264,8 +265,6 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecLaunchInput.setSupportsHybris(isHybrisEnable);
         mMecLaunchInput.setSupportsRetailer(isRetailerEnabled);
         mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
-
-
     }
 
 

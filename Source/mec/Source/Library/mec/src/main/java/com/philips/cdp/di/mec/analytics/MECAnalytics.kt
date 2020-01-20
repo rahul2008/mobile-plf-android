@@ -104,10 +104,10 @@ class MECAnalytics {
 
         @JvmStatic
         fun getProductInfo(product :ECSProduct):String{
-            var protuctDetail: String=MECDataHolder.INSTANCE.rootCategory
+            var protuctDetail: String= MECDataHolder.INSTANCE.rootCategory
             protuctDetail+= ";"+product.code
             protuctDetail+= ";"+ (if (product.stock !=null && product.stock.stockLevel!=null ) product.stock.stockLevel else 0)
-            protuctDetail+= ";"+product.discountPrice.value
+            protuctDetail+= ";"+ (if (product.discountPrice!=null) product.discountPrice.value else 0  )
             return protuctDetail
         }
 

@@ -23,7 +23,7 @@ enum class MECDataHolder {
     private var privacyUrl: String? = null
     var hybrisEnabled: Boolean = true
     var retailerEnabled :Boolean = true
-    lateinit var rootCategory:String
+    var rootCategory:String = ""
 
     fun getPrivacyUrl(): String? {
         return privacyUrl
