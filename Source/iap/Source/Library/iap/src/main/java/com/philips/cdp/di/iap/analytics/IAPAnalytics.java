@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.IAP_COUNTRY;
@@ -32,7 +33,7 @@ public class IAPAnalytics {
                 dependencies.getAppInfra().getTagging().
                         createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
         mCountryCode=dependencies.getAppInfra().getServiceDiscovery().getHomeCountry();
-        mCurrencyCode= Currency.getInstance(mCountryCode).getCurrencyCode();
+
     }
 
     public static void trackPage(String currentPage) {
@@ -76,4 +77,18 @@ public class IAPAnalytics {
         return map;
 
     }
+
+    public static void setCurrencyString(String localeString){
+        try {
+            String[] localeArray = localeString.split("_");
+            Locale locale = new Locale(localeArray[0], localeArray[1]);
+            Currency currency = Currency.getInstance(locale);
+            mCurrencyCode = currency.getCurrencyCode();
+        }catch(Exception e){
+
+        }
+
+    }
+
+
 }
