@@ -158,6 +158,11 @@ class MECAnalytics {
 
         }
 
+        @JvmStatic
+        fun tagOutOfStockProductDetail(){
+
+        }
+
     }
 
 
