@@ -72,6 +72,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         MECAnalytics.initMECAnalytics(mMECDependencies)
 
 
+
         getUrl()
         if (mUiLauncher is ActivityLauncher) {
             launchMECasActivity()

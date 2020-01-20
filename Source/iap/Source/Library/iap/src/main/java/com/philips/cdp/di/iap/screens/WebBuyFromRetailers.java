@@ -88,9 +88,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 String tagUrl = url ;
-                if(isPhilipsShop){
                    tagUrl = getPhilipsFormattedUrl(url);
-                }
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,tagUrl);
                 super.onPageStarted(view, url, favicon);
             }

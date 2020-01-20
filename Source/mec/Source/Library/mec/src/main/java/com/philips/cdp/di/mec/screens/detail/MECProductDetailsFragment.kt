@@ -172,7 +172,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
         MECAnalytics.trackPage(productDetails)
-        tagActions(product.code);
+        tagActions(product);
         return binding.root
     }
 
@@ -320,10 +320,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
-    private fun tagActions(ctn : String) {
+    private fun tagActions(product : ECSProduct) {
         var map = HashMap<String, String>()
         map.put(specialEvents,prodView)
-        map.put(mecProduct,ctn)
+        map.put(mecProduct,MECAnalytics.getProductInfo(product))
         MECAnalytics.trackMultipleActions(sendData,map)
     }
 
