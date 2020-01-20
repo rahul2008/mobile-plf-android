@@ -28,7 +28,7 @@ class MECAnalytics {
         fun initMECAnalytics(dependencies: MECDependencies) {
             mAppTaggingInterface = dependencies.appInfra.tagging.createInstanceForComponent(MECAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME)
             countryCode = dependencies.appInfra.serviceDiscovery.homeCountry
-            currencyCode = Currency.getInstance(countryCode).currencyCode
+           // currencyCode = Currency.getInstance(countryCode).currencyCode
         }
 
         @JvmStatic
@@ -111,7 +111,20 @@ class MECAnalytics {
             return protuctDetail
         }
 
+        fun setCurrencyString(localeString: String) {
+            try {
+                val localeArray = localeString.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val locale = Locale(localeArray[0], localeArray[1])
+                val currency = Currency.getInstance(locale)
+                currencyCode = currency.currencyCode
+            } catch (e: Exception) {
+
+            }
+
+        }
 
     }
+
+
 
 }

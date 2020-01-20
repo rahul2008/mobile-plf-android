@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -31,19 +32,19 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private  ImageLoader mImageLoader;
     private ArrayList<StoreEntity> mStoreList;
     private BuyFromRetailersListener mBuyFromRetailersListener;
-    private String mSelectedCTN;
+    private Bundle mBundle;
 
     public interface BuyFromRetailersListener {
         void onClickAtRetailer(String buyURL, StoreEntity storeEntity);
     }
 
     public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager,
-                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener, String selectedCTN) {
+                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener, Bundle bundle) {
         mContext = context;
         mFragmentManager = fragmentManager;
         mStoreList = storeList;
         mBuyFromRetailersListener = pBuyFromRetailersListener;
-        mSelectedCTN= selectedCTN;
+        mBundle= bundle;
     }
 
     @Override
@@ -59,6 +60,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mStoreName.setText(storeEntity.getName());
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         final String productAvailability = storeEntity.getAvailability();
+
 
         if (productAvailability.equalsIgnoreCase("yes")) {
             holder.mProductAvailability.setText(mContext.getString(R.string.iap_in_stock));
@@ -144,11 +146,15 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     }
     private void tagStockStatus(String retailerName, String stockStatus){
-        String stockStatusToTag = stockStatus.equalsIgnoreCase("")? "available" : "out of stock";
+        String stockStatusToTag = stockStatus.equalsIgnoreCase("YES")? "available" : "out of stock";
         final HashMap<String, String> map = new HashMap<>();
         map.put(IAPAnalyticsConstant.RETAILER_SELECTED, retailerName);
         map.put(IAPAnalyticsConstant.STOCK_STATUS, stockStatusToTag);
-        map.put(IAPAnalyticsConstant.PRODUCTS, mSelectedCTN);
+        String ProductInfo = IAPAnalytics.mCategory;
+        ProductInfo+=";"+mBundle.getString("productCTN","");
+        ProductInfo+=";"+mBundle.getInt("productStock",0);
+        ProductInfo+=";"+mBundle.getString("productPrice","0.0");
+        map.put(IAPAnalyticsConstant.PRODUCTS, ProductInfo);
         IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
     }
 

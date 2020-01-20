@@ -23,6 +23,7 @@ public class IAPAnalytics {
     public static AppTaggingInterface sAppTaggingInterface;
     public static String mCountryCode="";
     public static String mCurrencyCode="";
+    public static String mCategory="";
 
     private IAPAnalytics(){
 
