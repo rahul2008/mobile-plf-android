@@ -345,7 +345,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     private boolean processResponseFromHybrisForGetCart(final Message msg) {
         if (msg.obj instanceof CartsEntity) {
             mCurrentCartData = (CartsEntity) msg.obj;
-            if (null != mCurrentCartData.getEntries()) {
+            if (null != mCurrentCartData.getEntries() && mCurrentCartData.getEntries().size()>0) {
                 makePrxCall(mCurrentCartData);
                 return true;
             }
