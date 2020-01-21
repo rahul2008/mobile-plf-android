@@ -22,8 +22,10 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import kotlin.collections.ArrayList
 import android.app.Activity
 import android.content.Intent
-
-
+import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 
 
 class MECRetailersFragment : BottomSheetDialogFragment(), ItemClickListener{
@@ -44,6 +46,7 @@ class MECRetailersFragment : BottomSheetDialogFragment(), ItemClickListener{
 
     private lateinit var binding: MecRetailersFragmentBinding
     private lateinit var retailers: ECSRetailerList
+    private lateinit var product: ECSProduct
     lateinit var appInfra: AppInfra
 
 
@@ -58,11 +61,30 @@ class MECRetailersFragment : BottomSheetDialogFragment(), ItemClickListener{
 
         val bundle = arguments
         retailers = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSRetailerList
+        product = bundle?.getSerializable(MECConstant.MEC_PRODUCT) as ECSProduct
 
         binding.retailerList = retailers
         binding.itemClickListener = this
-
+        tagRetailerList(retailers,product)
         return binding.root
+    }
+
+    private fun tagRetailerList(retailers: ECSRetailerList, product :ECSProduct  ){
+        if(retailers!=null && retailers.retailers!=null && retailers.retailers.size>0) {
+            val mutableRetailersIterator = retailers.retailers.iterator()
+            var retailerListString: String = ""
+            for (ecsRetailer in mutableRetailersIterator) {
+                retailerListString += "|" + ecsRetailer.name
+            }
+            retailerListString = retailerListString.substring(1, retailerListString.length - 1)
+
+            val map = HashMap<String, String>()
+            map.put(MECAnalyticsConstant.retailerList, retailerListString)
+            val productInfo: String = MECAnalytics.getProductInfo(product)
+            map.put(MECAnalyticsConstant.mecProducts, productInfo)
+            MECAnalytics.trackMultipleActions(sendData, map)
+
+        }
     }
 
 }

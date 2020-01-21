@@ -37,6 +37,7 @@ import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
 import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_main_activity.*
@@ -284,6 +285,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         val bundle = Bundle()
         bottomSheetFragment = MECRetailersFragment()
         bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
+        bundle.putSerializable(MEC_PRODUCT,binding.product)
         bottomSheetFragment.arguments = bundle
         bottomSheetFragment.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
         bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
