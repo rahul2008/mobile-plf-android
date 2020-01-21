@@ -12,7 +12,6 @@ package com.philips.cdp.registration.ui.social;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
@@ -22,6 +21,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;

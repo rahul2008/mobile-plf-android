@@ -14,7 +14,9 @@ class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
     override fun executeRequest(){
         val bundle = arguments
         var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
-        ecsProductViewModel.initCategorizedRetailer(ctns)
+        if (ctns != null) {
+            ecsProductViewModel.initCategorizedRetailer(ctns)
+        }
     }
 
     override fun isCategorizedHybrisPagination(): Boolean {

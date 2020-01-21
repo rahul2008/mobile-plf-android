@@ -24,7 +24,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        ctns = arguments!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
+        ctns = arguments!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
         totalProductsTobeSearched = ctns.size
         super.onActivityCreated(savedInstanceState)
     }
@@ -70,7 +70,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
         })
 
         builder.setTitle("Load More DATA")
-        alertDialogFragment.show(fragmentManager,"ALERT_DIALOG_TAG")
+        fragmentManager?.let { alertDialogFragment.show(it,"ALERT_DIALOG_TAG") }
 
     }
 

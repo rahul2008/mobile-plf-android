@@ -1,11 +1,11 @@
 package com.philips.cdp.di.mec.screens.specification
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.databinding.MecProductSpecsFragmentBinding

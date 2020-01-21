@@ -1,9 +1,9 @@
 package com.philips.cdp.di.mec.screens.retailers
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BindingAdapter
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
@@ -26,7 +26,7 @@ class ECSRetailerViewModel : CommonViewModel() {
     companion object DataBindingAdapter {
         @JvmStatic
         @BindingAdapter("retailers","listener")
-        fun setAdapter(recyclerView: RecyclerView, ecsRetailerList: ECSRetailerList , itemClickListener: ItemClickListener) {
+        fun setAdapter(recyclerView: RecyclerView, ecsRetailerList: ECSRetailerList, itemClickListener: ItemClickListener) {
             recyclerView.adapter = MECRetailersAdapter(ecsRetailerList.retailers,itemClickListener)
         }
 

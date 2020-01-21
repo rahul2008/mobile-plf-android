@@ -105,6 +105,11 @@ android {
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
     }
+
+    configurations.all {
+        resolutionStrategy.force deps.jsr305
+    }
+
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
@@ -145,7 +150,6 @@ dependencies {
 
     // Tests
     testImplementation 'org.mockito:mockito-inline:2.13.0' // to mock final class
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     implementation 'com.bazaarvoice.bvandroidsdk:conversations:7.4.1'
     testImplementation deps.junit
@@ -172,6 +176,7 @@ dependencies {
 
     // Espresso support
     androidTestImplementation deps.androidx.espresso_core
+    androidTestImplementation deps.jsr305
 
     androidTestImplementation deps.androidx.espresso_contrib
 

@@ -128,7 +128,7 @@ ext.deps = [
         javax_inject                  : 'javax.inject:javax.inject:1',
         joda_time                     : 'joda-time:joda-time:2.10.4',
         json                          : 'org.json:json:20190722',
-        jsr305                        : 'com.google.code.findbugs:jsr305:3.0.5',
+        jsr305                        : 'com.google.code.findbugs:jsr305:3.0.2',
         leakcanary                    : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
         leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
