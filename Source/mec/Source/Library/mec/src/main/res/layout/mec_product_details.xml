@@ -180,7 +180,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="5dp"
                         android:numStars="5"
-                        android:stepSize="0.1"
+                        android:stepSize="0.01"
                         style="?android:attr/ratingBarStyleSmall" />
 
                     <com.philips.platform.uid.view.widget.Label

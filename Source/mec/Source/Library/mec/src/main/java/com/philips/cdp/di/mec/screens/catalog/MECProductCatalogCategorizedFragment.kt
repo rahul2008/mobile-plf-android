@@ -3,10 +3,8 @@ package com.philips.cdp.di.mec.screens.catalog
 import android.os.Bundle
 import android.view.View
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.view.widget.AlertDialogFragment
-import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
@@ -20,6 +18,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
             binding.progressBar.visibility = View.GONE
             hideProgressBar()
         }else{
+            isCallOnProgress =true
             ecsProductViewModel.initCategorized(currentPage, pageSize, ctns)
         }
     }
@@ -36,9 +35,11 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     override fun showNoProduct() {
 
+        isCallOnProgress =false
+
         currentPage += 1
 
-        if (currentPage < totalPages) {
+        if (currentPage != totalPages-1) {
             showCategorizedFetchDialog()
         }else{
             super.showNoProduct()
@@ -84,13 +85,15 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
            if(productList.size ==0) return
 
            if(isCallEnded()){
+               isCallOnProgress = false
                binding.progressBar.visibility = View.GONE
            }else{
+               isCallOnProgress = true
                binding.progressBar.visibility = View.VISIBLE
            }
     }
 
-    private fun didProductsFondReachPageSize() = productList.size % pageSize ==0
+    private fun didProductsFondReachPageSize() = (productList.size / (currentPage+1)) == pageSize
 
     private fun isProductNotFound() = productList.size == 0
 
@@ -98,7 +101,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     private fun didReachThreshold() =  0 == (currentPage + 1) % MECConstant.THRESHOLD
 
-    private fun didReachLastPage() = currentPage == totalPages - 1
+    private fun didReachLastPage() = currentPage == totalPages-1
 
 
     private fun isCallEnded(): Boolean {

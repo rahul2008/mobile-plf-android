@@ -4,7 +4,6 @@ package com.philips.cdp.registration.ui.social;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -65,7 +64,10 @@ public class MergeAccountPresenter implements LoginHandler, NetworkStateListener
 //            return;
 //        }
 
+        if (userRegistrationFailureInfo.getError() != null)
             mergeAccountContract.mergeFailure(userRegistrationFailureInfo.getLocalizedValidationErrorMessages(), userRegistrationFailureInfo.getErrorCode());
+        else
+            mergeAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
 
     }
 

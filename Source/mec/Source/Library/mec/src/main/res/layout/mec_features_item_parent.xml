@@ -33,7 +33,7 @@
         android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="16sp"
-        android:text="@{keyBenefitAreaItem.keyBenefitAreaName}"
+        android:text='@{ keyBenefitAreaItem.keyBenefitAreaName ?? ""}'
         />
 
 

@@ -21,7 +21,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
-import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 
 import android.support.v7.widget.DefaultItemAnimator
@@ -33,15 +32,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productCatalogue
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalytics.Companion.tagProductList
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Label
-import kotlinx.android.synthetic.main.mec_catalog_fragment.*
-
-import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
 /**
@@ -61,6 +62,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         adapter.notifyDataSetChanged()
         binding.progressBar.visibility = View.GONE
         binding.CircularProgressBar.visibility = View.GONE
+        isCallOnProgress = false
         hideProgressBar()
 
         //For categorized
@@ -98,6 +100,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     var currentPage: Int = 0
     var pageSize: Int = 20
     var shouldSupportPagination = true
+    var  isCallOnProgress : Boolean= true
 
 
     private val productObserver : Observer<MutableList<ECSProducts>> = Observer<MutableList<ECSProducts>>(fun(ecsProductsList: MutableList<ECSProducts>?) {
@@ -116,6 +119,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
 
             if (productList.size != 0) {
+                MECAnalytics.tagProductList(productList)
                 ecsProductViewModel.fetchProductReview(productList)
 
                 binding.mecCatalogParentLayout.visibility = View.VISIBLE
@@ -139,6 +143,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     })
 
     open fun showNoProduct() {
+        isCallOnProgress =false
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
     }
 
@@ -179,24 +184,26 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
                 binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
                 binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
-                val Hdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL)
-                val Vdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.VERTICAL)
-                binding.productCatalogRecyclerView.addItemDecoration(Hdivider)
-                binding.productCatalogRecyclerView.addItemDecoration(Vdivider)
+//                val Hdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL)
+//                val Vdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.VERTICAL)
+//                binding.productCatalogRecyclerView.addItemDecoration(Hdivider)
+//                binding.productCatalogRecyclerView.addItemDecoration(Vdivider)
                 adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.GRID
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
+                MECAnalytics.tagProductList(productList,gridView)
             }
         }
 
         binding.mecList.setOnClickListener {
-            if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if Grid is currently not selected
+            if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if List is currently not selected
                 binding.mecList.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
                 binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                 adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.LIST
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
+                MECAnalytics.tagProductList(productList,listView)
             }
         }
 
@@ -254,7 +261,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
 
 
-                if(shouldFetchNextPage()) {
+                if(shouldFetchNextPage() && !isCallOnProgress) {
                     binding.progressBar.visibility = View.VISIBLE
                     executeRequest()
                 }
@@ -274,7 +281,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         adapter.emptyView = binding.mecEmptyResult
 
-
+        MECAnalytics.trackPage(productCatalogue)
+        MECAnalytics.tagProductList(productList,listView)
         return binding.root
     }
 
@@ -337,6 +345,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     open fun executeRequest(){
         if(MECDataHolder.INSTANCE.hybrisEnabled) {
+            isCallOnProgress =true
             ecsProductViewModel.init(currentPage, pageSize)
         }else{
             hideProgressBar()
@@ -353,7 +362,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 .layoutManager as LinearLayoutManager
 
         if (isScrollDown(lay)) {
-            if (currentPage < totalPages) {
+            if (currentPage != totalPages-1) {
                 ++currentPage
               return true
             }

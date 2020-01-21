@@ -14,7 +14,6 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
 
@@ -31,7 +30,7 @@
         android:paddingLeft="@dimen/border16_margin_left_right"
         android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-        android:text="@{csChapterItem.csChapterName}"
+        android:text='@{ csChapterItem.csChapterName ?? ""}'
         />
 
 
