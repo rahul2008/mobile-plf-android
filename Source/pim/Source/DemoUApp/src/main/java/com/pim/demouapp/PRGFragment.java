@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@SuppressLint("ValidFragment")
 public class PRGFragment extends Fragment implements View.OnClickListener {
     private Button fragment_btn_2;
     private final String userRegServiceID = "userreg.janrain.api";
@@ -41,14 +42,13 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
     private PRInterface prInterface;
     private PIMInterface pimInterface;
     private EditText ctnEditText;
-
-    public PRGFragment() {
-
-    }
+    private AppInfraInterface mAppInfraInterface;
 
     @SuppressLint("ValidFragment")
-    public PRGFragment(PIMInterface pimInterface) {
+    public PRGFragment(PIMInterface pimInterface, AppInfraInterface appInfraInterface) {
         this.pimInterface = pimInterface;
+        this.mAppInfraInterface = appInfraInterface;
+
     }
 
     @Nullable
@@ -81,8 +81,7 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initServiceDiscoveryLocale() {
-        AppInfraInterface appInfra = PIMDemoUAppInterface.mAppInfra;
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfraInterface.getServiceDiscovery();
 
         //serviceDiscoveryInterface.getServiceLocaleWithCountryPreference();
         ArrayList<String> serviceIDList = new ArrayList<>();
@@ -127,7 +126,7 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
 //        });
 // fragLauncher.setCustomAnimation(0, 0);
         prInterface = new PRInterface();
-        prInterface.init(new PRDependencies(PIMDemoUAppInterface.mAppInfra, pimInterface.getUserDataInterface()), new UappSettings(getContext()));
+        prInterface.init(new PRDependencies(mAppInfraInterface, pimInterface.getUserDataInterface()), new UappSettings(getContext()));
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this.getActivity(), R.id.pimDemoU_mainFragmentContainer, null);
         if (type.equalsIgnoreCase("app_flow")) {
             prLaunchInput = new PRLaunchInput(products, true);
