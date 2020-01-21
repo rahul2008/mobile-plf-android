@@ -184,10 +184,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
                 binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
                 binding.productCatalogRecyclerView.setItemAnimator(DefaultItemAnimator())
-                val Hdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL)
-                val Vdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.VERTICAL)
-                binding.productCatalogRecyclerView.addItemDecoration(Hdivider)
-                binding.productCatalogRecyclerView.addItemDecoration(Vdivider)
+//                val Hdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL)
+//                val Vdivider = DividerItemDecoration(binding.productCatalogRecyclerView.getContext(), DividerItemDecoration.VERTICAL)
+//                binding.productCatalogRecyclerView.addItemDecoration(Hdivider)
+//                binding.productCatalogRecyclerView.addItemDecoration(Vdivider)
                 adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.GRID
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
