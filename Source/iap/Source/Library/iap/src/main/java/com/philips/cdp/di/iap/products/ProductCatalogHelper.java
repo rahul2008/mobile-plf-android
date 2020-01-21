@@ -99,16 +99,19 @@ public class ProductCatalogHelper {
     }
 
     private void fillEntryBaseData(final ProductsEntity entry, final ProductCatalogData productItem) {
-        if (entry.getPrice() == null || entry.getDiscountPrice() == null)
-            return;
-        productItem.setFormattedPrice(entry.getPrice().getFormattedValue());
-        productItem.setPriceValue(String.valueOf(entry.getPrice().getValue()));
+        if (null!=entry.getPrice()  && null!= entry.getPrice().getFormattedValue() ){
+            productItem.setFormattedPrice(entry.getPrice().getFormattedValue());
+            productItem.setPriceValue(String.valueOf(entry.getPrice().getValue()));
+        }
         if (entry.getDiscountPrice() != null && entry.getDiscountPrice().getFormattedValue() != null
                 && !entry.getDiscountPrice().getFormattedValue().isEmpty()) {
             productItem.setDiscountedPrice(entry.getDiscountPrice().getFormattedValue());
+        }
+        if(null!=entry.getStock() && null!=entry.getStock().getStockLevelStatus()){
             productItem.setStockLevelStatus(entry.getStock().getStockLevelStatus());
             productItem.setStockLevel(entry.getStock().getStockLevel());
         }
+
     }
 
     private void notifyEmptyCartFragment() {
