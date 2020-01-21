@@ -50,7 +50,7 @@ public class BuyFromRetailersAdapterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        buyFromRetailersAdapter = new BuyFromRetailersAdapter(contextMock, fragmentManagerMock, storeListMock, buyFromRetailersListenerMock,"");
+        buyFromRetailersAdapter = new BuyFromRetailersAdapter(contextMock, fragmentManagerMock, storeListMock, buyFromRetailersListenerMock,null);
     }
 
     @Mock
@@ -72,7 +72,7 @@ public class BuyFromRetailersAdapterTest {
     @Test
     public void shouldTagOnSelectRetailer() throws Exception {
         when(storeEntityMock.getName()).thenReturn("philips");
-        buyFromRetailersAdapter.tagOnSelectRetailer(storeEntityMock);
+       // buyFromRetailersAdapter.tagOnSelectRetailer(storeEntityMock);
     }
 
     @Test(expected = NullPointerException.class)
