@@ -236,7 +236,6 @@ dependencies {
 
         implementation project(strings.prx.projectName)
 
-
         implementation project(strings.usr.projectName)
         implementation project(strings.dcc.projectName)
         implementation project(strings.iap.projectName)
@@ -300,9 +299,10 @@ dependencies {
     testImplementation deps.robolectric_shadows_multidex
     //compile project(path: ':mecUApp')
 
+    implementation 'com.google.guava:guava:27.0.1-android'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    annotationProcessor deps.androidx.livedata_compiler
+    kapt deps.androidx.livedata_compiler
 
     //Kotlin test
     kaptAndroidTest "android.databinding:databinding-compiler:$kotlin_version"
