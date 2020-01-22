@@ -38,8 +38,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
         isCallOnProgress =false
 
         currentPage += 1
-
-        if (currentPage != totalPages-1) {
+        if (currentPage < totalPages) {
             showCategorizedFetchDialog()
         }else{
             super.showNoProduct()
@@ -55,6 +54,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
         var alertDialogFragment = builder.create()
         builder.setMessage(resources.getString(R.string.mec_threshold_message))
         builder.setPositiveButton("OK", fun(it: View) {
+
 
             if(productList.size==0) {
                 createCustomProgressBar(container, MEDIUM)
