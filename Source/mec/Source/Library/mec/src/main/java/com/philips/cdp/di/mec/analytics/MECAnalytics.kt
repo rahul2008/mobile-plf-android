@@ -23,13 +23,17 @@ class MECAnalytics {
         var mAppTaggingInterface: AppTaggingInterface? = null
         var previousPageName = "uniquePageName";
         var countryCode = ""
-        var currencyCode= ""
+        var currencyCode = ""
 
         @JvmStatic
         fun initMECAnalytics(dependencies: MECDependencies) {
-            mAppTaggingInterface = dependencies.appInfra.tagging.createInstanceForComponent(MECAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME)
-            countryCode = dependencies.appInfra.serviceDiscovery.homeCountry
-           // currencyCode = Currency.getInstance(countryCode).currencyCode
+            try {
+                mAppTaggingInterface = dependencies.appInfra.tagging.createInstanceForComponent(MECAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME)
+                countryCode = dependencies.appInfra.serviceDiscovery.homeCountry
+            } catch (e: Exception) {
+
+            }
+            // currencyCode = Currency.getInstance(countryCode).currencyCode
         }
 
         @JvmStatic
@@ -56,8 +60,8 @@ class MECAnalytics {
         @JvmStatic
         fun trackMultipleActions(state: String, map: Map<String, String>) {
             if (mAppTaggingInterface != null)
-                Log.v("MEC_LOG", "trackMtlutipleAction " )
-                mAppTaggingInterface!!.trackActionWithInfo(state, addCountryAndCurrency(map))
+                Log.v("MEC_LOG", "trackMtlutipleAction ")
+            mAppTaggingInterface!!.trackActionWithInfo(state, addCountryAndCurrency(map))
         }
 
 
@@ -74,21 +78,13 @@ class MECAnalytics {
                 mAppTaggingInterface!!.collectLifecycleInfo(activity)
         }
 
-        private fun addCountryAndCurrency(map: Map<String,String>) :Map<String,String>{
+        private fun addCountryAndCurrency(map: Map<String, String>): Map<String, String> {
             //var newMap = map.toMap<String,>()
             var newMap = HashMap(map)
-            newMap.put(country,countryCode)
-            newMap.put(currency,currencyCode)
+            newMap.put(country, countryCode)
+            newMap.put(currency, currencyCode)
             return newMap;
 
-        }
-
-        @JvmStatic
-         fun tagActions(ctn : String) {
-            var map = HashMap<String, String>()
-            map.put(MECAnalyticsConstant.specialEvents, MECAnalyticsConstant.prodView)
-            map.put(MECAnalyticsConstant.mecProducts,ctn)
-            MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData,map)
         }
 
 
@@ -98,8 +94,8 @@ class MECAnalytics {
         *
         * */
         @JvmStatic
-        fun tagProductList(productList :MutableList<ECSProduct>){
-            if(productList!=null&&productList.size>0) {
+        fun tagProductList(productList: MutableList<ECSProduct>) {
+            if (productList != null && productList.size > 0) {
                 val mutableProductIterator = productList.iterator()
                 var productListString: String = ""
                 for (product in mutableProductIterator) {
@@ -117,10 +113,10 @@ class MECAnalytics {
         * upon switch of grid and list top 10 products(or all available products with count less that 10) from product list will be tagged
         * */
         @JvmStatic
-        fun tagProductList(productList :MutableList<ECSProduct>, listOrGrid :String){
+        fun tagProductList(productList: MutableList<ECSProduct>, listOrGrid: String) {
             var map = HashMap<String, String>()
             map.put(productListLayout, listOrGrid)
-            if(productList!=null&&productList.size>0) {
+            if (productList != null && productList.size > 0) {
                 val mutableProductIterator = productList.iterator()
                 var productListString: String = ""
                 var maxProductCount = 10
@@ -138,11 +134,11 @@ class MECAnalytics {
         }
 
         @JvmStatic
-        fun getProductInfo(product :ECSProduct):String{
-            var protuctDetail: String= MECDataHolder.INSTANCE.rootCategory
-            protuctDetail+= ";"+product.code
-            protuctDetail+= ";"+ (if (product.stock !=null && product.stock.stockLevel!=null ) product.stock.stockLevel else 0)
-            protuctDetail+= ";"+ (if (product.discountPrice!=null) product.discountPrice.value else 0  )
+        fun getProductInfo(product: ECSProduct): String {
+            var protuctDetail: String = MECDataHolder.INSTANCE.rootCategory
+            protuctDetail += ";" + product.code
+            protuctDetail += ";" + (if (product.stock != null && product.stock.stockLevel != null) product.stock.stockLevel else 0)
+            protuctDetail += ";" + (if (product.discountPrice != null) product.discountPrice.value else 0)
             return protuctDetail
         }
 
@@ -158,13 +154,8 @@ class MECAnalytics {
 
         }
 
-        @JvmStatic
-        fun tagOutOfStockProductDetail(){
-
-        }
 
     }
-
 
 
 }
