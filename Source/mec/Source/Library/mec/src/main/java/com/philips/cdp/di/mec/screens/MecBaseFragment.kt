@@ -215,8 +215,9 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 //
                 errorString+= MECAnalyticServer.prx+":"
             }
-            errorString= errorString+ mecError!!.ecsError!!.errorcode+":"
             errorString= errorString+mecError!!.exception!!.message.toString()
+            errorString= errorString+ mecError!!.ecsError!!.errorcode+":"
+
         MECAnalytics.trackAction(sendData,technicalError,errorString)
         }
         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
