@@ -304,6 +304,7 @@
             android:layout_weight="1"
             android:gravity="center|center_vertical"
             app:uidComponentType="Primary"
+            android:onClick="@{() -> fragment.addToCartClick()}"
             android:textAlignment="center"
             android:visibility="gone"
             fontPath="fonts/mec_iconfont.ttf"

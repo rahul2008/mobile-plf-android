@@ -10,6 +10,7 @@ import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.google.gson.internal.LinkedTreeMap
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
@@ -31,6 +32,8 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val review = MutableLiveData<ReviewResponse>()
 
+    val ecsShoppingcart = MutableLiveData<ECSShoppingCart>()
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     var ecsProductDetailRepository = ECSProductDetailRepository(this,ecsServices)
@@ -45,6 +48,10 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     fun getBazaarVoiceReview(ctn : String, pageNumber : Int, pageSize : Int){
         ecsProductDetailRepository.fetchProductReview(ctn, pageNumber, pageSize)
+    }
+
+    fun addProductToShoppingcart(ecsProduct: ECSProduct){
+        ecsProductDetailRepository.addTocart(ecsProduct)
     }
 
 
