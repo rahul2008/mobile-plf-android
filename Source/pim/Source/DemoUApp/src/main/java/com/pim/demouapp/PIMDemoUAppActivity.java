@@ -307,7 +307,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_RegistrationPR) {
-            Fragment fragment = new PRGFragment(pimInterface);
+            Fragment fragment = new PRGFragment(pimInterface, appInfraInterface);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
         } else if (v == btn_IAP) {

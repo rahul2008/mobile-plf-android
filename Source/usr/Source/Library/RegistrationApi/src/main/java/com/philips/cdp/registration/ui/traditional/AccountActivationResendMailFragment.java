@@ -161,10 +161,16 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (accountActivationResendMailPresenter != null)
+            accountActivationResendMailPresenter.unRegisterListener();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         RLog.d(TAG, "onDestroy");
-        accountActivationResendMailPresenter.unRegisterListener();
     }
 
 
@@ -399,7 +405,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         emailUser = mUser.getEmail();
         getRegistrationFragment().startCountDownTimer();
         EventBus.getDefault().post(new UpdateEmail(user.getEmail()));
-       // handleResend(mUser.getEmail());
+        // handleResend(mUser.getEmail());
     }
 
     @Override
@@ -529,7 +535,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     void hideNotificationBar() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
-            popupWindow= null;
+            popupWindow = null;
         }
     }
 

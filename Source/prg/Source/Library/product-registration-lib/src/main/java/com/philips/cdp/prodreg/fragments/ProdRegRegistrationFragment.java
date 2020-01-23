@@ -655,8 +655,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             if (!mProgressDialog.isShowing()) {
                 mProgressDialog.show();
                 registerButton.setText(getResources().getString(R.string.PRG_Registering_Products_Lbltxt));
-                updateProductCache();
-
+                prodRegRegistrationController.registerProduct(purchaseDateStr,
+                        field_serial.getText().toString());
             }
 
         }
@@ -720,9 +720,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     RegisteredProduct ctnRegistered = userWithProducts.isCtnRegistered(registeredProducts, getRegisteredProduct());
                     if (null != ctnRegistered && ctnRegistered.getRegistrationState() == RegistrationState.REGISTERED) {
                         showAlreadyRegisteredDialog(ctnRegistered);
-                    } else{
-                        prodRegRegistrationController.registerProduct(purchaseDateStr,
-                                field_serial.getText().toString());
                     }
                 }
             }
