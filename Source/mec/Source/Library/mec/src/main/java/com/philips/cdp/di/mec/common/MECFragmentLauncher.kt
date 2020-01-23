@@ -56,7 +56,9 @@ class MECFragmentLauncher : MecBaseFragment() {
 
             MECDataHolder.INSTANCE.locale = config!!.locale
             MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
-            MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+            if(null!=config!!.rootCategory){
+                MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+            }
             launchMECasFragment(MECDataHolder.INSTANCE.hybrisEnabled)
         }
 

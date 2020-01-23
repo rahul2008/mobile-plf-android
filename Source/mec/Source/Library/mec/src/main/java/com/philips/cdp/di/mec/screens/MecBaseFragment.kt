@@ -205,20 +205,24 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     open fun processError(mecError: MecError?){
         if(!mecError!!.ecsError!!.errorType.equals("No internet connection")){
-            //tag all techinical defect except "No internet connection"
-           var  errorString:String = MECAnalyticsConstant.COMPONENT_NAME+":"
-            if(mecError!!.ecsError!!.errorcode==1000){
-                errorString+= MECAnalyticServer.bazaarVoice+":"
-            }else if(mecError!!.ecsError!!.errorcode>=5000 && mecError!!.ecsError!!.errorcode<6000){
-                errorString+= MECAnalyticServer.hybris+":"
-            } else{
-                //
-                errorString+= MECAnalyticServer.prx+":"
-            }
-            errorString= errorString+mecError!!.exception!!.message.toString()
-            errorString= errorString+ mecError!!.ecsError!!.errorcode+":"
+            try {
+                //tag all techinical defect except "No internet connection"
+                var errorString: String = MECAnalyticsConstant.COMPONENT_NAME + ":"
+                if (mecError!!.ecsError!!.errorcode == 1000) {
+                    errorString += MECAnalyticServer.bazaarVoice + ":"
+                } else if (mecError!!.ecsError!!.errorcode >= 5000 && mecError!!.ecsError!!.errorcode < 6000) {
+                    errorString += MECAnalyticServer.hybris + ":"
+                } else {
+                    //
+                    errorString += MECAnalyticServer.prx + ":"
+                }
+                errorString = errorString + mecError!!.exception!!.message.toString()
+                errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
 
-        MECAnalytics.trackAction(sendData,technicalError,errorString)
+                MECAnalytics.trackAction(sendData, technicalError, errorString)
+            }catch(e :Exception){
+
+            }
         }
         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
     }
