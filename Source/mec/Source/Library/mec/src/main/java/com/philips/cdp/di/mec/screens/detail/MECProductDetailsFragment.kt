@@ -42,6 +42,7 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
@@ -305,7 +306,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     fun addToCartClick(){
         if(null!=binding.product ) {
-            ecsProductDetailViewModel.addProductToShoppingcart(product)
+                    if (MECDataHolder.INSTANCE.userDataInterface != null && MECDataHolder.INSTANCE.userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                        ecsProductDetailViewModel.addProductToShoppingcart(product)
+                    }else{
+                        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }
+                    }
         }
     }
 
