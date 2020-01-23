@@ -43,6 +43,10 @@ android {
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
+        manifestPlaceholders = [
+        'appAuthRedirectScheme': 'com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad'
+     ]
+
     }
 
     buildTypes {

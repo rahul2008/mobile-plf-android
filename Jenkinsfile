@@ -812,6 +812,7 @@ def PublishingJacocoTestReport() {
     sh '''#!/bin/bash -l
         set -e
         /bin/chmod -R 755 .
+        ./gradlew test
         ./gradlew jacocoTestReport
     
     '''
