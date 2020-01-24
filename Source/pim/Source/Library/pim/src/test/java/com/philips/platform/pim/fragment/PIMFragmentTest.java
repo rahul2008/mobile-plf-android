@@ -3,6 +3,7 @@ package com.philips.platform.pim.fragment;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -14,6 +15,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pim.PIMActivity;
+import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.pim.PIMInterface.PIM_KEY_CONSENTS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -80,7 +83,8 @@ public class PIMFragmentTest extends TestCase {
     private ArgumentCaptor<Observer<PIMInitState>> argumentCaptor;
     @Captor
     private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlMapListener> mapListenerArgumentCaptor;
-
+    @Mock
+    private PIMLaunchInput mockPimLaunchInput;
 
     @Before
     public void setUp() throws Exception {
@@ -103,6 +107,9 @@ public class PIMFragmentTest extends TestCase {
                 .get();
 
         pimFragment = new PIMFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(PIM_KEY_CONSENTS, mockPimLaunchInput.getParameterToLaunch());
+        pimFragment.setArguments(bundle);
         pimActivity.getSupportFragmentManager().beginTransaction().add(pimFragment, "PIMFragmentTest").commit();
     }
 
