@@ -44,7 +44,8 @@
             android:id="@+id/mec_cart_summary_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
 
         <com.philips.platform.uid.view.widget.Label
@@ -119,11 +120,20 @@
     </LinearLayout>
     </ScrollView>
 
+    <View
+        android:id="@+id/view"
+        android:layout_above="@+id/priceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0.05dp"
+        android:background="?attr/uidContentItemTertiaryNormalTextColor" />
+
 
         <LinearLayout
+            android:id="@+id/priceLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/mec_vat"
+            android:backgroundTint="#FFFFFF"
             android:background="?attr/uidBottomSheetDefaultBackgroundColor"
             android:layout_marginTop="@dimen/iap_margin_20dp"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
@@ -135,7 +145,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total Products"
+                android:text="Total (3 Products)"
                 android:textSize="@dimen/iap_text_size_16sp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 style="@style/mecCentralesansBookFont"
@@ -148,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text='@{shoppingCart.totalPrice ?? ""}'
+                android:text="5000"
                 android:textSize="@dimen/iap_margin_20dp"
                 />
 

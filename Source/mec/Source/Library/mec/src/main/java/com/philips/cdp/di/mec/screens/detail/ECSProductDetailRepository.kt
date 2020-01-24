@@ -3,12 +3,15 @@ package com.philips.cdp.di.mec.screens.detail
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECutility
 
 class ECSProductDetailRepository(private val ecsProductDetailViewModel: EcsProductDetailViewModel, val ecsServices: ECSServices) {
 
     var ecsProductDetailCallBack= ECSProductDetailCallback(ecsProductDetailViewModel)
+    var ecsShoppingCartCallback = ECSShoppingCartCallback(ecsProductDetailViewModel,"AddToCart")
 
     var bvClient = MECDataHolder.INSTANCE.bvClient
     var reviewsCb = MECReviewConversationsDisplayCallback(ecsProductDetailViewModel)
@@ -30,5 +33,13 @@ class ECSProductDetailRepository(private val ecsProductDetailViewModel: EcsProdu
         val prepareCall = bvClient!!.prepareCall(request)
         prepareCall.loadAsync(ratingCb)
     }
+
+    fun addTocart(ecsProduct: ECSProduct){
+        ecsServices.addProductToShoppingCart(ecsProduct,ecsShoppingCartCallback)
+    }
+
+
+
+
 
 }

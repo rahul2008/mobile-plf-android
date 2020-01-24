@@ -14,6 +14,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 /**
@@ -55,6 +56,9 @@ class MECShoppingCartFragment : MecBaseFragment() {
         ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
 
+        val bundle = arguments
+        ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
+
         productReviewList = mutableListOf()
 
         productsAdapter = MECProductsAdapter(productReviewList)
@@ -77,7 +81,10 @@ class MECShoppingCartFragment : MecBaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        executeRequest()
+        if (ecsShoppingCart!!.entries.size != 0) {
+            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart!!.entries)
+        }
+        //executeRequest()
     }
 
     fun executeRequest() {

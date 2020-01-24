@@ -5,6 +5,7 @@ import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.platform.appinfra.AppInfraInterface
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.uappframework.listener.ActionBarListener
 import java.util.ArrayList
 
@@ -18,6 +19,7 @@ enum class MECDataHolder {
     lateinit var mecBannerEnabler: MECBannerConfigurator
     lateinit var locale:String
     lateinit var propositionId:String
+    lateinit var userDataInterface: UserDataInterface
     var blackListedRetailers: List<String> ?=null
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     private var privacyUrl: String? = null

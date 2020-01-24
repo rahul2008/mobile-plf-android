@@ -68,6 +68,8 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
         MECDataHolder.INSTANCE.blackListedRetailers = mLaunchInput.blackListedRetailerNames
+        MECDataHolder.INSTANCE.userDataInterface = mMECDependencies.userDataInterface
+
 
         MECAnalytics.initMECAnalytics(mMECDependencies)
 

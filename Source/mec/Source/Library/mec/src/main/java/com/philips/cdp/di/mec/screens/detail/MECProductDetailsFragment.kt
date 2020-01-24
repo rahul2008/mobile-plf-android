@@ -12,10 +12,12 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bazaarvoice.bvandroidsdk.*
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
@@ -41,6 +43,7 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
@@ -136,6 +139,33 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
+    private val shoppingCartObserver: Observer<ECSShoppingCart> = object : Observer<ECSShoppingCart>{
+        /**
+         * Called when the data is changed.
+         * @param t  The new data
+         */
+        override fun onChanged(eCSShoppingCart: ECSShoppingCart?) {
+
+            if(null!= eCSShoppingCart && null!=eCSShoppingCart.code){
+                Log.v("cart_addded",eCSShoppingCart.totalPrice.formattedValue )
+                // product added to cart
+                //todo go to Shoppingcart fragment
+
+                val bundle = Bundle()
+                bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
+                val fragment = MECShoppingCartFragment()
+                fragment.arguments = bundle
+                replaceFragment(fragment,"cart",true)
+
+            }
+
+
+        }
+
+    }
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -145,7 +175,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.fragment = this
         binding.mecDataHolder = MECDataHolder.INSTANCE
 
-
         ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
         ecsRetailerViewModel = this!!?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
@@ -154,6 +183,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
 
         ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
+
+        ecsProductDetailViewModel.ecsShoppingcart.observe(this ,shoppingCartObserver)
 
 
         ecsProductDetailViewModel.bulkRatingResponse.observe(this, ratingObserver)
@@ -283,9 +314,14 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         buyFromRetailers()
     }
 
-    fun onAddToCartClick() {
-        val fragment = MECShoppingCartFragment()
-        replaceFragment(fragment,"cart",true)
+    fun addToCartClick(){
+        if(null!=binding.product ) {
+                    if (MECDataHolder.INSTANCE.userDataInterface != null && MECDataHolder.INSTANCE.userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                        ecsProductDetailViewModel.addProductToShoppingcart(product)
+                    }else{
+                        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }
+                    }
+        }
     }
 
     private fun buyFromRetailers() {
