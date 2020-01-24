@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.PIMParameterToLaunchEnum;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMUserMigrationListener;
@@ -53,7 +54,6 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -64,7 +64,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({PIMSettingManager.class, IDAssertionRequest.class, PIMMigrationManager.class, PIMLoginManager.class, PIMErrorEnums.class})
+@PrepareForTest({PIMSettingManager.class, IDAssertionRequest.class, PIMMigrationManager.class, PIMLoginManager.class, PIMErrorEnums.class, PIMParameterToLaunchEnum.class})
 @RunWith(PowerMockRunner.class)
 public class PIMMigrationManagerTest extends TestCase {
 
@@ -96,15 +96,16 @@ public class PIMMigrationManagerTest extends TestCase {
     private String accessToken = "vsu46sctqqpjwkbn";
     private String id_assertion_endpoint = "https://stg.api.eu-west-1.philips.com/consumerIdentityService/identityAssertions/";
 
-
+   private HashMap<PIMParameterToLaunchEnum, Object> map = new HashMap<>();
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        HashMap map = mock(HashMap.class);
+        map.put(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT, new Boolean(true));
 
         MockitoAnnotations.initMocks(this);
         mockStatic(PIMErrorEnums.class);
         mockStatic(PIMSettingManager.class);
+        mockStatic(PIMParameterToLaunchEnum.class);
         Context mockContext = mock(Context.class);
         RestInterface mockRestInterface = mock(RestInterface.class);
         AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
@@ -117,7 +118,7 @@ public class PIMMigrationManagerTest extends TestCase {
         when(mockRestInterface.getRequestQueue()).thenReturn(mock(RequestQueue.class));
         when(mockSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
-        whenNew(PIMLoginManager.class).withArguments(mockContext, mockPimoidcConfigration, map).thenReturn(mockPimLoginManager);
+        whenNew(PIMLoginManager.class).withArguments(mockContext, mockPimoidcConfigration, null).thenReturn(mockPimLoginManager);
 
         PIMMigrationManager pimMigrationManager = new PIMMigrationManager(mockContext, mockMigrationListener);
         spyMigrationManager = spy(pimMigrationManager);
