@@ -157,6 +157,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 

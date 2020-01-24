@@ -5,7 +5,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.common.MecError
 
-class ECSShoppingCartCallback(private val ecsProductDetailViewModel: EcsProductDetailViewModel) : ECSCallback<ECSShoppingCart, Exception> {
+class ECSShoppingCartCallback(private val ecsProductDetailViewModel: EcsProductDetailViewModel, private val request :String) : ECSCallback<ECSShoppingCart, Exception> {
     /**
      * On response.
      *
@@ -13,6 +13,7 @@ class ECSShoppingCartCallback(private val ecsProductDetailViewModel: EcsProductD
      */
     override fun onResponse(result: ECSShoppingCart?) {
         ecsProductDetailViewModel.ecsShoppingcart.value=result
+        //todo goto shopping cart page
     }
 
     /**
@@ -21,7 +22,9 @@ class ECSShoppingCartCallback(private val ecsProductDetailViewModel: EcsProductD
      * @param ecsError the error code
      */
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
+
         val mecError = MecError(error, ecsError)
         ecsProductDetailViewModel.mecError.value = mecError
+        ecsProductDetailViewModel.authHbris(request)
     }
 }

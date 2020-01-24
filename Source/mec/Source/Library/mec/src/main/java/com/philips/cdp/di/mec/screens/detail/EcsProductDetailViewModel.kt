@@ -3,19 +3,26 @@ package com.philips.cdp.di.mec.screens.detail
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
 import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.google.gson.internal.LinkedTreeMap
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.ecs.model.asset.Assets
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
+import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
@@ -27,6 +34,8 @@ import java.util.*
 class EcsProductDetailViewModel : CommonViewModel() {
 
     var ecsProduct = MutableLiveData<ECSProduct>()
+
+    lateinit var ecsProductAsParamter :ECSProduct
 
     val bulkRatingResponse= MutableLiveData<BulkRatingsResponse>()
 
@@ -51,7 +60,37 @@ class EcsProductDetailViewModel : CommonViewModel() {
     }
 
     fun addProductToShoppingcart(ecsProduct: ECSProduct){
+        ecsProductAsParamter=ecsProduct
         ecsProductDetailRepository.addTocart(ecsProduct)
+    }
+
+    fun authHbris(requestName :String){
+        val hybrisCallback= object: ECSCallback<ECSOAuthData, Exception> {
+            /**
+             * On response.
+             *
+             * @param result the result
+             */
+            override fun onResponse(result: ECSOAuthData?) {
+                ECSConfiguration.INSTANCE.setAuthToken(result!!.getAccessToken())
+                Log.d("HYBRIS AUTH succ", result.accessToken)
+                addProductToShoppingcart(ecsProductAsParamter)
+            }
+
+            /**
+             * On failure.
+             * @param error     the error object
+             * @param ecsError the error code
+             */
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+
+
+            }
+        }
+
+        HybrisAuth.hybrisAuthentication(hybrisCallback)
+
+
     }
 
 
