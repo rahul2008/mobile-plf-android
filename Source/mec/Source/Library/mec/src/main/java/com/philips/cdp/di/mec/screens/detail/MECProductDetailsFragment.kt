@@ -36,6 +36,7 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
 import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
+import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -143,6 +144,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
         binding.fragment = this
         binding.mecDataHolder = MECDataHolder.INSTANCE
+
 
         ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
@@ -279,6 +281,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     fun onBuyFromRetailerClick() {
         buyFromRetailers()
+    }
+
+    fun onAddToCartClick() {
+        val fragment = MECShoppingCartFragment()
+        replaceFragment(fragment,"cart",true)
     }
 
     private fun buyFromRetailers() {

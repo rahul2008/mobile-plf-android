@@ -39,6 +39,7 @@
     <string name="mec_no_info_available">No info found</string>
 
 
+
     <!--- String match -->
 
     <string name="mec_no_review_available">No reviews found</string>
@@ -61,7 +62,7 @@
     <string name="mec_add_gift_codes">Add gift codes</string>
     <string name="mec_cart_summary">Cart summary</string>
     <string name="mec_accepted_codes">Accepted codes</string>
-    <string name="mec_add">Add</string>
     <string name="mec_continue_shopping">Continue shopping</string>
+    <string name="mec_shopping_cart">Shopping Cart</string>
 
 </resources>

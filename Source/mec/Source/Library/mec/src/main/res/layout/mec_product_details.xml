@@ -306,6 +306,7 @@
             app:uidComponentType="Primary"
             android:textAlignment="center"
             android:visibility="gone"
+            android:onClick="@{() -> fragment.onAddToCartClick()}"
             fontPath="fonts/mec_iconfont.ttf"
             android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
             android:textSize="16sp"
