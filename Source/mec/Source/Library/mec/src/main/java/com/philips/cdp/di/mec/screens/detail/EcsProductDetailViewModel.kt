@@ -64,29 +64,29 @@ class EcsProductDetailViewModel : CommonViewModel() {
         ecsProductDetailRepository.addTocart(ecsProduct)
     }
 
-    fun authHbris(requestName :String){
-        val hybrisCallback= object: ECSCallback<ECSOAuthData, Exception> {
-            /**
-             * On response.
-             *
-             * @param result the result
-             */
-            override fun onResponse(result: ECSOAuthData?) {
-                ECSConfiguration.INSTANCE.setAuthToken(result!!.getAccessToken())
-                Log.d("HYBRIS AUTH succ", result.accessToken)
+    fun createShoppingCart(request: String){
+        val createShoppingCartCallback=  object: ECSCallback<ECSShoppingCart, Exception>{
+            override fun onResponse(result: ECSShoppingCart?) {
                 addProductToShoppingcart(ecsProductAsParamter)
             }
-
-            /**
-             * On failure.
-             * @param error     the error object
-             * @param ecsError the error code
-             */
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                TODO(" create cart must NOT fail")
+            }
 
+        }
+        ecsProductDetailRepository.createCart(createShoppingCartCallback)
+    }
 
+    fun authHbris(requestName :String){
+        val hybrisCallback= object: ECSCallback<ECSOAuthData, Exception> {
+            override fun onResponse(result: ECSOAuthData?) {
+                addProductToShoppingcart(ecsProductAsParamter)
+            }
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
             }
         }
+
+
 
         HybrisAuth.hybrisAuthentication(hybrisCallback)
 
