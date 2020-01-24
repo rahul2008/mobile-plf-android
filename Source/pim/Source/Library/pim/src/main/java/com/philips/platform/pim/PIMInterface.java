@@ -11,6 +11,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
  */
 public class PIMInterface implements UappInterface {
     static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
+    public static final String PIM_KEY_CONSENTS = "PIM_KEY_CONSENTS";
     private final String TAG = PIMInterface.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
 
@@ -115,6 +117,9 @@ public class PIMInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(PIM_KEY_CONSENTS, pimLaunchInput.getParameterToLaunch());
+        pimFragment.setArguments(bundle);
         pimFragment.setActionbarListener(uiLauncher.getActionbarListener(), pimLaunchInput.getUserLoginListener());
         addFragment(uiLauncher, pimFragment);
     }
@@ -131,6 +136,7 @@ public class PIMInterface implements UappInterface {
         if (null != pimLaunchInput) {
             Intent intent = new Intent(uiLauncher.getActivityContext(), PIMActivity.class);
             intent.putExtra(PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
+            intent.putExtra(PIM_KEY_CONSENTS, pimLaunchInput.getParameterToLaunch());
             PIMSettingManager.getInstance().setUserLoginInerface(pimLaunchInput.getUserLoginListener());
 
             uiLauncher.getActivityContext().startActivity(intent);

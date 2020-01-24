@@ -86,7 +86,7 @@ public class PIMLoginManagerTest extends TestCase {
 
         mockStatic(PIMSettingManager.class);
         mockStatic(Analytics.class);
-
+        HashMap consentParameterMap = mock(HashMap.class);
         PIMOIDCConfigration mockPimoidcConfigration = mock(PIMOIDCConfigration.class);
         AuthorizationService mockAuthorizationService = mock(AuthorizationService.class);
         LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
@@ -118,7 +118,7 @@ public class PIMLoginManagerTest extends TestCase {
         whenNew(PIMAuthManager.class).withArguments(mockContext).thenReturn(mockAuthManager);
         when(mockAuthManager.getAuthState()).thenReturn(mockAuthState);
 
-        pimLoginManager = new PIMLoginManager(mockContext, mockPimoidcConfigration);
+        pimLoginManager = new PIMLoginManager(mockContext, mockPimoidcConfigration, consentParameterMap);
     }
 
     @Test

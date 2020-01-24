@@ -53,6 +53,7 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -99,6 +100,7 @@ public class PIMMigrationManagerTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        HashMap map = mock(HashMap.class);
 
         MockitoAnnotations.initMocks(this);
         mockStatic(PIMErrorEnums.class);
@@ -115,7 +117,7 @@ public class PIMMigrationManagerTest extends TestCase {
         when(mockRestInterface.getRequestQueue()).thenReturn(mock(RequestQueue.class));
         when(mockSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
-        whenNew(PIMLoginManager.class).withArguments(mockContext, mockPimoidcConfigration).thenReturn(mockPimLoginManager);
+        whenNew(PIMLoginManager.class).withArguments(mockContext, mockPimoidcConfigration, map).thenReturn(mockPimLoginManager);
 
         PIMMigrationManager pimMigrationManager = new PIMMigrationManager(mockContext, mockMigrationListener);
         spyMigrationManager = spy(pimMigrationManager);

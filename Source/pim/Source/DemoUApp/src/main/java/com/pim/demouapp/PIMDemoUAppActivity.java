@@ -48,6 +48,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
+import com.philips.platform.pim.PIMParameterToLaunchEnum;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -75,7 +76,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
 
     private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
-    private Switch aSwitch;
+    private Switch aSwitch, abTestingSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
     private URInterface urInterface;
@@ -92,6 +93,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private SharedPreferences sharedPreferences;
     private HomeCountryUpdateReceiver receiver;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
+    private Boolean isABTestingStatus = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initTheme();
@@ -119,6 +122,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnMigrator = findViewById(R.id.btn_MigrateUser);
         btnMigrator.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
+        abTestingSwitch = findViewById(R.id.switch_ab_testing_consent);
         btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
         btn_RegistrationPR.setOnClickListener(this);
         btn_IAP = findViewById(R.id.btn_IAP);
@@ -132,6 +136,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
             }
+        });
+
+        abTestingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            setABTestingStatus(isChecked);
         });
         viewInitlization(pimDemoUAppDependencies, pimDemoUAppSettings);
 //        pimInterface = new PIMInterface();
@@ -258,6 +266,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             if (!isUSR) {
                 PIMLaunchInput launchInput = new PIMLaunchInput();
                 launchInput.setUserLoginListener(this);
+
+                HashMap<PIMParameterToLaunchEnum, Object> map = new HashMap<>();
+                map.put(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT, isABTestingStatus);
+
+                launchInput.setParameterToLaunch(map);
                 ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
                 pimInterface.launch(activityLauncher, launchInput);
             }
@@ -381,6 +394,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         PIMLaunchInput launchInput = new PIMLaunchInput();
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
         launchInput.setUserLoginListener(this);
+        HashMap<PIMParameterToLaunchEnum, Object> parameter = new HashMap<>();
+        parameter.put(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT, isABTestingStatus());
+        launchInput.setParameterToLaunch(parameter);
         pimInterface.launch(fragmentLauncher, launchInput);
     }
 
@@ -503,5 +519,12 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    public Boolean isABTestingStatus() {
+        return isABTestingStatus;
+    }
+
+    public void setABTestingStatus(Boolean ABTestingStatus) {
+        isABTestingStatus = ABTestingStatus;
+    }
 
 }
