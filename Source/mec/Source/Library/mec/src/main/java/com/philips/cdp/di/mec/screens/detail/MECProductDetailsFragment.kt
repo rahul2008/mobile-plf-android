@@ -38,6 +38,7 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
 import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
+import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -149,6 +150,13 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 Log.v("cart_addded",eCSShoppingCart.totalPrice.formattedValue )
                 // product added to cart
                 //todo go to Shoppingcart fragment
+
+                val bundle = Bundle()
+                bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
+                val fragment = MECShoppingCartFragment()
+                fragment.arguments = bundle
+                replaceFragment(fragment,"cart",true)
+
             }
 
 

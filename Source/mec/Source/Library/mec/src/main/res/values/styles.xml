@@ -365,6 +365,20 @@
 
     </style>
 
+    <style name="mec_header">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentSecondaryNeutralBackgroundColor</item>
+        <item name="android:minHeight">@dimen/iap_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/iap_shopping_cart_footer_vat_text_size</item>
+        <item name="android:paddingBottom">@dimen/iap_margin_10dp</item>
+        <item name="android:paddingTop">@dimen/iap_margin_10dp</item>
+        <item name="android:spacing">@dimen/iap_body_text_line_spacing_extra</item>
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+
+    </style>
+
     <style name="mec_font_icon_style">
         <item name="fontPath">fonts/iconfont.ttf</item>
         <item name="android:textAlignment">center</item>
