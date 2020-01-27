@@ -55,9 +55,7 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.ValidationEditText;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -360,6 +358,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
+    public void showAcceptTermsView() {
+        acceptTermsCheck.setVisibility(View.VISIBLE);
+    }
+
+
+
+    @Override
     public void updateTermsAndConditionView() {
         hideAcceptTermsAndConditionContainer();
     }
@@ -512,6 +517,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public boolean isAcceptTermsChecked() {
+
+        if(acceptTermsCheck.getVisibility()==View.GONE || acceptTermsCheck.getVisibility()==View.INVISIBLE){
+            return true;
+        }
+
         return acceptTermsCheck.isChecked();
     }
 
@@ -660,21 +670,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                             AppTagingConstants.SPECIAL_EVENTS,
                             AppTagingConstants.SUCCESS_USER_REGISTRATION);
 
-                    if(RegistrationConfiguration.getInstance().isCustomOptoin()||RegistrationConfiguration.getInstance().isSkipOptin()){
+                    if(RegistrationConfiguration.getInstance().isCustomOptoin()){
                         completeRegistration();
-                    } else if(RegistrationConfiguration.getInstance().isSkipOptin()){
+                    } else if(RegistrationConfiguration.getInstance().isSkipOptin() && !almostDonePresenter.isEmailVerificationStatus()){
                         if (FieldsValidator.isValidEmail(emailEditText.getText().toString())) {
                             launchAccountActivateFragment();
-                        } else {
+                        } else if (FieldsValidator.isValidMobileNumber(emailEditText.getText().toString())){
                             launchMobileVerifyCodeFragment();
+                        } else {
+                            completeRegistration();
                         }
-                    } else{
+                    } else if(RegistrationConfiguration.getInstance().isSkipOptin() && almostDonePresenter.isEmailVerificationStatus()){
+                            completeRegistration();
+                    }else{
                         addFragment(new MarketingAccountFragment());
-                        trackPage(AppTaggingPages.MARKETING_OPT_IN);
+                        trackPage(AppTaggingPages.MARKETING_OPT_IN); 
 
                     }
 
                 } else {
+                    RLog.d(TAG, "trackAbtesting : is called");
                     completeRegistration();
                 }
                 break;
