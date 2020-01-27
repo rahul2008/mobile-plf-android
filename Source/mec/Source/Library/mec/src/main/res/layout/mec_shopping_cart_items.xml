@@ -102,6 +102,19 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/quantity_count_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/mec_quantity_val"
+                    style="@style/tvTitle"
+                    android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
+                    android:textColor="@color/uid_quiet_button_icon_selector"
+                    android:textSize="@dimen/iap_text_size_16sp"/>
+            </LinearLayout>
+
 
 
             <com.philips.platform.uid.view.widget.Label

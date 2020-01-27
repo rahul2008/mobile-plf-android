@@ -21,7 +21,9 @@
     <ScrollView
         android:id="@+id/mec_sv_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/price_button_view">
 
 
     <LinearLayout
@@ -45,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
 
@@ -121,7 +124,7 @@
     </ScrollView>
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/price_button_view"
         android:layout_above="@+id/priceLayout"
         android:layout_width="match_parent"
         android:layout_height="0.05dp"

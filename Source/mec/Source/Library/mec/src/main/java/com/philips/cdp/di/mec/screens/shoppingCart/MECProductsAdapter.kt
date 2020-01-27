@@ -30,6 +30,7 @@ class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>)
     private class ViewHolder(val binding: MecShoppingCartItemsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cartSummary: MECCartProductReview) {
             binding.cart = cartSummary
+            binding.mecQuantityVal.text = cartSummary.entries.quantity.toString()
         }
     }
 }
