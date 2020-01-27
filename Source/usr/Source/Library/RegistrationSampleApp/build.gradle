@@ -174,12 +174,10 @@ if (propFile.canRead()) {
 }
 
 dependencies {
-    implementation deps.support.multidex
+    implementation deps.androidx.multidex
     implementation project(strings.usr.projectName)
 
-    androidTestImplementation(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation deps.androidx.espresso_core
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

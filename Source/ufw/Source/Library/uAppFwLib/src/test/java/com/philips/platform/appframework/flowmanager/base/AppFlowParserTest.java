@@ -1,6 +1,6 @@
 package com.philips.platform.appframework.flowmanager.base;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;

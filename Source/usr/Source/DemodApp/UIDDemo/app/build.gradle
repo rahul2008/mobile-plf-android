@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion versions.sdk
     defaultConfig {
         applicationId "com.philips.it.uiddemo"
-        minSdkVersion 23
-        targetSdkVersion 28
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad'
         ]
@@ -20,8 +19,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
     }
 }
 
@@ -31,10 +30,10 @@ dependencies {
     implementation 'com.adobe.mobile:adobeMobileLibrary:4.16.1'
     implementation 'net.openid:appauth:0.7.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation deps.androidx.runner
+    androidTestImplementation deps.androidx.espresso-core
     implementation 'com.squareup.okio:okio:1.14.1'
 }

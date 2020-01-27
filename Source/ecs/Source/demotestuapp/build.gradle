@@ -21,11 +21,7 @@ android {
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
         multiDexEnabled true
-        manifestPlaceholders = [
-        'appAuthRedirectScheme': 'com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad'
-    ]
-
-
+        manifestPlaceholders = ['appAuthRedirectScheme': '']
     }
 
     buildTypes {
@@ -91,12 +87,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.support.appcompatv7
-
-
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.runner
 
     implementation deps.volley
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.gson
     implementation deps.libphonenumber
 

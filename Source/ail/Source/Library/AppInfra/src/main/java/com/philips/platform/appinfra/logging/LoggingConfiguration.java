@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.logging;
 
 
 import android.content.pm.ApplicationInfo;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;

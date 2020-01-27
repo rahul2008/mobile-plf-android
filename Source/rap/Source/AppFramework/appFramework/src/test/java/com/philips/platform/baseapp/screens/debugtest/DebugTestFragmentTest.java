@@ -4,8 +4,8 @@
  */
 package com.philips.platform.baseapp.screens.debugtest;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;

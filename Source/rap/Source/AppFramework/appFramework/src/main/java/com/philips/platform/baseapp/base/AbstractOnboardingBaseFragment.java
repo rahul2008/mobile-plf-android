@@ -6,8 +6,8 @@
 package com.philips.platform.baseapp.base;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;

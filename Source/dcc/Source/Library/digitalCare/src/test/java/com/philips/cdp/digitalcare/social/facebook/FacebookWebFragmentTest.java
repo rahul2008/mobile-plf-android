@@ -63,7 +63,7 @@ public class FacebookWebFragmentTest {
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
-        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
+        //SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
     }
 

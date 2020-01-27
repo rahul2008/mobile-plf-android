@@ -1,6 +1,6 @@
 package com.philips.cdp.di.mec.screens.retailers
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList

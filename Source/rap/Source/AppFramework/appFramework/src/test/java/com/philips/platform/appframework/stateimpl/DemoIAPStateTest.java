@@ -5,7 +5,7 @@
 
 package com.philips.platform.appframework.stateimpl;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.iap.demouapp.IapDemoUAppInterface;
 import com.philips.platform.TestAppFrameworkApplication;

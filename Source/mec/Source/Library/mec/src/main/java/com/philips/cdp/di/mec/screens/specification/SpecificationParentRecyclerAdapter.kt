@@ -1,8 +1,8 @@
 package com.philips.cdp.di.mec.screens.specification
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.mec.databinding.MecSpecItemChildBinding
 import com.philips.cdp.di.mec.databinding.MecSpecItemParentBinding
 import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel

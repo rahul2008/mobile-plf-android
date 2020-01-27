@@ -9,7 +9,7 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;

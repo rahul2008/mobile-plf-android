@@ -6,7 +6,7 @@
 package com.philips.platform.appinfra.abtestclient;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * The ABTest Client Manager is a dummy implementation provided from platform side

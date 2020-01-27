@@ -57,7 +57,7 @@ public class ProductCatalogFragmentTest {
         bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, list);
         productCatalogFragment = ProductCatalogFragment.createInstance(bundle, InAppBaseFragment.AnimationType.NONE);
         productCatalogFragment.setActionBarListener(Mockito.mock(ActionBarListener.class), mockIAPListener);
-        SupportFragmentController.of(productCatalogFragment).create().start().resume();
+//        SupportFragmentController.of(productCatalogFragment).create().start().resume();
         assertNotNull(productCatalogFragment);
     }
 
@@ -66,6 +66,6 @@ public class ProductCatalogFragmentTest {
         Utility.addCountryInPreference(PreferenceManager.getDefaultSharedPreferences(mContext), IAPConstant.IAP_COUNTRY_KEY, "US");
         productCatalogFragment = ProductCatalogFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         productCatalogFragment.setActionBarListener(Mockito.mock(ActionBarListener.class), mockIAPListener);
-        startFragment(productCatalogFragment);
+//        startFragment(productCatalogFragment);
     }
 }

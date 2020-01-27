@@ -9,7 +9,7 @@
 package com.philips.cdp.digitalcare.customview;
 
 import android.annotation.SuppressLint;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 
 import com.philips.platform.uid.view.widget.AlertDialogFragment;

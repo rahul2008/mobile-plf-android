@@ -6,7 +6,7 @@
 package com.philips.cdp.di.ecs;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;

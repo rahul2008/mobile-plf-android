@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.appupdate;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.Response;

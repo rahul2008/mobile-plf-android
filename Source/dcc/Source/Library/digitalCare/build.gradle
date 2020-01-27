@@ -34,6 +34,7 @@ artifacts {
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
@@ -41,8 +42,8 @@ android {
         testApplicationId "com.philips.cdp.digitalcare.test"
         multiDexEnabled true
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
-        minSdkVersion 23
-        targetSdkVersion 25
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
     }
 
     testOptions {
@@ -119,10 +120,10 @@ dependencies {
     }
 
     implementation deps.play_services_maps
-    implementation deps.constraintlayout
+    implementation deps.androidx.constraintlayout
     implementation deps.calligraphy
-    implementation deps.support.appcompatv7
-    implementation deps.support.recyclerview
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recyclerview
     implementation deps.gson
     implementation deps.volley
     implementation deps.shamanland_fonticon
@@ -138,7 +139,8 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
 
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
+    androidTestImplementation deps.androidx.monitor
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

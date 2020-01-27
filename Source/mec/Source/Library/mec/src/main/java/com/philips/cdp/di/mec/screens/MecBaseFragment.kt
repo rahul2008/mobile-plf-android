@@ -5,15 +5,14 @@
 package com.philips.cdp.di.mec.screens
 
 import android.app.ProgressDialog
-import android.arch.lifecycle.Observer
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.RelativeLayout
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.common.MecError

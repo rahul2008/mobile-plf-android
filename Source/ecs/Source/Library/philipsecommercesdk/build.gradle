@@ -43,6 +43,7 @@ android {
 
 
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         minSdkVersion versions.minsdk
@@ -96,13 +97,17 @@ android {
         exclude 'lib/x86/libRSSupport.so'
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 }
 
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.support.appcompatv7
+    implementation deps.androidx.appcompat
     testImplementation deps.junit
     implementation deps.volley
     implementation deps.gson

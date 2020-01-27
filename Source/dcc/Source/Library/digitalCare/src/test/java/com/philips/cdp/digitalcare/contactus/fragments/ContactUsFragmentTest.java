@@ -100,8 +100,7 @@ public class ContactUsFragmentTest {
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
         fragmentSpy = spy(fragment);
-        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
-
+//        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         consumerProductInfo = new ConsumerProductInfo();
         consumerProductInfo.setCtn("AqvaShaver");
         consumerProductInfo.setCatalog("Shaver_2234");

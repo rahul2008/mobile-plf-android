@@ -6,9 +6,9 @@
 
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;

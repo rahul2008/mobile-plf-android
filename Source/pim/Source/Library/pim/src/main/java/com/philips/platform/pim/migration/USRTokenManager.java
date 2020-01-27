@@ -1,6 +1,6 @@
 package com.philips.platform.pim.migration;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import android.text.TextUtils;
 import android.util.Base64;
 

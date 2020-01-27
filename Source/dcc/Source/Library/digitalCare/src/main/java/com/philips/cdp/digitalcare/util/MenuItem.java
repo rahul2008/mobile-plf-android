@@ -1,6 +1,6 @@
 package com.philips.cdp.digitalcare.util;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 /**
  * Created by arbin on 11/04/2017.

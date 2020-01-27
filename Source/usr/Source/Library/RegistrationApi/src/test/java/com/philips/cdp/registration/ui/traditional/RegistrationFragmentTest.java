@@ -1,12 +1,10 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.app.tagging.AppTagging;
@@ -15,12 +13,8 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +23,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;

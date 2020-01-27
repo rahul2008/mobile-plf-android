@@ -34,7 +34,9 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         val title = getArguments()!!.getString(MECConstant.MEC_STORE_NAME)
-        setTitleAndBackButtonVisibility(title, true)
+        if (title != null) {
+            setTitleAndBackButtonVisibility(title, true)
+        }
         mWebView!!.onResume()
     }
 

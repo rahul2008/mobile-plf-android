@@ -3,9 +3,9 @@ package com.philips.cdp.productselection.activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +17,8 @@ import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.platform.uid.utils.UIDActivity;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 
 //import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
@@ -137,6 +138,6 @@ public abstract class ProductSelectionBaseActivity extends UIDActivity {
 
     @Override
     protected void attachBaseContext(final Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }

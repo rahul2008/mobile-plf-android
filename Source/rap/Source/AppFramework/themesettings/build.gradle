@@ -18,6 +18,7 @@ archivesBaseName = strings.tse.artifactName
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionCode 1
@@ -39,8 +40,8 @@ android {
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
-    implementation deps.support.appcompatv7
-    implementation deps.support.recyclerview
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recyclerview
     implementation philipsdeps.uid
     if (useprojectdependencies) {
 

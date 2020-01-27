@@ -38,11 +38,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation(deps.androidx.espresso_core)
     implementation project(':PRDemoApp')
-    implementation deps.support.appcompatv7
+    implementation deps.androidx.appcompat
     testImplementation deps.junit
-    implementation deps.support.cardview
+    implementation deps.androidx.cardview
 }

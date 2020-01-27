@@ -56,7 +56,7 @@ public class UserDetailsFragmentTest {
         when(appInfraInterface.getTagging().createInstanceForComponent("usr", BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         userMock = new User(mContext);
         myaDetailsFragment.setUser(userMock);
-        SupportFragmentTestUtil.startFragment(myaDetailsFragment);
+//        SupportFragmentTestUtil.startFragment(myaDetailsFragment);
     }
 
     @Test

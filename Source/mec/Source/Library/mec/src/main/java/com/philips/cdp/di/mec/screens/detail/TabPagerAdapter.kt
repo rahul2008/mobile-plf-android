@@ -2,15 +2,15 @@ package com.philips.cdp.di.mec.screens.detail
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.philips.cdp.di.mec.screens.features.MECProductFeaturesFragment
 import com.philips.cdp.di.mec.screens.specification.SpecificationFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
-class TabPagerAdapter (var fm: FragmentManager,var ctn: String) : FragmentPagerAdapter(fm) {
+class TabPagerAdapter (var fm: FragmentManager, var ctn: String) : FragmentPagerAdapter(fm) {
 
 
 

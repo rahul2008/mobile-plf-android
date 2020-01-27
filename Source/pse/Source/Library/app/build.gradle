@@ -89,12 +89,10 @@ dependencies {
     implementation project(strings.ufw.projectName)
 
     implementation deps.shamanland_fonticon
-    implementation deps.support.appcompatv7
-    implementation deps.support.recyclerview
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recyclerview
 
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    androidTestImplementation deps.androidx.espresso_core
 }
 
 tasks.withType(Test) {
