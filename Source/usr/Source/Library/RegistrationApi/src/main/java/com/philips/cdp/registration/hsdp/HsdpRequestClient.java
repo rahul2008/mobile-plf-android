@@ -36,9 +36,16 @@ class HsdpRequestClient {
     }
 
     private void sign(Map<String, String> headers, String url, String queryParams, String httpMethod, String body) {
-        HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning(hsdpConfiguration.getHsdpSharedId(), hsdpConfiguration.getHsdpSecretId());
-        String authHeaderValue = hsdpphsApiSigning.createSignature(httpMethod, queryParams, headers, url, body);
-        headers.put("Authorization", authHeaderValue);
+        String hsdpSharedId = hsdpConfiguration.getHsdpSharedId();
+        String hsdpSecretId = hsdpConfiguration.getHsdpSecretId();
+
+        if (hsdpSecretId != null && hsdpSharedId != null) {
+            RLog.d(TAG, "HSDP Shared Key = " + hsdpSharedId + "and Secrete Key = " + hsdpSecretId);
+            HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning(hsdpSharedId, hsdpSecretId);
+            String authHeaderValue = hsdpphsApiSigning.createSignature(httpMethod, queryParams, headers, url, body);
+            headers.put("Authorization", authHeaderValue);
+        } else
+            RLog.d(TAG, "HSDP Shared Key or Secrete key is null");
     }
 
     private String asJsonString(Object request) {
@@ -71,7 +78,7 @@ class HsdpRequestClient {
         Map<String, Object> rawResponse = null;
         try {
             rawResponse = establishConnection(uri, httpMethod, headers, body);
-        } catch (Exception e){
+        } catch (Exception e) {
             RLog.e(TAG, "sendRestRequest : Exception Occured :" + e.getMessage());
 
         }
