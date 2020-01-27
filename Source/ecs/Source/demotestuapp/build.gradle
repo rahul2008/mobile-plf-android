@@ -88,8 +88,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.androidx.appcompat
-
-
+    implementation deps.androidx.runner
 
     implementation deps.volley
     implementation deps.calligraphy
