@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -29,7 +30,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView configurationTextView;
-    private Button user_registration_button, pr_button, reg_list_button,btn_set_theme;
+    private Button user_registration_button, pr_button, reg_list_button,btn_set_theme,product_authenticity_button;
 
 
     @Nullable
@@ -51,12 +52,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         user_registration_button.setOnClickListener(this);
         pr_button.setOnClickListener(this);
         reg_list_button.setOnClickListener(this);
+        product_authenticity_button.setOnClickListener(this);
     }
 
     private void initViews(final View view) {
         user_registration_button = (Button) view.findViewById(R.id.btn_user_registration);
         pr_button = (Button) view.findViewById(R.id.btn_product_registration);
         reg_list_button = (Button) view.findViewById(R.id.btn_register_list);
+        product_authenticity_button = (Button) view.findViewById(R.id.btn_product_authenticity);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
         configurationTextView.setText(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
     }
@@ -73,7 +76,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         } else if (i == R.id.btn_register_list) {
             showFragment(new ProductListFragment(), ProductListFragment.TAG);
 
-        } else {
+        } else if (i == R.id.btn_product_authenticity){
+            PRInterface prInterface = new PRInterface();
+            prInterface.launchProductAuthentication(getContext());
         }
     }
 

@@ -1,5 +1,9 @@
 package com.philips.cdp.prodreg.launcher;
 
+import android.content.Context;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -39,5 +43,11 @@ public class PRInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         PRUiHelper.getInstance().launch(uiLauncher, uappLaunchInput);
+    }
+
+    public void launchProductAuthentication(Context context){
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(context, Uri.parse("https://www.chk.philips.com/gb_en/"));
     }
 }

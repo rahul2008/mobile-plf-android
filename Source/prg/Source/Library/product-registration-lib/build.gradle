@@ -107,6 +107,7 @@ dependencies {
     implementation deps.libphonenumber
     implementation deps.support.appcompatv7
     implementation deps.volley
+    implementation deps.support.customtabs
     implementation(philipsdeps.uid) {
         exclude group: 'com.android.support'
     }

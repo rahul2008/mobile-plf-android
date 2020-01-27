@@ -2,6 +2,7 @@
     <string name="prg_app_name" translatable="false">Product Registration</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="enter_ctn_number" translatable="false">Enter CTN number</string>
+    <string name="product_authenticity" translatable="false">Product Authenticity</string>
     <string name="user_registration" translatable="false">User Registration</string>
     <string name="product_registration" translatable="false">Product Registration</string>
     <string name="my_id" translatable="false">My ID:</string>
