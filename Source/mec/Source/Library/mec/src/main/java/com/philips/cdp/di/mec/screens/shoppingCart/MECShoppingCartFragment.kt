@@ -105,5 +105,9 @@ class MECShoppingCartFragment : MecBaseFragment() {
         ecsShoppingCartViewModel.getShoppingCart()
     }
 
+    fun gotoProductCatalog(){
+        showProductCatalogFragment(MECShoppingCartFragment.TAG)
+    }
+
 
 }

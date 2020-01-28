@@ -204,6 +204,7 @@
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
             android:layout_alignParentBottom="true"
+            android:onClick="@{() -> fragment.gotoProductCatalog()}"
             android:text="@string/mec_continue_shopping"
             android:textSize="16dp"
             app:uidComponentType="Secondary" />

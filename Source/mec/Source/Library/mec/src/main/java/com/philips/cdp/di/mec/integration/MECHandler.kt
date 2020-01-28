@@ -31,13 +31,16 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
+import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
+import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 
 
 internal class MECHandler(private val mMECDependencies: MECDependencies, private val mMECSetting: MECSettings, private val mUiLauncher: UiLauncher, private val mLaunchInput: MECLaunchInput) {
     private var appInfra: AppInfra? = null
     private var listOfServiceId: ArrayList<String>? = null
     lateinit var serviceUrlMapListener: OnGetServiceUrlMapListener
+    lateinit var fragmentTag :String
 
 
     private val IAP_PRIVACY_URL = "iap.privacyPolicy"
@@ -168,9 +171,9 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         val fragmentLauncher = mUiLauncher as FragmentLauncher
         MECDataHolder.INSTANCE.setActionBarListener(fragmentLauncher.actionbarListener, mLaunchInput.mecListener!!)
-        val tag = mecBaseFragment!!.tag
+
         val transaction = fragmentLauncher.fragmentActivity.supportFragmentManager.beginTransaction()
-        transaction.replace(fragmentLauncher.parentContainerResourceID, mecBaseFragment, tag)
+        transaction.replace(fragmentLauncher.parentContainerResourceID, mecBaseFragment!!, fragmentTag)
         transaction.addToBackStack(MECProductCatalogFragment.TAG)
         transaction.commitAllowingStateLoss()
     }
@@ -181,14 +184,21 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         when (screen) {
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
+                fragmentTag=MECProductDetailsFragment.TAG
                // fetchProductDetailForCtn(isHybris)
             }
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
+                fragmentTag=MECProductCatalogFragment.TAG
                 fragment = MECProductCatalogFragment()
             }
             MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
+                fragmentTag=MECProductCatalogFragment.TAG
                 fragment = getCategorizedFragment(isHybris)
+            }
+            MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART -> {
+                fragmentTag=MECShoppingCartFragment.TAG
+                TODO("launch shopping cart")
             }
         }
 
