@@ -1,9 +1,11 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.helper.ItemTouchHelper.Callback
@@ -11,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 
 import android.support.v7.widget.helper.ItemTouchHelper.*
+import com.philips.cdp.di.mec.R
 
 
 internal enum class ButtonsState {
@@ -19,7 +22,7 @@ internal enum class ButtonsState {
     RIGHT_VISIBLE
 }
 
-internal class SwipeController(buttonsActions: SwipeControllerActions) : Callback() {
+internal class SwipeController(context : Context, buttonsActions: SwipeControllerActions) : Callback() {
 
     private var swipeBack = false
 
@@ -31,8 +34,12 @@ internal class SwipeController(buttonsActions: SwipeControllerActions) : Callbac
 
     private var buttonsActions: SwipeControllerActions? = null
 
+    private var context :Context
+
     init {
         this.buttonsActions = buttonsActions
+        this.context = context
+
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
@@ -133,7 +140,7 @@ internal class SwipeController(buttonsActions: SwipeControllerActions) : Callbac
         val p = Paint()
 
         val rightButton = RectF(itemView.right - buttonWidthWithoutPadding, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
-        p.color = Color.RED
+        p.color = (ContextCompat.getColor(context, R.color.uid_signal_red_level_60))
         c.drawRoundRect(rightButton, corners, corners, p)
         drawText("DELETE", c, rightButton, p)
 

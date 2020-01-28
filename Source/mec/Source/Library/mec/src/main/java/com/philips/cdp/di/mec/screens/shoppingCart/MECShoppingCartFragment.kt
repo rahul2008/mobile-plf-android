@@ -78,7 +78,7 @@ class MECShoppingCartFragment : MecBaseFragment() {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
-        swipeController = SwipeController(object : SwipeControllerActions(){
+        swipeController = SwipeController(binding.mecCartSummaryRecyclerView.context,object : SwipeControllerActions(){
             override fun onRightClicked(position: Int) {
                 ecsShoppingCartViewModel.updateQuantity(ecsShoppingCart.entries.get(position),0)
                 //Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show()
