@@ -13,7 +13,7 @@ class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductD
      * @param result the result
      */
     override fun onResponse(result: ECSShoppingCart?) {
-        ecsProductDetailViewModel.ecsShoppingcart.value=result
+        ecsProductDetailViewModel.addToProductCallBack.onResponse(result)
     }
 
     /**
@@ -30,6 +30,8 @@ class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductD
             ecsProductDetailViewModel.authHbris(request)
         }else if (ecsError!!.errorcode == ECSErrorEnum.ECSCartError.errorCode){
             ecsProductDetailViewModel.createShoppingCart(request)
+        } else{
+            ecsProductDetailViewModel.addToProductCallBack.onFailure(error, ecsError)
         }
     }
 }

@@ -16,7 +16,8 @@
 <RelativeLayout
     android:id="@+id/parent_layout"
     android:layout_width="@dimen/iap_match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/uid_level_white">
 
     <ScrollView
         android:id="@+id/mec_sv_header"

@@ -7,7 +7,9 @@ package com.philips.cdp.di.mec.screens
 import android.app.ProgressDialog
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
@@ -22,6 +24,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.technicalError
 import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
@@ -47,20 +50,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     override fun handleBackEvent(): Boolean {
-        val currentFragment = activity?.supportFragmentManager?.fragments?.last()
 
-        if (currentFragment?.getTag().equals("MECProductCatalogFragment")){
-
-        }else  if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
-        {
-            setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
-        }
-        else if (currentFragment?.getTag().equals("MECProductDetailsFragment")){
-            setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
-        }
-        else if (currentFragment?.getTag().equals("MecPrivacyFragment")){
-            setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
-        }
         return false
     }
 
@@ -74,11 +64,12 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 val simpleName = newFragment.javaClass.simpleName
 
-                if (isReplaceWithBackStack) {
-                    transaction.addToBackStack(null)
-                }
+
 
                 transaction.replace(id, newFragment, simpleName)
+                if (isReplaceWithBackStack) {
+                    transaction.addToBackStack(simpleName)
+                }
                 transaction.commitAllowingStateLoss()
             }
         }
@@ -91,17 +82,31 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             RuntimeException("ActionBarListner and IAPListner cant be null")
         else {
             if (!activity!!.isFinishing) {
-
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 val simpleName = newFragment.javaClass.simpleName
-
-                if (isAddWithBackStack) {
-                    transaction.addToBackStack(null)
-                }
-
                 transaction.add(id, newFragment, simpleName)
+                if (isAddWithBackStack) {
+                    transaction.addToBackStack(simpleName)
+                }
                 transaction.commitAllowingStateLoss()
             }
+        }
+    }
+
+    fun showProductCatalogFragment(fragmentTag: String) {
+        val fragment = fragmentManager!!.findFragmentByTag(MECProductCatalogFragment.TAG)
+        if (fragment == null) {
+            fragmentManager!!.popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            replaceFragment(MECProductCatalogFragment(),  MECProductCatalogFragment.TAG, true)
+        } else {
+            fragmentManager!!.popBackStack(MECProductCatalogFragment.TAG, 0)
+        }
+    }
+
+    fun showFragment(fragmentTag: String) {
+        if (activity != null && !activity!!.isFinishing) {
+            activity!!.supportFragmentManager.popBackStackImmediate(fragmentTag, 0)
+
         }
     }
 

@@ -14,13 +14,22 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
+
+
+
+
 
 /**
  * A simple [Fragment] subclass.
  */
 class MECShoppingCartFragment : MecBaseFragment() {
+    var mRootView: View? = null
+    companion object {
+        val TAG = MECShoppingCartFragment::class.java!!.getName()
+    }
 
     private lateinit var binding: MecShoppingCartFragmentBinding
     private lateinit var ecsShoppingCart: ECSShoppingCart
@@ -49,26 +58,28 @@ class MECShoppingCartFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
-        binding.fragment = this
-        ecsShoppingCartViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }!!
+        if(null==mRootView) {
+            binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
+            binding.fragment = this
+            ecsShoppingCartViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }!!
 
-        ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
-        ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
+            ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
+            ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
 
-        val bundle = arguments
-        ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
+            val bundle = arguments
+            ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
 
-        productReviewList = mutableListOf()
+            productReviewList = mutableListOf()
 
-        productsAdapter = MECProductsAdapter(productReviewList)
+            productsAdapter = MECProductsAdapter(productReviewList)
 
-        binding.mecCartSummaryRecyclerView.adapter = productsAdapter
+            binding.mecCartSummaryRecyclerView.adapter = productsAdapter
 
-        binding.mecCartSummaryRecyclerView.apply {
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            binding.mecCartSummaryRecyclerView.apply {
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            }
+            mRootView = binding.root
         }
-
         return binding.root
     }
 
@@ -86,6 +97,8 @@ class MECShoppingCartFragment : MecBaseFragment() {
         }
         //executeRequest()
     }
+
+
 
     fun executeRequest() {
         //createCustomProgressBar(container, MEDIUM)

@@ -36,6 +36,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
     var ecsProduct = MutableLiveData<ECSProduct>()
 
     lateinit var ecsProductAsParamter :ECSProduct
+    lateinit var  addToProductCallBack :ECSCallback<ECSShoppingCart, Exception>
 
     val bulkRatingResponse= MutableLiveData<BulkRatingsResponse>()
 
@@ -59,15 +60,16 @@ class EcsProductDetailViewModel : CommonViewModel() {
         ecsProductDetailRepository.fetchProductReview(ctn, pageNumber, pageSize)
     }
 
-    fun addProductToShoppingcart(ecsProduct: ECSProduct){
+    fun addProductToShoppingcart(ecsProduct: ECSProduct, addToProductCallback  :ECSCallback<ECSShoppingCart, Exception>){
         ecsProductAsParamter=ecsProduct
-        ecsProductDetailRepository.addTocart(ecsProduct)
+        addToProductCallBack=addToProductCallback
+        ecsProductDetailRepository.addTocart(ecsProductAsParamter)
     }
 
     fun createShoppingCart(request: String){
         val createShoppingCartCallback=  object: ECSCallback<ECSShoppingCart, Exception>{
             override fun onResponse(result: ECSShoppingCart?) {
-                addProductToShoppingcart(ecsProductAsParamter)
+                addProductToShoppingcart(ecsProductAsParamter,addToProductCallBack)
             }
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
                 TODO(" create cart must NOT fail")
@@ -80,7 +82,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
     fun authHbris(requestName :String){
         val hybrisCallback= object: ECSCallback<ECSOAuthData, Exception> {
             override fun onResponse(result: ECSOAuthData?) {
-                addProductToShoppingcart(ecsProductAsParamter)
+                addProductToShoppingcart(ecsProductAsParamter,addToProductCallBack)
             }
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
             }
