@@ -1,6 +1,6 @@
 package com.philips.platform.appinfra.logging;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 

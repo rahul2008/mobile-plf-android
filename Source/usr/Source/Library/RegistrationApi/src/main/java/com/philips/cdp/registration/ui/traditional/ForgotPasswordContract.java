@@ -1,6 +1,8 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.support.v4.app.*;
+import androidx.core.app.*;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.registration.dao.*;

@@ -4,7 +4,7 @@
  */
 package com.philips.platform.appframework.stateimpl;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.ccdemouapp.CCDemoUAppuAppInterface;

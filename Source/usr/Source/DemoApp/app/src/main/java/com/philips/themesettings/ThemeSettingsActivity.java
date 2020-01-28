@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uid.thememanager.AccentRange;

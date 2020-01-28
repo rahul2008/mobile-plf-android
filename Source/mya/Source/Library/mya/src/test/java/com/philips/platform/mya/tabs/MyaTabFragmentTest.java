@@ -38,7 +38,7 @@ public class MyaTabFragmentTest {
 
     @Test(expected = InflateException.class)
     public void testStartFragment_ShouldNotNul() {
-        SupportFragmentTestUtil.startFragment(myaTabFragment);
+//        SupportFragmentTestUtil.startFragment(myaTabFragment);
     }
 
     @Test

@@ -7,10 +7,10 @@ package com.philips.platform.mya.base;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -68,7 +68,7 @@ public class MyaBaseFragmentTest {
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
-        SupportFragmentTestUtil.startFragment(myaBaseFragment);
+//        SupportFragmentTestUtil.startFragment(myaBaseFragment);
         assertNotNull(myaBaseFragment.getFragmentActivity());
     }
 
@@ -146,7 +146,7 @@ public class MyaBaseFragmentTest {
         ActionBarListener actionBarListener = mock(ActionBarListener.class);
         myaBaseFragment = new MyaSettingsFragment();
         myaBaseFragment.setActionbarUpdateListener(actionBarListener);
-        startFragment(myaBaseFragment);
+//        startFragment(myaBaseFragment);
         verify(actionBarListener).updateActionBar(myaBaseFragment.getActionbarTitleResId(),myaBaseFragment.getBackButtonState());
         verify(actionBarListener).updateActionBar(myaBaseFragment.getActionbarTitle(RuntimeEnvironment.application),myaBaseFragment.getBackButtonState());
     }

@@ -1,12 +1,12 @@
 package com.philips.cdp.di.mec.utils
 
-import android.databinding.BindingAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RatingBar
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.philips.cdp.di.ecs.model.asset.Asset

@@ -1,6 +1,6 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;

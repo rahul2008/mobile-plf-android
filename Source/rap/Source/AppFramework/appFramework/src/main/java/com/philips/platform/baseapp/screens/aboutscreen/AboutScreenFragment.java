@@ -6,7 +6,7 @@
 package com.philips.platform.baseapp.screens.aboutscreen;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.view.LayoutInflater;

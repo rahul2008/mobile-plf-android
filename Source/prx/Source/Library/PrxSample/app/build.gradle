@@ -80,9 +80,9 @@ dependencies {
     implementation project(strings.prx.projectName)
 
     implementation deps.glide
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
-    implementation deps.support.annotations
+    implementation deps.androidx.appcompat
+    implementation deps.design
+    implementation deps.androidx.annotations
 }
 
 tasks.withType(Test) {

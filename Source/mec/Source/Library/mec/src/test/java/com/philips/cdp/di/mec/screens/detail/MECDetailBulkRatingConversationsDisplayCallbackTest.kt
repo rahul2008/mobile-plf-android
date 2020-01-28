@@ -1,6 +1,6 @@
 package com.philips.cdp.di.mec.screens.detail
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ConversationsException
 import com.philips.cdp.di.mec.common.MecError

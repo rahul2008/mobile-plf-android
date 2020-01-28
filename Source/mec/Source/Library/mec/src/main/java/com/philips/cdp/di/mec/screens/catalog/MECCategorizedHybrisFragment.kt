@@ -11,7 +11,7 @@ class MECCategorizedHybrisFragment: MECProductCatalogFragment(){
     override fun onViewCreated(view: View, bundle: Bundle?) {
         super.onViewCreated(view, bundle)
 
-        ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
+        ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
     }
 
     override fun executeRequest() {

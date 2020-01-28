@@ -2,7 +2,9 @@ package com.philips.cdp.prodreg.launcher;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
+
+
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.platform.uappframework.UappInterface;

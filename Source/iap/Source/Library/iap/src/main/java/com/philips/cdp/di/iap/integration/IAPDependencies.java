@@ -4,7 +4,7 @@
  */
 package com.philips.cdp.di.iap.integration;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.platform.appinfra.AppInfraInterface;

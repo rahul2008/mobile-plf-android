@@ -1,7 +1,7 @@
 package com.philips.cdp.digitalcare;
 
-import android.support.annotation.StringRes;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;

@@ -1,7 +1,7 @@
 package com.philips.platform.prdemoapp;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.philips.platform.prdemoapplibrary.R;
 

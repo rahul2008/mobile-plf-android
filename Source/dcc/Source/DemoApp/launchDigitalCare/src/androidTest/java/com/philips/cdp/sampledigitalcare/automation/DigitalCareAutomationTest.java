@@ -7,10 +7,10 @@ package com.philips.cdp.sampledigitalcare.automation;
 
 import android.graphics.Point;
 import android.os.RemoteException;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiDevice;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.runner.AndroidJUnit4;
+import androidx.test.uiautomator.UiDevice;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.philips.platform.ccdemouapp.CCDemoUAppActivity;
@@ -24,14 +24,14 @@ import org.junit.runner.RunWith;
 
 import androidx.test.rule.ActivityTestRule;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static com.philips.cdp.sampledigitalcare.automation.Matchers.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
@@ -229,7 +229,7 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
     }
 
     private DigitalCareAutomationTest pressBack() {
-        android.support.test.espresso.Espresso.pressBack();
+        androidx.test.espresso.Espresso.pressBack();
         return waiting(millis);
     }
 

@@ -7,9 +7,9 @@ package com.philips.platform.mya.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
@@ -70,7 +70,7 @@ public class MyaSettingsFragmentTest {
         MyaHelper.getInstance().setAppInfra(appInfra);
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
-        SupportFragmentTestUtil.startFragment(myaSettingsFragment);
+//        SupportFragmentTestUtil.startFragment(myaSettingsFragment);
         myaLaunchInput.setSettingsMenuList(arrayList);
         myaSettingsFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }

@@ -6,9 +6,9 @@
 package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
-import android.support.annotation.AnyRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.RawRes;
+import androidx.annotation.AnyRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.RawRes;
 import android.util.Log;
 
 import com.google.gson.Gson;

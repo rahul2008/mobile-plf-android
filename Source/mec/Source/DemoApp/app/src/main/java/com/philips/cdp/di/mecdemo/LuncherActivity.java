@@ -2,8 +2,9 @@ package com.philips.cdp.di.mecdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.mec.demouapp.MecDemoAppSettings;
 import com.mec.demouapp.MecDemoUAppDependencies;

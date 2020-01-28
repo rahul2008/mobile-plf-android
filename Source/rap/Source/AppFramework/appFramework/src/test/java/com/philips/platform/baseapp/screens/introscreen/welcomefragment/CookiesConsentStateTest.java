@@ -6,7 +6,7 @@
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

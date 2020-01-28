@@ -1,10 +1,10 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.recyclerview.widget.RecyclerView
 import com.bazaarvoice.bvandroidsdk.Statistics
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import java.text.DecimalFormat

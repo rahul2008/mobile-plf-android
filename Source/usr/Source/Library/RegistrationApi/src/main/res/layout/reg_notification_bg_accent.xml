@@ -6,7 +6,7 @@
     android:background="@drawable/uid_shadow_level_two"
     app:uidShadowOffset="0dp">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/uidNotificationBarAccentNormalBackgroundColor"
@@ -46,5 +46,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/uid_ic_cross_icon" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.philips.platform.uid.view.widget.NavigationContainer>

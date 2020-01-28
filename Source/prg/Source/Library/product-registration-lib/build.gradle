@@ -38,11 +38,7 @@ task zipDocuments(type: Zip) {
 
 android {
     compileSdkVersion versions.sdk
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionCode 1
@@ -83,6 +79,11 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
+
     testOptions {
         unitTests.all {
             jacoco {
@@ -103,14 +104,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.gson
     implementation deps.libphonenumber
-    implementation deps.support.appcompatv7
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.customtabs
     implementation deps.volley
-    implementation deps.support.customtabs
-    implementation(philipsdeps.uid) {
-        exclude group: 'com.android.support'
-    }
+    implementation(philipsdeps.uid)
     if (useprojectdependencies) {
         implementation project(strings.pif.projectName)
         implementation project(strings.prx.projectName)

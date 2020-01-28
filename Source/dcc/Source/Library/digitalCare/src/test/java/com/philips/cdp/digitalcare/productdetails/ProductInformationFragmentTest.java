@@ -71,7 +71,7 @@ public class ProductInformationFragmentTest {
         when(mockDigitalCareConfigManager.getViewProductDetailsData()).thenReturn(viewProductDetailsModel);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
-        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
+//        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
     }
 

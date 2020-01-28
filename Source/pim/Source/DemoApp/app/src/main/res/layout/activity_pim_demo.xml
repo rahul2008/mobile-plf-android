@@ -16,7 +16,7 @@
         android:layout_marginBottom="20dp"
         android:text="PIM Demo App" />
 
-    <android.support.v7.widget.AppCompatSpinner
+    <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/selectLibrary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:layout_centerInParent="true"
         android:layout_margin="5dp" />
 
-  <!--  <android.support.v7.widget.AppCompatSpinner
+  <!--  <aandroidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinner_CountrySelection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

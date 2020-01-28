@@ -37,6 +37,7 @@ task zipDocuments(type: Zip) {
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionCode 1
@@ -61,16 +62,19 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation deps.calligraphy
-    implementation deps.support.design
-    implementation(philipsdeps.uid) {
-        exclude group: 'com.android.support'
-    }
+    implementation deps.viewpump
+    implementation deps.design
+    implementation(philipsdeps.uid)
     if (useprojectdependencies) {
         
         implementation project(strings.prg.projectName)
@@ -88,33 +92,12 @@ dependencies {
         implementation philipsdeps.pif
     }
 
-    implementation(deps.support.recyclerview) {
-        exclude module: "com.android.support"
-    }
-    implementation(deps.support.cardview) {
-        exclude module: "com.android.support"
-    }
-    implementation(deps.support.appcompatv7) {
-        exclude module: "com.android.support"
-    }
-
-    implementation deps.support.cardview
-
-    implementation(deps.butterknife) {
-        exclude module: "com.android.support"
-    }
+    implementation(deps.butterknife)
     implementation deps.greenrobot
 
-    testImplementation(deps.junit) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
+    testImplementation(deps.junit)
 
-    androidTestImplementation(deps.espresso_core) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.apache_commons_lang
 }
 

@@ -2,7 +2,7 @@ package com.philips.cdp.di.pesdemo.utils;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.test.runner.AndroidJUnitRunner;
+import androidx.test.runner.AndroidJUnitRunner;
 
 import com.philips.cdp.di.pesdemo.EcsDemoApplication;
 

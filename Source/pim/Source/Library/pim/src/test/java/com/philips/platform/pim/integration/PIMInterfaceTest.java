@@ -1,6 +1,6 @@
 package com.philips.platform.pim.integration;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 

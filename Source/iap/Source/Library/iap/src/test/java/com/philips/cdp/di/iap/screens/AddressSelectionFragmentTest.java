@@ -87,7 +87,7 @@ public class AddressSelectionFragmentTest {
 
     @Test
     public void shouldDisplayAddressSelectionFragment() {
-        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
+//        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
         InAppBaseFragment spyInAppBaseFragment = Mockito.spy(addrssAddressSelectionFragment);
         spyInAppBaseFragment.showFragment(addrssAddressSelectionFragment.getTag());
     }
@@ -102,14 +102,14 @@ public class AddressSelectionFragmentTest {
     public void shouldOnGetAddress() throws Exception {
         mockMessage.what = RequestCode.DELETE_ADDRESS;
         addrssAddressSelectionFragment.onGetAddress(mockMessage);
-        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
+//        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldOnGetAddress_GetShippingAddressData() throws Exception {
         mockMessage.obj = GetShippingAddressData.class;
         addrssAddressSelectionFragment.onGetAddress(mockMessage);
-        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
+//        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
     }
 
     @Test(expected = NullPointerException.class)
@@ -117,7 +117,7 @@ public class AddressSelectionFragmentTest {
         when(mockAdapter.getSelectedPosition()).thenReturn(1);
         mockMessage.obj = IAPConstant.IAP_SUCCESS;
         addrssAddressSelectionFragment.onSetDeliveryAddress(mockMessage);
-        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
+//        SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
     }
 
     @Test

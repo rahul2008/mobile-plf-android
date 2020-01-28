@@ -6,7 +6,7 @@
 package com.philips.platform.uappframework.launcher;
 
 
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.platform.uappframework.listener.ActionBarListener;
 

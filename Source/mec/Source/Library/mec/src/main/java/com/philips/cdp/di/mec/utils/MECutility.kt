@@ -2,8 +2,7 @@ package com.philips.cdp.di.mec.utils
 
 import android.app.Activity
 import android.content.Context
-import android.support.v4.app.FragmentManager
-import android.view.View
+import androidx.fragment.app.FragmentManager
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.uid.thememanager.UIDHelper

@@ -12,6 +12,7 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -30,6 +31,9 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
+
+    @Inject
+    SecureStorageInterface secureStorage;
 
     public RegistrationSettingsURL() {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -265,7 +269,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
             private void initialize() {
                 try {
-                    RLog.d(TAG, "jumpConfig : " + jumpConfig);
+                    RLog.d(TAG, "jumpConfig : " + jumpConfig.toString());
+                    String s = secureStorage.fetchValueForKey("jr_capture_flow", new SecureStorageInterface.SecureStorageError());
                     Jump.reinitialize(mContext, jumpConfig);
                 } catch (Exception e) {
                     e.printStackTrace();
