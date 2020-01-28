@@ -149,10 +149,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             if(null!= eCSShoppingCart && null!=eCSShoppingCart.code){
                 Log.v("cart_addded",eCSShoppingCart.totalPrice.formattedValue )
                 // product added to cart
-                //todo go to Shoppingcart fragment
+                // go to Shoppingcart fragment
 
                 val bundle = Bundle()
                 bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
+                hideProgressBar()
                 val fragment = MECShoppingCartFragment()
                 fragment.arguments = bundle
                 replaceFragment(fragment,"cart",true)
@@ -319,6 +320,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     if (MECDataHolder.INSTANCE.userDataInterface != null && MECDataHolder.INSTANCE.userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                         ecsProductDetailViewModel.addProductToShoppingcart(product)
                     }else{
+                        createCustomProgressBar(container, MEDIUM)
                         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }
                     }
         }

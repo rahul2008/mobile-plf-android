@@ -13,6 +13,7 @@
         android:id="@+id/product_catalog_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/uidColorWhite"
         android:clickable="true"
         android:padding="@dimen/border16_margin_left_right">
 
@@ -106,23 +107,31 @@
                 android:id="@+id/quantity_count_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/iap_margin_4dp">
+                android:layout_marginTop="@dimen/iap_margin_10dp">
 
                 <com.philips.platform.uid.view.widget.Label
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:id="@+id/mec_quantity_val"
-                    android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
                     fontPath="fonts/mec_iconfont.ttf"
                     android:text='@{ cart.entries.quantity + " "+ @string/dls_downarrow}'
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:textColor="?attr/uidTextBoxQuietNormalTextColor"
-                    android:textSize="@dimen/iap_text_size_16sp"
+                    android:textSize="@dimen/iap_text_size_16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/mec_price_lebel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" />
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    app:setPriceInfo="@{ cart.entries.product}"
+                    android:textSize="16sp" />
             </LinearLayout>
 
 
-            <com.philips.platform.uid.view.widget.Label
+            <!--<com.philips.platform.uid.view.widget.Label
                 android:id="@+id/mec_price_lebel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,7 +139,7 @@
                 android:layout_marginTop="@dimen/iap_margin_4dp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 app:setPriceInfo="@{ cart.entries.product}"
-                android:textSize="16sp" />
+                android:textSize="16sp" />-->
 
 
         </LinearLayout>

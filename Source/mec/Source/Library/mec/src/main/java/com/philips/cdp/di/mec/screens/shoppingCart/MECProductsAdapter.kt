@@ -46,7 +46,7 @@ class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>,
                 val countPopUp = MecCountDropDown(v, v.context, stockLevel, data.entries.quantity
                         , object : MecCountDropDown.CountUpdateListener {
                     override fun countUpdate(oldCount: Int, newCount: Int) {
-                        if (newCount > oldCount) {
+                        if (newCount != oldCount) {
                             ecsShoppingCartViewModel.updateQuantity(cartSummary.entries, newCount)
                         }
 

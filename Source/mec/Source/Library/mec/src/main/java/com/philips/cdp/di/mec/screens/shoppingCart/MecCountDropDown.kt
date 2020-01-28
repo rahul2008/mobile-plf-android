@@ -16,7 +16,6 @@ import com.philips.platform.uid.view.widget.UIPicker
 
 class MecCountDropDown internal constructor(private val anchor: View, private val context: Context, private val mStart: Int, private val mEnd: Int, private var mCurrent: Int, private val mUpdateListener: CountUpdateListener?) : AdapterView.OnItemClickListener {
     var popUpWindow: UIPicker? = null
-        private set
     private var mCurrentViewIndex: Int = 0
 
     interface CountUpdateListener {
