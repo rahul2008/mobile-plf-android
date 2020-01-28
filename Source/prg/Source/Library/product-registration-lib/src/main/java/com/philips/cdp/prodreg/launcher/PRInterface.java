@@ -47,6 +47,11 @@ public class PRInterface implements UappInterface {
         PRUiHelper.getInstance().launch(uiLauncher, uappLaunchInput);
     }
 
+    /**
+     * API used for launching product authenticity web page
+     * @param context - pass context
+     * @since 2001.0
+     */
     public void launchProductAuthentication(Context context){
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         CustomTabsIntent customTabsIntent = builder.build();
