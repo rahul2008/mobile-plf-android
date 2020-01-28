@@ -6,7 +6,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
 
-class EcsShoppingCartViewModel : CommonViewModel() {
+open class EcsShoppingCartViewModel : CommonViewModel() {
 
     var ecsShoppingCart = MutableLiveData<ECSShoppingCart>()
 
@@ -18,6 +18,10 @@ class EcsShoppingCartViewModel : CommonViewModel() {
 
     fun getShoppingCart(){
         ecsShoppingCartRepository.fetchShoppingCart()
+    }
+
+    fun updateQuantity(entries: ECSEntries, quantity: Int) {
+        ecsShoppingCartRepository.updateShoppingCart(entries,quantity)
     }
 
     fun fetchProductReview(entries: MutableList<ECSEntries>) {

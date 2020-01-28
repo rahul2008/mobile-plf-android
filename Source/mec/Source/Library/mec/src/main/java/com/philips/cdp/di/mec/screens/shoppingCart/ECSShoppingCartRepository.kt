@@ -16,6 +16,10 @@ class ECSShoppingCartRepository(private val ecsShoppingCartViewModel: EcsShoppin
          ecsServices.fetchShoppingCart(ecsShoppingCartCallback)
     }
 
+    fun updateShoppingCart(entries: ECSEntries, quantity: Int) {
+        ecsServices.updateShoppingCart(quantity,entries,ecsShoppingCartCallback)
+    }
+
     fun fetchProductReview(ecsEntries: MutableList<ECSEntries>, ecsShoppingCartViewModel: EcsShoppingCartViewModel){
 
         val mecConversationsDisplayCallback = MECBulkRatingCallback(ecsEntries, ecsShoppingCartViewModel)

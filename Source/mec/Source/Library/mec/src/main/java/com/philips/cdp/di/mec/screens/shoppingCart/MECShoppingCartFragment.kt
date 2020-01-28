@@ -15,7 +15,8 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
-import kotlinx.android.synthetic.main.mec_main_activity.*
+import com.philips.platform.uid.view.widget.UIPicker
+
 
 /**
  * A simple [Fragment] subclass.
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 class MECShoppingCartFragment : MecBaseFragment() {
 
     private lateinit var binding: MecShoppingCartFragmentBinding
+    private lateinit var mPopupWindow: UIPicker
     private lateinit var ecsShoppingCart: ECSShoppingCart
     lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
     private var productsAdapter: MECProductsAdapter? = null
@@ -61,7 +63,7 @@ class MECShoppingCartFragment : MecBaseFragment() {
 
         productReviewList = mutableListOf()
 
-        productsAdapter = MECProductsAdapter(productReviewList)
+        productsAdapter = MECProductsAdapter(productReviewList,ecsShoppingCartViewModel)
 
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
 
@@ -75,7 +77,6 @@ class MECShoppingCartFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
         setTitleAndBackButtonVisibility(R.string.mec_shopping_cart, true)
     }
 
@@ -92,5 +93,11 @@ class MECShoppingCartFragment : MecBaseFragment() {
         ecsShoppingCartViewModel.getShoppingCart()
     }
 
+    override fun onStop() {
+        super.onStop()
+        if(productsAdapter!=null){
+            MECProductsAdapter.CloseWindow(mPopupWindow).onStop()
+        }
 
+    }
 }
