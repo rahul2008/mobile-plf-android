@@ -52,6 +52,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
             val mBundle = Bundle()
             if (mLaunchInput.flowConfigurator != null) {
 
+
                 mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.flowConfigurator)
 
                 if (mLaunchInput.flowConfigurator!!.productCTNs != null) {
@@ -91,7 +92,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
                    MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
                }
 
-        ecsServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception>{
+     /*   ecsServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception>{
 
             override fun onResponse(config: ECSConfig?) {
                 if (MECDataHolder.INSTANCE.hybrisEnabled) {
@@ -114,7 +115,13 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
-        } )
+        } )*/
+
+        if (mUiLauncher is ActivityLauncher) {
+            launchMECasActivity()
+        } else {
+            launchMECasFragment()
+        }
 
         getUrl()
 
@@ -160,9 +167,28 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
 
     protected fun launchMECasFragment(result: Boolean, bundle :Bundle) {
+
+        /////////
+
+
+
+        //////////
         val str = Gson().toJson(mLaunchInput.flowConfigurator)
         bundle.putString(MECConstant.FLOW_INPUT, str)
         var mecConfiguration = Gson().fromJson(str, MECFlowConfigurator::class.java)
+        ///////
+        // only for Product detail launch
+        var ctnList: ArrayList<String>? = ArrayList()
+
+        if (mecConfiguration.productCTNs != null) {
+
+            for (ctn in mecConfiguration.productCTNs!!) {
+                ctnList?.add(ctn.replace("_", "/"))
+            }
+            bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, ctnList)
+        }
+
+        ///////
         mecFlows = mecConfiguration.landingView!!
 
         val mecBaseFragment = getFragment(result, mecFlows)
@@ -185,7 +211,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
                 fragmentTag=MECProductDetailsFragment.TAG
-               // fetchProductDetailForCtn(isHybris)
+                fragment=MECProductDetailsFragment()
             }
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {

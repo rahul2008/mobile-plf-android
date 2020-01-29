@@ -30,6 +30,9 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productCatalogue
@@ -38,10 +41,12 @@ import com.philips.cdp.di.mec.analytics.MECAnalytics.Companion.tagProductList
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.uappframework.launcher.ActivityLauncher
 import com.philips.platform.uid.view.widget.Label
 
 
@@ -294,6 +299,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         MECAnalytics.tagProductList(productList, listView)
         mRootView = binding.root
     }
+        getECSConfig()
         return binding.root
     }
 
@@ -308,7 +314,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         super.onActivityCreated(savedInstanceState)
         binding.CircularProgressBar.visibility = View.VISIBLE
         //createCustomProgressBar(container,MEDIUM)
-        executeRequest()
+
     }
 
     override fun onResume() {
@@ -392,6 +398,30 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val colorCodeHighlighted:Int = typedArray.getColor(0,0)
         typedArray.recycle();
         return colorCodeHighlighted
+    }
+
+    private fun getECSConfig(){
+        MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
+
+            override fun onResponse(config: ECSConfig?) {
+                if (MECDataHolder.INSTANCE.hybrisEnabled) {
+                    MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
+
+                }
+                MECDataHolder.INSTANCE.locale = config!!.locale
+                MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
+                if(null!=config!!.rootCategory){
+                    MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+                }
+                executeRequest()
+
+            }
+
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        } )
     }
 
 }

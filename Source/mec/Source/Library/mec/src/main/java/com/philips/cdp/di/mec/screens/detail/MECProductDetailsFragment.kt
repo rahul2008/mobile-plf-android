@@ -20,6 +20,7 @@ import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
@@ -36,6 +37,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.stockStatus
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
+import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
@@ -50,6 +52,8 @@ import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import java.text.DecimalFormat
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * A simple [Fragment] subclass.
@@ -65,6 +69,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private lateinit var product: ECSProduct
     private lateinit var retailersList: ECSRetailerList
     private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
+
 
     lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
 
@@ -175,23 +180,79 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
             binding.indicator.viewPager = binding.pager
             val bundle = arguments
-            product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
+
+            var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
 
 
-            //if assets are not available , we should show one Default image
-            ecsProductDetailViewModel.addNoAsset(product)
+            if( bundle.containsKey(MECConstant.MEC_KEY_PRODUCT)) { // if   // launched from catalog
+                product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
+                updateProductInfo(product)
+                getECSConfig(null)
+            }else{
+                var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
+                val ctn = ctns.get(0)
+                getECSConfig(ctn)
+            }
 
-            ecsProductDetailViewModel.ecsProduct.value = product
 
-            val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
-            binding.viewpagerMain.offscreenPageLimit = 4
-            binding.viewpagerMain.adapter = fragmentAdapter
-            binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
-            MECAnalytics.trackPage(productDetails)
-            tagActions(product);
             mRootView=binding.root
         }
+
         return binding.root
+    }
+
+    private fun updateProductInfo(product :ECSProduct){
+        //if assets are not available , we should show one Default image
+        ecsProductDetailViewModel.addNoAsset(product)
+
+        ecsProductDetailViewModel.ecsProduct.value = product
+
+        val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
+        binding.viewpagerMain.offscreenPageLimit = 4
+        binding.viewpagerMain.adapter = fragmentAdapter
+        binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
+        MECAnalytics.trackPage(productDetails)
+        tagActions(product);
+
+    }
+
+    fun getProduct(ctn :String){
+
+       if( MECDataHolder.INSTANCE.hybrisEnabled){
+           val productCallBack = object :ECSCallback<ECSProduct, Exception>{
+
+               override fun onResponse(result: ECSProduct?) {
+                   product= result!!
+                   updateProductInfo(product)
+                   executeRequest()
+                   getRatings()
+               }
+
+               override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                        Log.v("PR FETCH", ecsError?.errorType.toString())
+               }
+
+           }
+           MecHolder.INSTANCE.eCSServices.fetchProduct(ctn, productCallBack)
+       }else{
+           val productListCallback  =  object : ECSCallback<List<ECSProduct>,Exception>{
+               override fun onResponse(result: List<ECSProduct>?) {
+                   if (result != null) {
+                       product=result.get(0)
+                       updateProductInfo(product)
+                       executeRequest()
+                       getRatings()
+                   }
+               }
+
+               override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                   Log.v("PR FETCH", ecsError?.errorType.toString())
+               }
+
+           }
+           MecHolder.INSTANCE.eCSServices.fetchProductSummaries(Arrays.asList(ctn), productListCallback)
+       }
+
     }
 
 
@@ -204,7 +265,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        if (MECDataHolder.INSTANCE.hybrisEnabled) {
+     /*   if (MECDataHolder.INSTANCE.hybrisEnabled) {
             binding.mecFindRetailerButtonPrimary.visibility = View.GONE
             binding.mecFindRetailerButtonSecondary.visibility = View.VISIBLE
         } else if (!MECDataHolder.INSTANCE.hybrisEnabled) {
@@ -212,7 +273,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.mecFindRetailerButtonSecondary.visibility = View.GONE
         }
         executeRequest()
-        getRatings()
+        getRatings()*/
     }
 
     fun addToCartVisibility(product: ECSProduct) {
@@ -394,6 +455,43 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             map.put(mecProducts, MECAnalytics.getProductInfo(product))
             MECAnalytics.trackMultipleActions(sendData, map)
         }
+    }
+
+    private fun getECSConfig(productFetchRequiredForCTN : String?){
+        MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
+
+            override fun onResponse(config: ECSConfig?) {
+                if (MECDataHolder.INSTANCE.hybrisEnabled) {
+                    MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
+
+                }
+                MECDataHolder.INSTANCE.locale = config!!.locale
+                MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
+                if(null!=config!!.rootCategory){
+                    MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+                }
+               /////////////////
+                if (MECDataHolder.INSTANCE.hybrisEnabled) {
+                    binding.mecFindRetailerButtonPrimary.visibility = View.GONE
+                    binding.mecFindRetailerButtonSecondary.visibility = View.VISIBLE
+                } else if (!MECDataHolder.INSTANCE.hybrisEnabled) {
+                    binding.mecFindRetailerButtonPrimary.visibility = View.VISIBLE
+                    binding.mecFindRetailerButtonSecondary.visibility = View.GONE
+                }
+                if(null==productFetchRequiredForCTN) {
+                    executeRequest()
+                    getRatings()
+                }else{
+                    getProduct(productFetchRequiredForCTN)
+                }
+
+            }
+
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        } )
     }
 
 }
