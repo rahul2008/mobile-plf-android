@@ -94,7 +94,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/mec_currency"
-                android:textSize="28sp"
+                android:textSize="18sp"
                 android:paddingBottom="1dp"
                 android:textAlignment="center"
                 style="@style/mecCentralesansBoldFont"
@@ -180,7 +180,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="5dp"
                         android:numStars="5"
-                        android:stepSize="0.1"
+                        android:stepSize="0.01"
                         style="?android:attr/ratingBarStyleSmall" />
 
                     <com.philips.platform.uid.view.widget.Label

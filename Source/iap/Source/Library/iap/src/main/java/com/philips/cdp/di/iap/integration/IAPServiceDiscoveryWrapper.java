@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.integration;
 
 import android.text.TextUtils;
 
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -16,6 +17,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +90,7 @@ public class IAPServiceDiscoveryWrapper {
 
                 if (locale != null) {
                     setLangAndCountry(locale);
+                    IAPAnalytics.setCurrencyString(locale);
                 }
                 //Condition for launching IAP screens
                 if (iapListener == null && entry == null) {

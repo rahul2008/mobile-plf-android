@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
@@ -50,9 +51,14 @@ class MECFragmentLauncher : MecBaseFragment() {
 
             if (MECDataHolder.INSTANCE.hybrisEnabled) {
                 MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
+
             }
 
             MECDataHolder.INSTANCE.locale = config!!.locale
+            MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
+            if(null!=config!!.rootCategory){
+                MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+            }
             launchMECasFragment(MECDataHolder.INSTANCE.hybrisEnabled)
         }
 

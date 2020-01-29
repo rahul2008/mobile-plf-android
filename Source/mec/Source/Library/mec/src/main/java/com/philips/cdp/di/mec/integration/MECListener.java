@@ -20,6 +20,9 @@ public interface MECListener {
 
     void onSuccess();
 
+    /**
+     * @param bool
+     */
     void onSuccess(boolean bool);
 
     void onFailure(final int errorCode);
