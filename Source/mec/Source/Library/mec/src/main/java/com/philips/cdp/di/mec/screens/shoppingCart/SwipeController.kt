@@ -43,7 +43,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        return ItemTouchHelper.Callback.makeMovementFlags(0, LEFT or RIGHT)
+        return ItemTouchHelper.Callback.makeMovementFlags(0, LEFT )
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -142,7 +142,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
         val rightButton = RectF(itemView.right - buttonWidthWithoutPadding, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
         p.color = (ContextCompat.getColor(context, R.color.uid_signal_red_level_60))
         c.drawRoundRect(rightButton, corners, corners, p)
-        drawText("DELETE", c, rightButton, p)
+        drawText("Delete", c, rightButton, p)
 
         buttonInstance = null
             if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
@@ -151,7 +151,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
     }
 
     private fun drawText(text: String, c: Canvas, button: RectF, p: Paint) {
-        val textSize = 60f
+        val textSize = 50f
         p.color = Color.WHITE
         p.isAntiAlias = true
         p.textSize = textSize

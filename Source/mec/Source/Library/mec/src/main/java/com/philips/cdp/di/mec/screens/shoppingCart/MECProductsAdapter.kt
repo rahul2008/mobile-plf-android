@@ -1,6 +1,5 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
-
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,10 @@ import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
 import com.philips.platform.uid.view.widget.UIPicker
 
 
-class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>,  var mEcsShoppingCartViewModel: EcsShoppingCartViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>, var mEcsShoppingCartViewModel: EcsShoppingCartViewModel, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(MecShoppingCartItemsBinding.inflate(LayoutInflater.from(parent.context)), mEcsShoppingCartViewModel)
+        return ViewHolder(MecShoppingCartItemsBinding.inflate(LayoutInflater.from(parent.context)), mEcsShoppingCartViewModel,mecShoppingCartFragment)
     }
 
     override fun getItemCount(): Int {
@@ -25,12 +24,11 @@ class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>,
         viewHolder.bind(cartSummary!!, position)
     }
 
-    open class ViewHolder(val binding: MecShoppingCartItemsBinding, var ecsShoppingCartViewModel: EcsShoppingCartViewModel) : RecyclerView.ViewHolder(binding.root) {
+    open class ViewHolder(val binding: MecShoppingCartItemsBinding, var ecsShoppingCartViewModel: EcsShoppingCartViewModel, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {
 
         var mPopupWindow: UIPicker? = null
         fun bind(cartSummary: MECCartProductReview, position: Int) {
             binding.cart = cartSummary
-            //binding.mecQuantityVal.text = cartSummary.entries.quantity.toString()
             bindCountView(binding.mecQuantityVal, cartSummary)
         }
 
@@ -47,7 +45,7 @@ class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>,
                         , object : MecCountDropDown.CountUpdateListener {
                     override fun countUpdate(oldCount: Int, newCount: Int) {
                         if (newCount != oldCount) {
-                            ecsShoppingCartViewModel.updateQuantity(cartSummary.entries, newCount)
+                            mecShoppingCartFragment.updateCartRequest(cartSummary.entries, newCount)
                         }
 
                     }

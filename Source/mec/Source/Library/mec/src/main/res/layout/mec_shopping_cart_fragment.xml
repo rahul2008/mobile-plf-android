@@ -21,12 +21,12 @@
     <ScrollView
         android:id="@+id/mec_sv_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/price_button_view">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mec_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:id="@+id/mec_cart_summary_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
+            android:layout_below="@+id/mec_cart_Summary"
             android:nestedScrollingEnabled="false"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
@@ -56,6 +56,7 @@
             style="@style/mec_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/mec_cart_summary_recycler_view"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
             android:text="@string/mec_add_gift_codes" />
@@ -68,13 +69,16 @@
             android:textSize="16dp"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
+            android:layout_below="@+id/mec_gift_code"
             android:textColor="?attr/uidLabelDescriptorNormalTextColor"
             android:text="@string/mec_add_gift_codes"
             />
 
         <LinearLayout
+            android:id="@+id/mec_gift_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/enter_voucher_label"
             android:orientation="horizontal">
 
         <com.philips.platform.uid.view.widget.EditText
@@ -109,6 +113,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
+            android:layout_below="@+id/mec_gift_layout"
             android:layout_marginTop="@dimen/iap_margin_20dp"
             android:visibility="visible"
             android:text="@string/mec_accepted_codes" />
@@ -117,10 +122,11 @@
             android:id="@+id/mec_accepted_codes_layout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:layout_below="@+id/mec_accepted_code"
             android:orientation="horizontal">
 
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
     </ScrollView>
 
     <View

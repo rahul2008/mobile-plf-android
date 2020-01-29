@@ -39,7 +39,6 @@
     <string name="mec_no_info_available">No info found</string>
 
 
-
     <!--- String match -->
 
     <string name="mec_no_review_available">No reviews found</string>
@@ -62,8 +61,14 @@
     <string name="mec_add_gift_codes">Add gift codes</string>
     <string name="mec_cart_summary">Cart summary</string>
     <string name="mec_accepted_codes">Accepted codes</string>
-    <string name="mec_continue_shopping">Continue shopping</string>
     <string name="mec_shopping_cart">Shopping Cart</string>
+    <string name="mec_remove_product">Remove product</string>
+    <string name="mec_cancel">Cancel</string>
+    <string name="mec_delete_item">Delete Item</string>
+    <string name="mec_nothing_in_cart">Nothing in your cart</string>
+    <string name="mec_empty_cart">Your shopping cart is currently empty.</string>
+    <string name="mec_continue_shopping">Continue shopping</string>
+    <string name="mec_delete_item_description">Your product will be removed from your shopping cart. Are you sure?</string>
 
 
 </resources>

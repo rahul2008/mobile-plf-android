@@ -3,11 +3,13 @@ package com.philips.cdp.di.mec.utils
 import android.app.Activity
 import android.content.Context
 import android.support.v4.app.FragmentManager
+import android.text.TextUtils
 import android.view.View
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
 import com.philips.platform.uid.thememanager.UIDHelper
+import com.philips.platform.uid.utils.DialogConstants
 import com.philips.platform.uid.view.widget.AlertDialogFragment
 import java.util.ArrayList
 
@@ -16,7 +18,7 @@ class MECutility {
 
     companion object {
 
-        private var alertDialogFragment: AlertDialogFragment? = null
+        private lateinit var alertDialogFragment: AlertDialogFragment
         val ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG"
 
 
@@ -58,6 +60,34 @@ class MECutility {
             if (alertDialogFragment != null  && isCallingFragmentVisible(fragmentManager))
                 alertDialogFragment.dismiss()
         }
+
+        fun showActionDialog(context: Context, positiveBtnText: String, negativeBtnText: String,
+                             pErrorString: String, descriptionText: String, pFragmentManager: FragmentManager, alertListener: AlertListener) {
+            val builder = AlertDialogFragment.Builder(context)
+            builder.setDialogType(DialogConstants.TYPE_ALERT)
+
+            if (!TextUtils.isEmpty(descriptionText)) {
+                builder.setMessage(descriptionText)
+            }
+
+            if (!TextUtils.isEmpty(pErrorString)) {
+                builder.setTitle(pErrorString)
+            }
+            builder.setPositiveButton(positiveBtnText
+            ) {
+                alertListener.onPositiveBtnClick()
+                dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager)
+            }
+            builder.setNegativeButton(negativeBtnText) {
+                alertListener.onNegativeBtnClick()
+                dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager)
+            }
+            alertDialogFragment = builder.setCancelable(false).create()
+            if (!alertDialogFragment.isVisible()) {
+                alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG)
+            }
+        }
+
 
         fun isCallingFragmentVisible(fragmentManager: FragmentManager?): Boolean {
 

@@ -12,13 +12,15 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.utils.AlertListener
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
@@ -26,12 +28,13 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 /**
  * A simple [Fragment] subclass.
  */
-class MECShoppingCartFragment : MecBaseFragment() {
+class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     internal var swipeController: SwipeController? = null
 
     private lateinit var binding: MecShoppingCartFragmentBinding
-    private lateinit var mPopupWindow: UIPicker
+    private var itemPosition: Int = 0
+    private var mPopupWindow: UIPicker? = null
     private lateinit var ecsShoppingCart: ECSShoppingCart
     lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
     private var productsAdapter: MECProductsAdapter? = null
@@ -52,6 +55,9 @@ class MECShoppingCartFragment : MecBaseFragment() {
         productReviewList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
         productsAdapter?.notifyDataSetChanged()
+        if(productsAdapter!=null){
+            MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
+        }
         hideProgressBar()
     }
 
@@ -70,7 +76,7 @@ class MECShoppingCartFragment : MecBaseFragment() {
 
         productReviewList = mutableListOf()
 
-        productsAdapter = MECProductsAdapter(productReviewList,ecsShoppingCartViewModel)
+        productsAdapter = MECProductsAdapter(productReviewList,ecsShoppingCartViewModel,this)
 
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
 
@@ -80,9 +86,8 @@ class MECShoppingCartFragment : MecBaseFragment() {
 
         swipeController = SwipeController(binding.mecCartSummaryRecyclerView.context,object : SwipeControllerActions(){
             override fun onRightClicked(position: Int) {
-                createCustomProgressBar(container,MEDIUM)
-                ecsShoppingCartViewModel.updateQuantity(ecsShoppingCart.entries.get(position),0)
-                //Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show()
+                itemPosition = position
+                showDialog()
             }
         })
 
@@ -98,6 +103,17 @@ class MECShoppingCartFragment : MecBaseFragment() {
         return binding.root
     }
 
+    fun showDialog(){
+        MECutility.showActionDialog(binding.enterVoucherLabel.context,getString(R.string.mec_remove_product),getString(R.string.mec_cancel),getString(R.string.mec_delete_item), getString(R.string.mec_delete_item_description),fragmentManager!!,this )
+    }
+
+    override fun onPositiveBtnClick() {
+        updateCartRequest(ecsShoppingCart.entries.get(itemPosition),0)
+    }
+
+    override fun onNegativeBtnClick() {
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -113,16 +129,13 @@ class MECShoppingCartFragment : MecBaseFragment() {
         //executeRequest()
     }
 
-    fun executeRequest() {
+     fun executeRequest() {
         //createCustomProgressBar(container, MEDIUM)
         ecsShoppingCartViewModel.getShoppingCart()
     }
 
-    override fun onStop() {
-        super.onStop()
-        if(productsAdapter!=null){
-            MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
-        }
-
+    fun updateCartRequest(entries: ECSEntries, int: Int){
+        createCustomProgressBar(container,MEDIUM)
+        ecsShoppingCartViewModel.updateQuantity(entries,int)
     }
 }
