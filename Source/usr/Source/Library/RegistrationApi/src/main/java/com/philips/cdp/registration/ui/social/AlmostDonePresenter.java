@@ -14,7 +14,6 @@ import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -361,15 +360,17 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
 
 
     public void handleTraditionalTermsAndCondition() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || RegistrationConfiguration.getInstance().getPersonalConsent() != ConsentStates.inactive)) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()
+                && (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
+                || RegistrationConfiguration.getInstance().getPersonalConsent() != ConsentStates.inactive)) {
             if (almostDoneContract.isAcceptTermsChecked()) {
                 almostDoneContract.handleAcceptTermsTrue();
             } else {
                 almostDoneContract.showTermsAndConditionError();
             }
-        } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()&&
-                (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)) {
+        } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()
+                && (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
+                && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)) {
             if (almostDoneContract.isAcceptTermsChecked() && almostDoneContract.isAcceptPersonalConsentChecked()) {
                 almostDoneContract.handleAcceptTermsTrue();
                 almostDoneContract.handleAcceptPersonalConsentTrue();
