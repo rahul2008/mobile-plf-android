@@ -111,8 +111,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:id="@+id/mec_quantity_val"
                     fontPath="fonts/mec_iconfont.ttf"
                     android:text='@{ cart.entries.quantity + " "+ @string/dls_downarrow}'
@@ -121,26 +120,15 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_price_lebel"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_gravity="end"
                     android:gravity="end"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     app:setPriceInfo="@{ cart.entries.product}"
                     android:textSize="16sp" />
             </LinearLayout>
-
-
-            <!--<com.philips.platform.uid.view.widget.Label
-                android:id="@+id/mec_price_lebel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                app:setPriceInfo="@{ cart.entries.product}"
-                android:textSize="16sp" />-->
-
 
         </LinearLayout>
 

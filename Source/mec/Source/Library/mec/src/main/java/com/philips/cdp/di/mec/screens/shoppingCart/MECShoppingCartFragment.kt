@@ -80,6 +80,7 @@ class MECShoppingCartFragment : MecBaseFragment() {
 
         swipeController = SwipeController(binding.mecCartSummaryRecyclerView.context,object : SwipeControllerActions(){
             override fun onRightClicked(position: Int) {
+                createCustomProgressBar(container,MEDIUM)
                 ecsShoppingCartViewModel.updateQuantity(ecsShoppingCart.entries.get(position),0)
                 //Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show()
             }
