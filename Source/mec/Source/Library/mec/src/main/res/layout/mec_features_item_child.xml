@@ -33,7 +33,7 @@
                 android:textSize="14sp"
                 android:singleLine="false"
                 android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
-                android:text="@{featureItem.featureLongDescription}" />
+                android:text='@{ featureItem.featureLongDescription ?? ""}' />
 
             <com.android.volley.toolbox.NetworkImageView
                 android:layout_marginTop="10sp"
@@ -54,7 +54,7 @@
                 android:singleLine="false"
                 android:lineSpacingExtra="6dp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text="@{featureItem.featureGlossary}" />
+                android:text='@{ featureItem.featureGlossary ?? ""}' />
 
         </LinearLayout>
 

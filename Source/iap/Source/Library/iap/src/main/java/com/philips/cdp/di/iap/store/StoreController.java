@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.config.HybrisConfigResponse;
 import com.philips.cdp.di.iap.session.IAPHurlStack;
@@ -77,6 +78,7 @@ public class StoreController {
                 }
                 HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
                         HybrisConfigResponse.class);
+                IAPAnalytics.mCategory=resp.getRootCategory();
                 mSiteID = resp.getSiteId();
                 mCampaignID = resp.getRootCategory();
                 mStoreConfig.generateStoreUrls();
