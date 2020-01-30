@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 class MECShoppingCartFragment : MecBaseFragment() {
     var mRootView: View? = null
     companion object {
-        val TAG = MECShoppingCartFragment::class.java!!.getName()
+        val TAG = "MECShoppingCartFragment"
     }
 
     private lateinit var binding: MecShoppingCartFragmentBinding

@@ -58,7 +58,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     var mRootView: View? = null
 
     companion object {
-        open val TAG = MECProductCatalogFragment::class.java!!.getName()
+         val TAG = "MECProductCatalogFragment"
 
 
     }

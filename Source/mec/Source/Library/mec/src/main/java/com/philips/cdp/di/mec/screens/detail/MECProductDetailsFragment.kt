@@ -449,7 +449,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     companion object {
-        val TAG = MECProductDetailsFragment::class.java!!.getName()
+        val TAG = "MECProductDetailsFragment"
 
         @JvmStatic
         fun tagOutOfStockActions(product: ECSProduct) {
