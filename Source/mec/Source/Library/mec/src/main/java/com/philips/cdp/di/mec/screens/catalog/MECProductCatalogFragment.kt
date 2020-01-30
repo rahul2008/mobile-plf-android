@@ -303,9 +303,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         mRootView = binding.root
     }
         getECSConfig()
-        GlobalScope.launch{
-            HybrisAuth.authHybrisIfNotAlready()
-        }
+
         return binding.root
     }
 
@@ -420,6 +418,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                     MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
                 }
                 executeRequest()
+                GlobalScope.launch{
+                    HybrisAuth.authHybrisIfNotAlready()
+                }
 
             }
 

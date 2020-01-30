@@ -35,6 +35,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.retailerName
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.stockStatus
+import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.integration.MecHolder
@@ -51,6 +52,8 @@ import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -480,6 +483,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 } else if (!MECDataHolder.INSTANCE.hybrisEnabled) {
                     binding.mecFindRetailerButtonPrimary.visibility = View.VISIBLE
                     binding.mecFindRetailerButtonSecondary.visibility = View.GONE
+                }
+                GlobalScope.launch{
+                    HybrisAuth.authHybrisIfNotAlready()
                 }
                 if(null==productFetchRequiredForCTN) {
                     executeRequest()
