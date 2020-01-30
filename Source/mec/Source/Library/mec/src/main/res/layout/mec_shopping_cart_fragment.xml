@@ -65,13 +65,14 @@
             android:id="@+id/enter_voucher_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/mecCentralesansBookFont"
             android:layout_marginTop="12dp"
             android:textSize="16dp"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
             android:layout_below="@+id/mec_gift_code"
             android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-            android:text="@string/mec_add_gift_codes"
+            android:text="@string/mec_add_gift_code"
             />
 
         <LinearLayout
@@ -86,6 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?attr/uidTextBoxDefaultPressedBackgroundColor"
             android:layout_marginTop="4dp"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/border8_margin"
@@ -96,7 +98,7 @@
             style="@style/mecCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/border8_margin"
+            android:layout_marginTop="4dp"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
             android:text="@string/mec_add"
@@ -198,6 +200,7 @@
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:text="@string/mec_continue_checkout"
+            android:textColor="?attr/uidButtonPrimaryNormalTextColor"
             android:textSize="16dp"
             app:uidComponentType="Primary" />
 
@@ -212,6 +215,7 @@
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
             android:layout_alignParentBottom="true"
+            android:textColor="?attr/uidButtonSecondaryNormalTextColor"
             android:text="@string/mec_continue_shopping"
             android:textSize="16dp"
             app:uidComponentType="Secondary" />

@@ -59,6 +59,7 @@
     <string name="mec_threshold_title">Request threshold reached</string>
     <string name="mec_threshold_message">This might take more time. Do you wish to continue?</string>
     <string name="mec_add_gift_codes">Add gift codes</string>
+    <string name="mec_add_gift_code">Add gift code</string>
     <string name="mec_cart_summary">Cart summary</string>
     <string name="mec_accepted_codes">Accepted codes</string>
     <string name="mec_shopping_cart">Cart</string>
