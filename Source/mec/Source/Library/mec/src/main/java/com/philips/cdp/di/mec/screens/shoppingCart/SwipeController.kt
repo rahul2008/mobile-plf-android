@@ -1,10 +1,8 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -14,6 +12,8 @@ import android.view.View
 
 import android.support.v7.widget.helper.ItemTouchHelper.*
 import com.philips.cdp.di.mec.R
+import android.graphics.RectF
+
 
 
 internal enum class ButtonsState {
@@ -135,18 +135,33 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
     private fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
         val buttonWidthWithoutPadding = buttonWidth - 20
         val corners = 16f
+         val icon : Bitmap
+        icon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_delete);
 
         val itemView = viewHolder.itemView
         val p = Paint()
 
         val rightButton = RectF(itemView.right - buttonWidthWithoutPadding, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
+
+
+        val iconWidth = icon.width
+        val iconHeight = icon.height
+
+        val rightPosition = (itemView.right - iconWidth).toFloat()
+        val leftPosition = rightPosition - iconWidth
+        val topPosition = itemView.top + (itemView.height - iconHeight) / 2
+        val bottomPosition = topPosition + iconHeight
+
+        val iconDest = RectF(leftPosition, topPosition.toFloat(), rightPosition, bottomPosition.toFloat())
         p.color = (ContextCompat.getColor(context, R.color.uid_signal_red_level_60))
         c.drawRoundRect(rightButton, corners, corners, p)
-        drawText("Delete", c, rightButton, p)
+        c.drawBitmap(icon, null, iconDest, p)
+
+        //drawText("Delete", c, rightButton, p)
 
         buttonInstance = null
             if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
-            buttonInstance = rightButton
+            buttonInstance = iconDest
         }
     }
 
