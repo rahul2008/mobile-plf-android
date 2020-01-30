@@ -7,10 +7,9 @@ import com.bazaarvoice.bvandroidsdk.Statistics
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.mec.common.MecError
-import com.philips.cdp.di.mec.screens.catalog.MECProductReview
 import java.text.DecimalFormat
 
-class MECBulkRatingCallback(val ecsProducts: MutableList<ECSEntries>, val ecsShoppingCartViewModel: EcsShoppingCartViewModel) : ConversationsDisplayCallback<BulkRatingsResponse> {
+class MECBulkRatingCallback(private val ecsProducts: MutableList<ECSEntries>, private val ecsShoppingCartViewModel: EcsShoppingCartViewModel) : ConversationsDisplayCallback<BulkRatingsResponse> {
 
 
     override fun onSuccess(response: BulkRatingsResponse) {
@@ -48,5 +47,5 @@ class MECBulkRatingCallback(val ecsProducts: MutableList<ECSEntries>, val ecsSho
         ecsShoppingCartViewModel.ecsProductsReviewList.value = mecProductReviewList
     }
 
-    infix fun String.isEqualsTo(value: String): Boolean = this.replace("/", "_").equals(value)
+    private infix fun String.isEqualsTo(value: String): Boolean = this.replace("/", "_").equals(value)
 }

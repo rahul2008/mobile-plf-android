@@ -1,8 +1,3 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 import android.content.Context

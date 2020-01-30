@@ -8,22 +8,22 @@ import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
-class ECSShoppingCartRepository(private val ecsShoppingCartViewModel: EcsShoppingCartViewModel, val ecsServices: ECSServices)
+class ECSShoppingCartRepository(ecsShoppingCartViewModel: EcsShoppingCartViewModel, val ecsServices: ECSServices)
 {
-    var ecsShoppingCartCallback= ECSShoppingCartCallback(ecsShoppingCartViewModel)
+    private var ecsShoppingCartCallback= ECSShoppingCartCallback(ecsShoppingCartViewModel)
 
      fun fetchShoppingCart() {
-         ecsServices.fetchShoppingCart(ecsShoppingCartCallback)
+         this.ecsServices.fetchShoppingCart(ecsShoppingCartCallback)
     }
 
     fun updateShoppingCart(entries: ECSEntries, quantity: Int) {
-        ecsServices.updateShoppingCart(quantity,entries,ecsShoppingCartCallback)
+        this.ecsServices.updateShoppingCart(quantity,entries,ecsShoppingCartCallback)
     }
 
     fun fetchProductReview(ecsEntries: MutableList<ECSEntries>, ecsShoppingCartViewModel: EcsShoppingCartViewModel){
 
         val mecConversationsDisplayCallback = MECBulkRatingCallback(ecsEntries, ecsShoppingCartViewModel)
-        var ctnList: MutableList<String> = mutableListOf()
+        val ctnList: MutableList<String> = mutableListOf()
 
         for(ecsEntry in ecsEntries){
             ctnList.add(ecsEntry.product.code.replace("/","_"))

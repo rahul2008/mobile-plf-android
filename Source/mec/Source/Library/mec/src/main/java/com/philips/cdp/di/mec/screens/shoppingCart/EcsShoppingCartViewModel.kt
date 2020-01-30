@@ -14,17 +14,17 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
 
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
-    var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
+    private var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
 
     fun getShoppingCart(){
-        ecsShoppingCartRepository.fetchShoppingCart()
+        this.ecsShoppingCartRepository.fetchShoppingCart()
     }
 
     fun updateQuantity(entries: ECSEntries, quantity: Int) {
-        ecsShoppingCartRepository.updateShoppingCart(entries,quantity)
+        this.ecsShoppingCartRepository.updateShoppingCart(entries,quantity)
     }
 
     fun fetchProductReview(entries: MutableList<ECSEntries>) {
-        ecsShoppingCartRepository.fetchProductReview(entries, this)
+        this.ecsShoppingCartRepository.fetchProductReview(entries, this)
     }
 }
