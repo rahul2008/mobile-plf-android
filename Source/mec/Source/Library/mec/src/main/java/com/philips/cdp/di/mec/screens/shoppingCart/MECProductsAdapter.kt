@@ -37,9 +37,9 @@ class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>,
             view.setOnClickListener { v ->
                 val data = cartSummary
                 var stockLevel = cartSummary.entries.product.stock.stockLevel
-                if (stockLevel > 50) {
+                /*if (stockLevel > 50) {
                     stockLevel = 50
-                }
+                }*/
 
                 val countPopUp = MecCountDropDown(v, v.context, stockLevel, data.entries.quantity
                         , object : MecCountDropDown.CountUpdateListener {
