@@ -40,6 +40,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalytics.Companion.tagProductList
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
+import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
@@ -48,6 +49,8 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uappframework.launcher.ActivityLauncher
 import com.philips.platform.uid.view.widget.Label
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 /**
@@ -300,6 +303,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         mRootView = binding.root
     }
         getECSConfig()
+        GlobalScope.launch{
+            HybrisAuth.authHybrisIfNotAlready()
+        }
         return binding.root
     }
 

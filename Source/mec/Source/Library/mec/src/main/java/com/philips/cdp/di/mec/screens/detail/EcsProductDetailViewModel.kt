@@ -90,7 +90,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
 
 
-        HybrisAuth.hybrisAuthentication(hybrisCallback)
+        HybrisAuth.hybrisRefreshAuthentication(hybrisCallback)
 
 
     }

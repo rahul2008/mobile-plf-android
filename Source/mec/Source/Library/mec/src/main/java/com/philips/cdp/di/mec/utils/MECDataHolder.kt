@@ -20,7 +20,7 @@ enum class MECDataHolder {
     lateinit var locale:String
     lateinit var propositionId:String
     lateinit var userDataInterface: UserDataInterface
-    lateinit var refreshToken:String
+    var refreshToken:String?=null
     var blackListedRetailers: List<String> ?=null
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     private var privacyUrl: String? = null
