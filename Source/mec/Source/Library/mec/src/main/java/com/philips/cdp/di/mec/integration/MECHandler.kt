@@ -21,6 +21,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher
 
 import java.util.ArrayList
 import com.google.gson.Gson
+import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.integration.serviceDiscovery.ServiceDiscoveryMapListener
 
 
@@ -67,6 +68,9 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
         MECDataHolder.INSTANCE.blackListedRetailers = mLaunchInput.blackListedRetailerNames
+
+        MECAnalytics.initMECAnalytics(mMECDependencies)
+
 
 
         getUrl()

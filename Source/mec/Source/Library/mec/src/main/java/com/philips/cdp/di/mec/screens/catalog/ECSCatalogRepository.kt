@@ -126,7 +126,7 @@ class ECSCatalogRepository {
         return  (isProductNotFound(ecsProducts) && didReachThreshold(pageNumber))||
                 didReachLastPage(pageNumber , ecsProducts) ||
                 isAllProductsFound(numberOFCTnsTobeSerached,ecsProducts) ||
-                didProductsFondReachPageSize(ecsProducts)
+                didProductsFondReachPageSize(pageNumber,ecsProducts)
     }
 
     private fun getAllProductCount(ecsProductsList: MutableList<ECSProducts>):Int{
@@ -154,7 +154,7 @@ class ECSCatalogRepository {
         return ctnList as ArrayList<String>
     }
 
-    private fun didProductsFondReachPageSize(ecsProducts: MutableList<ECSProducts>) = getAllProductCount(ecsProducts) == ecsProducts.get(ecsProducts.size -1).pagination.pageSize
+    private fun didProductsFondReachPageSize(pageNumber: Int,ecsProducts: MutableList<ECSProducts>) = (getAllProductCount(ecsProducts) / (pageNumber+1)) == ecsProducts.get(ecsProducts.size -1).pagination.pageSize
 
     private fun isProductNotFound(ecsProducts: MutableList<ECSProducts>) = getAllProductCount(ecsProducts) == 0
 
@@ -162,7 +162,7 @@ class ECSCatalogRepository {
 
     private fun didReachThreshold(pageNumber : Int) =  0 == (pageNumber + 1) % MECConstant.THRESHOLD
 
-    private fun didReachLastPage(pageNumber : Int,ecsProducts: MutableList<ECSProducts>) = pageNumber == ecsProducts.get(ecsProducts.size -1).pagination.totalPages - 1
+    private fun didReachLastPage(pageNumber : Int,ecsProducts: MutableList<ECSProducts>) = pageNumber == ecsProducts.get(ecsProducts.size -1).pagination.totalPages-1
 
 
     fun fetchProductReview(ecsProducts: List<ECSProduct> , ecsProductViewModel: EcsProductViewModel){
