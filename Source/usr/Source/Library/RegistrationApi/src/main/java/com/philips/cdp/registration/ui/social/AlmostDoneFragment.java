@@ -46,7 +46,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -470,13 +469,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
         loginIdEditText.clearFocus();
 
-        if (marketingOptCheck.getVisibility() == View.VISIBLE && isMarketingOptChecked()) {
-            almostDonePresenter.handleUpdateMarketingOpt();
-        }
+//        updateMarketingOptin();
         if (mBundle == null) {
             almostDonePresenter.handleTraditionalTermsAndCondition();
         } else {
             almostDonePresenter.handleSocialTermsAndCondition();
+        }
+    }
+
+    private void updateMarketingOptin() {
+        if (marketingOptCheck.getVisibility() == View.VISIBLE && isMarketingOptChecked()) {
+            almostDonePresenter.handleUpdateMarketingOpt();
         }
     }
 
@@ -735,6 +738,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void completeRegistration() {
+        updateMarketingOptin();
         getRegistrationFragment().userRegistrationComplete();
     }
 
