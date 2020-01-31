@@ -45,7 +45,12 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
             binding.shoppingCart = ecsShoppingCart
 
             if (ecsShoppingCart!!.entries.size != 0) {
+                binding.mecEmptyResult.visibility = View.GONE
+                binding.mecParentLayout.visibility = View.VISIBLE
                 ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart!!.entries)
+            } else if(ecsShoppingCart!!.entries.size == 0) {
+                binding.mecEmptyResult.visibility = View.VISIBLE
+                binding.mecParentLayout.visibility = View.GONE
             }
             hideProgressBar()
         }
@@ -137,5 +142,9 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     fun updateCartRequest(entries: ECSEntries, int: Int){
         createCustomProgressBar(container,MEDIUM)
         ecsShoppingCartViewModel.updateQuantity(entries,int)
+    }
+
+    fun onClick() {
+
     }
 }
