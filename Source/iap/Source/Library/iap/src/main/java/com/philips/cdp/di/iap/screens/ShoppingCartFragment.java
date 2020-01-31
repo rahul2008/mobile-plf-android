@@ -278,10 +278,15 @@ public class ShoppingCartFragment extends InAppBaseFragment
                         AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-                mAddresses = shippingAddresses.getAddresses();
-                bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
-                addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressSelectionFragment.TAG,true);
+                if(shippingAddresses.getAddresses().size() > 0) {
+                    mAddresses = shippingAddresses.getAddresses();
+                    bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
+                    addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
+                            AddressSelectionFragment.TAG, true);
+                } else if(shippingAddresses.getAddresses().size() == 0) {
+                    addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                            AddressSelectionFragment.TAG,true);
+                }
             }
         }
     }
