@@ -108,6 +108,7 @@ dependencies {
     implementation deps.gson
     implementation deps.libphonenumber
     implementation deps.androidx.appcompat
+    implementation deps.androidx.customtabs
     implementation deps.volley
     implementation(philipsdeps.uid)
     if (useprojectdependencies) {

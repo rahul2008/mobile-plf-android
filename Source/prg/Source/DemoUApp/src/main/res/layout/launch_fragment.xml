@@ -23,6 +23,15 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btn_product_authenticity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:text="@string/product_authenticity"
+                android:textAllCaps="false"/>
+
+            <Button
                 android:id="@+id/btn_user_registration"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
