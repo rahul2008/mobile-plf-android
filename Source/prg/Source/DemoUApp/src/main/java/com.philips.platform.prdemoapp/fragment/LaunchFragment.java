@@ -78,7 +78,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
         } else if (i == R.id.btn_product_authenticity){
             PRInterface prInterface = new PRInterface();
-            prInterface.launchProductAuthentication(getContext());
+            prInterface.launchCounterFeitPage(getContext());
         }
     }
 
