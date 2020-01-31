@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 
+import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -20,6 +21,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class PRInterface implements UappInterface {
 
     private static final long serialVersionUID = -6635233525340545674L;
+    private final String TAG = PRInterface.class.getSimpleName();
 
     /**
      * API used for initializing Product Registration
@@ -52,7 +54,11 @@ public class PRInterface implements UappInterface {
      * @param context - pass context
      * @since 2001.0
      */
-    public void launchProductAuthentication(Context context){
+    public void launchCounterFeitPage(@NonNull Context context){
+        if (context == null){
+            ProdRegLogger.d(TAG,"Launching product authenticity page failed!! context can not be null.");
+            return;
+        }
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(context, Uri.parse("https://www.chk.philips.com/gb_en/"));
