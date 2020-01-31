@@ -15,10 +15,9 @@ import java.util.ArrayList
 
 class MECutility {
 
-
     companion object {
 
-        private lateinit var alertDialogFragment: AlertDialogFragment
+        private var alertDialogFragment: AlertDialogFragment? = null
         val ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG"
 
 
@@ -83,8 +82,8 @@ class MECutility {
                 dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager)
             }
             alertDialogFragment = builder.setCancelable(false).create()
-            if (!alertDialogFragment.isVisible()) {
-                alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG)
+            if (!alertDialogFragment!!.isVisible()) {
+                alertDialogFragment!!.show(pFragmentManager, ALERT_DIALOG_TAG)
             }
         }
 
