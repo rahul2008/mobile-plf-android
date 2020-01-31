@@ -27,7 +27,7 @@ class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductD
         if (       ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
                 || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
                 || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
-            ecsProductDetailViewModel.authHbris(request)
+            ecsProductDetailViewModel.retryFunction()
         }else if (ecsError!!.errorcode == ECSErrorEnum.ECSCartError.errorCode){
             ecsProductDetailViewModel.createShoppingCart(request)
         } else{

@@ -268,15 +268,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onStart() {
         super.onStart()
-     /*   if (MECDataHolder.INSTANCE.hybrisEnabled) {
-            binding.mecFindRetailerButtonPrimary.visibility = View.GONE
-            binding.mecFindRetailerButtonSecondary.visibility = View.VISIBLE
-        } else if (!MECDataHolder.INSTANCE.hybrisEnabled) {
-            binding.mecFindRetailerButtonPrimary.visibility = View.VISIBLE
-            binding.mecFindRetailerButtonSecondary.visibility = View.GONE
-        }
-        executeRequest()
-        getRatings()*/
+
     }
 
     fun addToCartVisibility(product: ECSProduct) {

@@ -18,11 +18,9 @@ import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
-import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.CommonViewModel
-import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
@@ -41,8 +39,6 @@ class EcsProductDetailViewModel : CommonViewModel() {
     val bulkRatingResponse= MutableLiveData<BulkRatingsResponse>()
 
     val review = MutableLiveData<ReviewResponse>()
-
-    val ecsShoppingcart = MutableLiveData<ECSShoppingCart>()
 
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
@@ -66,6 +62,17 @@ class EcsProductDetailViewModel : CommonViewModel() {
         ecsProductDetailRepository.addTocart(ecsProductAsParamter)
     }
 
+    fun authFailureCallback(error: Exception?, ecsError: ECSError?){
+        Log.v("Auth","refresh auth failed");
+        addToProductCallBack.onFailure(error,ecsError)
+    }
+
+    fun retryFunction() {
+        var retryAPI = { addProductToShoppingcart(ecsProductAsParamter,addToProductCallBack) }
+        var authFailCallback ={ error: Exception?, ecsError: ECSError? -> authFailureCallback(error, ecsError) }
+        authAndCallAPIagain(retryAPI,authFailCallback)
+    }
+
     fun createShoppingCart(request: String){
         val createShoppingCartCallback=  object: ECSCallback<ECSShoppingCart, Exception>{
             override fun onResponse(result: ECSShoppingCart?) {
@@ -74,26 +81,14 @@ class EcsProductDetailViewModel : CommonViewModel() {
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
                 TODO(" create cart must NOT fail")
             }
-
         }
         ecsProductDetailRepository.createCart(createShoppingCartCallback)
     }
 
-    fun authHbris(requestName :String){
-        val hybrisCallback= object: ECSCallback<ECSOAuthData, Exception> {
-            override fun onResponse(result: ECSOAuthData?) {
-                addProductToShoppingcart(ecsProductAsParamter,addToProductCallBack)
-            }
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-            }
-        }
 
 
 
-        HybrisAuth.hybrisRefreshAuthentication(hybrisCallback)
 
-
-    }
 
 
     companion object DataBindingAdapter {
