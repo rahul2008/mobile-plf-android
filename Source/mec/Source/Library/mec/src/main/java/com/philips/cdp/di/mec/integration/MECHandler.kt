@@ -200,7 +200,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         val transaction = fragmentLauncher.fragmentActivity.supportFragmentManager.beginTransaction()
         transaction.replace(fragmentLauncher.parentContainerResourceID, mecBaseFragment!!, fragmentTag)
-        transaction.addToBackStack(MECProductCatalogFragment.TAG)
+        transaction.addToBackStack(fragmentTag)
         transaction.commitAllowingStateLoss()
     }
 
@@ -219,8 +219,8 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
                 fragment = MECProductCatalogFragment()
             }
             MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
-                fragmentTag=MECProductCatalogFragment.TAG
-                fragment = getCategorizedFragment(isHybris)
+                fragmentTag=MECProductCatalogCategorizedFragment.TAG
+                fragment = MECProductCatalogCategorizedFragment()
             }
             MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART -> {
                 fragmentTag=MECShoppingCartFragment.TAG

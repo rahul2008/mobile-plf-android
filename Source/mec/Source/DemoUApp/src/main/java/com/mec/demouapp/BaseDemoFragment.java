@@ -215,7 +215,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             mCountText = rootView.findViewById(R.id.mec_demo_app_item_count);
 
             mCategorizedProductList = new ArrayList<>();
-
+            addCTNs(mCategorizedProductList);
             mUserDataInterface = urInterface.getUserDataInterface();
 
 
@@ -227,6 +227,33 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         }
         return rootView;
+
+    }
+
+    void  addCTNs( ArrayList<String> CTNlist){
+        CTNlist.add("HD9940/00");
+        CTNlist.add("HD9911/90");
+        CTNlist.add("HD9904/00");
+        CTNlist.add("HD9630/96");
+        CTNlist.add("HD9641/96");
+        CTNlist.add("HD9621/66");
+        CTNlist.add("QP2520/70");
+        CTNlist.add("HD9220/56");
+        CTNlist.add("HD9240/34");
+        CTNlist.add("HD9240/94");
+        CTNlist.add("HD9910/21");
+        CTNlist.add("HD9230/26");
+        CTNlist.add("HD9230/56");
+        CTNlist.add("S5370/81");
+        CTNlist.add("HD9925/00");
+        CTNlist.add("HD9980/50");
+        CTNlist.add("HD9980/20");
+        CTNlist.add("HD9650/96");
+        CTNlist.add("HD9905/00");
+        CTNlist.add("HR1895/74");
+        CTNlist.add("HD9951/01");
+        CTNlist.add("HD9950/01");
+        CTNlist.add("HD9952/01");
 
     }
 

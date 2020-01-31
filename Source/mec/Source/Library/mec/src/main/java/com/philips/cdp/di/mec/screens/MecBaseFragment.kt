@@ -24,6 +24,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.technicalError
 import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -96,8 +97,13 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     fun showProductCatalogFragment(fragmentTag: String) {
         val fragment = fragmentManager!!.findFragmentByTag(MECProductCatalogFragment.TAG)
         if (fragment == null) {
-            fragmentManager!!.popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            replaceFragment(MECProductCatalogFragment(),  MECProductCatalogFragment.TAG, true)
+            val fragment = fragmentManager!!.findFragmentByTag(MECProductCatalogCategorizedFragment.TAG)
+            if (fragment == null) {
+                fragmentManager!!.popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                replaceFragment(MECProductCatalogFragment(),  MECProductCatalogFragment.TAG, true)
+            }else{
+                fragmentManager!!.popBackStack(MECProductCatalogCategorizedFragment.TAG, 0)
+            }
         } else {
             fragmentManager!!.popBackStack(MECProductCatalogFragment.TAG, 0)
         }

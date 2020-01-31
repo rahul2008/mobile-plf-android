@@ -11,7 +11,7 @@ open class CommonViewModel : ViewModel() {
     val mecError = MutableLiveData<MecError>()
 
     fun authAndCallAPIagain(retryAPIcall: () -> Unit, authFailureCallback: (Exception, ECSError) -> Unit){
-        val hybrisCallback= object: ECSCallback<ECSOAuthData, Exception> {
+        val authCallback= object: ECSCallback<ECSOAuthData, Exception> {
             override fun onResponse(result: ECSOAuthData?) {
                 retryAPIcall.invoke()
             }
@@ -19,6 +19,6 @@ open class CommonViewModel : ViewModel() {
                 authFailureCallback.invoke(error,ecsError)
             }
         }
-        HybrisAuth.hybrisRefreshAuthentication(hybrisCallback)
+        HybrisAuth.hybrisRefreshAuthentication(authCallback)
     }
 }

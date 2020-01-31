@@ -27,7 +27,7 @@ class HybrisAuth {
 
     companion object {
 
-        private val refreshTokenKey: String = "hybrisRefreshTokenKey"
+        private val refreshTokenKey: String = "mec_hybrisRefreshTokenKey"
 
         fun getJanrainAuthInput(): ECSOAuthProvider {
             val oAuthInput = object : ECSOAuthProvider() {
