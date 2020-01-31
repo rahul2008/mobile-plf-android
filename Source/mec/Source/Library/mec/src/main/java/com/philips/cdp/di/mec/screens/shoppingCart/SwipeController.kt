@@ -155,7 +155,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
         val iconDest = RectF(leftPosition, topPosition.toFloat(), rightPosition, bottomPosition.toFloat())
         p.color = (ContextCompat.getColor(context, R.color.uid_signal_red_level_60))
         c.drawRoundRect(rightButton, corners, corners, p)
-        c.drawBitmap(icon, null, iconDest, p)
+        c.drawBitmap(icon, rightButton.centerX()-iconWidth/2, rightButton.centerY()-iconHeight/2, p)
 
         //drawText("Delete", c, rightButton, p)
 
