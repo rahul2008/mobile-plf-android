@@ -3,6 +3,7 @@ package com.philips.cdp.di.mec.screens.retailers
 
 import android.annotation.TargetApi
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
@@ -13,8 +14,14 @@ import android.view.ViewGroup
 import android.webkit.*
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.retailerListPage
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
+import java.net.MalformedURLException
+import java.net.URL
 
 class WebBuyFromRetailersFragment : MecBaseFragment() {
 
@@ -28,6 +35,7 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
         mUrl = getArguments()!!.getString(MECConstant.MEC_BUY_URL)
         isPhilipsShop = arguments!!.getBoolean(MECConstant.MEC_IS_PHILIPS_SHOP)
         initializeWebView(group)
+        MECAnalytics.trackPage(retailerListPage)
         return group
     }
 
@@ -56,6 +64,24 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
                 hideProgressBar()
 
             }
+
+            override fun onPageCommitVisible(view: WebView?, url: String) {
+                var tagUrl = url
+                if (isPhilipsShop) {
+                    tagUrl = getPhilipsFormattedUrl(url)
+                }
+                MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.exitLinkNameKey, tagUrl)
+                super.onPageCommitVisible(view, url)
+            }
+
+//            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+//                var tagUrl = url
+//                if (isPhilipsShop) {
+//                    tagUrl = getPhilipsFormattedUrl(url)
+//                }
+//                MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.exitLinkNameKey, tagUrl)
+//                super.onPageStarted(view, url, favicon)
+//            }
 
             override fun shouldOverrideUrlLoading(view: WebView, url: String?): Boolean {
                 if (url == null) return false
@@ -97,6 +123,33 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
         }
 
         mWebView!!.loadUrl(mUrl)
+    }
+
+    fun getPhilipsFormattedUrl(url: String): String {
+
+        val appName = MECDataHolder.INSTANCE.appinfra.appIdentity.appName
+        val localeTag = MECDataHolder.INSTANCE.appinfra.internationalization.uiLocaleString
+        val builder = Uri.Builder().appendQueryParameter("origin", String.format(MECAnalyticsConstant.exitLinkParameter, localeTag, appName, appName))
+
+        return if (isParameterizedURL(url)) {
+            url + "&" + builder.toString().replace("?", "")
+        } else {
+            url + builder.toString()
+        }
+    }
+
+    private fun isParameterizedURL(url: String): Boolean {
+
+        try {
+            val urlString = URL(url)
+            return urlString.query != null
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return false
     }
 
     private fun shouldHandleError(errorCode: Int): Boolean {

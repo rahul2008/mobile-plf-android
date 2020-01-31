@@ -43,6 +43,7 @@ include ext.strings.pimuapp.projectName
 
 include ext.strings.ecs.projectName
 include ext.strings.ecsuapp.projectName
+include ext.strings.ecstestuapp.projectName
 include ext.strings.iapuapp.projectName
 
 
@@ -78,7 +79,7 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 
 
 project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoUApp')
-//project(ext.strings.ecstestuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
+project(ext.strings.ecstestuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 
 project(ext.strings.mec.projectName).projectDir = new File('./Source/mec/Source/Library/mec')
@@ -110,8 +111,8 @@ project(ext.strings.mecuapp.projectName).projectDir = new File('./Source/mec/Sou
 //include(':ecsUApp')
 //project(':ecsUApp').projectDir = new File('./Source/ecs/Source/DemoUApp')
 
-include(':ecsTestUApp')
-project(':ecsTestUApp').projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
+//include(':ecsTestUApp')
+//project(':ecsTestUApp').projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 
 //include(':mecUApp')
 //project(':mecUApp').projectDir = new File('./Source/mec/Source/DemoUApp')

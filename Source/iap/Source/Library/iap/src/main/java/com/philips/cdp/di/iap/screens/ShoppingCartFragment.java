@@ -220,9 +220,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
             createCustomProgressBar(mParentLayout, BIG);
-            if(mAdapter.getSelectedItemPosition()>0) {
+           // if(mAdapter.getSelectedItemPosition()>0) {
                 mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
-            }
+           // }
 
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_UPDATE_PRODUCT_COUNT)) {
             createCustomProgressBar(mParentLayout, BIG);
@@ -278,10 +278,15 @@ public class ShoppingCartFragment extends InAppBaseFragment
                         AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-                mAddresses = shippingAddresses.getAddresses();
-                bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
-                addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressSelectionFragment.TAG,true);
+                if(shippingAddresses.getAddresses().size() > 0) {
+                    mAddresses = shippingAddresses.getAddresses();
+                    bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
+                    addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
+                            AddressSelectionFragment.TAG, true);
+                } else if(shippingAddresses.getAddresses().size() == 0) {
+                    addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                            AddressSelectionFragment.TAG,true);
+                }
             }
         }
     }

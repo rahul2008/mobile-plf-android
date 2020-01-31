@@ -10,7 +10,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * IAPInterface is the public class for any proposition to consume InAppPurchase micro app. Its the starting initialization point.
+ * MECInterface is the public class for any proposition to consume MEC micro app. Its the starting initialization point.
  * @since 1.0.0
  */
 public class MECInterface implements UappInterface {
@@ -18,6 +18,10 @@ public class MECInterface implements UappInterface {
     private UappDependencies mUappDependencies;
     private UserDataInterface mUserDataInterface;
 
+    /**
+     * @param uappDependencies Object of UappDependencies
+     * @param uappSettings     Object of UppSettings
+     */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         MECDependencies MECDependencies = (MECDependencies) uappDependencies;
@@ -31,12 +35,20 @@ public class MECInterface implements UappInterface {
         mUappDependencies = uappDependencies;
     }
 
+    /**
+     * @param uiLauncher      Object of UiLauncher
+     * @param uappLaunchInput Object of  UappLaunchInput
+     * @throws RuntimeException
+     */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         MECHandler mecHandler = new MECHandler((MECDependencies)mUappDependencies,mMECSettings,uiLauncher,(MECLaunchInput) uappLaunchInput);
         mecHandler.launchMEC();
     }
 
+    /**
+     * @param mecListener
+     */
     public void getProductCartCount(MECListener mecListener) {
     }
 

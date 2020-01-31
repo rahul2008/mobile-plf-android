@@ -9,11 +9,14 @@ import android.content.Context;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * MECSettings class is used to initialize basic settings for InAppPurchase. Right now InAppPurchase doesn’t have any settings to be initialized. So only default initialization of IAPSettings is required to be passed while creating IAPInterface object.
+ * MECSettings class is used to initialize basic settings for MEC. Right now MEC doesn’t have any settings to be initialized. So only default initialization of MECSettings is required to be passed while creating MECInterface object.
  * @since 1.0.0
  */
 public class MECSettings extends UappSettings {
 
+    /**
+     * @param applicationContext
+     */
     public MECSettings(Context applicationContext) {
         super(applicationContext);
     }

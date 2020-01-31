@@ -1,5 +1,4 @@
 package com.philips.cdp.di.mec.screens.detail
-
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +19,15 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productDetails
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProducts
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.outOfStock
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.retailerName
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.stockStatus
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -27,6 +35,7 @@ import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
 import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_main_activity.*
@@ -71,8 +80,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             }
             ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus, product, retailersList)
             hideProgressBar()
+            binding.progressImage.visibility = View.GONE
+            //getStock(binding.mecProductDetailStockStatus.text.toString())
         }
 
+    }
+
+    fun getStock(stock: String) {
+        if (stock.equals(R.string.mec_out_of_stock)) {
+
+        }
     }
 
     private val ratingObserver: Observer<BulkRatingsResponse> = object : Observer<BulkRatingsResponse> {
@@ -106,6 +123,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                         } else {
                             binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
                             binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
+                            tagOutOfStockActions(product)
                         }
                     }
                 }
@@ -153,7 +171,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.viewpagerMain.offscreenPageLimit = 4
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
-
+        MECAnalytics.trackPage(productDetails)
+        tagActions(product);
         return binding.root
     }
 
@@ -264,6 +283,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         val bundle = Bundle()
         bottomSheetFragment = MECRetailersFragment()
         bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
+        bundle.putSerializable(MEC_PRODUCT,binding.product)
         bottomSheetFragment.arguments = bundle
         bottomSheetFragment.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
         fragmentManager?.let { bottomSheetFragment.show(it, bottomSheetFragment.tag) }
@@ -283,6 +303,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 bundle.putString(MECConstant.MEC_STORE_NAME, ecsRetailer.name)
                 bundle.putBoolean(MECConstant.MEC_IS_PHILIPS_SHOP, ecsProductDetailViewModel.isPhilipsShop(ecsRetailer))
 
+                tagActionsforRetailer(ecsRetailer.name, MECutility.stockStatus(ecsRetailer.availability))
                 val fragment = WebBuyFromRetailersFragment()
                 fragment.arguments = bundle
                 addFragment(fragment, "retailers", true)
@@ -290,9 +311,41 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         }
     }
 
+    override fun processError(mecError: MecError?) {
+        binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
+    }
+
+
     override fun onChanged(mecError: MecError?) {
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
 
+    }
+
+
+    private fun tagActions(product: ECSProduct) {
+        var map = HashMap<String, String>()
+        map.put(specialEvents, prodView)
+        map.put(mecProducts, MECAnalytics.getProductInfo(product))
+        MECAnalytics.trackMultipleActions(sendData, map)
+    }
+
+
+    private fun tagActionsforRetailer(name: String, status: String) {
+        var map = HashMap<String, String>()
+        map.put(retailerName, name)
+        map.put(stockStatus, status)
+        map.put(mecProducts, MECAnalytics.getProductInfo(product))
+        MECAnalytics.trackMultipleActions(sendData, map)
+    }
+
+    companion object {
+        @JvmStatic
+        fun tagOutOfStockActions(product: ECSProduct) {
+            var map = HashMap<String, String>()
+            map.put(specialEvents, outOfStock)
+            map.put(mecProducts, MECAnalytics.getProductInfo(product))
+            MECAnalytics.trackMultipleActions(sendData, map)
+        }
     }
 
 }

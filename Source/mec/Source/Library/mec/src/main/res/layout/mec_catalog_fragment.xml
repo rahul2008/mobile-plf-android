@@ -19,7 +19,7 @@
 <RelativeLayout
     android:id="@+id/mecCatalogParentLayout"
     android:layout_width="match_parent"
-    android:visibility="invisible"
+    android:visibility="gone"
     android:background="@color/uidColorWhite"
     android:layout_height="match_parent">
 
@@ -33,7 +33,6 @@
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
         android:orientation="horizontal"
-        android:visibility="visible"
         android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
         android:paddingBottom="8dp">
 
@@ -199,8 +198,27 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/mec_no_product_available"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:textSize="@dimen/iap_product_ctn_12"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <com.philips.platform.uid.view.widget.ProgressBar
+            android:id="@+id/CircularProgressBar"
+            style="@style/UIDProgressBarCircularIndeterminateMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:visibility="invisible" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
