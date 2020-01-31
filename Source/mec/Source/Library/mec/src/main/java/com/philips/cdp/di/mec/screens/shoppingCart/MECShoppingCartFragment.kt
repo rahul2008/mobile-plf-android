@@ -40,20 +40,18 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     private var productsAdapter: MECProductsAdapter? = null
     private lateinit var productReviewList: MutableList<MECCartProductReview>
 
-    private val cartObserver: Observer<ECSShoppingCart> = object : Observer<ECSShoppingCart> {
-        override fun onChanged(ecsShoppingCart: ECSShoppingCart?) {
-            binding.shoppingCart = ecsShoppingCart
+    private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
+        binding.shoppingCart = ecsShoppingCart
 
-            if (ecsShoppingCart!!.entries.size != 0) {
-                binding.mecEmptyResult.visibility = View.GONE
-                binding.mecParentLayout.visibility = View.VISIBLE
-                ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart!!.entries)
-            } else if(ecsShoppingCart!!.entries.size == 0) {
-                binding.mecEmptyResult.visibility = View.VISIBLE
-                binding.mecParentLayout.visibility = View.GONE
-            }
-            hideProgressBar()
+        if (ecsShoppingCart!!.entries.size != 0) {
+            binding.mecEmptyResult.visibility = View.GONE
+            binding.mecParentLayout.visibility = View.VISIBLE
+            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart.entries)
+        } else if(ecsShoppingCart.entries.size == 0) {
+            binding.mecEmptyResult.visibility = View.VISIBLE
+            binding.mecParentLayout.visibility = View.GONE
         }
+        hideProgressBar()
     }
 
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
@@ -61,7 +59,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         mecProductReviews?.let { productReviewList.addAll(it) }
         productsAdapter?.notifyDataSetChanged()
         if(productsAdapter!=null){
-            MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
+            //MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
         }
         hideProgressBar()
     }
@@ -71,7 +69,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
         binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
         binding.fragment = this
-        ecsShoppingCartViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }!!
+        ecsShoppingCartViewModel = activity!!.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }
 
         ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
@@ -81,7 +79,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
         productReviewList = mutableListOf()
 
-        productsAdapter = MECProductsAdapter(productReviewList,ecsShoppingCartViewModel,this)
+        productsAdapter = MECProductsAdapter(productReviewList, this)
 
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
 
@@ -127,9 +125,9 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     override fun onStart() {
         super.onStart()
-        if (ecsShoppingCart!!.entries.size != 0) {
+        if (ecsShoppingCart.entries.size != 0) {
             createCustomProgressBar(container, MEDIUM)
-            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart!!.entries)
+            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart.entries)
         }
         //executeRequest()
     }

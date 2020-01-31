@@ -8,10 +8,10 @@ import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
 import com.philips.platform.uid.view.widget.UIPicker
 
 
-class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>, var mEcsShoppingCartViewModel: EcsShoppingCartViewModel, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>, private var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(MecShoppingCartItemsBinding.inflate(LayoutInflater.from(parent.context)), mEcsShoppingCartViewModel,mecShoppingCartFragment)
+        return MECCartViewHolder(MecShoppingCartItemsBinding.inflate(LayoutInflater.from(parent.context)), mecShoppingCartFragment)
     }
 
     override fun getItemCount(): Int {
@@ -19,51 +19,9 @@ class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>,
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val cartSummary = mecCart?.get(position)
-        val viewHolder = holder as ViewHolder
-        viewHolder.bind(cartSummary!!, position)
-    }
-
-    open class ViewHolder(val binding: MecShoppingCartItemsBinding, var ecsShoppingCartViewModel: EcsShoppingCartViewModel, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {
-
-        var mPopupWindow: UIPicker? = null
-        fun bind(cartSummary: MECCartProductReview, position: Int) {
-            binding.cart = cartSummary
-            bindCountView(binding.mecQuantityVal, cartSummary)
-        }
-
-        fun bindCountView(view: View, cartSummary: MECCartProductReview) {
-
-            view.setOnClickListener { v ->
-                val data = cartSummary
-                var stockLevel = cartSummary.entries.product.stock.stockLevel
-                /*if (stockLevel > 50) {
-                    stockLevel = 50
-                }*/
-
-                val countPopUp = MecCountDropDown(v, v.context, stockLevel, data.entries.quantity
-                        , object : MecCountDropDown.CountUpdateListener {
-                    override fun countUpdate(oldCount: Int, newCount: Int) {
-                        if (newCount != oldCount) {
-                            mecShoppingCartFragment.updateCartRequest(cartSummary.entries, newCount)
-                        }
-
-                    }
-                })
-                countPopUp.createPopUp(v, stockLevel)
-                mPopupWindow = countPopUp.popUpWindow
-                countPopUp.show()
-            }
-        }
-    }
-
-    open class CloseWindow(mPopupWindow: UIPicker?) {
-        var mPopupWindow: UIPicker? = mPopupWindow
-        fun onStop() {
-            if (mPopupWindow != null) {
-                mPopupWindow!!.dismiss()
-            }
-        }
+        val cartSummary = mecCart.get(position)
+        val viewHolder = holder as MECCartViewHolder
+        viewHolder.bind(cartSummary)
     }
 
 }
