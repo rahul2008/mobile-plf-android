@@ -219,8 +219,8 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
                 fragment = MECProductCatalogFragment()
             }
             MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
-                fragmentTag=MECProductCatalogCategorizedFragment.TAG
-                fragment = MECProductCatalogCategorizedFragment()
+
+                fragment = getCategorizedFragment(MECDataHolder.INSTANCE.hybrisEnabled)
             }
             MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART -> {
                 fragmentTag=MECShoppingCartFragment.TAG
@@ -233,8 +233,10 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
     private fun getCategorizedFragment(isHybris: Boolean): MecBaseFragment? {
         if (isHybris) {
+            fragmentTag=MECProductCatalogCategorizedFragment.TAG
             return MECProductCatalogCategorizedFragment()
         } else {
+            fragmentTag=MECCategorizedRetailerFragment.TAG
             return MECCategorizedRetailerFragment()
         }
     }

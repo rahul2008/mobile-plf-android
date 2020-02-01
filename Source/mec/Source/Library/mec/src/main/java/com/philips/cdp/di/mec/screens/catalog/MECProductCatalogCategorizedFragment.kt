@@ -12,8 +12,6 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     companion object {
         val TAG = "MECProductCatalogCategorizedFragment"
-
-
     }
 
     lateinit var ctns : ArrayList<String>
