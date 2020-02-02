@@ -35,13 +35,14 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     private lateinit var binding: MecShoppingCartFragmentBinding
     private var itemPosition: Int = 0
     private var mPopupWindow: UIPicker? = null
-    private lateinit var ecsShoppingCart: ECSShoppingCart
+    private lateinit var shoppingCart: ECSShoppingCart
     lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
     private var productsAdapter: MECProductsAdapter? = null
     private lateinit var productReviewList: MutableList<MECCartProductReview>
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         binding.shoppingCart = ecsShoppingCart
+        shoppingCart = ecsShoppingCart!!
 
         if (ecsShoppingCart!!.entries.size != 0) {
             binding.mecEmptyResult.visibility = View.GONE
@@ -75,7 +76,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
 
         val bundle = arguments
-        ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
+        //ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
 
         productReviewList = mutableListOf()
 
@@ -111,7 +112,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     }
 
     override fun onPositiveBtnClick() {
-        updateCartRequest(ecsShoppingCart.entries.get(itemPosition),0)
+        updateCartRequest(shoppingCart.entries.get(itemPosition),0)
     }
 
     override fun onNegativeBtnClick() {
@@ -125,15 +126,15 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     override fun onStart() {
         super.onStart()
-        if (ecsShoppingCart.entries.size != 0) {
-            createCustomProgressBar(container, MEDIUM)
-            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart.entries)
-        }
-        //executeRequest()
+//        if (ecsShoppingCart.entries.size != 0) {
+//            createCustomProgressBar(container, MEDIUM)
+//            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart.entries)
+//        }
+        executeRequest()
     }
 
      fun executeRequest() {
-        //createCustomProgressBar(container, MEDIUM)
+        createCustomProgressBar(container, MEDIUM)
         ecsShoppingCartViewModel.getShoppingCart()
     }
 

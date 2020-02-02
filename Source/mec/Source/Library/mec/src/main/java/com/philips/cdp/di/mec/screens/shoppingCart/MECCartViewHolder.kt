@@ -2,7 +2,9 @@ package com.philips.cdp.di.mec.screens.shoppingCart
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.android.volley.toolbox.ImageLoader
 import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
+import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.platform.uid.view.widget.UIPicker
 
 class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {
@@ -10,6 +12,10 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
     private var mPopupWindow: UIPicker? = null
     fun bind(cartSummary: MECCartProductReview) {
         binding.cart = cartSummary
+        val mImageLoader: ImageLoader
+        mImageLoader = NetworkImageLoader.getInstance(mecShoppingCartFragment.context)
+                .getImageLoader()
+        binding.image.setImageUrl(cartSummary.entries.product.summary.imageURL,mImageLoader)
         bindCountView(binding.mecQuantityVal, cartSummary)
     }
 
