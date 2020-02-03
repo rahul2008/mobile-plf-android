@@ -9,10 +9,14 @@ import android.graphics.drawable.Drawable
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.CycleInterpolator
+import android.view.animation.TranslateAnimation
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.region.ECSRegion
+import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
@@ -21,6 +25,11 @@ import com.philips.cdp.di.mec.view.MECDropDown
 import com.philips.platform.uid.view.widget.CheckBox
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.ValidationEditText
+import kotlinx.android.synthetic.main.mec_enter_address.view.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.util.*
 import java.util.regex.Pattern
 
 class AddressViewModel : CommonViewModel() {
@@ -45,6 +54,72 @@ class AddressViewModel : CommonViewModel() {
     fun createAddress(ecsAddress: ECSAddress){
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
     }
+
+
+
+    private fun getAddressFieldEnablerJson(context: Context): String {
+
+        val manager = context.assets
+        val file = manager.open("mec_address_config.json")
+        val formArray = ByteArray(file.available())
+        file.read(formArray)
+        file.close()
+        return String(formArray)
+    }
+
+    fun getAddressFieldEnabler(country: String , context: Context): MECAddressFieldEnabler? {
+
+        var addressFieldEnablerJson: String? = null
+        var addressFieldEnabler: MECAddressFieldEnabler? = null
+        try {
+            addressFieldEnablerJson = getAddressFieldEnablerJson(context)
+
+            var jsonObject: JSONObject? = null
+
+            jsonObject = JSONObject(addressFieldEnablerJson)
+
+            val addressEnablerJsonObject = jsonObject.getJSONObject("excludedFields")
+            addressFieldEnabler = MECAddressFieldEnabler()
+
+            val jsonArray = addressEnablerJsonObject.getJSONArray(country)
+
+
+            for (i in 0 until jsonArray.length()) {
+                val excludedField = jsonArray.getString(i)
+                val addressFieldJsonEnum = AddressFieldJsonEnum.getAddressFieldJsonEnumFromField(excludedField)
+                setAddressFieldEnabler(addressFieldEnabler, addressFieldJsonEnum!!)
+            }
+
+        } catch (e: JSONException) {
+
+        } catch (e: IOException) {
+
+        }
+
+        return addressFieldEnabler
+    }
+
+    private fun setAddressFieldEnabler(addressFieldEnabler: MECAddressFieldEnabler, addressFieldJsonEnum: AddressFieldJsonEnum) {
+
+        when (addressFieldJsonEnum) {
+
+            AddressFieldJsonEnum.ADDRESS_ONE -> addressFieldEnabler.isAddress1Enabled = false
+
+            AddressFieldJsonEnum.ADDRESS_TWO -> addressFieldEnabler.isAddress2Enabled = false
+            AddressFieldJsonEnum.PHONE -> addressFieldEnabler.isPhoneEnabled = false
+            AddressFieldJsonEnum.FIRST_NAME -> addressFieldEnabler.isFirstNameEnabled = false
+            AddressFieldJsonEnum.LAST_NAME -> addressFieldEnabler.isLastNmeEnabled = false
+            AddressFieldJsonEnum.STATE -> addressFieldEnabler.isStateEnabled= false
+            AddressFieldJsonEnum.SALUTATION -> addressFieldEnabler.isSalutationEnabled = false
+            AddressFieldJsonEnum.COUNTRY -> addressFieldEnabler.isCountryEnabled = false
+            AddressFieldJsonEnum.POSTAL_CODE -> addressFieldEnabler.isPostalCodeEnabled = false
+            AddressFieldJsonEnum.HOUSE_NUMBER -> addressFieldEnabler.isHouseNumberEnabled =false
+            AddressFieldJsonEnum.TOWN -> addressFieldEnabler.isTownEnabled = false
+        }
+
+    }
+
+
 
     companion object DataBindingAdapter {
 
@@ -142,5 +217,81 @@ class AddressViewModel : CommonViewModel() {
 
         }
 
+    }
+
+    enum class AddressFieldJsonEnum (val addressField: String) {
+
+        SALUTATION("salutation"),
+        FIRST_NAME("firstName"),
+        LAST_NAME("lastName"),
+        EMAIL("email"),
+        PHONE("phone"),
+        HOUSE_NUMBER("houseNumber"),
+        ADDRESS_ONE("address1"),
+        ADDRESS_TWO("address2"),
+        TOWN("town"),
+        POSTAL_CODE("postalCode"),
+        STATE("state"),
+        COUNTRY("country");
+
+
+        companion object {
+
+            fun getAddressFieldJsonEnumFromField(field: String): AddressFieldJsonEnum? {
+                val values = AddressFieldJsonEnum.values()
+
+                for (addressFieldJsonEnum in values) {
+
+                    if (addressFieldJsonEnum.addressField.equals(field.trim { it <= ' ' }, ignoreCase = true)) {
+                        return addressFieldJsonEnum
+                    }
+                }
+                return null
+            }
+        }
+    }
+
+    fun getECSAddress(linearLayout: LinearLayout, mecRegions: MECRegions): ECSAddress {
+
+        val firstName = linearLayout.et_first_name.text.toString()
+        val lastName = linearLayout.et_last_name.text.toString()
+        // val countryCode = linearLayout.et_country.text.toString()
+        val addressLineOne = linearLayout.et_address_line_one.text.toString()
+        val addressLineTwo = linearLayout.et_address_line_two.text.toString()
+        val postalCode = linearLayout.et_postal_code.text.toString()
+        val phoneOne = linearLayout.et_phone1.text.toString()
+        val town = linearLayout.et_town.text.toString()
+        val houseNumber = linearLayout.et_house_no.text.toString()
+        val title = linearLayout.et_salutation.text.toString()
+        val state =linearLayout.et_state.text.toString()
+
+
+        val ecsAddress = ECSAddress()
+
+        ecsAddress.firstName = firstName
+        ecsAddress.lastName = lastName
+        ecsAddress.titleCode = title.toLowerCase(Locale.getDefault()) // Todo , pass the locale to lower case
+
+        val country = Country()
+        country.isocode = ECSConfiguration.INSTANCE.country
+        ecsAddress.country = country
+
+        ecsAddress.line1 = addressLineOne
+        ecsAddress.line2 = addressLineTwo
+        ecsAddress.postalCode = postalCode
+        ecsAddress.phone1 = phoneOne
+        ecsAddress.phone2=phoneOne
+        ecsAddress.town = town
+        ecsAddress.houseNumber = houseNumber
+        ecsAddress.region = mecRegions?.getRegion(state)
+
+        return ecsAddress
+    }
+
+    public fun shakeError(): TranslateAnimation {
+        val shake = TranslateAnimation(0f, 10f, 0f, 0f)
+        shake.duration = 500
+        shake.interpolator = CycleInterpolator(7f)
+        return shake
     }
 }

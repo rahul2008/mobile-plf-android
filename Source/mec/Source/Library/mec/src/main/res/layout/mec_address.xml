@@ -12,6 +12,11 @@
         <variable
             name="mecRegions"
             type="com.philips.cdp.di.mec.screens.address.MECRegions" />
+
+        <variable
+            name="addressFieldEnabler"
+            type="com.philips.cdp.di.mec.screens.address.MECAddressFieldEnabler" />
+
     </data>
 
 <RelativeLayout
@@ -43,6 +48,7 @@
             android:id="@+id/dls_iap_address_shipping"
             app:pattern="@{pattern}"
             app:mecRegions ="@{mecRegions}"
+            app:addressFieldEnabler = "@{addressFieldEnabler}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -75,6 +81,7 @@
             android:layout_height="wrap_content"
             app:pattern="@{pattern}"
             app:mecRegions ="@{mecRegions}"
+            app:addressFieldEnabler = "@{addressFieldEnabler}"
            >
         </include>
 

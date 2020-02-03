@@ -8,8 +8,8 @@ import com.philips.cdp.di.mec.common.MecError
 
 class ECSCreateAddressCallBack(private var addressViewModel: AddressViewModel) :ECSCallback<ECSAddress, Exception> {
 
-    override fun onResponse(result: ECSAddress) {
-
+    override fun onResponse(eCSAddress: ECSAddress) {
+        addressViewModel.eCSAddress.value = eCSAddress
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
