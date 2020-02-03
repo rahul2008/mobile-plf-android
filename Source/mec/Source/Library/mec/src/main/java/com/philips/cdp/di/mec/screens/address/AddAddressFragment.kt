@@ -15,10 +15,7 @@ import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.ValidationEditText
 import android.view.animation.CycleInterpolator
 import android.view.animation.TranslateAnimation
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.Spinner
+import android.widget.*
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.util.ECSConfiguration
@@ -56,6 +53,8 @@ class AddAddressFragment : MecBaseFragment() {
         override fun onChanged(ecsAddress: ECSAddress?) {
 
            Log.d(this@AddAddressFragment.javaClass.name, ecsAddress?.id)
+
+            Toast.makeText(this@AddAddressFragment.context,"ADDress created",Toast.LENGTH_LONG).show()
 
             // jump to next fragment
         }
@@ -102,7 +101,7 @@ class AddAddressFragment : MecBaseFragment() {
                 var validator:InputValidationLayout.Validator
 
                 if(child.inputType == InputType.TYPE_CLASS_PHONE){
-                    validator = EmptyInputValidator()
+                    validator = PhoneNumberInputValidator(MECRegexPattern().PHONE_NUMBER_PATTERN)
                 }else{
                     validator = EmptyInputValidator()
                 }
@@ -143,6 +142,7 @@ class AddAddressFragment : MecBaseFragment() {
         val lastName = linearLayout.et_last_name.text.toString()
        // val countryCode = linearLayout.et_country.text.toString()
         val addressLineOne = linearLayout.et_address_line_one.text.toString()
+        val addressLineTwo = linearLayout.et_address_line_two.text.toString()
         val postalCode = linearLayout.et_postal_code.text.toString()
         val phoneOne = linearLayout.et_phone1.text.toString()
         val town = linearLayout.et_town.text.toString()
@@ -162,8 +162,10 @@ class AddAddressFragment : MecBaseFragment() {
         ecsAddress.country = country
 
         ecsAddress.line1 = addressLineOne
+        ecsAddress.line2 = addressLineTwo
         ecsAddress.postalCode = postalCode
         ecsAddress.phone1 = phoneOne
+        ecsAddress.phone2=""
         ecsAddress.town = town
         ecsAddress.houseNumber = houseNumber
         ecsAddress.region = binding.mecRegions?.getRegion(state)
