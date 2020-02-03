@@ -22,5 +22,5 @@
     <string name="RA_quessionary_text">Custom Reward Coupons, Holiday Surprises, VIP Shopping Days</string><!-- Need to check this-->
     <string name="Ra_registration_value">registration</string>
     <string name="ref_app_label">ReferenceApp</string>
-
+    <string name="localized_commercial_app_name">Reference App</string>
 </resources>
