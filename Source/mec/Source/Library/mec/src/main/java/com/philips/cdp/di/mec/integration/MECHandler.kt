@@ -67,22 +67,14 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     fun launchMEC() {
         appInfra = mMECDependencies.appInfra as AppInfra
         val configInterface = appInfra!!.configInterface
-        val configError = AppConfigurationInterface.AppConfigurationError()
-        val propositionID = configInterface.getPropertyForKey("propositionid", "MEC", configError)
-        var propertyForKey = ""
-        if(propositionID!=null) {
-            propertyForKey = propositionID as String
-        }
-        val ecsServices = ECSServices(propertyForKey, appInfra!!)
-        MecHolder.INSTANCE.eCSServices = ecsServices // singleton
-        MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
-        MECDataHolder.INSTANCE.propositionId = propertyForKey
+
+
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator!!
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.supportsHybris
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
         MECDataHolder.INSTANCE.blackListedRetailers = mLaunchInput.blackListedRetailerNames
-        MECDataHolder.INSTANCE.userDataInterface = mMECDependencies.userDataInterface
+        //MECDataHolder.INSTANCE.userDataInterface = mMECDependencies.userDataInterface
 
 
         MECAnalytics.initMECAnalytics(mMECDependencies)
@@ -92,30 +84,6 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
                    MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
                }
 
-     /*   ecsServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception>{
-
-            override fun onResponse(config: ECSConfig?) {
-                if (MECDataHolder.INSTANCE.hybrisEnabled) {
-                    MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
-
-                }
-                MECDataHolder.INSTANCE.locale = config!!.locale
-                MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
-                if(null!=config!!.rootCategory){
-                    MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
-                }
-                if (mUiLauncher is ActivityLauncher) {
-                    launchMECasActivity()
-                } else {
-                    launchMECasFragment()
-                }
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        } )*/
 
         if (mUiLauncher is ActivityLauncher) {
             launchMECasActivity()
@@ -168,16 +136,11 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
     protected fun launchMECasFragment(result: Boolean, bundle :Bundle) {
 
-        /////////
 
-
-
-        //////////
         val str = Gson().toJson(mLaunchInput.flowConfigurator)
         bundle.putString(MECConstant.FLOW_INPUT, str)
         var mecConfiguration = Gson().fromJson(str, MECFlowConfigurator::class.java)
-        ///////
-        // only for Product detail launch
+
         var ctnList: ArrayList<String>? = ArrayList()
 
         if (mecConfiguration.productCTNs != null) {
@@ -188,7 +151,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
             bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, ctnList)
         }
 
-        ///////
+
         mecFlows = mecConfiguration.landingView!!
 
         val mecBaseFragment = getFragment(result, mecFlows)

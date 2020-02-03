@@ -117,32 +117,19 @@ import java.util.*
          }
      }
 
-     override fun onUpdateCartCount() {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+
+
+
+     override fun onGetCompleteProductList(productList: ArrayList<String>) {
+         productList!!.size
+         mec_cart_item_count.visibility=View.VISIBLE
      }
 
-     override fun updateCartIconVisibility(shouldShow: Boolean) {
-         if(shouldShow) {
-             mec_cart_item_count.visibility=View.VISIBLE
-         }else{
-             mec_cart_item_count.visibility=View.GONE
-         }
 
-     }
 
-     override fun onGetCompleteProductList(productList: ArrayList<String>?) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
-
-     override fun onSuccess() {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
-
-     override fun onSuccess(bool: Boolean) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
-
-     override fun onFailure(errorCode: Int) {
+     override fun onFailure(exception: Exception) {
+         mec_cart_item_count.visibility=View.GONE
          TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
      }
 

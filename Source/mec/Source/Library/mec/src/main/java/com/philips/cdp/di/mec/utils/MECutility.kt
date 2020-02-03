@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.support.v4.app.FragmentManager
 import android.view.View
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
@@ -156,6 +157,20 @@ class MECutility {
                 return "out of stock"
             }
             return ""
+        }
+
+        fun getQuantity(carts: ECSShoppingCart): Int {
+            val totalItems = carts.totalItems
+            var quantity = 0
+            if (carts.entries != null) {
+                val entries = carts.entries
+                if (totalItems != 0 && null != entries) {
+                    for (i in entries.indices) {
+                        quantity = quantity + entries[i].quantity
+                    }
+                }
+            }
+            return quantity
         }
 
 

@@ -18,12 +18,14 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.di.mec.common.MecError;
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
@@ -83,6 +85,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private ArrayList<String> mCategorizedProductList;
     private TextView mCountText;
     private ImageView mBackImage;
+    private FrameLayout mShoppingCartContainer;
     private TextView text;
 
     private MECInterface mMecInterface;
@@ -105,6 +108,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private TextView versionView;
     private View rootView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,7 +116,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
 
         ignorelistedRetailer = new ArrayList<>();
-        if (rootView == null) {
+      //  if (rootView == null) {
 
 
             rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
@@ -125,6 +129,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             text = getActivity().findViewById(R.id.mec_demo_app_header_title);
             versionView = getActivity().findViewById(R.id.demoappversion);
             mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
+            mShoppingCartContainer  = getActivity().findViewById(R.id.mec_demo_app_shopping_cart_icon);
+            mCountText =  getActivity().findViewById(R.id.mec_demo_app_item_count);
 
 
             mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
@@ -211,8 +217,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             mShopNowCategorizedWithRetailer = rootView.findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
             mShopNowCategorizedWithRetailer.setOnClickListener(this);
 
-            mCartIcon = rootView.findViewById(R.id.mec_demo_app_cart_iv);
-            mCountText = rootView.findViewById(R.id.mec_demo_app_item_count);
+
 
             mCategorizedProductList = new ArrayList<>();
             addCTNs(mCategorizedProductList);
@@ -225,7 +230,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             initializeBazaarVoice();
             initializeMECComponant();
 
-        }
+       // }
         return rootView;
 
     }
@@ -307,8 +312,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mLaunchProductDetail.setEnabled(true);
 
 
-        mCartIcon.setVisibility(View.VISIBLE);
-        mCountText.setVisibility(View.VISIBLE);
+
         mShopNow.setVisibility(View.VISIBLE);
         mShopNow.setEnabled(true);
         dismissProgressDialog();
@@ -433,6 +437,11 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
 
+        if (urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            //update shopping cart count if user logged in
+                mMecInterface.getProductCartCount(this);
+            }
+
     }
 
     private void gotoLogInScreen() {
@@ -476,39 +485,32 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     //In-App listener functions
     @Override
     public void onGetCartCount(int count) {
-
-
-    }
-
-    @Override
-    public void onUpdateCartCount() {
-        mMecInterface.getProductCartCount(this);
-    }
-
-    @Override
-    public void updateCartIconVisibility(boolean shouldShow) {
+        mShoppingCartContainer.setVisibility(View.VISIBLE);
+        dismissProgressDialog();
+        if (count > 0) {
+            mCountText.setText(String.valueOf(count));
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCountText.setVisibility(View.GONE);
+        }
 
     }
+
+
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
+        mShoppingCartContainer.setVisibility(View.VISIBLE);
         //mShoppingCart.setOnClickListener(this);
         dismissProgressDialog();
     }
 
-    @Override
-    public void onSuccess() {
-        dismissProgressDialog();
-    }
+
 
     @Override
-    public void onSuccess(boolean bool) {
-        displayFlowViews(bool);
-    }
+    public void onFailure(Exception  exception) {
+        mShoppingCartContainer.setVisibility(View.GONE);
 
-    @Override
-    public void onFailure(int errorCode) {
-        showToast(errorCode);
         dismissProgressDialog();
     }
 
