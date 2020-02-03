@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 class PhoneNumberInputValidator(private val valid_regex_pattern: Pattern) : InputValidationLayout.Validator {
 
     override fun validate(msg: CharSequence?): Boolean {
-        if (msg?.trim().isNullOrEmpty()) {
+        if (!msg?.trim().isNullOrEmpty()) {
             val matcher = valid_regex_pattern.matcher(msg)
             return matcher.find()
         }

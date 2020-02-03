@@ -16,13 +16,9 @@ import com.philips.platform.uid.view.widget.ValidationEditText
 import android.view.animation.CycleInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.*
-import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.util.ECSConfiguration
-import com.philips.cdp.di.mec.utils.MECDataHolder
-import kotlinx.android.synthetic.main.mec_enter_address.view.*
 import kotlinx.android.synthetic.main.mec_main_activity.*
-import java.util.*
 
 
 class AddAddressFragment : MecBaseFragment() {
@@ -57,10 +53,6 @@ class AddAddressFragment : MecBaseFragment() {
         override fun onChanged(ecsAddress: ECSAddress?) {
 
            Log.d(this@AddAddressFragment.javaClass.name, ecsAddress?.id)
-
-            Toast.makeText(this@AddAddressFragment.context,"ADDress created",Toast.LENGTH_LONG).show()
-
-            // jump to next fragment
         }
 
     }
@@ -90,8 +82,8 @@ class AddAddressFragment : MecBaseFragment() {
 
                 if(!isError){
 
-                    eCSAddressShipping = getECSAddress(binding.llShipping)
-                    eCSAddressBilling = getECSAddress(binding.llBilling)
+                    eCSAddressShipping = addressViewModel.getECSAddress(binding.llShipping,binding.mecRegions)
+                    eCSAddressBilling = addressViewModel.getECSAddress(binding.llBilling,binding.mecRegions)
                     addressViewModel.createAddress(eCSAddressShipping!!)
                 }
             }
@@ -118,7 +110,7 @@ class AddAddressFragment : MecBaseFragment() {
                 }
 
                 if(!validator.validate(child.text.toString())){
-                    child.startAnimation(shakeError())
+                    child.startAnimation(addressViewModel.shakeError())
                     v.showError()
                     isError = true
                 }
@@ -138,56 +130,12 @@ class AddAddressFragment : MecBaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
         if(addressFieldEnabler?.isStateEnabled!!) {
             addressViewModel.fetchRegions()
             createCustomProgressBar(container,MEDIUM)
         }
     }
 
-    private fun shakeError(): TranslateAnimation {
-        val shake = TranslateAnimation(0f, 10f, 0f, 0f)
-        shake.duration = 500
-        shake.interpolator = CycleInterpolator(7f)
-        return shake
-    }
-
-    fun getECSAddress(linearLayout: LinearLayout): ECSAddress {
-
-        val firstName = linearLayout.et_first_name.text.toString()
-        val lastName = linearLayout.et_last_name.text.toString()
-       // val countryCode = linearLayout.et_country.text.toString()
-        val addressLineOne = linearLayout.et_address_line_one.text.toString()
-        val addressLineTwo = linearLayout.et_address_line_two.text.toString()
-        val postalCode = linearLayout.et_postal_code.text.toString()
-        val phoneOne = linearLayout.et_phone1.text.toString()
-        val town = linearLayout.et_town.text.toString()
-        val houseNumber = linearLayout.et_house_no.text.toString()
-        val title = linearLayout.et_salutation.text.toString()
-        val state =linearLayout.et_state.text.toString()
-
-
-        val ecsAddress = ECSAddress()
-
-        ecsAddress.firstName = firstName
-        ecsAddress.lastName = lastName
-        ecsAddress.title = title.toLowerCase() // Todo , pass the locale to lower case
-
-        val country = Country()
-        country.isocode = ECSConfiguration.INSTANCE.country
-        ecsAddress.country = country
-
-        ecsAddress.line1 = addressLineOne
-        ecsAddress.line2 = addressLineTwo
-        ecsAddress.postalCode = postalCode
-        ecsAddress.phone1 = phoneOne
-        ecsAddress.phone2=""
-        ecsAddress.town = town
-        ecsAddress.houseNumber = houseNumber
-        ecsAddress.region = binding.mecRegions?.getRegion(state)
-
-        return ecsAddress
-    }
 
 }
 

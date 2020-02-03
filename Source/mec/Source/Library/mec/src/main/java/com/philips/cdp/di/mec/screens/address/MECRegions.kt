@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.address
 
 import com.philips.cdp.di.ecs.model.address.Region
 import com.philips.cdp.di.ecs.model.region.ECSRegion
+import com.philips.cdp.di.mec.utils.MECDataHolder
 
 class MECRegions(private val regionList: List<ECSRegion>){
 
@@ -29,4 +30,6 @@ class MECRegions(private val regionList: List<ECSRegion>){
         }
         return region
     }
+
+    val locale = MECDataHolder.INSTANCE.locale
 }
