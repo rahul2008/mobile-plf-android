@@ -119,30 +119,6 @@ class HybrisAuth {
                 override fun refreshSessionSuccess() {
 
                     hybrisAuthentication(fragmentCallback)
-                    /*      //ReOAuth starts =======================
-                          MecHolder.INSTANCE.eCSServices.hybrisOAthAuthentication(getJanrainAuthInput(), object : ECSCallback<ECSOAuthData, Exception> {
-                              override fun onResponse(result: ECSOAuthData) {
-                                  ECSConfiguration.INSTANCE.setAuthToken(result.accessToken)
-                                  MECDataHolder.INSTANCE.refreshToken = result.refreshToken
-                                  Log.d("ECS succ", result.accessToken)
-                                  fragmentCallback.onResponse(result)
-
-                                  try {
-                                      //todo mIapInterface.getProductCartCount(this@EcsDemoAppActivity)
-                                  } catch (e: Exception) {
-
-                                  }
-                              }
-
-                              override fun onFailure(error: Exception, ecsError: ECSError) {
-                                  Log.d("ECS Oauth failed", error.message + " :  " + ecsError)
-                                  ECSConfiguration.INSTANCE.setAuthToken(null)
-                                  fragmentCallback.onFailure(error, ecsError)
-
-                              }
-                          })
-
-                          // ReOAuth ends  =====================*/
 
                 }
 
@@ -176,6 +152,7 @@ class HybrisAuth {
                             override fun onResponse(eCSOAuthData: ECSOAuthData?) {
 
                             }
+
                             override fun onFailure(error: Exception?, ecsError: ECSError?) {
                                 // control should not come here in normal circumstances
                             }
