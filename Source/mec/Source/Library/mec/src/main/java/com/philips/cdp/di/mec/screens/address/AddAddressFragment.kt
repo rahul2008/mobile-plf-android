@@ -21,11 +21,14 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.android.synthetic.main.mec_enter_address.view.*
+import kotlinx.android.synthetic.main.mec_main_activity.*
 import java.util.*
 
 
 class AddAddressFragment : MecBaseFragment() {
 
+
+    private var addressFieldEnabler: MECAddressFieldEnabler? = null
 
     lateinit var binding: MecAddressBinding
 
@@ -44,6 +47,7 @@ class AddAddressFragment : MecBaseFragment() {
 
             val mecRegions = MECRegions(regionList!!)
             binding.mecRegions = mecRegions
+            hideProgressBar()
         }
 
     }
@@ -71,6 +75,11 @@ class AddAddressFragment : MecBaseFragment() {
 
         addressViewModel.regionsList.observe(this, regionListObserver)
         addressViewModel.mecError.observe(this, this)
+        addressViewModel.eCSAddress.observe(this,createAddressObserver)
+
+        addressFieldEnabler = context?.let { addressViewModel.getAddressFieldEnabler(ECSConfiguration.INSTANCE.country, it) }
+
+        binding.addressFieldEnabler = addressFieldEnabler
 
 
         binding.btnContinue.setOnClickListener(object : View.OnClickListener {
@@ -97,6 +106,8 @@ class AddAddressFragment : MecBaseFragment() {
             val child = v.getChildAt(i)
 
             if (v is InputValidationLayout && child is ValidationEditText && child.visibility == View.VISIBLE) {
+
+                Log.d("MEC",child.hint.toString())
 
                 var validator:InputValidationLayout.Validator
 
@@ -126,7 +137,12 @@ class AddAddressFragment : MecBaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        addressViewModel.fetchRegions()
+
+
+        if(addressFieldEnabler?.isStateEnabled!!) {
+            addressViewModel.fetchRegions()
+            createCustomProgressBar(container,MEDIUM)
+        }
     }
 
     private fun shakeError(): TranslateAnimation {

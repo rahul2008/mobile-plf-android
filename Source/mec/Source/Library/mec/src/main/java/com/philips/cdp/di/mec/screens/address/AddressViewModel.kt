@@ -21,6 +21,9 @@ import com.philips.cdp.di.mec.view.MECDropDown
 import com.philips.platform.uid.view.widget.CheckBox
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.ValidationEditText
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 import java.util.regex.Pattern
 
 class AddressViewModel : CommonViewModel() {
@@ -45,6 +48,72 @@ class AddressViewModel : CommonViewModel() {
     fun createAddress(ecsAddress: ECSAddress){
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
     }
+
+
+
+    private fun getAddressFieldEnablerJson(context: Context): String {
+
+        val manager = context.assets
+        val file = manager.open("mec_address_config.json")
+        val formArray = ByteArray(file.available())
+        file.read(formArray)
+        file.close()
+        return String(formArray)
+    }
+
+    fun getAddressFieldEnabler(country: String , context: Context): MECAddressFieldEnabler? {
+
+        var addressFieldEnablerJson: String? = null
+        var addressFieldEnabler: MECAddressFieldEnabler? = null
+        try {
+            addressFieldEnablerJson = getAddressFieldEnablerJson(context)
+
+            var jsonObject: JSONObject? = null
+
+            jsonObject = JSONObject(addressFieldEnablerJson)
+
+            val addressEnablerJsonObject = jsonObject.getJSONObject("excludedFields")
+            addressFieldEnabler = MECAddressFieldEnabler()
+
+            val jsonArray = addressEnablerJsonObject.getJSONArray(country)
+
+
+            for (i in 0 until jsonArray.length()) {
+                val excludedField = jsonArray.getString(i)
+                val addressFieldJsonEnum = AddressFieldJsonEnum.getAddressFieldJsonEnumFromField(excludedField)
+                setAddressFieldEnabler(addressFieldEnabler, addressFieldJsonEnum!!)
+            }
+
+        } catch (e: JSONException) {
+
+        } catch (e: IOException) {
+
+        }
+
+        return addressFieldEnabler
+    }
+
+    private fun setAddressFieldEnabler(addressFieldEnabler: MECAddressFieldEnabler, addressFieldJsonEnum: AddressFieldJsonEnum) {
+
+        when (addressFieldJsonEnum) {
+
+            AddressFieldJsonEnum.ADDRESS_ONE -> addressFieldEnabler.isAddress1Enabled = false
+
+            AddressFieldJsonEnum.ADDRESS_TWO -> addressFieldEnabler.isAddress2Enabled = false
+            AddressFieldJsonEnum.PHONE -> addressFieldEnabler.isPhoneEnabled = false
+            AddressFieldJsonEnum.FIRST_NAME -> addressFieldEnabler.isFirstNameEnabled = false
+            AddressFieldJsonEnum.LAST_NAME -> addressFieldEnabler.isLastNmeEnabled = false
+            AddressFieldJsonEnum.STATE -> addressFieldEnabler.isStateEnabled= false
+            AddressFieldJsonEnum.SALUTATION -> addressFieldEnabler.isSalutationEnabled = false
+            AddressFieldJsonEnum.COUNTRY -> addressFieldEnabler.isCountryEnabled = false
+            AddressFieldJsonEnum.POSTAL_CODE -> addressFieldEnabler.isPostalCodeEnabled = false
+            AddressFieldJsonEnum.HOUSE_NUMBER -> addressFieldEnabler.isHouseNumberEnabled =false
+            AddressFieldJsonEnum.TOWN -> addressFieldEnabler.isTownEnabled = false
+        }
+
+    }
+
+
 
     companion object DataBindingAdapter {
 
@@ -142,5 +211,37 @@ class AddressViewModel : CommonViewModel() {
 
         }
 
+    }
+
+    enum class AddressFieldJsonEnum (val addressField: String) {
+
+        SALUTATION("salutation"),
+        FIRST_NAME("firstName"),
+        LAST_NAME("lastName"),
+        EMAIL("email"),
+        PHONE("phone"),
+        HOUSE_NUMBER("houseNumber"),
+        ADDRESS_ONE("address1"),
+        ADDRESS_TWO("address2"),
+        TOWN("town"),
+        POSTAL_CODE("postalCode"),
+        STATE("state"),
+        COUNTRY("country");
+
+
+        companion object {
+
+            fun getAddressFieldJsonEnumFromField(field: String): AddressFieldJsonEnum? {
+                val values = AddressFieldJsonEnum.values()
+
+                for (addressFieldJsonEnum in values) {
+
+                    if (addressFieldJsonEnum.addressField.equals(field.trim { it <= ' ' }, ignoreCase = true)) {
+                        return addressFieldJsonEnum
+                    }
+                }
+                return null
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="pattern"
             type="com.philips.cdp.di.mec.screens.address.MECRegexPattern" />
@@ -10,6 +12,11 @@
         <variable
             name="mecRegions"
             type="com.philips.cdp.di.mec.screens.address.MECRegions" />
+
+        <variable
+            name="addressFieldEnabler"
+            type="com.philips.cdp.di.mec.screens.address.MECAddressFieldEnabler" />
+
     </data>
 
 <ScrollView
@@ -38,11 +45,17 @@
         />
 
 
-        <com.philips.platform.uid.view.widget.Label
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:visibility="@{addressFieldEnabler.salutationEnabled ? View.VISIBLE : View.GONE, default = visible}"
+            android:orientation="vertical">
+
+         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_salutation"
             style="@style/AddressItemLabel"
             android:text="Title"
-            android:layout_marginTop="@dimen/border12_margin"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -67,7 +80,15 @@
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
 
+        </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:visibility="@{addressFieldEnabler.firstNameEnabled ? View.VISIBLE : View.GONE, default = visible}"
+            android:orientation="vertical">
 
       <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_first_name"
@@ -93,7 +114,15 @@
                 android:maxLength="17"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
+        </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:visibility="@{addressFieldEnabler.lastNmeEnabled ? View.VISIBLE : View.GONE, default = visible}"
+            android:orientation="vertical">
 
    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/lable_last_name"
@@ -120,6 +149,8 @@
             app:uidInputTextWithClearButton="true" />
     </com.philips.platform.uid.view.widget.InputValidationLayout>
 
+        </LinearLayout>
+
     </LinearLayout>
 
 <LinearLayout
@@ -136,8 +167,9 @@
 
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/border12_margin"
+      android:visibility="@{addressFieldEnabler.phoneEnabled ? View.VISIBLE : View.GONE, default = visible}"
       android:orientation="vertical">
 
 
@@ -179,6 +211,12 @@
         android:layout_height="wrap_content"
         android:text="Address" />
 
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/border12_margin"
+          android:visibility="@{addressFieldEnabler.phoneEnabled ? View.VISIBLE : View.GONE, default = visible}"
+          android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_house_no"
@@ -203,7 +241,14 @@
                 android:maxLength="35"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
+      </LinearLayout>
 
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/border12_margin"
+          android:visibility="@{addressFieldEnabler.address1Enabled ? View.VISIBLE : View.GONE, default = visible}"
+          android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_address1"
@@ -229,6 +274,14 @@
                 android:maxLength="35"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/border12_margin"
+          android:visibility="@{addressFieldEnabler.address2Enabled ? View.VISIBLE : View.GONE, default = visible}"
+          android:orientation="vertical">
 
       <com.philips.platform.uid.view.widget.Label
           android:id="@+id/label_address2"
@@ -254,6 +307,14 @@
               android:maxLength="35"
               app:uidInputTextWithClearButton="true" />
       </com.philips.platform.uid.view.widget.InputValidationLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/border12_margin"
+          android:visibility="@{addressFieldEnabler.townEnabled ? View.VISIBLE : View.GONE, default = visible}"
+          android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_town"
@@ -278,7 +339,15 @@
                 android:maxLines="1"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
+      </LinearLayout>
 
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/border12_margin"
+          android:visibility="@{addressFieldEnabler.postalCodeEnabled ? View.VISIBLE : View.GONE, default = visible}"
+          android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_postal_code"
@@ -304,6 +373,16 @@
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
 
+      </LinearLayout>
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/border12_margin"
+          android:visibility="@{addressFieldEnabler.stateEnabled ? View.VISIBLE : View.GONE, default = visible}"
+          android:orientation="vertical">
+
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/lebel_state"
             style="@style/AddressItemLabel"
@@ -327,7 +406,15 @@
                 android:maxLines="1"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
+      </LinearLayout>
 
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/border12_margin"
+          android:visibility="@{addressFieldEnabler.countryEnabled ? View.VISIBLE : View.GONE, default = visible}"
+          android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_country"
@@ -343,6 +430,7 @@
                 android:text="India"
                 android:maxLines="1"
                 app:uidInputTextWithClearButton="true" />
+      </LinearLayout>
 
   </LinearLayout>
 </LinearLayout>
