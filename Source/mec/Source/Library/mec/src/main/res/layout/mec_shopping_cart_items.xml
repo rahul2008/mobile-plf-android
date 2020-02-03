@@ -150,6 +150,7 @@
                 style="@style/mecCentralesansMediumFont"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 app:setPrice="@{ cart.entries.product}"
+                app:totalPriceEntity="@{cart.entries.totalPrice}"
                 android:textSize="16sp" />
 
         </LinearLayout>
