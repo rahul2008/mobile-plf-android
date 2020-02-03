@@ -5,18 +5,11 @@ import android.content.Context
 import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper.*
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.MotionEvent
 import com.philips.cdp.di.mec.R
 
-
-internal enum class ButtonsState {
-    GONE,
-    LEFT_VISIBLE,
-    RIGHT_VISIBLE
-}
-
-internal class SwipeController(context : Context, buttonsActions: SwipeControllerActions) : Callback() {
+class MECSwipeController (context : Context, buttonsActions: SwipeControllerActions) : ItemTouchHelper.Callback() {
 
     private var swipeBack = false
 
@@ -28,7 +21,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
 
     private var buttonsActions: SwipeControllerActions? = null
 
-    private var context :Context
+    private var context : Context
 
     init {
         this.buttonsActions = buttonsActions
@@ -37,7 +30,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        return makeMovementFlags(0, LEFT )
+        return makeMovementFlags(0, ItemTouchHelper.LEFT )
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -58,7 +51,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
 
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         var dX = dX
-        if (actionState == ACTION_STATE_SWIPE) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             if (buttonShowedState != ButtonsState.GONE) {
                 if (buttonShowedState == ButtonsState.LEFT_VISIBLE) dX = Math.max(dX, buttonWidth)
                 if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) dX = Math.min(dX, -buttonWidth)
@@ -106,7 +99,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
     private fun setTouchUpListener(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         recyclerView.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                super@SwipeController.onChildDraw(c, recyclerView, viewHolder, 0f, dY, actionState, isCurrentlyActive)
+                super@MECSwipeController.onChildDraw(c, recyclerView, viewHolder, 0f, dY, actionState, isCurrentlyActive)
                 recyclerView.setOnTouchListener { _, event -> false }
                 setItemsClickable(recyclerView, true)
                 swipeBack = false
@@ -132,7 +125,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
     private fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
         val buttonWidthWithoutPadding = buttonWidth - 20
         val corners = 16f
-         val icon : Bitmap
+        val icon : Bitmap
         icon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_delete)
 
         val itemView = viewHolder.itemView
@@ -157,7 +150,7 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
         //drawText("Delete", c, rightButton, p)
 
         buttonInstance = null
-            if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
+        if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
             buttonInstance = iconDest
         }
     }
@@ -181,6 +174,12 @@ internal class SwipeController(context : Context, buttonsActions: SwipeControlle
     companion object {
 
         private val buttonWidth = 300f
+    }
+
+    enum class ButtonsState {
+        GONE,
+        LEFT_VISIBLE,
+        RIGHT_VISIBLE
     }
 }
 

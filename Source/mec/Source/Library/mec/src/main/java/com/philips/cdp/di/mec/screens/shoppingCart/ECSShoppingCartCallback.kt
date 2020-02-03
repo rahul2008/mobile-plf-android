@@ -8,7 +8,6 @@ import com.philips.cdp.di.mec.common.MecError
 class ECSShoppingCartCallback (private val ecsShoppingCartViewModel: EcsShoppingCartViewModel)  : ECSCallback<ECSShoppingCart, Exception> {
 
     override fun onResponse(ecsShoppingCart: ECSShoppingCart?) {
-        ecsShoppingCartViewModel.ecsShoppingCart
         ecsShoppingCartViewModel.ecsShoppingCart.value = ecsShoppingCart
     }
 

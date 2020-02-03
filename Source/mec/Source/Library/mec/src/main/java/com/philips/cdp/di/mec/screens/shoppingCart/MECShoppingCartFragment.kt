@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
  */
 class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
-    internal var swipeController: SwipeController? = null
+    internal var swipeController: MECSwipeController? = null
 
     private lateinit var binding: MecShoppingCartFragmentBinding
     private var itemPosition: Int = 0
@@ -84,11 +84,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
 
-        binding.mecCartSummaryRecyclerView.apply {
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
+//        binding.mecCartSummaryRecyclerView.apply {
+//            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+//        }
 
-        swipeController = SwipeController(binding.mecCartSummaryRecyclerView.context,object : SwipeControllerActions(){
+        swipeController = MECSwipeController(binding.mecCartSummaryRecyclerView.context,object : SwipeControllerActions(){
             override fun onRightClicked(position: Int) {
                 itemPosition = position
                 showDialog()
