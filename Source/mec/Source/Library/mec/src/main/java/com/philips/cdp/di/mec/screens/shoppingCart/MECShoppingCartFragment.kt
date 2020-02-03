@@ -70,11 +70,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
         hideProgressBar()
-        if(addressList.isNullOrEmpty()){
+        /*if(addressList.isNullOrEmpty()){
             replaceFragment(AddAddressFragment(),"AddAddressFragment",false)
         }else{
 
-        }
+        }*/
 
     })
 
@@ -107,7 +107,13 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
                 itemPosition = position
                 showDialog()
             }
+
+            override fun onLeftClicked(position: Int) {
+                itemPosition = position
+                showDialog()
+            }
         })
+
 
         val itemTouchHelper = ItemTouchHelper(swipeController!!)
         itemTouchHelper.attachToRecyclerView(binding.mecCartSummaryRecyclerView)

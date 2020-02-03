@@ -16,12 +16,14 @@
 <RelativeLayout
     android:id="@+id/parent_layout"
     android:layout_width="@dimen/iap_match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <RelativeLayout
         android:id="@+id/mec_parent_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
     <ScrollView
         android:id="@+id/mec_sv_header"

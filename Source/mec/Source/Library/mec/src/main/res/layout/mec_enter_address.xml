@@ -323,8 +323,10 @@
                 style="@style/mec_address_validation_text"
                 android:hint="State"
                 app:dropDownData="@{mecRegions.regionNames}"
-                android:inputType="text"
                 android:maxLines="1"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
 

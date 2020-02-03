@@ -25,8 +25,8 @@
 
         <FrameLayout
             android:id="@+id/frame"
-            android:layout_width="@dimen/iap_network_image_width_height"
-            android:layout_height="@dimen/iap_network_image_width_height"
+            android:layout_width="92dp"
+            android:layout_height="124dp"
             android:layout_marginEnd="@dimen/border12_margin">
 
             <com.android.volley.toolbox.NetworkImageView
