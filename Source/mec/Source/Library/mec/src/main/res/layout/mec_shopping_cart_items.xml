@@ -147,8 +147,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
+                style="@style/mecCentralesansMediumFont"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                app:setPriceInfo="@{ cart.entries.product}"
+                app:setPrice="@{ cart.entries.product}"
                 android:textSize="16sp" />
 
         </LinearLayout>
