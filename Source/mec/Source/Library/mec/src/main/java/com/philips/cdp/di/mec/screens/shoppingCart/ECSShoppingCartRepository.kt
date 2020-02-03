@@ -34,4 +34,8 @@ class ECSShoppingCartRepository(ecsShoppingCartViewModel: EcsShoppingCartViewMod
 
     }
 
+    fun fetchSavedAddresses(ecsServices: ECSServices , eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
+        ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
+    }
+
 }

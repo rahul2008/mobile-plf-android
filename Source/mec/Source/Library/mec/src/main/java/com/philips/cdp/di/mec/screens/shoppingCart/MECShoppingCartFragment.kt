@@ -12,12 +12,14 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.address.AddAddressFragment
 import com.philips.cdp.di.mec.utils.AlertListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECutility
@@ -63,7 +65,18 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
             //MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
         }
         hideProgressBar()
-    }
+     }
+
+
+    private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
+        hideProgressBar()
+        if(addressList.isNullOrEmpty()){
+            replaceFragment(AddAddressFragment(),"AddAddressFragment",false)
+        }else{
+
+        }
+
+    })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -74,6 +87,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
         ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
+        ecsShoppingCartViewModel.ecsAddresses.observe(this,addressObserver)
 
         val bundle = arguments
         //ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
@@ -144,6 +158,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     }
 
     fun onClick() {
+        ecsShoppingCartViewModel.fetchAddresses()
+    }
 
+    fun onCheckOutClick(){
+        createCustomProgressBar(container, MEDIUM)
+        ecsShoppingCartViewModel.fetchAddresses()
     }
 }

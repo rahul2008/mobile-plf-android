@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.products.ECSProduct
@@ -22,20 +23,28 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
 
     val ecsProductsReviewList = MutableLiveData<MutableList<MECCartProductReview>>()
 
+    val ecsAddresses = MutableLiveData<List<ECSAddress>>()
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     private var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
 
+    var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
+
     fun getShoppingCart(){
-        this.ecsShoppingCartRepository.fetchShoppingCart()
+        ecsShoppingCartRepository.fetchShoppingCart()
     }
 
     fun updateQuantity(entries: ECSEntries, quantity: Int) {
-        this.ecsShoppingCartRepository.updateShoppingCart(entries,quantity)
+        ecsShoppingCartRepository.updateShoppingCart(entries,quantity)
     }
 
     fun fetchProductReview(entries: MutableList<ECSEntries>) {
-        this.ecsShoppingCartRepository.fetchProductReview(entries, this)
+        ecsShoppingCartRepository.fetchProductReview(entries, this)
+    }
+
+    fun fetchAddresses(){
+        ecsShoppingCartRepository.fetchSavedAddresses(ecsServices,ecsFetchAddressesCallback)
     }
 
 

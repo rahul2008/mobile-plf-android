@@ -204,6 +204,7 @@
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:text="@string/mec_continue_checkout"
+            android:onClick="@{() -> fragment.onCheckOutClick()}"
             android:textColor="?attr/uidButtonPrimaryNormalTextColor"
             android:textSize="16dp"
             app:uidComponentType="Primary" />
