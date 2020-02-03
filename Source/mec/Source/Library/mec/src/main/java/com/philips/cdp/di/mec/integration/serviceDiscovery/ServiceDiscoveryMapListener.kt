@@ -12,7 +12,6 @@ class ServiceDiscoveryMapListener : ServiceDiscoveryInterface.OnGetServiceUrlMap
 
 
     override fun onError(error: ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES?, message: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSuccess(urlMap: MutableMap<String, ServiceDiscoveryService>?) {

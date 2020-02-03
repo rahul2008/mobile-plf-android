@@ -331,8 +331,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:gravity">start</item>
-        <item name="android:layout_marginTop">@dimen/border8_margin</item>
-        <item name="android:layout_marginBottom">@dimen/border8_margin</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MECQuietButton" parent="UIDQuietButton">
@@ -362,6 +361,29 @@
         <item name="android:paddingTop">@dimen/iap_title_padding</item>
         <item name="android:spacing">@dimen/iap_body_text_line_spacing_extra</item>
         <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+
+    </style>
+
+    <style name="mec_address_header">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:minHeight">@dimen/iap_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/iap_body_text</item>
+        <item name="android:spacing">@dimen/iap_body_text_line_spacing_extra</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="mec_address_validation_text">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingStart">9dp</item>
+        <item name="android:paddingEnd">9dp</item>
+        <item name="android:paddingTop">12dp</item>
 
     </style>
 

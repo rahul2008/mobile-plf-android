@@ -4,8 +4,12 @@ import com.philips.cdp.di.mec.integration.MECBannerConfigurator
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import com.philips.cdp.di.mec.integration.MECListener
+import com.philips.cdp.di.mec.screens.address.UserInfo
 import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.uappframework.listener.ActionBarListener
 import java.util.ArrayList
 
@@ -36,6 +40,30 @@ enum class MECDataHolder {
         this.privacyUrl = privacyUrl
     }
 
+    fun getUserInfo():UserInfo{
+
+        var firstName = ""
+        var lastName = ""
+
+        if(userDataInterface!=null && userDataInterface.userLoggedInState == UserLoggedInState.USER_LOGGED_IN){
+
+            val userDataMap = ArrayList<String>()
+
+            userDataMap.add(UserDetailConstants.GIVEN_NAME)
+            userDataMap.add(UserDetailConstants.FAMILY_NAME)
+            userDataMap.add(UserDetailConstants.EMAIL)
+            try {
+                val hashMap = userDataInterface.getUserDetails(userDataMap)
+                firstName = hashMap.get(UserDetailConstants.GIVEN_NAME) as String
+                lastName =  hashMap.get(UserDetailConstants.FAMILY_NAME) as String
+            } catch (e: UserDataInterfaceException) {
+                e.printStackTrace()
+            }
+
+        }
+
+        return UserInfo(firstName,lastName)
+    }
 
 
     var bvClient: BVConversationsClient? = null
