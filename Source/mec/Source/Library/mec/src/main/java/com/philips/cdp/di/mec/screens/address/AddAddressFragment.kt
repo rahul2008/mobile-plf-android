@@ -13,11 +13,9 @@ import com.philips.cdp.di.mec.databinding.MecAddressBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.ValidationEditText
-import android.view.animation.CycleInterpolator
-import android.view.animation.TranslateAnimation
-import android.widget.*
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.util.ECSConfiguration
+import com.philips.cdp.di.mec.R
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
@@ -31,6 +29,7 @@ class AddAddressFragment : MecBaseFragment() {
     lateinit var addressViewModel: AddressViewModel
 
     var isError = false
+    var validationEditText : ValidationEditText ? =null
 
     var eCSAddressShipping : ECSAddress? = null
 
@@ -52,9 +51,15 @@ class AddAddressFragment : MecBaseFragment() {
 
         override fun onChanged(ecsAddress: ECSAddress?) {
 
-           Log.d(this@AddAddressFragment.javaClass.name, ecsAddress?.id)
+            Log.d(this@AddAddressFragment.javaClass.name, ecsAddress?.id)
+            hideProgressBar()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setTitleAndBackButtonVisibility(R.string.mec_address, true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +67,7 @@ class AddAddressFragment : MecBaseFragment() {
 
         binding = MecAddressBinding.inflate(inflater, container, false)
         binding.pattern = MECRegexPattern()
+
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
 
@@ -77,14 +83,20 @@ class AddAddressFragment : MecBaseFragment() {
         binding.btnContinue.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
+                //Re assign
                 isError = false
+                validationEditText = null
+
                 validateEditTexts(binding.addressContainer)
 
-                if(!isError){
+                if(isError){
+                    validationEditText?.requestFocus()
 
+                }else{
                     eCSAddressShipping = addressViewModel.getECSAddress(binding.llShipping,binding.mecRegions)
                     eCSAddressBilling = addressViewModel.getECSAddress(binding.llBilling,binding.mecRegions)
                     addressViewModel.createAddress(eCSAddressShipping!!)
+                    createCustomProgressBar(container,MEDIUM)
                 }
             }
         })
@@ -111,6 +123,9 @@ class AddAddressFragment : MecBaseFragment() {
 
                 if(!validator.validate(child.text.toString())){
                     child.startAnimation(addressViewModel.shakeError())
+                    if(validationEditText==null) {
+                        validationEditText = child
+                    }
                     v.showError()
                     isError = true
                 }

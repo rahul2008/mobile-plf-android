@@ -148,8 +148,10 @@ class AddressViewModel : CommonViewModel() {
                     animate.setListener(object: AnimatorListenerAdapter() {
 
                         override fun onAnimationEnd(animation: Animator) {
-                            scrollView.scrollTo(0,scrollView.bottom + 500) //TODO
+
                             view.visibility = View.VISIBLE
+                            view.parent.requestChildFocus(view,view)
+
                         }
                     })
                 }
@@ -251,7 +253,7 @@ class AddressViewModel : CommonViewModel() {
         }
     }
 
-    fun getECSAddress(linearLayout: LinearLayout, mecRegions: MECRegions): ECSAddress {
+    fun getECSAddress(linearLayout: LinearLayout, mecRegions: MECRegions?): ECSAddress {
 
         val firstName = linearLayout.et_first_name.text.toString()
         val lastName = linearLayout.et_last_name.text.toString()

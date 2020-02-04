@@ -70,11 +70,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
         hideProgressBar()
-        if(addressList.isNullOrEmpty()){
+       // if(addressList.isNullOrEmpty()){
             replaceFragment(AddAddressFragment(),"AddAddressFragment",false)
-        }else{
+        //}else{
 
-        }
+        //}
 
     })
 

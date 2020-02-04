@@ -3,7 +3,8 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
         <variable
             name="pattern"
@@ -19,106 +20,128 @@
 
     </data>
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginEnd="@dimen/border16_margin_left_right"
-    android:layout_marginStart="@dimen/border16_margin_left_right">
-<ScrollView
-    android:id="@+id/address_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:layout_above="@+id/ll_buttons"
-    android:orientation="vertical">
-
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/uidContentPrimaryBackgroundColor"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/border16_margin_left_right"
+        android:layout_marginEnd="@dimen/border16_margin_left_right">
 
-    <LinearLayout
-        android:id="@+id/llShipping"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include
-            layout="@layout/mec_enter_address"
-            android:id="@+id/dls_iap_address_shipping"
-            app:pattern="@{pattern}"
-            app:mecRegions ="@{mecRegions}"
-            app:addressFieldEnabler = "@{addressFieldEnabler}"
+
+
+        <ScrollView
+            android:id="@+id/address_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_buttons"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:scrollbars="none">
 
-        </include>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/uidContentPrimaryBackgroundColor"
+                android:orientation="vertical">
 
-        <com.philips.platform.uid.view.widget.CheckBox
-            android:id="@+id/billingCheckBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/border16_margin_left_right"
-            android:layout_marginStart="@dimen/border16_margin_left_right"
-            android:layout_marginTop="@dimen/border12_margin"
-            android:checked="true"
-            app:billingView="@{llBilling}"
-            app:scrollView="@{addressContainer}"
-            android:text="Use this as billing Address" />
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/tv_shipping_address"
+                    style="@style/mec_address_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/iap_margin_20dp"
+                    android:textSize="20sp"
+                    android:text="@string/mec_shipping_address" />
+
+                <LinearLayout
+                    android:id="@+id/llShipping"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border12_margin">
+
+                    <include
+                        android:id="@+id/dls_iap_address_shipping"
+                        layout="@layout/mec_enter_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:addressFieldEnabler="@{addressFieldEnabler}"
+                        app:mecRegions="@{mecRegions}"
+                        app:pattern="@{pattern}">
+
+                    </include>
+
+                </LinearLayout>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:id="@+id/billingCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border16_margin_left_right"
+                    android:checked="true"
+                    android:text="Use this as billing Address"
+                    app:billingView="@{llBilling}"
+                    app:scrollView="@{addressContainer}" />
+
+                <LinearLayout
+                    android:id="@+id/llBilling"
+                    android:layout_marginTop="@dimen/iap_margin_20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{billingCheckBox.isChecked() ? View.GONE : View.VISIBLE, default = gone}">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/tv_billing_address"
+                        style="@style/mec_address_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:text="@string/mec_billing_address" />
+
+                    <include
+                        android:layout_marginTop="@dimen/border12_margin"
+                        android:id="@+id/addressbilling"
+                        layout="@layout/mec_enter_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:addressFieldEnabler="@{addressFieldEnabler}"
+                        app:mecRegions="@{mecRegions}"
+                        app:pattern="@{pattern}"></include>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
-            android:id="@+id/llBilling"
-            android:visibility="@{billingCheckBox.isChecked() ? View.GONE : View.VISIBLE, default = gone}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <include
-            layout="@layout/mec_enter_address"
-            android:id="@+id/addressbilling"
+            android:id="@+id/ll_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:pattern="@{pattern}"
-            app:mecRegions ="@{mecRegions}"
-            app:addressFieldEnabler = "@{addressFieldEnabler}"
-           >
-        </include>
+            android:layout_alignParentBottom="true"
+            android:background="?attr/uidContentPrimaryBackgroundColor"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_continue"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/border8_margin"
+                android:text="Continue"
+                app:uidComponentType="Primary" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_cancel"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/border8_margin"
+                android:layout_marginBottom="@dimen/border12_margin"
+                android:text="Cancel"
+                app:uidComponentType="Secondary" />
 
         </LinearLayout>
 
-
-    </LinearLayout>
-</ScrollView>
-
-    <LinearLayout
-        android:id="@+id/ll_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="?attr/uidContentPrimaryBackgroundColor"
-        android:orientation="vertical">
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/btn_continue"
-        style="@style/mecCentralesansBookFont"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/border8_margin"
-        android:text="Continue"
-        app:uidComponentType="Primary" />
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/btn_cancel"
-        style="@style/mecCentralesansBookFont"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/border12_margin"
-        android:layout_marginTop="@dimen/border8_margin"
-        android:text="Cancel"
-        app:uidComponentType="Secondary" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
 </layout>
