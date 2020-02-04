@@ -347,6 +347,8 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
     void onSelectCountry(String countryName, String code) {
         setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
+        if (countryUpdateReceiver != null)
+            serviceDiscoveryInterface.unRegisterHomeCountrySet(countryUpdateReceiver);
         countryUpdateReceiver = new CountryUpdateReceiver(countryName);
         serviceDiscoveryInterface.registerOnHomeCountrySet(countryUpdateReceiver);
         if (networkUtility.isNetworkAvailable()) {
