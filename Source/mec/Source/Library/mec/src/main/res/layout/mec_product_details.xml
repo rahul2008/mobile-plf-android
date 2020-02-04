@@ -31,6 +31,22 @@
     android:background="@color/uid_level_white">
 
 
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.ProgressBar
+        android:id="@+id/progress"
+        style="@style/UIDProgressBarCircularIndeterminateMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"

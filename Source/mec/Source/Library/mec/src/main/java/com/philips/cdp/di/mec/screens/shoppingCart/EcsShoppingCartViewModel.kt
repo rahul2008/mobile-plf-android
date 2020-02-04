@@ -1,26 +1,75 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.BindingAdapter
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextUtils
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StrikethroughSpan
+import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.cart.TotalPriceEntity
+import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.platform.uid.view.widget.Label
 
-class EcsShoppingCartViewModel : CommonViewModel() {
+open class EcsShoppingCartViewModel : CommonViewModel() {
 
     var ecsShoppingCart = MutableLiveData<ECSShoppingCart>()
 
     val ecsProductsReviewList = MutableLiveData<MutableList<MECCartProductReview>>()
 
+    val ecsAddresses = MutableLiveData<List<ECSAddress>>()
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
-    var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
+    private var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
+
+    var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
 
     fun getShoppingCart(){
         ecsShoppingCartRepository.fetchShoppingCart()
     }
 
+    fun updateQuantity(entries: ECSEntries, quantity: Int) {
+        ecsShoppingCartRepository.updateShoppingCart(entries,quantity)
+    }
+
     fun fetchProductReview(entries: MutableList<ECSEntries>) {
         ecsShoppingCartRepository.fetchProductReview(entries, this)
     }
+
+    fun fetchAddresses(){
+        ecsShoppingCartRepository.fetchSavedAddresses(ecsServices,ecsFetchAddressesCallback)
+    }
+
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("setPrice","totalPriceEntity")
+        fun setPrice(priceLabel: Label, product: ECSProduct?, totalPriceEntity: TotalPriceEntity?) {
+            val textSize16 = priceLabel.context.getResources().getDimensionPixelSize(R.dimen.mec_product_detail_discount_price_label_size)
+            val textSize12 = priceLabel.context.getResources().getDimensionPixelSize(R.dimen.mec_product_detail_price_label_size);
+            if (product!=null && totalPriceEntity!!.formattedValue!=null && totalPriceEntity?.formattedValue!!.length > 0 && (product.price.value - totalPriceEntity.value) > 0) {
+                val price = SpannableString(product.price.formattedValue);
+                price.setSpan(AbsoluteSizeSpan(textSize12), 0, product.price.formattedValue.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+                price.setSpan(StrikethroughSpan(), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                price.setSpan(ForegroundColorSpan(R.attr.uidContentItemTertiaryNormalTextColor), 0, product.price.formattedValue.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                val discountPrice = SpannableString(totalPriceEntity.formattedValue)
+                discountPrice.setSpan(AbsoluteSizeSpan(textSize16), 0, totalPriceEntity.formattedValue.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+                val CharSequence = TextUtils.concat(price, "  ", discountPrice)
+                priceLabel.text = CharSequence;
+            } else {
+                if(product!!.price!=null)
+                    priceLabel.text = product.price.formattedValue
+            }
+    }
+    }
+
 }
