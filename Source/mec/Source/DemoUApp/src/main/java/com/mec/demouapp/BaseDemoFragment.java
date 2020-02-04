@@ -130,6 +130,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             versionView = getActivity().findViewById(R.id.demoappversion);
             mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
             mShoppingCartContainer  = getActivity().findViewById(R.id.mec_demo_app_shopping_cart_icon);
+            mShoppingCartContainer.setOnClickListener(this);
             mCountText =  getActivity().findViewById(R.id.mec_demo_app_item_count);
 
 
@@ -425,6 +426,13 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             mEtCTN.setText("");
+        } else if (view ==mShoppingCartContainer){
+            if (getActivity() instanceof LaunchAsActivity) {
+                launchMEC(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART, new MECFlowConfigurator(), null);
+            } else if (getActivity() instanceof LaunchAsFragment) {
+                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART, new MECFlowConfigurator(), null);
+            }
+
         }
     }
 

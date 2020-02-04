@@ -24,7 +24,15 @@ import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import android.widget.Toast
-
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.config.ECSConfig
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.auth.HybrisAuth
+import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.utils.MECDataHolder
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 /**
@@ -130,6 +138,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
                 }
             })
             mRootView=binding.root
+            getECSConfig()
         }
         return binding.root
     }
@@ -157,7 +166,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 //            createCustomProgressBar(container, MEDIUM)
 //            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart.entries)
 //        }
-        executeRequest()
+
     }
 
      fun executeRequest() {
@@ -181,5 +190,32 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     fun gotoProductCatalog(){
         showProductCatalogFragment(MECShoppingCartFragment.TAG)
+    }
+
+    private fun getECSConfig(){
+        MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
+
+            override fun onResponse(config: ECSConfig?) {
+                if (MECDataHolder.INSTANCE.hybrisEnabled) {
+                    MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
+
+                }
+                MECDataHolder.INSTANCE.locale = config!!.locale
+                MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
+                if(null!=config!!.rootCategory){
+                    MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+                }
+                executeRequest()
+                GlobalScope.launch{
+                    HybrisAuth.authHybrisIfNotAlready()
+                }
+
+            }
+
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        } )
     }
 }
