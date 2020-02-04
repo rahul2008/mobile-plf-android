@@ -9,9 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
@@ -25,6 +23,8 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 import kotlinx.android.synthetic.main.mec_main_activity.*
+import android.widget.Toast
+
 
 
 /**
@@ -70,11 +70,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
         hideProgressBar()
-        /*if(addressList.isNullOrEmpty()){
+        //if(addressList.isNullOrEmpty()){
             replaceFragment(AddAddressFragment(),"AddAddressFragment",false)
-        }else{
+        //}else{
 
-        }*/
+        //}
 
     })
 

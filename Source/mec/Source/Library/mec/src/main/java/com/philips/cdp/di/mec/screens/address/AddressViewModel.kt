@@ -251,7 +251,7 @@ class AddressViewModel : CommonViewModel() {
         }
     }
 
-    fun getECSAddress(linearLayout: LinearLayout, mecRegions: MECRegions): ECSAddress {
+    fun getECSAddress(linearLayout: LinearLayout, mecRegions: MECRegions?): ECSAddress {
 
         val firstName = linearLayout.et_first_name.text.toString()
         val lastName = linearLayout.et_last_name.text.toString()
