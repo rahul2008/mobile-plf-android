@@ -116,7 +116,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
 
         ignorelistedRetailer = new ArrayList<>();
-      //  if (rootView == null) {
+        if (rootView == null) {
 
 
             rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
@@ -231,7 +231,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             initializeBazaarVoice();
             initializeMECComponant();
 
-       // }
+        }
         return rootView;
 
     }
