@@ -8,6 +8,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.mec.auth.HybrisAuth
+import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.screens.catalog.ECSCatalogRepository
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
@@ -77,59 +78,14 @@ class MECInterface : UappInterface {
      */
     fun getProductCartCount(mecListener: MECListener) {
         GlobalScope.launch {
-            getProductCartCountOnThread(mecListener)
+           var  mecManager: MECManager = MECManager()
+            mecManager.getProductCartCountWorker(mecListener)
         }
 
     }
 
-    fun getProductCartCountOnThread(mecListener: MECListener){
-        MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
-            override fun onResponse(result: ECSConfig) {
-                if (result.isHybris) {
-                    MecHolder.INSTANCE.eCSServices.fetchShoppingCart(object : ECSCallback<ECSShoppingCart, Exception> {
-                        override fun onResponse(carts: ECSShoppingCart?) {
-                            if (carts != null) {
-                                val quantity = MECutility.getQuantity(carts)
-                                mecListener.onGetCartCount(quantity)
-                            } else {
-                                mecListener.onFailure(Exception(ECSErrorEnum.ECSsomethingWentWrong.localizedErrorString))
-                            }
-                        }
 
-                        override fun onFailure(error: Exception, ecsError: ECSError) {
-                            if (       ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
-                                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
-                                var authCallBack = object: ECSCallback<ECSOAuthData, Exception>{
 
-                                    override fun onResponse(result: ECSOAuthData?) {
-                                        getProductCartCount(mecListener)
-                                    }
-
-                                    override fun onFailure(error: Exception, ecsError: ECSError) {
-                                        mecListener.onFailure(error)
-                                    }
-
-                                }
-                                HybrisAuth.hybrisAuthentication(authCallBack)
-
-                            }else {
-                                mecListener.onFailure(error)
-                            }
-                        }
-                    })
-
-                } else {
-                    //hybris not available
-                    mecListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
-                }
-            }
-
-            override fun onFailure(error: Exception, ecsError: ECSError) {
-                mecListener.onFailure(error)
-            }
-        })
-    }
 
     fun getCompleteProductList(mecListener: MECListener) {
 
