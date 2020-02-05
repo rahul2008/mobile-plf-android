@@ -2,7 +2,7 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;

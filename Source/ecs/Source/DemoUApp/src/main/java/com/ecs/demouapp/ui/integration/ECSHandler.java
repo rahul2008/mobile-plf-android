@@ -7,7 +7,7 @@ package com.ecs.demouapp.ui.integration;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.ecs.demouapp.ui.activity.ECSActivity;

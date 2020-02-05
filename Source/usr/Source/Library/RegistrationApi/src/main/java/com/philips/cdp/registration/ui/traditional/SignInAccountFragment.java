@@ -11,9 +11,9 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -66,6 +66,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -96,6 +97,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.ui.utils.UIFlow.FLOW_A;
+import static com.philips.cdp.registration.ui.utils.UIFlow.FLOW_B;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         LoginHandler, ForgotPasswordHandler, OnUpdateListener,
@@ -656,7 +659,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
                 abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null); //No Almost Done Screen
             } if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && !mUser.getReceiveMarketingEmail() &&
-                    (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus != ConsentStates.inactive)) {
+                    (RegistrationConfiguration.getInstance().isCustomOptoin() || RegistrationConfiguration.getInstance().isSkipOptin()) &&
+                    (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus != ConsentStates.inactive) &&
+                    RegUtility.getUiFlow() == (FLOW_B)) {
                 RLog.d(TAG, "handleLoginSuccess : TERMS_N_CONDITIONS_ACCEPTED :getReceiveMarketingEmail : completeRegistration");
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
@@ -673,6 +678,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 clearInputFields();
                 getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
                 trackPage(AppTaggingPages.ALMOST_DONE); ////AlmostDOne Screen with PC and RM
+            } else if (((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile)  ) && mUser.getReceiveMarketingEmail()) &&
+                    (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus != ConsentStates.inactive)) {
+                clearInputFields();
+                completeRegistration(); //AlmostDOne Screen with RM
             } else if ((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) &&
                     (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus != ConsentStates.inactive)) {
                 clearInputFields();

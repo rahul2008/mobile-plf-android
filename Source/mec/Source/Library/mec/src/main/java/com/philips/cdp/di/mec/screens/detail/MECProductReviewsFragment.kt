@@ -1,18 +1,18 @@
 package com.philips.cdp.di.mec.screens.detail
 
-
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.NestedScrollView
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
 
 import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -101,6 +101,20 @@ class MECProductReviewsFragment : MecBaseFragment() {
         })
 
         return binding.root
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if(isVisibleToUser) {
+            productctn?.let { tagActions(it) }
+        }
+    }
+
+    private fun tagActions(ctn : String) {
+        var map = HashMap<String, String>()
+        map.put(MECAnalyticsConstant.specialEvents, MECAnalyticsConstant.userReviewsViewed)
+        map.put(MECAnalyticsConstant.mecProducts,ctn)
+        MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData,map)
     }
 
     private fun isAllFetched() = totalReview != 0 && reviewsAdapter!!.itemCount < totalReview

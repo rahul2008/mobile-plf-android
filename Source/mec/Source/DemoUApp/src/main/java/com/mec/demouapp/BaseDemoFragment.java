@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.fragment.app.Fragment;
+
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
@@ -34,6 +35,7 @@ import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
+import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -218,8 +220,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecInterface = new MECInterface();
         mMecSettings = new MECSettings(getActivity());
         //actionBar();
-        initializeMECComponant();
         initializeBazaarVoice();
+        initializeMECComponant();
 
 
         return rootView;
@@ -264,8 +266,6 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecLaunchInput.setSupportsHybris(isHybrisEnable);
         mMecLaunchInput.setSupportsRetailer(isRetailerEnabled);
         mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
-
-
     }
 
 
@@ -392,6 +392,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             mEtCTN.setText("");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        View v = getActivity().getWindow().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
 

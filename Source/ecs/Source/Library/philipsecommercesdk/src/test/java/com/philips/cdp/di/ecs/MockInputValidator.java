@@ -1,9 +1,5 @@
 package com.philips.cdp.di.ecs;
 
-import android.support.annotation.NonNull;
-
-import com.philips.platform.appinfra.AppInfra;
-
 public class MockInputValidator extends ECSCallValidator {
 
 

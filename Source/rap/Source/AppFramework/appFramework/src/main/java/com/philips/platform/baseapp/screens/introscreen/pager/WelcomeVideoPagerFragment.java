@@ -9,8 +9,8 @@ package com.philips.platform.baseapp.screens.introscreen.pager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.appframework.R;
 
 

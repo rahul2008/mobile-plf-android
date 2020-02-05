@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="fill_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/faq_list_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:nestedScrollingEnabled="false">
 
-    </android.support.v7.widget.RecyclerView>
-</android.support.v4.widget.NestedScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
+</androidx.core.widget.NestedScrollView>

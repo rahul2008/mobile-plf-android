@@ -128,15 +128,13 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(':securedblibrary')
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
-    implementation deps.support.annotations
+    implementation deps.androidx.appcompat
+    implementation deps.design
+    implementation deps.androidx.annotations
 
     testImplementation deps.junit
 
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    androidTestImplementation deps.androidx.espresso_core
 }
 
 tasks.withType(Test) {

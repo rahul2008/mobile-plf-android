@@ -6,7 +6,7 @@
 package com.philips.platform.mya.base;
 
 
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 public interface MyaBaseView {
     FragmentActivity getFragmentActivity();

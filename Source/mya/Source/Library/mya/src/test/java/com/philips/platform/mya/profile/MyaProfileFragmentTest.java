@@ -7,9 +7,9 @@ package com.philips.platform.mya.profile;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -60,7 +60,7 @@ public class MyaProfileFragmentTest {
         AppTaggingInterface appTaggingInterfaceMock = mock(AppTaggingInterface.class);
         MyaHelper.getInstance().setAppTaggingInterface(appTaggingInterfaceMock);
         myaProfileFragment = new MyaProfileFragment();
-        SupportFragmentTestUtil.startFragment(myaProfileFragment);
+//        SupportFragmentTestUtil.startFragment(myaProfileFragment);
         myaProfileFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
 

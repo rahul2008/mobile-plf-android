@@ -36,6 +36,7 @@ task zipDocuments(type: Zip) {
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionCode 1
@@ -58,9 +59,9 @@ configurations.all {
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
-    implementation deps.support.annotations
+    implementation deps.androidx.appcompat
+    implementation deps.design
+    implementation deps.androidx.annotations
     implementation deps.gson
     implementation deps.volley
 
@@ -77,7 +78,7 @@ dependencies {
 
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
 }
 
 tasks.withType(Test) {

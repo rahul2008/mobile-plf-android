@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.support.annotation.StyleRes;
+import androidx.annotation.StyleRes;
 
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;

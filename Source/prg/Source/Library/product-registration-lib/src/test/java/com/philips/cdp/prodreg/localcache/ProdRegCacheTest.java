@@ -5,7 +5,7 @@
 
 package com.philips.cdp.prodreg.localcache;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 

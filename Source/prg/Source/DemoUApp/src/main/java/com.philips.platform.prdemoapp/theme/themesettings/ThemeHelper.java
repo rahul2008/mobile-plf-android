@@ -7,7 +7,7 @@ package com.philips.platform.prdemoapp.theme.themesettings;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.support.annotation.StyleRes;
+import androidx.annotation.StyleRes;
 
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;

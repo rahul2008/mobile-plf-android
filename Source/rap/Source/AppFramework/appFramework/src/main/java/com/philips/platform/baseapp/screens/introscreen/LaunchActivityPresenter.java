@@ -5,7 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.introscreen;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import android.widget.Toast;
 

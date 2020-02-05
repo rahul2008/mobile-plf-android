@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.support.v4.app.FragmentActivity;
-import android.util.DisplayMetrics;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
@@ -15,7 +14,6 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 import com.philips.cdp.productselection.prx.PrxWrapper;
 import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.Constants;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;

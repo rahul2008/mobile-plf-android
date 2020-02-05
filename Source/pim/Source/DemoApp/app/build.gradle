@@ -85,10 +85,10 @@ dependencies {
     implementation philipsdeps.uid
     implementation project(':pim')
     implementation project(':pimUApp')
-    implementation deps.support.appcompatv7
-    implementation deps.constraintlayout
-    implementation deps.support.design
-    implementation deps.multidex
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
+    implementation deps.design
+    implementation deps.androidx.multidex
     implementation deps.greenrobot
     implementation deps.butterknife
     implementation deps.adobemobilelib

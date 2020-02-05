@@ -6,7 +6,7 @@
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;

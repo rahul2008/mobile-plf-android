@@ -51,7 +51,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-mec.pro'
         }
 
         debug {
@@ -90,19 +90,18 @@ android {
         exclude 'lib/x86/libRSSupport.so'
     }
 
+    configurations.all {
+        resolutionStrategy.force deps.jsr305
+    }
 
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
-    implementation deps.constraintlayout
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    androidTestImplementation(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation deps.androidx.espresso_core
 
     testImplementation deps.junit
     implementation philipsdeps.uid

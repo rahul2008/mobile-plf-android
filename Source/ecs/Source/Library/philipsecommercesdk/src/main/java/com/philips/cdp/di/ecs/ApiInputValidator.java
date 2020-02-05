@@ -5,7 +5,7 @@
  */
 package com.philips.cdp.di.ecs;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
@@ -146,6 +146,13 @@ import java.util.List;
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
+
+     public ECSErrorWrapper getPRXProductDetailAPIValidateError(ECSProduct product) {
+         if(isINValidString(product.getCode())){
+             return getECSErrorWrapper(ECSErrorEnum.ECSCtnNotProvided);
+         }
+         return null;
+     }
 
     public ECSErrorWrapper getAddProductToShoppingCartError(ECSProduct product) {
         return getProductDetailAPIValidateError(product);

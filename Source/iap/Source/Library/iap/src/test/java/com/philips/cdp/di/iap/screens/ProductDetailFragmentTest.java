@@ -9,7 +9,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -113,7 +113,7 @@ public class ProductDetailFragmentTest {
         mContext = getInstrumentation().getContext();
 
         productDetailFragment = ProductDetailFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
-        SupportFragmentController.of(productDetailFragment).create().start().resume();
+//        SupportFragmentController.of(productDetailFragment).create().start().resume();
     }
 
     @Test

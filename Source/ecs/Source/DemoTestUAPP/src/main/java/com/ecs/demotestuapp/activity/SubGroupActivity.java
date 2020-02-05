@@ -2,11 +2,12 @@
 package com.ecs.demotestuapp.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.adapter.SubGroupAdapter;
@@ -45,15 +46,9 @@ public class SubGroupActivity extends AppCompatActivity  {
         groupItem = (GroupItem) bundle.getSerializable("group");
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView =  findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SubGroupAdapter(groupItem.getSubgroup(), this));
-
     }
-
-
-
-
-
 }

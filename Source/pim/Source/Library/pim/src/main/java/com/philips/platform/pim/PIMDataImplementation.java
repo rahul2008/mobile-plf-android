@@ -1,10 +1,10 @@
 package com.philips.platform.pim;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;

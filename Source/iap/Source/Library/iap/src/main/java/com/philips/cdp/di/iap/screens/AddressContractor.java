@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.screens;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 
 import com.philips.cdp.di.iap.address.AddressFields;

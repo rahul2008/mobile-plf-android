@@ -1,10 +1,10 @@
 package com.philips.cdp.di.mec.common
 
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.graphics.drawable.VectorDrawableCompat
 import android.view.View
+import androidx.databinding.DataBindingUtil
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
@@ -18,8 +18,8 @@ import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.thememanager.*
 import com.philips.platform.uid.utils.UIDActivity
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.mec_action_bar.*
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
 
 
@@ -58,7 +58,7 @@ import java.util.*
     }
 
      override fun attachBaseContext(newBase: Context) {
-         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
      }
 
     lateinit var bundle: Bundle
@@ -73,7 +73,7 @@ import java.util.*
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
         mec_header_back_button_framelayout.setOnClickListener(this)
-        bundle = intent.getExtras()
+        bundle = intent.getExtras()!!
 
         createActionBar();
         loadDecisionFragment();

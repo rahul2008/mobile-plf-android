@@ -38,6 +38,6 @@ public class MarketingAccountFragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void should_startFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(marketingAccountFragment);
+//        SupportFragmentTestUtil.startFragment(marketingAccountFragment);
     }
 }

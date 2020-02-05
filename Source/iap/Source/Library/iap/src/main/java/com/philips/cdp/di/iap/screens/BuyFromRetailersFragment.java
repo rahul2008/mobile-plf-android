@@ -6,8 +6,8 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -38,7 +37,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     private RecyclerView mRecyclerView;
     private ArrayList<StoreEntity> mStoreEntity;
     private String param;
-    private String selectedCTN;
+    private Bundle mBundle;
 
     public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
@@ -70,7 +69,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         mRecyclerView = rootView.findViewById(R.id.iap_retailer_list);
         if (getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO) != null)
             mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO);
-        selectedCTN=getArguments().getString("productCTN");
+        mBundle=getArguments();
         return rootView;
     }
 
@@ -81,7 +80,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         setTitleAndBackButtonVisibility(R.string.iap_select_retailer, true);
         setCartIconVisibility(false);
         if (mStoreEntity != null) {
-            BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this,selectedCTN);
+            BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this,mBundle);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
             tagRetailerList(mStoreEntity);
@@ -123,7 +122,11 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
             final HashMap<String, String> map = new HashMap<>();
             map.put(IAPAnalyticsConstant.RETAILER_LIST, retailerList);
-            map.put(IAPAnalyticsConstant.PRODUCT, selectedCTN);
+            String ProductInfo = IAPAnalytics.mCategory;
+            ProductInfo+=";"+mBundle.getString("productCTN","");
+            ProductInfo+=";"+mBundle.getInt("productStock",0);
+            ProductInfo+=";"+mBundle.getString("productPrice","0.0");
+            map.put(IAPAnalyticsConstant.PRODUCTS, ProductInfo);
             IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
         }
 

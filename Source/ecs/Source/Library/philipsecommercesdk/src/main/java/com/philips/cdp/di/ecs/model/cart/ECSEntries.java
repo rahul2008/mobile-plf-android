@@ -6,7 +6,7 @@
 
 package com.philips.cdp.di.ecs.model.cart;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 

@@ -3,10 +3,11 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,7 +20,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.platform.appinfra.logging.LoggingUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,19 +31,19 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private  ImageLoader mImageLoader;
     private ArrayList<StoreEntity> mStoreList;
     private BuyFromRetailersListener mBuyFromRetailersListener;
-    private String mSelectedCTN;
+    private Bundle mBundle;
 
     public interface BuyFromRetailersListener {
         void onClickAtRetailer(String buyURL, StoreEntity storeEntity);
     }
 
     public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager,
-                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener, String selectedCTN) {
+                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener, Bundle bundle) {
         mContext = context;
         mFragmentManager = fragmentManager;
         mStoreList = storeList;
         mBuyFromRetailersListener = pBuyFromRetailersListener;
-        mSelectedCTN= selectedCTN;
+        mBundle= bundle;
     }
 
     @Override
@@ -58,7 +58,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         String imageURL = storeEntity.getLogoURL();
         holder.mStoreName.setText(storeEntity.getName());
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
-        String productAvailability = storeEntity.getAvailability();
+        final String productAvailability = storeEntity.getAvailability();
+
 
         if (productAvailability.equalsIgnoreCase("yes")) {
             holder.mProductAvailability.setText(mContext.getString(R.string.iap_in_stock));
@@ -83,7 +84,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                     NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager,
                             mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
                 } else {
-                    tagOnSelectRetailer(storeEntity);
+
+
+                    tagStockStatus(storeEntity.getName(),productAvailability);
                     mBuyFromRetailersListener.onClickAtRetailer(buyURL, storeEntity);
                 }
             }
@@ -92,10 +95,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         getNetworkImage(holder, imageURL);
     }
 
-    void tagOnSelectRetailer(StoreEntity storeEntity) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
-                storeEntity.getName());
-    }
+
 
     private void getNetworkImage(final RetailerViewHolder retailerHolder, final String imageURL) {
         mImageLoader = NetworkImageLoader.getInstance(mContext)
@@ -134,10 +134,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
             } else {
                 final String buyURL = mStoreList.get(getAdapterPosition()).getBuyURL();
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.RETAILER_SELECTED,
-                        mStoreList.get(getAdapterPosition()).getName());
-                tagStockStatus(mStoreList.get(getAdapterPosition()).getAvailability());
+                tagStockStatus( mStoreList.get(getAdapterPosition()).getName(),mStoreList.get(getAdapterPosition()).getAvailability());
                 boolean isSelected = this.itemView.isSelected();
                 this.itemView.setSelected(!isSelected);
                 this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_list_item_background_selector));
@@ -145,13 +142,19 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             }
         }
 
-        private void tagStockStatus(String stockStatus){
-            String stockStatusToTag = stockStatus.equalsIgnoreCase("")? "available" : "out of stock";
-            final HashMap<String, String> map = new HashMap<>();
-            map.put(IAPAnalyticsConstant.STOCK_STATUS, stockStatusToTag);
-            map.put(IAPAnalyticsConstant.PRODUCT, mSelectedCTN);
-            IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
-        }
+
+    }
+    private void tagStockStatus(String retailerName, String stockStatus){
+        String stockStatusToTag = stockStatus.equalsIgnoreCase("YES")? "available" : "out of stock";
+        final HashMap<String, String> map = new HashMap<>();
+        map.put(IAPAnalyticsConstant.RETAILER_SELECTED, retailerName);
+        map.put(IAPAnalyticsConstant.STOCK_STATUS, stockStatusToTag);
+        String ProductInfo = IAPAnalytics.mCategory;
+        ProductInfo+=";"+mBundle.getString("productCTN","");
+        ProductInfo+=";"+mBundle.getInt("productStock",0);
+        ProductInfo+=";"+mBundle.getString("productPrice","0.0");
+        map.put(IAPAnalyticsConstant.PRODUCTS, ProductInfo);
+        IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, map);
     }
 
 }

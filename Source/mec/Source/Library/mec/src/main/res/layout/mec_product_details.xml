@@ -64,7 +64,7 @@
                     android:background="@android:color/transparent"
                     android:visibility="gone" />
 
-                <android.support.v4.view.ViewPager
+                <androidx.viewpager.widget.ViewPager
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/iap_product_detail_image_height"
@@ -94,7 +94,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/mec_currency"
-                android:textSize="28sp"
+                android:textSize="18sp"
                 android:paddingBottom="1dp"
                 android:textAlignment="center"
                 style="@style/mecCentralesansBoldFont"
@@ -180,7 +180,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="5dp"
                         android:numStars="5"
-                        android:stepSize="0.1"
+                        android:stepSize="0.01"
                         style="?android:attr/ratingBarStyleSmall" />
 
                     <com.philips.platform.uid.view.widget.Label
@@ -228,7 +228,7 @@
 
 
 
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                     android:layout_marginTop="8dp"
                     android:id="@+id/tabs_main"
                     android:layout_width="match_parent"
@@ -237,7 +237,7 @@
                     app:tabTextAppearance="@style/CustomTextAppearanceTab"
                     android:layout_below="@+id/mec_ctn_label" />
 
-            <android.support.v4.view.ViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"

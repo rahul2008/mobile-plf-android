@@ -13,11 +13,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
@@ -37,7 +37,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT;
 
@@ -91,7 +91,7 @@ public class ProdRegBaseActivity extends UIDActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
 

@@ -33,11 +33,11 @@
         android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="16sp"
-        android:text="@{keyBenefitAreaItem.keyBenefitAreaName}"
+        android:text='@{ keyBenefitAreaItem.keyBenefitAreaName ?? ""}'
         />
 
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_child"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

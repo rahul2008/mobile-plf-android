@@ -31,11 +31,7 @@ artifacts {
 
 android {
     compileSdkVersion versions.sdk
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionCode 1
@@ -59,6 +55,11 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 }
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
@@ -79,17 +80,14 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
-    implementation deps.adobemobilelib
 
-    implementation deps.constraintlayout
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
-    implementation deps.support.design
-    implementation deps.support.supportv4
-    implementation deps.support.annotations
+    implementation deps.design
+    implementation deps.androidx.appcompat
+    implementation deps.adobemobilelib
+    implementation deps.androidx.annotations
     implementation deps.volley
     implementation deps.openid_appauth
-    implementation deps.livedata_extensions
+    implementation deps.androidx.livedata_extensions
 
     testImplementation deps.json
     testImplementation deps.junit
@@ -104,5 +102,5 @@ dependencies {
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_shadows_multidex
 
-    annotationProcessor deps.livedata_compiler
+    annotationProcessor deps.androidx.livedata_compiler
 }

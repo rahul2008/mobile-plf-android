@@ -1,6 +1,6 @@
 package com.philips.platform.prdemoapp.adaptor;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.philips.cdp.prodreg.register.RegisteredProduct;

@@ -36,7 +36,7 @@ public class IAPAnalyticsConstant {
     public static final String ORIGINAL_PRICE = "originalPrice";
     public static final String DISCOUNTED_PRICE = "discountedPrice";
     public static final String OUT_OF_STOCK = "outOfStock";
-    public static final String RETAILER_SELECTED = "retailerSelected";
+    public static final String RETAILER_SELECTED = "retailerName";
     public static final String ADD_TO_CART = "scAdd";
     public static final String PRODUCT_REMOVED = "productRemoved";
     public static final String CHECKOUT_BUTTON_SELECTED = "checkoutButtonSelected";
@@ -89,9 +89,10 @@ public class IAPAnalyticsConstant {
     public static final String KEY_EXIT_LINK_RETAILER = "exitlinkname";
     public static final String PHILIPS_EXIT_LINK_PARAMETER = "15_global_%s_%s-app_%s-app";
 
-    public static final String PRODUCT = "Product";
     public static final String RETAILER_LIST = "retailerList";
-    public static final String RETAILER_NAME = "retailerName";
     public static final String STOCK_STATUS = "stockStatus";
+
+    public static final String IAP_COUNTRY = "country";
+    public static final String IAP_CURRENCY = "currency";
 }
 

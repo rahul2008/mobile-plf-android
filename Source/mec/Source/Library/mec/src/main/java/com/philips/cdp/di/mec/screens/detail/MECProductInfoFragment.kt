@@ -1,13 +1,12 @@
 package com.philips.cdp.di.mec.screens.detail
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 import com.philips.cdp.di.mec.databinding.MecProductInfoFragmentBinding

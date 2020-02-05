@@ -11,11 +11,19 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
+import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.IAP_COUNTRY;
+import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.IAP_CURRENCY;
 
 public class IAPAnalytics {
     public static AppTaggingInterface sAppTaggingInterface;
+    public static String mCountryCode="";
+    public static String mCurrencyCode="";
+    public static String mCategory="";
 
     private IAPAnalytics(){
 
@@ -25,12 +33,14 @@ public class IAPAnalytics {
         sAppTaggingInterface =
                 dependencies.getAppInfra().getTagging().
                         createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
+        mCountryCode=dependencies.getAppInfra().getServiceDiscovery().getHomeCountry();
+
     }
 
     public static void trackPage(String currentPage) {
         if (sAppTaggingInterface != null) {
             Map<String, String> map = new HashMap<>();
-            sAppTaggingInterface.trackPageWithInfo(currentPage, map);
+            sAppTaggingInterface.trackPageWithInfo(currentPage, addCountryAndCurrency(map));
         }
     }
 
@@ -45,7 +55,7 @@ public class IAPAnalytics {
     public static void trackMultipleActions(String state, Map<String, String> map) {
         if (sAppTaggingInterface != null)
             sAppTaggingInterface.
-                    trackActionWithInfo(state, map);
+                    trackActionWithInfo(state, addCountryAndCurrency(map));
     }
 
     public static void pauseCollectingLifecycleData() {
@@ -61,4 +71,25 @@ public class IAPAnalytics {
     public static void clearAppTaggingInterface() {
         sAppTaggingInterface = null;
     }
+
+    public static Map<String,String> addCountryAndCurrency(Map<String,String> map) {
+        map.put(IAP_COUNTRY,mCountryCode);
+        map.put(IAP_CURRENCY,mCurrencyCode);
+        return map;
+
+    }
+
+    public static void setCurrencyString(String localeString){
+        try {
+            String[] localeArray = localeString.split("_");
+            Locale locale = new Locale(localeArray[0], localeArray[1]);
+            Currency currency = Currency.getInstance(locale);
+            mCurrencyCode = currency.getCurrencyCode();
+        }catch(Exception e){
+
+        }
+
+    }
+
+
 }

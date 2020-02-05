@@ -39,7 +39,7 @@ public class SignInAccountFragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void should_startFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(signInAccountFragment);
+//        SupportFragmentTestUtil.startFragment(signInAccountFragment);
     }
 
 }

@@ -4,9 +4,9 @@ package com.philips.cdp.registration.ui.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -60,6 +60,7 @@ public class URInterface implements UappInterface {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
             RLog.i(TAG, "Launch : Launched as activity");
@@ -100,6 +101,11 @@ public class URInterface implements UappInterface {
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
             ConsentStates personalConsentStatus = ((URLaunchInput) uappLaunchInput).
                     getUserPersonalConsentStatus();
+
+            if(RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()&& fragmentLauncher.getFragmentActivity().getString(registrationContentConfiguration.getPersonalConsentDefinition().getText()).isEmpty() && personalConsentStatus == null){
+              throw new RuntimeException("Set Personal Consent State ");
+            }
+
             bundle.putSerializable(RegConstants.PERSONAL_CONSENT, personalConsentStatus);
 
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);

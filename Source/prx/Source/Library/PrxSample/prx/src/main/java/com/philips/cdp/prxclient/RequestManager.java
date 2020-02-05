@@ -5,7 +5,7 @@
 
 package com.philips.cdp.prxclient;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.cdp.prxclient.error.PrxError;

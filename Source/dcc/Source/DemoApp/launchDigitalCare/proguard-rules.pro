@@ -36,7 +36,7 @@
 -keep public class * extends android.app.Fragment {
     <init>(...);
 }
--keep public class * extends android.support.v4.app.Fragment {
+-keep public class * extends androidx.fragment.app.Fragment {
     <init>(...);
 }
 
@@ -83,26 +83,24 @@
 
 #GooglePLayServices
 
--keep class android.support.** {*;}
+#-keep class android.support.** {*;}
 -keep class android.view.** {*;}
 
--keep interface android.support.v13.app.** { *; }
--keep public class * extends android.support.v13.**
--keep public class * extends android.app.Fragment
+#-keep interface android.support.v13.app.** { *; }
+#-keep public class * extends android.support.v13.**
+#-keep public class * extends android.app.Fragment
 
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
 -dontwarn android.view.**
 -dontwarn android.media.session
 -dontwarn android.app.**
 
--dontwarn android.support.**
-
 -dontwarn org.apache.**
 
 
 -dontwarn com.shamanland.**
 -dontwarn uk.co.chrisjenx.**
--dontwarn android.support.design
+-dontwarn com.google.android.material
 
 
 -printmapping out.map
@@ -152,12 +150,6 @@
 -keep  class com.google.android.gms.* { public *; }
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
-
-
-# The support library contains references to newer platform versions.
-# Don't warn about those in case this app is linking against an older
-# platform version.  We know about them, and they are safe.
--dontwarn android.support.**
 
 ##General network
 -keep public class javax.net.ssl.**

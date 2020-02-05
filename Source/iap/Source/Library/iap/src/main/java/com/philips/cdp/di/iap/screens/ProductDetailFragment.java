@@ -11,10 +11,10 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -231,11 +231,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         String productPrice = "";
         final HashMap<String, String> contextData = new HashMap<>();
         StringBuilder product = new StringBuilder();
+        int stockCount = mBundle.getInt(IAPConstant.PRODUCT_STOCK,0);
+
         if (mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE) != null) {
-            productPrice = mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE);
+            productPrice = mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE,"0.0");
         }
-        product = product.append("Tuscany_Campaign").append(";")
-                .append(mProductTitle).append(";").append(";")
+        product = product.append(IAPAnalytics.mCategory).append(";")
+                .append(mCTNValue).append(";")
+                .append(stockCount).append(";")
                 .append(productPrice);
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
         contextData.put(IAPAnalyticsConstant.PRODUCTS, product.toString());
@@ -461,6 +464,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
             } else {
                 bundle.putString("productCTN",mCTNValue);
+                bundle.putString("productPrice", mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE));
+                bundle.putInt("productStock",mBundle.getInt(IAPConstant.STOCK_LEVEL));
                 addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
                         BuyFromRetailersFragment.TAG, true);
             }

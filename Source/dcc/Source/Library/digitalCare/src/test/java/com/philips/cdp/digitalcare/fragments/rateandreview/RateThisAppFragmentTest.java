@@ -76,7 +76,7 @@ public class RateThisAppFragmentTest {
         when(mockDigitalCareConfigManager.getViewProductDetailsData()).thenReturn(viewProductDetailsModel);
         digitalCareBaseFragmentspy=spy(fragment);
 
-        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
+//        SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
         Robolectric.buildActivity(DigitalCareTestMock.class).create().get();
     }
@@ -118,7 +118,7 @@ public class RateThisAppFragmentTest {
 
     @Test
     public void testPerformTellusPhilipsReviewButton(){
-        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
+//        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
@@ -129,7 +129,7 @@ public class RateThisAppFragmentTest {
 
     @Test
     public void testPerformPlayStoreReviewButton(){
-        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
+//        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);

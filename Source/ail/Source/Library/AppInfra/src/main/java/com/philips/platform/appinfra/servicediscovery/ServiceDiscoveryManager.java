@@ -11,8 +11,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.VisibleForTesting;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
@@ -51,7 +52,6 @@ import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_LOCAL_CACHE_DATA_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_STORE_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_INVALID_COUNTRY_CODE;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_URL_MISMATCH;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SET_HOME_COUNTRY_SUCCESS;

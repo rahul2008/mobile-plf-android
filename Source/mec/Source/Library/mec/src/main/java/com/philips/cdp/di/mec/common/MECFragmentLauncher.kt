@@ -1,15 +1,16 @@
 package com.philips.cdp.di.mec.common
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
@@ -50,9 +51,14 @@ class MECFragmentLauncher : MecBaseFragment() {
 
             if (MECDataHolder.INSTANCE.hybrisEnabled) {
                 MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
+
             }
 
             MECDataHolder.INSTANCE.locale = config!!.locale
+            MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
+            if(null!=config!!.rootCategory){
+                MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+            }
             launchMECasFragment(MECDataHolder.INSTANCE.hybrisEnabled)
         }
 
@@ -155,7 +161,7 @@ class MECFragmentLauncher : MecBaseFragment() {
 
         var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
 
-        val ctn = ctns.get(0)
+        val ctn = ctns?.get(0)
 
         if (isHybris) {
             ecsLauncherViewModel.getProductDetailForCtn(ctn!!)

@@ -1,8 +1,8 @@
 package com.philips.cdp.di.mec.screens.detail
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
@@ -16,6 +16,7 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
@@ -171,11 +172,13 @@ class EcsProductDetailViewModel : CommonViewModel() {
                     } else {
                         stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                         stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                        product?.let { tagOutOfStockActions(it) }
                     }
 
                 } else if (ecsRetailers.retailers.size==0) {
                     stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                     stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                    product?.let { tagOutOfStockActions(it) }
                 }
             }
             else if(MECDataHolder.INSTANCE.hybrisEnabled){
@@ -189,6 +192,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
                             stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                             stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
                             // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextErrorColor)
+                            tagOutOfStockActions(product)
                         }
                     }
                 }
@@ -209,6 +213,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
                                     } else {
                                         stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                                         stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                                        product?.let { tagOutOfStockActions(it) }
                                     }
                                 }
                             }
@@ -220,10 +225,12 @@ class EcsProductDetailViewModel : CommonViewModel() {
                     } else {
                         stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                         stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                        product?.let { tagOutOfStockActions(it) }
                 }
             }  else  {
                 stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                 stockLabel.setTextColor(stockLabel.context.getColor(R.color.uid_signal_red_level_30))
+                    product?.let { tagOutOfStockActions(it) }
             }
         }
     }

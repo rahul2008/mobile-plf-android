@@ -8,12 +8,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
-import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.store.IAPUser;
-import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import org.junit.Before;

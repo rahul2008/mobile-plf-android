@@ -7,7 +7,7 @@
 
 package com.philips.platform.baseapp.base;
 
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 

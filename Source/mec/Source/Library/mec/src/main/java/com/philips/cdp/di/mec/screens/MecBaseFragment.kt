@@ -5,16 +5,20 @@
 package com.philips.cdp.di.mec.screens
 
 import android.app.ProgressDialog
-import android.arch.lifecycle.Observer
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.RelativeLayout
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.analytics.MECAnalyticServer
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.technicalError
 import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
@@ -43,6 +47,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     override fun handleBackEvent(): Boolean {
         val currentFragment = activity?.supportFragmentManager?.fragments?.last()
+
         if (currentFragment?.getTag().equals("MECProductCatalogFragment")){
 
         }else  if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
@@ -50,6 +55,9 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
         }
         else if (currentFragment?.getTag().equals("MECProductDetailsFragment")){
+            setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
+        }
+        else if (currentFragment?.getTag().equals("MecPrivacyFragment")){
             setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
         }
         return false
@@ -195,6 +203,26 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     open fun processError(mecError: MecError?){
+        if(!mecError!!.ecsError!!.errorType.equals("No internet connection")){
+            try {
+                //tag all techinical defect except "No internet connection"
+                var errorString: String = MECAnalyticsConstant.COMPONENT_NAME + ":"
+                if (mecError!!.ecsError!!.errorcode == 1000) {
+                    errorString += MECAnalyticServer.bazaarVoice + ":"
+                } else if (mecError!!.ecsError!!.errorcode >= 5000 && mecError!!.ecsError!!.errorcode < 6000) {
+                    errorString += MECAnalyticServer.hybris + ":"
+                } else {
+                    //
+                    errorString += MECAnalyticServer.prx + ":"
+                }
+                errorString = errorString + mecError!!.exception!!.message.toString()
+                errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
+
+                MECAnalytics.trackAction(sendData, technicalError, errorString)
+            }catch(e :Exception){
+
+            }
+        }
         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
     }
 

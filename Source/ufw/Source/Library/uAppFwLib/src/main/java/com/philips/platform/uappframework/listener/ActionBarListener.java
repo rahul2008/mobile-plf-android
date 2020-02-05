@@ -5,7 +5,7 @@
 */
 package com.philips.platform.uappframework.listener;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import java.io.Serializable;
 

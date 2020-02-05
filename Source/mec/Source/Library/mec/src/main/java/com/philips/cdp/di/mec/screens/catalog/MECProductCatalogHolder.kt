@@ -1,7 +1,7 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import android.databinding.ViewDataBinding
-import com.philips.cdp.di.ecs.model.products.ECSProduct
+import android.view.View
+import androidx.databinding.ViewDataBinding
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecProductCatalogItemGridBinding
 import com.philips.cdp.di.mec.databinding.MecProductCatalogItemListBinding
@@ -19,6 +19,11 @@ class MECProductCatalogHolder(override var binding: ViewDataBinding, override va
             val mecProductCatalogItemGridBinding = binding as MecProductCatalogItemGridBinding
             mecProductCatalogItemGridBinding.product = item
             mecProductCatalogItemGridBinding.executePendingBindings()
+            if (adapterPosition % 2 == 0) {
+                    (binding as MecProductCatalogItemGridBinding).verticleView.visibility = View.VISIBLE
+            } else {
+                (binding as MecProductCatalogItemGridBinding).verticleView.visibility = View.GONE
+            }
         }
     }
 }

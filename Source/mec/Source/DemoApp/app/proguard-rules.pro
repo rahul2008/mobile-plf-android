@@ -31,8 +31,7 @@
 -dontwarn java.nio.file.**
 -dontwarn okio.**
 
--dontwarn android.support.**
--dontwarn android.support.v8.**
+
 -dontwarn com.philips.cdp.registration.**
 -dontwarn org.apache.**
 -dontwarn com.philips.cdp.digitalcare.**
@@ -70,11 +69,11 @@
 }
 
 #Android support library
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.** { *; }
--keep class android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
--keep class android.support.v8.renderscript.** { *; }
+#-keep class android.support.v4.** { *; }
+#-keep interface android.support.v4.** { *; }
+#-keep class android.support.v7.** { *; }
+#-keep interface android.support.v7.** { *; }
+#-keep class android.support.v8.renderscript.** { *; }
 
 #Volley
 -keep class com.android.volley.** { *; }
