@@ -67,7 +67,13 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
             binding.mecEmptyResult.visibility = View.VISIBLE
             binding.mecParentLayout.visibility = View.GONE
         }
+        if (ecsShoppingCart != null) {
+            val quantity = MECutility.getQuantity(ecsShoppingCart)
+            updateCount(quantity)
+        }
         hideProgressBar()
+
+
     }
 
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
@@ -158,6 +164,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_shopping_cart, true)
+        setCartIconVisibility(false)
     }
 
     override fun onStart() {

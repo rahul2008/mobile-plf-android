@@ -29,6 +29,7 @@ import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.view.widget.ProgressBar
@@ -129,8 +130,28 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             MECDataHolder.INSTANCE.actionbarUpdateListener!!.updateActionBar(title, isVisible)
     }
 
+    fun updateCount(count: Int) {
+        if (MECDataHolder.INSTANCE.mecListener  != null) {
+            MECDataHolder.INSTANCE.mecListener .onUpdateCartCount(count)
+        }
+    }
 
-    fun createCustomProgressBar(group: ViewGroup?, size: Int) {
+    fun setCartIconVisibility(shouldShow: Boolean) {
+        if (MECDataHolder.INSTANCE.mecListener != null) {
+            if (isUserLoggedIn() && MECDataHolder.INSTANCE.hybrisEnabled) {
+                MECDataHolder.INSTANCE.mecListener.updateCartIconVisibility(shouldShow)
+            } else {
+                MECDataHolder.INSTANCE.mecListener.updateCartIconVisibility(false)
+            }
+        }
+    }
+
+    protected fun isUserLoggedIn(): Boolean {
+        return (MECDataHolder.INSTANCE.userDataInterface != null && MECDataHolder.INSTANCE.userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
+
+    }
+
+            fun createCustomProgressBar(group: ViewGroup?, size: Int) {
         createCustomProgressBar(group,size,RelativeLayout.CENTER_IN_PARENT)
 
     }

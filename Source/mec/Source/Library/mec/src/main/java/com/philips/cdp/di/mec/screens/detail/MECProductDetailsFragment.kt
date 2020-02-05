@@ -39,6 +39,7 @@ import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
 import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
@@ -283,6 +284,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
+        setCartIconVisibility(true)
     }
 
 
@@ -375,7 +377,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     fun addToCartClick(){
         if(null!=binding.product ) {
-            if (MECDataHolder.INSTANCE.userDataInterface != null && MECDataHolder.INSTANCE.userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            if (isUserLoggedIn()) {
                 val addToProductCallback =  object: ECSCallback<ECSShoppingCart, Exception> {
 
                     override fun onResponse(eCSShoppingCart: ECSShoppingCart?) {
@@ -492,9 +494,19 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     binding.mecFindRetailerButtonPrimary.visibility = View.VISIBLE
                     binding.mecFindRetailerButtonSecondary.visibility = View.GONE
                 }
-                GlobalScope.launch{
-                    HybrisAuth.authHybrisIfNotAlready()
+
+
+                ////////////// start of update cart and login if required
+                if(isUserLoggedIn()) {
+                    GlobalScope.launch {
+                        var mecManager: MECManager = MECManager()
+                        mecManager.getProductCartCountWorker(MECDataHolder.INSTANCE.mecListener)
+                    }
+                }else{
+                    setCartIconVisibility(false)
                 }
+                ////////////// end of update cart and login if required
+
                 if(null==productFetchRequiredForCTN) {
                     executeRequest()
                     getRatings()

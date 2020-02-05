@@ -87,9 +87,7 @@ class MECInterface : UappInterface {
 
 
 
-    fun getCompleteProductList(mecListener: MECListener) {
 
-    }
 
 }
 

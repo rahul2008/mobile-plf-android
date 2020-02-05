@@ -43,6 +43,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -301,8 +302,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         MECAnalytics.trackPage(productCatalogue)
         MECAnalytics.tagProductList(productList, listView)
         mRootView = binding.root
+            getECSConfig()
     }
-        getECSConfig()
+
 
         return binding.root
     }
@@ -324,6 +326,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
+        setCartIconVisibility(true)
     }
 
 
@@ -418,9 +421,18 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                     MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
                 }
                 executeRequest()
-                GlobalScope.launch{
-                    HybrisAuth.authHybrisIfNotAlready()
+
+                ////////////// start of update cart and login if required
+                if(isUserLoggedIn()) {
+                    GlobalScope.launch {
+                        //HybrisAuth.authHybrisIfNotAlready()
+                        var mecManager: MECManager = MECManager()
+                        mecManager.getProductCartCountWorker(MECDataHolder.INSTANCE.mecListener)
+                    }
+                }else{
+                    setCartIconVisibility(false)
                 }
+                ////////////// end of update cart and login if required
 
             }
 

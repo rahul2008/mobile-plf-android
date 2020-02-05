@@ -30,4 +30,9 @@ class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
         mec_productCatalog_emptyText_label.visibility = View.VISIBLE
     }
 
+    override fun onResume() {
+        super.onResume()
+        setCartIconVisibility(false)
+    }
+
 }

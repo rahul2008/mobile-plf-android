@@ -447,8 +447,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         if (urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             //update shopping cart count if user logged in
-                mMecInterface.getProductCartCount(this);
-            }
+            mMecInterface.getProductCartCount(this);
+            }else{
+            updateCartIconVisibility(false);
+        }
 
     }
 
@@ -503,15 +505,25 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         }
 
     }
-
-
+    @Override
+    public void onUpdateCartCount(int count) {
+        if (count > 0) {
+            mCountText.setText(String.valueOf(count));
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCountText.setVisibility(View.GONE);
+        }
+    }
 
     @Override
-    public void onGetCompleteProductList(ArrayList<String> productList) {
-        mShoppingCartContainer.setVisibility(View.VISIBLE);
-        //mShoppingCart.setOnClickListener(this);
-        dismissProgressDialog();
+    public void updateCartIconVisibility(boolean shouldShow) {
+        if (shouldShow) {
+            mShoppingCartContainer.setVisibility(View.VISIBLE);
+        } else {
+            mShoppingCartContainer.setVisibility(View.GONE);
+        }
     }
+
 
 
 
@@ -736,6 +748,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     public boolean handleBackEvent() {
         return false;
     }
+
+
 }
 
 
