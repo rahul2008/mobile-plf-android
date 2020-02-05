@@ -25,6 +25,8 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 import kotlinx.android.synthetic.main.mec_main_activity.*
+import android.widget.Toast
+
 
 
 /**
@@ -72,7 +74,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         hideProgressBar()
        // if(addressList.isNullOrEmpty()){
             replaceFragment(AddAddressFragment(),"AddAddressFragment",false)
-        //}else{
+       // }else{
 
         //}
 
@@ -107,7 +109,13 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
                 itemPosition = position
                 showDialog()
             }
+
+            override fun onLeftClicked(position: Int) {
+                itemPosition = position
+                showDialog()
+            }
         })
+
 
         val itemTouchHelper = ItemTouchHelper(swipeController!!)
         itemTouchHelper.attachToRecyclerView(binding.mecCartSummaryRecyclerView)
