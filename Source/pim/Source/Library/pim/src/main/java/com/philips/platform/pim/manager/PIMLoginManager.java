@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.PIMParameterToLaunchEnum;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
@@ -16,6 +17,7 @@ import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 
 import net.openid.appauth.AuthorizationRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,13 +35,15 @@ public class PIMLoginManager {
     private PIMLoginListener mPimLoginListener;
     private AppTaggingInterface mTaggingInterface;
     private PIMUserManager mPimUserManager;
+    private HashMap consentParameterMap;
 
-    public PIMLoginManager(Context context, PIMOIDCConfigration pimoidcConfigration) {
+    public PIMLoginManager(Context context, PIMOIDCConfigration pimoidcConfigration, HashMap consentParameterMap) {
         mPimoidcConfigration = pimoidcConfigration;
         mPimAuthManager = new PIMAuthManager(context);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mTaggingInterface = PIMSettingManager.getInstance().getTaggingInterface();
         mPimUserManager = PIMSettingManager.getInstance().getPimUserManager();
+        this.consentParameterMap = consentParameterMap;
     }
 
     public Intent getAuthReqIntent(@NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
@@ -121,6 +125,7 @@ public class PIMLoginManager {
         AppTaggingInterface.PrivacyStatus privacyConsent = mTaggingInterface.getPrivacyConsent();
         boolean bool;
         bool = privacyConsent.equals(AppTaggingInterface.PrivacyStatus.OPTIN);
+        parameter.put("consents", addConsentLists().toString());
         parameter.put("analytics_consent", String.valueOf(bool));
         String urlString = "http://";
         String[] urlStringWithVisitorData = mTaggingInterface.getVisitorIDAppendToURL(urlString).split("=");
@@ -130,6 +135,19 @@ public class PIMLoginManager {
         parameter.put("analytics_report_suite_id", new PIMOIDCConfigration().getrsID());
         mLoggingInterface.log(DEBUG, TAG, "Additional parameters : " + parameter.toString());
         return parameter;
+    }
+
+    private ArrayList<String> addConsentLists() {
+        boolean bool;
+        ArrayList<String> consentList = new ArrayList<>();
+        AppTaggingInterface.PrivacyStatus privacyConsent = mTaggingInterface.getPrivacyConsent();
+        bool = privacyConsent.equals(AppTaggingInterface.PrivacyStatus.OPTIN);
+        if (bool)
+            consentList.add(PIMParameterToLaunchEnum.PIM_ANALYTICS_CONSENT.pimConsent);
+        if (consentParameterMap.get(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT) != null)
+            consentList.add(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT.pimConsent);
+        mLoggingInterface.log(DEBUG, TAG, "consent list parameters : " + consentList.toString());
+        return consentList;
     }
 }
 

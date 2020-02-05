@@ -6,15 +6,16 @@
 
 package com.philips.platform.pim;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -44,6 +45,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
  */
 public class PIMInterface implements UappInterface {
     static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
+    public static final String PIM_KEY_CONSENTS = "PIM_KEY_CONSENTS";
     private final String TAG = PIMInterface.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
 
@@ -116,6 +118,9 @@ public class PIMInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(PIM_KEY_CONSENTS, pimLaunchInput.getParameterToLaunch());
+        pimFragment.setArguments(bundle);
         pimFragment.setActionbarListener(uiLauncher.getActionbarListener(), pimLaunchInput.getUserLoginListener());
         addFragment(uiLauncher, pimFragment);
     }
@@ -132,6 +137,7 @@ public class PIMInterface implements UappInterface {
         if (null != pimLaunchInput) {
             Intent intent = new Intent(uiLauncher.getActivityContext(), PIMActivity.class);
             intent.putExtra(PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
+            intent.putExtra(PIM_KEY_CONSENTS, pimLaunchInput.getParameterToLaunch());
             PIMSettingManager.getInstance().setUserLoginInerface(pimLaunchInput.getUserLoginListener());
 
             uiLauncher.getActivityContext().startActivity(intent);

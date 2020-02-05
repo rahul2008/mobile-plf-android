@@ -43,7 +43,7 @@ class PIMMigrationManager {
     PIMMigrationManager(Context context, PIMUserMigrationListener pimUserMigrationListener) {
         mContext = context;
         this.pimUserMigrationListener = pimUserMigrationListener;
-        pimLoginManager = new PIMLoginManager(mContext, PIMSettingManager.getInstance().getPimOidcConfigration());
+        pimLoginManager = new PIMLoginManager(mContext, PIMSettingManager.getInstance().getPimOidcConfigration(), null);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 

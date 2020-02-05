@@ -41,7 +41,7 @@ public class PIMDataImplementation implements UserDataInterface {
     private boolean isInitRequiredAgain;
     private final CopyOnWriteArrayList<UserDataListener> userDataListeners;
 
-    public PIMDataImplementation(Context context, PIMUserManager pimUserManager) {
+    PIMDataImplementation(Context context, PIMUserManager pimUserManager) {
         mContext = context;
         this.pimUserManager = pimUserManager;
         userDataListeners = new CopyOnWriteArrayList<>();
