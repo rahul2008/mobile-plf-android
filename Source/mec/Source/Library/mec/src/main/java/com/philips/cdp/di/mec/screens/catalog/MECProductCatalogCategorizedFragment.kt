@@ -9,6 +9,11 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
+
+    companion object {
+        val TAG = "MECProductCatalogCategorizedFragment"
+    }
+
     lateinit var ctns : ArrayList<String>
     var totalProductsTobeSearched : Int = 0
 

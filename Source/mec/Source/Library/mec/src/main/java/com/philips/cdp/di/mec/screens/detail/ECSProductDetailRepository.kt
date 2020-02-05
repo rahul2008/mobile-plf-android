@@ -2,6 +2,8 @@ package com.philips.cdp.di.mec.screens.detail
 
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.ECSServices
+import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -9,6 +11,8 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 class ECSProductDetailRepository(private val ecsProductDetailViewModel: EcsProductDetailViewModel, val ecsServices: ECSServices) {
 
     var ecsProductDetailCallBack= ECSProductDetailCallback(ecsProductDetailViewModel)
+    var mECAddToProductCallback = MECAddToProductCallback(ecsProductDetailViewModel,"AddToCart")
+
 
     var bvClient = MECDataHolder.INSTANCE.bvClient
     var reviewsCb = MECReviewConversationsDisplayCallback(ecsProductDetailViewModel)
@@ -30,5 +34,17 @@ class ECSProductDetailRepository(private val ecsProductDetailViewModel: EcsProdu
         val prepareCall = bvClient!!.prepareCall(request)
         prepareCall.loadAsync(ratingCb)
     }
+
+    fun addTocart(ecsProduct: ECSProduct){
+        ecsServices.addProductToShoppingCart(ecsProduct,mECAddToProductCallback)
+    }
+
+    fun createCart(createShoppingCartCallback: ECSCallback<ECSShoppingCart, Exception>){
+       ecsServices.createShoppingCart(createShoppingCartCallback)
+    }
+
+
+
+
 
 }

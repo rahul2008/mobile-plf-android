@@ -18,12 +18,14 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.di.mec.common.MecError;
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
@@ -83,6 +85,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private ArrayList<String> mCategorizedProductList;
     private TextView mCountText;
     private ImageView mBackImage;
+    private FrameLayout mShoppingCartContainer;
     private TextView text;
 
     private MECInterface mMecInterface;
@@ -105,6 +108,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private TextView versionView;
     private View rootView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,118 +116,150 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
 
         ignorelistedRetailer = new ArrayList<>();
-        rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
-        mEtCTN = rootView.findViewById(R.id.et_add_ctn);
-        mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
-        bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
-        bvCheckBox.setOnCheckedChangeListener(this);
-
-        text = getActivity().findViewById(R.id.mec_demo_app_header_title);
-        versionView = getActivity().findViewById(R.id.demoappversion);
-        mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
+        if (rootView == null) {
 
 
-        mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
-        mBtnSetPropositionId = rootView.findViewById(R.id.btn_set_proposition_id);
+            rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
+
+            mEtCTN = rootView.findViewById(R.id.et_add_ctn);
+            mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
+            bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
+            bvCheckBox.setOnCheckedChangeListener(this);
+
+            text = getActivity().findViewById(R.id.mec_demo_app_header_title);
+            versionView = getActivity().findViewById(R.id.demoappversion);
+            mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
+            mShoppingCartContainer  = getActivity().findViewById(R.id.mec_demo_app_shopping_cart_icon);
+            mShoppingCartContainer.setOnClickListener(this);
+            mCountText =  getActivity().findViewById(R.id.mec_demo_app_item_count);
 
 
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
-        AppConfigurationInterface configInterface = appInfra.getConfigInterface();
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-
-        String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
-        mEtPropositionId.setText(propertyForKey);
+            mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
+            mBtnSetPropositionId = rootView.findViewById(R.id.btn_set_proposition_id);
 
 
-        mecBazaarVoiceInput = new MECBazaarVoiceInput();
-        mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
+            AppConfigurationInterface configInterface = appInfra.getConfigInterface();
+            AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
-                configInterface.setPropertyForKey("propositionid", "MEC", mEtPropositionId.getText().toString(), configError);
-
-                Toast.makeText(getActivity(), "Proposition id is set", Toast.LENGTH_SHORT).show();
-                getActivity().finishAffinity();
-                System.exit(0);
-            }
-        });
+            String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
+            mEtPropositionId.setText(propertyForKey);
 
 
-        toggleBanner = rootView.findViewById(R.id.toggleBanner);
+            mecBazaarVoiceInput = new MECBazaarVoiceInput();
+            mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        toggleBanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    configInterface.setPropertyForKey("propositionid", "MEC", mEtPropositionId.getText().toString(), configError);
 
-                isBannerEnabled = isChecked;
-                initializeMECComponant();
-            }
-        });
-
-        toggleHybris = rootView.findViewById(R.id.toggleHybris);
-        toggleHybris.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isHybrisEnable = isChecked;
-                initializeMECComponant();
-            }
-        });
+                    Toast.makeText(getActivity(), "Proposition id is set", Toast.LENGTH_SHORT).show();
+                    getActivity().finishAffinity();
+                    System.exit(0);
+                }
+            });
 
 
-        toggleRetailer = rootView.findViewById(R.id.toggleRetailer);
+            toggleBanner = rootView.findViewById(R.id.toggleBanner);
+
+            toggleBanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    isBannerEnabled = isChecked;
+                    initializeMECComponant();
+                }
+            });
+
+            toggleHybris = rootView.findViewById(R.id.toggleHybris);
+            toggleHybris.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    isHybrisEnable = isChecked;
+                    initializeMECComponant();
+                }
+            });
 
 
-        toggleRetailer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isRetailerEnabled= isChecked;
-                initializeMECComponant();
-            }
-        });
+            toggleRetailer = rootView.findViewById(R.id.toggleRetailer);
 
 
-        mRegister = rootView.findViewById(R.id.btn_register);
-        mRegister.setOnClickListener(this);
+            toggleRetailer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    isRetailerEnabled = isChecked;
+                    initializeMECComponant();
+                }
+            });
+
+
+            mRegister = rootView.findViewById(R.id.btn_register);
+            mRegister.setOnClickListener(this);
+
+
+            mShopNow = rootView.findViewById(R.id.btn_shop_now);
+            mShopNow.setOnClickListener(this);
+
+            mLaunchProductDetail = rootView.findViewById(R.id.btn_launch_product_detail);
+            mLaunchProductDetail.setOnClickListener(this);
+
+            // mShoppingCart = rootView.findViewById(R.id.mec_demo_app_shopping_cart_icon);
+
+            mShopNowCategorized = rootView.findViewById(R.id.btn_categorized_shop_now);
+            mShopNowCategorized.setOnClickListener(this);
+
+
+            mLL_propositionId = rootView.findViewById(R.id.ll_enter_proposition_id);
+
+            mAddCtn = rootView.findViewById(R.id.btn_add_ctn);
+            mAddCtn.setOnClickListener(this);
+
+
+            mShopNowCategorizedWithRetailer = rootView.findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
+            mShopNowCategorizedWithRetailer.setOnClickListener(this);
 
 
 
-        mShopNow = rootView.findViewById(R.id.btn_shop_now);
-        mShopNow.setOnClickListener(this);
-
-        mLaunchProductDetail = rootView.findViewById(R.id.btn_launch_product_detail);
-        mLaunchProductDetail.setOnClickListener(this);
-
-        // mShoppingCart = rootView.findViewById(R.id.mec_demo_app_shopping_cart_icon);
-
-        mShopNowCategorized = rootView.findViewById(R.id.btn_categorized_shop_now);
-        mShopNowCategorized.setOnClickListener(this);
+            mCategorizedProductList = new ArrayList<>();
+            addCTNs(mCategorizedProductList);
+            mUserDataInterface = urInterface.getUserDataInterface();
 
 
-        mLL_propositionId = rootView.findViewById(R.id.ll_enter_proposition_id);
+            mMecInterface = new MECInterface();
+            mMecSettings = new MECSettings(getActivity());
+            //actionBar();
+            initializeBazaarVoice();
+            initializeMECComponant();
 
-        mAddCtn = rootView.findViewById(R.id.btn_add_ctn);
-        mAddCtn.setOnClickListener(this);
-
-
-        mShopNowCategorizedWithRetailer = rootView.findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
-        mShopNowCategorizedWithRetailer.setOnClickListener(this);
-
-        mCartIcon = rootView.findViewById(R.id.mec_demo_app_cart_iv);
-        mCountText = rootView.findViewById(R.id.mec_demo_app_item_count);
-
-        mCategorizedProductList = new ArrayList<>();
-
-        mUserDataInterface = urInterface.getUserDataInterface();
-
-
-        mMecInterface = new MECInterface();
-        mMecSettings = new MECSettings(getActivity());
-        //actionBar();
-        initializeBazaarVoice();
-        initializeMECComponant();
-
-
+        }
         return rootView;
+
+    }
+
+    void  addCTNs( ArrayList<String> CTNlist){
+        CTNlist.add("HD9940/00");
+        CTNlist.add("HD9911/90");
+        CTNlist.add("HD9904/00");
+        CTNlist.add("HD9630/96");
+        CTNlist.add("HD9641/96");
+        CTNlist.add("HD9621/66");
+        CTNlist.add("QP2520/70");
+        CTNlist.add("HD9220/56");
+        CTNlist.add("HD9240/34");
+        CTNlist.add("HD9240/94");
+        CTNlist.add("HD9910/21");
+        CTNlist.add("HD9230/26");
+        CTNlist.add("HD9230/56");
+        CTNlist.add("S5370/81");
+        CTNlist.add("HD9925/00");
+        CTNlist.add("HD9980/50");
+        CTNlist.add("HD9980/20");
+        CTNlist.add("HD9650/96");
+        CTNlist.add("HD9905/00");
+        CTNlist.add("HR1895/74");
+        CTNlist.add("HD9951/01");
+        CTNlist.add("HD9950/01");
+        CTNlist.add("HD9952/01");
 
     }
 
@@ -277,8 +313,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mLaunchProductDetail.setEnabled(true);
 
 
-        mCartIcon.setVisibility(View.VISIBLE);
-        mCountText.setVisibility(View.VISIBLE);
+
         mShopNow.setVisibility(View.VISIBLE);
         mShopNow.setEnabled(true);
         dismissProgressDialog();
@@ -391,6 +426,13 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             mEtCTN.setText("");
+        } else if (view ==mShoppingCartContainer){
+            if (getActivity() instanceof LaunchAsActivity) {
+                launchMEC(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART, new MECFlowConfigurator(), null);
+            } else if (getActivity() instanceof LaunchAsFragment) {
+                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART, new MECFlowConfigurator(), null);
+            }
+
         }
     }
 
@@ -402,6 +444,14 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
+
+        if (urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            //update shopping cart count if user logged in
+            mMecInterface.getProductCartCount(this);
+            }else{
+            updateCartIconVisibility(false);
+        }
+
     }
 
     private void gotoLogInScreen() {
@@ -445,39 +495,42 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     //In-App listener functions
     @Override
     public void onGetCartCount(int count) {
-
+        mShoppingCartContainer.setVisibility(View.VISIBLE);
+        dismissProgressDialog();
+        if (count > 0) {
+            mCountText.setText(String.valueOf(count));
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCountText.setVisibility(View.GONE);
+        }
 
     }
-
     @Override
-    public void onUpdateCartCount() {
-        mMecInterface.getProductCartCount(this);
+    public void onUpdateCartCount(int count) {
+        if (count > 0) {
+            mCountText.setText(String.valueOf(count));
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mCountText.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
-
+        if (shouldShow) {
+            mShoppingCartContainer.setVisibility(View.VISIBLE);
+        } else {
+            mShoppingCartContainer.setVisibility(View.GONE);
+        }
     }
 
-    @Override
-    public void onGetCompleteProductList(ArrayList<String> productList) {
-        //mShoppingCart.setOnClickListener(this);
-        dismissProgressDialog();
-    }
+
+
 
     @Override
-    public void onSuccess() {
-        dismissProgressDialog();
-    }
+    public void onFailure(Exception  exception) {
+        mShoppingCartContainer.setVisibility(View.GONE);
 
-    @Override
-    public void onSuccess(boolean bool) {
-        displayFlowViews(bool);
-    }
-
-    @Override
-    public void onFailure(int errorCode) {
-        showToast(errorCode);
         dismissProgressDialog();
     }
 
@@ -695,6 +748,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     public boolean handleBackEvent() {
         return false;
     }
+
+
 }
 
 

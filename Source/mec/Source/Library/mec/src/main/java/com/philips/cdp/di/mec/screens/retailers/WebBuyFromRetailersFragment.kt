@@ -18,12 +18,17 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.retailerListPage
 import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import java.net.MalformedURLException
 import java.net.URL
 
 class WebBuyFromRetailersFragment : MecBaseFragment() {
+    companion object {
+        open val TAG = WebBuyFromRetailersFragment::class.java!!.getName()
+    }
+
 
     private var mWebView: WebView? = null
     private var mUrl: String? = null

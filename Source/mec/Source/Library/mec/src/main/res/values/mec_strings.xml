@@ -2,4 +2,5 @@
 <resources>
     <string name="dls_grid" translatable="false">\uF001</string>
     <string name="dls_cart" translatable="false">\uF002</string>
+    <string name="dls_downarrow" translatable="false">\uF003</string>
 </resources>

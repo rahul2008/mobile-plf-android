@@ -47,8 +47,10 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         initTheme();
         setContentView(R.layout.base_demo_activity);
         showAppVersion();
+        fragment=new BaseDemoFragment();
         actionBar();
-        setFragment(new BaseDemoFragment());
+
+        setFragment(fragment);
 
     }
 
@@ -58,7 +60,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_base_demo, fragment);
-        fragmentTransaction.addToBackStack(BaseDemoFragment.class.getSimpleName());
+       // fragmentTransaction.addToBackStack(BaseDemoFragment.class.getSimpleName());
         fragmentTransaction.commit();
     }
 
@@ -106,15 +108,15 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.mec_demo_app_back_arrow,getTheme());
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = findViewById(R.id.mec_demo_app_header_title);
-        fragment = new BaseDemoFragment();
+        //fragment = new BaseDemoFragment();
         fragment.setTextView(mTitleTextView);
         setTitle(getString(R.string.mec_app_name));
-        mShoppingCart.setOnClickListener(new View.OnClickListener() {
+      /*  mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });
+        });*/
     }
 
     @Override
@@ -162,14 +164,16 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         if (!backState) {
             super.onBackPressed();
         }
-        if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
+
+       /* if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
             actionBar();
             showAppVersion();
-        }
-        if(currentFrag instanceof BaseDemoFragment){
+        }*/
+
+        /*if(currentFrag instanceof BaseDemoFragment){
             super.onBackPressed();
         finish();
-        }
+        }*/
     }
 
 }

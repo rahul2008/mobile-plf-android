@@ -6,6 +6,10 @@ import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 
 class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
 
+    companion object {
+        val TAG = "MECCategorizedRetailerFragment"
+    }
+
     override fun isPaginationSupported(): Boolean {
         return false
     }
@@ -24,6 +28,11 @@ class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
     override fun processError(mecError: MecError?) {
         ll_banner_place_holder.visibility = View.GONE
         mec_productCatalog_emptyText_label.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setCartIconVisibility(false)
     }
 
 }

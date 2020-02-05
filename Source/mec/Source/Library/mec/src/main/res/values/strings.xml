@@ -58,5 +58,66 @@
     <string name="mec_loading">Loading..</string>
     <string name="mec_threshold_title">Request threshold reached</string>
     <string name="mec_threshold_message">This might take more time. Do you wish to continue?</string>
+    <string name="mec_add_gift_codes">Add gift codes</string>
+    <string name="mec_add_gift_code">Add gift code</string>
+    <string name="mec_cart_summary">Cart summary</string>
+    <string name="mec_accepted_codes">Accepted codes</string>
+    <string name="mec_shopping_cart">Cart</string>
+    <string name="mec_remove_product">Remove product</string>
+    <string name="mec_cancel">Cancel</string>
+    <string name="mec_delete_item">Delete Item</string>
+    <string name="mec_nothing_in_cart">Nothing in your cart</string>
+    <string name="mec_empty_cart">Your shopping cart is currently empty.</string>
+    <string name="mec_continue_shopping">Continue shopping</string>
+    <string name="mec_delete_item_description">Your product will be removed from your shopping cart. Are you sure?</string>
+
+    <!--Address screen strings-->
+
+    <string name="mec_first_name">First name</string>
+    <string name="mec_first_name_error">Please enter a valid first name</string>
+    <string name="mec_first_name_hint">Enter first name</string>
+
+    <string name="mec_last_name">Last name</string>
+    <string name="mec_last_name_error">Please enter a valid last name</string>
+    <string name="mec_last_name_hint">Enter last name</string>
+
+    <string name="mec_salutation">Salutation</string>
+    <string name="mec_title">Title</string>
+
+    <string name="mec_town">Town/City</string>
+    <string name="mec_town_error">Please enter a valid town</string>
+    <string name="mec_town_hint">Enter your town or city</string>
+
+    <string name="mec_phone">Phone</string>
+    <string name="mec_phone_error">Please enter a valid phone number</string>
+    <string name="mec_phone_hint">Enter phone number</string>
+
+    <string name="mec_postal_code">Postal code</string>
+    <string name="mec_postal_code_error">Please enter a valid Zip Code</string>
+    <string name="mec_postal_code_hint">Enter ZIP/Postal code</string>
+
+    <string name="mec_houseNumber_error">Please enter house number</string>
+    <string name="mec_house_number">House number</string>
+    <string name="mec_house_number_hint">Enter house number</string>
+
+    <string name="mec_address">Address</string>
+    <string name="mec_address_error">Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
+    <string name="mec_address_line_one">Address line 1</string>
+    <string name="mec_address_line_one_hint">Enter address line 1</string>
+
+    <string name="mec_address_line_two">Address line 2</string>
+
+    <string name="mec_country">Country</string>
+
+    <string name="mec_state">State</string>
+
+    <string name="mec_personal_details">Personal details</string>
+
+    <string name="mec_contact_details">Contact details</string>
+
+
+
+   
+
 
 </resources>

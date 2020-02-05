@@ -30,6 +30,9 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productCatalogue
@@ -37,12 +40,18 @@ import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalytics.Companion.tagProductList
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
+import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.uappframework.launcher.ActivityLauncher
 import com.philips.platform.uid.view.widget.Label
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 /**
@@ -50,6 +59,13 @@ import com.philips.platform.uid.view.widget.Label
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
 
+    var mRootView: View? = null
+
+    companion object {
+         val TAG = "MECProductCatalogFragment"
+
+
+    }
 
     override fun isCategorizedHybrisPagination(): Boolean {
         return false
@@ -86,7 +102,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
         val fragment = MECProductDetailsFragment()
         fragment.arguments = bundle
-        addFragment(fragment,"detail",true)
+        replaceFragment(fragment,MECProductDetailsFragment.TAG,true)
     }
 
     override fun isPaginationSupported(): Boolean {
@@ -162,7 +178,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
+        if (null == mRootView){
+            binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
+
 
         mecCatalogUIModel = MECCatalogUIModel()
 
@@ -171,15 +189,15 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         ecsProductViewModel.ecsProductsList.observe(this, productObserver)
         ecsProductViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
-        ecsProductViewModel.mecError.observe(this,this)
+        ecsProductViewModel.mecError.observe(this, this)
 
         val bundle = arguments
 
-        highLightedBackgroundColor=getListAndGridHighlightedBackgroundColor()
+        highLightedBackgroundColor = getListAndGridHighlightedBackgroundColor()
 
 
         binding.mecGrid.setOnClickListener {
-            if(null==binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid)==0) {//if Grid is currently not selected
+            if (null == binding.mecGrid.background || getBackgroundColorOfFontIcon(binding.mecGrid) == 0) {//if Grid is currently not selected
                 binding.mecGrid.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecList.setBackgroundColor(ContextCompat.getColor(binding.mecList.context, R.color.uidTransparent))
                 binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
@@ -191,24 +209,24 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.GRID
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
-                MECAnalytics.tagProductList(productList,gridView)
+                MECAnalytics.tagProductList(productList, gridView)
             }
         }
 
         binding.mecList.setOnClickListener {
-            if(null==binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList)==0) { //if List is currently not selected
+            if (null == binding.mecList.background || getBackgroundColorOfFontIcon(binding.mecList) == 0) { //if List is currently not selected
                 binding.mecList.setBackgroundColor(highLightedBackgroundColor)
                 binding.mecGrid.setBackgroundColor(ContextCompat.getColor(binding.mecGrid.context, R.color.uidTransparent))
                 binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                 adapter.catalogView = MECProductCatalogBaseAbstractAdapter.CatalogView.LIST
                 binding.productCatalogRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
-                MECAnalytics.tagProductList(productList,listView)
+                MECAnalytics.tagProductList(productList, listView)
             }
         }
 
         productList = mutableListOf()
-        productReviewList= mutableListOf()
+        productReviewList = mutableListOf()
 
         val mClearIconView = binding.mecSearchBox.getClearIconView()
         val searchText = binding.mecSearchBox.searchTextView
@@ -220,10 +238,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s?.length == 0){
+                if (s?.length == 0) {
                     shouldSupportPagination = true
                     binding.llBannerPlaceHolder.visibility = View.VISIBLE
-                }else {
+                } else {
                     shouldSupportPagination = false
                     binding.llBannerPlaceHolder.visibility = View.GONE
                 }
@@ -231,26 +249,26 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
                 adapter.filter.filter(s)
 
-                
+
                 val text = String.format(context?.getResources()?.getText(R.string.mec_no_result).toString(), s)
                 binding.tvEmptyListFound.text = text
 
-                if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") ||MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
+                if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") || MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
                     if (adapter.itemCount != 0) {
-                       binding.mecPrivacyLayout.visibility = View.VISIBLE
-                   } else {
-                       binding.mecPrivacyLayout.visibility = View.GONE
-                   }
-               }
+                        binding.mecPrivacyLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.mecPrivacyLayout.visibility = View.GONE
+                    }
+                }
 
-                if(s?.length == 0){
+                if (s?.length == 0) {
                     binding.mecEmptyResult.visibility = View.GONE
                 }
 
 
                 mClearIconView.setOnClickListener {
                     searchText.text.clear()
-                        binding.mecEmptyResult.visibility = View.GONE
+                    binding.mecEmptyResult.visibility = View.GONE
                 }
             }
 
@@ -261,7 +279,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
 
 
-                if(shouldFetchNextPage() && !isCallOnProgress) {
+                if (shouldFetchNextPage() && !isCallOnProgress) {
                     binding.progressBar.visibility = View.VISIBLE
                     executeRequest()
                 }
@@ -271,7 +289,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
         privacyTextView(binding.mecPrivacy)
 
-        adapter = MECProductCatalogAdapter(productReviewList,this)
+        adapter = MECProductCatalogAdapter(productReviewList, this)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
@@ -282,7 +300,12 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         adapter.emptyView = binding.mecEmptyResult
 
         MECAnalytics.trackPage(productCatalogue)
-        MECAnalytics.tagProductList(productList,listView)
+        MECAnalytics.tagProductList(productList, listView)
+        mRootView = binding.root
+            getECSConfig()
+    }
+
+
         return binding.root
     }
 
@@ -297,13 +320,17 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         super.onActivityCreated(savedInstanceState)
         binding.CircularProgressBar.visibility = View.VISIBLE
         //createCustomProgressBar(container,MEDIUM)
-        executeRequest()
+
     }
 
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
+        setCartIconVisibility(true)
     }
+
+
+
 
     private fun privacyTextView(view: TextView) {
         val spanTxt = SpannableStringBuilder(
@@ -334,7 +361,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
         val mecPrivacyFragment = MecPrivacyFragment()
         mecPrivacyFragment.arguments = bundle
-        addFragment(mecPrivacyFragment,"privacy",true)
+        replaceFragment(mecPrivacyFragment,"privacy",true)
     }
 
     private fun isScrollDown(lay: LinearLayoutManager): Boolean {
@@ -378,6 +405,42 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val colorCodeHighlighted:Int = typedArray.getColor(0,0)
         typedArray.recycle();
         return colorCodeHighlighted
+    }
+
+    private fun getECSConfig(){
+        MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
+
+            override fun onResponse(config: ECSConfig?) {
+                if (MECDataHolder.INSTANCE.hybrisEnabled) {
+                    MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
+
+                }
+                MECDataHolder.INSTANCE.locale = config!!.locale
+                MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
+                if(null!=config!!.rootCategory){
+                    MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
+                }
+                executeRequest()
+
+                ////////////// start of update cart and login if required
+                if(isUserLoggedIn()) {
+                    GlobalScope.launch {
+                        //HybrisAuth.authHybrisIfNotAlready()
+                        var mecManager: MECManager = MECManager()
+                        mecManager.getProductCartCountWorker(MECDataHolder.INSTANCE.mecListener)
+                    }
+                }else{
+                    setCartIconVisibility(false)
+                }
+                ////////////// end of update cart and login if required
+
+            }
+
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        } )
     }
 
 }

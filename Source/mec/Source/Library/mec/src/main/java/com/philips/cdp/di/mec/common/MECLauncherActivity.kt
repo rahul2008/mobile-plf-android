@@ -24,6 +24,22 @@ import java.util.*
 
 
  class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListener, MECListener {
+     /**
+      * Notifies when product count in cart is updated
+      * @since 1.0.0
+      */
+     override fun onUpdateCartCount(count :Int) {
+
+     }
+
+     /**
+      * Notifies true for cart icon visibility or false for hide
+      * @param shouldShow  boolean will help to update hte cart icon visibility
+      * @since 1.0.0
+      */
+     override fun updateCartIconVisibility(shouldShow: Boolean) {
+
+     }
 
 
      /**
@@ -117,32 +133,15 @@ import java.util.*
          }
      }
 
-     override fun onUpdateCartCount() {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
 
-     override fun updateCartIconVisibility(shouldShow: Boolean) {
-         if(shouldShow) {
-             mec_cart_item_count.visibility=View.VISIBLE
-         }else{
-             mec_cart_item_count.visibility=View.GONE
-         }
 
-     }
 
-     override fun onGetCompleteProductList(productList: ArrayList<String>?) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
 
-     override fun onSuccess() {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
 
-     override fun onSuccess(bool: Boolean) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-     }
 
-     override fun onFailure(errorCode: Int) {
+
+     override fun onFailure(exception: Exception) {
+         mec_cart_item_count.visibility=View.GONE
          TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
      }
 
