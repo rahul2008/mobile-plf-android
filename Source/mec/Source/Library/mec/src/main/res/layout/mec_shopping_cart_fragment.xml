@@ -305,7 +305,7 @@
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border16_margin_left_right"
             android:enabled="true"
-            android:onClick="@{() -> fragment.onClick()}"
+            android:onClick="@{() -> fragment.gotoProductCatalog()}"
             android:text="@string/mec_continue_shopping" />
     </LinearLayout>
 

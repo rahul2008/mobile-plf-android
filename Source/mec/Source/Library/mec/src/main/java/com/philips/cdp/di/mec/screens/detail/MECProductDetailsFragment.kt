@@ -381,6 +381,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 val addToProductCallback =  object: ECSCallback<ECSShoppingCart, Exception> {
 
                     override fun onResponse(eCSShoppingCart: ECSShoppingCart?) {
+                        binding.progress.visibility = View.GONE
                         val bundle = Bundle()
                         bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
                         val fragment = MECShoppingCartFragment()
@@ -389,11 +390,13 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     }
 
                     override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                        binding.progress.visibility = View.GONE
                         val mecError = MecError(error, ecsError)
                         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), mecError!!.exception!!.message.toString()) } }
                     }
 
                 }
+                binding.progress.visibility = View.VISIBLE
                 product?.let { ecsProductDetailViewModel.addProductToShoppingcart(it,addToProductCallback) }
             }else{
                 fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }

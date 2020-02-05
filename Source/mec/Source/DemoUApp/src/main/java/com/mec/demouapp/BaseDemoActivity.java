@@ -165,10 +165,10 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
             super.onBackPressed();
         }
 
-        if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
+       /* if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
             actionBar();
             showAppVersion();
-        }
+        }*/
 
         /*if(currentFrag instanceof BaseDemoFragment){
             super.onBackPressed();

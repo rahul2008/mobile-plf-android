@@ -186,9 +186,9 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         ecsShoppingCartViewModel.updateQuantity(entries,int)
     }
 
-    fun onClick() {
+   /* fun onClick() {
         ecsShoppingCartViewModel.fetchAddresses()
-    }
+    }*/
 
     fun onCheckOutClick(){
         createCustomProgressBar(container, MEDIUM)
