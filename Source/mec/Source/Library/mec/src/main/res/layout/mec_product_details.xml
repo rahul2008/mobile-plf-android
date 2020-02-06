@@ -190,7 +190,7 @@
                         android:textSize="@dimen/iap_product_original_price" />
 
                     <com.philips.platform.uid.view.widget.RatingBar
-                        android:id="@+id/mec_rating"
+                        android:id="@+id/mec_detail_rating"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

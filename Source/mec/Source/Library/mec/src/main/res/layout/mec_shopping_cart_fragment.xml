@@ -89,7 +89,7 @@
             android:orientation="horizontal">
 
         <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/mec_coupon_editText"
+            android:id="@+id/mec_voucher_editText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -108,6 +108,7 @@
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
             android:text="@string/mec_add"
+            android:onClick="@{() -> fragment.onClickAddVoucher()}"
             android:textSize="@dimen/iap_text_size_16sp"
             android:textColor="?attr/uidButtonSecondaryNormalTextColor"
             app:uidComponentType="Secondary" />
@@ -126,14 +127,12 @@
             android:visibility="visible"
             android:text="@string/mec_accepted_codes" />
 
-        <LinearLayout
-            android:id="@+id/mec_accepted_codes_layout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mec_accepted_code_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@+id/mec_accepted_code"
-            android:orientation="horizontal">
-
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
     </RelativeLayout>
     </ScrollView>
 

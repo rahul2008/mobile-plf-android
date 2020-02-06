@@ -38,4 +38,8 @@ class ECSShoppingCartRepository(ecsShoppingCartViewModel: EcsShoppingCartViewMod
         ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
     }
 
+    fun applyVoucher(voucherCode: String, ecsVoucherCallback: ECSVoucherCallback){
+        ecsServices.applyVoucher(voucherCode,ecsVoucherCallback)
+    }
+
 }

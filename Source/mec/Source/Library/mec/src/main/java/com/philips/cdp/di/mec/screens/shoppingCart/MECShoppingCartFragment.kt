@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Canvas
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
@@ -19,12 +18,10 @@ import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.address.AddAddressFragment
 import com.philips.cdp.di.mec.utils.AlertListener
-import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 import kotlinx.android.synthetic.main.mec_main_activity.*
-import android.widget.Toast
-
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 
 
 /**
@@ -40,7 +37,9 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     private lateinit var shoppingCart: ECSShoppingCart
     lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
     private var productsAdapter: MECProductsAdapter? = null
+    private var vouchersAdapter : MECVouchersAdapter? = null
     private lateinit var productReviewList: MutableList<MECCartProductReview>
+    private lateinit var voucherList : List<ECSVoucher>
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         binding.shoppingCart = ecsShoppingCart
@@ -78,6 +77,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     })
 
+    private val voucherObserver : Observer<List<ECSVoucher>> = Observer(fun(mecVoucherList : List<ECSVoucher>?){
+        hideProgressBar()
+        vouchersAdapter = mecVoucherList?.let { MECVouchersAdapter(it) }
+    })
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -88,13 +92,19 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
         ecsShoppingCartViewModel.ecsAddresses.observe(this,addressObserver)
+        ecsShoppingCartViewModel.ecsVoucher.observe(this,voucherObserver)
 
         val bundle = arguments
         //ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
 
         productReviewList = mutableListOf()
 
+
         productsAdapter = MECProductsAdapter(productReviewList, this)
+
+
+
+        binding.mecAcceptedCodeRecyclerView.adapter = vouchersAdapter
 
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
 
@@ -165,6 +175,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     fun onClick() {
         ecsShoppingCartViewModel.fetchAddresses()
+    }
+
+    fun onClickAddVoucher(){
+        createCustomProgressBar(container,MEDIUM)
+        ecsShoppingCartViewModel.addVoucher(binding.mecVoucherEditText.toString())
     }
 
     fun onCheckOutClick(){
