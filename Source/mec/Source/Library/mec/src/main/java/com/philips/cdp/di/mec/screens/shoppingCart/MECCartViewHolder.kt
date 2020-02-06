@@ -20,26 +20,27 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
     }
 
     private fun bindCountView(view: View, cartSummary: MECCartProductReview) {
-
-        view.setOnClickListener { v ->
-            val data = cartSummary
-            val stockLevel = cartSummary.entries.product.stock.stockLevel
-            /*if (stockLevel > 50) {
+        if (cartSummary.entries.product.stock.stockLevel > 1) {
+            view.setOnClickListener { v ->
+                val data = cartSummary
+                val stockLevel = cartSummary.entries.product.stock.stockLevel
+                /*if (stockLevel > 50) {
                 stockLevel = 50
             }*/
 
-            val countPopUp = MecCountDropDown(v, v.context, stockLevel, data.entries.quantity
-                    , object : MecCountDropDown.CountUpdateListener {
-                override fun countUpdate(oldCount: Int, newCount: Int) {
-                    if (newCount != oldCount) {
-                        mecShoppingCartFragment.updateCartRequest(cartSummary.entries, newCount)
-                    }
+                val countPopUp = MecCountDropDown(v, v.context, stockLevel, data.entries.quantity
+                        , object : MecCountDropDown.CountUpdateListener {
+                    override fun countUpdate(oldCount: Int, newCount: Int) {
+                        if (newCount != oldCount) {
+                            mecShoppingCartFragment.updateCartRequest(cartSummary.entries, newCount)
+                        }
 
-                }
-            })
-            countPopUp.createPopUp(v, stockLevel)
-            mPopupWindow = countPopUp.popUpWindow
-            countPopUp.show()
+                    }
+                })
+                countPopUp.createPopUp(v, stockLevel)
+                mPopupWindow = countPopUp.popUpWindow
+                countPopUp.show()
+            }
         }
     }
 }

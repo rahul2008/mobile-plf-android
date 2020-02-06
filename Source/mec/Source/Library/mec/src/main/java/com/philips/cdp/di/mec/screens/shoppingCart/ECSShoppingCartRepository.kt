@@ -5,6 +5,7 @@ import com.bazaarvoice.bvandroidsdk.BulkRatingsRequest
 import com.bazaarvoice.bvandroidsdk.EqualityOperator
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
+import com.philips.cdp.di.mec.screens.address.ECSFetchAddressesCallback
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
@@ -34,8 +35,8 @@ class ECSShoppingCartRepository(ecsShoppingCartViewModel: EcsShoppingCartViewMod
 
     }
 
-    fun fetchSavedAddresses(ecsServices: ECSServices , eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
-        ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
+    fun applyVoucher(voucherCode: String, ecsVoucherCallback: ECSVoucherCallback){
+        ecsServices.applyVoucher(voucherCode,ecsVoucherCallback)
     }
 
 }

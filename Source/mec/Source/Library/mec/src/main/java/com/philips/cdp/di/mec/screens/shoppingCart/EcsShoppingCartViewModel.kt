@@ -8,29 +8,36 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.view.View
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.cart.TotalPriceEntity
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.screens.address.ECSFetchAddressesCallback
 import com.philips.platform.uid.view.widget.Label
 
 open class EcsShoppingCartViewModel : CommonViewModel() {
 
     var ecsShoppingCart = MutableLiveData<ECSShoppingCart>()
 
+    var ecsVoucher = MutableLiveData<List<ECSVoucher>>()
+
     val ecsProductsReviewList = MutableLiveData<MutableList<MECCartProductReview>>()
 
-    val ecsAddresses = MutableLiveData<List<ECSAddress>>()
+
 
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     private var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
 
-    var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
+
+
+    var ecsVoucherCallback = ECSVoucherCallback(this)
 
     fun getShoppingCart(){
         ecsShoppingCartRepository.fetchShoppingCart()
@@ -44,8 +51,8 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         ecsShoppingCartRepository.fetchProductReview(entries, this)
     }
 
-    fun fetchAddresses(){
-        ecsShoppingCartRepository.fetchSavedAddresses(ecsServices,ecsFetchAddressesCallback)
+    fun addVoucher(voucherCode : String){
+        ecsShoppingCartRepository.applyVoucher(voucherCode,ecsVoucherCallback)
     }
 
 
@@ -70,6 +77,20 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
                     priceLabel.text = product.price.formattedValue
             }
     }
+
+        @JvmStatic
+        @BindingAdapter("setDiscountPrice","totalPriceEntity")
+        fun setDiscountPrice(discountPriceLabel: Label, product: ECSProduct?, totalPriceEntity: TotalPriceEntity?){
+            val discount = (product!!.price.value - totalPriceEntity!!.value) / product.price.value * 100
+
+            val discountRounded: String = String.format("%.2f", discount).toString()
+            discountPriceLabel.text = "-" + discountRounded + "%"
+            if(discountRounded.equals("0.00")){
+                discountPriceLabel.visibility = View.GONE
+            } else {
+                discountPriceLabel.visibility = View.VISIBLE
+            }
+        }
     }
 
 }

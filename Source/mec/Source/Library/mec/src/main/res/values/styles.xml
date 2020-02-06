@@ -366,7 +366,6 @@
 
     <style name="mec_address_header">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
-        <item name="android:minHeight">@dimen/iap_list_height_height</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:textSize">@dimen/iap_body_text</item>

@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.address.Region
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
@@ -39,6 +40,8 @@ class AddressViewModel : CommonViewModel() {
 
     private var ecsCreateAddressCallBack = ECSCreateAddressCallBack(this)
 
+    private var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     var addressRepository = AddressRepository(ecsServices)
@@ -47,12 +50,23 @@ class AddressViewModel : CommonViewModel() {
 
     var eCSAddress = MutableLiveData<ECSAddress>()
 
+    val ecsAddresses = MutableLiveData<List<ECSAddress>>()
+
+
     fun fetchRegions() {
         addressRepository.getRegions(ecsRegionListCallback)
     }
 
+    fun fetchAddresses(){
+        addressRepository.fetchSavedAddresses(ecsServices,ecsFetchAddressesCallback)
+    }
+
     fun createAddress(ecsAddress: ECSAddress){
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
+    }
+
+    fun updateAndFetchAddress(ecsAddress: ECSAddress){
+        addressRepository.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
 
@@ -148,8 +162,10 @@ class AddressViewModel : CommonViewModel() {
                     animate.setListener(object: AnimatorListenerAdapter() {
 
                         override fun onAnimationEnd(animation: Animator) {
-                            scrollView.scrollTo(0,scrollView.bottom + 500) //TODO
+
                             view.visibility = View.VISIBLE
+                            view.parent.requestChildFocus(view,view)
+
                         }
                     })
                 }
@@ -286,6 +302,17 @@ class AddressViewModel : CommonViewModel() {
         ecsAddress.region = mecRegions?.getRegion(state)
 
         return ecsAddress
+    }
+
+    fun getCountry() : Country{
+        val country = Country()
+        country.isocode = ECSConfiguration.INSTANCE.country
+        return country
+    }
+
+    fun setRegion(linearLayout: LinearLayout , mecRegions: MECRegions? ,ecsAddress: ECSAddress){
+        var state= linearLayout.et_state.text.toString()
+        ecsAddress.region = mecRegions?.getRegion(state)
     }
 
     public fun shakeError(): TranslateAnimation {

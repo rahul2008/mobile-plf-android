@@ -15,26 +15,23 @@ import com.philips.platform.uid.view.widget.ValidationEditText
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.databinding.MecAddressCreateBinding
+import com.philips.cdp.di.mec.databinding.MecAddressEditBinding
+import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
-class AddAddressFragment : MecBaseFragment() {
+class EditAddressFragment : MecBaseFragment() {
 
 
+    private lateinit var ecsAddress: ECSAddress
     private var addressFieldEnabler: MECAddressFieldEnabler? = null
 
-    lateinit var binding: MecAddressCreateBinding
+    lateinit var binding: MecAddressEditBinding
 
     lateinit var addressViewModel: AddressViewModel
 
     var isError = false
     var validationEditText : ValidationEditText ? =null
-
-    var eCSAddressShipping : ECSAddress? = ECSAddress()
-
-    var eCSAddressBilling : ECSAddress? = ECSAddress()
-
 
     private val regionListObserver: Observer<List<ECSRegion>> = object : Observer<List<ECSRegion>> {
 
@@ -47,15 +44,12 @@ class AddAddressFragment : MecBaseFragment() {
 
     }
 
-    private val createAddressObserver: Observer<ECSAddress> = object : Observer<ECSAddress> {
 
-        override fun onChanged(ecsAddress: ECSAddress?) {
+    private val updateAndFetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
+        Log.d("Pabitra","Address updated")
+        hideProgressBar()
 
-            Log.d(this@AddAddressFragment.javaClass.name, ecsAddress?.id)
-            hideProgressBar()
-        }
-
-    }
+    })
 
     override fun onResume() {
         super.onResume()
@@ -65,21 +59,18 @@ class AddAddressFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = MecAddressCreateBinding.inflate(inflater, container, false)
+        binding = MecAddressEditBinding.inflate(inflater, container, false)
         binding.pattern = MECRegexPattern()
-
-       //Set Country before binding
-        eCSAddressShipping!!.country =addressViewModel.getCountry()
-        eCSAddressBilling!!.country = addressViewModel.getCountry()
-        binding.ecsAddressShipping = eCSAddressShipping
-        binding.ecsAddressBilling = eCSAddressBilling
 
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
 
+        ecsAddress = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESS) as ECSAddress
+        binding.ecsAddress = ecsAddress
+
         addressViewModel.regionsList.observe(this, regionListObserver)
         addressViewModel.mecError.observe(this, this)
-        addressViewModel.eCSAddress.observe(this,createAddressObserver)
+        addressViewModel.ecsAddresses.observe(this,updateAndFetchAddressObserver)
 
         addressFieldEnabler = context?.let { addressViewModel.getAddressFieldEnabler(ECSConfiguration.INSTANCE.country, it) }
 
@@ -99,18 +90,11 @@ class AddAddressFragment : MecBaseFragment() {
                     validationEditText?.requestFocus()
 
                 }else{
+                    // update region properly ..as two way data binding for region is not possible
+                    val ecsAddress = binding.ecsAddress
+                    addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddress!!)
 
-                    // update region properly ..as two way data binding for region is not possible : Shipping
-                    val ecsAddressShipping = binding.ecsAddressShipping
-                    addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddressShipping!!)
-
-                    //  // update region properly ..as two way data binding for region is not possible : Billing
-
-                    val ecsAddressBilling = binding.ecsAddressBilling
-                    addressViewModel.setRegion(binding.llBilling,binding.mecRegions,ecsAddressBilling!!)
-
-
-                    addressViewModel.createAddress(ecsAddressShipping!!)
+                    addressViewModel.updateAndFetchAddress(ecsAddress!!)
                     createCustomProgressBar(container,MEDIUM)
                 }
             }

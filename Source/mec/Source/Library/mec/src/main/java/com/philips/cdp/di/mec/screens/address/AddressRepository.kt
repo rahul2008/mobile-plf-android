@@ -11,7 +11,15 @@ class AddressRepository(val ecsServices: ECSServices) {
         ecsServices.fetchRegions(ECSConfiguration.INSTANCE.country,ecsRegionListCallback)
     }
 
+    fun fetchSavedAddresses(ecsServices: ECSServices , eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
+        ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
+    }
+
     fun createAddress(ecsAddress: ECSAddress , ecsCreateAddressCallBack :ECSCreateAddressCallBack) {
         ecsServices.createAddress(ecsAddress,ecsCreateAddressCallBack)
+    }
+
+    fun updateAndFetchAddress(ecsAddress: ECSAddress,ecsFetchAddressesCallback: ECSFetchAddressesCallback){
+        ecsServices.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 }
