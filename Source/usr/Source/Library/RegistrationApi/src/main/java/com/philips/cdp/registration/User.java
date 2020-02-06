@@ -78,7 +78,6 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  *
  * @since 1.0.0
- *
  * @deprecated since 1903
  */
 @Deprecated
@@ -821,8 +820,9 @@ public class User {
             RLog.d(TAG, "logout : isUserSign logout from HSDP");
             logoutHsdp(logoutHandler);
         } else {
-            AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                    AppTagingConstants.LOGOUT_SUCCESS);
+            if (!RegistrationConfiguration.getInstance().isHsdpFlow())
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                        AppTagingConstants.LOGOUT_SUCCESS);
             RLog.d(TAG, "logout : isUserSign logout clearData");
             clearData();
             if (logoutHandler != null) {
@@ -879,8 +879,6 @@ public class User {
             public void onLogoutSuccess() {
                 RLog.d(TAG, "logoutHsdp clearData");
                 clearData();
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                        AppTagingConstants.LOGOUT_SUCCESS);
                 if (logoutHandler != null) {
                     ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
                 }

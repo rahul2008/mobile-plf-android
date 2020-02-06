@@ -140,9 +140,13 @@ public class AppTagingConstants {
 
     public static String KEY_FORGOT_PASSWORD_CHANNEL = "forgotPasswordChannel";
 
+    public static String KEY_SECURE_DATA_WITH_EMAIL = "secureDataWithEmail";
+
     public static String KEY_SKIP_SECURE_DATA = "skipSecureData";
 
     public static String FIREBASE_SUCCESSFUL_REGISTRATION_DONE = "successful_registration_done";
 
     public static final String LOGIN_CHANNEL = "loginChannel";
+
+    public static final String KEY_TRY_LOGIN_AGAIN = "tryLoginAgain";
 }
