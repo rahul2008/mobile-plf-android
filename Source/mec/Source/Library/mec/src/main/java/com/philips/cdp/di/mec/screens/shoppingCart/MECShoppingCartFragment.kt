@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
@@ -69,9 +71,9 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
         hideProgressBar()
-        //if(addressList.isNullOrEmpty()){
+       // if(addressList.isNullOrEmpty()){
             replaceFragment(AddAddressFragment(),"AddAddressFragment",false)
-        //}else{
+       // }else{
 
         //}
 
