@@ -11,9 +11,6 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -29,6 +26,10 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.VolleyError;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -96,8 +97,8 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
+import static com.philips.cdp.registration.app.tagging.AppTagging.trackAction;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
-import static com.philips.cdp.registration.ui.utils.UIFlow.FLOW_A;
 import static com.philips.cdp.registration.ui.utils.UIFlow.FLOW_B;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -473,6 +474,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         alertDialogFragment.dismiss();
                         RLog.d(TAG, "onClick :dismiss ");
                         uiEnableState(true);
+                        trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                                AppTagingConstants.KEY_TRY_LOGIN_AGAIN);
                         if (networkUtility.isNetworkAvailable()) {
                             observeLoginButton();
                         }

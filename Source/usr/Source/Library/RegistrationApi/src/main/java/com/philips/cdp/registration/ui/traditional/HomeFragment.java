@@ -14,9 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -33,6 +30,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.facebook.CallbackManager;
 import com.philips.cdp.registration.R;
@@ -301,8 +302,6 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     @Override
     public void updateAppLocale(String localeString, String countryName) {
         RLog.d(TAG, "updateAppLocale : is called");
-        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
-                RegistrationHelper.getInstance().getCountryCode());
         String localeArr[] = localeString.split("_");
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
@@ -460,12 +459,14 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     }
 
     private void handleLoginSuccess() {
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                RegistrationHelper.getInstance().getCountryCode());
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
         abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
-//        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
-//                RegistrationHelper.getInstance().getCountryCode());
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                RegistrationHelper.getInstance().getCountryCode());
         enableControls(true);
         homePresenter.navigateToScreen();
         hideProgressDialog();

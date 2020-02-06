@@ -11,13 +11,14 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.registration.R;
@@ -310,6 +311,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                         .setDialogLayout(R.layout.reg_forgot_password_alert)
                         .setPositiveButton(getString(R.string.USR_DLS_Forgot_Password_Alert_Button_Title), v -> {
                             trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
+                            trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                                    AppTagingConstants.KEY_TRY_LOGIN_AGAIN);
                             alertDialogFragment.dismiss();
                             alertDialogFragment = null;
                             getFragmentManager().popBackStack();
