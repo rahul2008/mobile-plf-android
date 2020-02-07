@@ -284,7 +284,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
-        setCartIconVisibility(true)
     }
 
 

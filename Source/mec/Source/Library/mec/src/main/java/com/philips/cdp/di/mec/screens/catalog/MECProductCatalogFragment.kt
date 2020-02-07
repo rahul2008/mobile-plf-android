@@ -326,7 +326,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
-        setCartIconVisibility(true)
     }
 
 

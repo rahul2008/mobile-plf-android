@@ -176,6 +176,11 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     isHybrisEnable = isChecked;
+                    if (isHybrisEnable && mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                        updateCartIconVisibility(true);
+                    }else{
+                        updateCartIconVisibility(false);
+                    }
                     initializeMECComponant();
                 }
             });
