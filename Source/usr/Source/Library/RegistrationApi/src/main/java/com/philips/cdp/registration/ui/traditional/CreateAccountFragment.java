@@ -538,7 +538,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     public void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             usrCreatescreenErrorView.hideError();
-
+            hideNotificationBarView();
+        }else {
+            showNotificationBarOnNetworkNotAvailable();
         }
     }
 
@@ -591,8 +593,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         if (networkUtility.isNetworkAvailable()) {
             enableCreateButton();
             usrCreatescreenErrorView.hideError();
+            hideNotificationBarView();
         } else {
             disableCreateButton();
+            showNotificationBarOnNetworkNotAvailable();
         }
         if (usrCreatescreenEmailormobileInputValidationLayout.isShowingError()) {
             usrCreatescreenEmailormobileInputValidationLayout.hideError();

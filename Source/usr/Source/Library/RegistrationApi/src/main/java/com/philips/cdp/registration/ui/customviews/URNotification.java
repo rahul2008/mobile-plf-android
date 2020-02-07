@@ -65,7 +65,7 @@ public class URNotification {
         if (mNotificationType == NotificationType.NOTIFICATION_BAR) {
             if (notificationBarView != null) return;
             RLog.d(TAG, "URNotification : new NotificationBarView");
-            notificationBarView = new NotificationBarView(mActivity);
+            notificationBarView = NotificationBarView.getInstance(mActivity);
         }
         switch (mNotificationType) {
 

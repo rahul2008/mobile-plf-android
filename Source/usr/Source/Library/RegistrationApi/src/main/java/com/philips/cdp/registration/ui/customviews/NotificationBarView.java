@@ -19,9 +19,20 @@ public class NotificationBarView {
     private static final String TAG = "NotificationBarView";
     private final Activity mActivity;
     private PopupWindow popupWindow;
+    private static volatile NotificationBarView notificationBarView;
 
-    NotificationBarView(Activity mActivity) {
+    private NotificationBarView(Activity mActivity) {
         this.mActivity = mActivity;
+    }
+
+    public static NotificationBarView getInstance(Activity mActivity) {
+        if (notificationBarView == null) {
+            synchronized (NotificationBarView.class) {
+                if (notificationBarView == null)
+                    notificationBarView = new NotificationBarView(mActivity);
+            }
+        }
+        return notificationBarView;
     }
 
     public void showError(String msg, String title, View baseLayoutViewLocation) {
