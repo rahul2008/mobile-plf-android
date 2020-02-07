@@ -18,6 +18,14 @@
             name="addressFieldEnabler"
             type="com.philips.cdp.di.mec.screens.address.MECAddressFieldEnabler" />
 
+        <variable
+            name="ecsAddressShipping"
+            type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
+
+        <variable
+            name="ecsAddressBilling"
+            type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
+
     </data>
 
     <RelativeLayout
@@ -66,7 +74,8 @@
                         android:layout_height="wrap_content"
                         app:addressFieldEnabler="@{addressFieldEnabler}"
                         app:mecRegions="@{mecRegions}"
-                        app:pattern="@{pattern}">
+                        app:pattern="@{pattern}"
+                        app:ecsAddress="@{ecsAddressShipping}">
 
                     </include>
 
@@ -106,7 +115,10 @@
                         android:layout_height="wrap_content"
                         app:addressFieldEnabler="@{addressFieldEnabler}"
                         app:mecRegions="@{mecRegions}"
-                        app:pattern="@{pattern}"></include>
+                        app:pattern="@{pattern}"
+                        app:ecsAddress="@{ecsAddressBilling}">
+
+                    </include>
 
                 </LinearLayout>
 

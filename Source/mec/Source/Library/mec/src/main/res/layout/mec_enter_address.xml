@@ -17,6 +17,10 @@
             name="addressFieldEnabler"
             type="com.philips.cdp.di.mec.screens.address.MECAddressFieldEnabler" />
 
+        <variable
+            name="ecsAddress"
+            type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
+
     </data>
 
     <ScrollView
@@ -78,6 +82,7 @@
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
                                 android:hint="@string/mec_title"
+                                android:text="@={ecsAddress.titleCode}"
                                 android:inputType="none"
                                 android:maxLines="1"
                                 app:dropDownData="@{pattern.dROP_DOWN_DATA}"
@@ -112,6 +117,7 @@
                                 android:id="@+id/et_first_name"
                                 style="@style/mec_address_validation_text"
                                 android:hint="@string/mec_first_name_hint"
+                                android:text="@={ecsAddress.firstName}"
                                 android:inputType="textCapSentences"
                                 android:maxLength="17"
                                 android:maxLines="1"
@@ -146,6 +152,7 @@
                                 android:id="@+id/et_last_name"
                                 style="@style/mec_address_validation_text"
                                 android:hint="@string/mec_last_name_hint"
+                                android:text="@={ecsAddress.lastName}"
                                 android:inputType="textCapSentences"
                                 android:maxLength="17"
                                 android:maxLines="1"
@@ -181,6 +188,7 @@
                                 android:id="@+id/et_phone1"
                                 style="@style/mec_address_validation_text"
                                 android:hint="@string/mec_phone_hint"
+                                android:text="@={ecsAddress.phone1}"
                                 android:inputType="phone"
                                 android:maxLines="1"
                                 app:uidInputTextWithClearButton="true" />
@@ -236,6 +244,7 @@
                             android:id="@+id/et_house_no"
                             style="@style/mec_address_validation_text"
                             android:hint="@string/mec_house_number_hint"
+                            android:text="@={ecsAddress.houseNumber}"
                             android:inputType="textCapWords"
                             android:maxLength="35"
                             android:maxLines="1"
@@ -269,6 +278,7 @@
                             style="@style/mec_address_validation_text"
                             android:layout_height="wrap_content"
                             android:hint="@string/mec_address_line_one_hint"
+                            android:text="@={ecsAddress.line1}"
                             android:inputType="textCapWords"
                             android:maxLength="35"
                             android:maxLines="1"
@@ -302,6 +312,7 @@
                             style="@style/mec_address_validation_text"
                             android:layout_height="wrap_content"
                             android:hint="@string/mec_address_line_one_hint"
+                            android:text="@={ecsAddress.line2}"
                             android:inputType="textCapWords"
                             android:maxLength="35"
                             android:maxLines="1"
@@ -334,6 +345,7 @@
                             android:id="@+id/et_town"
                             style="@style/mec_address_validation_text"
                             android:hint="@string/mec_town_hint"
+                            android:text="@={ecsAddress.town}"
                             android:inputType="textCapWords"
                             android:maxLength="35"
                             android:maxLines="1"
@@ -367,6 +379,7 @@
                             android:id="@+id/et_postal_code"
                             style="@style/mec_address_validation_text"
                             android:hint="@string/mec_postal_code_hint"
+                            android:text="@={ecsAddress.postalCode}"
                             android:inputType="textCapSentences|textNoSuggestions|textVisiblePassword"
                             android:maxLength="10"
                             android:maxLines="1"
@@ -401,6 +414,7 @@
                             android:id="@+id/et_state"
                             style="@style/mec_address_validation_text"
                             android:hint="@string/mec_state"
+                            android:text="@{ecsAddress.region.name}"
                             android:inputType="text"
                             android:maxLines="1"
                             app:dropDownData="@{mecRegions.regionNames}"

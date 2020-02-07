@@ -34,12 +34,18 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
+import com.philips.cdp.di.mec.screens.address.AddressViewModel
+import com.philips.cdp.di.mec.screens.address.EditAddressFragment
+import com.philips.cdp.di.mec.screens.address.MECDeliveryFragment
+import com.philips.cdp.di.mec.utils.MECConstant
 
 
 /**
  * A simple [Fragment] subclass.
  */
 class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
+
+    private lateinit var addressViewModel: AddressViewModel
 
     var mRootView: View? = null
     companion object {
@@ -92,11 +98,18 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
         hideProgressBar()
-        //if(addressList.isNullOrEmpty()){
-            replaceFragment(AddAddressFragment(),"AddAddressFragment",false)
-        //}else{
 
-        //}
+        if(addressList.isNullOrEmpty()){
+
+            replaceFragment(AddAddressFragment(),"addAddressFragment",false)
+        }else{
+
+            var deliveryFragment = MECDeliveryFragment()
+            var bundle = Bundle()
+            bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, addressList?.get(0))
+            deliveryFragment.arguments = bundle
+            replaceFragment(deliveryFragment,"MECDeliveryFragment",false)
+        }
 
     })
 
@@ -114,7 +127,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
             ecsShoppingCartViewModel = activity!!.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }
         ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
-        ecsShoppingCartViewModel.ecsAddresses.observe(this,addressObserver)
+            addressViewModel.ecsAddresses.observe(this,addressObserver)
         ecsShoppingCartViewModel.ecsVoucher.observe(this,voucherObserver)
 
             val bundle = arguments
@@ -188,7 +201,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 //            createCustomProgressBar(container, MEDIUM)
 //            ecsShoppingCartViewModel.fetchProductReview(ecsShoppingCart.entries)
 //        }
-
+        executeRequest()
     }
 
      fun executeRequest() {
@@ -212,7 +225,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     fun onCheckOutClick(){
         createCustomProgressBar(container, MEDIUM)
-        ecsShoppingCartViewModel.fetchAddresses()
+        addressViewModel.fetchAddresses()
     }
 
     fun gotoProductCatalog(){

@@ -187,7 +187,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
             }
             MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART -> {
                 fragment = MECShoppingCartFragment()
-                fragmentTag=MECShoppingCartFragment.TAG
+                fragmentTag="MECShoppingCartFragment"
 
             }
         }

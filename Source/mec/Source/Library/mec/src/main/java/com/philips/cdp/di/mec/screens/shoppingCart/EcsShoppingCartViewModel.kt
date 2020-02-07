@@ -18,6 +18,7 @@ import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.screens.address.ECSFetchAddressesCallback
 import com.philips.platform.uid.view.widget.Label
 
 open class EcsShoppingCartViewModel : CommonViewModel() {
@@ -28,13 +29,13 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
 
     val ecsProductsReviewList = MutableLiveData<MutableList<MECCartProductReview>>()
 
-    val ecsAddresses = MutableLiveData<List<ECSAddress>>()
+
 
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     private var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
 
-    var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
+
 
     var ecsVoucherCallback = ECSVoucherCallback(this)
 
@@ -48,10 +49,6 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
 
     fun fetchProductReview(entries: MutableList<ECSEntries>) {
         ecsShoppingCartRepository.fetchProductReview(entries, this)
-    }
-
-    fun fetchAddresses(){
-        ecsShoppingCartRepository.fetchSavedAddresses(ecsServices,ecsFetchAddressesCallback)
     }
 
     fun addVoucher(voucherCode : String){

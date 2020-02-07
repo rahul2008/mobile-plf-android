@@ -5,6 +5,7 @@ import com.bazaarvoice.bvandroidsdk.BulkRatingsRequest
 import com.bazaarvoice.bvandroidsdk.EqualityOperator
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
+import com.philips.cdp.di.mec.screens.address.ECSFetchAddressesCallback
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
@@ -32,10 +33,6 @@ class ECSShoppingCartRepository(ecsShoppingCartViewModel: EcsShoppingCartViewMod
         val request = BulkRatingsRequest.Builder(ctnList, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).build()
         bvClient!!.prepareCall(request).loadAsync(mecConversationsDisplayCallback)
 
-    }
-
-    fun fetchSavedAddresses(ecsServices: ECSServices , eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
-        ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
     }
 
     fun applyVoucher(voucherCode: String, ecsVoucherCallback: ECSVoucherCallback){
