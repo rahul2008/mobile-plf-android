@@ -13,7 +13,7 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".LaunchAsFragment" />
         <activity android:name=".LaunchAsActivity" />
-        <activity android:name=".BaseDemoActivity" />
+        <activity android:name=".BaseDemoActivity"  android:screenOrientation="portrait"> </activity>
     </application>
 
 </manifest>

@@ -47,7 +47,7 @@ import java.text.DecimalFormat
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
-    private lateinit var bottomSheetFragment: MECRetailersFragment
+    private  var bottomSheetFragment: MECRetailersFragment? =null
 
     lateinit var param: String
 
@@ -180,6 +180,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
+        if(null!=bottomSheetFragment){
+            buyFromRetailers()
+        }
     }
 
     override fun onStart() {
@@ -284,9 +287,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         bottomSheetFragment = MECRetailersFragment()
         bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
         bundle.putSerializable(MEC_PRODUCT,binding.product)
-        bottomSheetFragment.arguments = bundle
-        bottomSheetFragment.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
-        fragmentManager?.let { bottomSheetFragment.show(it, bottomSheetFragment.tag) }
+        bottomSheetFragment?.arguments = bundle
+        bottomSheetFragment?.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
+        fragmentManager?.let { bottomSheetFragment?.show(it, bottomSheetFragment?.tag) }
     }
 
 
@@ -306,7 +309,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 tagActionsforRetailer(ecsRetailer.name, MECutility.stockStatus(ecsRetailer.availability))
                 val fragment = WebBuyFromRetailersFragment()
                 fragment.arguments = bundle
-                addFragment(fragment, "retailers", true)
+                replaceFragment(fragment, "retailers", true)
             }
         }
     }
