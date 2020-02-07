@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 import com.philips.cdp.di.mec.screens.address.AddressViewModel
 import com.philips.cdp.di.mec.screens.address.EditAddressFragment
+import com.philips.cdp.di.mec.screens.address.MECDeliveryFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
@@ -76,16 +77,18 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
         hideProgressBar()
-       // if(addressList.isNullOrEmpty()){
 
-           var editAddressFragment = EditAddressFragment()
-           var bundle = Bundle()
-           bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, addressList?.get(0))
-           editAddressFragment.arguments = bundle
-            replaceFragment(editAddressFragment,"EditAddressFragment",false)
-       // }else{
+        if(addressList.isNullOrEmpty()){
 
-        //}
+            replaceFragment(AddAddressFragment(),"addAddressFragment",false)
+        }else{
+
+            var deliveryFragment = MECDeliveryFragment()
+            var bundle = Bundle()
+            bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, addressList?.get(0))
+            deliveryFragment.arguments = bundle
+            replaceFragment(deliveryFragment,"MECDeliveryFragment",false)
+        }
 
     })
 

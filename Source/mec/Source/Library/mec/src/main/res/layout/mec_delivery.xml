@@ -1,8 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+
+    <import type="android.view.View" />
+
+        <variable
+            name="ecsAddressShipping"
+            type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
+
+        <variable
+            name="mecDeliveryFragment"
+            type="com.philips.cdp.di.mec.screens.address.MECDeliveryFragment" />
+
+    </data>
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_shipping_address"
+            style="@style/mec_address_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/iap_margin_20dp"
+            android:textSize="20sp"
+            android:text="@string/mec_shipping_address" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tv_shipping_address_name"
+                style="@style/mec_address_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_weight="1.2"
+                android:padding="@dimen/iap_margin_4dp"
+                android:text="@{ecsAddressShipping.firstName}" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tv_shipping_address_edit"
+                style="@style/mec_address_header"
+                android:layout_weight="0.8"
+                android:padding="@dimen/iap_margin_4dp"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:textSize="20sp"
+                android:text="Edit" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
+
+</layout>
