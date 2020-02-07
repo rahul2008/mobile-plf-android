@@ -109,121 +109,121 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        urInterface = new URInterface();
-        urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
+        if(null==rootView) {
+            urInterface = new URInterface();
+            urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
 
-        ignorelistedRetailer = new ArrayList<>();
-        rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
-        mEtCTN = rootView.findViewById(R.id.et_add_ctn);
-        mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
-        bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
-        bvCheckBox.setOnCheckedChangeListener(this);
+            ignorelistedRetailer = new ArrayList<>();
+            rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
+            mEtCTN = rootView.findViewById(R.id.et_add_ctn);
+            mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
+            bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
+            bvCheckBox.setOnCheckedChangeListener(this);
 
-        text = getActivity().findViewById(R.id.mec_demo_app_header_title);
-        versionView = getActivity().findViewById(R.id.demoappversion);
-        mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
-
-
-        mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
-        mBtnSetPropositionId = rootView.findViewById(R.id.btn_set_proposition_id);
+            text = getActivity().findViewById(R.id.mec_demo_app_header_title);
+            versionView = getActivity().findViewById(R.id.demoappversion);
+            mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
 
 
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
-        AppConfigurationInterface configInterface = appInfra.getConfigInterface();
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-
-        String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
-        mEtPropositionId.setText(propertyForKey);
+            mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
+            mBtnSetPropositionId = rootView.findViewById(R.id.btn_set_proposition_id);
 
 
-        mecBazaarVoiceInput = new MECBazaarVoiceInput();
-        mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
+            AppConfigurationInterface configInterface = appInfra.getConfigInterface();
+            AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
-                configInterface.setPropertyForKey("propositionid", "MEC", mEtPropositionId.getText().toString(), configError);
-
-                Toast.makeText(getActivity(), "Proposition id is set", Toast.LENGTH_SHORT).show();
-                getActivity().finishAffinity();
-                System.exit(0);
-            }
-        });
+            String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
+            mEtPropositionId.setText(propertyForKey);
 
 
-        toggleBanner = rootView.findViewById(R.id.toggleBanner);
+            mecBazaarVoiceInput = new MECBazaarVoiceInput();
+            mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        toggleBanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    configInterface.setPropertyForKey("propositionid", "MEC", mEtPropositionId.getText().toString(), configError);
 
-                isBannerEnabled = isChecked;
-                initializeMECComponant();
-            }
-        });
-
-        toggleHybris = rootView.findViewById(R.id.toggleHybris);
-        toggleHybris.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isHybrisEnable = isChecked;
-                initializeMECComponant();
-            }
-        });
+                    Toast.makeText(getActivity(), "Proposition id is set", Toast.LENGTH_SHORT).show();
+                    getActivity().finishAffinity();
+                    System.exit(0);
+                }
+            });
 
 
-        toggleRetailer = rootView.findViewById(R.id.toggleRetailer);
+            toggleBanner = rootView.findViewById(R.id.toggleBanner);
+
+            toggleBanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    isBannerEnabled = isChecked;
+                    initializeMECComponant();
+                }
+            });
+
+            toggleHybris = rootView.findViewById(R.id.toggleHybris);
+            toggleHybris.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    isHybrisEnable = isChecked;
+                    initializeMECComponant();
+                }
+            });
 
 
-        toggleRetailer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isRetailerEnabled= isChecked;
-                initializeMECComponant();
-            }
-        });
+            toggleRetailer = rootView.findViewById(R.id.toggleRetailer);
 
 
-        mRegister = rootView.findViewById(R.id.btn_register);
-        mRegister.setOnClickListener(this);
+            toggleRetailer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    isRetailerEnabled = isChecked;
+                    initializeMECComponant();
+                }
+            });
 
 
-
-        mShopNow = rootView.findViewById(R.id.btn_shop_now);
-        mShopNow.setOnClickListener(this);
-
-        mLaunchProductDetail = rootView.findViewById(R.id.btn_launch_product_detail);
-        mLaunchProductDetail.setOnClickListener(this);
-
-        // mShoppingCart = rootView.findViewById(R.id.mec_demo_app_shopping_cart_icon);
-
-        mShopNowCategorized = rootView.findViewById(R.id.btn_categorized_shop_now);
-        mShopNowCategorized.setOnClickListener(this);
+            mRegister = rootView.findViewById(R.id.btn_register);
+            mRegister.setOnClickListener(this);
 
 
-        mLL_propositionId = rootView.findViewById(R.id.ll_enter_proposition_id);
+            mShopNow = rootView.findViewById(R.id.btn_shop_now);
+            mShopNow.setOnClickListener(this);
 
-        mAddCtn = rootView.findViewById(R.id.btn_add_ctn);
-        mAddCtn.setOnClickListener(this);
+            mLaunchProductDetail = rootView.findViewById(R.id.btn_launch_product_detail);
+            mLaunchProductDetail.setOnClickListener(this);
 
+            // mShoppingCart = rootView.findViewById(R.id.mec_demo_app_shopping_cart_icon);
 
-        mShopNowCategorizedWithRetailer = rootView.findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
-        mShopNowCategorizedWithRetailer.setOnClickListener(this);
-
-        mCartIcon = rootView.findViewById(R.id.mec_demo_app_cart_iv);
-        mCountText = rootView.findViewById(R.id.mec_demo_app_item_count);
-
-        mCategorizedProductList = new ArrayList<>();
-
-        mUserDataInterface = urInterface.getUserDataInterface();
+            mShopNowCategorized = rootView.findViewById(R.id.btn_categorized_shop_now);
+            mShopNowCategorized.setOnClickListener(this);
 
 
-        mMecInterface = new MECInterface();
-        mMecSettings = new MECSettings(getActivity());
-        //actionBar();
-        initializeBazaarVoice();
-        initializeMECComponant();
+            mLL_propositionId = rootView.findViewById(R.id.ll_enter_proposition_id);
+
+            mAddCtn = rootView.findViewById(R.id.btn_add_ctn);
+            mAddCtn.setOnClickListener(this);
 
 
+            mShopNowCategorizedWithRetailer = rootView.findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
+            mShopNowCategorizedWithRetailer.setOnClickListener(this);
+
+            mCartIcon = rootView.findViewById(R.id.mec_demo_app_cart_iv);
+            mCountText = rootView.findViewById(R.id.mec_demo_app_item_count);
+
+            mCategorizedProductList = new ArrayList<>();
+
+            mUserDataInterface = urInterface.getUserDataInterface();
+
+
+            mMecInterface = new MECInterface();
+            mMecSettings = new MECSettings(getActivity());
+            //actionBar();
+            initializeBazaarVoice();
+            initializeMECComponant();
+
+        }
         return rootView;
 
     }
