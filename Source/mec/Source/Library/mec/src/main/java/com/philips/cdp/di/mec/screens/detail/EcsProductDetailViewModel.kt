@@ -21,6 +21,7 @@ import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
+import java.lang.Exception
 import java.util.*
 
 class EcsProductDetailViewModel : CommonViewModel() {
@@ -101,6 +102,14 @@ class EcsProductDetailViewModel : CommonViewModel() {
             if (review.tagDimensions != null && review.tagDimensions!!.size > 0) {
                 val tagD = review.tagDimensions?.get(type.substring(0,type.length-1))
                 reviewValue= tagD?.values.toString()
+               var  reviewValueFormatted: String=reviewValue
+                try {
+                    if (reviewValueFormatted.substring(0, 1).equals("[")) {
+                        reviewValue = reviewValueFormatted.substring(1, reviewValueFormatted.length - 1)
+                    }
+                }catch(e: Exception){
+
+                }
             }
         }
         return reviewValue.toString()
