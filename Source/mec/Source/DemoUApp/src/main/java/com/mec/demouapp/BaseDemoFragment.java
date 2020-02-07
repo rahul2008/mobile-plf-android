@@ -450,7 +450,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
 
-        if (urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+        if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             //update shopping cart count if user logged in
             mMecInterface.getProductCartCount(this);
             }else{
