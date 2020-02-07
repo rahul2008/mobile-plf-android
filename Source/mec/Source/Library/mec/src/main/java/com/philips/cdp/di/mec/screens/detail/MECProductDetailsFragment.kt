@@ -52,7 +52,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     lateinit var param: String
 
     private lateinit var binding: MecProductDetailsBinding
-    private lateinit var product: ECSProduct
+    lateinit var product: ECSProduct
     private lateinit var retailersList: ECSRetailerList
     private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
 
@@ -212,6 +212,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.progressImage.visibility = View.VISIBLE
         ecsProductDetailViewModel.getProductDetail(product)
     }
+
+
 
     private fun getRetailerDetails() {
         ecsRetailerViewModel.getRetailers(product.code)

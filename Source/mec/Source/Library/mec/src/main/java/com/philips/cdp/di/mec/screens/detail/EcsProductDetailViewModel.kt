@@ -15,6 +15,8 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.ecsService.ECSProductCallback
+import com.philips.cdp.di.mec.common.ecsService.ECSProductListCallback
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
@@ -31,9 +33,15 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val review = MutableLiveData<ReviewResponse>()
 
+
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     var ecsProductDetailRepository = ECSProductDetailRepository(this,ecsServices)
+
+    var ecsProductCallback = ECSProductForCTNCallback(this)
+
+    var ecsProductListCallback = ECSProductListForCTNsCallback(this)
 
     fun getRatings(ctn :String){
         ecsProductDetailRepository.getRatings(ctn)
@@ -45,6 +53,14 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     fun getBazaarVoiceReview(ctn : String, pageNumber : Int, pageSize : Int){
         ecsProductDetailRepository.fetchProductReview(ctn, pageNumber, pageSize)
+    }
+
+    fun getProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProduct(ctn, ecsProductCallback)
+    }
+
+    fun getRetailerProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProductSummaries(Arrays.asList(ctn), ecsProductListCallback)
     }
 
 
