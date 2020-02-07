@@ -148,8 +148,10 @@ class AddressViewModel : CommonViewModel() {
                     animate.setListener(object: AnimatorListenerAdapter() {
 
                         override fun onAnimationEnd(animation: Animator) {
-                            scrollView.scrollTo(0,scrollView.bottom + 500) //TODO
+
                             view.visibility = View.VISIBLE
+                            view.parent.requestChildFocus(view,view)
+
                         }
                     })
                 }

@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
@@ -320,7 +321,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     //TODO bind it
     fun updateData(results: List<Statistics>?) {
         if (results != null) {
-            binding.mecRating.setRating((results.get(0).productStatistics.reviewStatistics.averageOverallRating).toFloat())
+            binding.mecDetailRating.setRating((results.get(0).productStatistics.reviewStatistics.averageOverallRating).toFloat())
             binding.mecRatingLebel.text = DecimalFormat("#.#").format(results.get(0).productStatistics.reviewStatistics.averageOverallRating)
             binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " reviews)"
         }
@@ -412,6 +413,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         bottomSheetFragment.arguments = bundle
         bottomSheetFragment.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
         bottomSheetFragment.show(fragmentManager, bottomSheetFragment.tag)
+
     }
 
 
