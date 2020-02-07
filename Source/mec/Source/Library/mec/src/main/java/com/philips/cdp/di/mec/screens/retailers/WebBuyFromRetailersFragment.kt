@@ -26,7 +26,7 @@ import java.net.URL
 
 class WebBuyFromRetailersFragment : MecBaseFragment() {
     companion object {
-        open val TAG = WebBuyFromRetailersFragment::class.java!!.getName()
+        open val TAG = "WebBuyFromRetailersFragment"
     }
 
 
@@ -48,6 +48,7 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
         super.onResume()
         val title = getArguments()!!.getString(MECConstant.MEC_STORE_NAME)
         setTitleAndBackButtonVisibility(title, true)
+        setCartIconVisibility(false)
         mWebView!!.onResume()
     }
 
