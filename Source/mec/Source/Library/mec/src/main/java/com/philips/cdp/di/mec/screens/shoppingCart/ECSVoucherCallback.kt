@@ -7,7 +7,8 @@ import com.philips.cdp.di.mec.common.MecError
 
 class ECSVoucherCallback(private var ecsShoppingCartViewModel: EcsShoppingCartViewModel) : ECSCallback<List<ECSVoucher>,Exception> {
     override fun onResponse(ecsVoucher: List<ECSVoucher>?) {
-        ecsShoppingCartViewModel.ecsVoucher.value = ecsVoucher
+        ecsShoppingCartViewModel.getShoppingCart()
+       // ecsShoppingCartViewModel.ecsVoucher.value = ecsVoucher
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {

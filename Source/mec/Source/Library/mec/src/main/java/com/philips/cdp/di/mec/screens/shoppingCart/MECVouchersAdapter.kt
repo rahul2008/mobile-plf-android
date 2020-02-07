@@ -3,10 +3,10 @@ package com.philips.cdp.di.mec.screens.shoppingCart
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
+import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.mec.databinding.MecVoucherItemBinding
 
-class MECVouchersAdapter(private val voucherList: List<ECSVoucher>): RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class MECVouchersAdapter(private val voucherList: MutableList<AppliedVoucherEntity>): RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MECVoucherHolder(MecVoucherItemBinding.inflate(LayoutInflater.from(parent.context)))
