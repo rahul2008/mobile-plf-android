@@ -26,6 +26,8 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 
 
+
+
 /**
  * A simple [Fragment] subclass.
  */
@@ -41,7 +43,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     private var productsAdapter: MECProductsAdapter? = null
     private var vouchersAdapter : MECVouchersAdapter? = null
     private lateinit var productReviewList: MutableList<MECCartProductReview>
-    private lateinit var voucherList : List<ECSVoucher>
+    private var voucherCode : String = ""
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         binding.shoppingCart = ecsShoppingCart
@@ -54,6 +56,10 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         } else if(ecsShoppingCart.entries.size == 0) {
             binding.mecEmptyResult.visibility = View.VISIBLE
             binding.mecParentLayout.visibility = View.GONE
+        }
+
+        if(ecsShoppingCart.appliedVouchers.size>0) {
+            vouchersAdapter = MECVouchersAdapter(ecsShoppingCart.appliedVouchers)
         }
         hideProgressBar()
     }
@@ -79,10 +85,6 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     })
 
-    private val voucherObserver : Observer<List<ECSVoucher>> = Observer(fun(mecVoucherList : List<ECSVoucher>?){
-        hideProgressBar()
-        vouchersAdapter = mecVoucherList?.let { MECVouchersAdapter(it) }
-    })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -94,7 +96,6 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
         ecsShoppingCartViewModel.ecsAddresses.observe(this,addressObserver)
-        ecsShoppingCartViewModel.ecsVoucher.observe(this,voucherObserver)
 
         val bundle = arguments
         //ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
@@ -153,7 +154,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_shopping_cart, true)
+        setTitleAndBackButtonVisibility(com.philips.cdp.di.mec.R.string.mec_shopping_cart, true)
     }
 
     override fun onStart() {
@@ -179,9 +180,14 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         ecsShoppingCartViewModel.fetchAddresses()
     }
 
+    fun afterUserNameChange(s: CharSequence) {
+        //Log.i("truc", s.toString());
+        voucherCode = s.toString()
+    }
+
     fun onClickAddVoucher(){
         createCustomProgressBar(container,MEDIUM)
-        ecsShoppingCartViewModel.addVoucher(binding.mecVoucherEditText.toString())
+        ecsShoppingCartViewModel.addVoucher(voucherCode)
     }
 
     fun onCheckOutClick(){
