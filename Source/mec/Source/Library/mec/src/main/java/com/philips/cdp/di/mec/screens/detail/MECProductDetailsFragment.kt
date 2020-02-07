@@ -172,7 +172,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         binding.viewpagerMain.adapter = fragmentAdapter
         binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
         MECAnalytics.trackPage(productDetails)
-        tagActions(product);
+        tagActions(product)
         return binding.root
     }
 
@@ -198,7 +198,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     fun addToCartVisibility(product: ECSProduct) {
         if (MECDataHolder.INSTANCE.hybrisEnabled.equals(false)) {
             binding.mecAddToCartButton.visibility = View.GONE
-        } else if ((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+        } else if ((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && product!!.stock!=null && !(MECutility.isStockAvailable(product!!.stock?.stockLevelStatus!!, product!!.stock?.stockLevel!!))) {
             binding.mecAddToCartButton.visibility = View.VISIBLE
             binding.mecAddToCartButton.isEnabled = false
         } else {
