@@ -155,6 +155,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         if (!backState) {
             super.onBackPressed();
         }
+        //TODO
         if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
             actionBar();
             showAppVersion();
