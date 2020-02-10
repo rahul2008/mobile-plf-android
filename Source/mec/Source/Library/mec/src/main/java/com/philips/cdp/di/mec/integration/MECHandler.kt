@@ -21,7 +21,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher
 import com.philips.platform.uappframework.launcher.UiLauncher
 
 import java.util.ArrayList
-import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.config.ECSConfig
@@ -112,7 +111,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
                 // Launch fragment or activity
                 if (mUiLauncher is ActivityLauncher) {
-                    launchMECasActivity()
+                    launchMECasActivity(config.isHybris)
                 } else {
                     config?.isHybris?.let { launchMECasFragment(it) }
                 }
@@ -137,16 +136,12 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     }
 
 
-    protected fun launchMECasActivity() {
+    protected fun launchMECasActivity(isHybris: Boolean) {
         val intent = Intent(mMECSetting.context, MECLauncherActivity::class.java)
-      //  intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.landingView) //TODO
         val activityLauncher = mUiLauncher as ActivityLauncher
         val bundle = getBundle()
-        if (mLaunchInput.flowConfigurator == null){
-            MECFlowConfigurator()
-        }
-        val str = Gson().toJson(mLaunchInput.flowConfigurator)
-        bundle.putString(MECConstant.FLOW_INPUT, str)
+        bundle.putSerializable(MECConstant.KEY_FLOW_CONFIGURATION, mLaunchInput.flowConfigurator)
+        bundle.putBoolean(MECConstant.KEY_IS_HYBRIS,isHybris)
         bundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.uiKitTheme)
         intent.putExtras(bundle)
         mMECSetting.context.startActivity(intent)

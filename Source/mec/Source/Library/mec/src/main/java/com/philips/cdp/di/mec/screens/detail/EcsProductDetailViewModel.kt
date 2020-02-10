@@ -1,6 +1,5 @@
 package com.philips.cdp.di.mec.screens.detail
 
-import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -16,17 +15,13 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
-import com.philips.cdp.di.mec.common.ecsService.ECSProductCallback
-import com.philips.cdp.di.mec.common.ecsService.ECSProductListCallback
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
-import java.lang.Exception
 import java.util.*
-import kotlin.collections.ArrayList
 
 class EcsProductDetailViewModel : CommonViewModel() {
 
