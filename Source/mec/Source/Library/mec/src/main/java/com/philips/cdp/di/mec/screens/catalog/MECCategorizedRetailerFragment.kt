@@ -6,17 +6,17 @@ import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 
 class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
 
+    companion object {
+        val TAG:String="MECCategorizedRetailerFragment"
+    }
+
     override fun isPaginationSupported(): Boolean {
         return false
     }
 
 
     override fun executeRequest(){
-        val bundle = arguments
-        var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
-        if (ctns != null) {
-            ecsProductViewModel.initCategorizedRetailer(ctns)
-        }
+            ecsProductViewModel.initCategorizedRetailer(categorizedCtns)
     }
 
     override fun isCategorizedHybrisPagination(): Boolean {

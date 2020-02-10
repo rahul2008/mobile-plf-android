@@ -39,6 +39,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     private var appInfra: AppInfra? = null
     private var listOfServiceId: ArrayList<String>? = null
     lateinit var serviceUrlMapListener: OnGetServiceUrlMapListener
+    lateinit var fragmentTag:String
 
 
     private val IAP_PRIVACY_URL = "iap.privacyPolicy"
@@ -111,9 +112,9 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
                 // Launch fragment or activity
                 if (mUiLauncher is ActivityLauncher) {
-                    launchMECasActivity(config.isHybris)
+                    launchMECasActivity(MECDataHolder.INSTANCE.hybrisEnabled)
                 } else {
-                    config?.isHybris?.let { launchMECasFragment(it) }
+                    launchMECasFragment(MECDataHolder.INSTANCE.hybrisEnabled)
                 }
             }
 
@@ -159,10 +160,9 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
 
         MECDataHolder.INSTANCE.setActionBarListener(fragmentLauncher.actionbarListener, mLaunchInput.mecListener!!)
-        val tag = mecLandingFragment?.javaClass?.name
         val transaction = fragmentLauncher.fragmentActivity.supportFragmentManager.beginTransaction()
-        transaction.replace(fragmentLauncher.parentContainerResourceID, mecLandingFragment!!, tag)
-        transaction.addToBackStack(tag)
+        transaction.replace(fragmentLauncher.parentContainerResourceID, mecLandingFragment!!, fragmentTag)
+        transaction.addToBackStack(fragmentTag)
         transaction.commitAllowingStateLoss()
     }
 
@@ -174,11 +174,13 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
                 fragment = MECLandingProductDetailsFragment()
+                fragmentTag = MECLandingProductDetailsFragment.TAG
                 putCtnsToBundle(bundle,mecFlowConfigurator)
             }
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
                 fragment = MECProductCatalogFragment()
+                fragmentTag = MECProductCatalogFragment.TAG
             }
             MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
                 fragment = getCategorizedFragment(isHybris)
@@ -190,8 +192,10 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
     private fun getCategorizedFragment(isHybris: Boolean): MecBaseFragment? {
         if (isHybris) {
+            fragmentTag = MECProductCatalogCategorizedFragment.TAG
             return MECProductCatalogCategorizedFragment()
         } else {
+            fragmentTag = MECCategorizedRetailerFragment.TAG
             return MECCategorizedRetailerFragment()
         }
     }
