@@ -9,8 +9,11 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
-    lateinit var ctns : ArrayList<String>
-    var totalProductsTobeSearched : Int = 0
+    companion object {
+        val TAG:String="MECProductCatalogCategorizedFragment"
+    }
+
+
 
     override fun executeRequest(){
         
@@ -19,14 +22,8 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
             hideProgressBar()
         }else{
             isCallOnProgress =true
-            ecsProductViewModel.initCategorized(currentPage, pageSize, ctns)
+            ecsProductViewModel.initCategorized(currentPage, pageSize, categorizedCtns)
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        ctns = arguments!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
-        totalProductsTobeSearched = ctns.size
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun isPaginationSupported(): Boolean {
@@ -61,7 +58,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
             }else{
                 binding.progressBar.visibility = View.VISIBLE
             }
-            ecsProductViewModel.initCategorized(currentPage, pageSize, ctns)
+            ecsProductViewModel.initCategorized(currentPage, pageSize, categorizedCtns)
             alertDialogFragment.dismiss()
         })
 

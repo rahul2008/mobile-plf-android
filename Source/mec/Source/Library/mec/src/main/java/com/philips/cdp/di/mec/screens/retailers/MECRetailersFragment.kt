@@ -29,6 +29,10 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 
 class MECRetailersFragment : BottomSheetDialogFragment(), ItemClickListener{
 
+    companion object {
+        val TAG:String="MECRetailersFragment"
+    }
+
     override fun onItemClick(item: Any) {
 
         val ecsRetailer = item as ECSRetailer

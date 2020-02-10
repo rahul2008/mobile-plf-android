@@ -97,7 +97,7 @@ class ECSCatalogRepository {
 
             }
 
-            //Remove already found ctns from search list
+            //Remove already found categorizedCtns from search list
             private fun getCTNsToBeSearched(ctns: MutableList<String>, ecsProductList: MutableList<ECSProduct>): MutableList<String> {
                 for (ecsProduct in ecsProductList) {
                     ctns.remove(ecsProduct.code)
