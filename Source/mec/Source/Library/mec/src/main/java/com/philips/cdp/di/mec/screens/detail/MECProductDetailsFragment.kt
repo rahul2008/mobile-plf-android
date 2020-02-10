@@ -283,13 +283,18 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     private fun buyFromRetailers() {
-        val bundle = Bundle()
-        bottomSheetFragment = MECRetailersFragment()
-        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
-        bundle.putSerializable(MEC_PRODUCT,binding.product)
-        bottomSheetFragment?.arguments = bundle
-        bottomSheetFragment?.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
-        fragmentManager?.let { bottomSheetFragment?.show(it, bottomSheetFragment?.tag) }
+        if(null==bottomSheetFragment){
+            bottomSheetFragment = MECRetailersFragment()
+        }
+        if(!bottomSheetFragment?.isVisible!!) {
+            val bundle = Bundle()
+            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
+            bundle.putSerializable(MEC_PRODUCT, product)
+            bottomSheetFragment?.arguments = bundle
+            bottomSheetFragment?.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
+            fragmentManager?.let { bottomSheetFragment?.show(it, bottomSheetFragment?.tag) }
+        }
+
     }
 
 

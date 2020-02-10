@@ -74,7 +74,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 val simpleName = newFragment.javaClass.simpleName
 
                 if (isReplaceWithBackStack) {
-                    transaction.addToBackStack(null)
+                    transaction.addToBackStack(simpleName)
                 }
 
                 transaction.replace(id, newFragment, simpleName)
@@ -95,7 +95,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 val simpleName = newFragment.javaClass.simpleName
 
                 if (isAddWithBackStack) {
-                    transaction.addToBackStack(null)
+                    transaction.addToBackStack(simpleName)
                 }
 
                 transaction.add(id, newFragment, simpleName)

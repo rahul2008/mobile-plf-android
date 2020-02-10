@@ -21,7 +21,6 @@
         <activity
             android:name=".LuncherActivity"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

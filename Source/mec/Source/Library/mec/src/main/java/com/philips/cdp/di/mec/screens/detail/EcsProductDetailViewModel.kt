@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.screens.detail
 
+import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,9 @@ import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
+import java.lang.Exception
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EcsProductDetailViewModel : CommonViewModel() {
 
@@ -100,7 +103,13 @@ class EcsProductDetailViewModel : CommonViewModel() {
         if (reviewValue == null) {
             if (review.tagDimensions != null && review.tagDimensions!!.size > 0) {
                 val tagD = review.tagDimensions?.get(type.substring(0,type.length-1))
-                reviewValue= tagD?.values.toString()
+               var list : MutableList<String>? = tagD?.values
+                reviewValue = list?.joinToString(
+                        prefix = "",
+                        separator = ", ",
+                        postfix = ""
+                       )
+
             }
         }
         return reviewValue.toString()
