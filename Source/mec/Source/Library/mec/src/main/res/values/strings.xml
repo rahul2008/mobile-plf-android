@@ -64,12 +64,15 @@
     <string name="mec_accepted_codes">Accepted codes</string>
     <string name="mec_shopping_cart">Cart</string>
     <string name="mec_remove_product">Remove product</string>
+    <string name="mec_remove_voucher">Remove voucher</string>
     <string name="mec_cancel">Cancel</string>
     <string name="mec_delete_item">Delete Item</string>
+    <string name="mec_delete_voucher">Delete Voucher</string>
     <string name="mec_nothing_in_cart">Nothing in your cart</string>
     <string name="mec_empty_cart">Your shopping cart is currently empty.</string>
     <string name="mec_continue_shopping">Continue shopping</string>
     <string name="mec_delete_item_description">Your product will be removed from your shopping cart. Are you sure?</string>
+    <string name="mec_delete_voucher_description">Your voucher will be removed from your shopping cart. Are you sure?</string>
 
     <!--Address screen strings-->
 

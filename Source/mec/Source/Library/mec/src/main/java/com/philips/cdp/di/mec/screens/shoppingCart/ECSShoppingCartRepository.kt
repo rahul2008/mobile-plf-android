@@ -39,4 +39,8 @@ class ECSShoppingCartRepository(ecsShoppingCartViewModel: EcsShoppingCartViewMod
         ecsServices.applyVoucher(voucherCode,ecsVoucherCallback)
     }
 
+    fun removeVoucher(voucherCode: String, ecsVoucherCallback: ECSVoucherCallback){
+        ecsServices.removeVoucher(voucherCode,ecsVoucherCallback)
+    }
+
 }

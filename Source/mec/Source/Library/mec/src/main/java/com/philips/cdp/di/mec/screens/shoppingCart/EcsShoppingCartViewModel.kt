@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
 import android.view.View
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.cart.BasePriceEntity
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.cart.TotalPriceEntity
@@ -55,11 +56,15 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         ecsShoppingCartRepository.applyVoucher(voucherCode,ecsVoucherCallback)
     }
 
+    fun removeVoucher(voucherCode : String){
+        ecsShoppingCartRepository.removeVoucher(voucherCode,ecsVoucherCallback)
+    }
+
 
     companion object {
         @JvmStatic
         @BindingAdapter("setPrice","totalPriceEntity")
-        fun setPrice(priceLabel: Label, product: ECSProduct?, totalPriceEntity: TotalPriceEntity?) {
+        fun setPrice(priceLabel: Label, product: ECSProduct?, totalPriceEntity: BasePriceEntity?) {
             val textSize16 = priceLabel.context.getResources().getDimensionPixelSize(R.dimen.mec_product_detail_discount_price_label_size)
             val textSize12 = priceLabel.context.getResources().getDimensionPixelSize(R.dimen.mec_product_detail_price_label_size);
             if (product!=null && totalPriceEntity!!.formattedValue!=null && totalPriceEntity?.formattedValue!!.length > 0 && (product.price.value - totalPriceEntity.value) > 0) {
@@ -80,7 +85,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
 
         @JvmStatic
         @BindingAdapter("setDiscountPrice","totalPriceEntity")
-        fun setDiscountPrice(discountPriceLabel: Label, product: ECSProduct?, totalPriceEntity: TotalPriceEntity?){
+        fun setDiscountPrice(discountPriceLabel: Label, product: ECSProduct?, totalPriceEntity: BasePriceEntity?){
             val discount = (product!!.price.value - totalPriceEntity!!.value) / product.price.value * 100
 
             val discountRounded: String = String.format("%.2f", discount).toString()

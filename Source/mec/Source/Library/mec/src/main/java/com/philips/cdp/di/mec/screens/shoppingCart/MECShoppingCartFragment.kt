@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 import android.widget.Toast
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.auth.HybrisAuth
@@ -34,6 +35,7 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
+import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.address.AddressViewModel
 import com.philips.cdp.di.mec.screens.address.EditAddressFragment
 import com.philips.cdp.di.mec.screens.address.MECDeliveryFragment
@@ -43,7 +45,7 @@ import com.philips.cdp.di.mec.utils.MECConstant
 /**
  * A simple [Fragment] subclass.
  */
-class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
+class MECShoppingCartFragment : MecBaseFragment(),AlertListener,ItemClickListener {
 
     private lateinit var addressViewModel: AddressViewModel
 
@@ -62,7 +64,9 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     private var productsAdapter: MECProductsAdapter? = null
     private var vouchersAdapter : MECVouchersAdapter? = null
     private lateinit var productReviewList: MutableList<MECCartProductReview>
+    private lateinit var voucherList : MutableList<AppliedVoucherEntity>
     private var voucherCode : String = ""
+    private var removeVoucher :Boolean = false
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         binding.shoppingCart = ecsShoppingCart
@@ -77,13 +81,17 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
             binding.mecParentLayout.visibility = View.GONE
         }
 
+        voucherList.clear()
         if(ecsShoppingCart.appliedVouchers.size>0) {
-            vouchersAdapter = MECVouchersAdapter(ecsShoppingCart.appliedVouchers)
+            ecsShoppingCart.appliedVouchers?.let {voucherList.addAll(it)  }
         }
+        vouchersAdapter?.notifyDataSetChanged()
+
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
             updateCount(quantity)
         }
+
         hideProgressBar()
     }
 
@@ -123,6 +131,7 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
             binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
             binding.fragment = this
             ecsShoppingCartViewModel = activity!!.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }
+            addressViewModel = activity!!.let { ViewModelProviders.of(it).get(AddressViewModel::class.java) }
         ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
         ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
             addressViewModel.ecsAddresses.observe(this,addressObserver)
@@ -132,9 +141,12 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
             productReviewList = mutableListOf()
 
+            voucherList = mutableListOf()
+
             productsAdapter = MECProductsAdapter(productReviewList, this)
 
         productsAdapter = MECProductsAdapter(productReviewList, this)
+            vouchersAdapter = MECVouchersAdapter(voucherList,this)
 
             binding.mecCartSummaryRecyclerView.adapter = productsAdapter
 
@@ -175,11 +187,20 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
     }
 
     fun showDialog(){
-        MECutility.showActionDialog(binding.enterVoucherLabel.context,getString(R.string.mec_remove_product),getString(R.string.mec_cancel),getString(R.string.mec_delete_item), getString(R.string.mec_delete_item_description),fragmentManager!!,this )
+        if(!removeVoucher) {
+            MECutility.showActionDialog(binding.enterVoucherLabel.context, getString(R.string.mec_remove_product), getString(R.string.mec_cancel), getString(R.string.mec_delete_item), getString(R.string.mec_delete_item_description), fragmentManager!!, this)
+        } else {
+            MECutility.showActionDialog(binding.enterVoucherLabel.context, getString(R.string.mec_remove_voucher), getString(R.string.mec_cancel), getString(R.string.mec_delete_voucher), getString(R.string.mec_delete_voucher_description), fragmentManager!!, this)
+        }
     }
 
     override fun onPositiveBtnClick() {
-        updateCartRequest(shoppingCart.entries.get(itemPosition),0)
+        if(!removeVoucher) {
+            updateCartRequest(shoppingCart.entries.get(itemPosition), 0)
+        } else {
+            createCustomProgressBar(container, MEDIUM)
+            ecsShoppingCartViewModel.removeVoucher(vouchersAdapter?.getVoucher()?.voucherCode.toString())
+        }
     }
 
     override fun onNegativeBtnClick() {
@@ -211,18 +232,14 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
         ecsShoppingCartViewModel.updateQuantity(entries,int)
     }
 
-   /* fun onClick() {
-        ecsShoppingCartViewModel.fetchAddresses()
-    }*/
-
     fun afterUserNameChange(s: CharSequence) {
-        //Log.i("truc", s.toString());
         voucherCode = s.toString()
     }
 
     fun onClickAddVoucher(){
         createCustomProgressBar(container,MEDIUM)
         ecsShoppingCartViewModel.addVoucher(voucherCode)
+        binding.mecVoucherEditText.text?.clear()
     }
 
     fun onCheckOutClick(){
@@ -232,6 +249,11 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener {
 
     fun gotoProductCatalog(){
         showProductCatalogFragment(MECShoppingCartFragment.TAG)
+    }
+
+    override fun onItemClick(item: Any) {
+        removeVoucher = true
+        showDialog()
     }
 
     private fun getECSConfig(){

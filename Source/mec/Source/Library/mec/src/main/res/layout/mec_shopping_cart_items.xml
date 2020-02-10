@@ -138,7 +138,7 @@
                     style="@style/mecCentralesansMediumFont"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     app:setPrice="@{ cart.entries.product}"
-                    app:totalPriceEntity="@{cart.entries.totalPrice}"
+                    app:totalPriceEntity="@{cart.entries.basePrice}"
                     android:textSize="16sp" />
 
                 <!--<com.philips.platform.uid.view.widget.Label
@@ -157,21 +157,20 @@
         </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.Label
-            android:background="@drawable/mec_semi_circular_orange"
+            android:background="@drawable/mec_semi_circular_discount"
             android:id="@+id/mec_discountPrice"
             android:paddingEnd="10dp"
-            android:paddingStart="15dp"
+            android:paddingStart="22dp"
             android:gravity="end|center_vertical"
             android:layout_width="wrap_content"
             android:minWidth="50dp"
             android:layout_height="32dp"
-            android:layout_marginStart="-10dp"
+            android:layout_marginStart="-12dp"
             android:layout_marginBottom="10dp"
-            android:textColor="?attr/uidTokenDefaultNormalTextColor"
-            style="@style/mecCentralesansBoldFont"
-            android:textSize="16sp"
+            android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
+            android:textSize="12sp"
             app:setDiscountPrice="@{ cart.entries.product}"
-            app:totalPriceEntity="@{cart.entries.totalPrice}"
+            app:totalPriceEntity="@{cart.entries.basePrice}"
             android:layout_above="@+id/price_button_view" />
 
         <View

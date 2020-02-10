@@ -376,6 +376,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartClick(){
+        binding.progress.visibility = View.VISIBLE
         if(null!=binding.product ) {
             if (isUserLoggedIn()) {
                 val addToProductCallback =  object: ECSCallback<ECSShoppingCart, Exception> {
@@ -396,9 +397,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     }
 
                 }
-                binding.progress.visibility = View.VISIBLE
                 product?.let { ecsProductDetailViewModel.addProductToShoppingcart(it,addToProductCallback) }
             }else{
+                binding.progress.visibility = View.GONE
                 fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }
             }
         }

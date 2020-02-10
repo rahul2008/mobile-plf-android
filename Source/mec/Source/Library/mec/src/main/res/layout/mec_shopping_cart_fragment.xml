@@ -133,6 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false"
+            android:layout_below="@+id/mec_accepted_code"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
     </RelativeLayout>
     </ScrollView>
@@ -221,6 +222,7 @@
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
             android:layout_alignParentBottom="true"
+            android:onClick="@{() -> fragment.gotoProductCatalog()}"
             android:textColor="?attr/uidButtonSecondaryNormalTextColor"
             android:text="@string/mec_continue_shopping"
             android:textSize="16dp"
@@ -303,6 +305,7 @@
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border16_margin_left_right"
             android:enabled="true"
+            android:onClick="@{() -> fragment.gotoProductCatalog()}"
             android:text="@string/mec_continue_shopping" />
     </LinearLayout>
 
