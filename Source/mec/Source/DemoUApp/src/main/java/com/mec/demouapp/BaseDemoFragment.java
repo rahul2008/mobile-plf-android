@@ -106,6 +106,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private TextView versionView;
     private View rootView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
