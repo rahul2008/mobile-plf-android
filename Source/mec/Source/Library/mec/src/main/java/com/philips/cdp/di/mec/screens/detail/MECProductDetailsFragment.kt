@@ -179,7 +179,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             showData()
 
         }
-        return binding.root
+        return mRootView
     }
 
 

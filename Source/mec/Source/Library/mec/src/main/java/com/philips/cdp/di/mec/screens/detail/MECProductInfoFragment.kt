@@ -19,10 +19,11 @@ class MECProductInfoFragment : MecBaseFragment() {
 
     private lateinit var binding:MecProductInfoFragmentBinding
     lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
-
+    var mECSProduct :ECSProduct? =null
     private val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
+            mECSProduct=ecsProduct;
             binding.product = ecsProduct
         }
     }
@@ -35,8 +36,13 @@ class MECProductInfoFragment : MecBaseFragment() {
         ecsProductDetailViewModel = activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
         ecsProductDetailViewModel.ecsProduct.observe(activity!!, productObserver)
-
+        if(null!=mECSProduct){
+            binding.product = mECSProduct
+        }
         return binding.root
     }
+
+
+
 
 }

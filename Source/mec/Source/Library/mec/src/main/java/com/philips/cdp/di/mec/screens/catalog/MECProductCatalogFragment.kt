@@ -300,7 +300,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
             executeRequest()
         }
-        return binding.root
+        return mRootView
     }
 
    private  fun getBackgroundColorOfFontIcon (label: Label):Int{
