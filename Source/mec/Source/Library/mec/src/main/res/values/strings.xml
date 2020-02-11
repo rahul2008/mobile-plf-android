@@ -20,7 +20,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="mec_error">Error</string>
     <string name="mec_info">Info</string>
-    <string name="mec_reviews">Reviews</string>
+    <string name="mec_reviews">reviews</string>
     <string name="mec_add_to_cart">Add to cart</string>
     <string name="mec_in_stock">In stock</string>
     <string name="mec_out_of_stock">Out of stock </string>
