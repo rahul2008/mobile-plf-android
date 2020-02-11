@@ -11,6 +11,8 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+
+import androidx.fragment.app.FragmentManager;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.ContextCompat;
@@ -25,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
@@ -505,7 +508,23 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (!isNetworkConnected()) {
             return;
         }
-        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+        if (msg.obj instanceof IAPNetworkError) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+        }else{
+        
+            new NetworkUtility().showDialogMessage(getContext().getString(R.string.iap_shopping_cart_dls), mContext.getString(R.string.iap_no_product_available), getFragmentManager(), getContext(), new AlertListener() {
+                @Override
+                public void onPositiveBtnClick() {
+                    getFragmentManager().popBackStack(ProductDetailFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+
+                @Override
+                public void onNegativeBtnClick() {
+                    new NetworkUtility().dismissErrorDialog();
+                }
+            });
+
+        }
 
         if (msg.obj instanceof IAPNetworkError) {
             final IAPNetworkError obj = (IAPNetworkError) msg.obj;
