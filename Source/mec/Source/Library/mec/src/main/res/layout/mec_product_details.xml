@@ -207,18 +207,20 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_retailerItem_ctn_lebel"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textSize="12sp"
+                    android:gravity="start"
+                    android:layout_gravity="start"
                     style="@style/mecCentralesansBookFont"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:text='@{product.code ?? ""}' />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_product_detail_stock_status"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textSize="12sp"
                     android:gravity="end"
                     android:layout_gravity="end"
