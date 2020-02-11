@@ -1,7 +1,6 @@
 
 package com.philips.cdp.di.mec.integration;
-import com.philips.cdp.di.mec.screens.catalog.ECSCatalogRepository;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -33,6 +32,7 @@ public class MECInterface implements UappInterface {
 
         mMECSettings = (MECSettings) uappSettings;
         mUappDependencies = uappDependencies;
+
     }
 
     /**

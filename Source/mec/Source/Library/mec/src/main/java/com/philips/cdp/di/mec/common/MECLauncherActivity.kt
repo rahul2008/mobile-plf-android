@@ -5,15 +5,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
+import com.philips.cdp.di.mec.integration.MECFlowConfigurator
 
 import com.philips.cdp.di.mec.integration.MECListener
+import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
+import com.philips.cdp.di.mec.screens.detail.MECLandingProductDetailsFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.DEFAULT_THEME
 import com.philips.cdp.di.mec.utils.MECConstant.IAP_KEY_ACTIVITY_THEME
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.uappframework.launcher.FragmentLauncher
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.thememanager.*
@@ -21,9 +29,10 @@ import com.philips.platform.uid.utils.UIDActivity
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.mec_action_bar.*
 import java.util.*
+import java.util.ResourceBundle.getBundle
 
 
- class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListener, MECListener {
+class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListener, MECListener {
 
 
      /**
@@ -63,6 +72,10 @@ import java.util.*
 
     lateinit var bundle: Bundle
 
+    private var isHybris : Boolean = false
+
+    private var flowConfigurator: MECFlowConfigurator ? =null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,8 +88,11 @@ import java.util.*
         mec_header_back_button_framelayout.setOnClickListener(this)
         bundle = intent.getExtras()!!
 
-        createActionBar();
-        loadDecisionFragment();
+        isHybris = bundle.getBoolean(MECConstant.KEY_IS_HYBRIS)
+        flowConfigurator = bundle.getSerializable(MECConstant.KEY_FLOW_CONFIGURATION) as MECFlowConfigurator
+
+        createActionBar()
+        launchMECasFragment(isHybris)
     }
 
      private fun createActionBar() {
@@ -93,18 +109,6 @@ import java.util.*
 
     override fun onClick(v: View?) {
         onBackPressed()
-    }
-
-    private fun loadDecisionFragment( ){
-
-            MECDataHolder.INSTANCE.setActionBarListener(this, this)
-            val mECFragmentLauncher = MECFragmentLauncher()
-             mECFragmentLauncher.arguments = bundle
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(com.philips.cdp.di.mec.R.id.mec_fragment_container, mECFragmentLauncher, mECFragmentLauncher.TAG)
-            //transaction.addToBackStack(mECFragmentLauncher.TAG)
-            transaction.commitAllowingStateLoss()
-
     }
 
      override fun onGetCartCount(count: Int) {
@@ -131,19 +135,19 @@ import java.util.*
      }
 
      override fun onGetCompleteProductList(productList: ArrayList<String>?) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
      }
 
      override fun onSuccess() {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
      }
 
      override fun onSuccess(bool: Boolean) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
      }
 
      override fun onFailure(errorCode: Int) {
-         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
      }
 
      override fun onBackPressed() {
@@ -167,6 +171,76 @@ import java.util.*
          }
          theme.applyStyle(themeIndex, true)
          UIDHelper.init(ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE))
+     }
+
+
+     // Launch inner MEC  Landing fragment
+
+     private fun launchMECasFragment(hybris: Boolean) {
+
+         val bundle = bundle
+
+         val mecLandingFragment =getFragment(hybris, flowConfigurator!!,bundle)
+
+         bundle.putInt("fragment_container",R.id.mec_fragment_container) // frame_layout for fragment
+         mecLandingFragment?.arguments = bundle
+
+
+         MECDataHolder.INSTANCE.setActionBarListener(this, this)
+         val tag = mecLandingFragment?.javaClass?.name
+         val transaction = supportFragmentManager.beginTransaction()
+         transaction.replace(R.id.mec_fragment_container, mecLandingFragment!!, tag)
+         transaction.commitAllowingStateLoss()
+     }
+
+
+     private fun getFragment(isHybris: Boolean, mecFlowConfigurator: MECFlowConfigurator, bundle: Bundle): MecBaseFragment? {
+         var fragment: MecBaseFragment? = null
+
+         when (mecFlowConfigurator.landingView) {
+
+             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
+                 fragment = MECLandingProductDetailsFragment()
+                 putCtnsToBundle(bundle,mecFlowConfigurator)
+             }
+
+             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
+                 fragment = MECProductCatalogFragment()
+             }
+             MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
+                 fragment = getCategorizedFragment(isHybris)
+                 putCtnsToBundle(bundle,mecFlowConfigurator)
+             }
+         }
+         return fragment
+     }
+
+     private fun getCategorizedFragment(isHybris: Boolean): MecBaseFragment? {
+         if (isHybris) {
+             return MECProductCatalogCategorizedFragment()
+         } else {
+             return MECCategorizedRetailerFragment()
+         }
+     }
+
+     fun putCtnsToBundle(bundle: Bundle , mecFlowConfigurator: MECFlowConfigurator){
+
+         var ctnList: ArrayList<String>? = ArrayList()
+
+         if (mecFlowConfigurator.productCTNs != null) {
+
+             for (ctn in mecFlowConfigurator.productCTNs!!) {
+                 ctnList?.add(ctn.replace("_", "/"))
+             }
+         }
+
+         bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, ctnList)
+
+         val ecsProduct = ECSProduct()
+         ecsProduct.code = ctnList?.get(0) ?: null
+
+         bundle?.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
+
      }
 
 }

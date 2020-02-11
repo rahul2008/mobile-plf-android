@@ -1,6 +1,5 @@
 package com.philips.cdp.di.mec.screens.detail
 
-import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -22,9 +21,7 @@ import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
-import java.lang.Exception
 import java.util.*
-import kotlin.collections.ArrayList
 
 class EcsProductDetailViewModel : CommonViewModel() {
 
@@ -34,9 +31,15 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val review = MutableLiveData<ReviewResponse>()
 
+
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     var ecsProductDetailRepository = ECSProductDetailRepository(this,ecsServices)
+
+    var ecsProductCallback = ECSProductForCTNCallback(this)
+
+    var ecsProductListCallback = ECSProductListForCTNsCallback(this)
 
     fun getRatings(ctn :String){
         ecsProductDetailRepository.getRatings(ctn)
@@ -48,6 +51,14 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     fun getBazaarVoiceReview(ctn : String, pageNumber : Int, pageSize : Int){
         ecsProductDetailRepository.fetchProductReview(ctn, pageNumber, pageSize)
+    }
+
+    fun getProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProduct(ctn, ecsProductCallback)
+    }
+
+    fun getRetailerProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProductSummaries(Arrays.asList(ctn), ecsProductListCallback)
     }
 
 

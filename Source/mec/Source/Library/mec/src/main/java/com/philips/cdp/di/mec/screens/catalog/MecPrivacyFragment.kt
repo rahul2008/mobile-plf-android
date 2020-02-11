@@ -24,6 +24,10 @@ import java.net.URL
 
 class MecPrivacyFragment : MecBaseFragment() {
 
+    companion object {
+        val TAG:String="MecPrivacyFragment"
+    }
+
     private var mWebView: WebView? = null
     private var mUrl: String? = null
 
