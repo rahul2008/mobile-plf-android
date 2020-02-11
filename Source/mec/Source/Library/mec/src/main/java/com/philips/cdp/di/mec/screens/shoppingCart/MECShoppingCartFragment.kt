@@ -256,6 +256,10 @@ class MECShoppingCartFragment : MecBaseFragment(),AlertListener,ItemClickListene
         showDialog()
     }
 
+    fun disableButton(){
+        binding.mecContinueCheckoutBtn.isEnabled = false
+    }
+
     private fun getECSConfig(){
         MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
 

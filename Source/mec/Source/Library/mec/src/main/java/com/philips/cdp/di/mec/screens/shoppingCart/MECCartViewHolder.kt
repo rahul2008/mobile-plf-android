@@ -5,6 +5,7 @@ import android.view.View
 import com.android.volley.toolbox.ImageLoader
 import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 
 class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {
@@ -41,6 +42,13 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
                 mPopupWindow = countPopUp.popUpWindow
                 countPopUp.show()
             }
+
+            if(cartSummary.entries.quantity > cartSummary.entries.product.stock.stockLevel) {
+                mecShoppingCartFragment.disableButton()
+            }
+
+        }else if (!MECutility.isStockAvailable(cartSummary.entries.product.stock!!.stockLevelStatus, cartSummary.entries.product.stock!!.stockLevel)){
+            mecShoppingCartFragment.disableButton()
         }
     }
 }
