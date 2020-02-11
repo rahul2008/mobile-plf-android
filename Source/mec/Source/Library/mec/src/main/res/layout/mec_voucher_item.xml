@@ -21,7 +21,7 @@
         android:id="@+id/iap_applied_vocuher_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:background="?attr/uidListItemDefaultNormalOnBackgroundColor"
         >
 
         <LinearLayout
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text='@{voucher.voucherCode ?? "" }'
+                android:text='@{"Gift code: " + voucher.voucherCode ?? "" }'
                 android:textSize="@dimen/iap_text_size_16sp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -48,21 +48,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:text='@{voucher.appliedValue.formattedValue ?? ""}'
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:text='@{voucher.appliedValue.formattedValue + " discount | " +  voucher.valueFormatted?? ""}'
                 android:textSize="@dimen/iap_text_size_12"
                 />
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/mec_discountedPrice_label"
-                style="@style/iapCentralesansMediumFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:text='@{voucher.valueFormatted ?? ""}'
-                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:textSize="@dimen/iap_text_size_16sp" />
-
 
         </LinearLayout>
 

@@ -122,6 +122,8 @@
 
     <string name="mec_billing_address">Billing address</string>
 
+    <string name="mec_invalid_voucher_error">Sorry, we dont recognize this code</string>
+
 
 
    

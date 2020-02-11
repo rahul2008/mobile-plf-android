@@ -386,6 +386,15 @@
 
     </style>
 
+    <style name="mec_voucher_validation_text">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingStart">9dp</item>
+        <item name="android:paddingEnd">9dp</item>
+        <item name="android:paddingTop">12dp</item>
+
+    </style>
+
     <style name="mec_header">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:background">?attr/uidContentSecondaryNeutralBackgroundColor</item>

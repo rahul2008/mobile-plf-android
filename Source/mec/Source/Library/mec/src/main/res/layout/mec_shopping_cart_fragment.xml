@@ -96,8 +96,8 @@
             android:background="?attr/uidTextBoxDefaultPressedBackgroundColor"
             android:layout_marginTop="4dp"
             android:afterTextChanged="@{(edtitable)->fragment.afterUserNameChange(edtitable)}"
-            android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
-            android:layout_marginRight="@dimen/border8_margin"
+            android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginEnd="@dimen/border8_margin"
             />
 
         <com.philips.platform.uid.view.widget.Button
