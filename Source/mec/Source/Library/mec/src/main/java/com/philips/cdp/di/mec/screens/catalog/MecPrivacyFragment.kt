@@ -41,7 +41,7 @@ class MecPrivacyFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(getString(R.string.mec_privacy_notice), true)
+        setTitleAndBackButtonVisibility(getString(R.string.mec_privacy), true)
         mWebView!!.onResume()
     }
 

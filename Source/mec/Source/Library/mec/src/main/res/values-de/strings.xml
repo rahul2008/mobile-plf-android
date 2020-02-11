@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="mec_add">Hinzufügen</string>
+  <string name="mec_add_gift_Card">Geschenk-Code hinzufügen</string>
+  <string name="mec_add_to_cart">Einkaufen</string>
+  <string name="mec_anonymous">Anonym</string>
+  <string name="mec_bazaarVoice_Detail_at">Einzelheiten bei</string>
+  <string name="mec_bazaarVoice_Terms_And_Condition">Diese Bewertungen werden von Bazaarvoice verwaltet und entsprechen den Authentizitätsrichtlinien von Bazaarvoice, die durch Betrugsbekämpfungstechnologie und Humanfaktoren ergänzt werden.</string>
+  <string name="mec_buy_from_retailers">Beim Händler kaufen</string>
+  <string name="mec_cancel">Abbrechen</string>
+  <string name="mec_cart_login_error_message">Bitte registrieren Sie sich oder melden Sie sich an, um Ihre Produkte problemlos zu bestellen</string>
+  <string name="mec_continue_checkout">Weiter zum Bezahlen</string>
+  <string name="mec_continue_shopping">Weiter einkaufen</string>
+  <string name="mec_features">Funktionsweisen</string>
+  <string name="mec_has_used_this_product_for">Hat dieses Produkt verwendet für</string>
+  <string name="mec_in_stock">Auf Lager</string>
+  <string name="mec_info">[de]Info</string>
+  <string name="mec_invalid_landing_view">Bitte geben Sie eine gültige Zielanzeige an</string>
+  <string name="mec_invalid_product_ctn">[de]Please provide a non empty product CTN</string>
+  <string name="mec_loading">Wird geladen...</string>
+  <string name="mec_more_info">für weitere Informationen</string>
+  <string name="mec_no_product_available">In Ihrem Store wurde kein Produkt gefunden.</string>
+  <string name="mec_no_result">0 Ergebnisse gefunden für</string>
+  <string name="mec_no_review_available">Keine Bewertungen gefunden</string>
+  <string name="mec_ok">OK</string>
+  <string name="mec_online_retailers">Online-Einzelhändler</string>
+  <string name="mec_out_of_stock">Nicht auf Lager</string>
+  <string name="mec_privacy">Datenschutzbestimmungen</string>
+  <string name="mec_product_detail_title"> Produktdetails</string>
+  <string name="mec_product_title">Produkte</string>
+  <string name="mec_read">Lesen Sie unsere</string>
+  <string name="mec_reviews">Bewertungen</string>
+  <string name="mec_shopping_cart">Warenkorb</string>
+  <string name="mec_specs">Spezifikationen</string>
+  <string name="mec_threshold_message">Dies könnte länger dauern. Möchten Sie fortsetzen?</string>
+  <string name="mec_threshold_title">Erforderlicher Schwellenwert erreicht</string>
+  <string name="mec_zero_results_message"> Diese Funktion filtert unsere Produktliste. Bitte stellen Sie sicher, dass sich keine Rechtschreibfehler im Suchbegriff befinden.</string>
+</resources>
