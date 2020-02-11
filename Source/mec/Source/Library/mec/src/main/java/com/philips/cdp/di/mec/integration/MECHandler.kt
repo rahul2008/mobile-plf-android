@@ -1,5 +1,5 @@
 /**
- * (C) Koninklijke Philips N.V., 2015.
+ * (C) Konin klijke Philips N.V., 2015.
  * All rights reserved.
  */
 package com.philips.cdp.di.mec.integration
@@ -172,10 +172,11 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         when (mecFlowConfigurator.landingView) {
 
+
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
                 fragment = MECLandingProductDetailsFragment()
                 fragmentTag = MECLandingProductDetailsFragment.TAG
-                putCtnsToBundle(bundle,mecFlowConfigurator)
+
             }
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
@@ -184,9 +185,9 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
             }
             MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
                 fragment = getCategorizedFragment(isHybris)
-                putCtnsToBundle(bundle,mecFlowConfigurator)
             }
         }
+        putCtnsToBundle(bundle,mecFlowConfigurator)
         return fragment
     }
 
@@ -214,7 +215,11 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, ctnList)
 
         val ecsProduct = ECSProduct()
-        ecsProduct.code = ctnList?.get(0) ?: null
+        if(ctnList?.size !=0) {
+            ecsProduct.code = ctnList?.get(0) ?: ""
+        }else{
+            ecsProduct.code = ""
+        }
 
         bundle?.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
 
