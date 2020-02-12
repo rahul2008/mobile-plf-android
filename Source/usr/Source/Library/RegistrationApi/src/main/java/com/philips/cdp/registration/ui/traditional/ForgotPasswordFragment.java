@@ -258,6 +258,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private void resetPassword() {
         if (networkUtility.isNetworkAvailable()) {
+            hideNotificationBarView();
             if (user != null) {
                 userIdEditText.clearFocus();
                 if (FieldsValidator.isValidEmail(userIdEditText.getText().toString())) {

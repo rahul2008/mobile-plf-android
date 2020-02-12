@@ -62,11 +62,6 @@ public class URNotification {
         if (INLINE_ERROR_CODE.contains(notificationMessage.getErrorCode()))
             mNotificationType = NotificationType.INLINE;
 
-        if (mNotificationType == NotificationType.NOTIFICATION_BAR) {
-            if (notificationBarView != null) return;
-            RLog.d(TAG, "URNotification : new NotificationBarView");
-            notificationBarView = NotificationBarView.getInstance(mActivity);
-        }
         switch (mNotificationType) {
 
             case INLINE:
@@ -76,10 +71,10 @@ public class URNotification {
 
             case NOTIFICATION_BAR:
                 RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
-                if (!notificationBarView.isNotificationBarViewShowing() && mActivity!=null) {
+                if (!NotificationBarView.getInstance(mActivity).isNotificationBarViewShowing() && mActivity != null) {
 //                    if (!isNetworkError)
 
-                    notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
+                    NotificationBarView.getInstance(mActivity).showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
                 }
                 break;
         }
@@ -88,15 +83,8 @@ public class URNotification {
     public void hideNotification() {
         switch (mNotificationType) {
             case NOTIFICATION_BAR:
-                if (notificationBarView != null) {
-                    notificationBarView.hidePopup();
-                    RLog.d(TAG, "URNotification : hideNotification");
-                    notificationBarView = null;
-
-
-                }
+                NotificationBarView.getInstance(mActivity).hidePopup();
+                RLog.d(TAG, "URNotification : hideNotification");
         }
     }
-
-
 }

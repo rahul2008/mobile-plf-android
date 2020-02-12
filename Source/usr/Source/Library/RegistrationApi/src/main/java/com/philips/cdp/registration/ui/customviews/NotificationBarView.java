@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,12 +24,18 @@ public class NotificationBarView {
 
     private NotificationBarView(Activity mActivity) {
         this.mActivity = mActivity;
+
+        popupWindow = new PopupWindow(mActivity);
+        popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(false);
+
     }
 
     public static NotificationBarView getInstance(Activity mActivity) {
-        if (notificationBarView == null) {
+        if (notificationBarView == null || notificationBarView.mActivity != mActivity) {
             synchronized (NotificationBarView.class) {
-                if (notificationBarView == null)
+                if (notificationBarView == null || notificationBarView.mActivity != mActivity)
                     notificationBarView = new NotificationBarView(mActivity);
             }
         }
@@ -36,15 +43,9 @@ public class NotificationBarView {
     }
 
     public void showError(String msg, String title, View baseLayoutViewLocation) {
-        if (popupWindow == null) {
-            View view = getNotificationContentView(msg, title, true);
-            popupWindow = new PopupWindow(mActivity);
-            popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-            popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-            popupWindow.setFocusable(false);
-            popupWindow.setContentView(view);
+        View view = getNotificationContentView(msg, title, true);
+        popupWindow.setContentView(view);
 
-        }
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
