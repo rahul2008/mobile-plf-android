@@ -335,13 +335,11 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
         mHeight = 0;
     }
 
-    //TODO: Check with Indrajeet and Sahu
     public void updateErrorNotification(String errorMessage, int errorCode) {
         RLog.d(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
         getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
-    //TODO: Check with Indrajeet and Sahu
     public void updateErrorNotification(String errorMessage) {
         RLog.d(TAG, "errorMessage = " + errorMessage);
         getNotification().showNotification(new NotificationMessage(errorMessage));

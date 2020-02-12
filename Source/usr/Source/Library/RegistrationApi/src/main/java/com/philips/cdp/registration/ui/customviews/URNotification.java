@@ -71,9 +71,7 @@ public class URNotification {
 
             case NOTIFICATION_BAR:
                 RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
-                if (!NotificationBarView.getInstance(mActivity).isNotificationBarViewShowing() && mActivity != null) {
-//                    if (!isNetworkError)
-
+                if (mActivity != null) {
                     NotificationBarView.getInstance(mActivity).showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
                 }
                 break;

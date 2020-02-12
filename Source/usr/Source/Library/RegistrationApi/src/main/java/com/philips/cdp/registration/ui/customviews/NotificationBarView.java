@@ -43,11 +43,11 @@ public class NotificationBarView {
     }
 
     public void showError(String msg, String title, View baseLayoutViewLocation) {
+        RLog.i(TAG, "showError :: title : "+title+" msg : "+msg);
         View view = getNotificationContentView(msg, title, true);
         popupWindow.setContentView(view);
-
         if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
+            updateErrorDetails(msg,title);
         } else {
             if (popupWindow != null) {
                 popupWindow.showAtLocation(baseLayoutViewLocation, Gravity.NO_GRAVITY, 0, UIDUtils.getActionBarHeight(mActivity) + UIDUtils.getStatusBarHeight(mActivity));
@@ -82,5 +82,13 @@ public class NotificationBarView {
             EventHelper.getInstance().notifyEventOccurred(NOTIFICATION);
         });
         return view;
+    }
+
+    private void updateErrorDetails(String msg, String title) {
+        if (popupWindow != null){
+            View contentView = popupWindow.getContentView();
+            ((TextView) contentView.findViewById(R.id.uid_notification_title)).setText(msg);
+            ((TextView) contentView.findViewById(R.id.uid_notification_content)).setText(title);
+        }
     }
 }
