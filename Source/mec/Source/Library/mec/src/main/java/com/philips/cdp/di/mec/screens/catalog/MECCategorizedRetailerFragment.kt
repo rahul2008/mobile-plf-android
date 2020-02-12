@@ -6,6 +6,10 @@ import kotlinx.android.synthetic.main.mec_catalog_fragment.*
 
 class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
 
+    override fun getFragmentTag(): String {
+        return "MECCategorizedRetailerFragment"
+    }
+
     companion object {
         val TAG:String="MECCategorizedRetailerFragment"
     }

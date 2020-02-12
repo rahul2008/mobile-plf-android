@@ -28,7 +28,7 @@
     android:id="@+id/details_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/uid_level_white">
+    >
 
 
     <ScrollView
@@ -170,7 +170,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                        android:text="4"
                         android:textSize="@dimen/iap_product_original_price" />
 
                     <com.philips.platform.uid.view.widget.RatingBar
@@ -189,7 +188,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                        android:text=" (3 reviews)"
                         android:textSize="@dimen/iap_product_original_price" />
 
                 </LinearLayout>

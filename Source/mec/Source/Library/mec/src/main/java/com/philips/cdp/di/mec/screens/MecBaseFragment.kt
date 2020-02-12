@@ -42,6 +42,14 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     private var mMECBaseFragmentProgressBar: ProgressBar? = null
 
     override fun handleBackEvent(): Boolean {
+
+        val currentFragment = activity?.supportFragmentManager?.fragments?.last()
+
+        if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
+        {
+            setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
+        }
+
         return false
     }
 
@@ -207,5 +215,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         }
        // fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
     }
+
+    abstract fun getFragmentTag():String
 
 }

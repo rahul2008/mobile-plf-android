@@ -47,6 +47,9 @@ import com.philips.platform.uid.view.widget.Label
  * A simple [Fragment] subclass.
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
+    override fun getFragmentTag(): String {
+        return "MECProductCatalogFragment"
+    }
 
 
     companion object {
@@ -101,7 +104,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     var totalPages: Int = 0
     var currentPage: Int = 0
-    var pageSize: Int = 5
+    var pageSize: Int = 20
     var shouldSupportPagination = true
     var  isCallOnProgress : Boolean= true
 
@@ -382,7 +385,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
               return true
             }
         }
-
         return false
     }
 

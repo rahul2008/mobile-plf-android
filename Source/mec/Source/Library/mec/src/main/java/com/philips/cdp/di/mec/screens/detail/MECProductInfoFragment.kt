@@ -17,6 +17,10 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
  */
 class MECProductInfoFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+       return "MECProductInfoFragment"
+    }
+
     private lateinit var binding:MecProductInfoFragmentBinding
     lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
 

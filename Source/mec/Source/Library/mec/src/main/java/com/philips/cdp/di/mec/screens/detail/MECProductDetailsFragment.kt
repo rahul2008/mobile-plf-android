@@ -47,6 +47,10 @@ import java.text.DecimalFormat
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "MECProductDetailsFragment"
+    }
+
     private  var bottomSheetFragment: MECRetailersFragment? =null
     var mRootView :View? =null
 
@@ -326,7 +330,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 tagActionsforRetailer(ecsRetailer.name, MECutility.stockStatus(ecsRetailer.availability))
                 val fragment = WebBuyFromRetailersFragment()
                 fragment.arguments = bundle
-                replaceFragment(fragment, WebBuyFromRetailersFragment.TAG, true)
+                addFragment(fragment, WebBuyFromRetailersFragment.TAG, true)
             }
         }
     }
