@@ -190,9 +190,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
-        if(null!=bottomSheetFragment){
-            buyFromRetailers()
-        }
     }
 
     override fun onStart() {
