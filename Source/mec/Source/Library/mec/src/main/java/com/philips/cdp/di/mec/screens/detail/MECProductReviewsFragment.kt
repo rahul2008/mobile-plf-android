@@ -25,6 +25,10 @@ import com.philips.cdp.di.mec.utils.MECConstant
  */
 class MECProductReviewsFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "MECProductReviewsFragment"
+    }
+
 
     private var productctn: String? = null
     var offset: Int = 0

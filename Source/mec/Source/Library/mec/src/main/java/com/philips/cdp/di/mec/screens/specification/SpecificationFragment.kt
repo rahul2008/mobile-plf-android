@@ -15,6 +15,10 @@ import com.philips.cdp.prxclient.datamodels.specification.*
 
 class SpecificationFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "SpecificationFragment"
+    }
+
     private lateinit var binding: MecProductSpecsFragmentBinding
     private lateinit var prxSpecificationViewModel: SpecificationViewModel
 

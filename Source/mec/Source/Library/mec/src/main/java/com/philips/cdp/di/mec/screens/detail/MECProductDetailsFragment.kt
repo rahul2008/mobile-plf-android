@@ -47,6 +47,10 @@ import java.text.DecimalFormat
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "MECProductDetailsFragment"
+    }
+
     private  var bottomSheetFragment: MECRetailersFragment? =null
     var mRootView :View? =null
 
@@ -186,9 +190,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
-        if(null!=bottomSheetFragment){
-            buyFromRetailers()
-        }
     }
 
     override fun onStart() {
@@ -239,7 +240,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     //TODO bind it
     fun updateData(results: List<Statistics>?) {
-        if (results != null) {
+        if (results != null && results.isNotEmpty()) {
             binding.mecRating.setRating((results.get(0).productStatistics.reviewStatistics.averageOverallRating).toFloat())
             binding.mecRatingLebel.text = DecimalFormat("0.0").format(results.get(0).productStatistics.reviewStatistics.averageOverallRating)
             binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " reviews)"
@@ -326,13 +327,15 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 tagActionsforRetailer(ecsRetailer.name, MECutility.stockStatus(ecsRetailer.availability))
                 val fragment = WebBuyFromRetailersFragment()
                 fragment.arguments = bundle
-                replaceFragment(fragment, WebBuyFromRetailersFragment.TAG, true)
+                addFragment(fragment, WebBuyFromRetailersFragment.TAG, true)
             }
         }
     }
 
     override fun processError(mecError: MecError?) {
+        binding.detailsParentLayout.visibility = View.GONE
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
+
     }
 
 

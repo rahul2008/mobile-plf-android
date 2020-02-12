@@ -25,6 +25,10 @@ import java.net.URL
 
 class WebBuyFromRetailersFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "WebBuyFromRetailersFragment"
+    }
+
     companion object {
         val TAG:String="WebBuyFromRetailersFragment"
     }

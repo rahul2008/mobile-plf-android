@@ -14,6 +14,11 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
  class MECLandingProductDetailsFragment : MECProductDetailsFragment() {
+
+    override fun getFragmentTag(): String {
+        return "MECLandingProductDetailsFragment"
+    }
+
     companion object {
         val TAG:String="MECLandingProductDetailsFragment"
     }

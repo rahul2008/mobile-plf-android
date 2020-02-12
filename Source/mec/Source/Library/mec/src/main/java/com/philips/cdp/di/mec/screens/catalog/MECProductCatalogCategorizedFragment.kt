@@ -8,6 +8,9 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
+    override fun getFragmentTag(): String {
+        return "MECProductCatalogCategorizedFragment"
+    }
 
     companion object {
         val TAG:String="MECProductCatalogCategorizedFragment"
