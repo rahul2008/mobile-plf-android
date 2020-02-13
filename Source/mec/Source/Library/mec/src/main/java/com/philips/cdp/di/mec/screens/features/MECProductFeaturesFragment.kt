@@ -13,6 +13,9 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 
 class MECProductFeaturesFragment : MecBaseFragment() {
+    override fun getFragmentTag(): String {
+        return "MECProductFeaturesFragment"
+    }
 
     private lateinit var binding: MecProductFeaturesFragmentBinding
     private lateinit var productFeaturesViewModel: ProductFeaturesViewModel

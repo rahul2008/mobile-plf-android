@@ -39,7 +39,7 @@ class MECBulkRatingConversationsDisplayCallback(val ecsProducts: List<ECSProduct
 
                 if(ecsProduct.code isEqualsTo statistics.productStatistics.productId){
 
-                    mecProductReviewList.add (MECProductReview(ecsProduct, DecimalFormat("#.#").format(statistics.productStatistics.reviewStatistics.averageOverallRating), " ("+statistics.productStatistics.reviewStatistics.totalReviewCount.toString()+ " reviews)"))
+                    mecProductReviewList.add (MECProductReview(ecsProduct, DecimalFormat("0.0").format(statistics.productStatistics.reviewStatistics.averageOverallRating), " ("+statistics.productStatistics.reviewStatistics.totalReviewCount.toString()+ " reviews)"))
                 }
             }
         }

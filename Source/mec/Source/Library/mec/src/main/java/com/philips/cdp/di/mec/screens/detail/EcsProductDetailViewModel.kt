@@ -31,9 +31,15 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val review = MutableLiveData<ReviewResponse>()
 
+
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     var ecsProductDetailRepository = ECSProductDetailRepository(this,ecsServices)
+
+    var ecsProductCallback = ECSProductForCTNCallback(this)
+
+    var ecsProductListCallback = ECSProductListForCTNsCallback(this)
 
     fun getRatings(ctn :String){
         ecsProductDetailRepository.getRatings(ctn)
@@ -45,6 +51,14 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     fun getBazaarVoiceReview(ctn : String, pageNumber : Int, pageSize : Int){
         ecsProductDetailRepository.fetchProductReview(ctn, pageNumber, pageSize)
+    }
+
+    fun getProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProduct(ctn, ecsProductCallback)
+    }
+
+    fun getRetailerProductDetailForCtn(ctn: String) {
+        ecsServices.fetchProductSummaries(Arrays.asList(ctn), ecsProductListCallback)
     }
 
 
@@ -100,7 +114,13 @@ class EcsProductDetailViewModel : CommonViewModel() {
         if (reviewValue == null) {
             if (review.tagDimensions != null && review.tagDimensions!!.size > 0) {
                 val tagD = review.tagDimensions?.get(type.substring(0,type.length-1))
-                reviewValue= tagD?.values.toString()
+               var list : MutableList<String>? = tagD?.values
+                reviewValue = list?.joinToString(
+                        prefix = "",
+                        separator = ", ",
+                        postfix = ""
+                       )
+
             }
         }
         return reviewValue.toString()

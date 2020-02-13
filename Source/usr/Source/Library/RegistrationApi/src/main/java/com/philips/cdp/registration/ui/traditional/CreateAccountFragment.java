@@ -731,7 +731,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                 registerUserInfo();
             } else if (!usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
-            } else if (!usrCreatescreenPersonalConsentCheckbox.isChecked()) {
+            }
+
+            if (!usrCreatescreenPersonalConsentCheckbox.isChecked()) {
                 usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
             }
         } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {

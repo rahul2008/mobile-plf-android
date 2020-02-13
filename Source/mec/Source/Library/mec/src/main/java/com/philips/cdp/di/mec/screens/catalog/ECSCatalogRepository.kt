@@ -97,7 +97,7 @@ class ECSCatalogRepository {
 
             }
 
-            //Remove already found ctns from search list
+            //Remove already found categorizedCtns from search list
             private fun getCTNsToBeSearched(ctns: MutableList<String>, ecsProductList: MutableList<ECSProduct>): MutableList<String> {
                 for (ecsProduct in ecsProductList) {
                     ctns.remove(ecsProduct.code)
@@ -174,7 +174,7 @@ class ECSCatalogRepository {
             ctnList.add(ecsProduct.code.replace("/","_"))
         }
         val bvClient = MECDataHolder.INSTANCE.bvClient
-        val request = BulkRatingsRequest.Builder(ctnList, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE, MECDataHolder.INSTANCE.locale).build()
+        val request = BulkRatingsRequest.Builder(ctnList, BulkRatingOptions.StatsType.All).addFilter(BulkRatingOptions.Filter.ContentLocale, EqualityOperator.EQ, MECDataHolder.INSTANCE.locale).addCustomDisplayParameter(MECConstant.KEY_BAZAAR_LOCALE!!, MECDataHolder.INSTANCE.locale).build()
         bvClient!!.prepareCall(request).loadAsync(mecConversationsDisplayCallback)
 
     }

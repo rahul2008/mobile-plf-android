@@ -9,11 +9,10 @@
     <application android:theme="@style/Theme.DLS">
         <activity android:name=".DemoLauncherActivity"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".LaunchAsFragment" />
         <activity android:name=".LaunchAsActivity" />
-        <activity android:name=".BaseDemoActivity" />
+        <activity android:name=".BaseDemoActivity"  android:screenOrientation="portrait"> </activity>
     </application>
 
 </manifest>

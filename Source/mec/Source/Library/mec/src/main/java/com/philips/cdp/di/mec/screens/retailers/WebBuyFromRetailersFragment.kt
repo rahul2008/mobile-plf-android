@@ -25,6 +25,14 @@ import java.net.URL
 
 class WebBuyFromRetailersFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "WebBuyFromRetailersFragment"
+    }
+
+    companion object {
+        val TAG:String="WebBuyFromRetailersFragment"
+    }
+
     private var mWebView: WebView? = null
     private var mUrl: String? = null
     private var isPhilipsShop = false

@@ -52,7 +52,6 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_base_demo, fragment);
-        fragmentTransaction.addToBackStack(BaseDemoFragment.class.getSimpleName());
         fragmentTransaction.commit();
     }
 
@@ -156,14 +155,12 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         if (!backState) {
             super.onBackPressed();
         }
+        //TODO
         if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
             actionBar();
             showAppVersion();
         }
-        if(currentFrag instanceof BaseDemoFragment){
-            super.onBackPressed();
-        finish();
-        }
+
     }
 
 }

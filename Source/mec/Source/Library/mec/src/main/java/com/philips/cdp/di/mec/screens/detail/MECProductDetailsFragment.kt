@@ -47,12 +47,17 @@ import java.text.DecimalFormat
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
-    private lateinit var bottomSheetFragment: MECRetailersFragment
+    override fun getFragmentTag(): String {
+        return "MECProductDetailsFragment"
+    }
+
+    private  var bottomSheetFragment: MECRetailersFragment? =null
+    var mRootView :View? =null
 
     lateinit var param: String
 
     private lateinit var binding: MecProductDetailsBinding
-    private lateinit var product: ECSProduct
+    lateinit var product: ECSProduct
     private lateinit var retailersList: ECSRetailerList
     private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
 
@@ -137,42 +142,47 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = MecProductDetailsBinding.inflate(inflater, container, false)
+        if(null==mRootView) {
+            binding = MecProductDetailsBinding.inflate(inflater, container, false)
 
-        binding.fragment = this
-        binding.mecDataHolder = MECDataHolder.INSTANCE
+            binding.fragment = this
+            binding.mecDataHolder = MECDataHolder.INSTANCE
 
-        ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+            ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
 
-        ecsRetailerViewModel = this!!?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
+            ecsRetailerViewModel = this!!?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
 
-        ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
-
-
-        ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
+            ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
 
 
-        ecsProductDetailViewModel.bulkRatingResponse.observe(this, ratingObserver)
-        ecsProductDetailViewModel.mecError.observe(this, this)
+            ecsProductDetailViewModel.ecsProduct.observe(this, productObserver)
+
+
+            ecsProductDetailViewModel.bulkRatingResponse.observe(this, ratingObserver)
+            ecsProductDetailViewModel.mecError.observe(this, this)
 
 
 
-        binding.indicator.viewPager = binding.pager
-        val bundle = arguments
-        product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
+            binding.indicator.viewPager = binding.pager
+            val bundle = arguments
+            product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
 
 
-        //if assets are not available , we should show one Default image
-        ecsProductDetailViewModel.addNoAsset(product)
+            //if assets are not available , we should show one Default image
+            ecsProductDetailViewModel.addNoAsset(product)
 
-        ecsProductDetailViewModel.ecsProduct.value = product
+            ecsProductDetailViewModel.ecsProduct.value = product
 
-        val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
-        binding.viewpagerMain.offscreenPageLimit = 4
-        binding.viewpagerMain.adapter = fragmentAdapter
-        binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
-        MECAnalytics.trackPage(productDetails)
-        tagActions(product);
+            val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
+            binding.viewpagerMain.offscreenPageLimit = 4
+            binding.viewpagerMain.adapter = fragmentAdapter
+            binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
+            MECAnalytics.trackPage(productDetails)
+            tagActions(product)
+            mRootView=binding.root
+            showData()
+
+        }
         return binding.root
     }
 
@@ -184,6 +194,10 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     override fun onStart() {
         super.onStart()
+
+    }
+
+    private fun showData() {
         if (MECDataHolder.INSTANCE.hybrisEnabled) {
             binding.mecFindRetailerButtonPrimary.visibility = View.GONE
             binding.mecFindRetailerButtonSecondary.visibility = View.VISIBLE
@@ -198,7 +212,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     fun addToCartVisibility(product: ECSProduct) {
         if (MECDataHolder.INSTANCE.hybrisEnabled.equals(false)) {
             binding.mecAddToCartButton.visibility = View.GONE
-        } else if ((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && !(MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel))) {
+        } else if ((MECDataHolder.INSTANCE.hybrisEnabled.equals(true)) && product!!.stock!=null && !(MECutility.isStockAvailable(product!!.stock?.stockLevelStatus!!, product!!.stock?.stockLevel!!))) {
             binding.mecAddToCartButton.visibility = View.VISIBLE
             binding.mecAddToCartButton.isEnabled = false
         } else {
@@ -213,6 +227,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         ecsProductDetailViewModel.getProductDetail(product)
     }
 
+
+
     private fun getRetailerDetails() {
         ecsRetailerViewModel.getRetailers(product.code)
     }
@@ -224,9 +240,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     //TODO bind it
     fun updateData(results: List<Statistics>?) {
-        if (results != null) {
+        if (results != null && results.isNotEmpty()) {
             binding.mecRating.setRating((results.get(0).productStatistics.reviewStatistics.averageOverallRating).toFloat())
-            binding.mecRatingLebel.text = DecimalFormat("#.#").format(results.get(0).productStatistics.reviewStatistics.averageOverallRating)
+            binding.mecRatingLebel.text = DecimalFormat("0.0").format(results.get(0).productStatistics.reviewStatistics.averageOverallRating)
             binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " reviews)"
         }
 
@@ -280,13 +296,18 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     private fun buyFromRetailers() {
-        val bundle = Bundle()
-        bottomSheetFragment = MECRetailersFragment()
-        bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
-        bundle.putSerializable(MEC_PRODUCT,binding.product)
-        bottomSheetFragment.arguments = bundle
-        bottomSheetFragment.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
-        fragmentManager?.let { bottomSheetFragment.show(it, bottomSheetFragment.tag) }
+        if(null==bottomSheetFragment){
+            bottomSheetFragment = MECRetailersFragment()
+        }
+        if(!bottomSheetFragment?.isVisible!!) {
+            val bundle = Bundle()
+            bundle.putSerializable(MECConstant.MEC_KEY_PRODUCT, retailersList)
+            bundle.putSerializable(MEC_PRODUCT, product)
+            bottomSheetFragment?.arguments = bundle
+            bottomSheetFragment?.setTargetFragment(this, MECConstant.RETAILER_REQUEST_CODE)
+            fragmentManager?.let { bottomSheetFragment?.show(it, bottomSheetFragment?.tag) }
+        }
+
     }
 
 
@@ -306,13 +327,15 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 tagActionsforRetailer(ecsRetailer.name, MECutility.stockStatus(ecsRetailer.availability))
                 val fragment = WebBuyFromRetailersFragment()
                 fragment.arguments = bundle
-                addFragment(fragment, "retailers", true)
+                addFragment(fragment, WebBuyFromRetailersFragment.TAG, true)
             }
         }
     }
 
     override fun processError(mecError: MecError?) {
+        binding.detailsParentLayout.visibility = View.GONE
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
+
     }
 
 
@@ -339,6 +362,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     companion object {
+            val TAG:String="MECProductDetailsFragment"
+
         @JvmStatic
         fun tagOutOfStockActions(product: ECSProduct) {
             var map = HashMap<String, String>()

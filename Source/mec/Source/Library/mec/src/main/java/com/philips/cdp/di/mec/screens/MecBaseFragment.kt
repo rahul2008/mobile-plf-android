@@ -41,25 +41,15 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     private var mProgressDialog: ProgressDialog? = null
     private var mMECBaseFragmentProgressBar: ProgressBar? = null
 
-    enum class AnimationType {
-        NONE
-    }
-
     override fun handleBackEvent(): Boolean {
+
         val currentFragment = activity?.supportFragmentManager?.fragments?.last()
 
-        if (currentFragment?.getTag().equals("MECProductCatalogFragment")){
-
-        }else  if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
+        if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
         {
             setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
         }
-        else if (currentFragment?.getTag().equals("MECProductDetailsFragment")){
-            setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
-        }
-        else if (currentFragment?.getTag().equals("MecPrivacyFragment")){
-            setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
-        }
+
         return false
     }
 
@@ -74,7 +64,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 val simpleName = newFragment.javaClass.simpleName
 
                 if (isReplaceWithBackStack) {
-                    transaction.addToBackStack(null)
+                    transaction.addToBackStack(simpleName)
                 }
 
                 transaction.replace(id, newFragment, simpleName)
@@ -95,7 +85,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 val simpleName = newFragment.javaClass.simpleName
 
                 if (isAddWithBackStack) {
-                    transaction.addToBackStack(null)
+                    transaction.addToBackStack(simpleName)
                 }
 
                 transaction.add(id, newFragment, simpleName)
@@ -223,7 +213,9 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
             }
         }
-        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
+       // fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
     }
+
+    abstract fun getFragmentTag():String
 
 }
