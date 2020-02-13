@@ -7,9 +7,12 @@ import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.util.Log
 import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.BasePriceEntity
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
@@ -45,6 +48,30 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
     fun getShoppingCart(){
         ecsShoppingCartRepository.fetchShoppingCart()
     }
+
+    fun retryGetShoppingCart() {
+        var retryAPI = { getShoppingCart() }
+        var authFailCallback ={ error: Exception?, ecsError: ECSError? -> authFailureCallback(error, ecsError) }
+        authAndCallAPIagain(retryAPI,authFailCallback)
+    }
+
+    fun authFailureCallback(error: Exception?, ecsError: ECSError?){
+        Log.v("Auth","refresh auth failed");
+
+    }
+
+    fun createShoppingCart(request: String){
+        val createShoppingCartCallback=  object: ECSCallback<ECSShoppingCart, Exception> {
+            override fun onResponse(result: ECSShoppingCart?) {
+                getShoppingCart()
+            }
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                TODO(" create cart must NOT fail")
+            }
+        }
+        ecsShoppingCartRepository.createCart(createShoppingCartCallback)
+    }
+
 
     fun updateQuantity(entries: ECSEntries, quantity: Int) {
         ecsShoppingCartRepository.updateShoppingCart(entries,quantity)

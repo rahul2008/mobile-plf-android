@@ -7,6 +7,7 @@ import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.detail.MECLandingProductDetailsFragment
+import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import java.util.ArrayList
 
@@ -20,6 +21,11 @@ class FragmentSelector {
 
             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
                 fragment = MECLandingProductDetailsFragment()
+
+            }
+
+            MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART -> {
+                fragment = MECShoppingCartFragment()
 
             }
 
