@@ -25,14 +25,15 @@ buildscript {
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionCode 1
         versionName version
         multiDexEnabled true
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
-        minSdkVersion 23
-        targetSdkVersion 24
+        minSdkVersion versions.mins
+        targetSdkVersion versions.target
     }
 
     packagingOptions {
@@ -42,7 +43,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.support.design
+    implementation deps.design
     implementation philipsdeps.uid
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
@@ -56,10 +57,10 @@ dependencies {
         implementation philipsdeps.productselection
     }
 
-    implementation deps.support.recyclerview
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.appcompat
     implementation deps.calligraphy
+    implementation deps.viewpump
 
     implementation project(strings.dcc.projectName)
 }

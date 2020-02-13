@@ -1,7 +1,8 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
-import android.support.v7.widget.RecyclerView
+
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.toolbox.ImageLoader
 import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader

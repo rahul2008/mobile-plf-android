@@ -12,7 +12,7 @@ import com.philips.cdp.productselection.R;
  * Created by philips on 6/21/17.
  */
 
-public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+public class CustomSearchView extends androidx.appcompat.widget.AppCompatAutoCompleteTextView {
 
     public CustomSearchView(Context context) {
         super(context);

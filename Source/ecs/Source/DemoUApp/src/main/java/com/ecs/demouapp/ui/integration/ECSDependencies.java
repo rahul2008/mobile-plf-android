@@ -4,7 +4,7 @@
  */
 package com.ecs.demouapp.ui.integration;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 
 import com.ecs.demouapp.ui.container.CartModelContainer;

@@ -12,10 +12,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +95,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
             ConsentStates personalConsentStatus = (ConsentStates) bundle.get(RegConstants.PERSONAL_CONSENT);
 
-            RegistrationConfiguration.getInstance().setPersonalConsent(personalConsentStatus);
+                RegistrationConfiguration.getInstance().setPersonalConsent(personalConsentStatus);
         }
         myCountDownTimer = new MyCountDownTimer(60 * 1000, 1000);
     }

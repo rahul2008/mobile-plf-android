@@ -7,15 +7,16 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.adapter.GroupAdapter;
@@ -90,7 +91,7 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
         JSONConfiguration jsonConfiguration = readConfigJsonFile("configuration.json");
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView =  findViewById(R.id.recycler_view);
         GroupAdapter adapter = new GroupAdapter(jsonConfiguration.getGroup(), this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

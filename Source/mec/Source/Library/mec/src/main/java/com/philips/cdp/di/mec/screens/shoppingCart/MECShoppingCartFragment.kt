@@ -1,13 +1,10 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+
 import android.graphics.Canvas
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +20,11 @@ import com.philips.cdp.di.mec.utils.AlertListener
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 import kotlinx.android.synthetic.main.mec_main_activity.*
-import android.widget.Toast
+
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
@@ -34,10 +35,10 @@ import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
+
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.screens.address.AddressViewModel
-import com.philips.cdp.di.mec.screens.address.EditAddressFragment
+
 import com.philips.cdp.di.mec.screens.address.MECDeliveryFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
@@ -46,6 +47,9 @@ import com.philips.cdp.di.mec.utils.MECConstant
  * A simple [Fragment] subclass.
  */
 class MECShoppingCartFragment : MecBaseFragment(),AlertListener,ItemClickListener {
+    override fun getFragmentTag(): String {
+        return "MECShoppingCartFragment"
+    }
 
     private lateinit var addressViewModel: AddressViewModel
 

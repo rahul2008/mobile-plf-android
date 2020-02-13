@@ -67,7 +67,9 @@ class HybrisAuth {
                 override fun onFailure(error: Exception?, ecsError: ECSError?) {
                     if (ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
                             || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
+                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode
+                            || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthDetailError.errorCode
+                            || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthNotCalled.errorCode){
                         refreshJainrain(fragmentCallback);
                     } else {
                         fragmentCallback.onFailure(error, ecsError)
@@ -101,7 +103,9 @@ class HybrisAuth {
                 override fun onFailure(error: Exception?, ecsError: ECSError?) {
                     if (ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
                             || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
+                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode
+                            || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthDetailError.errorCode
+                            || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthNotCalled.errorCode) {
                         refreshJainrain(fragmentCallback);
                     } else {
 

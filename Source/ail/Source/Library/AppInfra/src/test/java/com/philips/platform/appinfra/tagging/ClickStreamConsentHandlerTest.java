@@ -1,6 +1,6 @@
 package com.philips.platform.appinfra.tagging;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;

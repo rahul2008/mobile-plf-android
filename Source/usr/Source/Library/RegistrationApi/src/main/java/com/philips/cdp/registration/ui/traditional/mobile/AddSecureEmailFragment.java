@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
@@ -123,12 +125,16 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
         RLog.i(TAG,TAG+".addEmailButton clicked");
         recoveryErrorTextView.setVisibility(GONE);
         addSecureEmailPresenter.addEmailClicked(recoveryEmail.getText().toString());
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.KEY_SECURE_DATA_WITH_EMAIL);
     }
 
     @OnClick(R2.id.btn_reg_secure_data_email_later)
     public void maybeLaterButtonClicked() {
         RLog.i(TAG,TAG+".maybeLaterButton clicked");
         addSecureEmailPresenter.maybeLaterClicked();
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.KEY_SKIP_SECURE_DATA);
     }
 
     @Override

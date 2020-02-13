@@ -1,14 +1,14 @@
 package com.philips.platform.pim.fragment;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
+import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
@@ -31,6 +32,7 @@ import com.philips.platform.pim.utilities.PIMInitState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -51,7 +53,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
     private MutableLiveData<PIMInitState> liveData;
     private UserLoginListener mUserLoginListener;
     private final String USER_PROFILE_URL = "userreg.janrainoidc.userprofile";
-
+    private HashMap consentParameterMap;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,9 +65,14 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @
+            Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pim, container, false);
         pimLoginProgreassBar = view.findViewById(R.id.pbPimRequest);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            consentParameterMap = (HashMap) bundle.get(PIMInterface.PIM_KEY_CONSENTS);
+        }
         return view;
     }
 
@@ -86,7 +93,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
             }
         } else if (pimInitState == PIMInitState.INIT_SUCCESS) {
             pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
-            pimLoginManager = new PIMLoginManager(mContext, pimoidcConfigration);
+            pimLoginManager = new PIMLoginManager(mContext, pimoidcConfigration, consentParameterMap);
             isInitRequiredAgain = false;
             enablProgressBar();
             launch();

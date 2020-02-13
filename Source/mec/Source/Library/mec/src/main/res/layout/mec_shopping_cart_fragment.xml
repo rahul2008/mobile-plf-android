@@ -48,13 +48,13 @@
             android:text="@string/mec_cart_summary" />
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mec_cart_summary_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/mec_cart_Summary"
             android:nestedScrollingEnabled="false"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
         <com.philips.platform.uid.view.widget.Label
@@ -128,13 +128,13 @@
             android:visibility="visible"
             android:text="@string/mec_accepted_codes" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mec_accepted_code_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false"
             android:layout_below="@+id/mec_accepted_code"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </RelativeLayout>
     </ScrollView>
 

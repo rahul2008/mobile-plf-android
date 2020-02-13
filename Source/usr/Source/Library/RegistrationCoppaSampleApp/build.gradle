@@ -215,7 +215,7 @@ if (propFile.canRead()){
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     implementation project(':coppa')
-    implementation deps.support.multidex
+    implementation deps.androidx.multidex
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

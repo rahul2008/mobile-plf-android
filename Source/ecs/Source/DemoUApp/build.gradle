@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 
-
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -18,10 +17,12 @@ archivesBaseName = strings.ecsuapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
         multiDexEnabled true
+        manifestPlaceholders = ['appAuthRedirectScheme': '']
 
     }
 
@@ -88,16 +89,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.support.appcompatv7
-
-
+    implementation deps.androidx.appcompat
 
     implementation deps.volley
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.gson
     implementation deps.libphonenumber
 
     testImplementation deps.junit
+    androidTestImplementation deps.androidx.runner
     implementation philipsdeps.uid
 
    //implementation project(path: ':philipsecommercesdk' , configuration: 'default')
@@ -109,7 +110,6 @@ dependencies {
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.ecs.projectName)
-      //  implementation project(strings.ecs.projectName)
        // implementation project(path: strings.ecs.projectName, configuration: 'default')
     } else {
        // implementation philipsdeps.iap

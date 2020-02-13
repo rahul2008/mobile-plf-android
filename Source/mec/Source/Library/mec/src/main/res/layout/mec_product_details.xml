@@ -28,7 +28,7 @@
     android:id="@+id/details_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/uid_level_white">
+    >
 
 
     <LinearLayout
@@ -80,7 +80,7 @@
                     android:background="@android:color/transparent"
                     android:visibility="gone" />
 
-                <android.support.v4.view.ViewPager
+                <androidx.viewpager.widget.ViewPager
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/iap_product_detail_image_height"
@@ -186,7 +186,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                        android:text="4"
                         android:textSize="@dimen/iap_product_original_price" />
 
                     <com.philips.platform.uid.view.widget.RatingBar
@@ -205,7 +204,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                        android:text=" (3 reviews)"
                         android:textSize="@dimen/iap_product_original_price" />
 
                 </LinearLayout>
@@ -244,7 +242,7 @@
 
 
 
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                     android:layout_marginTop="8dp"
                     android:id="@+id/tabs_main"
                     android:layout_width="match_parent"
@@ -253,7 +251,7 @@
                     app:tabTextAppearance="@style/CustomTextAppearanceTab"
                     android:layout_below="@+id/mec_ctn_label" />
 
-            <android.support.v4.view.ViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -331,6 +329,7 @@
     </LinearLayout>
 
 </RelativeLayout>
+
        <com.philips.platform.uid.view.widget.Label
            android:id="@+id/mec_productDetails_emptyText_label"
            style="@style/mecCentralesansBoldFont"
@@ -339,7 +338,7 @@
            android:gravity="center"
            android:layout_centerInParent="true"
            android:text="@string/mec_no_product_available"
-           android:visibility="visible"
+           android:visibility="gone"
            android:textSize="@dimen/iap_product_ctn_12"/>
    </LinearLayout>
 </layout>

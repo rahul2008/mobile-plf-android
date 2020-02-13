@@ -2,7 +2,7 @@ package com.philips.cdp.di.mec.utils
 
 import android.app.Activity
 import android.content.Context
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import android.text.TextUtils
 import android.view.View
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart

@@ -6,9 +6,9 @@ package com.philips.cdp.di.iap.screens;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -278,10 +278,15 @@ public class ShoppingCartFragment extends InAppBaseFragment
                         AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-                mAddresses = shippingAddresses.getAddresses();
-                bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
-                addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressSelectionFragment.TAG,true);
+                if(shippingAddresses.getAddresses().size() > 0) {
+                    mAddresses = shippingAddresses.getAddresses();
+                    bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
+                    addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
+                            AddressSelectionFragment.TAG, true);
+                } else if(shippingAddresses.getAddresses().size() == 0) {
+                    addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                            AddressSelectionFragment.TAG,true);
+                }
             }
         }
     }

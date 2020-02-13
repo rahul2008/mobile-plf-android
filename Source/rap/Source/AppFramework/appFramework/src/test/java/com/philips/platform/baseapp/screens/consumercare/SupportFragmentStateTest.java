@@ -5,7 +5,7 @@
 
 package com.philips.platform.baseapp.screens.consumercare;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.cdp.digitalcare.CcInterface;
 import com.philips.platform.TestActivity;

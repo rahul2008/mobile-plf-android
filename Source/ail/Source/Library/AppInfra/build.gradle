@@ -24,17 +24,12 @@ buildscript {
 }
 archivesBaseName = strings.ail.artifactName
 android {
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     signingConfigs {
         release
     }
 
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
@@ -68,6 +63,12 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
+
+
     buildTypes {
         debug {
             testCoverageEnabled = true
@@ -86,23 +87,17 @@ dependencies {
     implementation deps.adobemobilelib
     implementation deps.gson
     implementation deps.volley
-    implementation deps.support.design
-    implementation deps.support.supportv4
-    implementation deps.support.annotations
+    implementation deps.design
+    implementation deps.androidx.annotations
+    implementation deps.androidx.localbroadcastmanager
     implementation deps.joda_time
     implementation deps.rxjava2
     implementation deps.junit
 
-    api deps.room_runtime, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-    }
-    api deps.livedata, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-    }
-    annotationProcessor deps.room_compiler
-    annotationProcessor deps.livedata_compiler
+    api deps.androidx.room_runtime
+    api deps.androidx.livedata
+    annotationProcessor deps.androidx.room_compiler
+    annotationProcessor deps.androidx.livedata_compiler
 
     testImplementation deps.robolectric
     testImplementation deps.assertj
@@ -111,7 +106,7 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
 
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.dexmaker_mockito
     androidTestImplementation deps.junit
 }

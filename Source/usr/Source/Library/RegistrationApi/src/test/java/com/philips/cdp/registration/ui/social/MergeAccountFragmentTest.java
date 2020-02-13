@@ -38,6 +38,6 @@ public class MergeAccountFragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void should_startFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(mergeAccountFragment);
+//        SupportFragmentTestUtil.startFragment(mergeAccountFragment);
     }
 }

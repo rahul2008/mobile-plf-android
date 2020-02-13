@@ -1,6 +1,6 @@
 package com.philips.cdp.sampledigitalcare.automation;
 
-import android.support.test.espresso.IdlingResource;
+import androidx.test.espresso.IdlingResource;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

@@ -23,7 +23,7 @@ class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductD
      */
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
         val mecError = MecError(error, ecsError)
-        ecsProductDetailViewModel.mecError.value = mecError
+
         if (       ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
                 || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
                 || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
@@ -31,6 +31,7 @@ class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductD
         }else if (ecsError!!.errorcode == ECSErrorEnum.ECSCartError.errorCode){
             ecsProductDetailViewModel.createShoppingCart(request)
         } else{
+
             ecsProductDetailViewModel.addToProductCallBack.onFailure(error, ecsError)
         }
     }

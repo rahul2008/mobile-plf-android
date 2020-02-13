@@ -12,7 +12,6 @@ package com.philips.cdp.registration.ui.social;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
@@ -22,6 +21,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
@@ -45,7 +46,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -55,9 +55,7 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.ValidationEditText;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -360,6 +358,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
+    public void showAcceptTermsView() {
+        acceptTermsCheck.setVisibility(View.VISIBLE);
+    }
+
+
+
+    @Override
     public void updateTermsAndConditionView() {
         hideAcceptTermsAndConditionContainer();
     }
@@ -464,13 +469,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
         loginIdEditText.clearFocus();
 
-        if (marketingOptCheck.getVisibility() == View.VISIBLE && isMarketingOptChecked()) {
-            almostDonePresenter.handleUpdateMarketingOpt();
-        }
+//        updateMarketingOptin();
         if (mBundle == null) {
             almostDonePresenter.handleTraditionalTermsAndCondition();
         } else {
             almostDonePresenter.handleSocialTermsAndCondition();
+        }
+    }
+
+    private void updateMarketingOptin() {
+        if (marketingOptCheck.getVisibility() == View.VISIBLE && isMarketingOptChecked()) {
+            almostDonePresenter.handleUpdateMarketingOpt();
         }
     }
 
@@ -512,6 +521,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public boolean isAcceptTermsChecked() {
+
+        if(acceptTermsCheck.getVisibility()==View.GONE || acceptTermsCheck.getVisibility()==View.INVISIBLE){
+            return true;
+        }
+
         return acceptTermsCheck.isChecked();
     }
 
@@ -660,21 +674,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                             AppTagingConstants.SPECIAL_EVENTS,
                             AppTagingConstants.SUCCESS_USER_REGISTRATION);
 
-                    if(RegistrationConfiguration.getInstance().isCustomOptoin()||RegistrationConfiguration.getInstance().isSkipOptin()){
+                    if(RegistrationConfiguration.getInstance().isCustomOptoin()){
                         completeRegistration();
-                    } else if(RegistrationConfiguration.getInstance().isSkipOptin()){
+                    } else if(RegistrationConfiguration.getInstance().isSkipOptin() && !almostDonePresenter.isEmailVerificationStatus()){
                         if (FieldsValidator.isValidEmail(emailEditText.getText().toString())) {
                             launchAccountActivateFragment();
-                        } else {
+                        } else if (FieldsValidator.isValidMobileNumber(emailEditText.getText().toString())){
                             launchMobileVerifyCodeFragment();
+                        } else {
+                            completeRegistration();
                         }
-                    } else{
+                    } else if(RegistrationConfiguration.getInstance().isSkipOptin() && almostDonePresenter.isEmailVerificationStatus()){
+                            completeRegistration();
+                    }else{
                         addFragment(new MarketingAccountFragment());
-                        trackPage(AppTaggingPages.MARKETING_OPT_IN);
+                        trackPage(AppTaggingPages.MARKETING_OPT_IN); 
 
                     }
 
                 } else {
+                    RLog.d(TAG, "trackAbtesting : is called");
                     completeRegistration();
                 }
                 break;
@@ -719,6 +738,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void completeRegistration() {
+        updateMarketingOptin();
         getRegistrationFragment().userRegistrationComplete();
     }
 

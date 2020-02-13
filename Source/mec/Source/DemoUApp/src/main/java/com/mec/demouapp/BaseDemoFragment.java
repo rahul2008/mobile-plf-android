@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.philips.cdp.di.mec.common.MecError;
+import androidx.fragment.app.Fragment;
+
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
@@ -36,7 +36,6 @@ import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
-import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -112,20 +111,20 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        urInterface = new URInterface();
-        urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
+        if(null==rootView) {
+            urInterface = new URInterface();
+            urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
 
-        ignorelistedRetailer = new ArrayList<>();
-        if (rootView == null) {
-
-
+            ignorelistedRetailer = new ArrayList<>();
             rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
-
             mEtCTN = rootView.findViewById(R.id.et_add_ctn);
             mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
             bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
             bvCheckBox.setOnCheckedChangeListener(this);
 
+            text = getActivity().findViewById(R.id.mec_demo_app_header_title);
+            versionView = getActivity().findViewById(R.id.demoappversion);
+            mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
             text = getActivity().findViewById(R.id.mec_demo_app_header_title);
             versionView = getActivity().findViewById(R.id.demoappversion);
             mBackImage = getActivity().findViewById(R.id.mec_demo_app_iv_header_back_button);
@@ -452,7 +451,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             //update shopping cart count if user logged in
-            mMecInterface.getProductCartCount(this);
+           // mMecInterface.getProductCartCount(this);
             }else{
             updateCartIconVisibility(false);
         }

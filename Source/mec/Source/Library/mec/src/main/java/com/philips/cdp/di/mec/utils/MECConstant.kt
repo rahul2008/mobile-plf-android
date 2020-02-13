@@ -8,9 +8,11 @@ import com.philips.cdp.di.mec.R
 
 object MECConstant {
 
+    val KEY_IS_HYBRIS: String? ="KEY_IS_HYBRIS"
     val KEY_ECS_ADDRESS: String? = "KEY_ECS_ADDRESS"
     val THRESHOLD = 5
     val FLOW_INPUT: String? ="FLOW_INPUT"
+    val KEY_FLOW_CONFIGURATION: String? ="KEY_FLOW_CONFIGURATION"
     val DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight
     val IAP_KEY_ACTIVITY_THEME: String? = "IAP_KEY_ACTIVITY_THEME"
     val COMPONENT_NAME: String = "mec"

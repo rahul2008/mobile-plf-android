@@ -1,6 +1,5 @@
 package com.mec.demouapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class LaunchAsActivity extends BaseDemoActivity {

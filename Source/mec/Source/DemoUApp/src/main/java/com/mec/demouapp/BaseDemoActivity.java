@@ -1,27 +1,22 @@
 package com.mec.demouapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.mec.integration.MECLaunchInput;
-import com.philips.cdp.di.mec.integration.MecHolder;
-import com.philips.cdp.di.mec.screens.catalog.MECCategorizedHybrisFragment;
-import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment;
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment;
-import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -30,9 +25,8 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
-import java.util.Locale;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class BaseDemoActivity extends AppCompatActivity implements ActionBarListener {
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -67,7 +61,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
 
@@ -164,16 +158,12 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         if (!backState) {
             super.onBackPressed();
         }
-
-       /* if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
+        //TODO
+        if(currentFrag instanceof MECProductCatalogFragment || currentFrag instanceof MECProductCatalogCategorizedFragment){
             actionBar();
             showAppVersion();
-        }*/
+        }
 
-        /*if(currentFrag instanceof BaseDemoFragment){
-            super.onBackPressed();
-        finish();
-        }*/
     }
 
 }

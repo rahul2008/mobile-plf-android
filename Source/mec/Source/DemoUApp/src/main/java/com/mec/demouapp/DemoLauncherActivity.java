@@ -2,13 +2,11 @@ package com.mec.demouapp;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import androidx.annotation.Nullable;
+
 
 public class DemoLauncherActivity extends Activity {
 

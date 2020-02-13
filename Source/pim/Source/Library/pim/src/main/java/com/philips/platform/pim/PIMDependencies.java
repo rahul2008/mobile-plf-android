@@ -6,7 +6,7 @@
 
 package com.philips.platform.pim;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;

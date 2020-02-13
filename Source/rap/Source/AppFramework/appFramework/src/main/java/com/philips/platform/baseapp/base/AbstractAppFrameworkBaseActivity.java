@@ -10,11 +10,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
-import android.support.annotation.StyleRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.WindowManager;
 
 import com.philips.platform.appframework.BuildConfig;
@@ -37,7 +37,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -86,13 +86,14 @@ public abstract class AbstractAppFrameworkBaseActivity extends  UIDActivity impl
         final int themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
         themeConfig.add(navigationColor);
         themeConfig.add(accentColorRange);
+        UIDHelper.injectCalligraphyFonts();
         setTheme(themeResourceId);
         UIDHelper.init(themeConfig);
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @StyleRes

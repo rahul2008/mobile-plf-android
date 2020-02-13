@@ -1,7 +1,7 @@
 package com.philips.cdp.di.mec.screens.features
 
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.mec.databinding.MecFeaturesItemChildBinding
 import com.philips.cdp.prxclient.datamodels.features.FeatureItem
 

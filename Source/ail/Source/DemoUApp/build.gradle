@@ -13,6 +13,7 @@ archivesBaseName = strings.ailuapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
@@ -23,9 +24,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
-    implementation deps.constraintlayout
+    implementation deps.androidx.appcompat
+    implementation deps.design
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.localbroadcastmanager
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)

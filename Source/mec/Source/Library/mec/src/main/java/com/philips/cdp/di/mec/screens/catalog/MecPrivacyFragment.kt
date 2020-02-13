@@ -24,6 +24,14 @@ import java.net.URL
 
 class MecPrivacyFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "MecPrivacyFragment"
+    }
+
+    companion object {
+        val TAG:String="MecPrivacyFragment"
+    }
+
     private var mWebView: WebView? = null
     private var mUrl: String? = null
 

@@ -1,8 +1,8 @@
 package com.philips.platform.baseapp.screens.privacysettings;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.consents.URConsentProvider;
@@ -33,8 +33,6 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class PrivacySettingsState extends BaseState implements MyAccountUIEventListener {

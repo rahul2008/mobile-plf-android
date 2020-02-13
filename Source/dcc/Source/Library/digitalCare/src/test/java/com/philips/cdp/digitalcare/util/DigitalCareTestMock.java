@@ -1,7 +1,7 @@
 package com.philips.cdp.digitalcare.util;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.listeners.ActivityTitleListener;

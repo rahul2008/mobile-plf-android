@@ -8,30 +8,25 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
-
-
-    companion object {
-        val TAG = "MECProductCatalogCategorizedFragment"
+    override fun getFragmentTag(): String {
+        return "MECProductCatalogCategorizedFragment"
     }
 
-    lateinit var ctns : ArrayList<String>
-    var totalProductsTobeSearched : Int = 0
+    companion object {
+        val TAG:String="MECProductCatalogCategorizedFragment"
+    }
+
+
 
     override fun executeRequest(){
-        
+
         if(isAllProductsFound()) {
             binding.progressBar.visibility = View.GONE
             hideProgressBar()
         }else{
             isCallOnProgress =true
-            ecsProductViewModel.initCategorized(currentPage, pageSize, ctns)
+            ecsProductViewModel.initCategorized(currentPage, pageSize, categorizedCtns)
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        ctns = arguments!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
-        totalProductsTobeSearched = ctns.size
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun isPaginationSupported(): Boolean {
@@ -66,7 +61,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
             }else{
                 binding.progressBar.visibility = View.VISIBLE
             }
-            ecsProductViewModel.initCategorized(currentPage, pageSize, ctns)
+            ecsProductViewModel.initCategorized(currentPage, pageSize, categorizedCtns)
             alertDialogFragment.dismiss()
         })
 
@@ -77,7 +72,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
         })
 
         builder.setTitle(resources.getString(R.string.mec_threshold_title))
-        alertDialogFragment.show(fragmentManager,"ALERT_DIALOG_TAG")
+        fragmentManager?.let { alertDialogFragment.show(it,"ALERT_DIALOG_TAG") }
 
     }
 
@@ -87,15 +82,15 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
     override fun doProgressbarOperation() {
 
-           if(productList.size ==0) return
+        if(productList.size ==0) return
 
-           if(isCallEnded()){
-               isCallOnProgress = false
-               binding.progressBar.visibility = View.GONE
-           }else{
-               isCallOnProgress = true
-               binding.progressBar.visibility = View.VISIBLE
-           }
+        if(isCallEnded()){
+            isCallOnProgress = false
+            binding.progressBar.visibility = View.GONE
+        }else{
+            isCallOnProgress = true
+            binding.progressBar.visibility = View.VISIBLE
+        }
     }
 
     private fun didProductsFondReachPageSize() = (productList.size / (currentPage+1)) == pageSize

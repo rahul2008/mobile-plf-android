@@ -1,7 +1,7 @@
 package com.philips.cdp.di.mec.screens.features
 
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 

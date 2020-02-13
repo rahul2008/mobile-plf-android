@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
    >
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,7 +12,7 @@
         android:background="@drawable/uid_shadow_level_two"
         app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/mec_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,6 +68,6 @@
                     android:layout_marginBottom="15dp" />
             </FrameLayout>
 
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 </com.philips.platform.uid.view.widget.NavigationContainer>

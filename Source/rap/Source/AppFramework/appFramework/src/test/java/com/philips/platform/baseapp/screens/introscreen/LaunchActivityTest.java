@@ -6,7 +6,7 @@
 package com.philips.platform.baseapp.screens.introscreen;
 
 
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.TextView;
 
 import com.philips.platform.TestAppFrameworkApplication;

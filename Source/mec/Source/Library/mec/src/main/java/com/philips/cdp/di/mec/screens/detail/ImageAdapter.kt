@@ -1,10 +1,10 @@
 package com.philips.cdp.di.mec.screens.detail
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecImagePagerItemBinding

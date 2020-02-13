@@ -5,7 +5,7 @@
 */
 package com.philips.platform;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;

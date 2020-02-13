@@ -1,14 +1,11 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ecs.demotestuapp.integration.EcsDemoTestAppSettings;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppDependencies;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppInterface;
-import com.ecs.demouapp.integration.EcsDemoAppSettings;
-import com.ecs.demouapp.integration.EcsDemoUAppDependencies;
-import com.ecs.demouapp.integration.EcsDemoUAppInterface;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;

@@ -2,17 +2,20 @@ package com.philips.cdp.di.mec.screens.address
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.arch.lifecycle.MutableLiveData
+
 import android.content.Context
-import android.databinding.BindingAdapter
+
 import android.graphics.drawable.Drawable
-import android.support.graphics.drawable.VectorDrawableCompat
+
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.CycleInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.Region

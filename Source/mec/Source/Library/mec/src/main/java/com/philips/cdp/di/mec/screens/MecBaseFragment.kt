@@ -5,17 +5,16 @@
 package com.philips.cdp.di.mec.screens
 
 import android.app.ProgressDialog
-import android.arch.lifecycle.Observer
 import android.content.Context
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v7.widget.RecyclerView
+
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.RelativeLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticServer
 import com.philips.cdp.di.mec.analytics.MECAnalytics
@@ -27,6 +26,7 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
+import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
@@ -52,6 +52,12 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     override fun handleBackEvent(): Boolean {
+        val currentFragment = activity?.supportFragmentManager?.fragments?.last()
+
+        if (currentFragment?.getTag().equals(WebBuyFromRetailersFragment.TAG))
+        {
+            setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
+        }
 
         return false
     }
@@ -256,7 +262,9 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
             }
         }
-        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
+       // fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
     }
+
+    abstract fun getFragmentTag():String
 
 }

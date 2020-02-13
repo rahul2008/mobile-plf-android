@@ -18,8 +18,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support.appcompatv7
-    implementation deps.support.cardview
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.cardview
     implementation(group: 'com.philips.cdp', name: 'product-registration-lib',
             version: platformversion + objcdp.getVersionSuffix(), changing: true){
         transitive = true

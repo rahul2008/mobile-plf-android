@@ -103,7 +103,5 @@ dependencies {
         implementation philipsdeps.product_registration_libUApp
     }
 
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    androidTestImplementation deps.androidx.espresso_core
 }
