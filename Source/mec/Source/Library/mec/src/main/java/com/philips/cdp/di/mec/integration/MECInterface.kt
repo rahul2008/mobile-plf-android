@@ -53,11 +53,13 @@ class MECInterface : UappInterface {
         MECDataHolder.INSTANCE.userDataInterface = MECDependencies.userDataInterface
         val configError = AppConfigurationInterface.AppConfigurationError()
         val propositionID = MECDependencies.appInfra.configInterface.getPropertyForKey("propositionid", "MEC", configError) as String
+        val voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
         var propertyForKey = ""
         if (propositionID != null) {
             propertyForKey = propositionID
         }
         MECDataHolder.INSTANCE.propositionId = propertyForKey
+        MECDataHolder.INSTANCE.voucherEnabled = voucher
         val ecsServices = ECSServices(propertyForKey, MECDependencies.appInfra as AppInfra)
         MecHolder.INSTANCE.eCSServices = ecsServices // singleton
     }

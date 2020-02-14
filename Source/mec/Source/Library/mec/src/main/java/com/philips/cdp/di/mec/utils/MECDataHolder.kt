@@ -24,6 +24,7 @@ enum class MECDataHolder {
     lateinit var mecBannerEnabler: MECBannerConfigurator
     lateinit var locale:String
     lateinit var propositionId:String
+    lateinit var voucherCode:String
     lateinit var userDataInterface: UserDataInterface
     var refreshToken:String?=null
     var blackListedRetailers: List<String> ?=null
@@ -31,6 +32,7 @@ enum class MECDataHolder {
     private var privacyUrl: String? = null
     var hybrisEnabled: Boolean = true
     var retailerEnabled :Boolean = true
+    var voucherEnabled :Boolean = true
     var rootCategory:String = ""
     var config: ECSConfig? = null
 
