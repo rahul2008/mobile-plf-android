@@ -2,7 +2,6 @@ package com.philips.cdp.registration.ui.social;
 
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
@@ -140,6 +139,8 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     public void onLoginSuccess() {
         AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 SUCCESS_LOGIN);
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                RegistrationHelper.getInstance().getCountryCode());
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
         abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
 //        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,

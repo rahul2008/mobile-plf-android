@@ -37,6 +37,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -99,6 +100,7 @@ import io.reactivex.disposables.Disposable;
 
 import static com.philips.cdp.registration.app.tagging.AppTagging.trackAction;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.errors.ErrorCodes.JANRAIN_EMAIL_ADDRESS_NOT_AVAILABLE;
 import static com.philips.cdp.registration.ui.utils.UIFlow.FLOW_B;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -474,8 +476,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         alertDialogFragment.dismiss();
                         RLog.d(TAG, "onClick :dismiss ");
                         uiEnableState(true);
-                        trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                                AppTagingConstants.KEY_TRY_LOGIN_AGAIN);
                         if (networkUtility.isNetworkAvailable()) {
                             observeLoginButton();
                         }
@@ -496,7 +496,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleSendForgetPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.d(TAG, "onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
         hideForgotPasswordSpinner();
-
+        if (userRegistrationFailureInfo.getErrorCode() == JANRAIN_EMAIL_ADDRESS_NOT_AVAILABLE) {
+            trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                    AppTagingConstants.KEY_TRY_LOGIN_AGAIN);
+        }
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.SOCIAL_SIGIN_IN_ONLY_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow())
                 mEtEmailInputValidation.setErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_With_Phone_No));
@@ -659,9 +662,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                        RegistrationHelper.getInstance().getCountryCode());
                 ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
                 abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null); //No Almost Done Screen
-            } if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && !mUser.getReceiveMarketingEmail() &&
+            }
+            if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && !mUser.getReceiveMarketingEmail() &&
                     (RegistrationConfiguration.getInstance().isCustomOptoin() || RegistrationConfiguration.getInstance().isSkipOptin()) &&
                     (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus != ConsentStates.inactive) &&
                     RegUtility.getUiFlow() == (FLOW_B)) {
@@ -669,6 +675,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                        RegistrationHelper.getInstance().getCountryCode());
                 ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
                 abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null); //No Almost Done Screen
             } else if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && mUser.getReceiveMarketingEmail() &&
@@ -681,7 +689,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 clearInputFields();
                 getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
                 trackPage(AppTaggingPages.ALMOST_DONE); ////AlmostDOne Screen with PC and RM
-            } else if (((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile)  ) && mUser.getReceiveMarketingEmail()) &&
+            } else if (((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile)) && mUser.getReceiveMarketingEmail()) &&
                     (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus != ConsentStates.inactive)) {
                 clearInputFields();
                 completeRegistration(); //AlmostDOne Screen with RM
@@ -693,6 +701,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             } else {
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                        RegistrationHelper.getInstance().getCountryCode());
                 completeRegistration();
             }
         } else {

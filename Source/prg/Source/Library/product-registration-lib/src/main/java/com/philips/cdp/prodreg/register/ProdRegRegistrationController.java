@@ -6,10 +6,11 @@
 package com.philips.cdp.prodreg.register;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import android.text.TextUtils;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRG_PROD_REG_SUCCESS_EVENT;
-import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRODUCT_MODEL_KEY;
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.SEND_DATA;
 import static com.philips.cdp.prodreg.constants.AnalyticsConstants.SPECIAL_EVENTS;
 
 public class ProdRegRegistrationController {
@@ -201,7 +202,7 @@ public class ProdRegRegistrationController {
                     registerControllerCallBacks.buttonClickable(true);
                     registerControllerCallBacks.dismissLoadingDialog();
                     updateRegisteredProductsList(registeredProduct);
-                    registerControllerCallBacks.tagEvents(PRG_PROD_REG_SUCCESS_EVENT, SPECIAL_EVENTS, registeredProduct.getCtn());
+                    registerControllerCallBacks.tagEvents(SEND_DATA, SPECIAL_EVENTS, PRG_PROD_REG_SUCCESS_EVENT);
                     registerControllerCallBacks.showSuccessLayout();
                 }
             }
