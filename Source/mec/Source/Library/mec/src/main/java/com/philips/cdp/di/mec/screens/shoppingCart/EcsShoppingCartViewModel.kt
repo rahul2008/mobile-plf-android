@@ -22,6 +22,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.address.ECSFetchAddressesCallback
 import com.philips.cdp.di.mec.utils.MECutility
@@ -63,7 +64,8 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
                 getShoppingCart()
             }
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                TODO(" create cart must NOT fail")
+                val mECError = MecError(error, ecsError)
+                mecError.value = mECError
             }
         }
         ecsShoppingCartRepository.createCart(createShoppingCartCallback)
