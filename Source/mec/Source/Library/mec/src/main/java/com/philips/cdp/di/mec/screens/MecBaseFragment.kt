@@ -232,11 +232,11 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     override fun onChanged(mecError: MecError?) {
         hideProgressBar()
-        processError(mecError)
+        processError(mecError,true)
     }
 
-    open fun processError(mecError: MecError?){
-        if(!mecError!!.ecsError!!.errorType.equals("No internet connection")){
+    open fun processError(mecError: MecError?, showDialog: Boolean) {
+        if (!mecError!!.ecsError!!.errorType.equals("No internet connection")) {
             try {
                 //tag all techinical defect except "No internet connection"
                 var errorString: String = MECAnalyticsConstant.COMPONENT_NAME + ":"
@@ -252,11 +252,13 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
                 errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
 
                 MECAnalytics.trackAction(sendData, technicalError, errorString)
-            }catch(e :Exception){
+            } catch (e: Exception) {
 
             }
         }
-        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
+        if (showDialog.equals(true)) {
+            fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it, "OK", "Error", mecError!!.exception!!.message.toString()) } }
+        }
     }
 
 }

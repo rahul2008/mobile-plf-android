@@ -100,8 +100,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     URInterface urInterface;
     private long mLastClickTime = 0;
 
-    private boolean isHybrisEnable = true,isBannerEnabled = true ,isRetailerEnabled = true;
-    private ToggleButton toggleBanner,toggleHybris,toggleRetailer;
+    private boolean isHybrisEnable = true,isBannerEnabled = true ,isRetailerEnabled = true, isVoucherEnabled = true;
+    private ToggleButton toggleBanner,toggleHybris,toggleRetailer,toggleVoucher;
 
     private CheckBox bvCheckBox;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
@@ -136,6 +136,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
             mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
             mBtnSetPropositionId = rootView.findViewById(R.id.btn_set_proposition_id);
+            toggleVoucher = rootView.findViewById(R.id.toggleVoucher);
 
 
             AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
@@ -143,7 +144,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
             String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
+            Boolean propertyForKeyVoucher = (Boolean) configInterface.getPropertyForKey("voucher", "MEC", configError);
             mEtPropositionId.setText(propertyForKey);
+            try {
+                isVoucherEnabled = propertyForKeyVoucher;
+            } catch (RuntimeException ex) {
+                isVoucherEnabled = true;
+            }
+
+            toggleVoucher.setChecked(isVoucherEnabled);
+
 
 
             mecBazaarVoiceInput = new MECBazaarVoiceInput();
@@ -193,6 +203,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     isRetailerEnabled = isChecked;
+                    initializeMECComponant();
+                }
+            });
+
+
+            toggleVoucher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    isVoucherEnabled = isChecked;
+                    configInterface.setPropertyForKey("voucher", "MEC", isVoucherEnabled, configError);
                     initializeMECComponant();
                 }
             });

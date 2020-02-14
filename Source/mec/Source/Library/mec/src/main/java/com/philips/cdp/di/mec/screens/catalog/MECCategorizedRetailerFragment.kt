@@ -25,7 +25,7 @@ class MECCategorizedRetailerFragment : MECProductCatalogFragment(){
         return false
     }
 
-    override fun processError(mecError: MecError?) {
+    override fun processError(mecError: MecError?, bool: Boolean) {
         ll_banner_place_holder.visibility = View.GONE
         mec_productCatalog_emptyText_label.visibility = View.VISIBLE
     }

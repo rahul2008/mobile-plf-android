@@ -68,7 +68,7 @@
     <string name="mec_cancel">Cancel</string>
     <string name="mec_delete_item">Delete Item</string>
     <string name="mec_delete_voucher">Delete Voucher</string>
-    <string name="mec_nothing_in_cart">Nothing in your cart</string>
+    <string name="mec_nothing_in_cart">Nothing in your cart yet</string>
     <string name="mec_empty_cart">Your shopping cart is currently empty.</string>
     <string name="mec_continue_shopping">Continue shopping</string>
     <string name="mec_delete_item_description">Your product will be removed from your shopping cart. Are you sure?</string>
@@ -122,11 +122,7 @@
 
     <string name="mec_billing_address">Billing address</string>
 
-    <string name="mec_invalid_voucher_error">Sorry, we dont recognize this code</string>
-
-
-
-   
+    <string name="mec_invalid_voucher_error">Sorry, this voucher can\'t be redeemed</string>
 
 
 </resources>

@@ -71,7 +71,7 @@
                 android:layout_below="@id/ll_enter_proposition_id"
                 android:layout_marginLeft="@dimen/border8_margin"
                 android:layout_marginRight="@dimen/border8_margin"
-                android:weightSum="3"
+                android:weightSum="4"
                 >
                 <ToggleButton
                     android:layout_weight="1"
@@ -84,21 +84,20 @@
                     android:checked="true"
                     android:textOff="Hybris OFF"
                     android:textOn="Hybris ON"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <ToggleButton
                     android:layout_weight="1"
                     android:id="@+id/toggleRetailer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_maxCount"
-                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:enabled="true"
                     android:checked="true"
                     android:textOff="Retailer OFF"
                     android:textOn="Retailer ON"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <ToggleButton
                     android:layout_weight="1"
@@ -110,7 +109,20 @@
                     android:textOn="Banner ON"
                     android:textOff="Banner OFF"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
+                    />
+
+                <ToggleButton
+                    android:layout_weight="1"
+                    android:id="@+id/toggleVoucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:textOn="Voucher ON"
+                    android:textOff="Voucher OFF"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="12sp"
                     />
 
             </LinearLayout>

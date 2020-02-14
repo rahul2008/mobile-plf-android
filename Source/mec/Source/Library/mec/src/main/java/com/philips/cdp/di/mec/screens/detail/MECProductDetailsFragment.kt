@@ -216,7 +216,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 getECSConfig(null)
             }else{
                 var ctns = bundle!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS)
-                val ctn = ctns.get(0)
+                val ctn = ctns?.get(0)
                 getECSConfig(ctn)
             }
 
@@ -438,7 +438,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         }
     }
 
-    override fun processError(mecError: MecError?) {
+    override fun processError(mecError: MecError?, bool: Boolean) {
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
     }
 
