@@ -23,7 +23,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinner_CountrySelection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -126,6 +126,15 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:text="Cookies Consent"
+                app:switchPadding="30dp" />
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:id="@+id/switch_ab_testing_consent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:text="A/B Testing Consent"
                 app:switchPadding="30dp" />
 
             <FrameLayout

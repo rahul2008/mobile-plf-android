@@ -2,7 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by abhishek on 5/4/18.

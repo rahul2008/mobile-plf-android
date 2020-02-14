@@ -6,7 +6,7 @@
 package com.philips.cdp.registration.dao;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;

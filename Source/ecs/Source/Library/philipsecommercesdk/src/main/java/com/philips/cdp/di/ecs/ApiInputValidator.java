@@ -5,7 +5,7 @@
  */
 package com.philips.cdp.di.ecs;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;

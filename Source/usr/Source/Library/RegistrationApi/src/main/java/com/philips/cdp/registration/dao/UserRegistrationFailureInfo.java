@@ -14,16 +14,12 @@ import android.content.Context;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
-import com.philips.cdp.registration.errors.NetworkErrorEnum;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -166,9 +162,10 @@ public class UserRegistrationFailureInfo {
 
     public String getLocalizedValidationErrorMessages() {
 
+        if (error.raw_response == null) return "";
         Map<String, List<String>> localizedErrorMsg = error.getLocalizedValidationErrorMessages();
 
-        if(null == localizedErrorMsg){
+        if (null == localizedErrorMsg) {
             return "";
         }
 

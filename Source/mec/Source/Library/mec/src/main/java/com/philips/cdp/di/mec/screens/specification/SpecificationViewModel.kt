@@ -1,9 +1,7 @@
 package com.philips.cdp.di.mec.screens.specification
 
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
+import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
 import com.philips.cdp.prxclient.datamodels.specification.CsValueItem

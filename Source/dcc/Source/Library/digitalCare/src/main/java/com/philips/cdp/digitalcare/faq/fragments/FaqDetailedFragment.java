@@ -14,18 +14,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
@@ -136,6 +136,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
                 mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
                 mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
                 mWebView.getSettings().setDomStorageEnabled(true);
+                mWebView.getSettings().setSaveFormData(false);
                 mWebView.getSettings().setBuiltInZoomControls(true);
             }
             mWebView.setWebChromeClient(new WebChromeClient() {
@@ -247,6 +248,12 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
         if (mWebView != null) {
             mWebView = null;
         }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        CookieManager.getInstance().removeSessionCookies(null);
+
     }
 
     private class myJavaScriptInterface {

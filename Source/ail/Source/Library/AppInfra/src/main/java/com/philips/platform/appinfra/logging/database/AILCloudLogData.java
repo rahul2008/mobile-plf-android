@@ -1,8 +1,8 @@
 package com.philips.platform.appinfra.logging.database;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 /**
  * Created by abhishek on 4/25/18.

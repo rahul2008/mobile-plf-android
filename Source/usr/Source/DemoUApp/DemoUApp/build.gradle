@@ -19,6 +19,7 @@ buildscript {
 
 android {
     compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     dexOptions {
         jumboMode true
@@ -64,9 +65,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation deps.adobemobilelib
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
-    implementation deps.support.design
+    implementation deps.androidx.appcompat
+    implementation deps.design
     implementation deps.greenrobot
     implementation philipsdeps.uid
     if (useprojectdependencies) {

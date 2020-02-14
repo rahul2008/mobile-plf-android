@@ -5,6 +5,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.utils.MECutility
 
 class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductDetailViewModel, private val request :String) : ECSCallback<ECSShoppingCart, Exception> {
     /**
@@ -23,14 +24,13 @@ class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductD
      */
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
         val mecError = MecError(error, ecsError)
-        ecsProductDetailViewModel.mecError.value = mecError
-        if (       ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
-                || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
-            ecsProductDetailViewModel.retryFunction()
+
+        if (  MECutility.isAuthError(ecsError)) {
+            ecsProductDetailViewModel.retryAddProductToShoppingcart()
         }else if (ecsError!!.errorcode == ECSErrorEnum.ECSCartError.errorCode){
             ecsProductDetailViewModel.createShoppingCart(request)
         } else{
+
             ecsProductDetailViewModel.addToProductCallBack.onFailure(error, ecsError)
         }
     }

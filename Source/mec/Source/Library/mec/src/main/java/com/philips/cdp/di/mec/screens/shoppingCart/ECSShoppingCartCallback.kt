@@ -1,11 +1,13 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.utils.MECutility
 
-class ECSShoppingCartCallback (private val ecsShoppingCartViewModel: EcsShoppingCartViewModel)  : ECSCallback<ECSShoppingCart, Exception> {
+class ECSShoppingCartCallback(private val ecsShoppingCartViewModel: EcsShoppingCartViewModel) : ECSCallback<ECSShoppingCart, Exception> {
 
     override fun onResponse(ecsShoppingCart: ECSShoppingCart?) {
         ecsShoppingCartViewModel.ecsShoppingCart.value = ecsShoppingCart
@@ -13,6 +15,14 @@ class ECSShoppingCartCallback (private val ecsShoppingCartViewModel: EcsShopping
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
         val mecError = MecError(error, ecsError)
-        ecsShoppingCartViewModel.mecError.value = mecError
+
+        if (MECutility.isAuthError(ecsError)) {
+            ecsShoppingCartViewModel.retryGetShoppingCart()
+        } else if (ecsError!!.errorcode == ECSErrorEnum.ECSCartError.errorCode) {
+            ecsShoppingCartViewModel.createShoppingCart("")
+        } else {
+            ecsShoppingCartViewModel.mecError.value = mecError
+        }
+
     }
 }

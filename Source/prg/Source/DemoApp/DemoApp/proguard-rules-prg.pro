@@ -81,8 +81,6 @@
 -dontwarn java.nio.file.**
 -dontwarn okio.**
 
--dontwarn android.support.**
--dontwarn android.support.v8.**
 -dontwarn com.philips.cdp.registration.**
 -dontwarn org.apache.**
 -dontwarn com.philips.cdp.prxclient.**

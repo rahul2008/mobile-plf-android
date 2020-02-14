@@ -1,8 +1,8 @@
 package com.philips.cdp.di.mec.screens.detail
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
@@ -44,6 +44,11 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     var ecsProductDetailRepository = ECSProductDetailRepository(this,ecsServices)
 
+    var ecsProductCallback = ECSProductForCTNCallback(this)
+
+    var ecsProductListCallback = ECSProductListForCTNsCallback(this)
+
+
     fun getRatings(ctn :String){
         ecsProductDetailRepository.getRatings(ctn)
     }
@@ -62,14 +67,14 @@ class EcsProductDetailViewModel : CommonViewModel() {
         ecsProductDetailRepository.addTocart(ecsProductAsParamter)
     }
 
-    fun authFailureCallback(error: Exception?, ecsError: ECSError?){
+
+    override fun authFailureCallback(error: Exception?, ecsError: ECSError?){
         Log.v("Auth","refresh auth failed");
         addToProductCallBack.onFailure(error,ecsError)
     }
 
-    fun retryFunction() {
+    fun retryAddProductToShoppingcart() {
         var retryAPI = { addProductToShoppingcart(ecsProductAsParamter,addToProductCallBack) }
-        var authFailCallback ={ error: Exception?, ecsError: ECSError? -> authFailureCallback(error, ecsError) }
         authAndCallAPIagain(retryAPI,authFailCallback)
     }
 
@@ -143,7 +148,13 @@ class EcsProductDetailViewModel : CommonViewModel() {
         if (reviewValue == null) {
             if (review.tagDimensions != null && review.tagDimensions!!.size > 0) {
                 val tagD = review.tagDimensions?.get(type.substring(0,type.length-1))
-                reviewValue= tagD?.values.toString()
+               var list : MutableList<String>? = tagD?.values
+                reviewValue = list?.joinToString(
+                        prefix = "",
+                        separator = ", ",
+                        postfix = ""
+                       )
+
             }
         }
         return reviewValue.toString()

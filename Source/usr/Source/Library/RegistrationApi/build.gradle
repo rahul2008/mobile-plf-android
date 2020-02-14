@@ -36,11 +36,7 @@ artifacts {
 
 android {
     compileSdkVersion versions.sdk
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
@@ -75,6 +71,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
+
     testOptions {
         unitTests.all {
             jacoco {
@@ -97,19 +98,19 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.butterknife
     implementation deps.calligraphy
-    implementation deps.constraintlayout
+    implementation deps.viewpump
+    implementation deps.androidx.constraintlayout
     implementation deps.dagger.dagger
     implementation deps.facebook
     implementation deps.greenrobot
     implementation deps.javax_annotation
     implementation deps.libphonenumber
-    implementation deps.multidex
+    implementation deps.androidx.multidex
     implementation deps.okhttp
     implementation deps.rxbinding
     implementation deps.rxjava2
-    implementation deps.support.appcompatv7
-    implementation deps.support.recyclerview
-    implementation deps.support.supportv4
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.recyclerview
     implementation deps.volley
     implementation deps.wechat
     implementation deps.jackson_annotations
@@ -117,6 +118,7 @@ dependencies {
     implementation deps.jackson_databind
     implementation philipsdeps.uid
     implementation deps.jump
+    implementation deps.androidx.localbroadcastmanager
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
@@ -139,10 +141,10 @@ dependencies {
     testImplementation deps.openid_appauth
 
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.androidx_test.rules
-    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx.rules
+    androidTestImplementation deps.androidx.runner
     androidTestImplementation deps.junit
-    androidTestImplementation deps.uiautomator
+    androidTestImplementation deps.androidx.uiautomator
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

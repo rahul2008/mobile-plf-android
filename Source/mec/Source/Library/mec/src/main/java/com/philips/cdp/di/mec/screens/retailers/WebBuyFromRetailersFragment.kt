@@ -25,10 +25,19 @@ import java.net.MalformedURLException
 import java.net.URL
 
 class WebBuyFromRetailersFragment : MecBaseFragment() {
-    companion object {
-        open val TAG = "WebBuyFromRetailersFragment"
+    override fun getFragmentTag(): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+
+    companion object {
+        val TAG:String="WebBuyFromRetailersFragment"
+
+         fun getFragmentTag(): String {
+            return "WebBuyFromRetailersFragment"
+        }
+
+    }
 
     private var mWebView: WebView? = null
     private var mUrl: String? = null
@@ -47,8 +56,9 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         val title = getArguments()!!.getString(MECConstant.MEC_STORE_NAME)
-        setTitleAndBackButtonVisibility(title, true)
-        setCartIconVisibility(false)
+        if (title != null) {
+            setTitleAndBackButtonVisibility(title, true)
+        }
         mWebView!!.onResume()
     }
 

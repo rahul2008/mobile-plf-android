@@ -1,9 +1,6 @@
 package com.philips.cdp.di.mec.screens.retailers
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialogFragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +19,8 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import kotlin.collections.ArrayList
 import android.app.Activity
 import android.content.Intent
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
@@ -29,6 +28,10 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 
 
 class MECRetailersFragment : BottomSheetDialogFragment(), ItemClickListener{
+
+    companion object {
+        val TAG:String="MECRetailersFragment"
+    }
 
     override fun onItemClick(item: Any) {
 

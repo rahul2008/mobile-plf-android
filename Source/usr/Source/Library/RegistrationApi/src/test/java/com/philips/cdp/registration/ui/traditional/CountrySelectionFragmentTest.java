@@ -38,7 +38,7 @@ public class CountrySelectionFragmentTest {
     @Test(expected = NullPointerException.class)
     public void shouldNotifyCountryChange() throws Exception {
         CountrySelectionFragment countrySelectionFragment = new CountrySelectionFragment();
-        SupportFragmentTestUtil.startFragment(countrySelectionFragment);
+//        SupportFragmentTestUtil.startFragment(countrySelectionFragment);
         countrySelectionFragment.notifyCountryChange(countryMock);
     }
 }

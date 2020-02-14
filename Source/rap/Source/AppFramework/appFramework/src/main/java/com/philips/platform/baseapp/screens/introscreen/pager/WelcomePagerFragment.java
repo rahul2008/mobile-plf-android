@@ -6,12 +6,11 @@
 
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
-import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import android.text.Html;
 import android.view.Display;
 import android.view.LayoutInflater;

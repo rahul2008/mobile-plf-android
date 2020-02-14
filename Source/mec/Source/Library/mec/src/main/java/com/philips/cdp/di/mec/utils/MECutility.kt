@@ -2,9 +2,11 @@ package com.philips.cdp.di.mec.utils
 
 import android.app.Activity
 import android.content.Context
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import android.text.TextUtils
 import android.view.View
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
@@ -200,6 +202,18 @@ class MECutility {
                 }
             }
             return quantity
+        }
+
+        fun isAuthError(ecsError: ECSError?):Boolean{
+            var authError :Boolean = false
+            if (ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
+                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
+                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode
+                    || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthDetailError.errorCode
+                    || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthNotCalled.errorCode){
+                authError=true
+            }
+            return authError
         }
 
 

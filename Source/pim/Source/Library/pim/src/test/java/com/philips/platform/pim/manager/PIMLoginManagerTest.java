@@ -10,6 +10,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.PIMParameterToLaunchEnum;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
@@ -86,7 +87,9 @@ public class PIMLoginManagerTest extends TestCase {
 
         mockStatic(PIMSettingManager.class);
         mockStatic(Analytics.class);
-
+        HashMap consentParameterMap = new HashMap<PIMParameterToLaunchEnum, Object>();
+        consentParameterMap.put(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT, true);
+        consentParameterMap.put(PIMParameterToLaunchEnum.PIM_ANALYTICS_CONSENT, true);
         PIMOIDCConfigration mockPimoidcConfigration = mock(PIMOIDCConfigration.class);
         AuthorizationService mockAuthorizationService = mock(AuthorizationService.class);
         LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
@@ -106,7 +109,7 @@ public class PIMLoginManagerTest extends TestCase {
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
         when(mockPimSettingManager.getLocale()).thenReturn("en-US");
         when(mockPimSettingManager.getTaggingInterface()).thenReturn(mockTaggingInterface);
-        when(mockTaggingInterface.getPrivacyConsent()).thenReturn(AppTaggingInterface.PrivacyStatus.UNKNOWN);
+        when(mockTaggingInterface.getPrivacyConsent()).thenReturn(AppTaggingInterface.PrivacyStatus.OPTIN);
         when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
         String customeClaims = new PIMOIDCConfigration().getCustomClaims();
         when(mockPimoidcConfigration.getCustomClaims()).thenReturn(customeClaims);
@@ -118,7 +121,7 @@ public class PIMLoginManagerTest extends TestCase {
         whenNew(PIMAuthManager.class).withArguments(mockContext).thenReturn(mockAuthManager);
         when(mockAuthManager.getAuthState()).thenReturn(mockAuthState);
 
-        pimLoginManager = new PIMLoginManager(mockContext, mockPimoidcConfigration);
+        pimLoginManager = new PIMLoginManager(mockContext, mockPimoidcConfigration, consentParameterMap);
     }
 
     @Test

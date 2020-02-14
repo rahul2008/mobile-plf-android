@@ -796,7 +796,7 @@ def analyzeWithBlackduck() {
         #!/bin/bash -l
         whoami 
         ls -la /Users/philipsiet/synopsys-detect-5.6.2-air-gap-gradle-nuget/packaged-inspectors/gradle
-        java -jar /Users/philipsiet/Softwares/synopsys-detect-5.6.2.jar --detect.project.name=EMS --detect.project.version.name=Android_23 --detect.source.path=/Users/philipsiet/workspace/workspace/obile_iet-mobile-android_develop --blackduck.url=https://blackduck.philips.com/ --blackduck.trust.cert=true --blackduck.api.token=ZGY1NzY4YWEtMWEzYi00Y2U2LTgzY2QtZjI0NjFkZTQxNTliOjc2ZmYzMzViLTBmMTMtNDlhYy05ZjhmLTViNjgxOTkxMDVmNA== --detect.gradle.inspector.air.gap.path=/Users/philipsiet/synopsys-detect-5.6.2-air-gap-gradle-nuget/packaged-inspectors/gradle
+        java -jar /Users/philipsiet/Softwares/synopsys-detect-5.6.2.jar --detect.project.name=EMS --detect.project.version.name=Android_23 --detect.source.path=${WORKSPACE} --blackduck.url=https://blackduck.philips.com/ --blackduck.trust.cert=true --blackduck.api.token=ZGY1NzY4YWEtMWEzYi00Y2U2LTgzY2QtZjI0NjFkZTQxNTliOjc2ZmYzMzViLTBmMTMtNDlhYy05ZjhmLTViNjgxOTkxMDVmNA== --detect.gradle.inspector.air.gap.path=/Users/philipsiet/synopsys-detect-5.6.2-air-gap-gradle-nuget/packaged-inspectors/gradle
     """
 
     echo "-----------------------------"
@@ -812,6 +812,7 @@ def PublishingJacocoTestReport() {
     sh '''#!/bin/bash -l
         set -e
         /bin/chmod -R 755 .
+        ./gradlew test
         ./gradlew jacocoTestReport
     
     '''

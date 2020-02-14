@@ -1,14 +1,18 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BindingAdapter
+
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.util.Log
 import android.view.View
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.BasePriceEntity
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
@@ -18,6 +22,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.address.ECSFetchAddressesCallback
 import com.philips.cdp.di.mec.utils.MECutility
@@ -44,6 +49,28 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
     fun getShoppingCart(){
         ecsShoppingCartRepository.fetchShoppingCart()
     }
+
+    fun retryGetShoppingCart() {
+        var retryAPI = { getShoppingCart() }
+
+        authAndCallAPIagain(retryAPI,authFailCallback)
+    }
+
+
+
+    fun createShoppingCart(request: String){
+        val createShoppingCartCallback=  object: ECSCallback<ECSShoppingCart, Exception> {
+            override fun onResponse(result: ECSShoppingCart?) {
+                getShoppingCart()
+            }
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                val mECError = MecError(error, ecsError)
+                mecError.value = mECError
+            }
+        }
+        ecsShoppingCartRepository.createCart(createShoppingCartCallback)
+    }
+
 
     fun updateQuantity(entries: ECSEntries, quantity: Int) {
         ecsShoppingCartRepository.updateShoppingCart(entries,quantity)

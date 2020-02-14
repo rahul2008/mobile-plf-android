@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface
 
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
@@ -65,9 +66,7 @@ class HybrisAuth {
                 }
 
                 override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                    if (ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
-                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
+                    if (MECutility.isAuthError(ecsError)){
                         refreshJainrain(fragmentCallback);
                     } else {
                         fragmentCallback.onFailure(error, ecsError)
@@ -99,9 +98,7 @@ class HybrisAuth {
                 }
 
                 override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                    if (ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
-                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                            || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
+                    if (MECutility.isAuthError(ecsError)) {
                         refreshJainrain(fragmentCallback);
                     } else {
 

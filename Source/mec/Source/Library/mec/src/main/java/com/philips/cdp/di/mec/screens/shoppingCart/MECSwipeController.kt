@@ -3,16 +3,17 @@ package com.philips.cdp.di.mec.screens.shoppingCart
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.support.v7.widget.helper.ItemTouchHelper.Callback
-import android.view.MotionEvent
 
-import android.support.v7.widget.helper.ItemTouchHelper.*
+import android.view.MotionEvent
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.*
+import androidx.recyclerview.widget.RecyclerView
+
 import com.philips.cdp.di.mec.R
 
-class MECSwipeController(context : Context, buttonsActions: SwipeControllerActions) : Callback() {
+
+class MECSwipeController(context : Context, buttonsActions: SwipeControllerActions) : ItemTouchHelper.Callback() {
 
     private var swipeBack = false
 

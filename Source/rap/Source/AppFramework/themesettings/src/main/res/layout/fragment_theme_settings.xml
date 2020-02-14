@@ -27,7 +27,7 @@
                 android:layout_marginBottom="12dp"
                 android:text="@string/color_ranges_label"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/colorRangeList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -61,7 +61,7 @@
                 android:layout_marginBottom="12dp"
                 android:text="@string/for_content_area_text"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tonalRangeList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 android:layout_marginBottom="12dp"
                 android:text="@string/for_navigation_area_text"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notificationBarList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/accent_color_range_text"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/accentColorRangeList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

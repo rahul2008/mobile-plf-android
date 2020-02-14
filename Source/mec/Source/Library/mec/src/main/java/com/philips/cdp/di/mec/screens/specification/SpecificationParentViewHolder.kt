@@ -1,12 +1,10 @@
 package com.philips.cdp.di.mec.screens.specification
 
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
 import com.philips.cdp.di.mec.databinding.MecSpecItemParentBinding
 import com.philips.cdp.prxclient.datamodels.specification.CsChapterItem
-import android.support.v7.widget.LinearLayoutManager
-
-
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 class SpecificationParentViewHolder (val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root){

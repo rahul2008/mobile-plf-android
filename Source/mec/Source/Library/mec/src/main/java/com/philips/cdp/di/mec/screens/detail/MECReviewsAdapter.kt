@@ -2,17 +2,16 @@ package com.philips.cdp.di.mec.screens.detail
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.support.v4.content.ContextCompat.getColor
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.philips.cdp.di.mec.databinding.MecReviewRowBinding
 import com.philips.cdp.di.mec.screens.reviews.MECReview
-import java.text.SimpleDateFormat
 import android.R
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat.getColor
+import androidx.recyclerview.widget.RecyclerView
 
 
 class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -8,7 +8,7 @@
 package com.philips.platform.appframework.ui;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.platform.appframework.data.TestConfigManager;
 import com.philips.platform.appframework.flowmanager.AppStates;

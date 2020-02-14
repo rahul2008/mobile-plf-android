@@ -1,9 +1,7 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import android.databinding.ViewDataBinding
-import android.util.Log
 import android.view.View
-import com.philips.cdp.di.ecs.model.products.ECSProduct
+import androidx.databinding.ViewDataBinding
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecProductCatalogItemGridBinding
 import com.philips.cdp.di.mec.databinding.MecProductCatalogItemListBinding

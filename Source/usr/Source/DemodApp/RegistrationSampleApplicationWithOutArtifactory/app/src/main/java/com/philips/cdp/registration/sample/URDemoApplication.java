@@ -4,7 +4,7 @@ package com.philips.cdp.registration.sample;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;

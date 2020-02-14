@@ -1,6 +1,6 @@
 package com.philips.cdp.di.iapdemo;
 
-import android.support.test.espresso.IdlingResource;
+import androidx.test.espresso.IdlingResource;
 import android.view.View;
 
 /**

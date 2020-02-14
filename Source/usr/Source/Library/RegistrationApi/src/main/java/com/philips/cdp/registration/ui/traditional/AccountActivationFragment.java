@@ -13,7 +13,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -92,7 +92,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private boolean isSocialProvider;
 
-    private boolean wasAppInBackground;
 
     @Inject
     RegistrationHelper registrationHelper;
@@ -129,7 +128,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onStop() {
         super.onStop();
         RLog.d(TAG, "onStop");
-        wasAppInBackground = true;
         accountActivationPresenter.unRegisterListener();
        // getRegistrationFragment().stopCountDownTimer();
     }
@@ -354,13 +352,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-
-        if (wasAppInBackground && isInstanceofCurrentFragment()) {
-            showActivateSpinner();
-            handleUiState(networkUtility.isNetworkAvailable());
-            mUser.refreshUser(this);
-            wasAppInBackground = false;
-        }
     }
 
     private boolean isInstanceofCurrentFragment() {

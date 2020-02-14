@@ -12,10 +12,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +46,7 @@ public class ThemeSelectionActivity extends UIDActivity{
         setContentView(R.layout.theme_activity);
         initToolBar();
         fragment = (ThemeSettingsFragment) getSupportFragmentManager().findFragmentById(R.id.selection_fragment);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

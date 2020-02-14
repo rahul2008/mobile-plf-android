@@ -12,8 +12,8 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -401,6 +401,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
 
     void removeFocus(){
+        ((RegistrationFragment) getParentFragment()).hideKeyBoard();
         usrCreateScreenLastNameTextField.clearFocus();
         usrCreateScreenFirstNameTextField.clearFocus();
         usrCreatescreenEmailormobileTextfield.clearFocus();
@@ -716,6 +717,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @OnClick(R2.id.usr_createscreen_create_button)
     public void createButtonWithProgressBar() {
+
+        ((RegistrationFragment) getParentFragment()).hideKeyBoard();
+
         RLog.d(TAG, "createButtonWithProgressBar: Create Account");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
                 (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)) {
@@ -723,7 +727,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                 registerUserInfo();
             } else if (!usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
-            } else if (!usrCreatescreenPersonalConsentCheckbox.isChecked()) {
+            }
+
+            if (!usrCreatescreenPersonalConsentCheckbox.isChecked()) {
                 usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
             }
         } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {

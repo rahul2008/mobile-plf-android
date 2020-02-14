@@ -29,6 +29,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
@@ -318,19 +319,22 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
             emailorMobile = user.getMobile();
         }
 
-       // RegistrationConfiguration.getInstance().isCustomOptoin()
+       // RegistrationConfiguration.getInstance().isCustomOptin()
 
 
-        if (emailorMobile != null && ((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                RegPreferenceUtility.getPreferenceValue(homeContract.getActivityContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !user.getReceiveMarketingEmail())
-                || (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() != null
-                && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.active)) && (RegistrationConfiguration.getInstance().isCustomOptoin() || RegistrationConfiguration.getInstance().isSkipOptin())) {
+        if (emailorMobile != null
+                && (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
+                RegPreferenceUtility.getPreferenceValue(homeContract.getActivityContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile))
+                && (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+                && (RegistrationConfiguration.getInstance().isCustomOptoin() || RegistrationConfiguration.getInstance().isSkipOptin())
+                && (RegUtility.getUiFlow() == UIFlow.FLOW_B)) {
             homeContract.registrationCompleted();
             return;
         }else  if (emailorMobile != null && ((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
                 !RegPreferenceUtility.getPreferenceValue(homeContract.getActivityContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !user.getReceiveMarketingEmail())
                 || (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() != null
                 && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive))) {
+
             homeContract.navigateToAcceptTermsScreen();
             return;
         }
@@ -343,6 +347,8 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
     void onSelectCountry(String countryName, String code) {
         setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
+        if (countryUpdateReceiver != null)
+            serviceDiscoveryInterface.unRegisterHomeCountrySet(countryUpdateReceiver);
         countryUpdateReceiver = new CountryUpdateReceiver(countryName);
         serviceDiscoveryInterface.registerOnHomeCountrySet(countryUpdateReceiver);
         if (networkUtility.isNetworkAvailable()) {

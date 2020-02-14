@@ -5,7 +5,7 @@
  */
 package com.philips.cdp.di.ecs.model.retailers;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import java.io.Serializable;
 

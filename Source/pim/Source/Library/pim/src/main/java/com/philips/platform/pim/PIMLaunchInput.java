@@ -10,6 +10,8 @@ package com.philips.platform.pim;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import java.util.HashMap;
+
 /**
  * This class is used to provide input parameters and customizations for PIM.
  *
@@ -18,7 +20,9 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 public class PIMLaunchInput extends UappLaunchInput {
 
     private UserLoginListener userLoginListener;
-    
+
+    private HashMap<PIMParameterToLaunchEnum, Object> parameterToLaunch;
+
     UserLoginListener getUserLoginListener() {
         return userLoginListener;
     }
@@ -26,4 +30,13 @@ public class PIMLaunchInput extends UappLaunchInput {
     public void setUserLoginListener(UserLoginListener userLoginListener) {
         this.userLoginListener = userLoginListener;
     }
+
+    public HashMap<PIMParameterToLaunchEnum, Object> getParameterToLaunch() {
+        return parameterToLaunch;
+    }
+
+    public void setParameterToLaunch(HashMap<PIMParameterToLaunchEnum, Object> parameterToLaunch) {
+        this.parameterToLaunch = parameterToLaunch;
+    }
+
 }

@@ -7,8 +7,10 @@ package com.philips.productselection;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.philips.cdp.productselection.fragments.detailedscreen.NavigationFragment;
 import com.philips.cdp.productselection.fragments.detailedscreen.adapter.ProductAdapter;
@@ -88,9 +90,9 @@ public class ProductModelSelectionLogic {
     @Test
     public void testDetailedScreenImageAdapter() {
         String[] mImagesLengthToLoad = new String[5];
-        android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
+        FragmentManager fragmentManager = new FragmentManager() {
             @Override
-            public android.support.v4.app.FragmentTransaction beginTransaction() {
+            public FragmentTransaction beginTransaction() {
                 return null;
             }
 
@@ -100,12 +102,12 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentById(@IdRes int id) {
+            public Fragment findFragmentById(@IdRes int id) {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentByTag(String tag) {
+            public Fragment findFragmentByTag(String tag) {
                 return null;
             }
 
@@ -160,22 +162,22 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public void putFragment(Bundle bundle, String key, android.support.v4.app.Fragment fragment) {
+            public void putFragment(Bundle bundle, String key, Fragment fragment) {
 
             }
 
             @Override
-            public android.support.v4.app.Fragment getFragment(Bundle bundle, String key) {
+            public Fragment getFragment(Bundle bundle, String key) {
                 return null;
             }
 
             @Override
-            public List<android.support.v4.app.Fragment> getFragments() {
+            public List<Fragment> getFragments() {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment.SavedState saveFragmentInstanceState(android.support.v4.app.Fragment f) {
+            public Fragment.SavedState saveFragmentInstanceState(Fragment f) {
                 return null;
             }
 
@@ -217,9 +219,9 @@ public class ProductModelSelectionLogic {
     @Test
     public void testDetailedScreenImageAdapterTitle() {
         String[] mImagesLengthToLoad = new String[5];
-        android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
+        FragmentManager fragmentManager = new FragmentManager() {
             @Override
-            public android.support.v4.app.FragmentTransaction beginTransaction() {
+            public FragmentTransaction beginTransaction() {
                 return null;
             }
 
@@ -229,12 +231,12 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentById(@IdRes int id) {
+            public Fragment findFragmentById(@IdRes int id) {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentByTag(String tag) {
+            public Fragment findFragmentByTag(String tag) {
                 return null;
             }
 
@@ -289,22 +291,22 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public void putFragment(Bundle bundle, String key, android.support.v4.app.Fragment fragment) {
+            public void putFragment(Bundle bundle, String key, Fragment fragment) {
 
             }
 
             @Override
-            public android.support.v4.app.Fragment getFragment(Bundle bundle, String key) {
+            public Fragment getFragment(Bundle bundle, String key) {
                 return null;
             }
 
             @Override
-            public List<android.support.v4.app.Fragment> getFragments() {
+            public List<Fragment> getFragments() {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment.SavedState saveFragmentInstanceState(android.support.v4.app.Fragment f) {
+            public Fragment.SavedState saveFragmentInstanceState(Fragment f) {
                 return null;
             }
 
@@ -346,9 +348,9 @@ public class ProductModelSelectionLogic {
     @Test
     public void testDetailedScreenImagesCount() {
         String[] mImagesLengthToLoad = new String[5];
-        android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
+        FragmentManager fragmentManager = new FragmentManager() {
             @Override
-            public android.support.v4.app.FragmentTransaction beginTransaction() {
+            public FragmentTransaction beginTransaction() {
                 return null;
             }
 
@@ -358,12 +360,12 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentById(@IdRes int id) {
+            public Fragment findFragmentById(@IdRes int id) {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentByTag(String tag) {
+            public Fragment findFragmentByTag(String tag) {
                 return null;
             }
 
@@ -418,22 +420,22 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public void putFragment(Bundle bundle, String key, android.support.v4.app.Fragment fragment) {
+            public void putFragment(Bundle bundle, String key, Fragment fragment) {
 
             }
 
             @Override
-            public android.support.v4.app.Fragment getFragment(Bundle bundle, String key) {
+            public Fragment getFragment(Bundle bundle, String key) {
                 return null;
             }
 
             @Override
-            public List<android.support.v4.app.Fragment> getFragments() {
+            public List<Fragment> getFragments() {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment.SavedState saveFragmentInstanceState(android.support.v4.app.Fragment f) {
+            public Fragment.SavedState saveFragmentInstanceState(Fragment f) {
                 return null;
             }
 
@@ -475,9 +477,9 @@ public class ProductModelSelectionLogic {
     @Test
     public void testDetailedScreenPageTitle() {
         String[] mImagesLengthToLoad = new String[5];
-        android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
+        FragmentManager fragmentManager = new FragmentManager() {
             @Override
-            public android.support.v4.app.FragmentTransaction beginTransaction() {
+            public FragmentTransaction beginTransaction() {
                 return null;
             }
 
@@ -487,12 +489,12 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentById(@IdRes int id) {
+            public Fragment findFragmentById(@IdRes int id) {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment findFragmentByTag(String tag) {
+            public Fragment findFragmentByTag(String tag) {
                 return null;
             }
 
@@ -547,22 +549,22 @@ public class ProductModelSelectionLogic {
             }
 
             @Override
-            public void putFragment(Bundle bundle, String key, android.support.v4.app.Fragment fragment) {
+            public void putFragment(Bundle bundle, String key, Fragment fragment) {
 
             }
 
             @Override
-            public android.support.v4.app.Fragment getFragment(Bundle bundle, String key) {
+            public Fragment getFragment(Bundle bundle, String key) {
                 return null;
             }
 
             @Override
-            public List<android.support.v4.app.Fragment> getFragments() {
+            public List<Fragment> getFragments() {
                 return null;
             }
 
             @Override
-            public android.support.v4.app.Fragment.SavedState saveFragmentInstanceState(android.support.v4.app.Fragment f) {
+            public Fragment.SavedState saveFragmentInstanceState(Fragment f) {
                 return null;
             }
 

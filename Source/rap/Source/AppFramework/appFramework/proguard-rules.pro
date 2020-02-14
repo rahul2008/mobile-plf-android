@@ -54,6 +54,8 @@
 -keep class com.google.gson.** {*;}
 -dontwarn com.google.gson.**
 
+-keep class org.xmlpull.v1.** { *; }
+
 #Hockey app and enabling excpetion catching
 -keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
 
@@ -217,11 +219,11 @@
  }
 
 # Keep fragments
--keep public class * extends android.support.v4.app.FragmentStackActivity
+#-keep public class * extends android.support.v4.app.FragmentStackActivity
 -keep public class * extends android.app.Fragment {
     <init>(...);
 }
--keep public class * extends android.support.v4.app.Fragment {
+-keep public class * extends androidx.fragment.app.Fragment {
     <init>(...);
 }
 
@@ -256,9 +258,6 @@ public static <fields>;
    public void *(android.view.View);
    public void *(android.view.MenuItem);
 }
-
--dontwarn android.support.v7.view.menu.**
--dontwarn android.support.customtabs.**
 
 #------------------------------Application specific rules end  here------------------------------------
 

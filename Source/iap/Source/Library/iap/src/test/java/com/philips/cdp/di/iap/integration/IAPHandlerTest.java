@@ -8,7 +8,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;

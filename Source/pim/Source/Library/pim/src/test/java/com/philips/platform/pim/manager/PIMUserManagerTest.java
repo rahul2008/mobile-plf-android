@@ -290,7 +290,7 @@ public class PIMUserManagerTest extends TestCase {
 
     @Test
     public void testSaveUUIDToPrefNullUUID() throws Exception {
-        Whitebox.invokeMethod(pimUserManager, "saveUUIDToPreference", null);
+        Whitebox.invokeMethod(pimUserManager, "saveUUIDToPreference", (Object) null);
         verify(mockLoggingInterface).log(DEBUG, "PIMUserManager", "UUID is null");
     }
 
@@ -306,7 +306,7 @@ public class PIMUserManagerTest extends TestCase {
 
     @Test
     public void testGetUUIDFromProfileJsonReturnsNull() throws Exception {
-        String uuidFromUserProfileJson = Whitebox.invokeMethod(pimUserManager, "getUUIDFromUserProfileJson", null);
+        String uuidFromUserProfileJson = Whitebox.invokeMethod(pimUserManager, "getUUIDFromUserProfileJson", (Object) null);
         assertNull(uuidFromUserProfileJson);
     }
 

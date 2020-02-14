@@ -6,7 +6,7 @@
 package com.philips.platform.uappframework.launcher;
 
 
-import android.support.annotation.AnimRes;
+import androidx.annotation.AnimRes;
 
 import java.io.Serializable;
 

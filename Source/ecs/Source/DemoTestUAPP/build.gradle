@@ -21,7 +21,7 @@ android {
     defaultConfig {
         versionName version + "(" + commitHash+ ")"
         multiDexEnabled true
-
+        manifestPlaceholders = ['appAuthRedirectScheme': '']
     }
 
     buildTypes {
@@ -87,12 +87,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.support.appcompatv7
-
-
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.runner
 
     implementation deps.volley
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.gson
     implementation deps.libphonenumber
 

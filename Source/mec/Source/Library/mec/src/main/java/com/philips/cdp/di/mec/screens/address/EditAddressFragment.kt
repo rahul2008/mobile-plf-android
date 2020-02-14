@@ -1,13 +1,14 @@
 package com.philips.cdp.di.mec.screens.address
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.platform.uid.view.widget.InputValidationLayout
@@ -21,6 +22,9 @@ import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
 class EditAddressFragment : MecBaseFragment() {
+    override fun getFragmentTag(): String {
+        return "EditAddressFragment"
+    }
 
 
     private lateinit var ecsAddress: ECSAddress

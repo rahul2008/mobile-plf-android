@@ -1,7 +1,9 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+
 import com.mec.demouapp.MecDemoAppSettings;
 import com.mec.demouapp.MecDemoUAppDependencies;
 import com.mec.demouapp.MecDemoUAppInterface;

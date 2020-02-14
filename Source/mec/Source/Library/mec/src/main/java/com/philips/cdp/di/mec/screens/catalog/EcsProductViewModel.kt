@@ -1,13 +1,14 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BindingAdapter
+
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.R

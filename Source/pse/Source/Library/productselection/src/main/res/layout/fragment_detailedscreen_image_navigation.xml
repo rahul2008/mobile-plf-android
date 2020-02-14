@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:showIn="@layout/fragment_detailed_screen">
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/detailedscreen_pager"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/savedscreen_product_image_margin"

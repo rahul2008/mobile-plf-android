@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.utils
 
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
+import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.screens.address.UserInfo
@@ -32,6 +33,7 @@ enum class MECDataHolder {
     var retailerEnabled :Boolean = true
     var voucherEnabled :Boolean = true
     var rootCategory:String = ""
+    var config: ECSConfig? = null
 
     fun getPrivacyUrl(): String? {
         return privacyUrl

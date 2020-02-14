@@ -1,11 +1,12 @@
 package com.philips.platform.pim.manager;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pim.BuildConfig;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.utilities.PIMInitState;
@@ -36,6 +37,8 @@ public class PIMSettingManagerTest extends TestCase {
     LoggingInterface mockLoggingInterface;
     @Mock
     AppTaggingInterface mockAppTaggingInterface;
+    @Mock
+    UserLoginListener mockUserLoginListener;
     @Mock
     MutableLiveData<PIMInitState> mockPimInitLiveData;
 
@@ -106,6 +109,13 @@ public class PIMSettingManagerTest extends TestCase {
         pimSettingManager.setPIMInitLiveData(mockPimInitLiveData);
         MutableLiveData<PIMInitState> pimInitLiveData = pimSettingManager.getPimInitLiveData();
         assertSame(mockPimInitLiveData, pimInitLiveData);
+    }
+
+    @Test
+    public void testGetPimUserLoginListener() {
+        pimSettingManager.setUserLoginInerface(mockUserLoginListener);
+        UserLoginListener pimUserLoginListener = pimSettingManager.getPimUserLoginListener();
+        assertSame(mockUserLoginListener, pimUserLoginListener);
     }
 
     public void tearDown() throws Exception {

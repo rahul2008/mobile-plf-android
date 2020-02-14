@@ -1,6 +1,7 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
-import android.support.v7.widget.RecyclerView
+
+import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecVoucherItemBinding
