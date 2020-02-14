@@ -55,10 +55,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         authAndCallAPIagain(retryAPI,authFailCallback)
     }
 
-    fun authFailureCallback(error: Exception?, ecsError: ECSError?){
-        Log.v("Auth","refresh auth failed");
 
-    }
 
     fun createShoppingCart(request: String){
         val createShoppingCartCallback=  object: ECSCallback<ECSShoppingCart, Exception> {

@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.common
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.philips.cdp.di.ecs.error.ECSError
@@ -20,5 +21,11 @@ open class CommonViewModel : ViewModel() {
             }
         }
         HybrisAuth.hybrisRefreshAuthentication(authCallback)
+    }
+
+    open fun authFailureCallback(error: Exception?, ecsError: ECSError?){
+        Log.v("Auth","refresh auth failed"+ecsError);
+        val mecError = MecError(error, ecsError)
+        this.mecError.value = mecError
     }
 }

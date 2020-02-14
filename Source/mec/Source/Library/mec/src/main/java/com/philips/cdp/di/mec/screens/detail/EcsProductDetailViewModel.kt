@@ -66,7 +66,8 @@ class EcsProductDetailViewModel : CommonViewModel() {
         ecsProductDetailRepository.addTocart(ecsProductAsParamter)
     }
 
-    fun authFailureCallback(error: Exception?, ecsError: ECSError?){
+
+    override fun authFailureCallback(error: Exception?, ecsError: ECSError?){
         Log.v("Auth","refresh auth failed");
         addToProductCallBack.onFailure(error,ecsError)
     }
