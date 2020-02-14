@@ -68,6 +68,10 @@ class AddressViewModel : CommonViewModel() {
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
     }
 
+    fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
+        addressRepository.setAndFetchDeliveryAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
     fun updateAndFetchAddress(ecsAddress: ECSAddress){
         addressRepository.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }

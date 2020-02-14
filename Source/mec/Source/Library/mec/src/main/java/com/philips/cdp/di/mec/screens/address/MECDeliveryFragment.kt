@@ -16,16 +16,16 @@ class MECDeliveryFragment : MecBaseFragment() {
 
     lateinit var binding:MecDeliveryBinding
 
-    lateinit var ecsAddress:ECSAddress
+    lateinit var ecsAddresses:List<ECSAddress>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = MecDeliveryBinding.inflate(inflater, container, false)
 
-        ecsAddress = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESS) as ECSAddress
+        ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
 
-        binding.ecsAddressShipping = ecsAddress
+        binding.ecsAddressShipping = ecsAddresses[0]
 
         binding.tvShippingAddressEdit.setOnClickListener(object:View.OnClickListener{
 
@@ -42,7 +42,7 @@ class MECDeliveryFragment : MecBaseFragment() {
 
         var editAddressFragment = EditAddressFragment()
         var bundle = Bundle()
-        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddress)
+        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, binding.ecsAddressShipping)
         editAddressFragment.arguments = bundle
         replaceFragment(editAddressFragment,"EditAddressFragment",true)
     }

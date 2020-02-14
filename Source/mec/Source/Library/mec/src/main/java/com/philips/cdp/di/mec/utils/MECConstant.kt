@@ -9,7 +9,8 @@ import com.philips.cdp.di.mec.R
 object MECConstant {
 
     val KEY_IS_HYBRIS: String? ="KEY_IS_HYBRIS"
-    val KEY_ECS_ADDRESS: String? = "KEY_ECS_ADDRESS"
+    val KEY_ECS_ADDRESSES: String? = "KEY_ECS_ADDRESSES"
+    val KEY_ECS_SHOPPING_CART : String? = "KEY_ECS_SHOPPING_CART"
     val THRESHOLD = 5
     val FLOW_INPUT: String? ="FLOW_INPUT"
     val KEY_FLOW_CONFIGURATION: String? ="KEY_FLOW_CONFIGURATION"
