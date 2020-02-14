@@ -26,7 +26,7 @@ open class CommonViewModel : ViewModel() {
 
     open fun authFailureCallback(error: Exception?, ecsError: ECSError?){
         Log.v("Auth","refresh auth failed "+ecsError);
-        val mecError = MecError(error, ecsError)
+        val mecError = MecError(error, ecsError,null)
         this.mecError.value = mecError
     }
 }

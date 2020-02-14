@@ -16,7 +16,7 @@ class MECDetailBulkRatingConversationsDisplayCallback(private val ecsProductDeta
 
         val exception = Exception("Fetch Rating failed")
         val ecsError = ECSError(1000,"Fetch Rating failed")
-        val mecError = MecError(exception, ecsError)
+        val mecError = MecError(exception, ecsError,null)
         ecsProductDetailViewModel.mecError.value =mecError
     }
 }

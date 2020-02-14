@@ -5,6 +5,7 @@ import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
@@ -36,6 +37,7 @@ class ECSProductDetailRepository(private val ecsProductDetailViewModel: EcsProdu
     }
 
     fun addTocart(ecsProduct: ECSProduct){
+        mECAddToProductCallback.mECRequestType= MECRequestType.MEC_ADD_PRODUCT_TO_SHOPPING_CART
         ecsServices.addProductToShoppingCart(ecsProduct,mECAddToProductCallback)
     }
 

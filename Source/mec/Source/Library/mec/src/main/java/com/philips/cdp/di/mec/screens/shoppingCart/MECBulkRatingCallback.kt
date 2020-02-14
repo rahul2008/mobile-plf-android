@@ -24,7 +24,7 @@ class MECBulkRatingCallback(private val ecsProducts: MutableList<ECSEntries>, pr
     override fun onFailure(exception: ConversationsException) {
 
         val ecsError = ECSError(1000,exception.localizedMessage)
-        val mecError = MecError(exception, ecsError)
+        val mecError = MecError(exception, ecsError,null)
         ecsShoppingCartViewModel.mecError.value = mecError
     }
 

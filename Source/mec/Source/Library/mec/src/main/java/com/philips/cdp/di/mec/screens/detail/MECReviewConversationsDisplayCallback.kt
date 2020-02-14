@@ -4,9 +4,11 @@ import com.bazaarvoice.bvandroidsdk.ConversationsDisplayCallback
 import com.bazaarvoice.bvandroidsdk.ConversationsException
 import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 
 class MECReviewConversationsDisplayCallback(private val ecsProductDetailViewModel: EcsProductDetailViewModel) : ConversationsDisplayCallback<ReviewResponse> {
+    lateinit var mECRequestType : MECRequestType
     override fun onSuccess(response: ReviewResponse) {
         ecsProductDetailViewModel.review.value = response
     }
@@ -14,7 +16,7 @@ class MECReviewConversationsDisplayCallback(private val ecsProductDetailViewMode
     override fun onFailure(exception: ConversationsException) {
         val exception = Exception("Fetch Rating failed")
         val ecsError = ECSError(1000,"Fetch Rating failed")
-        val mecError = MecError(exception, ecsError)
+        val mecError = MecError(exception, ecsError,mECRequestType)
         ecsProductDetailViewModel.mecError.value = mecError
     }
 }

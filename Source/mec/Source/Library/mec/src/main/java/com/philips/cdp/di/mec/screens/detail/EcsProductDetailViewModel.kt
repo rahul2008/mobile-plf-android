@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
@@ -73,7 +74,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
         addToProductCallBack.onFailure(error,ecsError)
     }
 
-    fun retryAddProductToShoppingcart() {
+    fun retryAPI(mECRequestType : MECRequestType) {
         var retryAPI = { addProductToShoppingcart(ecsProductAsParamter,addToProductCallBack) }
         authAndCallAPIagain(retryAPI,authFailCallback)
     }

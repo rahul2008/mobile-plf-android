@@ -3,10 +3,11 @@ package com.philips.cdp.di.mec.screens.catalog
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProducts
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 
 class ECSCategorizedProductsCallback(private var  ctns: List<String> ,private var ecsProductViewModel:EcsProductViewModel) : ECSCallback<ECSProducts, Exception> {
-
+    lateinit var mECRequestType : MECRequestType
     override fun onResponse(ecsProducts: ECSProducts?) {
 
         val mutableLiveData = ecsProductViewModel.ecsProductsList
@@ -17,7 +18,7 @@ class ECSCategorizedProductsCallback(private var  ctns: List<String> ,private va
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        val mecError = MecError(error, ecsError)
+        val mecError = MecError(error, ecsError,mECRequestType)
         ecsProductViewModel.mecError.value = mecError
     }
 }

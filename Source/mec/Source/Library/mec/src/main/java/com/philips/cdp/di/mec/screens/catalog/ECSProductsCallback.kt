@@ -17,7 +17,7 @@ class ECSProductsCallback(private var ecsProductViewModel:EcsProductViewModel) :
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        val mecError = MecError(error, ecsError)
+        val mecError = MecError(error, ecsError,null)
         ecsProductViewModel.mecError.value = mecError
     }
 }
