@@ -26,7 +26,7 @@ class MECAddToProductCallback(private val ecsProductDetailViewModel: EcsProductD
         val mecError = MecError(error, ecsError)
 
         if (  MECutility.isAuthError(ecsError)) {
-            ecsProductDetailViewModel.retryFunction()
+            ecsProductDetailViewModel.retryAddProductToShoppingcart()
         }else if (ecsError!!.errorcode == ECSErrorEnum.ECSCartError.errorCode){
             ecsProductDetailViewModel.createShoppingCart(request)
         } else{

@@ -48,6 +48,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     var ecsProductListCallback = ECSProductListForCTNsCallback(this)
 
+
     fun getRatings(ctn :String){
         ecsProductDetailRepository.getRatings(ctn)
     }
@@ -72,9 +73,8 @@ class EcsProductDetailViewModel : CommonViewModel() {
         addToProductCallBack.onFailure(error,ecsError)
     }
 
-    fun retryFunction() {
+    fun retryAddProductToShoppingcart() {
         var retryAPI = { addProductToShoppingcart(ecsProductAsParamter,addToProductCallBack) }
-        var authFailCallback ={ error: Exception?, ecsError: ECSError? -> authFailureCallback(error, ecsError) }
         authAndCallAPIagain(retryAPI,authFailCallback)
     }
 

@@ -51,7 +51,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
 
     fun retryGetShoppingCart() {
         var retryAPI = { getShoppingCart() }
-        var authFailCallback ={ error: Exception?, ecsError: ECSError? -> authFailureCallback(error, ecsError) }
+
         authAndCallAPIagain(retryAPI,authFailCallback)
     }
 
