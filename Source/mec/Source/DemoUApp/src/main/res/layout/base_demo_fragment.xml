@@ -34,12 +34,39 @@
                     android:text="Add" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_voucher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_ctn"
+                android:weightSum="1"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
+                android:layout_marginLeft="@dimen/border8_margin"
+                android:layout_marginRight="@dimen/border8_margin"
+                >
+
+                <com.philips.platform.uid.view.widget.EditText
+                    android:layout_weight="0.75"
+                    android:id="@+id/et_add_voucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Voucher" />
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:layout_weight="0.25"
+                    android:id="@+id/btn_add_voucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Voucher Add" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/ll_enter_proposition_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ll_ctn"
+                android:layout_below="@id/ll_voucher"
                 android:weightSum="1"
                 android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:layout_marginLeft="@dimen/border8_margin"

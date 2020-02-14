@@ -14,6 +14,7 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
 
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     lateinit var mecBannerConfigurator: MECBannerConfigurator
+    var voucherCode : String = ""
 
     //TODO :-Blacklist retailer
     var mecListener: MECListener ? =null

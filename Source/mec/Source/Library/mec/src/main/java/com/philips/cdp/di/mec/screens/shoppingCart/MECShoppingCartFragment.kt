@@ -96,6 +96,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             ecsShoppingCart.appliedVouchers?.let { voucherList.addAll(it) }
         }
         vouchersAdapter?.notifyDataSetChanged()
+        
 
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
