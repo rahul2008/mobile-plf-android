@@ -42,6 +42,8 @@ import com.philips.cdp.di.mec.screens.address.AddressViewModel
 
 import com.philips.cdp.di.mec.screens.address.MECDeliveryFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.platform.appinfra.AppInfra
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.ValidationEditText
 
@@ -75,7 +77,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     private var voucherCode: String = ""
     private var removeVoucher: Boolean = false
+    private var isVoucherEnabled : Boolean = false
     var validationEditText : ValidationEditText? =null
+    val list : ArrayList<String>? = ArrayList()
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         binding.mecProgress.visibility = View.GONE
@@ -96,13 +100,22 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             ecsShoppingCart.appliedVouchers?.let { voucherList.addAll(it) }
         }
         vouchersAdapter?.notifyDataSetChanged()
-        
+
+        if(isVoucherEnabled && !(MECDataHolder.INSTANCE.voucherCode.isEmpty()) && !(MECDataHolder.INSTANCE.voucherCode.equals("invalid_code"))) {
+            for (i in 0..ecsShoppingCart.appliedVouchers.size-1) {
+                list?.add(ecsShoppingCart.appliedVouchers.get(i).voucherCode!!)
+            }
+                if (!list!!.contains(MECDataHolder.INSTANCE.voucherCode)) {
+                    ecsShoppingCartViewModel.addVoucher(MECDataHolder.INSTANCE.voucherCode)
+            }
+        }
 
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
             updateCount(quantity)
         }
     }
+
 
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
         productReviewList.clear()
@@ -166,6 +179,12 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             binding.mecAcceptedCodeRecyclerView.adapter = vouchersAdapter
 
             binding.mecCartSummaryRecyclerView.adapter = productsAdapter
+
+            val appInfra = AppInfra.Builder().build(context)
+            val configInterface = appInfra.configInterface
+            val configError = AppConfigurationInterface.AppConfigurationError()
+
+            isVoucherEnabled = configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
 
 
             swipeController = MECSwipeController(binding.mecCartSummaryRecyclerView.context, object : SwipeControllerActions() {
@@ -295,6 +314,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     override fun processError(mecError: MecError?, bool: Boolean) {
+        MECDataHolder.INSTANCE.voucherCode = "invalid_code"
         super.processError(mecError, false)
         if (mecError!!.exception!!.message.toString().contentEquals(getString(R.string.mec_invalid_voucher_error))) {
         validationEditText = null
