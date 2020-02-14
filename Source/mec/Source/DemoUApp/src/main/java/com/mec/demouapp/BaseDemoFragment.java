@@ -72,13 +72,13 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private LinearLayout mAddCTNLl;
-    private EditText mEtCTN, mEtPropositionId;
+    private EditText mEtCTN, mEtPropositionId,mEtVoucherCode;
 
     private Button mRegister;
     private Button mShopNow;
     private Button mShopNowCategorized;
     private Button mLaunchProductDetail;
-    private Button mAddCtn, mBtnSetPropositionId;
+    private Button mAddCtn, mBtnSetPropositionId,mBtn_add_voucher;
     private Button mShopNowCategorizedWithRetailer;
     private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
@@ -90,6 +90,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private MECInterface mMecInterface;
     private MECLaunchInput mMecLaunchInput;
     private MECSettings mMecSettings;
+    String voucherCode = "";
 
     private UserDataInterface mUserDataInterface;
     ImageView mCartIcon;
@@ -99,8 +100,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     URInterface urInterface;
     private long mLastClickTime = 0;
 
-    private boolean isHybrisEnable = true,isBannerEnabled = true ,isRetailerEnabled = true;
-    private ToggleButton toggleBanner,toggleHybris,toggleRetailer;
+    private boolean isHybrisEnable = true,isBannerEnabled = true ,isRetailerEnabled = true, isVoucherEnabled = true;
+    private ToggleButton toggleBanner,toggleHybris,toggleRetailer,toggleVoucher;
 
     private CheckBox bvCheckBox;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
@@ -120,6 +121,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             mEtCTN = rootView.findViewById(R.id.et_add_ctn);
             mAddCTNLl = rootView.findViewById(R.id.ll_ctn);
             bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
+            mEtVoucherCode = rootView.findViewById(R.id.et_add_voucher);
+            mBtn_add_voucher = rootView.findViewById(R.id.btn_add_voucher);
+            mBtn_add_voucher.setOnClickListener(this);
+
             bvCheckBox.setOnCheckedChangeListener(this);
 
             text = getActivity().findViewById(R.id.mec_demo_app_header_title);
@@ -135,6 +140,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
             mEtPropositionId = rootView.findViewById(R.id.et_add_proposition_id);
             mBtnSetPropositionId = rootView.findViewById(R.id.btn_set_proposition_id);
+            toggleVoucher = rootView.findViewById(R.id.toggleVoucher);
 
 
             AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
@@ -142,7 +148,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
             String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
+            Boolean propertyForKeyVoucher = (Boolean) configInterface.getPropertyForKey("voucher", "MEC", configError);
             mEtPropositionId.setText(propertyForKey);
+            try {
+                isVoucherEnabled = propertyForKeyVoucher;
+            } catch (RuntimeException ex) {
+                isVoucherEnabled = true;
+            }
+
+            toggleVoucher.setChecked(isVoucherEnabled);
+
 
 
             mecBazaarVoiceInput = new MECBazaarVoiceInput();
@@ -192,6 +207,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     isRetailerEnabled = isChecked;
+                    initializeMECComponant();
+                }
+            });
+
+
+            toggleVoucher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    isVoucherEnabled = isChecked;
+                    configInterface.setPropertyForKey("voucher", "MEC", isVoucherEnabled, configError);
                     initializeMECComponant();
                 }
             });
@@ -339,6 +364,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private void launchMEC(MECFlowConfigurator.MECLandingView mecLandingView, MECFlowConfigurator pMecFlowConfigurator, ArrayList<String> pIgnoreRetailerList) {
 
         pMecFlowConfigurator.setLandingView(mecLandingView);
+        mMecLaunchInput.setVoucherCode(voucherCode);
         mMecLaunchInput.setFlowConfigurator(pMecFlowConfigurator);
 
 
@@ -357,6 +383,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private void launchMECasFragment(MECFlowConfigurator.MECLandingView mecLandingView, MECFlowConfigurator pMecFlowConfigurator, ArrayList<String> pIgnoreRetailerList) {
 
         pMecFlowConfigurator.setLandingView(mecLandingView);
+        mMecLaunchInput.setVoucherCode(voucherCode);
         mMecLaunchInput.setFlowConfigurator(pMecFlowConfigurator);
         mMecInterface.launch(new FragmentLauncher(getActivity(), R.id.container_base_demo, this),
                 mMecLaunchInput);
@@ -436,7 +463,12 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             } else if (getActivity() instanceof LaunchAsFragment) {
                 launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART, new MECFlowConfigurator(), null);
             }
-
+        }
+        else if (view == mBtn_add_voucher) {
+            if (mEtVoucherCode.getText().toString().length() > 0) {
+                voucherCode = mEtVoucherCode.getText().toString();
+            }
+            mEtVoucherCode.setText("");
         }
     }
 

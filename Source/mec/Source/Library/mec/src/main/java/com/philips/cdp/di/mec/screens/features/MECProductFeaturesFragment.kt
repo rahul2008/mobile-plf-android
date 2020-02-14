@@ -65,8 +65,8 @@ class MECProductFeaturesFragment : MecBaseFragment() {
     }
 
     //TODO Do something for error
-    override fun processError(mecError: MecError?) {
-        super.processError(mecError)
+    fun processError(mecError: MecError?) {
+        super.processError(mecError,true)
     }
 
 }

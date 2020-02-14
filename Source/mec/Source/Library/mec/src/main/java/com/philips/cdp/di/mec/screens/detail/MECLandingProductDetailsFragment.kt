@@ -53,8 +53,8 @@ import java.util.*
       }
 
       override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        val mecError = MecError(error, ecsError,null)
-        processError(mecError)
+        val mecError = MecError(error, ecsError)
+        processError(mecError,true)
       }
     })
   }
@@ -67,8 +67,8 @@ import java.util.*
       }
 
       override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        val mecError = MecError(error, ecsError,null)
-        processError(mecError)
+        val mecError = MecError(error, ecsError)
+        processError(mecError,true)
       }
     })
   }

@@ -377,7 +377,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         }
     }
 
-    override fun processError(mecError: MecError?) {
+    override fun processError(mecError: MecError?, bool: Boolean) {
         binding.detailsParentLayout.visibility = View.GONE
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
 
