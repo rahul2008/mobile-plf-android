@@ -309,6 +309,16 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             totalProductsTobeSearched = categorizedCtns.size
 
             executeRequest()
+            ////////////// start of update cart and login if required
+            if(isUserLoggedIn()) {
+                GlobalScope.launch {
+                    var mecManager: MECManager = MECManager()
+                    mecManager.getProductCartCountWorker(MECDataHolder.INSTANCE.mecListener)
+                }
+            }else{
+                setCartIconVisibility(false)
+            }
+            ////////////// end of update cart and login if required
         }
         return binding.root
     }
