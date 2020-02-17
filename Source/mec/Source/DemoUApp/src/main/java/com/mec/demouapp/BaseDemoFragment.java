@@ -154,6 +154,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 isVoucherEnabled = propertyForKeyVoucher;
             } catch (RuntimeException ex) {
                 isVoucherEnabled = true;
+                configInterface.setPropertyForKey("voucher", "MEC", isVoucherEnabled, configError);
             }
 
             toggleVoucher.setChecked(isVoucherEnabled);

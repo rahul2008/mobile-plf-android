@@ -305,8 +305,10 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             mRootView=binding.root
 
             binding.CircularProgressBar.visibility = View.VISIBLE
-            categorizedCtns = arguments!!.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
-            totalProductsTobeSearched = categorizedCtns.size
+            if(arguments!=null) {
+                categorizedCtns = arguments?.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
+                totalProductsTobeSearched = categorizedCtns.size
+            }
 
             executeRequest()
             ////////////// start of update cart and login if required
