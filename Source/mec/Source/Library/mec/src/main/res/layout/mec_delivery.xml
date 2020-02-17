@@ -51,7 +51,8 @@
                 android:layout_marginTop="@dimen/border8_margin"
                 android:layout_width="wrap_content"
                 android:textColor="@color/uidColorBlack"
-                android:text="Delivery"
+                android:text="@string/mec_delivery"
+                android:textSize="14sp"
                 android:gravity="center"
                 android:layout_height="20dp"/>
 
@@ -84,8 +85,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/border8_margin"
                 android:textColor="@color/mec_address_text_color"
-                android:text="Checkout"
+                android:text="@string/mec_checkout"
                 android:gravity="center"
+                android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"/>
 
