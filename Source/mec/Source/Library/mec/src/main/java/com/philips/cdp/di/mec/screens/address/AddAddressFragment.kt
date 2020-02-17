@@ -84,6 +84,7 @@ class AddAddressFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        setCartIconVisibility(false)
         setTitleAndBackButtonVisibility(R.string.mec_address, true)
     }
 

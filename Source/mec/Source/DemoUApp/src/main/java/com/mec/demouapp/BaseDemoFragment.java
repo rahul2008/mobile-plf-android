@@ -484,7 +484,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             //update shopping cart count if user logged in
-           mMecInterface.getProductCartCount(this);
+            mMecInterface.getProductCartCount(this);
             }else{
             updateCartIconVisibility(false);
         }
