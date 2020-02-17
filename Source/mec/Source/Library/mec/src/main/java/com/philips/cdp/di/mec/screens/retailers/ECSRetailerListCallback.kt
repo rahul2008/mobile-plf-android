@@ -18,7 +18,7 @@ class ECSRetailerListCallback(private val ecsRetailerViewModel: ECSRetailerViewM
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        val mecError = MecError(error, ecsError)
+        val mecError = MecError(error, ecsError,null)
         ecsRetailerViewModel.mecError.value = mecError
     }
 

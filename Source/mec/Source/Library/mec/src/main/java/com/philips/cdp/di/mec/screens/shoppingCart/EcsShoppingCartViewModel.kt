@@ -22,6 +22,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.address.ECSFetchAddressesCallback
@@ -40,6 +41,11 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
 
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
+     lateinit  var updateQuantityEntries :ECSEntries
+     var updateQuantityNumber:Int = 0
+     lateinit  var addVoucherString :String
+     lateinit var deleteVoucherString :String
+
     private var ecsShoppingCartRepository = ECSShoppingCartRepository(this,ecsServices)
 
 
@@ -50,11 +56,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         ecsShoppingCartRepository.fetchShoppingCart()
     }
 
-    fun retryGetShoppingCart() {
-        var retryAPI = { getShoppingCart() }
 
-        authAndCallAPIagain(retryAPI,authFailCallback)
-    }
 
 
 
@@ -64,15 +66,16 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
                 getShoppingCart()
             }
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                val mECError = MecError(error, ecsError)
+                val mECError = MecError(error, ecsError,null)
                 mecError.value = mECError
             }
         }
         ecsShoppingCartRepository.createCart(createShoppingCartCallback)
     }
 
-
     fun updateQuantity(entries: ECSEntries, quantity: Int) {
+        updateQuantityEntries=entries
+        updateQuantityNumber=quantity
         ecsShoppingCartRepository.updateShoppingCart(entries,quantity)
     }
 
@@ -80,13 +83,37 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         ecsShoppingCartRepository.fetchProductReview(entries, this)
     }
 
-    fun addVoucher(voucherCode : String){
+    fun addVoucher(voucherCode : String, mECRequestType :MECRequestType){
+        ecsVoucherCallback.mECRequestType = mECRequestType
+        addVoucherString=voucherCode
         ecsShoppingCartRepository.applyVoucher(voucherCode,ecsVoucherCallback)
     }
 
     fun removeVoucher(voucherCode : String){
+        ecsVoucherCallback.mECRequestType = MECRequestType.MEC_REMOVE_VOUCHER
+        deleteVoucherString=voucherCode
         ecsShoppingCartRepository.removeVoucher(voucherCode,ecsVoucherCallback)
     }
+
+    fun selectAPIcall(mecRequestType: MECRequestType):() -> Unit{
+
+        lateinit  var APIcall: () -> Unit
+        when(mecRequestType) {
+            MECRequestType.MEC_FETCH_SHOPPING_CART  -> APIcall = { getShoppingCart() }
+            MECRequestType.MEC_UPDATE_SHOPPING_CART -> APIcall = { updateQuantity(updateQuantityEntries,updateQuantityNumber) }
+            MECRequestType.MEC_APPLY_VOUCHER        -> APIcall = { addVoucher(addVoucherString,ecsVoucherCallback.mECRequestType) }
+            MECRequestType.MEC_REMOVE_VOUCHER       -> APIcall = { removeVoucher(deleteVoucherString) }
+        }
+        return APIcall
+    }
+
+    fun retryAPI(mecRequestType: MECRequestType) {
+        var retryAPI = selectAPIcall(mecRequestType)
+        authAndCallAPIagain(retryAPI,authFailCallback)
+    }
+
+
+
 
 
     companion object {
@@ -114,7 +141,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         @JvmStatic
         @BindingAdapter("setDiscountPrice", "totalPriceEntity")
         fun setDiscountPrice(discountPriceLabel: Label, product: ECSProduct?, basePriceEntity: BasePriceEntity?) {
-            val discount = (product!!.price.value - basePriceEntity!!.value) / product.price.value * 100
+            val discount = (product!!.price!!.value - basePriceEntity!!.value) / product.price!!.value * 100
 
             val discountRounded: String = String.format("%.2f", discount).toString()
             discountPriceLabel.text = "-" + discountRounded + "%"

@@ -153,31 +153,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     }
 
-    private val shoppingCartObserver: Observer<ECSShoppingCart> = object : Observer<ECSShoppingCart>{
-        /**
-         * Called when the data is changed.
-         * @param t  The new data
-         */
-        override fun onChanged(eCSShoppingCart: ECSShoppingCart?) {
-
-            if(null!= eCSShoppingCart && null!=eCSShoppingCart.code){
-                Log.v("cart_addded",eCSShoppingCart.totalPrice.formattedValue )
-                // product added to cart
-                // go to Shoppingcart fragment
-
-                val bundle = Bundle()
-                bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
-                binding.progress.visibility = View.GONE
-                val fragment = MECShoppingCartFragment()
-                fragment.arguments = bundle
-                replaceFragment(fragment,"cart",true)
-
-            }
-
-
-        }
-
-    }
 
 
 
@@ -351,12 +326,12 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                         bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
                         val fragment = MECShoppingCartFragment()
                         fragment.arguments = bundle
-                        replaceFragment(fragment,"MECShoppingCartFragment",true)
+                        addFragment(fragment,"MECShoppingCartFragment",true)
                     }
 
                     override fun onFailure(error: Exception?, ecsError: ECSError?) {
                         binding.progress.visibility = View.GONE
-                        val mecError = MecError(error, ecsError)
+                        val mecError = MecError(error, ecsError,null)
                         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), mecError!!.exception!!.message.toString()) } }
                     }
 

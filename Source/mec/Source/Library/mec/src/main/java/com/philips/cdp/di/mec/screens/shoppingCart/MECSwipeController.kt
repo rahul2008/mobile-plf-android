@@ -5,15 +5,20 @@ import android.content.Context
 import android.graphics.*
 
 import android.view.MotionEvent
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 
 import com.philips.cdp.di.mec.R
+enum class ButtonsState {
+    GONE,
+    LEFT_VISIBLE,
+    RIGHT_VISIBLE
+}
 
-
-class MECSwipeController(context : Context, buttonsActions: SwipeControllerActions) : ItemTouchHelper.Callback() {
+internal class MECSwipeController(context : Context,buttonsActions: SwipeControllerActions) : Callback() {
 
     private var swipeBack = false
 
@@ -24,17 +29,15 @@ class MECSwipeController(context : Context, buttonsActions: SwipeControllerActio
     private var currentItemViewHolder: RecyclerView.ViewHolder? = null
 
     private var buttonsActions: SwipeControllerActions? = null
-
     private var context :Context
 
     init {
         this.buttonsActions = buttonsActions
         this.context = context
-
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        return ItemTouchHelper.Callback.makeMovementFlags(0, LEFT or RIGHT)
+        return makeMovementFlags(0, LEFT or RIGHT)
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -71,16 +74,13 @@ class MECSwipeController(context : Context, buttonsActions: SwipeControllerActio
         currentItemViewHolder = viewHolder
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setTouchListener(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-        recyclerView.setOnTouchListener { v, event ->
+        recyclerView.setOnTouchListener(View.OnTouchListener { v, event ->
             swipeBack = event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
             if (swipeBack) {
-                if (dX > buttonWidth)
-                    buttonShowedState = ButtonsState.LEFT_VISIBLE
-
                 if (dX < -buttonWidth)
                     buttonShowedState = ButtonsState.RIGHT_VISIBLE
+                else if (dX > buttonWidth) buttonShowedState = ButtonsState.LEFT_VISIBLE
 
                 if (buttonShowedState != ButtonsState.GONE) {
                     setTouchDownListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
@@ -88,46 +88,43 @@ class MECSwipeController(context : Context, buttonsActions: SwipeControllerActio
                 }
             }
             false
-        }
+        })
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setTouchDownListener(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-        recyclerView.setOnTouchListener { v, event ->
+        recyclerView.setOnTouchListener(View.OnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 setTouchUpListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
             false
-        }
+        })
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setTouchUpListener(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-        recyclerView.setOnTouchListener { v, event ->
+        recyclerView.setOnTouchListener(View.OnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 super@MECSwipeController.onChildDraw(c, recyclerView, viewHolder, 0f, dY, actionState, isCurrentlyActive)
-                recyclerView.setOnTouchListener { v, event -> false }
+                recyclerView.setOnTouchListener(View.OnTouchListener { v, event -> false })
                 setItemsClickable(recyclerView, true)
                 swipeBack = false
 
                 if (buttonsActions != null && buttonInstance != null && buttonInstance!!.contains(event.x, event.y)) {
                     if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-                        buttonsActions!!.onLeftClicked(viewHolder.adapterPosition)
-                    }
-                     if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
-                        buttonsActions!!.onRightClicked(viewHolder.adapterPosition)
+                        buttonsActions!!.onLeftClicked(viewHolder.getAdapterPosition())
+                    } else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
+                        buttonsActions!!.onRightClicked(viewHolder.getAdapterPosition())
                     }
                 }
                 buttonShowedState = ButtonsState.GONE
                 currentItemViewHolder = null
             }
             false
-        }
+        })
     }
 
     private fun setItemsClickable(recyclerView: RecyclerView, isClickable: Boolean) {
-        for (i in 0 until recyclerView.childCount) {
-            recyclerView.getChildAt(i).isClickable = isClickable
+        for (i in 0 until recyclerView.getChildCount()) {
+            recyclerView.getChildAt(i).setClickable(isClickable)
         }
     }
 
@@ -164,12 +161,37 @@ class MECSwipeController(context : Context, buttonsActions: SwipeControllerActio
 
         buttonInstance = null
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-            buttonInstance = iconDest1
+            buttonInstance = leftButton
         } else
             if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
-                buttonInstance = iconDest
+                buttonInstance = rightButton
             }
     }
+
+    /*private fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
+        val buttonWidthWithoutPadding = buttonWidth - 20
+        val corners = 16f
+
+        val itemView = viewHolder.itemView
+        val p = Paint()
+
+        val leftButton = RectF(itemView.getLeft().toFloat(), itemView.getTop().toFloat(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom().toFloat())
+        p.color = Color.BLUE
+        c.drawRoundRect(leftButton, corners, corners, p)
+        drawText("EDIT", c, leftButton, p)
+
+        val rightButton = RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop().toFloat(), itemView.getRight().toFloat(), itemView.getBottom().toFloat())
+        p.color = Color.RED
+        c.drawRoundRect(rightButton, corners, corners, p)
+        drawText("DELETE", c, rightButton, p)
+
+        buttonInstance = null
+        if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
+            buttonInstance = leftButton
+        } else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
+            buttonInstance = rightButton
+        }
+    }*/
 
     private fun drawText(text: String, c: Canvas, button: RectF, p: Paint) {
         val textSize = 60f
@@ -191,14 +213,5 @@ class MECSwipeController(context : Context, buttonsActions: SwipeControllerActio
 
         private val buttonWidth = 300f
     }
-
-    enum class ButtonsState {
-        GONE,
-        LEFT_VISIBLE,
-        RIGHT_VISIBLE
-    }
 }
-
-
-
 

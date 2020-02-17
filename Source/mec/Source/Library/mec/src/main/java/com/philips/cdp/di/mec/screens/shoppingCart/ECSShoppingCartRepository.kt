@@ -7,6 +7,7 @@ import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSEntries
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
@@ -15,10 +16,12 @@ class ECSShoppingCartRepository(ecsShoppingCartViewModel: EcsShoppingCartViewMod
     private var ecsShoppingCartCallback= ECSShoppingCartCallback(ecsShoppingCartViewModel)
 
      fun fetchShoppingCart() {
+         ecsShoppingCartCallback.mECRequestType=MECRequestType.MEC_FETCH_SHOPPING_CART
          this.ecsServices.fetchShoppingCart(ecsShoppingCartCallback)
     }
 
     fun updateShoppingCart(entries: ECSEntries, quantity: Int) {
+        ecsShoppingCartCallback.mECRequestType=MECRequestType.MEC_UPDATE_SHOPPING_CART
         this.ecsServices.updateShoppingCart(quantity,entries,ecsShoppingCartCallback)
     }
 
