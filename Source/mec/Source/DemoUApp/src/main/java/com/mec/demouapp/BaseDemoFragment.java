@@ -91,6 +91,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private MECLaunchInput mMecLaunchInput;
     private MECSettings mMecSettings;
     String voucherCode = "";
+    EditText mEtMaxCartCount;
 
     private UserDataInterface mUserDataInterface;
     ImageView mCartIcon;
@@ -123,6 +124,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             bvCheckBox = rootView.findViewById(R.id.bv_checkbox);
             mEtVoucherCode = rootView.findViewById(R.id.et_add_voucher);
             mBtn_add_voucher = rootView.findViewById(R.id.btn_add_voucher);
+            mEtMaxCartCount = rootView.findViewById(R.id.et_max_cart_count);
             mBtn_add_voucher.setOnClickListener(this);
 
             bvCheckBox.setOnCheckedChangeListener(this);
@@ -221,6 +223,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                     initializeMECComponant();
                 }
             });
+
+            Button btnSetMaxCount = rootView.findViewById(R.id.btn_set_max_Count);
+
+            btnSetMaxCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    initializeMECComponant();
+                }
+            });
+
 
 
             mRegister = rootView.findViewById(R.id.btn_register);
