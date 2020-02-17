@@ -60,7 +60,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="?attr/uidTextBoxDefaultFocusBorderColor"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:text='@{voucher.appliedValue.formattedValue?? ""}'
                     android:textSize="@dimen/iap_text_size_12"
                      />

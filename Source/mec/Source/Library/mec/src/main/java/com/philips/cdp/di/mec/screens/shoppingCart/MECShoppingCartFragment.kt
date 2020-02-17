@@ -121,6 +121,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             val quantity = MECutility.getQuantity(ecsShoppingCart)
             updateCount(quantity)
         }
+        hideProgressBar()
     }
 
 
@@ -265,19 +266,20 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     fun showDialog() {
-        if (!removeVoucher) {
-            MECutility.showActionDialog(binding.mecVoucherEditText.context, getString(R.string.mec_remove_product), getString(R.string.mec_cancel), getString(R.string.mec_delete_item), getString(R.string.mec_delete_item_description), fragmentManager!!, this)
-        } else {
+        if (removeVoucher) {
             MECutility.showActionDialog(binding.mecVoucherEditText.context, getString(R.string.mec_remove_voucher), getString(R.string.mec_cancel), getString(R.string.mec_delete_voucher), getString(R.string.mec_delete_voucher_description), fragmentManager!!, this)
+        } else {
+            MECutility.showActionDialog(binding.mecVoucherEditText.context, getString(R.string.mec_remove_product), getString(R.string.mec_cancel), getString(R.string.mec_delete_item), getString(R.string.mec_delete_item_description), fragmentManager!!, this)
         }
     }
 
     override fun onPositiveBtnClick() {
-        if (!removeVoucher) {
-            updateCartRequest(shoppingCart.entries.get(itemPosition), 0)
-        } else {
+        if (removeVoucher) {
             createCustomProgressBar(container, MEDIUM)
+            removeVoucher = false
             ecsShoppingCartViewModel.removeVoucher(vouchersAdapter?.getVoucher()?.voucherCode.toString())
+        } else {
+            updateCartRequest(shoppingCart.entries.get(itemPosition), 0)
         }
     }
 
