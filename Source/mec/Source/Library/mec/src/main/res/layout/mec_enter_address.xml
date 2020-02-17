@@ -222,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/iap_margin_20dp"
                     android:orientation="vertical"
-                    android:visibility="@{addressFieldEnabler.phoneEnabled ? View.VISIBLE : View.GONE, default = visible}">
+                    android:visibility="@{addressFieldEnabler.houseNumberEnabled ? View.VISIBLE : View.GONE, default = visible}">
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/label_house_no"
