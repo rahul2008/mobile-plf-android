@@ -234,6 +234,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                     activateButtonEnable(true);
                     mBtnResend.setEnabled(true);
                     mBtnActivate.setEnabled(true);
+                    hideNotificationBarView();
                 } else {
                     activateButtonEnable(false);
                     mBtnResend.setEnabled(false);

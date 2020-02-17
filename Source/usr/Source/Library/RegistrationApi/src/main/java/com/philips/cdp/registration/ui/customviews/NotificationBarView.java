@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,23 +20,34 @@ public class NotificationBarView {
     private static final String TAG = "NotificationBarView";
     private final Activity mActivity;
     private PopupWindow popupWindow;
+    private static volatile NotificationBarView notificationBarView;
 
-    NotificationBarView(Activity mActivity) {
+    private NotificationBarView(Activity mActivity) {
         this.mActivity = mActivity;
+
+        popupWindow = new PopupWindow(mActivity);
+        popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(false);
+
+    }
+
+    public static NotificationBarView getInstance(Activity mActivity) {
+        if (notificationBarView == null || notificationBarView.mActivity != mActivity) {
+            synchronized (NotificationBarView.class) {
+                if (notificationBarView == null || notificationBarView.mActivity != mActivity)
+                    notificationBarView = new NotificationBarView(mActivity);
+            }
+        }
+        return notificationBarView;
     }
 
     public void showError(String msg, String title, View baseLayoutViewLocation) {
-        if (popupWindow == null) {
-            View view = getNotificationContentView(msg, title, true);
-            popupWindow = new PopupWindow(mActivity);
-            popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-            popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-            popupWindow.setFocusable(false);
-            popupWindow.setContentView(view);
-
-        }
+        RLog.i(TAG, "showError :: title : "+title+" msg : "+msg);
+        View view = getNotificationContentView(msg, title, true);
+        popupWindow.setContentView(view);
         if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
+            updateErrorDetails(msg,title);
         } else {
             if (popupWindow != null) {
                 popupWindow.showAtLocation(baseLayoutViewLocation, Gravity.NO_GRAVITY, 0, UIDUtils.getActionBarHeight(mActivity) + UIDUtils.getStatusBarHeight(mActivity));
@@ -70,5 +82,13 @@ public class NotificationBarView {
             EventHelper.getInstance().notifyEventOccurred(NOTIFICATION);
         });
         return view;
+    }
+
+    private void updateErrorDetails(String msg, String title) {
+        if (popupWindow != null){
+            View contentView = popupWindow.getContentView();
+            ((TextView) contentView.findViewById(R.id.uid_notification_title)).setText(msg);
+            ((TextView) contentView.findViewById(R.id.uid_notification_content)).setText(title);
+        }
     }
 }
