@@ -83,8 +83,8 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         ecsShoppingCartRepository.fetchProductReview(entries, this)
     }
 
-    fun addVoucher(voucherCode : String){
-        ecsVoucherCallback.mECRequestType = MECRequestType.MEC_APPLY_VOUCHER
+    fun addVoucher(voucherCode : String, mECRequestType :MECRequestType){
+        ecsVoucherCallback.mECRequestType = mECRequestType
         addVoucherString=voucherCode
         ecsShoppingCartRepository.applyVoucher(voucherCode,ecsVoucherCallback)
     }
@@ -101,7 +101,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         when(mecRequestType) {
             MECRequestType.MEC_FETCH_SHOPPING_CART  -> APIcall = { getShoppingCart() }
             MECRequestType.MEC_UPDATE_SHOPPING_CART -> APIcall = { updateQuantity(updateQuantityEntries,updateQuantityNumber) }
-            MECRequestType.MEC_APPLY_VOUCHER        -> APIcall = { addVoucher(addVoucherString) }
+            MECRequestType.MEC_APPLY_VOUCHER        -> APIcall = { addVoucher(addVoucherString,ecsVoucherCallback.mECRequestType) }
             MECRequestType.MEC_REMOVE_VOUCHER       -> APIcall = { removeVoucher(deleteVoucherString) }
         }
         return APIcall
@@ -141,7 +141,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         @JvmStatic
         @BindingAdapter("setDiscountPrice", "totalPriceEntity")
         fun setDiscountPrice(discountPriceLabel: Label, product: ECSProduct?, basePriceEntity: BasePriceEntity?) {
-            val discount = (product!!.price.value - basePriceEntity!!.value) / product.price.value * 100
+            val discount = (product!!.price!!.value - basePriceEntity!!.value) / product.price!!.value * 100
 
             val discountRounded: String = String.format("%.2f", discount).toString()
             discountPriceLabel.text = "-" + discountRounded + "%"
