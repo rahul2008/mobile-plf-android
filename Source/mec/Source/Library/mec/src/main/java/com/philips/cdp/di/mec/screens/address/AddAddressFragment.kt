@@ -20,6 +20,7 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecAddressCreateBinding
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import java.io.Serializable
@@ -42,9 +43,9 @@ class AddAddressFragment : MecBaseFragment() {
     var isError = false
     var validationEditText : ValidationEditText ? =null
 
-    var eCSAddressShipping : ECSAddress? = ECSAddress()
+    var eCSAddressShipping : ECSAddress = ECSAddress()
 
-    var eCSAddressBilling : ECSAddress? = ECSAddress()
+    var eCSAddressBilling : ECSAddress = ECSAddress()
 
     var mAddressList: List<ECSAddress>? = null
 
@@ -98,8 +99,25 @@ class AddAddressFragment : MecBaseFragment() {
         shoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
 
        //Set Country before binding
-        eCSAddressShipping!!.country =addressViewModel.getCountry()
-        eCSAddressBilling!!.country = addressViewModel.getCountry()
+        eCSAddressShipping.country =addressViewModel.getCountry()
+        eCSAddressBilling.country = addressViewModel.getCountry()
+
+        //set First Name
+        val firstName = MECDataHolder.INSTANCE.getUserInfo().firstName
+        if(!firstName.isNullOrEmpty() && !firstName.equals("null",true)){
+            eCSAddressShipping.firstName = firstName
+            eCSAddressBilling.firstName = firstName
+        }
+
+        //set Last Name
+
+        val lastName = MECDataHolder.INSTANCE.getUserInfo().lastName
+        if(!lastName.isNullOrEmpty() && !lastName.equals("null",true)){
+            eCSAddressShipping.lastName = lastName
+            eCSAddressBilling.lastName = lastName
+        }
+
+
         binding.ecsAddressShipping = eCSAddressShipping
         binding.ecsAddressBilling = eCSAddressBilling
 
