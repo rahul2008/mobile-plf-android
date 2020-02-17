@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Podaj obiekt infrastruktury aplikacji</string>
+  <string name="ECSBaseURLNotFound">Nie znaleziono podstawowego adresu URL</string>
+  <string name="ECSCartEntryError">Produkt nie został dodany do koszyka</string>
+  <string name="ECSCartError">Nie stworzono jeszcze koszyka</string>
+  <string name="ECSCommerceCartModificationError">Ilość nie może wynosić zero</string>
+  <string name="ECSCtnNotProvided">Podaj CTN</string>
+  <string name="ECSHybrisNotAvailable">Sklep Philips nie jest dostępny dla wybranego kraju, dostępny jest jedynie tryb sprzedaży detalicznej</string>
+  <string name="ECSIllegalArgumentError">Podaj prawidłowe dane wejściowe</string>
+  <string name="ECSInsufficientStockError">Nie mona wysłać produktu, ponieważ zapasy zostały wyczerpane</string>
+  <string name="ECSInvalidPaymentInfoError">Podaj prawidłowe dane do płatności</string>
+  <string name="ECSInvalidTokenError">Napotkaliśmy problem techniczny (nieprawidłowy token dostępu). Wykonaj ponowne uwierzytelnienie Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">Skonfiguruj ustawienia regionalne</string>
+  <string name="ECSNoSuchElementError">W trakcie pobierania danych z serwera wystąpił błąd</string>
+  <string name="ECSOAuthDetailError">Podaj pełne dane OAuth</string>
+  <string name="ECSOAuthNotCalled">Do tej czynności potrzebna jest zgoda użytkownika</string>
+  <string name="ECSPaymentAuthorizationError">Autoryzacja płatności nie powiodła się</string>
+  <string name="ECSPropositionIdNotFound">Ustaw prawidłowy identyfikator propozycji</string>
+  <string name="ECSSiteIdNotFound">Sklep Philips nie jest dostępny dla wybranego kraju, dostępny jest jedynie tryb sprzedaży detalicznej</string>
+  <string name="ECSUnknownIdentifierError">Żądany zasób jest niedostępny</string>
+  <string name="ECSUnsupportedDeliveryModeError">Wybrany rodzaj dostawy nie jest obsługiwany</string>
+  <string name="ECSUnsupportedVoucherError">Niestety, nie można użyć tego vouchera</string>
+  <string name="ECSValidationError">Zatwierdzenie danych nie powiodło się</string>
+  <string name="ECSVoucherOperationError">Niestety, nie można użyć tego vouchera</string>
+  <string name="ECSaddressId">Podany adres nie istnieje lub należy do innego użytkownika</string>
+  <string name="ECScountryCodeNotGiven">Podaj prawidłowy kod kraju</string>
+  <string name="ECScountryisocode">Wybrany kraj jest nieprawidłowy</string>
+  <string name="ECSfirstName">Należy pamiętać, że następujące znaki są niedozwolone: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Napotkaliśmy problem techniczny (nieprawidłowe dane uwierzytelniające klienta). Zaloguj się ponownie</string>
+  <string name="ECSinvalid_grant">Napotkaliśmy problem techniczny (nieprawidłowy token Janrain). Zaloguj się ponownie</string>
+  <string name="ECSlastName">Należy pamiętać, że następujące znaki są niedozwolone: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Podaj prawidłowe zamówienie</string>
+  <string name="ECSphone1">Wybrany numer telefonu jest nieprawidłowy</string>
+  <string name="ECSphone2">Wybrany numer telefonu jest nieprawidłowy</string>
+  <string name="ECSpostUrl">Zamówienie zostało już opłacone/zakończone</string>
+  <string name="ECSpostalCode">Wybrany kod pocztowy jest nieprawidłowy</string>
+  <string name="ECSregionisocode">Wybrany region jest nieprawidłowy</string>
+  <string name="ECSsessionCart">Wybierz swój adres dostawy, sposób dostawy oraz metodę płatności przed złożeniem zamówienia</string>
+  <string name="ECSsomethingWentWrong">Napotkaliśmy problem techniczny. Spróbuj ponownie później</string>
+  <string name="ECSunsupported_grant_type">Napotkaliśmy problem techniczny (nieprawidłowy typ udzielania). Zaloguj się ponownie</string>
+</resources>

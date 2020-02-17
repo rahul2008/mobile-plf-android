@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Anna sovelluksen infraobjekti</string>
+  <string name="ECSBaseURLNotFound">URL-perusosoitetta ei löydy</string>
+  <string name="ECSCartEntryError">Tuotetta ei ole lisätty ostoskoriin</string>
+  <string name="ECSCartError">Ostoskoria ei ole vielä luotu</string>
+  <string name="ECSCommerceCartModificationError">Määrä ei voi olla nollaa pienempi</string>
+  <string name="ECSCtnNotProvided">Anna CTN</string>
+  <string name="ECSHybrisNotAvailable">Philips-kauppa ei ole käytettävissä valitussa maassa, käytettävissä on ainoastaan vähittäismyyjätila</string>
+  <string name="ECSIllegalArgumentError">Anna oikeelliset syöttötiedot</string>
+  <string name="ECSInsufficientStockError">Tuotetta ei voida toimittaa, koska se on loppunut varastosta</string>
+  <string name="ECSInvalidPaymentInfoError">Anna voimassa olevat maksutiedot</string>
+  <string name="ECSInvalidTokenError">Olemme havainneet teknisen häiriön (Virheellinen käyttöoikeustietue). Tee Hybris-todennus uudelleen</string>
+  <string name="ECSLocaleNotFound">Aseta aluekohtaiset asetukset</string>
+  <string name="ECSNoSuchElementError">Virhe noudettaessa tietoja palvelimelta</string>
+  <string name="ECSOAuthDetailError">Anna täydelliset OAuth-tiedot</string>
+  <string name="ECSOAuthNotCalled">Tätä toimintoa varten tarvitaan käyttäjän valtuutus</string>
+  <string name="ECSPaymentAuthorizationError">Maksuvaltuutus ei onnistunut</string>
+  <string name="ECSPropositionIdNotFound">Aseta voimassa oleva ehdotettu yksilöivä tunnus</string>
+  <string name="ECSSiteIdNotFound">Philips-kauppa ei ole käytettävissä valitussa maassa, käytettävissä on ainoastaan vähittäismyyjätila</string>
+  <string name="ECSUnknownIdentifierError">Pyydetty resurssi ei ole saatavilla</string>
+  <string name="ECSUnsupportedDeliveryModeError">Valittua toimitustapaa ei tueta</string>
+  <string name="ECSUnsupportedVoucherError">Tätä tositetta ei voi lunastaa</string>
+  <string name="ECSValidationError">Datan validointi epäonnistui</string>
+  <string name="ECSVoucherOperationError">Tätä tositetta ei voi lunastaa</string>
+  <string name="ECSaddressId">Annettua osoitetta ei ole olemassa tai se kuuluu toiselle käyttäjälle</string>
+  <string name="ECScountryCodeNotGiven">Anna voimassa oleva maakoodi</string>
+  <string name="ECScountryisocode">Valittu maa on virheellinen</string>
+  <string name="ECSfirstName">Huomaa, että seuraavat merkit eivät ole sallittuja: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Olemme havainneet teknisen häiriön (Virheelliset asiakastunnistetiedot). Kirjaudu sisään uudelleen</string>
+  <string name="ECSinvalid_grant">Olemme havainneet teknisen häiriön (Virheellinen Janrain-tunnus). Kirjaudu sisään uudelleen</string>
+  <string name="ECSlastName">Huomaa, että seuraavat merkit eivät ole sallittuja: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Anna voimassa oleva tilaus</string>
+  <string name="ECSphone1">Valittu puhelinnumero on virheellinen</string>
+  <string name="ECSphone2">Valittu puhelinnumero on virheellinen</string>
+  <string name="ECSpostUrl">Tilaus on jo maksettu/valmis -tilassa</string>
+  <string name="ECSpostalCode">Valittu postinumero on virheellinen</string>
+  <string name="ECSregionisocode">Valittu alue on virheellinen</string>
+  <string name="ECSsessionCart">Valitse toimitusosoite, toimitustapa ja maksutapa ennen tilauksen vahvistamista</string>
+  <string name="ECSsomethingWentWrong">Olemme havainneet teknisen häiriön. Yritä myöhemmin uudelleen</string>
+  <string name="ECSunsupported_grant_type">Olemme havainneet teknisen häiriön (Tukematon käyttöoikeusvaltuus). Kirjaudu sisään uudelleen</string>
+</resources>

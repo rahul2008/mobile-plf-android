@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">[es-AR]Please provide app infra object</string>
+  <string name="ECSBaseURLNotFound">[es-AR]Base URL not found</string>
+  <string name="ECSCartEntryError">[es-AR]The Product is not added in Cart</string>
+  <string name="ECSCartError">[es-AR]No cart created yet</string>
+  <string name="ECSCommerceCartModificationError">[es-AR]Quantity must not be less than zero</string>
+  <string name="ECSCtnNotProvided">[es-AR]Please provide the CTN</string>
+  <string name="ECSHybrisNotAvailable">[es-AR]Philips shop is not available for the selected country, only retailer mode is available</string>
+  <string name="ECSIllegalArgumentError">[es-AR]Please provide valid input data</string>
+  <string name="ECSInsufficientStockError">[es-AR]Product cannot be shipped as it is out of stock</string>
+  <string name="ECSInvalidPaymentInfoError">[es-AR]Please provide valid payment details</string>
+  <string name="ECSInvalidTokenError">[es-AR]We have encountered technical glitch (Invalid access token). Please do Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">[es-AR]Please set the locale</string>
+  <string name="ECSNoSuchElementError">[es-AR]An error occurred while fetching the data from the server</string>
+  <string name="ECSOAuthDetailError">[es-AR]Please provide complete OAuth detials</string>
+  <string name="ECSOAuthNotCalled">[es-AR]User authorization is required for this action</string>
+  <string name="ECSPaymentAuthorizationError">[es-AR]Payment authorization was not successful</string>
+  <string name="ECSPropositionIdNotFound">[es-AR]Please set a valid Proposition ID</string>
+  <string name="ECSSiteIdNotFound">[es-AR]Philips shop is not available for the selected country, only retailer mode is available</string>
+  <string name="ECSUnknownIdentifierError">[es-AR]Requested resource is not available</string>
+  <string name="ECSUnsupportedDeliveryModeError">[es-AR]Selected delivery mode is not supported</string>
+  <string name="ECSUnsupportedVoucherError">[es-AR]Sorry, this voucher can\'t be redeemed</string>
+  <string name="ECSValidationError">[es-AR]Data validation failed</string>
+  <string name="ECSVoucherOperationError">[es-AR]Sorry, this voucher can\'t be redeemed</string>
+  <string name="ECSaddressId">[es-AR]Given address doesn\'t exist or belong to another user</string>
+  <string name="ECScountryCodeNotGiven">[es-AR]Please provide valid country code</string>
+  <string name="ECScountryisocode">[es-AR]Country selected is invalid</string>
+  <string name="ECSfirstName">[es-AR]Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">[es-AR]We have encountered technical glitch (Bad client credentials). Please re-login</string>
+  <string name="ECSinvalid_grant">[es-AR]We have encountered technical glitch (Invalid Janrain Token). Please re-login</string>
+  <string name="ECSlastName">[es-AR]Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">[es-AR]Please provide valid order</string>
+  <string name="ECSphone1">[es-AR]Phone number selected is invalid</string>
+  <string name="ECSphone2">[es-AR]Phone number selected is invalid</string>
+  <string name="ECSpostUrl">[es-AR]Order is already in a paid/completed state</string>
+  <string name="ECSpostalCode">[es-AR]ZIP code selected is invalid</string>
+  <string name="ECSregionisocode">[es-AR]Region selected is invalid</string>
+  <string name="ECSsessionCart">[es-AR]Please select your delivery address, delivery mode and payment method before submitting an order</string>
+  <string name="ECSsomethingWentWrong">[es-AR]We have encountered technical glitch. Please try after some time</string>
+  <string name="ECSunsupported_grant_type">[es-AR]We have encountered technical glitch (Unsupported grant type). Please re-login</string>
+</resources>
