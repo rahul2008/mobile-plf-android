@@ -87,6 +87,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     val list: ArrayList<String>? = ArrayList()
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
+        hideProgressBar()
         binding.mecProgress.visibility = View.GONE
         binding.shoppingCart = ecsShoppingCart
         shoppingCart = ecsShoppingCart!!
@@ -117,31 +118,31 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             }
         }
 
+
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
             updateCount(quantity)
         }
-        hideProgressBar()
     }
 
 
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
+        hideProgressBar()
         productReviewList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
         productsAdapter?.notifyDataSetChanged()
         if (productsAdapter != null) {
             //MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
         }
-        hideProgressBar()
     }
 
     private val fetchProfileObserver: Observer<ECSUserProfile> = Observer { userProfile ->
 
+        hideProgressBar()
         if (userProfile.defaultAddress != null) {
             mAddressList?.let { moveDefaultAddressToTopOfTheList(it, shoppingCart.deliveryAddress.id) }
         }
         gotoDeliveryAddress(mAddressList)
-        hideProgressBar()
     }
 
 
