@@ -321,7 +321,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
-            android:text="@string/mec_product_title" />
+            android:text="@string/mec_cart_summary" />
 
         <LinearLayout
             android:id="@+id/ll_content"
