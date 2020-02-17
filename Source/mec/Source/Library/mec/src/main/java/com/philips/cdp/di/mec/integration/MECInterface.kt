@@ -53,7 +53,12 @@ class MECInterface : UappInterface {
         MECDataHolder.INSTANCE.userDataInterface = MECDependencies.userDataInterface
         val configError = AppConfigurationInterface.AppConfigurationError()
         val propositionID = MECDependencies.appInfra.configInterface.getPropertyForKey("propositionid", "MEC", configError) as String
-        val voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
+        var voucher :Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
+        try {
+            voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
+        }catch(e: Exception){
+
+        }
         var propertyForKey = ""
         if (propositionID != null) {
             propertyForKey = propositionID

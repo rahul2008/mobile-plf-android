@@ -83,7 +83,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     private var voucherCode: String = ""
     private var removeVoucher: Boolean = false
-    private var isVoucherEnabled: Boolean = false
     var validationEditText: ValidationEditText? = null
     val list: ArrayList<String>? = ArrayList()
 
@@ -107,7 +106,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         }
         vouchersAdapter?.notifyDataSetChanged()
 
-        if (isVoucherEnabled && !(MECDataHolder.INSTANCE.voucherCode.isEmpty()) && !(MECDataHolder.INSTANCE.voucherCode.equals("invalid_code"))) {
+        if (MECDataHolder.INSTANCE.voucherEnabled  && !(MECDataHolder.INSTANCE.voucherCode.isEmpty()) && !(MECDataHolder.INSTANCE.voucherCode.equals("invalid_code"))) {
             for (i in 0..ecsShoppingCart.appliedVouchers.size - 1) {
                 list?.add(ecsShoppingCart.appliedVouchers.get(i).voucherCode!!)
                 break
@@ -236,7 +235,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             val configInterface = appInfra.configInterface
             val configError = AppConfigurationInterface.AppConfigurationError()
 
-            isVoucherEnabled = configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
 
 
             swipeController = MECSwipeController(binding.mecCartSummaryRecyclerView.context, object : SwipeControllerActions() {
