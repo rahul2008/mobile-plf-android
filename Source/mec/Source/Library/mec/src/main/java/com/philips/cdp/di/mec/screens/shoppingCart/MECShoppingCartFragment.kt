@@ -150,7 +150,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         mAddressList = addressList
 
         if (mAddressList.isNullOrEmpty()) {
-            replaceFragment(AddAddressFragment(), "addAddressFragment", false)
+            replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), false)
             hideProgressBar()
         } else {
 

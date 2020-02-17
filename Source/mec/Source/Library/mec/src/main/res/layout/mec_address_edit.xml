@@ -94,18 +94,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/border8_margin"
-                android:text="Continue"
+                android:layout_marginBottom="@dimen/border12_margin"
+                android:text="Save"
                 app:uidComponentType="Primary" />
 
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/btn_cancel"
-                style="@style/mecCentralesansBookFont"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/border8_margin"
-                android:layout_marginBottom="@dimen/border12_margin"
-                android:text="Cancel"
-                app:uidComponentType="Secondary" />
 
         </LinearLayout>
 

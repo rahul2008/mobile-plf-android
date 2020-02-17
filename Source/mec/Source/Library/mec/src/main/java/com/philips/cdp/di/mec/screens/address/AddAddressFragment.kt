@@ -200,7 +200,7 @@ class AddAddressFragment : MecBaseFragment() {
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, addressList as Serializable)
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART,shoppingCart)
         deliveryFragment.arguments = bundle
-        replaceFragment(deliveryFragment, "MECDeliveryFragment", false)
+        replaceFragment(deliveryFragment, MECDeliveryFragment().getFragmentTag(), false)
     }
 
 }

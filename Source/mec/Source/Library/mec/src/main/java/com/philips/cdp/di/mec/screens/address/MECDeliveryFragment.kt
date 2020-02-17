@@ -44,6 +44,6 @@ class MECDeliveryFragment : MecBaseFragment() {
         var bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, binding.ecsAddressShipping)
         editAddressFragment.arguments = bundle
-        replaceFragment(editAddressFragment,"EditAddressFragment",true)
+        replaceFragment(editAddressFragment,editAddressFragment.getFragmentTag(),true)
     }
 }
