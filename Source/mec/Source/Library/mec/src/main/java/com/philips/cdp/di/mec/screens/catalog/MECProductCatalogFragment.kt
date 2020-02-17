@@ -313,10 +313,8 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(isUserLoggedIn()) {
                 GlobalScope.launch {
                     var mecManager: MECManager = MECManager()
-                    mecManager.getProductCartCountWorker(MECDataHolder.INSTANCE.mecListener)
+                    mecManager.getShoppingCartData(MECDataHolder.INSTANCE.mecListener)
                 }
-            }else{
-                setCartIconVisibility(false)
             }
             ////////////// end of update cart and login if required
         }
@@ -338,6 +336,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_title, true)
+        setCartIconVisibility(true)
     }
 
     private fun privacyTextView(view: TextView) {
