@@ -113,6 +113,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             }
             if (!list!!.contains(MECDataHolder.INSTANCE.voucherCode)) {
                 ecsShoppingCartViewModel.addVoucher(MECDataHolder.INSTANCE.voucherCode, MECRequestType.MEC_APPLY_VOUCHER_SILENT)
+                MECDataHolder.INSTANCE.voucherCode = ""
             }
         }
 
