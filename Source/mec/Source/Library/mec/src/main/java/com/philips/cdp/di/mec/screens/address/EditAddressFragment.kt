@@ -50,8 +50,9 @@ class EditAddressFragment : MecBaseFragment() {
 
 
     private val updateAndFetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
-        Log.d("Pabitra","Address updated")
+
         hideProgressBar()
+        activity?.supportFragmentManager?.popBackStack()
 
     })
 

@@ -121,7 +121,6 @@
                                 android:inputType="textCapSentences"
                                 android:maxLength="17"
                                 android:maxLines="1"
-                                app:firstName="@{null}"
                                 app:uidInputTextWithClearButton="true" />
                         </com.philips.platform.uid.view.widget.InputValidationLayout>
                     </LinearLayout>
@@ -156,7 +155,6 @@
                                 android:inputType="textCapSentences"
                                 android:maxLength="17"
                                 android:maxLines="1"
-                                app:lastName="@{null}"
                                 app:uidInputTextWithClearButton="true" />
                         </com.philips.platform.uid.view.widget.InputValidationLayout>
 
@@ -296,28 +294,20 @@
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/label_address2"
                         style="@style/AddressItemLabel"
-                        android:text="@string/mec_address_line_one" />
-
-                    <com.philips.platform.uid.view.widget.InputValidationLayout
-                        android:id="@+id/ll_address_line_two"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/iap_margin_4dp"
-                        app:emptyValidator="@{null}"
-                        app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                        app:uidTextBoxValidationErrorText="@string/mec_address_error">
+                        android:text="@string/mec_address_line_two" />
 
                         <com.philips.platform.uid.view.widget.ValidationEditText
                             android:id="@+id/et_address_line_two"
                             style="@style/mec_address_validation_text"
+                            android:layout_marginTop="@dimen/iap_margin_4dp"
                             android:layout_height="wrap_content"
-                            android:hint="@string/mec_address_line_one_hint"
+                            android:hint="(Optional)"
                             android:text="@={ecsAddress.line2}"
                             android:inputType="textCapWords"
                             android:maxLength="35"
                             android:maxLines="1"
                             app:uidInputTextWithClearButton="true" />
-                    </com.philips.platform.uid.view.widget.InputValidationLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

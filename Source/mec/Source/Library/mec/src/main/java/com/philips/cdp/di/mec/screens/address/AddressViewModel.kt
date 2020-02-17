@@ -25,9 +25,11 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.cdp.di.mec.view.MECDropDown
 import com.philips.platform.uid.view.widget.CheckBox
 import com.philips.platform.uid.view.widget.InputValidationLayout
+import com.philips.platform.uid.view.widget.Label
 import com.philips.platform.uid.view.widget.ValidationEditText
 import kotlinx.android.synthetic.main.mec_enter_address.view.*
 import org.json.JSONException
@@ -240,6 +242,14 @@ class AddressViewModel : CommonViewModel() {
 
         }
 
+        //ECSAddress
+
+        @JvmStatic
+        @BindingAdapter("shippingAddress")
+        fun setShippingAddress(lebel: Label, ecsAddress: ECSAddress){
+            lebel.setText(MECutility().constructShippingAddressDisplayField(ecsAddress))
+        }
+
     }
 
     enum class AddressFieldJsonEnum (val addressField: String) {
@@ -328,4 +338,5 @@ class AddressViewModel : CommonViewModel() {
         shake.interpolator = CycleInterpolator(7f)
         return shake
     }
+
 }

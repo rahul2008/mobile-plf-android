@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.View
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
+import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
@@ -217,5 +218,27 @@ class MECutility {
         }
 
 
+    }
+
+    fun  constructShippingAddressDisplayField(ecsAddress: ECSAddress) : String{
+
+        var formattedAddress = ""
+        var regionDisplayName =  if (ecsAddress.region?.name !=null)  ecsAddress.region?.name else  ecsAddress.region?.isocodeShort
+        var countryDisplayName = if (ecsAddress.country?.name !=null)  ecsAddress.country?.name else  ecsAddress.country?.isocode
+        var houseNumber = ecsAddress.houseNumber
+        var line1 = ecsAddress.line1
+        var line2 = ecsAddress.line2
+        var town = ecsAddress.town
+        var postalCode = ecsAddress.postalCode
+
+        formattedAddress = if (!houseNumber.isNullOrEmpty()) formattedAddress+ houseNumber +"," else formattedAddress
+        formattedAddress = if (!line1.isNullOrEmpty()) formattedAddress+ line1 + ","+"\n" else formattedAddress
+        formattedAddress = if (!line2.isNullOrEmpty()) formattedAddress+ line2 + ","+"\n" else formattedAddress
+        formattedAddress = if (!town.isNullOrEmpty()) formattedAddress+ town + ","+"\n" else formattedAddress
+        formattedAddress = if (!regionDisplayName.isNullOrEmpty()) formattedAddress+ regionDisplayName + ","+"\n" else formattedAddress
+        formattedAddress = if (!postalCode.isNullOrEmpty()) formattedAddress+ postalCode + ","+"\n" else formattedAddress
+        formattedAddress = if (!countryDisplayName.isNullOrEmpty()) formattedAddress+ countryDisplayName  else formattedAddress
+
+        return formattedAddress
     }
 }
