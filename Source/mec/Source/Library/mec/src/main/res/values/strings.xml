@@ -123,6 +123,10 @@
     <string name="mec_billing_address">Billing address</string>
 
     <string name="mec_invalid_voucher_error">Sorry, this voucher can\'t be redeemed</string>
+    <string name="mec_empty_space">&#160;</string>
+    <string name="mec_checkout">Checkout</string>
+    <string name="mec_delivery">Delivery</string>
+
 
 
 </resources>

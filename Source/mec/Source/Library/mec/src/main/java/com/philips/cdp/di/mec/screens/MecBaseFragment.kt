@@ -56,7 +56,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     override fun handleBackEvent(): Boolean {
         val currentFragment = activity?.supportFragmentManager?.fragments?.last()
         // assuming that user come back to Product detail page only from Retailer and Shopping cart screen
-        if (currentFragment?.getTag().equals(WebBuyFromRetailersFragment.TAG) || currentFragment?.getTag().equals(MECShoppingCartFragment.TAG))
+        if (currentFragment?.getTag().equals(WebBuyFromRetailersFragment.TAG) )
         {
             setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
             setCartIconVisibility(true)
