@@ -27,7 +27,7 @@ class MECDeliveryFragment : MecBaseFragment() {
 
         binding.ecsAddressShipping = ecsAddresses[0]
 
-        binding.tvShippingAddressEdit.setOnClickListener(object:View.OnClickListener{
+        binding.tvShippingAddressName.setOnClickListener(object:View.OnClickListener{
 
             override fun onClick(v: View?) {
                 onEditClick()
