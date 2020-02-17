@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">|Bitte geben Sie die App-Metrik für das Objekt an|</string>
+  <string name="ECSBaseURLNotFound">|Nie znaleziono podstawowego adresu URL|</string>
+  <string name="ECSCartEntryError">|Das Produkt wurde nicht in den Warenkorb gelegt|</string>
+  <string name="ECSCartError">|Det er ikke opprettet noen handlevogn ennå|</string>
+  <string name="ECSCommerceCartModificationError">|La quantité ne peut pas être inférieure à zéro|</string>
+  <string name="ECSCtnNotProvided">|يُرجى توفير شبكة الهاتف الجوّال CTN|</string>
+  <string name="ECSHybrisNotAvailable">|Der Philips-Shop ist für das ausgewählte Land nicht verfügbar, es steht nur der Einzelhandelsmodus zur Verfügung|</string>
+  <string name="ECSIllegalArgumentError">|Bitte stellen Sie gültige Eingabedaten bereit|</string>
+  <string name="ECSInsufficientStockError">|Product kan niet worden verzonden omdat het niet op voorraad is|</string>
+  <string name="ECSInvalidPaymentInfoError">|Bitte stellen Sie gültige Angaben zur Bezahlung bereit|</string>
+  <string name="ECSInvalidTokenError">|Nous avons rencontré un problème technique (Jeton d\'accès non valide). Veuillez procéder à une ré-authentification Hybris|</string>
+  <string name="ECSLocaleNotFound">|Bitte legen Sie das Gebietsschema fest|</string>
+  <string name="ECSNoSuchElementError">|Une erreur s\'est produite lors de la récupération des données depuis le serveur|</string>
+  <string name="ECSOAuthDetailError">|Bitte stellen Sie vollständige OAuth-Datenblätter bereit|</string>
+  <string name="ECSOAuthNotCalled">|Für diese Handlung ist eine Benutzergenehmigung erforderlich|</string>
+  <string name="ECSPaymentAuthorizationError">|[zh-TW]Payment authorization was not successful|</string>
+  <string name="ECSPropositionIdNotFound">|Veuillez définir un identifiant de proposition valide|</string>
+  <string name="ECSSiteIdNotFound">|Der Philips-Shop ist für das ausgewählte Land nicht verfügbar, es steht nur der Einzelhandelsmodus zur Verfügung|</string>
+  <string name="ECSUnknownIdentifierError">|Die angeforderte Ressource ist nicht verfügbar|</string>
+  <string name="ECSUnsupportedDeliveryModeError">|Le mode de livraison sélectionné n\'est pas pris en charge|</string>
+  <string name="ECSUnsupportedVoucherError">|Dieser Gutschein kann leider nicht eingelöst werden|</string>
+  <string name="ECSValidationError">|Zatwierdzenie danych nie powiodło się|</string>
+  <string name="ECSVoucherOperationError">|Dieser Gutschein kann leider nicht eingelöst werden|</string>
+  <string name="ECSaddressId">|Die angegebene Adresse existiert nicht oder ist einem anderen Benutzer zugeteilt|</string>
+  <string name="ECScountryCodeNotGiven">|Bitte geben Sie den gültigen Ländercode an|</string>
+  <string name="ECScountryisocode">|Le pays sélectionné n\'est pas valide|</string>
+  <string name="ECSfirstName">|[zh-TW]Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =|</string>
+  <string name="ECSinvalid_client">|Napotkaliśmy problem techniczny (nieprawidłowe dane uwierzytelniające klienta). Zaloguj się ponownie|</string>
+  <string name="ECSinvalid_grant">|Es ist ein technischer Fehler aufgetreten (ungültiges Janrain-Token). Melden Sie sich bitte wieder an|</string>
+  <string name="ECSlastName">|[zh-TW]Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =|</string>
+  <string name="ECSorderIdNil">|Bitte übermitteln Sie eine gültige Bestellung|</string>
+  <string name="ECSphone1">|Le numéro de téléphone sélectionné n\'est pas valide|</string>
+  <string name="ECSphone2">|Le numéro de téléphone sélectionné n\'est pas valide|</string>
+  <string name="ECSpostUrl">|[zh-TW]Order is already in a paid/completed state|</string>
+  <string name="ECSpostalCode">|Wybrany kod pocztowy jest nieprawidłowy|</string>
+  <string name="ECSregionisocode">|La région sélectionnée n\'est pas valide|</string>
+  <string name="ECSsessionCart">|Veuillez sélectionner vos adresse de livraison, mode de livraison et méthode de paiement avant de soumettre une commande|</string>
+  <string name="ECSsomethingWentWrong">|Nous avons rencontré un problème technique. Veuillez réessayer dans un moment|</string>
+  <string name="ECSunsupported_grant_type">|Es ist ein technischer Fehler aufgetreten (nicht unterstützte Genehmigung). Melden Sie sich bitte wieder an|</string>
+</resources>

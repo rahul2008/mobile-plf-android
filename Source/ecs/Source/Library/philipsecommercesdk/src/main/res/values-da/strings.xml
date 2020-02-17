@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Angiv venligst appens infra-objekt</string>
+  <string name="ECSBaseURLNotFound">Basis-URL ikke fundet</string>
+  <string name="ECSCartEntryError">Produktet er ikke lagt i indkøbskurven</string>
+  <string name="ECSCartError">Der er endnu ikke oprettet nogen kurv</string>
+  <string name="ECSCommerceCartModificationError">Mængden kan ikke være mindre end nul</string>
+  <string name="ECSCtnNotProvided">Angiv venligst CTN</string>
+  <string name="ECSHybrisNotAvailable">Philips-butikken er ikke tilgængelig i det valgte land, kun forhandlertilstand er tilgængelig</string>
+  <string name="ECSIllegalArgumentError">Angiv venligst gyldig inputdata</string>
+  <string name="ECSInsufficientStockError">Produktet kan ikke sendes, da det er udsolgt</string>
+  <string name="ECSInvalidPaymentInfoError">Angiv venligst gyldige betalingsoplysninger</string>
+  <string name="ECSInvalidTokenError">Der opstod en teknisk fejl (ugyldigt adgangstoken). Venligst udfør Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">Angiv venligst den lokale</string>
+  <string name="ECSNoSuchElementError">Der opstod en fejl under hentning af data fra serveren</string>
+  <string name="ECSOAuthDetailError">Angiv venligst komplette OAuth-oplysninger</string>
+  <string name="ECSOAuthNotCalled">Denne handling kræver brugertilladelse</string>
+  <string name="ECSPaymentAuthorizationError">Betalingsgodkendelsen mislykkedes</string>
+  <string name="ECSPropositionIdNotFound">Angiv venligst et gyldigt forslag til ID</string>
+  <string name="ECSSiteIdNotFound">Philips-butikken er ikke tilgængelig i det valgte land, kun forhandlertilstand er tilgængelig</string>
+  <string name="ECSUnknownIdentifierError">Den anmodede ressource er ikke tilgængelig</string>
+  <string name="ECSUnsupportedDeliveryModeError">Den valgte leveringstilstand understøttes ikke</string>
+  <string name="ECSUnsupportedVoucherError">Vi beklager, denne voucher kan ikke indløses</string>
+  <string name="ECSValidationError">Datavalidering mislykkedes</string>
+  <string name="ECSVoucherOperationError">Vi beklager, denne voucher kan ikke indløses</string>
+  <string name="ECSaddressId">Den givne adresse findes ikke eller tilhører en anden bruger</string>
+  <string name="ECScountryCodeNotGiven">Angiv venligst gyldig landekode</string>
+  <string name="ECScountryisocode">Det valgte land er ugyldigt</string>
+  <string name="ECSfirstName">Bemærk venligst, at følgende tegn ikke er tilladt: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Der opstod en teknisk fejl (forkerte kundeoplysninger). Log venligst ind igen</string>
+  <string name="ECSinvalid_grant">Der opstod en teknisk fejl (ugyldig Janrain-token). Log venligst ind igen</string>
+  <string name="ECSlastName">Bemærk venligst, at følgende tegn ikke er tilladt: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Angiv venligst gyldig bestilling</string>
+  <string name="ECSphone1">Det valgte telefonnummer er ugyldigt</string>
+  <string name="ECSphone2">Det valgte telefonnummer er ugyldigt</string>
+  <string name="ECSpostUrl">Status for ordren er allerede betalt/gennemført</string>
+  <string name="ECSpostalCode">Det valgte postnummer er ugyldigt</string>
+  <string name="ECSregionisocode">Den valgte region er ugyldig</string>
+  <string name="ECSsessionCart">Vælg din leveringsadresse, leveringsmåde og betalingsmetode, inden du sender en ordre</string>
+  <string name="ECSsomethingWentWrong">Der opstod en teknisk fejl. Prøv venligst efter nogen tid</string>
+  <string name="ECSunsupported_grant_type">Der opstod en teknisk fejl (ikke-understøttet bonustype). Log venligst ind igen</string>
+</resources>
