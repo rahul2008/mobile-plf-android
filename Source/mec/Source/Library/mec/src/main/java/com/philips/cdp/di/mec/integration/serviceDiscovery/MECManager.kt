@@ -32,9 +32,7 @@ class MECManager {
                         }
 
                         override fun onFailure(error: Exception, ecsError: ECSError) {
-                            if (       ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
-                                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode) {
+                            if (     MECutility.isAuthError(ecsError)) {
                                 var authCallBack = object: ECSCallback<ECSOAuthData, Exception> {
 
                                     override fun onResponse(result: ECSOAuthData?) {

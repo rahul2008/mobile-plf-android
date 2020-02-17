@@ -326,7 +326,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                         bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
                         val fragment = MECShoppingCartFragment()
                         fragment.arguments = bundle
-                        addFragment(fragment,"MECShoppingCartFragment",true)
+                        addFragment(fragment,MECShoppingCartFragment.TAG,true)
                     }
 
                     override fun onFailure(error: Exception?, ecsError: ECSError?) {
