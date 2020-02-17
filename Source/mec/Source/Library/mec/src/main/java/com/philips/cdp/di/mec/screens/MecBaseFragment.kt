@@ -26,7 +26,9 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
+import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
+import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
@@ -53,10 +55,11 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     override fun handleBackEvent(): Boolean {
         val currentFragment = activity?.supportFragmentManager?.fragments?.last()
-
-        if (currentFragment?.getTag().equals(WebBuyFromRetailersFragment.TAG))
+        // assuming that user come back to Product detail page only from Retailer and Shopping cart screen
+        if (currentFragment?.getTag().equals(WebBuyFromRetailersFragment.TAG) || currentFragment?.getTag().equals(MECShoppingCartFragment.TAG))
         {
             setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
+            setCartIconVisibility(true)
         }
 
         return false

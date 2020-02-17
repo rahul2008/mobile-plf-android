@@ -62,7 +62,7 @@
     <string name="mec_add_gift_code">Enter gift code</string>
     <string name="mec_cart_summary">Cart summary</string>
     <string name="mec_accepted_codes">Accepted codes</string>
-    <string name="mec_shopping_cart">Cart</string>
+    <string name="mec_shopping_cart">Shopping Cart</string>
     <string name="mec_remove_product">Remove product</string>
     <string name="mec_remove_voucher">Remove voucher</string>
     <string name="mec_cancel">Cancel</string>

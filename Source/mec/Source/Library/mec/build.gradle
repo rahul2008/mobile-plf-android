@@ -128,6 +128,7 @@ dependencies {
     implementation deps.androidx.livedata_compiler
     implementation deps.androidx.livedata_extensions
     implementation deps.calligraphy
+    implementation deps.viewpump
     implementation deps.gson
     implementation deps.libphonenumber
     implementation deps.androidx.annotations

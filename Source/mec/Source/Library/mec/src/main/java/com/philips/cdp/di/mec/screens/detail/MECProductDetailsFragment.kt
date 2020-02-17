@@ -199,6 +199,14 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             tagActions(product)
             mRootView=binding.root
             showData()
+            ////////////// start of update cart and login if required
+            if(isUserLoggedIn()) {
+                GlobalScope.launch {
+                    var mecManager: MECManager = MECManager()
+                    mecManager.getShoppingCartData(MECDataHolder.INSTANCE.mecListener)
+                }
+            }
+            ////////////// end of update cart and login if required
 
         }
         return binding.root
@@ -222,6 +230,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
+        setCartIconVisibility(true)
     }
 
 

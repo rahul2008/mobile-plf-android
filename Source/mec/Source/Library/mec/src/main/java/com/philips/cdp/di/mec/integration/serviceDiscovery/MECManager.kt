@@ -17,41 +17,12 @@ import com.philips.cdp.di.mec.utils.MECutility
 
 class MECManager {
 
+    // to be called by Proposition getProductCartCount() API call to show cart count
     fun getProductCartCountWorker(mecListener: MECListener){
         MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
             override fun onResponse(result: ECSConfig) {
                 if (result.isHybris) {
-                    MecHolder.INSTANCE.eCSServices.fetchShoppingCart(object : ECSCallback<ECSShoppingCart, Exception> {
-                        override fun onResponse(carts: ECSShoppingCart?) {
-                            if (carts != null) {
-                                val quantity = MECutility.getQuantity(carts)
-                                mecListener.onGetCartCount(quantity)
-                            } else {
-                                mecListener.onFailure(Exception(ECSErrorEnum.ECSsomethingWentWrong.localizedErrorString))
-                            }
-                        }
-
-                        override fun onFailure(error: Exception, ecsError: ECSError) {
-                            if (     MECutility.isAuthError(ecsError)) {
-                                var authCallBack = object: ECSCallback<ECSOAuthData, Exception> {
-
-                                    override fun onResponse(result: ECSOAuthData?) {
-                                        getProductCartCountWorker(mecListener)
-                                    }
-
-                                    override fun onFailure(error: Exception, ecsError: ECSError) {
-                                        mecListener.onFailure(error)
-                                    }
-
-                                }
-                                HybrisAuth.hybrisAuthentication(authCallBack)
-
-                            }else {
-                                mecListener.onFailure(error)
-                            }
-                        }
-                    })
-
+                    getShoppingCartData(mecListener)
                 } else {
                     //hybris not available
                     mecListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
@@ -62,5 +33,40 @@ class MECManager {
                 mecListener.onFailure(error)
             }
         })
+    }
+
+    //to be called by Catalog and Product Detail screen to show cart count
+    fun getShoppingCartData(mecListener: MECListener){
+        MecHolder.INSTANCE.eCSServices.fetchShoppingCart(object : ECSCallback<ECSShoppingCart, Exception> {
+            override fun onResponse(carts: ECSShoppingCart?) {
+                if (carts != null) {
+                    val quantity = MECutility.getQuantity(carts)
+                    mecListener.onGetCartCount(quantity)
+                } else {
+                    mecListener.onFailure(Exception(ECSErrorEnum.ECSsomethingWentWrong.localizedErrorString))
+                }
+            }
+
+            override fun onFailure(error: Exception, ecsError: ECSError) {
+                if (     MECutility.isAuthError(ecsError)) {
+                    var authCallBack = object: ECSCallback<ECSOAuthData, Exception> {
+
+                        override fun onResponse(result: ECSOAuthData?) {
+                            getProductCartCountWorker(mecListener)
+                        }
+
+                        override fun onFailure(error: Exception, ecsError: ECSError) {
+                            mecListener.onFailure(error)
+                        }
+
+                    }
+                    HybrisAuth.hybrisAuthentication(authCallBack)
+
+                }else {
+                    mecListener.onFailure(error)
+                }
+            }
+        })
+
     }
 }
