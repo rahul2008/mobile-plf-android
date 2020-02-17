@@ -94,6 +94,9 @@ class AddAddressFragment : MecBaseFragment() {
         binding = MecAddressCreateBinding.inflate(inflater, container, false)
         binding.pattern = MECRegexPattern()
 
+        addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
+        shoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+
        //Set Country before binding
         eCSAddressShipping!!.country =addressViewModel.getCountry()
         eCSAddressBilling!!.country = addressViewModel.getCountry()
@@ -101,8 +104,7 @@ class AddAddressFragment : MecBaseFragment() {
         binding.ecsAddressBilling = eCSAddressBilling
 
 
-        addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        shoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+
 
         addressViewModel.regionsList.observe(this, regionListObserver)
         addressViewModel.mecError.observe(this, this)
