@@ -17,6 +17,8 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
  */
 class MECProductInfoFragment : MecBaseFragment() {
 
+    var mProduct :ECSProduct? =null
+
     override fun getFragmentTag(): String {
        return "MECProductInfoFragment"
     }
@@ -27,7 +29,9 @@ class MECProductInfoFragment : MecBaseFragment() {
     private val productObserver : Observer<ECSProduct> = object : Observer<ECSProduct> {
 
         override fun onChanged(ecsProduct: ECSProduct?) {
+            mProduct= ecsProduct
             binding.product = ecsProduct
+
         }
     }
 
@@ -36,7 +40,11 @@ class MECProductInfoFragment : MecBaseFragment() {
 
         binding = MecProductInfoFragmentBinding.inflate(inflater, container, false)
 
-        ecsProductDetailViewModel = activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        if(null== mProduct ) {
+            ecsProductDetailViewModel = activity?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+        }else{
+            binding.product = mProduct
+        }
 
         ecsProductDetailViewModel.ecsProduct.observe(activity!!, productObserver)
 
