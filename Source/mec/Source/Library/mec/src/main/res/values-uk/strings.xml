@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="mec_add">[uk]Add</string>
+  <string name="mec_add_gift_Card">[uk]Add gift code</string>
+  <string name="mec_add_to_cart">Додати до кошика</string>
+  <string name="mec_anonymous">[uk]Anonymous</string>
+  <string name="mec_bazaarVoice_Detail_at">[uk]Details at</string>
+  <string name="mec_bazaarVoice_Terms_And_Condition">[uk]These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.</string>
+  <string name="mec_buy_from_retailers">Купити в магазині</string>
+  <string name="mec_cancel">Скасувати</string>
+  <string name="mec_cart_login_error_message">[uk]Please Register or Login to easily order your products</string>
+  <string name="mec_continue_checkout">[uk]Continue to checkout</string>
+  <string name="mec_continue_shopping">Продовжити покупки</string>
+  <string name="mec_features">[uk]Features</string>
+  <string name="mec_has_used_this_product_for">[uk]Has used this product for</string>
+  <string name="mec_in_stock">у наявності</string>
+  <string name="mec_info">Інформація</string>
+  <string name="mec_invalid_landing_view">[uk]Please provide a valid Landing View</string>
+  <string name="mec_invalid_product_ctn">Не залишайте поле для коду CTN виробу порожнім</string>
+  <string name="mec_loading">[uk]Loading..</string>
+  <string name="mec_more_info">для додаткової інформації</string>
+  <string name="mec_no_product_available">У магазині немає виробів.</string>
+  <string name="mec_no_result">0 результатів знайдено для</string>
+  <string name="mec_no_review_available">[uk]No Reviews Found</string>
+  <string name="mec_ok">[uk]OK</string>
+  <string name="mec_online_retailers">[uk]Online Retailers</string>
+  <string name="mec_out_of_stock">Немає в наявності</string>
+  <string name="mec_privacy">Повідомлення про конфіденційність</string>
+  <string name="mec_product_detail_title"> Детальніше про виріб</string>
+  <string name="mec_product_title">Вироби</string>
+  <string name="mec_read">Читайте наше</string>
+  <string name="mec_reviews">Відгуки</string>
+  <string name="mec_shopping_cart">Кошик для покупок</string>
+  <string name="mec_specs">[uk]Specs</string>
+  <string name="mec_threshold_message">[uk]This might take more time. Do you wish to continue?</string>
+  <string name="mec_threshold_title">[uk]Request threshold reached</string>
+  <string name="mec_zero_results_message"> Це фільтрує наш список виробів. Перевірте, чи термін фільтра не містить помилок</string>
+</resources>

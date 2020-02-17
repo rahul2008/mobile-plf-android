@@ -53,7 +53,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
         var alertDialogFragment = builder.create()
         builder.setMessage(resources.getString(R.string.mec_threshold_message))
-        builder.setPositiveButton("OK", fun(it: View) {
+        builder.setPositiveButton(getString(R.string.mec_ok), fun(it: View) {
 
 
             if(productList.size==0) {
@@ -66,7 +66,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
         })
 
 
-        builder.setNegativeButton("Cancel", fun(it: View) {
+        builder.setNegativeButton(getString(R.string.mec_cancel), fun(it: View) {
             super.showNoProduct()
             alertDialogFragment.dismiss()
         })

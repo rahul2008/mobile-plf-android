@@ -16,7 +16,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:padding="@dimen/border16_margin_left_right">
+    android:padding="@dimen/border16_margin_left_right"
+        android:focusable="true">
 
         <FrameLayout
             android:id="@+id/frame"
@@ -47,10 +48,9 @@
 
     <LinearLayout
         android:id="@+id/iap_retailerItem_product_layout"
-        android:layout_toRightOf="@+id/frame"
+        android:layout_toEndOf="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/border16_margin_left_right"
         android:orientation="vertical">
 
