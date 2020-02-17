@@ -7,17 +7,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
@@ -186,6 +186,16 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
         receiver = new HomeCountryUpdateReceiver(appInfraInterface);
         mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            btnLaunchAsFragment.setEnabled(false);
+            btn_IAP.setEnabled(false);
+            btnGetUserDetail.setEnabled(false);
+        }
     }
 
     private void viewInitlization(PIMDemoUAppDependencies pimDemoUAppDependencies, PIMDemoUAppSettings pimDemoUAppSettings) {
@@ -410,7 +420,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-        urInterface.launch(fragmentLauncher, urLaunchInput);
+        if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN)
+            urInterface.launch(fragmentLauncher, urLaunchInput);
+
     }
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
