@@ -44,6 +44,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        psraRelease {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['release']
+        }
     }
 
     /*
@@ -92,5 +101,8 @@ dependencies {
     implementation deps.greenrobot
     implementation deps.butterknife
     implementation deps.adobemobilelib
+    implementation deps.leakcanary
+
+    //psraReleaseImplementation deps.leakcanary_no_op
 
 }

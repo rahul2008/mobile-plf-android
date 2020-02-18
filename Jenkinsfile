@@ -229,6 +229,7 @@ pipeline {
                 sh '''#!/bin/bash -l
                     chmod -R 775 .
                     ./gradlew referenceApp:assemblePsraRelease
+                    ./gradlew pimApp:assemblePsraRelease
                 '''
             }
         }
@@ -300,10 +301,12 @@ pipeline {
                     apkname=`xargs < apkname.txt`
                     PSRA_APK_NAME=${apkname/.apk/_PSRA.apk}
                     curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
+                    curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT ${PSRA_APK_NAME} -T Source/pim/Source/DemoApp/app/build/outputs/apk/psraRelease/pimApp-psraRelease.apk
                 '''
 
                 //archive referenceApp-psraRelease apk from below path
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk'
+                archiveArtifacts 'Source/pim/Source/DemoApp/app/build/outputs/apk/psraRelease/pimApp-psraRelease.apk'
             }
         }
 
