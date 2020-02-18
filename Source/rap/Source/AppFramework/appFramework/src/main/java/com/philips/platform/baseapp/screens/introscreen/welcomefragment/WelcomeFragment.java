@@ -9,14 +9,15 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -83,8 +84,20 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
         return new WelcomeFragmentPresenter(this);
     }
 
+
+    private void hideSystemUi() {
+        int visibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(visibility);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        hideSystemUi();
         presenter = getWelcomePresenter();
         startLogging();
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
