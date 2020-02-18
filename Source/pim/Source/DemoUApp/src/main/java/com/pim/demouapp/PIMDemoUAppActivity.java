@@ -191,10 +191,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+        if (!userDataInterface.isOIDCToken() && userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             btnLaunchAsFragment.setEnabled(false);
-            btn_IAP.setEnabled(false);
-            btnGetUserDetail.setEnabled(false);
         }
     }
 
@@ -206,6 +204,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             btn_RegistrationPR.setVisibility(View.GONE);
             btnMigrator.setVisibility(View.GONE);
             btnISOIDCToken.setVisibility(View.GONE);
+            btn_IAP.setVisibility(View.GONE);
+            btnGetUserDetail.setVisibility(View.GONE);
             btnLaunchAsFragment.setText("Launch USR");
             urInterface = new URInterface();
             urInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
