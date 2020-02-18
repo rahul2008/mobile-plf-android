@@ -76,6 +76,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
         MECDataHolder.INSTANCE.voucherCode = mLaunchInput.voucherCode
+        MECDataHolder.INSTANCE.maxCartCount = mLaunchInput.maxCartCount
 
         if (MECDataHolder.INSTANCE.bvClient == null) {
             val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(mMECSetting.context.applicationContext as Application)
