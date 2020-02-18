@@ -1,0 +1,58 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="ecsAddress"
+            type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
+    </data>
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@color/colorPrimary"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/iap_margin_10dp">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_name"
+            style="@style/mec_address_header"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:padding="@dimen/iap_margin_4dp"
+            android:text="Pabitra Sahoo" />
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_address_text"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:gravity="start"
+            android:textSize="12sp"
+            android:text="abcd afgghhhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
+</layout>

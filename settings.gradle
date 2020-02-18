@@ -117,8 +117,8 @@ project(ext.strings.mecuapp.projectName).projectDir = new File('./Source/mec/Sou
 //include(':mecUApp')
 //project(':mecUApp').projectDir = new File('./Source/mec/Source/DemoUApp')
 
-//include(':mecApp')
-//project(':mecApp').projectDir = new File('./Source/mec/Source/DemoApp/app')
+include(':mecApp')
+project(':mecApp').projectDir = new File('./Source/mec/Source/DemoApp/app')
 
 
 //include(':philipsecommercesdk')
@@ -134,8 +134,8 @@ project(ext.strings.mecuapp.projectName).projectDir = new File('./Source/mec/Sou
 //include ':MyAccountApp'
 //project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
 
-//include ':dcc-demoapp'
-//project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
+include ':dcc-demoapp'
+project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include ':ail-demoapp'
 //project(':ail-demoapp').projectDir = new File('./Source/ail/Source/DemoApp/app')
 

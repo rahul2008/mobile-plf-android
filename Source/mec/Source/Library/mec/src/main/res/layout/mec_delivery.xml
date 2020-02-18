@@ -141,6 +141,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_manage_address"
+            style="@style/mec_address_header"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:padding="@dimen/iap_margin_4dp"
+            android:text="Manage Address" />
 
     </LinearLayout>
 

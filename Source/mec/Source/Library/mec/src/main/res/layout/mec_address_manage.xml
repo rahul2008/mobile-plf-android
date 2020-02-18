@@ -1,0 +1,57 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="mecAddresses"
+            type="com.philips.cdp.di.mec.screens.address.MECAddresses" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:specification="@{mecAddresses}"/>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/mec_continue_checkout_btn"
+        style="@style/mecCentralesansBookFont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:layout_above="@+id/mec_continue_shopping_btn"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+        android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+        android:text="Set default Address"
+        android:textColor="?attr/uidButtonPrimaryNormalTextColor"
+        android:textSize="16dp"
+        app:uidComponentType="Primary" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/mec_continue_shopping_btn"
+        style="@style/mecCentralesansBookFont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/iap_shopping_cart_btn_margin"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+        android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+        android:enabled="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="?attr/uidButtonSecondaryNormalTextColor"
+        android:text="Delete"
+        android:textSize="16dp"
+        app:uidComponentType="Secondary" />
+
+    </LinearLayout>
+
+
+</layout>

@@ -371,14 +371,16 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     override fun processError(mecError: MecError?, bool: Boolean) {
         MECDataHolder.INSTANCE.voucherCode = "invalid_code"
-        if (mecError!!.mECRequestType == MECRequestType.MEC_APPLY_VOUCHER) {
+        if (mecError?.mECRequestType == MECRequestType.MEC_APPLY_VOUCHER) {
             super.processError(mecError, false)
-            if (mecError!!.exception!!.message.toString().contentEquals(getString(R.string.mec_invalid_voucher_error))) {
+            if (mecError.exception!!.message.toString().contentEquals(getString(R.string.mec_invalid_voucher_error))) {
                 validationEditText = null
                 binding.mecVoucherEditText.startAnimation(addressViewModel.shakeError())
                 binding.llAddVoucher.showError()
                 validationEditText?.requestFocus()
             }
+        }else if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_USER_PROFILE){
+            gotoDeliveryAddress(mAddressList)
         }else{
             super.processError(mecError, true)
         }
