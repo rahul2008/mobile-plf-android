@@ -321,8 +321,12 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     fun onCheckOutClick() {
-        createCustomProgressBar(container, MEDIUM)
-        addressViewModel.fetchAddresses()
+        if(MECDataHolder.INSTANCE.maxCartCount!=0 && shoppingCart.deliveryItemsQuantity > MECDataHolder.INSTANCE.maxCartCount){
+            fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it, getString(R.string.mec_ok), getString(R.string.mec_exceed_cart_limit), getString(R.string.mec_cannot_add)+ MECDataHolder.INSTANCE.maxCartCount + getString(R.string.mec_product_in_cart)) } }
+        } else {
+            createCustomProgressBar(container, MEDIUM)
+            addressViewModel.fetchAddresses()
+        }
     }
 
     fun gotoProductCatalog() {

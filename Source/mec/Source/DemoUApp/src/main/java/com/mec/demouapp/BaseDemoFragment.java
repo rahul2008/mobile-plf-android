@@ -78,7 +78,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private Button mShopNow;
     private Button mShopNowCategorized;
     private Button mLaunchProductDetail;
-    private Button mAddCtn, mBtnSetPropositionId,mBtn_add_voucher;
+    private Button mAddCtn, mBtnSetPropositionId,mBtn_add_voucher,mbtnSetMaxCount;
     private Button mShopNowCategorizedWithRetailer;
     private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
@@ -91,6 +91,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private MECLaunchInput mMecLaunchInput;
     private MECSettings mMecSettings;
     String voucherCode = "";
+    int maxCartCount = 0;
     EditText mEtMaxCartCount;
 
     private UserDataInterface mUserDataInterface;
@@ -125,7 +126,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             mEtVoucherCode = rootView.findViewById(R.id.et_add_voucher);
             mBtn_add_voucher = rootView.findViewById(R.id.btn_add_voucher);
             mEtMaxCartCount = rootView.findViewById(R.id.et_max_cart_count);
+            mbtnSetMaxCount = rootView.findViewById(R.id.btn_set_max_Count);
             mBtn_add_voucher.setOnClickListener(this);
+            mbtnSetMaxCount.setOnClickListener(this);
 
             bvCheckBox.setOnCheckedChangeListener(this);
 
@@ -223,16 +226,6 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                     initializeMECComponant();
                 }
             });
-
-            Button btnSetMaxCount = rootView.findViewById(R.id.btn_set_max_Count);
-
-            btnSetMaxCount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    initializeMECComponant();
-                }
-            });
-
 
 
             mRegister = rootView.findViewById(R.id.btn_register);
@@ -378,6 +371,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         pMecFlowConfigurator.setLandingView(mecLandingView);
         mMecLaunchInput.setVoucherCode(voucherCode);
+        mMecLaunchInput.setMaxCartCount(maxCartCount);
         mMecLaunchInput.setFlowConfigurator(pMecFlowConfigurator);
 
 
@@ -397,6 +391,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         pMecFlowConfigurator.setLandingView(mecLandingView);
         mMecLaunchInput.setVoucherCode(voucherCode);
+        mMecLaunchInput.setMaxCartCount(maxCartCount);
         mMecLaunchInput.setFlowConfigurator(pMecFlowConfigurator);
         mMecInterface.launch(new FragmentLauncher(getActivity(), R.id.container_base_demo, this),
                 mMecLaunchInput);
@@ -482,6 +477,12 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 voucherCode = mEtVoucherCode.getText().toString();
             }
             mEtVoucherCode.setText("");
+        }
+        else if (view == mbtnSetMaxCount) {
+            if (mEtMaxCartCount.getText().toString().length() > 0) {
+                maxCartCount = Integer.parseInt(mEtMaxCartCount.getText().toString());
+            }
+            mEtMaxCartCount.setText("");
         }
     }
 
