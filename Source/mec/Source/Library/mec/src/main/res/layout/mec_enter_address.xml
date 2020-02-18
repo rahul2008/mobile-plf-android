@@ -7,7 +7,7 @@
 
         <variable
             name="pattern"
-            type="com.philips.cdp.di.mec.screens.address.MECRegexPattern" />
+            type="com.philips.cdp.di.mec.screens.address.MECSalutationHolder" />
 
         <variable
             name="mecRegions"
@@ -178,7 +178,7 @@
                             android:id="@+id/ll_phone1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:phoneNumberRegex="@{pattern.pHONE_NUMBER_PATTERN}"
+                            app:phoneNumberEditText="@{etPhone1}"
                             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                             app:uidTextBoxValidationErrorText="@string/mec_phone_error">
 

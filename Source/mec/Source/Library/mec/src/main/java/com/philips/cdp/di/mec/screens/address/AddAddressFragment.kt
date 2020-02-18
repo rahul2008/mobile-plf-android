@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.platform.uid.view.widget.InputValidationLayout
@@ -21,7 +22,6 @@ import com.philips.cdp.di.mec.databinding.MecAddressCreateBinding
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import java.io.Serializable
 
@@ -93,7 +93,7 @@ class AddAddressFragment : MecBaseFragment() {
                               savedInstanceState: Bundle?): View? {
 
         binding = MecAddressCreateBinding.inflate(inflater, container, false)
-        binding.pattern = MECRegexPattern()
+        binding.pattern = MECSalutationHolder()
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
         shoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
@@ -180,7 +180,7 @@ class AddAddressFragment : MecBaseFragment() {
                 var validator:InputValidationLayout.Validator
 
                 if(child.inputType == InputType.TYPE_CLASS_PHONE){
-                    validator = PhoneNumberInputValidator(MECRegexPattern().PHONE_NUMBER_PATTERN)
+                    validator = PhoneNumberInputValidator(child, PhoneNumberUtil.getInstance())
                 }else{
                     validator = EmptyInputValidator()
                 }
