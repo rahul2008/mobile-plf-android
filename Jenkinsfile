@@ -466,12 +466,14 @@ def BuildAndUnitTest() {
             :pim:testReleaseUnitTest \
             :philipsecommercesdk:testReleaseUnitTest \
             :mec:testReleaseUnitTest \
+            :pimApp:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest
             
     '''
 
     //archive the apk type files from below source
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
+    archiveArtifacts 'Source/pim/Source/DemoApp/app/build/outputs/apk/release/*.apk'
 }
 
 /**
