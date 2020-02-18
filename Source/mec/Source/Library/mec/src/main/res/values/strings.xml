@@ -126,7 +126,9 @@
     <string name="mec_empty_space">&#160;</string>
     <string name="mec_checkout">Checkout</string>
     <string name="mec_delivery">Delivery</string>
-
+    <string name="mec_exceed_cart_limit">Exceed Cart limit</string>
+    <string name="mec_cannot_add">You can not add more than </string>
+    <string name="mec_product_in_cart"> products in your cart</string>
 
 
 </resources>

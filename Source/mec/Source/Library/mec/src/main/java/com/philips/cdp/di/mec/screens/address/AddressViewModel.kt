@@ -16,6 +16,7 @@ import android.widget.ScrollView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.Region
@@ -183,9 +184,9 @@ class AddressViewModel : CommonViewModel() {
 
 
         @JvmStatic
-        @BindingAdapter("phoneNumberRegex")
-        fun setPhoneNumberValidator(inputValidationLayout: InputValidationLayout, valid_regex_pattern: Pattern) {
-            inputValidationLayout.setValidator(PhoneNumberInputValidator(valid_regex_pattern))
+        @BindingAdapter("phoneNumberEditText")
+        fun setPhoneNumberValidator(inputValidationLayout: InputValidationLayout,phoneNumberValidationEditText: ValidationEditText) {
+            inputValidationLayout.setValidator(PhoneNumberInputValidator(phoneNumberValidationEditText, PhoneNumberUtil.getInstance()))
         }
 
         @JvmStatic

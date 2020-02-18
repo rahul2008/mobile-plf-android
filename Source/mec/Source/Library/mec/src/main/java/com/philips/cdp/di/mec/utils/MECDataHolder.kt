@@ -25,6 +25,7 @@ enum class MECDataHolder {
     lateinit var locale:String
     lateinit var propositionId:String
     lateinit var voucherCode:String
+    var maxCartCount:Int = 0
     lateinit var userDataInterface: UserDataInterface
     var refreshToken:String?=null
     var blackListedRetailers: List<String> ?=null
