@@ -214,10 +214,134 @@
 
     <View
         android:id="@+id/price_button_view"
-        android:layout_above="@+id/priceLayout"
+        android:layout_above="@+id/delivery_ups_parcel_container"
         android:layout_width="match_parent"
         android:layout_height="0.05dp"
         android:background="?attr/uidContentItemTertiaryNormalTextColor" />
+
+        <RelativeLayout
+            android:id="@+id/delivery_ups_parcel_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/iap_margin_20dp"
+            android:layout_marginBottom="@dimen/iap_margin_10dp"
+            android:layout_above="@+id/cart_Summary"
+            android:visibility="gone"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/delivery_ups_title"
+                    style="@style/UIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mec_delivery_ups_parcel"
+                    android:visibility="gone"
+                    android:textSize="@dimen/iap_text_size_16sp"
+                    android:textStyle="bold" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/iap_delivery_mode_description"
+                    style="@style/mecCentralesansBookFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:visibility="gone"
+                    android:textSize="@dimen/iap_text_size_12"
+                    />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/iap_delivery_mode_free"
+                    style="@style/mecCentralesansBookFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
+                    android:visibility="gone"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textSize="@dimen/iap_text_size_12"
+                    />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/delivery_price"
+                    style="@style/UIDLabel"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="$0.00"
+                    android:visibility="gone"
+                    android:textSize="@dimen/iap_text_size_16sp" />
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/right_arrow"
+                style="@style/mec_right_arrow_product_catalog"
+                android:layout_width="15dip"
+                android:layout_height="15dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical"/>
+        </RelativeLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/cart_Summary"
+            style="@style/mec_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/price_container"
+            android:visibility="gone"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right"
+            android:text="@string/mec_order_summary" />
+
+        <LinearLayout
+            android:id="@+id/price_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dip"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_above="@+id/summary_delivery_container"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
+
+        </LinearLayout>
+
+        <GridLayout
+            android:id="@+id/summary_delivery_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dip"
+            android:layout_above="@+id/priceLayout"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/delivery_via_ups"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mec_shipping_cost"
+                android:visibility="gone"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/delivery_ups_val"
+                style="@style/iapCentralesansMediumFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                android:text="$0.00"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+        </GridLayout>
 
 
         <LinearLayout
