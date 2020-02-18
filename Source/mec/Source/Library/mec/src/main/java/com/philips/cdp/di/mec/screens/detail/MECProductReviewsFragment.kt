@@ -34,14 +34,14 @@ class MECProductReviewsFragment : MecBaseFragment() {
     var offset: Int = 0
     var limit: Int = 20
     var totalReview: Int = 0
-    var mReviewResponse:  ReviewResponse? =null;
-    var mNestedScrollView : NestedScrollView? =null
+    var mReviewResponse: ReviewResponse? = null;
+    var mNestedScrollView: NestedScrollView? = null
 
     private lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
-    private val reviewObserver : Observer<ReviewResponse> = object : Observer<ReviewResponse> {
+    private val reviewObserver: Observer<ReviewResponse> = object : Observer<ReviewResponse> {
 
-        override fun onChanged(reviewResponse:  ReviewResponse?) {
-            mReviewResponse=reviewResponse
+        override fun onChanged(reviewResponse: ReviewResponse?) {
+            mReviewResponse = reviewResponse
 
             updateReviewData(reviewResponse)
         }
@@ -81,9 +81,9 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
 
         /*
-  * When comes back to this screen upon back press of WebRetailers and Shopping cart
-  * Here existing recyclerView(if already created) needs to be removed from its parent(View pager)
-  * */
+        * When comes back to this screen upon back press of WebRetailers and Shopping cart
+        * Here existing NestedScrollView(if already created) needs to be removed from its parent(View pager)
+         * */
         if (mNestedScrollView != null) {
             val parentViewPager = mNestedScrollView!!.getParent() as ViewGroup
             parentViewPager?.removeView(mNestedScrollView)
@@ -96,12 +96,12 @@ class MECProductReviewsFragment : MecBaseFragment() {
         ecsProductDetailViewModel = this.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }
 
         ecsProductDetailViewModel.review.observe(this, reviewObserver)
-        ecsProductDetailViewModel.mecError.observe(this,this)
+        ecsProductDetailViewModel.mecError.observe(this, this)
 
         mecReviews = mutableListOf<MECReview>()
 
         val bundle = arguments
-        productctn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN,"INVALID")
+        productctn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN, "INVALID")
 
         //TODO in binding
         reviewsAdapter = MECReviewsAdapter(mecReviews)
@@ -110,9 +110,9 @@ class MECProductReviewsFragment : MecBaseFragment() {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
-        if(mReviewResponse==null) {
+        if (mReviewResponse == null) {
             this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it, offset, limit) }
-        }else{
+        } else {
             updateReviewData(mReviewResponse)
         }
 
@@ -121,28 +121,28 @@ class MECProductReviewsFragment : MecBaseFragment() {
                 val lay = binding.recyclerView
                         .layoutManager as LinearLayoutManager
 
-                if(isScrollDown(lay))
+                if (isScrollDown(lay))
                     if (isAllFetched()) {
                         executeRequest()
                     }
             }
         })
-         mNestedScrollView=binding.root as NestedScrollView
+        mNestedScrollView = binding.root as NestedScrollView
         return binding.root
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if(isVisibleToUser) {
+        if (isVisibleToUser) {
             productctn?.let { tagActions(it) }
         }
     }
 
-    private fun tagActions(ctn : String) {
+    private fun tagActions(ctn: String) {
         var map = HashMap<String, String>()
         map.put(MECAnalyticsConstant.specialEvents, MECAnalyticsConstant.userReviewsViewed)
-        map.put(MECAnalyticsConstant.mecProducts,ctn)
-        MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData,map)
+        map.put(MECAnalyticsConstant.mecProducts, ctn)
+        MECAnalytics.trackMultipleActions(MECAnalyticsConstant.sendData, map)
     }
 
     private fun isAllFetched() = totalReview != 0 && reviewsAdapter!!.itemCount < totalReview
@@ -151,7 +151,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
     private fun executeRequest() {
         binding.mecProgressLayout.visibility = View.VISIBLE
         offset += limit
-        this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it,offset,limit) }
+        this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it, offset, limit) }
     }
 
     private fun isScrollDown(lay: LinearLayoutManager): Boolean {
