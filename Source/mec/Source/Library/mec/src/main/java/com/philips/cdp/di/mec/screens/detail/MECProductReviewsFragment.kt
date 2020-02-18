@@ -34,33 +34,40 @@ class MECProductReviewsFragment : MecBaseFragment() {
     var offset: Int = 0
     var limit: Int = 20
     var totalReview: Int = 0
+    var mReviewResponse:  ReviewResponse? =null;
+    var mNestedScrollView : NestedScrollView? =null
 
     private lateinit var ecsProductDetailViewModel: EcsProductDetailViewModel
     private val reviewObserver : Observer<ReviewResponse> = object : Observer<ReviewResponse> {
 
         override fun onChanged(reviewResponse:  ReviewResponse?) {
+            mReviewResponse=reviewResponse
 
-            val reviews = reviewResponse?.results
-
-            totalReview = reviewResponse?.totalResults ?: 0
-                for (review in reviews!!) {
-                    val nick = if (review.userNickname != null) review.userNickname else getString(R.string.mec_anonymous)
-
-                    mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate, ecsProductDetailViewModel.getValueFor("Pros", review), ecsProductDetailViewModel.getValueFor("Cons", review), ecsProductDetailViewModel.getValueForUseDuration(review)))
-
-            }
-
-            if(mecReviews.size>0){
-                binding.mecProductReviewEmptyLabel.visibility = View.GONE
-                binding.mecBvTrustmark.visibility = View.VISIBLE
-            } else{
-                binding.mecProductReviewEmptyLabel.visibility = View.VISIBLE
-                binding.mecBvTrustmark.visibility = View.GONE
-            }
-            reviewsAdapter!!.notifyDataSetChanged()
-            binding.mecProgressLayout.visibility = View.GONE
+            updateReviewData(reviewResponse)
         }
 
+    }
+
+    private fun updateReviewData(reviewResponse: ReviewResponse?) {
+        val reviews = reviewResponse?.results
+
+        totalReview = reviewResponse?.totalResults ?: 0
+        for (review in reviews!!) {
+            val nick = if (review.userNickname != null) review.userNickname else getString(R.string.mec_anonymous)
+
+            mecReviews.add(MECReview(review.title, review.reviewText, review.rating.toString(), nick, review.lastModificationDate, ecsProductDetailViewModel.getValueFor("Pros", review), ecsProductDetailViewModel.getValueFor("Cons", review), ecsProductDetailViewModel.getValueForUseDuration(review)))
+
+        }
+
+        if (mecReviews.size > 0) {
+            binding.mecProductReviewEmptyLabel.visibility = View.GONE
+            binding.mecBvTrustmark.visibility = View.VISIBLE
+        } else {
+            binding.mecProductReviewEmptyLabel.visibility = View.VISIBLE
+            binding.mecBvTrustmark.visibility = View.GONE
+        }
+        reviewsAdapter!!.notifyDataSetChanged()
+        binding.mecProgressLayout.visibility = View.GONE
     }
 
     private var reviewsAdapter: MECReviewsAdapter? = null
@@ -71,6 +78,19 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+
+        /*
+  * When comes back to this screen upon back press of WebRetailers and Shopping cart
+  * Here existing recyclerView(if already created) needs to be removed from its parent(View pager)
+  * */
+        if (mNestedScrollView != null) {
+            val parentViewPager = mNestedScrollView!!.getParent() as ViewGroup
+            parentViewPager?.removeView(mNestedScrollView)
+        }
+
+
+
         binding = MecProductReviewFragmentBinding.inflate(inflater, container, false)
 
         ecsProductDetailViewModel = this.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }
@@ -90,7 +110,11 @@ class MECProductReviewsFragment : MecBaseFragment() {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
+        if(mReviewResponse==null) {
             this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it, offset, limit) }
+        }else{
+            updateReviewData(mReviewResponse)
+        }
 
         binding.mecNestedScroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
@@ -103,7 +127,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
                     }
             }
         })
-
+         mNestedScrollView=binding.root as NestedScrollView
         return binding.root
     }
 
