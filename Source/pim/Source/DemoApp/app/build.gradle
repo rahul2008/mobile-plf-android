@@ -101,8 +101,6 @@ dependencies {
     implementation deps.greenrobot
     implementation deps.butterknife
     implementation deps.adobemobilelib
-    implementation deps.leakcanary
-
-    //psraReleaseImplementation deps.leakcanary_no_op
+    psraReleaseImplementation deps.leakcanary_no_op
 
 }
