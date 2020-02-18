@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.platform.uid.view.widget.InputValidationLayout
@@ -66,7 +67,7 @@ class EditAddressFragment : MecBaseFragment() {
                               savedInstanceState: Bundle?): View? {
 
         binding = MecAddressEditBinding.inflate(inflater, container, false)
-        binding.pattern = MECRegexPattern()
+        binding.pattern = MECSalutationHolder()
 
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
@@ -121,7 +122,7 @@ class EditAddressFragment : MecBaseFragment() {
                 var validator:InputValidationLayout.Validator
 
                 if(child.inputType == InputType.TYPE_CLASS_PHONE){
-                    validator = PhoneNumberInputValidator(MECRegexPattern().PHONE_NUMBER_PATTERN)
+                    validator = PhoneNumberInputValidator(child , PhoneNumberUtil.getInstance())
                 }else{
                     validator = EmptyInputValidator()
                 }
