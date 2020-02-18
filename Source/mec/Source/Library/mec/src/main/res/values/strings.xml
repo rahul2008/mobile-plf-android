@@ -61,6 +61,7 @@
     <string name="mec_add_gift_codes">Add gift codes</string>
     <string name="mec_add_gift_code">Enter gift code</string>
     <string name="mec_cart_summary">Cart summary</string>
+    <string name="mec_order_summary">Order summary</string>
     <string name="mec_accepted_codes">Accepted codes</string>
     <string name="mec_shopping_cart">Shopping Cart</string>
     <string name="mec_remove_product">Remove product</string>
@@ -129,6 +130,8 @@
     <string name="mec_exceed_cart_limit">Exceed Cart limit</string>
     <string name="mec_cannot_add">You can not add more than </string>
     <string name="mec_product_in_cart"> products in your cart</string>
+    <string name="mec_delivery_ups_parcel">Delivery via %s</string>
+    <string name="mec_shipping_cost">Delivery cost</string>
 
 
 </resources>
