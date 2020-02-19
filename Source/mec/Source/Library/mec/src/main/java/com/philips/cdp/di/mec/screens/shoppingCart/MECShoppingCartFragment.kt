@@ -122,7 +122,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
         hideProgressBar()
         productReviewList.clear()
-        cartSummaryList.clear()
+        //cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
 
         for (i in 0..shoppingCart.entries.size - 1) {
@@ -216,20 +216,17 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
             binding.fragment = this
             binding.mecDataHolder = MECDataHolder.INSTANCE
-            ecsShoppingCartViewModel = activity!!.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }
-            addressViewModel = activity!!.let { ViewModelProviders.of(it).get(AddressViewModel::class.java) }
-            ecsShoppingCartViewModel.ecsShoppingCart.reObserve(viewLifecycleOwner, cartObserver)
-            ecsShoppingCartViewModel.ecsProductsReviewList.reObserve(viewLifecycleOwner, productReviewObserver)
-            addressViewModel.ecsAddresses.reObserve(viewLifecycleOwner, addressObserver)
-            ecsShoppingCartViewModel.mecError.reObserve(viewLifecycleOwner, this)
-            addressViewModel.mecError.reObserve(viewLifecycleOwner, this)
-            profileViewModel = activity!!.let { ViewModelProviders.of(it).get(ProfileViewModel::class.java) }
+            ecsShoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+            addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
+            ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
+            ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
+            addressViewModel.ecsAddresses.observe(this, addressObserver)
+            ecsShoppingCartViewModel.mecError.observe(this, this)
+            addressViewModel.mecError.observe(this, this)
+            profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
 
 
-            profileViewModel.userProfile.reObserve(viewLifecycleOwner, fetchProfileObserver)
-
-            val bundle = arguments
-            //ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
+            profileViewModel.userProfile.observe(this, fetchProfileObserver)
 
             productReviewList = mutableListOf()
 
@@ -301,16 +298,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_shopping_cart, true)
         setCartIconVisibility(false)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        ecsShoppingCartViewModel.ecsShoppingCart.removeObserver(cartObserver)
-        ecsShoppingCartViewModel.ecsProductsReviewList.removeObserver(productReviewObserver)
-        addressViewModel.ecsAddresses.removeObserver(addressObserver)
-        ecsShoppingCartViewModel.mecError.removeObserver(this)
-        addressViewModel.mecError.removeObserver(this)
-        profileViewModel.userProfile.removeObserver(fetchProfileObserver)
     }
 
     fun executeRequest() {
