@@ -138,7 +138,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         }
 
         for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
-            name = shoppingCart.appliedOrderPromotions.get(i).promotion.code
+            name = shoppingCart.appliedOrderPromotions.get(i).promotion.description
             price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
         }

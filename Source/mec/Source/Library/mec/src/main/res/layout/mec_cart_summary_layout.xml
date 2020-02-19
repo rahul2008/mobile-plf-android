@@ -28,7 +28,7 @@
                     android:id="@+id/mec_total_products"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.75"
                     android:minLines="2"
                     android:text='@{cart.name ?? ""}'
                     android:textSize="12dp"
@@ -41,6 +41,7 @@
                     style="@style/mecCentralesansBookFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:text='@{cart.price ?? ""}'
                     android:textSize="12dp"
