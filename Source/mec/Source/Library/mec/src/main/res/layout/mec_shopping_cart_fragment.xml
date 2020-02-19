@@ -234,7 +234,7 @@
             android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
             android:layout_above="@+id/mec_continue_checkout_btn"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:text="Price including 20% vat"
+            android:text='@{"Price including " + shoppingCart.totalTax.formattedValue + " vat" ?? ""}'
             android:textSize="12dp"
             />
 
