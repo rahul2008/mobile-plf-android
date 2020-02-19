@@ -10,6 +10,7 @@ import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 class MECDeliveryFragment : MecBaseFragment() {
+
     override fun getFragmentTag(): String {
         return "MECDeliveryFragment"
     }

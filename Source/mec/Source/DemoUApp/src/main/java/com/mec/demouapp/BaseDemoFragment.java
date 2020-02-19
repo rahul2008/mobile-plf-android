@@ -256,7 +256,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
 
             mCategorizedProductList = new ArrayList<>();
-            addCTNs(mCategorizedProductList);
+            //addCTNs(mCategorizedProductList);
             mUserDataInterface = urInterface.getUserDataInterface();
 
 
