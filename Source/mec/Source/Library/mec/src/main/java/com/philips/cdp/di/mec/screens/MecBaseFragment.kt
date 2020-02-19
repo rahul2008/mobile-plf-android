@@ -14,6 +14,8 @@ import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticServer
@@ -271,5 +273,11 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     abstract fun getFragmentTag():String
+
+    fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
+        removeObserver(observer)
+        observe(owner, observer)
+    }
+
 
 }

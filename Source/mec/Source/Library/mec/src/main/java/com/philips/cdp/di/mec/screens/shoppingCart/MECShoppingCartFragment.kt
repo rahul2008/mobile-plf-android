@@ -142,7 +142,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         if (userProfile.defaultAddress != null) {
             mAddressList?.let { moveDefaultAddressToTopOfTheList(it, shoppingCart.deliveryAddress.id) }
         }
-        gotoDeliveryAddress(mAddressList)
+        if(null!=mAddressList) {
+            gotoDeliveryAddress(mAddressList)
+        }
     }
 
 
@@ -151,7 +153,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         mAddressList = addressList
 
         if (mAddressList.isNullOrEmpty()) {
-            replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), false)
+            replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
             hideProgressBar()
         } else {
 
@@ -189,7 +191,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, addressList as Serializable)
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, shoppingCart)
         deliveryFragment.arguments = bundle
-        replaceFragment(deliveryFragment, "MECDeliveryFragment", false)
+        replaceFragment(deliveryFragment, deliveryFragment.getFragmentTag(), true)
     }
 
 
@@ -202,17 +204,15 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             binding.mecDataHolder = MECDataHolder.INSTANCE
             ecsShoppingCartViewModel = activity!!.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }
             addressViewModel = activity!!.let { ViewModelProviders.of(it).get(AddressViewModel::class.java) }
-            ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
-            ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
-            addressViewModel.ecsAddresses.observe(this, addressObserver)
-            ecsShoppingCartViewModel.mecError.observe(this, this)
-            addressViewModel.mecError.observe(this, this)
+            ecsShoppingCartViewModel.ecsShoppingCart.reObserve(viewLifecycleOwner, cartObserver)
+            ecsShoppingCartViewModel.ecsProductsReviewList.reObserve(viewLifecycleOwner, productReviewObserver)
+            addressViewModel.ecsAddresses.reObserve(viewLifecycleOwner, addressObserver)
+            ecsShoppingCartViewModel.mecError.reObserve(viewLifecycleOwner, this)
+            addressViewModel.mecError.reObserve(viewLifecycleOwner, this)
             profileViewModel = activity!!.let { ViewModelProviders.of(it).get(ProfileViewModel::class.java) }
 
-            ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
-            ecsShoppingCartViewModel.ecsProductsReviewList.observe(this, productReviewObserver)
-            addressViewModel.ecsAddresses.observe(this, addressObserver)
-            profileViewModel.userProfile.observe(this, fetchProfileObserver)
+
+            profileViewModel.userProfile.reObserve(viewLifecycleOwner, fetchProfileObserver)
 
             val bundle = arguments
             //ecsShoppingCart = bundle?.getSerializable(MECConstant.MEC_SHOPPING_CART) as ECSShoppingCart
@@ -260,7 +260,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
                 }
             })
             mRootView = binding.root
-            getECSConfig()
+            executeRequest()
         }
         return binding.root
     }
@@ -293,9 +293,16 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         setCartIconVisibility(false)
     }
 
-    override fun onStart() {
-        super.onStart()
-        executeRequest()
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ecsShoppingCartViewModel.ecsShoppingCart.removeObserver(cartObserver)
+        ecsShoppingCartViewModel.ecsProductsReviewList.removeObserver(productReviewObserver)
+        addressViewModel.ecsAddresses.removeObserver(addressObserver)
+        ecsShoppingCartViewModel.mecError.removeObserver(this)
+        addressViewModel.mecError.removeObserver( this)
+        profileViewModel.userProfile.removeObserver( fetchProfileObserver)
     }
 
     fun executeRequest() {
@@ -342,32 +349,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         binding.mecContinueCheckoutBtn.isEnabled = false
     }
 
-    private fun getECSConfig() {
-        MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
 
-            override fun onResponse(config: ECSConfig?) {
-                if (MECDataHolder.INSTANCE.hybrisEnabled) {
-                    MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
-
-                }
-                MECDataHolder.INSTANCE.locale = config!!.locale
-                MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
-                if (null != config!!.rootCategory) {
-                    MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
-                }
-                executeRequest()
-                GlobalScope.launch {
-                    HybrisAuth.authHybrisIfNotAlready()
-                }
-
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
-    }
 
     override fun processError(mecError: MecError?, bool: Boolean) {
         MECDataHolder.INSTANCE.voucherCode = "invalid_code"
