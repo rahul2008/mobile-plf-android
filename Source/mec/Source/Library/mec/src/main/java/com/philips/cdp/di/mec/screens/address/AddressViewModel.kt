@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.Country
@@ -25,9 +26,11 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.screens.specification.SpecificationChildRecyclerAdapter
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.cdp.di.mec.view.MECDropDown
+import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
 import com.philips.platform.uid.view.widget.CheckBox
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.Label
@@ -249,6 +252,13 @@ class AddressViewModel : CommonViewModel() {
         @BindingAdapter("shippingAddress")
         fun setShippingAddress(lebel: Label, ecsAddress: ECSAddress){
             lebel.setText(MECutility().constructShippingAddressDisplayField(ecsAddress))
+        }
+
+        @JvmStatic
+        @BindingAdapter("mecAddresses")
+        fun setAdapter(recyclerView: RecyclerView, mecAddresses: MECAddresses?) {
+            if(mecAddresses!=null)
+                recyclerView.adapter = AddressBottomSheetRecyclerAdapter(mecAddresses)
         }
 
     }

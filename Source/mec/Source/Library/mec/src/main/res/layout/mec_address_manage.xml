@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:specification="@{mecAddresses}"/>
+        app:mecAddresses="@{mecAddresses}"/>
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/mec_continue_checkout_btn"

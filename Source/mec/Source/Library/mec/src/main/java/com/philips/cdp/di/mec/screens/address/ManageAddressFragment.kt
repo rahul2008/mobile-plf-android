@@ -21,6 +21,7 @@ import android.app.Activity
 import android.content.Intent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
@@ -43,6 +44,12 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
                               savedInstanceState: Bundle?): View? {
 
         binding = MecAddressManageBinding.inflate(inflater, container, false)
+
+        var ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
+
+        mecAddresses = MECAddresses(ecsAddresses)
+
+        binding.mecAddresses = mecAddresses
         return binding.root
     }
 
