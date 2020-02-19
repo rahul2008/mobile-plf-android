@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/price_button_view">
+        android:layout_above="@+id/mec_order_Summary">
 
 
     <RelativeLayout
@@ -141,55 +141,6 @@
 
         </LinearLayout>
 
-        <!--<com.philips.platform.uid.view.widget.Label
-            android:id="@+id/enter_voucher_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/mecCentralesansBookFont"
-            android:layout_marginTop="12dp"
-            android:textSize="16dp"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right"
-            android:layout_below="@+id/mec_gift_code"
-            android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-            android:text="@string/mec_add_gift_code"
-            />-->
-
-        <!--<LinearLayout
-            android:id="@+id/mec_gift_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mec_gift"
-            android:orientation="horizontal">
-
-        <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/mec_voucher_editText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/uidTextBoxDefaultPressedBackgroundColor"
-            android:layout_marginTop="4dp"
-            android:afterTextChanged="@{(edtitable)->fragment.afterUserNameChange(edtitable)}"
-            android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
-            android:layout_marginEnd="@dimen/border8_margin"
-            />
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/mec_voucher_btn"
-            style="@style/mecCentralesansBookFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
-            android:enabled="true"
-            android:text="@string/mec_add"
-            android:onClick="@{() -> fragment.onClickAddVoucher()}"
-            android:textSize="@dimen/iap_text_size_16sp"
-            android:textColor="?attr/uidButtonSecondaryNormalTextColor"
-            app:uidComponentType="Secondary" />
-
-        </LinearLayout>-->
-
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mec_accepted_code"
             style="@style/mec_header"
@@ -212,146 +163,41 @@
     </RelativeLayout>
     </ScrollView>
 
-    <View
-        android:id="@+id/price_button_view"
-        android:layout_above="@+id/delivery_ups_parcel_container"
-        android:layout_width="match_parent"
-        android:layout_height="0.05dp"
-        android:background="?attr/uidContentItemTertiaryNormalTextColor" />
-
-        <RelativeLayout
-            android:id="@+id/delivery_ups_parcel_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/iap_margin_20dp"
-            android:layout_marginBottom="@dimen/iap_margin_10dp"
-            android:layout_above="@+id/cart_Summary"
-            android:visibility="gone"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:orientation="vertical">
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/delivery_ups_title"
-                    style="@style/UIDLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mec_delivery_ups_parcel"
-                    android:visibility="gone"
-                    android:textSize="@dimen/iap_text_size_16sp"
-                    android:textStyle="bold" />
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/iap_delivery_mode_description"
-                    style="@style/mecCentralesansBookFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/iap_margin_10dp"
-                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                    android:visibility="gone"
-                    android:textSize="@dimen/iap_text_size_12"
-                    />
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/iap_delivery_mode_free"
-                    style="@style/mecCentralesansBookFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/iap_margin_10dp"
-                    android:visibility="gone"
-                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                    android:textSize="@dimen/iap_text_size_12"
-                    />
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/delivery_price"
-                    style="@style/UIDLabel"
-                    android:layout_marginTop="@dimen/iap_margin_10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="$0.00"
-                    android:visibility="gone"
-                    android:textSize="@dimen/iap_text_size_16sp" />
-            </LinearLayout>
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/right_arrow"
-                style="@style/mec_right_arrow_product_catalog"
-                android:layout_width="15dip"
-                android:layout_height="15dip"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:gravity="center_vertical"/>
-        </RelativeLayout>
-
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/cart_Summary"
+            android:id="@+id/mec_order_Summary"
             style="@style/mec_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/price_container"
-            android:visibility="gone"
+            android:layout_above="@+id/mec_price_summary_recycler_view"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
             android:text="@string/mec_order_summary" />
 
-        <LinearLayout
-            android:id="@+id/price_container"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mec_price_summary_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dip"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:layout_above="@+id/summary_delivery_container"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right">
+            android:layout_above="@+id/price_button_view"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="@dimen/iap_margin_10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        </LinearLayout>
-
-        <GridLayout
-            android:id="@+id/summary_delivery_container"
+        <View
+            android:id="@+id/price_button_view"
+            android:layout_above="@+id/mecPriceLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dip"
-            android:layout_above="@+id/priceLayout"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right">
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/delivery_via_ups"
-                style="@style/mecCentralesansBookFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/mec_shipping_cost"
-                android:visibility="gone"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
-
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/delivery_ups_val"
-                style="@style/iapCentralesansMediumFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:visibility="gone"
-                android:text="$0.00"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
-        </GridLayout>
-
+            android:layout_height="0.05dp"
+            android:background="?attr/uidContentItemTertiaryNormalTextColor" />
 
         <LinearLayout
-            android:id="@+id/priceLayout"
+            android:id="@+id/mecPriceLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/mec_vat"
             android:backgroundTint="#FFFFFF"
             android:background="?attr/uidBottomSheetDefaultBackgroundColor"
-            android:layout_marginTop="@dimen/iap_margin_20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:orientation="horizontal">

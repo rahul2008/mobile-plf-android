@@ -78,11 +78,15 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private lateinit var shoppingCart: ECSShoppingCart
     lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
     private var productsAdapter: MECProductsAdapter? = null
+    private var cartSummaryAdapter: MECCartSummaryAdapter? = null
     private var vouchersAdapter: MECVouchersAdapter? = null
     private lateinit var productReviewList: MutableList<MECCartProductReview>
+    private lateinit var cartSummaryList: MutableList<MECCartSummary>
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     private var voucherCode: String = ""
     private var removeVoucher: Boolean = false
+    private lateinit var name : String
+    private lateinit var price : String
     var validationEditText: ValidationEditText? = null
     val list: ArrayList<String>? = ArrayList()
 
@@ -129,8 +133,18 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
         hideProgressBar()
         productReviewList.clear()
+        cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
+
+
+            for (i in 0..shoppingCart.entries.size-1) {
+                name = shoppingCart.entries.get(i).quantity.toString() + "x " + shoppingCart.entries.get(i).product.summary.productTitle
+                price = shoppingCart.entries.get(i).totalPrice.formattedValue
+                cartSummaryList.add(MECCartSummary(name,price))
+            }
+
         productsAdapter?.notifyDataSetChanged()
+        cartSummaryAdapter?.notifyDataSetChanged()
         if (productsAdapter != null) {
             //MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
         }
@@ -221,9 +235,11 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
             voucherList = mutableListOf()
 
-            productsAdapter = MECProductsAdapter(productReviewList, this)
+            cartSummaryList = mutableListOf()
 
             productsAdapter = MECProductsAdapter(productReviewList, this)
+
+            cartSummaryAdapter = MECCartSummaryAdapter(cartSummaryList)
             vouchersAdapter = MECVouchersAdapter(voucherList, this)
 
             binding.mecCartSummaryRecyclerView.adapter = productsAdapter
@@ -231,7 +247,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
             binding.mecAcceptedCodeRecyclerView.adapter = vouchersAdapter
 
-            binding.mecCartSummaryRecyclerView.adapter = productsAdapter
+            binding.mecPriceSummaryRecyclerView.adapter = cartSummaryAdapter
 
             val appInfra = AppInfra.Builder().build(context)
             val configInterface = appInfra.configInterface
