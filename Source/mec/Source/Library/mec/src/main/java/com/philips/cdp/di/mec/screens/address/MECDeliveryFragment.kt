@@ -12,6 +12,7 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import java.io.Serializable
 
 class MECDeliveryFragment : MecBaseFragment() {
+
     override fun getFragmentTag(): String {
         return "MECDeliveryFragment"
     }

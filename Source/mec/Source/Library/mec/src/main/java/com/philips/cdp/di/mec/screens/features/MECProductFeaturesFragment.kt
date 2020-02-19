@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductFeaturesFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -17,12 +18,15 @@ class MECProductFeaturesFragment : MecBaseFragment() {
         return "MECProductFeaturesFragment"
     }
 
+    var mRecyclerView : RecyclerView? =null
+    var mFeaturesModel: FeaturesModel?=null
     private lateinit var binding: MecProductFeaturesFragmentBinding
     private lateinit var productFeaturesViewModel: ProductFeaturesViewModel
 
     private val featuresObserver : Observer<FeaturesModel> = object : Observer<FeaturesModel> {
 
         override fun onChanged(featuresModel: FeaturesModel?) {
+            mFeaturesModel=featuresModel
             setImageForFeatureItem(featuresModel)
             binding.featureModel = featuresModel
         }
@@ -49,6 +53,15 @@ class MECProductFeaturesFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+
+        /*
+      * When comes back to this screen upon back press of WebRetailers and Shopping cart
+      * Here existing recyclerView(if already created) needs to be removed from its parent(View pager)
+      * */
+        if (mRecyclerView != null) {
+            val parent = mRecyclerView!!.getParent() as ViewGroup
+            parent?.removeView(mRecyclerView)
+        }
         binding = MecProductFeaturesFragmentBinding.inflate(inflater, container, false)
 
         productFeaturesViewModel = ViewModelProviders.of(this).get(ProductFeaturesViewModel::class.java)
@@ -59,8 +72,13 @@ class MECProductFeaturesFragment : MecBaseFragment() {
         val bundle = arguments
         val productCtn = bundle!!.getString(MECConstant.MEC_PRODUCT_CTN,"INVALID")
 
-        context?.let { productFeaturesViewModel.fetchProductFeatures(it,productCtn) }
-
+        if(null==mFeaturesModel) {
+            context?.let { productFeaturesViewModel.fetchProductFeatures(it, productCtn) }
+        }else{
+            setImageForFeatureItem(mFeaturesModel)
+            binding.featureModel = mFeaturesModel
+        }
+        mRecyclerView = binding.root as RecyclerView
         return binding.root
     }
 
