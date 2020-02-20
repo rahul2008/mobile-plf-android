@@ -156,13 +156,13 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         @BindingAdapter("setStock","setQuantity")
         fun setStock(stockLabel : Label , product: ECSProduct?, quantity: Int) {
             if (null != product && null != product.stock) {
-                if (!MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) {
+                if ((!MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) || (product.stock.stockLevel==0)) {
                     stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                 }
-                if(product.stock.stockLevel<=5){
+                if(product.stock.stockLevel<=5 && product.stock.stockLevel!=0){
                     stockLabel.text = "Only " + product.stock.stockLevel + " items left"
                 }
-                if(quantity>product.stock!!.stockLevel) {
+                if(quantity>product.stock!!.stockLevel && product.stock.stockLevel!=0) {
                     stockLabel.text = "Only " + product.stock.stockLevel + " items left"
                 }
                 stockLabel.visibility = View.VISIBLE
