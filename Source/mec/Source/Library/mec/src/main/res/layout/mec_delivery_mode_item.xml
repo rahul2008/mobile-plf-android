@@ -16,7 +16,7 @@
     </data>
 <RelativeLayout
     android:layout_width="match_parent" android:layout_height="wrap_content"
-
+    android:id="@+id/mec_delivery_mode_item_row"
 
     android:layout_marginStart="@dimen/border16_margin_left_right"
     android:layout_marginEnd="@dimen/border16_margin_left_right"

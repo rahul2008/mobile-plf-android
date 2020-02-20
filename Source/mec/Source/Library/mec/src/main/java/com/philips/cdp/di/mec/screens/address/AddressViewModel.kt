@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 
 import android.view.MotionEvent
 import android.view.View
@@ -105,6 +106,7 @@ class AddressViewModel : CommonViewModel() {
 
     fun onSetDeliveryModeSuccess(success :Boolean?){
         if(success!!){
+            Log.v("DM","Delivery Mode set")
             //todo update delivery mode recycler view
         } else{
             // todo reset delivery mode recycler view
