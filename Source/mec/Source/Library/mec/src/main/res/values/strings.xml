@@ -132,6 +132,7 @@
     <string name="mec_product_in_cart"> products in your cart</string>
     <string name="mec_delivery_ups_parcel">Delivery via %s</string>
     <string name="mec_shipping_cost">Delivery cost</string>
+    <string name="mec_delivery_method">Delivery method</string>
 
 
 </resources>
