@@ -216,14 +216,16 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
             binding.fragment = this
             binding.mecDataHolder = MECDataHolder.INSTANCE
-            ecsShoppingCartViewModel = activity!!.let { ViewModelProviders.of(it).get(EcsShoppingCartViewModel::class.java) }
-            addressViewModel = activity!!.let { ViewModelProviders.of(it).get(AddressViewModel::class.java) }
+            ecsShoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+            addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
+            profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java) 
+
             ecsShoppingCartViewModel.ecsShoppingCart.reObserve(viewLifecycleOwner, cartObserver)
             ecsShoppingCartViewModel.ecsProductsReviewList.reObserve(viewLifecycleOwner, productReviewObserver)
             addressViewModel.ecsAddresses.reObserve(viewLifecycleOwner, addressObserver)
             ecsShoppingCartViewModel.mecError.reObserve(viewLifecycleOwner, this)
             addressViewModel.mecError.reObserve(viewLifecycleOwner, this)
-            profileViewModel = activity!!.let { ViewModelProviders.of(it).get(ProfileViewModel::class.java) }
+
 
 
             profileViewModel.userProfile.reObserve(viewLifecycleOwner, fetchProfileObserver)

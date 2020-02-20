@@ -3,14 +3,14 @@ package com.philips.cdp.di.mec.screens.address
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.philips.cdp.di.mec.databinding.MecSpecItemChildBinding
+import com.philips.cdp.di.mec.databinding.MecAddressCardBinding
 
 
 class AddressBottomSheetRecyclerAdapter (private val mecAddresses: MECAddresses) : RecyclerView.Adapter<AddressBottomSheetViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): AddressBottomSheetViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = MecSpecItemChildBinding.inflate(inflater)
+        val binding = MecAddressCardBinding.inflate(inflater)
         return AddressBottomSheetViewHolder(binding)
     }
 
