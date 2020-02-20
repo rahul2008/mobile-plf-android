@@ -52,6 +52,8 @@ class AddressViewModel : CommonViewModel() {
 
     private var ecsFetchDeliveryModesCallback = ECSFetchDeliveryModesCallback(this)
 
+    private var ecsSetDeliveryModesCallback = ECSSetDeliveryModesCallback(this)
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     var addressRepository = AddressRepository(ecsServices)
@@ -93,6 +95,20 @@ class AddressViewModel : CommonViewModel() {
     fun fetchDeliveryModes(){
         ecsFetchDeliveryModesCallback.mECRequestType = MECRequestType.MEC_FETCH_DELIVERY_MODES
         addressRepository.fetchDeliveryModes(ecsFetchDeliveryModesCallback)
+    }
+
+    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode){
+        ecsSetDeliveryModesCallback.mECRequestType=MECRequestType.MEC_SET_DELIVERY_MODE
+        addressRepository.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
+
+    }
+
+    fun onSetDeliveryModeSuccess(success :Boolean?){
+        if(success!!){
+            //todo update delivery mode recycler view
+        } else{
+            // todo reset delivery mode recycler view
+        }
     }
 
 

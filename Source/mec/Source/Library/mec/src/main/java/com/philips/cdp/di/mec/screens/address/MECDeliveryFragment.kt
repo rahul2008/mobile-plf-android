@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecDeliveryBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
@@ -63,8 +64,14 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        setTitleAndBackButtonVisibility(R.string.mec_delivery, true)
+        setCartIconVisibility(false)
+    }
+
     override fun onItemClick(item: Any) {
-       //todo radio button selection
+        addressViewModel.setDeliveryMode(item as ECSDeliveryMode)
     }
 
 
