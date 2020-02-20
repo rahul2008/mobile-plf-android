@@ -19,11 +19,13 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.ecs.model.address.Region
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
@@ -48,6 +50,8 @@ class AddressViewModel : CommonViewModel() {
 
     private var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
 
+    private var ecsFetchDeliveryModesCallback = ECSFetchDeliveryModesCallback(this)
+
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
     var addressRepository = AddressRepository(ecsServices)
@@ -58,25 +62,37 @@ class AddressViewModel : CommonViewModel() {
 
     val ecsAddresses = MutableLiveData<List<ECSAddress>>()
 
+    val ecsDeliveryModes = MutableLiveData<List<ECSDeliveryMode>>()
+
 
     fun fetchRegions() {
+        ecsRegionListCallback.mECRequestType=MECRequestType.MEC_FETCH_REGIONS
         addressRepository.getRegions(ecsRegionListCallback)
     }
 
     fun fetchAddresses(){
+        ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_FETCH_SAVED_ADDRESSES
         addressRepository.fetchSavedAddresses(ecsServices,ecsFetchAddressesCallback)
     }
 
     fun createAddress(ecsAddress: ECSAddress){
+        ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_CREATE_ADDRESS
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
     }
 
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
+        ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_SET_AND_FETCH_DELIVERY_ADDRESS
         addressRepository.setAndFetchDeliveryAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
     fun updateAndFetchAddress(ecsAddress: ECSAddress){
+        ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS
         addressRepository.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun fetchDeliveryModes(){
+        ecsFetchDeliveryModesCallback.mECRequestType = MECRequestType.MEC_FETCH_DELIVERY_MODES
+        addressRepository.fetchDeliveryModes(ecsFetchDeliveryModesCallback)
     }
 
 
