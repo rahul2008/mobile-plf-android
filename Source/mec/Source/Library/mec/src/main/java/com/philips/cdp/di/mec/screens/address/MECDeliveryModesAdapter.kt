@@ -41,11 +41,20 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
         fun bind(deliveryMode :ECSDeliveryMode ,  itemClickListener: ItemClickListener){
             binding.deliveryMode=deliveryMode
             binding.mecDeliveryModeItemRow.setOnClickListener{
-                mSelectedItem=getAdapterPosition()
+                setDeliveryMode()
+            }
+            binding.mecDeliveryModeRadioButton.setOnClickListener{
+                setDeliveryMode()
+            }
+
+        }
+
+        private fun setDeliveryMode(){
+            if(mSelectedItem!=getAdapterPosition()) {
+                mSelectedItem = getAdapterPosition()
                 notifyDataSetChanged();
                 itemClickListener.onItemClick(deliveryMode as Object)
             }
-
         }
     }
 }

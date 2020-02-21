@@ -16,14 +16,15 @@
 
     </data>
 
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     >
 
 
     <LinearLayout
+        android:id="@+id/mec_delivery_status"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
@@ -98,6 +99,8 @@
 
 
     <LinearLayout
+        android:id="@+id/mec_delivery_shipping_address"
+        android:layout_below="@+id/mec_delivery_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/uidContentPrimaryBackgroundColor"
@@ -145,6 +148,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/mec_delivery_mode"
+        android:layout_below="@+id/mec_delivery_shipping_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/uidContentPrimaryBackgroundColor"
@@ -164,12 +169,27 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mec_delivery_mode_recycler_view"
+        android:layout_below="@+id/mec_delivery_mode"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mec_cart_Summary"
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-</LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.philips.platform.uid.view.widget.ProgressBar
+        android:id="@+id/mec_delivery_progressbar"
+        style="@style/UIDProgressBarCircularIndeterminateMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        />
+    </LinearLayout>
+
+</RelativeLayout>
+
 
 </layout>

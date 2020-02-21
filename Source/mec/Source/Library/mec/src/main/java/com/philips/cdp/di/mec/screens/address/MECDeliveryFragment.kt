@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.mec.R
@@ -22,6 +24,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private val ecsDeliveryModesObserver: Observer<List<ECSDeliveryMode>> = Observer  (fun(eCSDeliveryMode: List<ECSDeliveryMode>?) {
+        binding.mecDeliveryProgressbar.visibility=View.GONE
         mECSDeliveryModeList.clear()
         if (eCSDeliveryMode != null && eCSDeliveryMode.size>0) {
             eCSDeliveryMode?.let { mECSDeliveryModeList.addAll(it) }
@@ -71,7 +74,19 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     override fun onItemClick(item: Any) {
-        addressViewModel.setDeliveryMode(item as ECSDeliveryMode)
+        binding.mecDeliveryProgressbar.visibility=View.VISIBLE
+        val eCSSetDeliveryModeCallback:ECSCallback<Boolean, Exception> = object: ECSCallback<Boolean, Exception>{
+
+            override fun onResponse(result: Boolean?) {
+                binding.mecDeliveryProgressbar.visibility=View.GONE
+            }
+
+            override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                binding.mecDeliveryProgressbar.visibility=View.GONE
+            }
+        }
+
+        addressViewModel.setDeliveryMode(item as ECSDeliveryMode,eCSSetDeliveryModeCallback)
     }
 
 
@@ -85,6 +100,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     fun fetchDeliveryModes(){
+        binding.mecDeliveryProgressbar.visibility=View.VISIBLE
         addressViewModel.fetchDeliveryModes()
     }
 }

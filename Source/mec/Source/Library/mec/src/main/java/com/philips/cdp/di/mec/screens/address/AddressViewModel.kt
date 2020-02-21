@@ -18,6 +18,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
@@ -98,20 +99,13 @@ class AddressViewModel : CommonViewModel() {
         addressRepository.fetchDeliveryModes(ecsFetchDeliveryModesCallback)
     }
 
-    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode){
+    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode, ecsCallback: ECSCallback<Boolean, Exception> ){
         ecsSetDeliveryModesCallback.mECRequestType=MECRequestType.MEC_SET_DELIVERY_MODE
+        ecsSetDeliveryModesCallback.ecsCallback=ecsCallback
         addressRepository.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
 
     }
 
-    fun onSetDeliveryModeSuccess(success :Boolean?){
-        if(success!!){
-            Log.v("DM","Delivery Mode set")
-            //todo update delivery mode recycler view
-        } else{
-            // todo reset delivery mode recycler view
-        }
-    }
 
 
 

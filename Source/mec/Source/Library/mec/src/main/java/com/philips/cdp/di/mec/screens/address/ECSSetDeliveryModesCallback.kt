@@ -8,8 +8,9 @@ import com.philips.cdp.di.mec.common.MecError
 
 class ECSSetDeliveryModesCallback(private val addressViewModel: AddressViewModel) : ECSCallback<Boolean, Exception> {
     lateinit var mECRequestType : MECRequestType
+    lateinit var ecsCallback: ECSCallback<Boolean, Exception>
     override fun onResponse(result: Boolean?) {
-        addressViewModel.onSetDeliveryModeSuccess(result)
+        ecsCallback.onResponse(result)
     }
 
 
