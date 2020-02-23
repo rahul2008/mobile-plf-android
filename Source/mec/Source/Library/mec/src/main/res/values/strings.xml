@@ -133,6 +133,7 @@
     <string name="mec_delivery_ups_parcel">Delivery via %s</string>
     <string name="mec_shipping_cost">Delivery cost</string>
     <string name="mec_delivery_method">Delivery method</string>
+    <string name="mec_seperator">&#160;|&#160;</string>
 
 
 </resources>

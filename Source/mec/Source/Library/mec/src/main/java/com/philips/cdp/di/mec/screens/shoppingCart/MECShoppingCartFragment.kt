@@ -180,7 +180,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         } else {
 
             if (shoppingCart.deliveryAddress != null) {
-                moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
+               // moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
                 gotoDeliveryAddress(mAddressList)
                 hideProgressBar()
             } else {
@@ -221,6 +221,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
                               savedInstanceState: Bundle?): View? {
 
         if (null == mRootView) {
+            setCartIconVisibility(false)
             binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
             binding.fragment = this
             binding.mecDataHolder = MECDataHolder.INSTANCE
