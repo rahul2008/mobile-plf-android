@@ -111,6 +111,14 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             }
         }
 
+        if(ecsShoppingCart!!.appliedVouchers.size > 0){
+            binding.mecAcceptedCode.visibility = View.VISIBLE
+            binding.mecAcceptedCodeRecyclerView.visibility = View.VISIBLE
+        } else {
+            binding.mecAcceptedCode.visibility = View.GONE
+            binding.mecAcceptedCodeRecyclerView.visibility = View.GONE
+        }
+
 
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
