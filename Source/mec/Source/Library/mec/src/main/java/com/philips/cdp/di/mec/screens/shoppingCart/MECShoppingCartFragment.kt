@@ -111,6 +111,14 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             }
         }
 
+        if(ecsShoppingCart!!.appliedVouchers.size > 0){
+            binding.mecAcceptedCode.visibility = View.VISIBLE
+            binding.mecAcceptedCodeRecyclerView.visibility = View.VISIBLE
+        } else {
+            binding.mecAcceptedCode.visibility = View.GONE
+            binding.mecAcceptedCodeRecyclerView.visibility = View.GONE
+        }
+
 
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
@@ -172,7 +180,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         } else {
 
             if (shoppingCart.deliveryAddress != null) {
-                moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
+               // moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
                 gotoDeliveryAddress(mAddressList)
                 hideProgressBar()
             } else {
@@ -213,6 +221,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
                               savedInstanceState: Bundle?): View? {
 
         if (null == mRootView) {
+            setCartIconVisibility(false)
             binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
             binding.fragment = this
             binding.mecDataHolder = MECDataHolder.INSTANCE

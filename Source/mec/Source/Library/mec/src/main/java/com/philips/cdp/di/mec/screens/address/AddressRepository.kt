@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.address
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 
 class AddressRepository(val ecsServices: ECSServices) {
@@ -29,6 +30,10 @@ class AddressRepository(val ecsServices: ECSServices) {
 
     fun fetchDeliveryModes(eCSFetchDeliveryModesCallback :ECSFetchDeliveryModesCallback ){
         ecsServices.fetchDeliveryModes(eCSFetchDeliveryModesCallback)
+    }
+
+    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode, ecsSetDeliveryModesCallback: ECSSetDeliveryModesCallback){
+        ecsServices.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
     }
 
 

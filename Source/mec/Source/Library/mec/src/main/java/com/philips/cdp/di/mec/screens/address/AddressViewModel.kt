@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 
 import android.view.MotionEvent
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
@@ -54,6 +56,8 @@ class AddressViewModel : CommonViewModel() {
     private var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
 
     private var ecsFetchDeliveryModesCallback = ECSFetchDeliveryModesCallback(this)
+
+    private var ecsSetDeliveryModesCallback = ECSSetDeliveryModesCallback(this)
 
     var ecsServices = MecHolder.INSTANCE.eCSServices
 
@@ -97,6 +101,14 @@ class AddressViewModel : CommonViewModel() {
         ecsFetchDeliveryModesCallback.mECRequestType = MECRequestType.MEC_FETCH_DELIVERY_MODES
         addressRepository.fetchDeliveryModes(ecsFetchDeliveryModesCallback)
     }
+
+    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode, ecsCallback: ECSCallback<Boolean, Exception> ){
+        ecsSetDeliveryModesCallback.mECRequestType=MECRequestType.MEC_SET_DELIVERY_MODE
+        ecsSetDeliveryModesCallback.ecsCallback=ecsCallback
+        addressRepository.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
+
+    }
+
 
 
 

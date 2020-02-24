@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/mec_order_Summary">
+        android:layout_above="@+id/price_button_view">
 
 
     <RelativeLayout
@@ -149,7 +149,7 @@
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
             android:layout_below="@+id/mec_voucher_layout"
-            android:visibility="visible"
+            android:visibility="@{shoppingCart.appliedVouchers.size() > 0 ? View.VISIBLE : View.GONE, default = gone}"
             android:text="@string/mec_accepted_codes" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -159,16 +159,15 @@
             android:nestedScrollingEnabled="false"
             android:layout_marginBottom="10dp"
             android:layout_below="@+id/mec_accepted_code"
+            android:visibility="@{shoppingCart.appliedVouchers.size() > 0 ? View.VISIBLE : View.GONE, default = gone}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-    </RelativeLayout>
-    </ScrollView>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/mec_order_Summary"
             style="@style/mec_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/mec_price_summary_recycler_view"
+            android:layout_below="@+id/mec_accepted_code_recycler_view"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
             android:text="@string/mec_order_summary" />
@@ -178,10 +177,14 @@
             android:id="@+id/mec_price_summary_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/price_button_view"
             android:nestedScrollingEnabled="false"
+            android:layout_below="@+id/mec_order_Summary"
             android:layout_marginTop="@dimen/iap_margin_10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </RelativeLayout>
+    </ScrollView>
+
 
         <View
             android:id="@+id/price_button_view"
