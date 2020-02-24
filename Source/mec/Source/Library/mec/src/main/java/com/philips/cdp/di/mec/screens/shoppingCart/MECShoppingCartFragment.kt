@@ -358,7 +358,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         }else if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_USER_PROFILE){
             gotoDeliveryAddress(mAddressList)
         }else{
-        } else {
             super.processError(mecError, true)
         }
     }
