@@ -114,6 +114,8 @@ dependencies {
         implementation project(strings.iap.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.usr.projectName)
+        implementation project(strings.ecsuapp.projectName)
+        implementation project(strings.ecstestuapp.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra

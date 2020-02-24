@@ -81,7 +81,7 @@ public class ECSURLBuilder implements URLProvider {
     public String getOauthUrl(ECSOAuthProvider oAuthInput, GrantType grantType) {
         StringBuilder builder = new StringBuilder(ECSConfiguration.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH)
-                .append("?"+grantType.getType()+"=").append(oAuthInput.getOAuthID())
+                .append("?"+"janrain"+"=").append(oAuthInput.getOAuthID())
                 .append("&grant_type="+grantType.getType()+"&client_id="+oAuthInput.getClientID()+"&client_secret="+oAuthInput.getClientSecret());
         return  builder.toString();
     }
