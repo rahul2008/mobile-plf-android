@@ -343,9 +343,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     private fun privacyTextView(view: TextView) {
         val spanTxt = SpannableStringBuilder(
-                getString(R.string.mec_read_privacy))
+                getString(R.string.mec_read))
         spanTxt.append(" ")
-        spanTxt.append(getString(R.string.mec_privacy_notice))
+        spanTxt.append(getString(R.string.mec_privacy))
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
@@ -357,7 +357,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_privacy_notice).length, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_privacy).length, spanTxt.length, 0)
         spanTxt.append(" ")
         spanTxt.append(getString(R.string.mec_more_info))
         binding.mecPrivacy.setHighlightColor(Color.TRANSPARENT)

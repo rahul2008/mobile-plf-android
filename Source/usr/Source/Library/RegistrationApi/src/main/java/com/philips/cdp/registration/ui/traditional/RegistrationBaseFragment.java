@@ -39,8 +39,6 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.NOTIFICATION;
 
 public abstract class RegistrationBaseFragment extends Fragment implements URNotification.URNotificationInterface, EventListener {
 
-    private URNotification notification;
-
     private Context mContext;
     private URNotification.URNotificationInterface notificationInterface;
 
@@ -87,7 +85,6 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
         super.onStop();
         setPrevTiltle();
         EventHelper.getInstance().unregisterEventNotification(NOTIFICATION, this);
-        hideNotificationBarView();
     }
 
     @Override
@@ -361,8 +358,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void hideNotificationBarView() {
-        if (notification != null)
-            notification.hideNotification();
+            getNotification().hideNotification();
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
@@ -372,8 +368,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public URNotification getNotification() {
         RLog.d(TAG, "getNotification ");
-        notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
-        return notification;
+        return new URNotification(getRegistrationFragment().getParentActivity(), this);
     }
 
     @Override

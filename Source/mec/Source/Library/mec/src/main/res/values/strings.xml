@@ -5,6 +5,7 @@
     <string name="mec_you_are_offline">You are offline</string>
     <string name="mec_server_error">Server Error</string>
     <string name="mec_ok">OK</string>
+    <string name="mec_cancel">Cancel</string>
     <string name="mec_no_internet">Your internet connection does not seem to be working. Please check and try again</string>
     <string name="mec_time_out_error">Network timeout reached!</string>
     <string name="mec_authentication_failure">Authentication failed</string>
@@ -17,26 +18,23 @@
 
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mec_error">Error</string>
     <string name="mec_info">Info</string>
     <string name="mec_reviews">Reviews</string>
-    <string name="mec_view_retailers">&#160;View retailers</string>
-    <string name="mec_add_to_cart">&#160;Add to cart</string>
+    <string name="mec_add_to_cart">Add to cart</string>
     <string name="mec_in_stock">In stock</string>
     <string name="mec_out_of_stock">Out of stock </string>
     <string name="mec_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
     <string name="mec_no_result">0 results found for %s</string>
     <string name="mec_pros_plus">\uFF0B</string>
     <string name="mec_pros_minus">\uFF0D</string>
-    <string name="mec_read_privacy">Read our</string>
-    <string name="mec_privacy_notice">Privacy Notice</string>
+    <string name="mec_read">Read our</string>
+    <string name="mec_privacy">Privacy Notice</string>
     <string name="mec_more_info">for more info</string>
     <string name="mec_currency">\u00A4</string>
-    <string name="mec_buy_from_retailers">&#160;Buy From Retailer</string>
-    <string name="mec_primary">Primary</string>
-    <string name="mec_secondary">Secondary</string>
+    <string name="mec_buy_from_retailers">Buy From Retailer</string>
     <string name="mec_no_info_available">No info found</string>
+    <string name="mec_empty_space">&#160;</string>
 
 
     <!--- String match -->
@@ -58,6 +56,9 @@
     <string name="mec_loading">Loading..</string>
     <string name="mec_threshold_title">Request threshold reached</string>
     <string name="mec_threshold_message">This might take more time. Do you wish to continue?</string>
+    <string name="mec_shopping_cart">Shopping cart</string>
+    <string name="mec_continue_shopping">Continue shopping</string>
+    <string name="mec_invalid_product_ctn">Please provide a non empty product CTN</string>
     <string name="mec_add_gift_codes">Add gift codes</string>
     <string name="mec_add_gift_code">Enter gift code</string>
     <string name="mec_cart_summary">Cart summary</string>

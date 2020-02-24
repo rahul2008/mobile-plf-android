@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">يُرجى توفير غرض هيكل التطبيق الأساسي</string>
+  <string name="ECSBaseURLNotFound">لم يتم العثور على عنوان URL الأساسي</string>
+  <string name="ECSCartEntryError">لم تتم إضافة المنتج إلى عربة التسوق</string>
+  <string name="ECSCartError">لم يتم تكوين عربة تسوق بعد</string>
+  <string name="ECSCommerceCartModificationError">يجب ألا تقل الكمية عن صفر</string>
+  <string name="ECSCtnNotProvided">يُرجى توفير شبكة الهاتف الجوّال CTN</string>
+  <string name="ECSHybrisNotAvailable">إن متجر Philips غير متاح في البلد المحدد، غير مُتاح سوى وضع البائع فقط</string>
+  <string name="ECSIllegalArgumentError">يُرجى توفير بيانات إدخال صالحة</string>
+  <string name="ECSInsufficientStockError">لا يمكن شحن المنتج لأنه قد نفد من المخزون</string>
+  <string name="ECSInvalidPaymentInfoError">يُرجى تقديم معلومات دفع صالحة</string>
+  <string name="ECSInvalidTokenError">لقد واجهَنا خلل فني (رمز الوصول غير صالح). يُرجى القيام بإعادة التحقق من Hybris</string>
+  <string name="ECSLocaleNotFound">يُرجى ضبط الموقع</string>
+  <string name="ECSNoSuchElementError">حدث خطأ أثناء إحضار المعلومات من الخادم</string>
+  <string name="ECSOAuthDetailError">يُرجى توفير تفاصيل OAuth كاملة</string>
+  <string name="ECSOAuthNotCalled">إذن المستخدم مطلوب لهذا الإجراء</string>
+  <string name="ECSPaymentAuthorizationError">لم ينجح إذن الدفع</string>
+  <string name="ECSPropositionIdNotFound">يُرجى ضبط معرّف اقتراح صالح</string>
+  <string name="ECSSiteIdNotFound">إن متجر Philips غير متاح في البلد المحدد، غير مُتاح سوى وضع البائع فقط</string>
+  <string name="ECSUnknownIdentifierError">المورد المطلوب غير متاح</string>
+  <string name="ECSUnsupportedDeliveryModeError">وضع التوصيل المحدد غير مدعوم</string>
+  <string name="ECSUnsupportedVoucherError">معذرةً، لا يمكن استبدال البطاقة</string>
+  <string name="ECSValidationError">فشل التحقق من صحة البيانات</string>
+  <string name="ECSVoucherOperationError">معذرةً، لا يمكن استبدال البطاقة</string>
+  <string name="ECSaddressId">العنوان المذكور غير موجود، أو يخص مستخدمًا آخر</string>
+  <string name="ECScountryCodeNotGiven">يُرجى توفير كود بلد صالح</string>
+  <string name="ECScountryisocode">البلد المحدد غير صالح</string>
+  <string name="ECSfirstName">يُرجى ملاحظة أن الحروف التالية غير مسموح بها: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">لقد واجهَنا خلل فني (بيانات اعتماد Janrain غير صالحة). يُرجى إعادة تسجيل الدخول</string>
+  <string name="ECSinvalid_grant">لقد واجهَنا خلل فني (رمز Janrain غير صالح). يُرجى إعادة تسجيل الدخول</string>
+  <string name="ECSlastName">يُرجى ملاحظة أن الحروف التالية غير مسموح بها: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">يُرجى توفير طلب صالح</string>
+  <string name="ECSphone1">رقم الهاتف المحدد غير صالح</string>
+  <string name="ECSphone2">رقم الهاتف المحدد غير صالح</string>
+  <string name="ECSpostUrl">الطلب في حالة مدفوع/ مكتمل بالفعل</string>
+  <string name="ECSpostalCode">الرمز البريدي المحدد غير صالح</string>
+  <string name="ECSregionisocode">المنطقة المحددة غير صالحة</string>
+  <string name="ECSsessionCart">يُرجى تحديد عنوان التوصيل، ووضع التوصيل، وطريقة الدفع قبل إرسال الطلب</string>
+  <string name="ECSsomethingWentWrong">لقد واجهَنا خلل فني. يُرجى إعادة المحاولة فيما بعد</string>
+  <string name="ECSunsupported_grant_type">لقد واجهَنا خلل فني (نوع المنحة غير مدعوم). يُرجى إعادة تسجيل الدخول</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="mec_add">إضافة</string>
+  <string name="mec_add_gift_Card">إضافة رمز الهدية</string>
+  <string name="mec_add_to_cart">الإضافة إلى عربة التسوق</string>
+  <string name="mec_anonymous">بدون اسم</string>
+  <string name="mec_bazaarVoice_Detail_at">التفاصيل على</string>
+  <string name="mec_bazaarVoice_Terms_And_Condition">تم الإشراف على هذه المراجعات بمعرفة Bazaarvoice، وهي تتبع سياسة الموثوقية الخاصة بـ Bazaarvoice، التي تدعمها تكنولوجيا مكافحة الغش والتحليل البشري.</string>
+  <string name="mec_buy_from_retailers">الشراء من بائع التجزئة</string>
+  <string name="mec_cancel">إلغاء</string>
+  <string name="mec_cart_login_error_message">يُرجى إنشاء حساب جديد، أو تسجيل الدخول لتطلب منتجاتك بسهولة</string>
+  <string name="mec_continue_checkout">متابعة إلى دفع الحساب المطلوب</string>
+  <string name="mec_continue_shopping">متابعة التسوق</string>
+  <string name="mec_features">المميزات</string>
+  <string name="mec_has_used_this_product_for">لقد استخدم هذا المنتج لمدة</string>
+  <string name="mec_in_stock">متوفر في المخزن</string>
+  <string name="mec_info">المعلومات</string>
+  <string name="mec_invalid_landing_view">يُرجى توفير عرض صالح</string>
+  <string name="mec_invalid_product_ctn">يُرجى تقديم CTN غير فارغ للمنتج</string>
+  <string name="mec_loading">جارٍ التحميل..</string>
+  <string name="mec_more_info">للحصول على مزيد من المعلومات</string>
+  <string name="mec_no_product_available">لم يتم العثور على منتج في متجرك.</string>
+  <string name="mec_no_result">لم يتم العثور على أي نتيجة لـ</string>
+  <string name="mec_no_review_available">لم يتم العثور على مراجعات</string>
+  <string name="mec_ok">موافق</string>
+  <string name="mec_online_retailers">البائعون عبر الإنترنت</string>
+  <string name="mec_out_of_stock">غير متوفر في المخزن</string>
+  <string name="mec_privacy">إشعار الخصوصية</string>
+  <string name="mec_product_detail_title"> تفاصيل المنتج</string>
+  <string name="mec_product_title">المنتجات</string>
+  <string name="mec_read">يرجى قراءة</string>
+  <string name="mec_reviews">الآراء</string>
+  <string name="mec_shopping_cart">عربة التسوق</string>
+  <string name="mec_specs">المواصفات</string>
+  <string name="mec_threshold_message">قد يستغرق هذا وقتًا أطول. هل ترغب في المتابعة؟</string>
+  <string name="mec_threshold_title">تم الوصول إلى الحد الأدنى من الطلبات</string>
+  <string name="mec_zero_results_message"> يسمح ذلك بتصفية قائمة المنتجات التي نقدّمها. يرجى التأكد من عدم وجود أخطاء إملائية في مصطلح عامل التصفية</string>
+</resources>

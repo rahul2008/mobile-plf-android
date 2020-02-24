@@ -7,17 +7,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
@@ -188,6 +188,14 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!userDataInterface.isOIDCToken() && userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            btnLaunchAsFragment.setEnabled(false);
+        }
+    }
+
     private void viewInitlization(PIMDemoUAppDependencies pimDemoUAppDependencies, PIMDemoUAppSettings pimDemoUAppSettings) {
         if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
             isUSR = true;
@@ -196,6 +204,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             btn_RegistrationPR.setVisibility(View.GONE);
             btnMigrator.setVisibility(View.GONE);
             btnISOIDCToken.setVisibility(View.GONE);
+            btn_IAP.setVisibility(View.GONE);
+            btnGetUserDetail.setVisibility(View.GONE);
             btnLaunchAsFragment.setText("Launch USR");
             urInterface = new URInterface();
             urInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
@@ -410,7 +420,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-        urInterface.launch(fragmentLauncher, urLaunchInput);
+        if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN)
+            urInterface.launch(fragmentLauncher, urLaunchInput);
+
     }
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
