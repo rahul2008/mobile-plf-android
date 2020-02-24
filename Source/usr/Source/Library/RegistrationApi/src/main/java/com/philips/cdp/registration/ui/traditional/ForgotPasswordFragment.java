@@ -58,6 +58,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.philips.cdp.registration.errors.ErrorCodes.JANRAIN_EMAIL_ADDRESS_NOT_AVAILABLE;
+
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         ForgotPasswordContract {
 
@@ -158,7 +160,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
@@ -251,7 +253,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @OnClick(R2.id.usr_forgotpassword_sendRequest_button)
     public void sendRequestButton() {
-        RLog.i(TAG, TAG+".forgotpassword sendRequest  clicked");
+        RLog.i(TAG, TAG + ".forgotpassword sendRequest  clicked");
         showForgotPasswordSpinner();
         getRegistrationFragment().hideKeyBoard();
         resetPassword();
@@ -259,6 +261,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private void resetPassword() {
         if (networkUtility.isNetworkAvailable()) {
+            hideNotificationBarView();
             if (user != null) {
                 userIdEditText.clearFocus();
                 if (FieldsValidator.isValidEmail(userIdEditText.getText().toString())) {
@@ -311,8 +314,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                         .setDialogLayout(R.layout.reg_forgot_password_alert)
                         .setPositiveButton(getString(R.string.USR_DLS_Forgot_Password_Alert_Button_Title), v -> {
                             trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
-                            trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                                    AppTagingConstants.KEY_TRY_LOGIN_AGAIN);
                             alertDialogFragment.dismiss();
                             alertDialogFragment = null;
                             getFragmentManager().popBackStack();
@@ -324,7 +325,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 alertDialogFragment.show(getFragmentManager(), null);
             }
         } catch (Exception e) {
-            RLog.e(TAG,"showAlert : Exception " + e.getMessage());
+            RLog.e(TAG, "showAlert : Exception " + e.getMessage());
         }
 
     }
@@ -334,6 +335,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         hideForgotPasswordSpinner();
         RLog.e(TAG, " handleSendForgotPasswordFailedWithError : Error code = " + userRegistrationFailureInfo.getErrorCode() +
                 userRegistrationFailureInfo.getLocalizedValidationErrorMessages());
+
+        if (userRegistrationFailureInfo.getErrorCode() == JANRAIN_EMAIL_ADDRESS_NOT_AVAILABLE) {
+            trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                    AppTagingConstants.KEY_TRY_LOGIN_AGAIN);
+        }
 
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow())
@@ -397,7 +403,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, code));
             }
         } catch (JSONException e) {
-            RLog.e(TAG, "onErrorResponse : Exception "+ e.getMessage());
+            RLog.e(TAG, "onErrorResponse : Exception " + e.getMessage());
         }
     }
 

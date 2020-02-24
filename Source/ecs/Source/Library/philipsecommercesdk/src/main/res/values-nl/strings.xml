@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Specificeer app infra-object</string>
+  <string name="ECSBaseURLNotFound">Basis-URL niet gevonden</string>
+  <string name="ECSCartEntryError">Het product is niet toegevoegd aan winkelwagen</string>
+  <string name="ECSCartError">Er is nog geen winkelwagen aangemaakt</string>
+  <string name="ECSCommerceCartModificationError">Aantal mag niet minder zijn dan nul</string>
+  <string name="ECSCtnNotProvided">Specificeer het CTN</string>
+  <string name="ECSHybrisNotAvailable">Philips shop is niet beschikbaar voor het geselecteerde land, alleen winkelmodus is beschikbaar</string>
+  <string name="ECSIllegalArgumentError">Vul geldige gegevens in</string>
+  <string name="ECSInsufficientStockError">Product kan niet worden verzonden omdat het niet op voorraad is</string>
+  <string name="ECSInvalidPaymentInfoError">Vul geldige betalingsgegevens in</string>
+  <string name="ECSInvalidTokenError">We hebben een technisch probleem (ongeldige toegangstoken). Voer Hybris Re-Auth uit</string>
+  <string name="ECSLocaleNotFound">Stel de landinstelling in</string>
+  <string name="ECSNoSuchElementError">Er is een fout opgetreden tijdens het ophalen van de gegevens van de server</string>
+  <string name="ECSOAuthDetailError">Specificeer volledige OAuth-gegevens</string>
+  <string name="ECSOAuthNotCalled">Gebruikersautorisatie is vereist voor deze actie</string>
+  <string name="ECSPaymentAuthorizationError">Betalingsautorisatie mislukt</string>
+  <string name="ECSPropositionIdNotFound">Specificeer een geldige propositie-ID</string>
+  <string name="ECSSiteIdNotFound">Philips shop is niet beschikbaar voor het geselecteerde land, alleen winkelmodus is beschikbaar</string>
+  <string name="ECSUnknownIdentifierError">Gevraagde bron is niet beschikbaar</string>
+  <string name="ECSUnsupportedDeliveryModeError">Geselecteerde bezorgmodus wordt niet ondersteund</string>
+  <string name="ECSUnsupportedVoucherError">Sorry, deze voucher kan niet worden verzilverd</string>
+  <string name="ECSValidationError">Gegevensvalidatie is mislukt</string>
+  <string name="ECSVoucherOperationError">Sorry, deze voucher kan niet worden verzilverd</string>
+  <string name="ECSaddressId">Het gespecificeerde adres bestaat niet of behoort een andere gebruiker toe</string>
+  <string name="ECScountryCodeNotGiven">Specificeer een geldige landcode</string>
+  <string name="ECScountryisocode">Geselecteerde land is ongeldig</string>
+  <string name="ECSfirstName">De volgende schrijftekens zijn niet toegestaan: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">We hebben een technisch probleem (onjuiste client-gegevens). Log opnieuw in</string>
+  <string name="ECSinvalid_grant">We hebben een technisch probleem (ongeldig Janrain-token). Log opnieuw in</string>
+  <string name="ECSlastName">De volgende schrijftekens zijn niet toegestaan: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Plaats een geldige bestelling</string>
+  <string name="ECSphone1">Geselecteerd telefoonnummer is ongeldig</string>
+  <string name="ECSphone2">Geselecteerd telefoonnummer is ongeldig</string>
+  <string name="ECSpostUrl">Bestelling is al betaald/voltooid</string>
+  <string name="ECSpostalCode">Geselecteerde postcode is ongeldig</string>
+  <string name="ECSregionisocode">Geselecteerde regio is ongeldig</string>
+  <string name="ECSsessionCart">Selecteer het afleveradres, de bezorgmodus en de betaalmethode voordat je een bestelling plaatst</string>
+  <string name="ECSsomethingWentWrong">We hebben een technisch probleem. Probeer het later opnieuw</string>
+  <string name="ECSunsupported_grant_type">We hebben een technisch probleem (niet-ondersteund type toekenning). Log opnieuw in</string>
+</resources>

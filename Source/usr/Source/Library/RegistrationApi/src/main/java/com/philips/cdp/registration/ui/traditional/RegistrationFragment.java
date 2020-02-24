@@ -140,6 +140,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         super.onStop();
         RLog.d(TAG, "onStop");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        if(getFragmentCount() == 1 && mFragmentManager.getFragments().get(0) instanceof RegistrationBaseFragment)
+           ((RegistrationBaseFragment) mFragmentManager.getFragments().get(0)).hideNotificationBarView();
         RegistrationBaseFragment.setHeightWidthToZero();
         setPrevTiltle();
     }

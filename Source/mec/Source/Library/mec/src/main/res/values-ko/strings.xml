@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="mec_add">[ko]Add</string>
+  <string name="mec_add_gift_Card">[ko]Add gift code</string>
+  <string name="mec_add_to_cart">장바구니에 추가</string>
+  <string name="mec_anonymous">[ko]Anonymous</string>
+  <string name="mec_bazaarVoice_Detail_at">[ko]Details at</string>
+  <string name="mec_bazaarVoice_Terms_And_Condition">[ko]These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.</string>
+  <string name="mec_buy_from_retailers">소매점에서 구매하기</string>
+  <string name="mec_cancel">취소</string>
+  <string name="mec_cart_login_error_message">[ko]Please Register or Login to easily order your products</string>
+  <string name="mec_continue_checkout">[ko]Continue to checkout</string>
+  <string name="mec_continue_shopping">계속 쇼핑</string>
+  <string name="mec_features">[ko]Features</string>
+  <string name="mec_has_used_this_product_for">[ko]Has used this product for</string>
+  <string name="mec_in_stock">재고 있음</string>
+  <string name="mec_info">정보</string>
+  <string name="mec_invalid_landing_view">[ko]Please provide a valid Landing View</string>
+  <string name="mec_invalid_product_ctn">비어 있지 않은 제품 CTN을 제공하십시오.</string>
+  <string name="mec_loading">[ko]Loading..</string>
+  <string name="mec_more_info">참조</string>
+  <string name="mec_no_product_available">스토어에 제품이 없습니다.</string>
+  <string name="mec_no_result">다음에 대한 검색 결과 없음:</string>
+  <string name="mec_no_review_available">[ko]No Reviews Found</string>
+  <string name="mec_ok">확인</string>
+  <string name="mec_online_retailers">[ko]Online Retailers</string>
+  <string name="mec_out_of_stock">품절</string>
+  <string name="mec_privacy">개인정보 보호정책</string>
+  <string name="mec_product_detail_title"> 제품정보</string>
+  <string name="mec_product_title">제품</string>
+  <string name="mec_read">자세한 내용은</string>
+  <string name="mec_reviews">리뷰</string>
+  <string name="mec_shopping_cart">장바구니</string>
+  <string name="mec_specs">[ko]Specs</string>
+  <string name="mec_threshold_message">[ko]This might take more time. Do you wish to continue?</string>
+  <string name="mec_threshold_title">[ko]Request threshold reached</string>
+  <string name="mec_zero_results_message"> 제품 리스트를 필터링합니다. 필터 용어에 오타가 없는지 확인하십시오.</string>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Ange app-infraobjekt</string>
+  <string name="ECSBaseURLNotFound">Baswebbadress hittades inte</string>
+  <string name="ECSCartEntryError">Produkten har inte lagts till i kundvagnen</string>
+  <string name="ECSCartError">Ingen varukorg har skapats än</string>
+  <string name="ECSCommerceCartModificationError">Kvantiteten får inte vara mindre än noll</string>
+  <string name="ECSCtnNotProvided">Ange CTN</string>
+  <string name="ECSHybrisNotAvailable">Philips-butiken är inte tillgänglig för det valda landet, endast återförsäljare är tillgängliga</string>
+  <string name="ECSIllegalArgumentError">Ange giltiga inmatningsdata</string>
+  <string name="ECSInsufficientStockError">Produkten kan inte levereras eftersom den är slut</string>
+  <string name="ECSInvalidPaymentInfoError">Ange giltig betalningsinformation</string>
+  <string name="ECSInvalidTokenError">Vi har stött på ett tekniskt fel (ogiltig åtkomsttoken). Återauktorisera Hybris</string>
+  <string name="ECSLocaleNotFound">Ställ in språk</string>
+  <string name="ECSNoSuchElementError">Ett fel inträffade när data hämtades från servern</string>
+  <string name="ECSOAuthDetailError">Ange fullständiga OAuth-detaljer</string>
+  <string name="ECSOAuthNotCalled">Användarbehörighet krävs för den här åtgärden</string>
+  <string name="ECSPaymentAuthorizationError">Betalningsauktoriseringen lyckades inte</string>
+  <string name="ECSPropositionIdNotFound">Ange ett giltigt propositions-ID</string>
+  <string name="ECSSiteIdNotFound">Philips-butiken är inte tillgänglig för det valda landet, endast återförsäljare är tillgängliga</string>
+  <string name="ECSUnknownIdentifierError">Den begärda resursen är inte tillgänglig</string>
+  <string name="ECSUnsupportedDeliveryModeError">Valt leveransläge stöds inte</string>
+  <string name="ECSUnsupportedVoucherError">Den här kupongen kan inte lösas in</string>
+  <string name="ECSValidationError">Datavalideringen misslyckades</string>
+  <string name="ECSVoucherOperationError">Den här kupongen kan inte lösas in</string>
+  <string name="ECSaddressId">Den angivna adressen finns inte eller tillhör en annan användare</string>
+  <string name="ECScountryCodeNotGiven">Ange giltig landskod</string>
+  <string name="ECScountryisocode">Det valda landet är ogiltigt</string>
+  <string name="ECSfirstName">Observera att följande tecken inte är tillåtna: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Vi har stött på ett tekniskt fel (felaktiga kunduppgifter). Logga in igen</string>
+  <string name="ECSinvalid_grant">Vi har stött på ett tekniskt fel (Ogiltig Janrain-token). Logga in igen</string>
+  <string name="ECSlastName">Observera att följande tecken inte är tillåtna: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Ange en giltig beställning</string>
+  <string name="ECSphone1">Det valda telefonnumret är ogiltigt</string>
+  <string name="ECSphone2">Det valda telefonnumret är ogiltigt</string>
+  <string name="ECSpostUrl">Beställningen är redan i ett betalt/slutfört tillstånd</string>
+  <string name="ECSpostalCode">Det valda postnumret är ogiltigt</string>
+  <string name="ECSregionisocode">Den valda regionen är ogiltig</string>
+  <string name="ECSsessionCart">Välj din leveransadress, leveransläge och betalningsmetod innan du skickar en beställning</string>
+  <string name="ECSsomethingWentWrong">Vi har stött på ett tekniskt fel. Försök igen om en stund</string>
+  <string name="ECSunsupported_grant_type">Vi har stött på ett tekniskt fel (ogiltig behörighetstyp). Logga in igen</string>
+</resources>

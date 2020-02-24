@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">[vi]Please provide app infra object</string>
+  <string name="ECSBaseURLNotFound">[vi]Base URL not found</string>
+  <string name="ECSCartEntryError">[vi]The Product is not added in Cart</string>
+  <string name="ECSCartError">[vi]No cart created yet</string>
+  <string name="ECSCommerceCartModificationError">[vi]Quantity must not be less than zero</string>
+  <string name="ECSCtnNotProvided">[vi]Please provide the CTN</string>
+  <string name="ECSHybrisNotAvailable">[vi]Philips shop is not available for the selected country, only retailer mode is available</string>
+  <string name="ECSIllegalArgumentError">[vi]Please provide valid input data</string>
+  <string name="ECSInsufficientStockError">[vi]Product cannot be shipped as it is out of stock</string>
+  <string name="ECSInvalidPaymentInfoError">[vi]Please provide valid payment details</string>
+  <string name="ECSInvalidTokenError">[vi]We have encountered technical glitch (Invalid access token). Please do Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">[vi]Please set the locale</string>
+  <string name="ECSNoSuchElementError">[vi]An error occurred while fetching the data from the server</string>
+  <string name="ECSOAuthDetailError">[vi]Please provide complete OAuth detials</string>
+  <string name="ECSOAuthNotCalled">[vi]User authorization is required for this action</string>
+  <string name="ECSPaymentAuthorizationError">[vi]Payment authorization was not successful</string>
+  <string name="ECSPropositionIdNotFound">[vi]Please set a valid Proposition ID</string>
+  <string name="ECSSiteIdNotFound">[vi]Philips shop is not available for the selected country, only retailer mode is available</string>
+  <string name="ECSUnknownIdentifierError">[vi]Requested resource is not available</string>
+  <string name="ECSUnsupportedDeliveryModeError">[vi]Selected delivery mode is not supported</string>
+  <string name="ECSUnsupportedVoucherError">[vi]Sorry, this voucher can\'t be redeemed</string>
+  <string name="ECSValidationError">[vi]Data validation failed</string>
+  <string name="ECSVoucherOperationError">[vi]Sorry, this voucher can\'t be redeemed</string>
+  <string name="ECSaddressId">[vi]Given address doesn\'t exist or belong to another user</string>
+  <string name="ECScountryCodeNotGiven">[vi]Please provide valid country code</string>
+  <string name="ECScountryisocode">[vi]Country selected is invalid</string>
+  <string name="ECSfirstName">[vi]Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">[vi]We have encountered technical glitch (Bad client credentials). Please re-login</string>
+  <string name="ECSinvalid_grant">[vi]We have encountered technical glitch (Invalid Janrain Token). Please re-login</string>
+  <string name="ECSlastName">[vi]Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">[vi]Please provide valid order</string>
+  <string name="ECSphone1">[vi]Phone number selected is invalid</string>
+  <string name="ECSphone2">[vi]Phone number selected is invalid</string>
+  <string name="ECSpostUrl">[vi]Order is already in a paid/completed state</string>
+  <string name="ECSpostalCode">[vi]ZIP code selected is invalid</string>
+  <string name="ECSregionisocode">[vi]Region selected is invalid</string>
+  <string name="ECSsessionCart">[vi]Please select your delivery address, delivery mode and payment method before submitting an order</string>
+  <string name="ECSsomethingWentWrong">[vi]We have encountered technical glitch. Please try after some time</string>
+  <string name="ECSunsupported_grant_type">[vi]We have encountered technical glitch (Unsupported grant type). Please re-login</string>
+</resources>
