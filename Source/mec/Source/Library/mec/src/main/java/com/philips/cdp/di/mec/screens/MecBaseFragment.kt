@@ -72,7 +72,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
             RuntimeException("ActionBarListner and IAPListner cant be null")
         else {
-            if (!activity!!.isFinishing) {
+            if (null!=activity && !activity!!.isFinishing) {
 
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 val simpleName = newFragment.javaClass.simpleName
@@ -94,7 +94,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
             RuntimeException("ActionBarListner and IAPListner cant be null")
         else {
-            if (!activity!!.isFinishing) {
+            if (null!=activity && !activity!!.isFinishing) {
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 val simpleName = newFragment.javaClass.simpleName
                 transaction.add(id, newFragment, simpleName)
