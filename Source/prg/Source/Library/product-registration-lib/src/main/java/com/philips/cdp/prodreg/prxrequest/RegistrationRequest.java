@@ -15,6 +15,7 @@ import com.philips.cdp.prodreg.model_request.Attributes;
 import com.philips.cdp.prodreg.model_request.Data;
 import com.philips.cdp.prodreg.model_request.Meta;
 import com.philips.cdp.prodreg.model_request.RegistrationRequestBody;
+import com.philips.cdp.prodreg.model_request.UserProfile;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -305,7 +306,9 @@ public class RegistrationRequest extends PrxRequest {
 
         Data data = new Data();
         data.setType("productRegistration");
-        registrationRequestBody.setData(data);
+        UserProfile userProfile = new UserProfile();
+        userProfile.setOptIn(Boolean.parseBoolean(isReceiveMarketingEmail()));
+        data.setUserProfile(userProfile);
         Attributes attributes = new Attributes();
         attributes.setProductId(ctn);
         attributes.setCatalog(getCatalog().toString());
