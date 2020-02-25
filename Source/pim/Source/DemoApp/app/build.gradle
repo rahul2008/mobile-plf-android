@@ -7,6 +7,7 @@ apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -19,6 +20,70 @@ buildscript {
 
 archivesBaseName = "pimApp"
 group = 'com.philips.platform'
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+            username = "320049003"
+            password = "#W3llc4m3"
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = platformversion
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$buildDir/outputs/mapping/release/mapping.txt") {
+                classifier = 'mapping'
+            }
+
+            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                configurations.getByName("implementation").allDependencies.each {
+                    if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 android {
     compileSdkVersion versions.sdk
@@ -38,13 +103,6 @@ android {
         release
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-    }
 
     /*
     This defined for signing the apk -- start
@@ -74,6 +132,8 @@ android {
     */
 }
 
+apply from: "../scripts/flavors.gradle"
+
 dependencies {
     debugImplementation deps.leakcanary
     releaseImplementation deps.leakcanary_no_op
@@ -92,5 +152,7 @@ dependencies {
     implementation deps.greenrobot
     implementation deps.butterknife
     implementation deps.adobemobilelib
+    leakCanaryImplementation deps.leakcanary
+    psraReleaseImplementation deps.leakcanary_no_op
 
 }

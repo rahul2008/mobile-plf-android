@@ -141,7 +141,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash -l
                     set -e
-                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :pim:zipcClogs :registrationApi:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs 
+                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :pim:zipcClogs :registrationApi:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :pimApp:zipcClogs 
 
                     apkname=`xargs < apkname.txt`
                     dependenciesName=${apkname/.apk/.gradledependencies.gz}
@@ -229,6 +229,7 @@ pipeline {
                 sh '''#!/bin/bash -l
                     chmod -R 775 .
                     ./gradlew referenceApp:assemblePsraRelease
+                    ./gradlew pimApp:assemblePsraRelease
                 '''
             }
         }
@@ -249,8 +250,10 @@ pipeline {
                 sh '''#!/bin/bash -l
                     chmod -R 775 .
                     ./gradlew referenceApp:assembleLeakCanary
+                    ./gradlew pimApp:assembleLeakCanary
                 '''
                 DeployingLeakCanaryArtifacts()      //deploy leakcanary build
+                DeployingPIMAppLeakCanaryArtifacts()
             }
         }
 
@@ -300,10 +303,12 @@ pipeline {
                     apkname=`xargs < apkname.txt`
                     PSRA_APK_NAME=${apkname/.apk/_PSRA.apk}
                     curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
+                    curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT ${PSRA_APK_NAME} -T Source/pim/Source/DemoApp/app/build/outputs/apk/psraRelease/pimApp-psraRelease.apk
                 '''
 
                 //archive referenceApp-psraRelease apk from below path
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk'
+                archiveArtifacts 'Source/pim/Source/DemoApp/app/build/outputs/apk/psraRelease/pimApp-psraRelease.apk'
             }
         }
 
@@ -466,12 +471,14 @@ def BuildAndUnitTest() {
             :pim:testReleaseUnitTest \
             :philipsecommercesdk:testReleaseUnitTest \
             :mec:testReleaseUnitTest \
+            :pimApp:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest
             
     '''
 
     //archive the apk type files from below source
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
+    archiveArtifacts 'Source/pim/Source/DemoApp/app/build/outputs/apk/release/*.apk'
 }
 
 /**
@@ -609,6 +616,60 @@ def DeployingLeakCanaryArtifacts() {
     sh shellcommand //execute shell command to deploy leakcanary build
 }
 
+/**
+ * Deploy leakcanary build to artifactory
+ */
+def DeployingPIMAppLeakCanaryArtifacts() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
+    //Construct command to deploy build
+    def shellcommand = '''#!/bin/bash -l
+        export BASE_PATH=`pwd`
+        echo $BASE_PATH
+        TIMESTAMP=`date -u +%Y%m%d%H%M%S`
+        TIMESTAMPEXTENSION=".$TIMESTAMP"
+
+        cd $BASE_PATH/Source/pim/Source/DemoApp/app/build/outputs/apk
+        PUBLISH_APK=false
+        APK_NAME="pimApp_LeakCanary_"${TIMESTAMP}".apk"
+        ARTIFACTORY_URL="https://artifactory-ehv.ta.philips.com/artifactory"
+        ARTIFACTORY_REPO="unknown"
+
+        if [ ''' + MasterBranch + ''' = true ]
+        then
+            PUBLISH_APK=true
+            ARTIFACTORY_REPO="platform-pkgs-opa-android-release"
+        elif [ ''' + ReleaseBranch + ''' = true ]
+        then
+            PUBLISH_APK=true
+            ARTIFACTORY_REPO="platform-pkgs-opa-android-stage"
+        elif [ ''' + DevelopBranch + ''' = true ]
+        then
+            PUBLISH_APK=true
+            ARTIFACTORY_REPO="platform-pkgs-opa-android-snapshot"
+        else
+            echo "Not published as build is not on a master, develop or release branch" . $BranchName
+        fi
+
+        if [ $PUBLISH_APK = true ]
+        then
+            mv pimApp-leakCanary.apk $APK_NAME
+            curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/pimApp/LeakCanary/ -T $APK_NAME
+            echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/pimApp/LeakCanary/$APK_NAME" > $BASE_PATH/Source/pim/Source/DemoApp/apkname.txt
+        fi
+
+        if [ $? != 0 ]
+        then
+            exit 1
+        else
+            cd $BASE_PATH
+        fi
+    '''
+    sh shellcommand //execute shell command to deploy leakcanary build
+}
+
 
 /**
  * Deploying connected test logs while publish to artifactory
@@ -688,7 +749,7 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :philipsecommercesdk:zipJavadoc :mec:zipJavadoc :referenceApp:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc :pim:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :philipsecommercesdk:zipJavadoc :mec:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
  
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip
@@ -784,6 +845,7 @@ def PublishJavaDocs() {
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/prg/Documents/External/product-registration-lib-api", reportFiles: 'index.html', reportName: "Product registration library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/pse/Documents/External/productselection-api", reportFiles: 'index.html', reportName: "Product selection Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/rap/Documents/External/referenceApp-api", reportFiles: 'index.html', reportName: "Reference app API documentation"])
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/pim/Documents/External/pim-api", reportFiles: 'index.html', reportName: "Pim app API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/usr/Documents/External/registrationApi-api", reportFiles: 'index.html', reportName: "User registration Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/sdb/Documents/External/securedblibrary-api", reportFiles: 'index.html', reportName: "Secure db Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ecs/Documents/External/philipsecommercesdk-api", reportFiles: 'index.html', reportName: "philipsecommercesdk Library API documentation"])
