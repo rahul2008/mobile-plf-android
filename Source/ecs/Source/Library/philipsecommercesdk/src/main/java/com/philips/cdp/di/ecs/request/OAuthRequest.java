@@ -54,10 +54,9 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
 
         Map map = new HashMap<String,String>();
         if(oAuthID !=null)
-        map.put("janrain", oAuthID);
-
+        map.put(grantType.getType(), oAuthID);
         map.put("grant_type",grantType.getType());
-        map.put("client_id",oAuthInput.getClientID());
+        map.put("client_id",oAuthInput.getClientID().getType());
         map.put("client_secret",oAuthInput.getClientSecret());
         return  map;
     }

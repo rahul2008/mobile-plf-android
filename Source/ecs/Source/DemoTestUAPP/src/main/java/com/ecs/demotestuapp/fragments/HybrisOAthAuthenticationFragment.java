@@ -5,6 +5,7 @@ import android.widget.EditText;
 
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.integration.ClientType;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.GrantType;
@@ -25,13 +26,14 @@ public class HybrisOAthAuthenticationFragment extends BaseAPIFragment {
         if (ECSDataHolder.INSTANCE.getJanrainID() != null) {
             refreshToken = ECSDataHolder.INSTANCE.getJanrainID();
         }
-
         etSecret = getLinearLayout().findViewWithTag("et_one");
         etSecret.setText("secret");
 
         etClient = getLinearLayout().findViewWithTag("et_two");
-        etClient.setText("mobile_android");
-
+        if (ECSDataHolder.INSTANCE.getUserDataInterface().isOIDCToken())
+            etClient.setText(ClientType.OIDC.getType());
+        else
+            etClient.setText(ClientType.JANRAIN.getType());
         etOAuthID = getLinearLayout().findViewWithTag("et_three");
         etOAuthID.setText(refreshToken);
     }
@@ -75,8 +77,10 @@ public class HybrisOAthAuthenticationFragment extends BaseAPIFragment {
             }
 
             @Override
-            public String getClientID() {
-                return client;
+            public ClientType getClientID() {
+                if (ECSDataHolder.INSTANCE.getUserDataInterface().isOIDCToken())
+                    return ClientType.OIDC;
+                return ClientType.JANRAIN;
             }
 
             @Override
