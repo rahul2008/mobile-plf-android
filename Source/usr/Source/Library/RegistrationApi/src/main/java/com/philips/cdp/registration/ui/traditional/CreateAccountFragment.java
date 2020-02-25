@@ -123,7 +123,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     ValidationEditText usrCreatescreenEmailormobileTextfield;
 
 
-
     @BindView(R2.id.usr_createscreen_password_progressbar)
     ProgressBar usrCreatescreenPasswordProgressbar;
 
@@ -669,10 +668,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
 
     private void usernameUihandle() {
+
         usrCreateScreenFirstNameInputValidation.setValidator(firstName -> FieldsValidator.isValidName(firstName.toString()));
         usrCreateScreenLastNameInputValidation.setValidator(lastName -> FieldsValidator.isValidName(lastName.toString()));
-        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.USR_InvalidOrMissingName_ErrorMsg));
-        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.USR_InvalidOrMissingName_ErrorMsg));
+        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.USR_NameField_ErrorText));
+        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.USR_LastNameField_ErrorMsg));
+
         usrCreateScreenFirstNameTextField.requestFocus();
         usrCreateScreenFirstNameTextField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -684,9 +685,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                 if (s.length() > 0) {
                     isValidFirstname = true;
                     enableCreateButton();
+                    usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.USR_InvalidOrMissingName_ErrorMsg));
+                    usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.USR_InvalidOrMissingName_ErrorMsg));
                 } else {
                     isValidFirstname = false;
                     disableCreateButton();
+                    usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.USR_NameField_ErrorText));
+                    usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.USR_LastNameField_ErrorMsg));
                 }
             }
 
