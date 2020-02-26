@@ -73,7 +73,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private lateinit var cartSummaryList: MutableList<MECCartSummary>
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     private var voucherCode: String = ""
-    private var removeVoucher: Boolean = false
+    private var removeVoucher: Boolean = true
     private lateinit var name: String
     private lateinit var price: String
     var validationEditText: ValidationEditText? = null
@@ -81,7 +81,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         hideProgressBar()
-        binding.mecProgress.visibility = View.GONE
+        binding.mecProgress.mecProgressBarLayout.visibility = View.GONE
         binding.shoppingCart = ecsShoppingCart
         shoppingCart = ecsShoppingCart!!
 
@@ -151,6 +151,12 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
             name = shoppingCart.appliedOrderPromotions.get(i).promotion.description
             price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
+            cartSummaryList.add(MECCartSummary(name, price))
+        }
+
+        for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
+            name = shoppingCart.appliedProductPromotions.get(i).promotion.description
+            price = "-" + shoppingCart.appliedProductPromotions.get(i).promotion.promotionDiscount.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
@@ -249,11 +255,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             swipeController = MECSwipeController(binding.mecCartSummaryRecyclerView.context, object : SwipeControllerActions() {
                 override fun onRightClicked(position: Int) {
                     itemPosition = position
+                    removeVoucher = false
                     showDialog()
                 }
 
                 override fun onLeftClicked(position: Int) {
                     itemPosition = position
+                    removeVoucher = false
                     showDialog()
                 }
             })
@@ -301,7 +309,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     fun executeRequest() {
-        binding.mecProgress.visibility = View.VISIBLE
+        binding.mecProgress.mecProgressBarLayout.visibility = View.VISIBLE
         //createCustomProgressBar(container, MEDIUM)
         ecsShoppingCartViewModel.getShoppingCart()
     }

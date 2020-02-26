@@ -74,7 +74,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         mecProductReviews?.let { productReviewList.addAll(it) }
         adapter.notifyDataSetChanged()
         binding.progressBar.visibility = View.GONE
-        binding.CircularProgressBar.visibility = View.GONE
+        binding.mecCatalogProgress.mecProgressBar.visibility = View.GONE
         isCallOnProgress = false
         hideProgressBar()
 
@@ -304,7 +304,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             MECAnalytics.tagProductList(productList, listView)
             mRootView=binding.root
 
-            binding.CircularProgressBar.visibility = View.VISIBLE
+            binding.mecCatalogProgress.mecProgressBar.visibility = View.VISIBLE
             if(arguments!=null) {
                 categorizedCtns = arguments?.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
                 totalProductsTobeSearched = categorizedCtns.size

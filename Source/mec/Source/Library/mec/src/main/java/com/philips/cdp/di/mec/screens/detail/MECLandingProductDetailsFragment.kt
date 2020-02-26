@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.screens.detail
 
+import android.view.View
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
@@ -30,7 +31,6 @@ import java.util.*
 
   private fun fetchProductDetailForCtn(isHybris: Boolean) {
 
-    createCustomProgressBar(container, MEDIUM)
 
     if (isHybris) {
 
