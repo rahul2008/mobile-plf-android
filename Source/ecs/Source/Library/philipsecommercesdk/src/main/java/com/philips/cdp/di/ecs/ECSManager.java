@@ -15,20 +15,20 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.asset.Assets;
-import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory;
 import com.philips.cdp.di.ecs.model.orders.ECSOrders;
 import com.philips.cdp.di.ecs.model.orders.Entries;
-import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.config.ECSConfig;
-import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
@@ -37,18 +37,28 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.request.AddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.CreateAddressRequest;
+import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
+import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.request.GetOrderDetailRequest;
 import com.philips.cdp.di.ecs.request.GetOrderHistoryRequest;
 import com.philips.cdp.di.ecs.request.GetPaymentsRequest;
+import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
+import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
+import com.philips.cdp.di.ecs.request.GetProductForRequest;
+import com.philips.cdp.di.ecs.request.GetProductListRequest;
+import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.request.GetUserProfileRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.MakePaymentRequest;
+import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
@@ -57,18 +67,7 @@ import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.request.SubmitOrderRequest;
 import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
-import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
-import com.philips.cdp.di.ecs.request.AddProductToECSShoppingCartRequest;
-import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
-import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
-import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
-import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
-import com.philips.cdp.di.ecs.request.GetProductListRequest;
-import com.philips.cdp.di.ecs.request.GetProductForRequest;
-import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
-import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,15 +78,7 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 
 class ECSManager {
 
-    private UserDataInterface mUserDataInterface;
     static int threadCount = 0;
-
-    public ECSManager() {
-    }
-
-    public ECSManager(UserDataInterface userDataInterface) {
-        mUserDataInterface = userDataInterface;
-    }
 
     void getHybrisConfig(ECSCallback<Boolean, Exception> ecsCallback) {
 
