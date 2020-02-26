@@ -72,7 +72,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
     lateinit var param: String
 
-    private lateinit var binding: MecProductDetailsBinding
+    lateinit var binding: MecProductDetailsBinding
     lateinit var product: ECSProduct
     private lateinit var retailersList: ECSRetailerList
     private lateinit var ecsRetailerViewModel: ECSRetailerViewModel
@@ -100,7 +100,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 binding.mecFindRetailerButtonSecondary.isEnabled = false
             }
             ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus, product, retailersList)
-            hideProgressBar()
             binding.progressImage.visibility = View.GONE
             //getStock(binding.mecProductDetailStockStatus.text.toString())
         }
@@ -149,7 +148,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     }
                 }
             }
-            hideProgressBar()
         }
 
     }
@@ -248,7 +246,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     open fun executeRequest() {
-        createCustomProgressBar(container, MEDIUM)
         binding.progressImage.visibility = View.VISIBLE
         ecsProductDetailViewModel.getProductDetail(product!!)
     }

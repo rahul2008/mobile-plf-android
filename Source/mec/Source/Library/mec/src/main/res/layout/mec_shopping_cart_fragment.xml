@@ -26,21 +26,11 @@
     android:layout_height="match_parent"
     >
 
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.philips.platform.uid.view.widget.ProgressBar
-            android:id="@+id/mec_progress"
-            style="@style/UIDProgressBarCircularIndeterminateMiddle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal"
-            android:background="@android:color/transparent"
-            android:visibility="gone" />
-
-    </LinearLayout>
+    <include
+        android:id="@+id/mec_progress"
+        layout="@layout/mec_progress_bar_text"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
     <RelativeLayout
         android:id="@+id/mec_parent_layout"

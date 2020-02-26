@@ -22,7 +22,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
         if(isAllProductsFound()) {
             binding.progressBar.visibility = View.GONE
-            hideProgressBar()
+            binding.mecCatalogProgress.mecProgressBar.visibility = View.GONE
         }else{
             isCallOnProgress =true
             ecsProductViewModel.initCategorized(currentPage, pageSize, categorizedCtns)
@@ -57,7 +57,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
 
             if(productList.size==0) {
-                createCustomProgressBar(container, MEDIUM)
+                binding.mecCatalogProgress.mecProgressBar.visibility = View.VISIBLE
             }else{
                 binding.progressBar.visibility = View.VISIBLE
             }
