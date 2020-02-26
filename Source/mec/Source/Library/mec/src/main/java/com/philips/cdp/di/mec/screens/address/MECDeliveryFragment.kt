@@ -150,7 +150,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             }
         })
 
-        fetchDeliveryModes()
+
             mRootView=binding.root
             checkDeliveryAddressSet()
         }
@@ -194,7 +194,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
 
 
-    
+
 
     private fun createNewAddress() : ECSAddress {
         val ecsAddress = ECSAddress()
