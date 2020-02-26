@@ -232,14 +232,9 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     private fun onManageAddressClick() {
         val bundle = Bundle()
+
         bottomSheetFragment = ManageAddressFragment()
-
-        //Testing ..adding 6 element
-        val toMutableList = ecsAddresses.toMutableList()
-        toMutableList.addAll(ecsAddresses)
-        toMutableList.addAll(ecsAddresses)
-
-        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, toMutableList.toList() as Serializable)
+        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, ecsAddresses as Serializable)
         bundle.putSerializable(MECConstant.KEY_ITEM_CLICK_LISTENER,this)
         bottomSheetFragment?.arguments = bundle
         fragmentManager?.let { bottomSheetFragment?.show(it, bottomSheetFragment?.tag) }
