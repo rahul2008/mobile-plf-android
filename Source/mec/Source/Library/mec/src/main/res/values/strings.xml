@@ -121,7 +121,6 @@
     <string name="mec_billing_address">Billing address</string>
 
     <string name="mec_invalid_voucher_error">Sorry, this voucher can\'t be redeemed</string>
-    <string name="mec_empty_space">&#160;</string>
     <string name="mec_checkout">Checkout</string>
     <string name="mec_delivery">Delivery</string>
     <string name="mec_exceed_cart_limit">Exceed Cart limit</string>
@@ -131,6 +130,7 @@
     <string name="mec_shipping_cost">Delivery cost</string>
     <string name="mec_delivery_method">Delivery method</string>
     <string name="mec_seperator">&#160;|&#160;</string>
+    <string name="mec_empty_space">&#160;</string>
 
 
 </resources>

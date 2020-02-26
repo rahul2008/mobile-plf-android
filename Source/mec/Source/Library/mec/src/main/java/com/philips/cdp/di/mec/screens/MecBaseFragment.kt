@@ -6,7 +6,6 @@ package com.philips.cdp.di.mec.screens
 
 import android.app.ProgressDialog
 import android.content.Context
-
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -27,10 +26,6 @@ import com.philips.cdp.di.mec.common.MECLauncherActivity
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
 import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
-import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
-import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
-import com.philips.cdp.di.mec.screens.retailers.WebBuyFromRetailersFragment
-import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState

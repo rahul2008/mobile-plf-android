@@ -2,12 +2,8 @@ package com.philips.cdp.di.mec.screens.address
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-
 import android.content.Context
-
 import android.graphics.drawable.Drawable
-import android.util.Log
-
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.CycleInterpolator
@@ -16,17 +12,18 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
-import com.philips.cdp.di.ecs.model.address.Region
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -41,7 +38,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
-import java.util.regex.Pattern
 
 class AddressViewModel : CommonViewModel() {
 
@@ -68,6 +64,8 @@ class AddressViewModel : CommonViewModel() {
 
     val ecsDeliveryModes = MutableLiveData<List<ECSDeliveryMode>>()
 
+    val ecsDeliveryModeSet = MutableLiveData<Boolean>()
+
 
     fun fetchRegions() {
         ecsRegionListCallback.mECRequestType=MECRequestType.MEC_FETCH_REGIONS
@@ -82,6 +80,14 @@ class AddressViewModel : CommonViewModel() {
     fun createAddress(ecsAddress: ECSAddress){
         ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_CREATE_ADDRESS
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
+    }
+
+    fun createAndFetchAddress(ecsAddress: ECSAddress){
+        addressRepository.createAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun deleteAndFetchAddress(ecsAddress: ECSAddress){
+        addressRepository.deleteAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
@@ -99,9 +105,8 @@ class AddressViewModel : CommonViewModel() {
         addressRepository.fetchDeliveryModes(ecsFetchDeliveryModesCallback)
     }
 
-    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode, ecsCallback: ECSCallback<Boolean, Exception> ){
+    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode ){
         ecsSetDeliveryModesCallback.mECRequestType=MECRequestType.MEC_SET_DELIVERY_MODE
-        ecsSetDeliveryModesCallback.ecsCallback=ecsCallback
         addressRepository.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
 
     }

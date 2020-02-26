@@ -49,7 +49,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     private lateinit var addressViewModel: AddressViewModel
-    private lateinit var profileViewModel: ProfileViewModel
+
 
     private var mAddressList: List<ECSAddress>? = null
 
@@ -167,34 +167,25 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         }
     }
 
-    private val fetchProfileObserver: Observer<ECSUserProfile> = Observer { userProfile ->
 
-        hideProgressBar()
-        if (userProfile.defaultAddress != null) {
-            mAddressList?.let { moveDefaultAddressToTopOfTheList(it, shoppingCart.deliveryAddress.id) }
-        }
-        if (null != mAddressList) {
-            gotoDeliveryAddress(mAddressList)
-        }
-    }
 
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
         mAddressList = addressList
-
+        hideProgressBar()
         if (mAddressList.isNullOrEmpty()) {
             replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
-            hideProgressBar()
-        } else {
 
-            if (shoppingCart.deliveryAddress != null) {
+        } else {
+            gotoDeliveryAddress(mAddressList)
+            /*if (shoppingCart.deliveryAddress != null) {
                // moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
                 gotoDeliveryAddress(mAddressList)
                 hideProgressBar()
             } else {
-                profileViewModel.fetchUserProfile()
-            }
+               // profileViewModel.fetchUserProfile()
+            }*/
 
         }
 
@@ -241,10 +232,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             addressViewModel.ecsAddresses.observe(this, addressObserver)
             ecsShoppingCartViewModel.mecError.observe(this, this)
             addressViewModel.mecError.observe(this, this)
-            profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
 
-
-            profileViewModel.userProfile.observe(this, fetchProfileObserver)
 
             productReviewList = mutableListOf()
 
@@ -375,7 +363,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
                 binding.llAddVoucher.showError()
                 validationEditText?.requestFocus()
             }
-        } else {
+        }else if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_USER_PROFILE){
+            gotoDeliveryAddress(mAddressList)
+        }else{
             super.processError(mecError, true)
         }
     }

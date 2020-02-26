@@ -1,0 +1,39 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="ecsAddress"
+            type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mec_address_card_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="@dimen/iap_margin_10dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@android:drawable/ic_menu_add"/>
+
+        </RelativeLayout>
+
+<!-- pro cons unicode + 56*56 "\u{FF0B}"
+     lebel - Add new Shipping Address
+     -->
+
+    </androidx.cardview.widget.CardView>
+</layout>
