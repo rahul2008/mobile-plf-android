@@ -8,6 +8,8 @@ import com.philips.cdp.di.mec.R
 
 object MECConstant {
 
+    val KEY_ITEM_CLICK_LISTENER: String? = "KEY_ITEM_CLICK_LISTENER"
+    val CREATE_ADDRESS: String? = "CREATE_ADDRESS"
     val KEY_IS_HYBRIS: String? ="KEY_IS_HYBRIS"
     val KEY_ECS_ADDRESSES: String? = "KEY_ECS_ADDRESSES"
     val KEY_ECS_ADDRESS: String? = "KEY_ECS_ADDRESS"

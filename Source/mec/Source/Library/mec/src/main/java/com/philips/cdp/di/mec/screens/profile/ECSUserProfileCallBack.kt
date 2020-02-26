@@ -7,7 +7,8 @@ import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 
 class ECSUserProfileCallBack(private var ecsProfileViewModel: ProfileViewModel) :ECSCallback<ECSUserProfile, Exception> {
-    var mECRequestType : MECRequestType?=null
+
+    var mECRequestType : MECRequestType?=MECRequestType.MEC_FETCH_USER_PROFILE
     override fun onResponse(userProfile: ECSUserProfile) {
         ecsProfileViewModel.userProfile.value = userProfile
     }

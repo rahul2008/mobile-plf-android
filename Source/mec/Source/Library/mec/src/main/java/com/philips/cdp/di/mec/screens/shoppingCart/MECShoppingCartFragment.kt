@@ -355,7 +355,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
                 binding.llAddVoucher.showError()
                 validationEditText?.requestFocus()
             }
-        } else {
+        }else if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_USER_PROFILE){
+            gotoDeliveryAddress(mAddressList)
+        }else{
             super.processError(mecError, true)
         }
     }

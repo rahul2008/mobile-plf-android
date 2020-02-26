@@ -63,7 +63,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
             if(mSelectedItem!=getAdapterPosition()) {
                 mSelectedItem=-1// reset previous set delivery mode
                 mSelectedItem = getAdapterPosition()
-                notifyDataSetChanged();
+                notifyDataSetChanged()
                 itemClickListener.onItemClick(deliveryMode as Object)
             }
         }

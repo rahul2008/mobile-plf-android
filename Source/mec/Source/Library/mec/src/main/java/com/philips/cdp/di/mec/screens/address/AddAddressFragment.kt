@@ -98,7 +98,7 @@ class AddAddressFragment : MecBaseFragment() {
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
         shoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
 
-       //Set Country before binding
+        //Set Country before binding
         eCSAddressShipping.country =addressViewModel.getCountry()
         eCSAddressBilling.country = addressViewModel.getCountry()
 
@@ -110,7 +110,6 @@ class AddAddressFragment : MecBaseFragment() {
         }
 
         //set Last Name
-
         val lastName = MECDataHolder.INSTANCE.getUserInfo().lastName
         if(!lastName.isNullOrEmpty() && !lastName.equals("null",true)){
             eCSAddressShipping.lastName = lastName

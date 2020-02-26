@@ -15,6 +15,6 @@ class ECSFetchDeliveryModesCallback(private val addressViewModel: AddressViewMod
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
         val mecError = MecError(error, ecsError,mECRequestType)
-        addressViewModel.mecError.value
+        addressViewModel.mecError.value = mecError
     }
 }

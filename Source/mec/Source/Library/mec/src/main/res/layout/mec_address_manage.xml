@@ -1,0 +1,78 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/mec_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/mec_address_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/iap_margin_10dp"
+                android:paddingLeft="@dimen/border16_margin_left_right"
+                android:paddingRight="@dimen/border16_margin_left_right"
+                android:text="Manage Shipping Addresses" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/iap_margin_4dp"
+                android:layout_marginBottom="@dimen/iap_margin_4dp"
+                android:paddingLeft="@dimen/border16_margin_left_right"
+                android:paddingRight="@dimen/border16_margin_left_right"
+                android:text="Choose shipping address from below list" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/mec_btn_delete_address"
+            style="@style/mecCentralesansBookFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/mec_continue_shopping_btn"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+            android:enabled="true"
+            android:text="Deliver to this Address"
+            android:textColor="?attr/uidButtonPrimaryNormalTextColor"
+            android:textSize="16dp"
+            app:uidComponentType="Primary" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/mec_btn_set_address"
+            style="@style/mecCentralesansBookFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginBottom="@dimen/iap_shopping_cart_btn_margin"
+            android:enabled="true"
+            android:text="Delete"
+            android:textColor="?attr/uidButtonSecondaryNormalTextColor"
+            android:textSize="16dp"
+            app:uidComponentType="Secondary" />
+
+    </LinearLayout>
+
+
+</layout>
