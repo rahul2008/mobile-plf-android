@@ -144,17 +144,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <com.philips.platform.uid.view.widget.Label
+
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/tv_manage_address"
-            style="@style/mec_address_header"
-            android:layout_marginLeft="@dimen/border16_margin_left_right"
-            android:layout_marginRight="@dimen/border16_margin_left_right"
-            android:layout_marginTop="@dimen/border12_margin"
+            style="@style/mecCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:clickable="true"
-            android:padding="@dimen/iap_margin_4dp"
+            android:enabled="true"
+            android:layout_above="@+id/mec_continue_shopping_btn"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+            android:textColor="?attr/uidButtonPrimaryNormalTextColor"
+            android:textSize="16dp"
+            app:uidComponentType="Primary"
             android:text="Manage Address" />
 
     </LinearLayout>

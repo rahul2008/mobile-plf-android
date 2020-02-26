@@ -1,6 +1,7 @@
 package com.philips.cdp.di.mec.screens.address
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,11 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecDeliveryBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.screens.retailers.MECRetailersFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import java.io.Serializable
 
 class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
@@ -24,6 +26,8 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     override fun getFragmentTag(): String {
         return "MECDeliveryFragment"
     }
+
+    private  var bottomSheetFragment: ManageAddressFragment? = null
 
     private val ecsDeliveryModesObserver: Observer<List<ECSDeliveryMode>> = Observer  (fun(eCSDeliveryMode: List<ECSDeliveryMode>?) {
         binding.mecDeliveryProgressbar.visibility=View.GONE
@@ -48,7 +52,10 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         binding = MecDeliveryBinding.inflate(inflater, container, false)
 
         addressViewModel = let { ViewModelProviders.of(it).get(AddressViewModel::class.java) }
+
         addressViewModel.ecsDeliveryModes.observe(this, ecsDeliveryModesObserver)
+        addressViewModel.mecError.observe(this,this)
+
         ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
         mECSDeliveryModeList= mutableListOf()
         mECDeliveryModesAdapter = MECDeliveryModesAdapter(mECSDeliveryModeList,this)
@@ -70,8 +77,6 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             }
         })
 
-
-
         fetchDeliveryModes()
         return binding.root
     }
@@ -83,34 +88,83 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     override fun onItemClick(item: Any) {
+
+
         binding.mecDeliveryProgressbar.visibility=View.VISIBLE
-        val eCSSetDeliveryModeCallback:ECSCallback<Boolean, Exception> = object: ECSCallback<Boolean, Exception>{
 
-            override fun onResponse(result: Boolean?) {
-                binding.mecDeliveryProgressbar.visibility=View.GONE
+        if(item is ECSDeliveryMode) {
+
+            val eCSSetDeliveryModeCallback: ECSCallback<Boolean, Exception> = object : ECSCallback<Boolean, Exception> {
+
+                override fun onResponse(result: Boolean?) {
+                    binding.mecDeliveryProgressbar.visibility = View.GONE
+                }
+
+                override fun onFailure(error: Exception?, ecsError: ECSError?) {
+                    binding.mecDeliveryProgressbar.visibility = View.GONE
+                }
             }
 
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                binding.mecDeliveryProgressbar.visibility=View.GONE
-            }
+            addressViewModel.setDeliveryMode(item as ECSDeliveryMode, eCSSetDeliveryModeCallback)
         }
 
-        addressViewModel.setDeliveryMode(item as ECSDeliveryMode,eCSSetDeliveryModeCallback)
+
+        if(item is String && item.equals(MECConstant.CREATE_ADDRESS,true)){
+
+            //dismiss the bottom sheet fragment
+
+            if(bottomSheetFragment!=null){
+                if(bottomSheetFragment?.isVisible!!){
+                    bottomSheetFragment?.dismiss()
+                }
+            }
+
+            Log.d("ADDRESS","CREATE_ADDRESS")
+            // create Address ======= starts
+            val ecsAddress = createNewAddress()
+            gotoCreateOrEditAddress(ecsAddress)
+        }
+
+
+    }
+
+    private fun createNewAddress() : ECSAddress {
+        val ecsAddress = ECSAddress()
+
+        //Set Country before binding
+        ecsAddress.country = addressViewModel.getCountry()
+
+        //set First Name
+        val firstName = MECDataHolder.INSTANCE.getUserInfo().firstName
+        if (!firstName.isNullOrEmpty() && !firstName.equals("null", true)) {
+            ecsAddress.firstName = firstName
+        }
+
+        //set Last Name
+        val lastName = MECDataHolder.INSTANCE.getUserInfo().lastName
+        if (!lastName.isNullOrEmpty() && !lastName.equals("null", true)) {
+            ecsAddress.lastName = lastName
+        }
+        return ecsAddress
     }
 
 
     fun onEditClick(){
 
-        var editAddressFragment = EditAddressFragment()
+        gotoCreateOrEditAddress(binding.ecsAddressShipping!!)
+    }
+
+    private fun gotoCreateOrEditAddress(ecsAddress: ECSAddress) {
+        var editAddressFragment = CreateOrEditAddressFragment()
         var bundle = Bundle()
-        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, binding.ecsAddressShipping)
+        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS,ecsAddress)
         editAddressFragment.arguments = bundle
-        replaceFragment(editAddressFragment,editAddressFragment.getFragmentTag(),true)
+        replaceFragment(editAddressFragment, editAddressFragment.getFragmentTag(), true)
     }
 
     private fun onManageAddressClick() {
         val bundle = Bundle()
-        var bottomSheetFragment = ManageAddressFragment()
+        bottomSheetFragment = ManageAddressFragment()
 
         //Testing ..adding 6 element
         val toMutableList = ecsAddresses.toMutableList()
@@ -118,13 +172,19 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         toMutableList.addAll(ecsAddresses)
 
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, toMutableList.toList() as Serializable)
-        bottomSheetFragment.arguments = bundle
-        fragmentManager?.let { bottomSheetFragment.show(it, bottomSheetFragment.tag) }
+        bundle.putSerializable(MECConstant.KEY_ITEM_CLICK_LISTENER,this)
+        bottomSheetFragment?.arguments = bundle
+        fragmentManager?.let { bottomSheetFragment?.show(it, bottomSheetFragment?.tag) }
 
     }
 
-    fun fetchDeliveryModes(){
+    private fun fetchDeliveryModes(){
         binding.mecDeliveryProgressbar.visibility=View.VISIBLE
         addressViewModel.fetchDeliveryModes()
+    }
+
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        binding.mecDeliveryProgressbar.visibility=View.GONE
+        super.processError(mecError, showDialog)
     }
 }

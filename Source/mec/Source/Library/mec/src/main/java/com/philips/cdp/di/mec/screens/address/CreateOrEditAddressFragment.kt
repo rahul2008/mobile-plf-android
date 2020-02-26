@@ -22,7 +22,7 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
 
 
-class EditAddressFragment : MecBaseFragment() {
+class CreateOrEditAddressFragment : MecBaseFragment() {
     override fun getFragmentTag(): String {
         return "EditAddressFragment"
     }
@@ -101,7 +101,12 @@ class EditAddressFragment : MecBaseFragment() {
                     val ecsAddress = binding.ecsAddress
                     addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddress!!)
 
-                    addressViewModel.updateAndFetchAddress(ecsAddress!!)
+                    if(ecsAddress.id !=null) { // This means address already existed , so need to create it again
+                        addressViewModel.updateAndFetchAddress(ecsAddress!!)
+                    }else{
+                        addressViewModel.createAndFetchAddress(ecsAddress)
+                    }
+
                     createCustomProgressBar(container,MEDIUM)
                 }
             }

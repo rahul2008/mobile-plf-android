@@ -6,7 +6,6 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 
 import android.view.MotionEvent
 import android.view.View
@@ -23,18 +22,16 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
-import com.philips.cdp.di.ecs.model.address.Region
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.integration.MecHolder
-import com.philips.cdp.di.mec.screens.specification.SpecificationChildRecyclerAdapter
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.cdp.di.mec.view.MECDropDown
-import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
 import com.philips.platform.uid.view.widget.CheckBox
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.Label
@@ -44,7 +41,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
-import java.util.regex.Pattern
 
 class AddressViewModel : CommonViewModel() {
 
@@ -85,6 +81,14 @@ class AddressViewModel : CommonViewModel() {
     fun createAddress(ecsAddress: ECSAddress){
         ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_CREATE_ADDRESS
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
+    }
+
+    fun createAndFetchAddress(ecsAddress: ECSAddress){
+        addressRepository.createAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun deleteAndFetchAddress(ecsAddress: ECSAddress){
+        addressRepository.deleteAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
@@ -280,13 +284,6 @@ class AddressViewModel : CommonViewModel() {
         @BindingAdapter("shippingAddress")
         fun setShippingAddress(lebel: Label, ecsAddress: ECSAddress){
             lebel.setText(MECutility().constructShippingAddressDisplayField(ecsAddress))
-        }
-
-        @JvmStatic
-        @BindingAdapter("mecAddresses")
-        fun setAdapter(recyclerView: RecyclerView, mecAddresses: MECAddresses?) {
-            if(mecAddresses!=null)
-                recyclerView.adapter = AddressBottomSheetRecyclerAdapter(mecAddresses)
         }
 
     }

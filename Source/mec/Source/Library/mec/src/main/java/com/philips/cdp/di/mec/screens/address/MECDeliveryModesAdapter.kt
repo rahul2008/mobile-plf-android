@@ -52,7 +52,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
         private fun setDeliveryMode(){
             if(mSelectedItem!=getAdapterPosition()) {
                 mSelectedItem = getAdapterPosition()
-                notifyDataSetChanged();
+                notifyDataSetChanged()
                 itemClickListener.onItemClick(deliveryMode as Object)
             }
         }

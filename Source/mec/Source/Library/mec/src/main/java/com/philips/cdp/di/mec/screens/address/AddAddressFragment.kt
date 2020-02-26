@@ -110,7 +110,6 @@ class AddAddressFragment : MecBaseFragment() {
         }
 
         //set Last Name
-
         val lastName = MECDataHolder.INSTANCE.getUserInfo().lastName
         if(!lastName.isNullOrEmpty() && !lastName.equals("null",true)){
             eCSAddressShipping.lastName = lastName
