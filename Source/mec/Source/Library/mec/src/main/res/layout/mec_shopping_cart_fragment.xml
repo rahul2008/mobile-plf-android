@@ -190,6 +190,7 @@
             android:id="@+id/price_button_view"
             android:layout_above="@+id/mecPriceLayout"
             android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
             android:layout_height="0.05dp"
             android:background="?attr/uidContentItemTertiaryNormalTextColor" />
 
