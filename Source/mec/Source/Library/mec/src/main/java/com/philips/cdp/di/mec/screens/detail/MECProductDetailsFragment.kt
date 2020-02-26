@@ -1,21 +1,21 @@
 package com.philips.cdp.di.mec.screens.detail
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.bazaarvoice.bvandroidsdk.*
+import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
+import com.bazaarvoice.bvandroidsdk.Statistics
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
@@ -23,18 +23,16 @@ import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
-
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productDetails
 import com.philips.cdp.di.mec.analytics.MECAnalytics
-import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProducts
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.outOfStock
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.retailerName
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.stockStatus
-import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.integration.MecHolder
@@ -48,14 +46,11 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
-import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * A simple [Fragment] subclass.
