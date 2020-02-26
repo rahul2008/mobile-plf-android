@@ -19,6 +19,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.ecs.demotestuapp.integration.EcsDemoTestAppSettings;
+import com.ecs.demotestuapp.integration.EcsDemoTestUAppDependencies;
+import com.ecs.demotestuapp.integration.EcsDemoTestUAppInterface;
+import com.ecs.demouapp.integration.EcsLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -76,7 +80,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     public static final String SELECTED_COUNTRY = "SELECTED_COUNTRY";
 
 
-    private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
+    private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btn_ECS, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
     private Switch aSwitch, abTestingSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
@@ -128,6 +132,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btn_RegistrationPR.setOnClickListener(this);
         btn_IAP = findViewById(R.id.btn_IAP);
         btn_IAP.setOnClickListener(this);
+        btn_ECS = findViewById(R.id.btn_ECS);
+        btn_ECS.setOnClickListener(this);
         PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(appInfraInterface);
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
 
@@ -183,6 +189,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             spinnerCountrySelection.setVisibility(View.GONE);
         }
 
+        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+        mIAPSettings = new IAPSettings(this);
+        mIapInterface.init(mIapDependencies, mIAPSettings);
         mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
         receiver = new HomeCountryUpdateReceiver(appInfraInterface);
         mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
@@ -223,15 +232,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 btnLaunchAsActivity.setText("Launch PIM As Activity");
                 btnLaunchAsFragment.setText("Launch PIM As Fragment");
             }
-            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+//            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
             mIapInterface = new IAPInterface();
-            mIAPSettings = new IAPSettings(this);
+//            mIAPSettings = new IAPSettings(this);
             mCategorizedProductList = new ArrayList<>();
             mCategorizedProductList.add("HD9745/90000");
             mCategorizedProductList.add("HD9630/90");
             mCategorizedProductList.add("HD9240/90");
             mCategorizedProductList.add("HD9621/90");
-            mIapInterface.init(mIapDependencies, mIAPSettings);
+//            mIapInterface.init(mIapDependencies, mIAPSettings);
             mIapLaunchInput = new IAPLaunchInput();
             mIapLaunchInput.setHybrisSupported(true);
             mIapLaunchInput.setIapListener(this);
@@ -344,6 +353,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
+        } else if (v == btn_ECS) {
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                launchECS();
+            }
         } else if (v == btnMigrator) {
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
@@ -386,6 +399,18 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         }
+
+    }
+
+    private EcsDemoTestUAppInterface iapDemoUAppInterface;
+
+    private void launchECS() {
+       // AppInfra appInfra = get.getAppInfra();
+
+        iapDemoUAppInterface = new EcsDemoTestUAppInterface();
+       // FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
+        iapDemoUAppInterface.init(new EcsDemoTestUAppDependencies(appInfraInterface), new EcsDemoTestAppSettings(this));
+        iapDemoUAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), new EcsLaunchInput());
 
     }
 
@@ -490,6 +515,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         spinnerCountryText.setText(selectedCountry);
         spinnerCountrySelection.setVisibility(View.GONE);
         btnLaunchAsFragment.setText("Launch User Profile");
+        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+        mIAPSettings = new IAPSettings(this);
+        mIapInterface.init(mIapDependencies, mIAPSettings);
     }
 
     @Override
