@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bazaarvoice.bvandroidsdk.*
@@ -324,13 +325,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartClick(){
-        binding.progress.visibility = View.VISIBLE
+        binding.mecProgress.mecProgressBar.visibility = View.VISIBLE
+        activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         if(null!=binding.product ) {
             if (isUserLoggedIn()) {
                 val addToProductCallback =  object: ECSCallback<ECSShoppingCart, Exception> {
 
                     override fun onResponse(eCSShoppingCart: ECSShoppingCart?) {
-                        binding.progress.visibility = View.GONE
+                        binding.mecProgress.mecProgressBar.visibility = View.GONE
+                        activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         val bundle = Bundle()
                         bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
                         val fragment = MECShoppingCartFragment()
@@ -339,7 +343,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     }
 
                     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                        binding.progress.visibility = View.GONE
+                        binding.mecProgress.mecProgressBar.visibility = View.GONE
+                        activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         val mecError = MecError(error, ecsError,null)
                         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), mecError!!.exception!!.message.toString()) } }
                     }
@@ -347,7 +352,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 }
                 product?.let { ecsProductDetailViewModel.addProductToShoppingcart(it,addToProductCallback) }
             }else{
-                binding.progress.visibility = View.GONE
+                binding.mecProgress.mecProgressBar.visibility = View.GONE
+                activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }
             }
         }

@@ -119,6 +119,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             binding.mecAcceptedCodeRecyclerView.visibility = View.GONE
         }
 
+        vouchersAdapter?.notifyDataSetChanged()
+        cartSummaryAdapter?.notifyDataSetChanged()
+
 
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
@@ -130,7 +133,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
         hideProgressBar()
         productReviewList.clear()
-        //cartSummaryList.clear()
+        cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
 
         for (i in 0..shoppingCart.entries.size - 1) {
