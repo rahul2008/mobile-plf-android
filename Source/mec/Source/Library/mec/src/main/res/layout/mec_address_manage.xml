@@ -39,6 +39,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/border12_margin"
             android:orientation="horizontal"
+            android:background="?attr/uidContentTertiaryBackgroundColor"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <com.philips.platform.uid.view.widget.Button

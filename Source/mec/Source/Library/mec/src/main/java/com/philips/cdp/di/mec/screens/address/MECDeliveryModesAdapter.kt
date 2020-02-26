@@ -14,7 +14,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
     private var mSelectedItem = -1 // default value no selection..
 
     private lateinit var deliveryMode: ECSDeliveryMode
-    private lateinit var mECSShoppingCartDeliveryModeEntity: DeliveryModeEntity
+    private  var mECSShoppingCartDeliveryModeEntity: DeliveryModeEntity? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MECDeliveryModeHolder(MecDeliveryModeItemBinding.inflate(LayoutInflater.from(parent.context)))
@@ -28,7 +28,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         deliveryMode=deliveryModes.get(position)
-        if(null!=mECSShoppingCartDeliveryModeEntity && deliveryMode.code.equals(mECSShoppingCartDeliveryModeEntity.code,true)){
+        if(null!=mECSShoppingCartDeliveryModeEntity && deliveryMode.code.equals(mECSShoppingCartDeliveryModeEntity!!.code,true)){
             // if this fetched delivery mode is same as cart delivery Mode then select radio button
             mSelectedItem=position
         }
@@ -61,7 +61,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
 
         private fun setDeliveryMode(){
             if(mSelectedItem!=getAdapterPosition()) {
-                mSelectedItem=-1// reset previous set delivery mode
+                mECSShoppingCartDeliveryModeEntity=null// reset previous set delivery mode
                 mSelectedItem = getAdapterPosition()
                 notifyDataSetChanged()
                 itemClickListener.onItemClick(deliveryMode as Object)
