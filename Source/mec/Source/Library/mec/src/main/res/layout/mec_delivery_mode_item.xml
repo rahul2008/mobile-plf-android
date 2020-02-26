@@ -52,7 +52,7 @@
         android:textSize="@dimen/iap_text_size_12"
         android:layout_marginBottom="@dimen/border12_margin"
         android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-        android:text='@{deliveryMode.deliveryCost.formattedValue + " | " + deliveryMode.description }'
+        android:text='@{ deliveryMode.description!=null ?  deliveryMode.deliveryCost.formattedValue + " | " + deliveryMode.description  : deliveryMode.deliveryCost.formattedValue }'
         android:layout_toEndOf="@+id/mec_delivery_mode_radio_button"
         android:layout_below="@+id/mec_delivery_mode_Title"
         />
