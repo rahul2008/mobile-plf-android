@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
+import com.philips.cdp.di.ecs.model.cart.DeliveryModeEntity
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecDeliveryModeItemBinding
 import kotlinx.android.synthetic.main.mec_delivery_mode_item.view.*
@@ -13,6 +14,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
     private var mSelectedItem = -1 // default value no selection..
 
     private lateinit var deliveryMode: ECSDeliveryMode
+    private lateinit var mECSShoppingCartDeliveryModeEntity: DeliveryModeEntity
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MECDeliveryModeHolder(MecDeliveryModeItemBinding.inflate(LayoutInflater.from(parent.context)))
@@ -26,6 +28,10 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         deliveryMode=deliveryModes.get(position)
+        if(null!=mECSShoppingCartDeliveryModeEntity && deliveryMode.code.equals(mECSShoppingCartDeliveryModeEntity.code,true)){
+            // if this fetched delivery mode is same as cart delivery Mode then select radio button
+            mSelectedItem=position
+        }
        val mECDeliveryModeHolder = holder as MECDeliveryModeHolder
         mECDeliveryModeHolder.bind(deliveryMode,itemClickListener)
         mECDeliveryModeHolder.itemView.mec_delivery_mode_radio_button.setChecked(position == mSelectedItem);
@@ -33,6 +39,10 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
 
     fun getSelectedDeliveryMode() : ECSDeliveryMode{
         return deliveryMode
+    }
+
+    fun setSelectedDeliveryModeAsCart(aDeliveryModeEntity: DeliveryModeEntity){
+        mECSShoppingCartDeliveryModeEntity=aDeliveryModeEntity
     }
 
 
@@ -51,6 +61,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
 
         private fun setDeliveryMode(){
             if(mSelectedItem!=getAdapterPosition()) {
+                mSelectedItem=-1// reset previous set delivery mode
                 mSelectedItem = getAdapterPosition()
                 notifyDataSetChanged();
                 itemClickListener.onItemClick(deliveryMode as Object)

@@ -2,12 +2,8 @@ package com.philips.cdp.di.mec.screens.address
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-
 import android.content.Context
-
 import android.graphics.drawable.Drawable
-import android.util.Log
-
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.CycleInterpolator
@@ -18,11 +14,9 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
-import com.philips.cdp.di.ecs.model.address.Region
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
@@ -41,7 +35,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
-import java.util.regex.Pattern
 
 class AddressViewModel : CommonViewModel() {
 
@@ -67,6 +60,8 @@ class AddressViewModel : CommonViewModel() {
     val ecsAddresses = MutableLiveData<List<ECSAddress>>()
 
     val ecsDeliveryModes = MutableLiveData<List<ECSDeliveryMode>>()
+
+    val ecsDeliveryModeSet = MutableLiveData<Boolean>()
 
 
     fun fetchRegions() {
@@ -99,9 +94,8 @@ class AddressViewModel : CommonViewModel() {
         addressRepository.fetchDeliveryModes(ecsFetchDeliveryModesCallback)
     }
 
-    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode, ecsCallback: ECSCallback<Boolean, Exception> ){
+    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode ){
         ecsSetDeliveryModesCallback.mECRequestType=MECRequestType.MEC_SET_DELIVERY_MODE
-        ecsSetDeliveryModesCallback.ecsCallback=ecsCallback
         addressRepository.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
 
     }
