@@ -49,7 +49,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     private lateinit var addressViewModel: AddressViewModel
-    private lateinit var profileViewModel: ProfileViewModel
+
 
     private var mAddressList: List<ECSAddress>? = null
 
@@ -119,6 +119,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             binding.mecAcceptedCodeRecyclerView.visibility = View.GONE
         }
 
+        vouchersAdapter?.notifyDataSetChanged()
+        cartSummaryAdapter?.notifyDataSetChanged()
+
 
         if (ecsShoppingCart != null) {
             val quantity = MECutility.getQuantity(ecsShoppingCart)
@@ -130,7 +133,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
         hideProgressBar()
         productReviewList.clear()
-        //cartSummaryList.clear()
+        cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
 
         for (i in 0..shoppingCart.entries.size - 1) {
@@ -158,34 +161,25 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         }
     }
 
-    private val fetchProfileObserver: Observer<ECSUserProfile> = Observer { userProfile ->
 
-        hideProgressBar()
-        if (userProfile.defaultAddress != null) {
-            mAddressList?.let { moveDefaultAddressToTopOfTheList(it, shoppingCart.deliveryAddress.id) }
-        }
-        if (null != mAddressList) {
-            gotoDeliveryAddress(mAddressList)
-        }
-    }
 
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
         mAddressList = addressList
-
+        hideProgressBar()
         if (mAddressList.isNullOrEmpty()) {
             replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
-            hideProgressBar()
-        } else {
 
-            if (shoppingCart.deliveryAddress != null) {
+        } else {
+            gotoDeliveryAddress(mAddressList)
+            /*if (shoppingCart.deliveryAddress != null) {
                // moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
                 gotoDeliveryAddress(mAddressList)
                 hideProgressBar()
             } else {
-                profileViewModel.fetchUserProfile()
-            }
+               // profileViewModel.fetchUserProfile()
+            }*/
 
         }
 
@@ -232,10 +226,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             addressViewModel.ecsAddresses.observe(this, addressObserver)
             ecsShoppingCartViewModel.mecError.observe(this, this)
             addressViewModel.mecError.observe(this, this)
-            profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
 
-
-            profileViewModel.userProfile.observe(this, fetchProfileObserver)
 
             productReviewList = mutableListOf()
 

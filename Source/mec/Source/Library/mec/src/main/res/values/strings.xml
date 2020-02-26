@@ -34,7 +34,6 @@
     <string name="mec_currency">\u00A4</string>
     <string name="mec_buy_from_retailers">Buy From Retailer</string>
     <string name="mec_no_info_available">No info found</string>
-    <string name="mec_empty_space">&#160;</string>
 
 
     <!--- String match -->
@@ -131,6 +130,7 @@
     <string name="mec_shipping_cost">Delivery cost</string>
     <string name="mec_delivery_method">Delivery method</string>
     <string name="mec_seperator">&#160;|&#160;</string>
+    <string name="mec_empty_space">&#160;</string>
 
 
 </resources>

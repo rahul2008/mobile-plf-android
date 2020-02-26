@@ -1,6 +1,7 @@
 package com.mec.demouapp;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initTheme();
         setContentView(R.layout.base_demo_activity);
         showAppVersion();

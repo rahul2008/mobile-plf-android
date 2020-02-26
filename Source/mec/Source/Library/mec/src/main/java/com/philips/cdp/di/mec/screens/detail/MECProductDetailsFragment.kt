@@ -1,21 +1,22 @@
 package com.philips.cdp.di.mec.screens.detail
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.bazaarvoice.bvandroidsdk.*
+import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
+import com.bazaarvoice.bvandroidsdk.Statistics
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
@@ -23,18 +24,16 @@ import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
-
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productDetails
 import com.philips.cdp.di.mec.analytics.MECAnalytics
-import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProducts
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.outOfStock
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.prodView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.retailerName
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.stockStatus
-import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
 import com.philips.cdp.di.mec.integration.MecHolder
@@ -48,14 +47,11 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
-import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * A simple [Fragment] subclass.
@@ -324,13 +320,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartClick(){
-        binding.progress.visibility = View.VISIBLE
+        binding.mecProgress.mecProgressBar.visibility = View.VISIBLE
+        activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         if(null!=binding.product ) {
             if (isUserLoggedIn()) {
                 val addToProductCallback =  object: ECSCallback<ECSShoppingCart, Exception> {
 
                     override fun onResponse(eCSShoppingCart: ECSShoppingCart?) {
-                        binding.progress.visibility = View.GONE
+                        binding.mecProgress.mecProgressBar.visibility = View.GONE
+                        activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         val bundle = Bundle()
                         bundle.putSerializable(MECConstant.MEC_SHOPPING_CART, eCSShoppingCart)
                         val fragment = MECShoppingCartFragment()
@@ -339,7 +338,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     }
 
                     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                        binding.progress.visibility = View.GONE
+                        binding.mecProgress.mecProgressBar.visibility = View.GONE
+                        activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         val mecError = MecError(error, ecsError,null)
                         fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), mecError!!.exception!!.message.toString()) } }
                     }
@@ -347,7 +347,8 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 }
                 product?.let { ecsProductDetailViewModel.addProductToShoppingcart(it,addToProductCallback) }
             }else{
-                binding.progress.visibility = View.GONE
+                binding.mecProgress.mecProgressBar.visibility = View.GONE
+                activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }
             }
         }

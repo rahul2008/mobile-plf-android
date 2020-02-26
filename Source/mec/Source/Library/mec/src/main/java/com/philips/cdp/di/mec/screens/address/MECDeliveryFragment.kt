@@ -11,17 +11,34 @@ import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecDeliveryBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.profile.ProfileViewModel
+import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import java.io.Serializable
+import com.philips.cdp.di.mec.utils.MECutility
 
 class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
+
+    var mRootView: View? = null
+    private lateinit var profileViewModel: ProfileViewModel
+    lateinit var binding:MecDeliveryBinding
+    private var mECDeliveryModesAdapter :MECDeliveryModesAdapter ?=null
+    private lateinit var mECSDeliveryModeList : MutableList<ECSDeliveryMode>
+    lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
+
+    lateinit var ecsAddresses:List<ECSAddress>
+    lateinit var mECSShoppingCart: ECSShoppingCart
+
+    private lateinit var addressViewModel: AddressViewModel
 
     override fun getFragmentTag(): String {
         return "MECDeliveryFragment"
@@ -39,17 +56,42 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     })
 
-    lateinit var binding:MecDeliveryBinding
-    private var mECDeliveryModesAdapter :MECDeliveryModesAdapter ?=null
-    private lateinit var mECSDeliveryModeList : MutableList<ECSDeliveryMode>
+    private val fetchProfileObserver: Observer<ECSUserProfile> = Observer { userProfile ->
 
-    lateinit var ecsAddresses:List<ECSAddress>
-    private lateinit var addressViewModel: AddressViewModel
+
+        val profileECSAddress = MECutility.findGivenAddressInAddressList(userProfile.defaultAddress.id,ecsAddresses)
+        if (userProfile.defaultAddress != null &&  profileECSAddress != null) {
+            //if userProfile  delivery address and its ID is matching with one of the fetched address list
+            setAndFetchDeliveryAddress(profileECSAddress)
+        }else{
+            //if delivery address  not present neither in Cart nor in user profile then set first address of fetched list
+            setAndFetchDeliveryAddress(ecsAddresses[0])
+        }
+
+    }
+
+    private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
+        binding.mecDeliveryProgressbar.visibility=View.GONE
+        ecsAddresses = addressList!!
+        ecsShoppingCartViewModel.getShoppingCart()
+
+    })
+
+    private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
+        binding.mecDeliveryProgressbar.visibility=View.GONE
+        mECSShoppingCart=ecsShoppingCart
+        fetchDeliveryModes()
+    }
+
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = MecDeliveryBinding.inflate(inflater, container, false)
+        if (null == mRootView) {
+            binding = MecDeliveryBinding.inflate(inflater, container, false)
 
         addressViewModel = let { ViewModelProviders.of(it).get(AddressViewModel::class.java) }
 
@@ -61,14 +103,32 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         mECDeliveryModesAdapter = MECDeliveryModesAdapter(mECSDeliveryModeList,this)
         binding.mecDeliveryModeRecyclerView.adapter=mECDeliveryModesAdapter
 
-        binding.ecsAddressShipping = ecsAddresses[0]
 
-        binding.tvShippingAddressName.setOnClickListener(object:View.OnClickListener{
+            ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
+            mECSShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
+            mECSDeliveryModeList = mutableListOf()
+            profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
+            profileViewModel.userProfile.observe(this, fetchProfileObserver)
 
-            override fun onClick(v: View?) {
-                onEditClick()
-            }
-        })
+            addressViewModel = let { ViewModelProviders.of(it).get(AddressViewModel::class.java) }
+            addressViewModel.ecsDeliveryModes.observe(this, ecsDeliveryModesObserver)
+            addressViewModel.ecsAddresses.observe(this, addressObserver)
+
+            ecsShoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+            ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
+
+
+            mECDeliveryModesAdapter = MECDeliveryModesAdapter(mECSDeliveryModeList, this)
+            binding.mecDeliveryModeRecyclerView.adapter = mECDeliveryModesAdapter
+
+            binding.ecsAddressShipping = ecsAddresses[0]
+
+            binding.tvShippingAddressName.setOnClickListener(object : View.OnClickListener {
+
+                override fun onClick(v: View?) {
+                    onEditClick()
+                }
+            })
 
         binding.tvManageAddress.setOnClickListener(object:View.OnClickListener{
 
@@ -78,6 +138,9 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         })
 
         fetchDeliveryModes()
+            mRootView=binding.root
+            checkDeliveryAddressSet()
+        }
         return binding.root
     }
 
@@ -186,5 +249,23 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     override fun processError(mecError: MecError?, showDialog: Boolean) {
         binding.mecDeliveryProgressbar.visibility=View.GONE
         super.processError(mecError, showDialog)
+    }
+
+    private fun checkDeliveryAddressSet(){
+        setAndFetchDeliveryAddress(ecsAddresses[0])
+      /*  if(null!=mECSShoppingCart.deliveryAddress && null!=MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id,ecsAddresses)){
+            // if shopping cart has delivery address and its ID is matching with one of the fetched address list
+            fetchDeliveryModes()
+        }else {
+            binding.mecDeliveryProgressbar.visibility=View.VISIBLE
+            profileViewModel.fetchUserProfile()
+
+        }*/
+
+    }
+
+    private fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
+        binding.mecDeliveryProgressbar.visibility=View.VISIBLE
+        addressViewModel.setAndFetchDeliveryAddress(ecsAddress!!)
     }
 }
