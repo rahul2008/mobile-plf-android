@@ -189,6 +189,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             spinnerCountrySelection.setVisibility(View.GONE);
         }
 
+        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+        mIAPSettings = new IAPSettings(this);
+        mIapInterface.init(mIapDependencies, mIAPSettings);
         mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
         receiver = new HomeCountryUpdateReceiver(appInfraInterface);
         mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
@@ -229,15 +232,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 btnLaunchAsActivity.setText("Launch PIM As Activity");
                 btnLaunchAsFragment.setText("Launch PIM As Fragment");
             }
-            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+//            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
             mIapInterface = new IAPInterface();
-            mIAPSettings = new IAPSettings(this);
+//            mIAPSettings = new IAPSettings(this);
             mCategorizedProductList = new ArrayList<>();
             mCategorizedProductList.add("HD9745/90000");
             mCategorizedProductList.add("HD9630/90");
             mCategorizedProductList.add("HD9240/90");
             mCategorizedProductList.add("HD9621/90");
-            mIapInterface.init(mIapDependencies, mIAPSettings);
+//            mIapInterface.init(mIapDependencies, mIAPSettings);
             mIapLaunchInput = new IAPLaunchInput();
             mIapLaunchInput.setHybrisSupported(true);
             mIapLaunchInput.setIapListener(this);
@@ -512,6 +515,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         spinnerCountryText.setText(selectedCountry);
         spinnerCountrySelection.setVisibility(View.GONE);
         btnLaunchAsFragment.setText("Launch User Profile");
+        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+        mIAPSettings = new IAPSettings(this);
+        mIapInterface.init(mIapDependencies, mIAPSettings);
     }
 
     @Override
