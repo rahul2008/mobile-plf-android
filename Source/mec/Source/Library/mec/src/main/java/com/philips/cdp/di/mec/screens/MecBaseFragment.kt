@@ -222,8 +222,9 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         }
     }
 
-    fun showProgressBarWithText(mecProgressBar: FrameLayout?, mecProgressBarText: ProgressBarWithLabel?, text: String){
+    fun showProgressBarWithText(mecProgressBar: FrameLayout?, text: String){
         mecProgressBar?.visibility = View.VISIBLE
+        val mecProgressBarText = mecProgressBar?.findViewById(R.id.mec_progress_bar_text) as ProgressBarWithLabel
         mecProgressBarText?.setText(text)
         if (activity != null) {
             activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
