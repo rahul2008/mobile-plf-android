@@ -136,6 +136,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                     appInfraInterface.getServiceDiscovery().setHomeCountry(countrycode);
                     editor.putString(SELECTED_COUNTRY, countryList.get(position));
                     editor.apply();
+                    uAppApplication.initialisePim();
+                    userDataInterface = uAppApplication.getUserDataInterface();
                 }
 
                 @Override
@@ -159,7 +161,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void initializeView(){
+    private void initializeView() {
         btnGetUserDetail = findViewById(R.id.btn_GetUserDetail);
         btnGetUserDetail.setOnClickListener(this);
         btnLaunchAsActivity = findViewById(R.id.btn_login_activity);
@@ -213,7 +215,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         } else {
             isUSR = false;
             Log.i(TAG, "Selected Liberary : PIM");
-            //uAppApplication.initialisePim();
+            uAppApplication.initialisePim();
             userDataInterface = uAppApplication.getUserDataInterface();
 
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
@@ -227,7 +229,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void intialiseIAP(){
+    private void intialiseIAP() {
         IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, userDataInterface);
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
@@ -333,11 +335,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_RegistrationPR) {
-            if(userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 Fragment fragment = new PRGFragment(userDataInterface, appInfraInterface);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-            }else {
+            } else {
                 Toast.makeText(this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (v == btn_IAP) {

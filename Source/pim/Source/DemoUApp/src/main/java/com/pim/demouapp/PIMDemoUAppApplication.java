@@ -20,7 +20,6 @@ public class PIMDemoUAppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         appInfraInterface = new AppInfra.Builder().build(this);
-        initialisePim();
     }
 
     public AppInfraInterface getAppInfra() {
