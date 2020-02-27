@@ -28,7 +28,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         deliveryMode=deliveryModes.get(position)
-        if(null!=mECSShoppingCartDeliveryModeEntity && deliveryMode.code.equals(mECSShoppingCartDeliveryModeEntity!!.code,true)){
+        if(null!=mECSShoppingCartDeliveryModeEntity && deliveryMode.code.equals(mECSShoppingCartDeliveryModeEntity?.code,true)){
             // if this fetched delivery mode is same as cart delivery Mode then select radio button
             mSelectedItem=position
         }
@@ -41,7 +41,7 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
         return deliveryMode
     }
 
-    fun setSelectedDeliveryModeAsCart(aDeliveryModeEntity: DeliveryModeEntity){
+    fun setSelectedDeliveryModeAsCart(aDeliveryModeEntity: DeliveryModeEntity?){
         mECSShoppingCartDeliveryModeEntity=aDeliveryModeEntity
     }
 

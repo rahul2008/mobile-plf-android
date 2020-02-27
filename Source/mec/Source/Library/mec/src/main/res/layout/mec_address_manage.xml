@@ -43,7 +43,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/mec_btn_delete_address"
+            android:id="@+id/mec_btn_set_address"
             style="@style/mecCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:uidComponentType="Primary" />
 
         <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/mec_btn_set_address"
+            android:id="@+id/mec_btn_delete_address"
             style="@style/mecCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
