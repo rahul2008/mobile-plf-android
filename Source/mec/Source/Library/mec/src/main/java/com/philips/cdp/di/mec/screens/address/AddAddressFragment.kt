@@ -18,6 +18,7 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressCreateBinding
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -56,7 +57,7 @@ class AddAddressFragment : MecBaseFragment() {
 
             val mecRegions = MECRegions(regionList!!)
             binding.mecRegions = mecRegions
-            hideProgressBar()
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
 
     }
@@ -64,7 +65,7 @@ class AddAddressFragment : MecBaseFragment() {
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
 
         gotoDeliveryAddress(mAddressList,ecsShoppingCart)
-        hideProgressBar()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
     private val createAddressObserver: Observer<ECSAddress> = object : Observer<ECSAddress> {
@@ -159,7 +160,7 @@ class AddAddressFragment : MecBaseFragment() {
 
 
                     addressViewModel.createAddress(ecsAddressShipping!!)
-                    createCustomProgressBar(container,MEDIUM)
+                    showProgressBar(binding.mecProgress.mecProgressBarContainer)
                 }
             }
         })
@@ -210,7 +211,7 @@ class AddAddressFragment : MecBaseFragment() {
 
         if(addressFieldEnabler?.isStateEnabled!!) {
             addressViewModel.fetchRegions()
-            createCustomProgressBar(container,MEDIUM)
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
     }
 
@@ -221,6 +222,16 @@ class AddAddressFragment : MecBaseFragment() {
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART,shoppingCart)
         deliveryFragment.arguments = bundle
         replaceFragment(deliveryFragment, MECDeliveryFragment().getFragmentTag(), true)
+    }
+
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        super.processError(mecError, showDialog)
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
 }

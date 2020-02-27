@@ -30,13 +30,6 @@
     android:layout_height="match_parent"
     >
 
-    <include
-        android:id="@+id/mec_progress"
-        android:layout_marginBottom="60dp"
-        layout="@layout/mec_progress_bar"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -319,6 +312,12 @@
             />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/mec_progress"
+        layout="@layout/mec_progress_bar"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
 </RelativeLayout>
 

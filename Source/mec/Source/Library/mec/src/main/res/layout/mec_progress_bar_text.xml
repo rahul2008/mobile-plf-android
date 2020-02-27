@@ -20,7 +20,7 @@
         style="@style/UIDProgressBarCircularIndeterminateMiddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Loading cart..."
+        android:text="Loading..."
         android:layout_gravity="center|center_horizontal"
         app:uidCircularProgressBarSize="middle"
         app:uidIsIndeterminateProgressIndicator="true"

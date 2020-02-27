@@ -144,12 +144,14 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         fun setDiscountPrice(discountPriceLabel: Label, product: ECSProduct?, basePriceEntity: BasePriceEntity?) {
             val discount = (product!!.price!!.value - basePriceEntity!!.value) / product.price!!.value * 100
 
-            val discountRounded: String = String.format("%.2f", discount).toString()
-            discountPriceLabel.text = "-" + discountRounded + "%"
-            if (discountRounded.equals("0.00")) {
-                discountPriceLabel.visibility = View.GONE
-            } else {
-                discountPriceLabel.visibility = View.VISIBLE
+            if(discount!=null) {
+                val discountRounded: String = String.format("%.2f", discount).toString()
+                discountPriceLabel.text = "-" + discountRounded + "%"
+                if (discountRounded.equals("0.00")) {
+                    discountPriceLabel.visibility = View.GONE
+                } else {
+                    discountPriceLabel.visibility = View.VISIBLE
+                }
             }
         }
 

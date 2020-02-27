@@ -26,12 +26,6 @@
     android:layout_height="match_parent"
     >
 
-    <include
-        android:id="@+id/mec_progress"
-        layout="@layout/mec_progress_bar_text"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
-
     <RelativeLayout
         android:id="@+id/mec_parent_layout"
         android:layout_width="match_parent"
@@ -349,6 +343,12 @@
             android:onClick="@{() -> fragment.gotoProductCatalog()}"
             android:text="@string/mec_continue_shopping" />
     </LinearLayout>
+
+    <include
+        android:id="@+id/mec_progress"
+        layout="@layout/mec_progress_bar"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
 </RelativeLayout>
 

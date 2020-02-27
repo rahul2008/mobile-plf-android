@@ -10,7 +10,7 @@
     </data>
 
 <FrameLayout
-    android:id="@+id/mec_progress_bar"
+    android:id="@+id/mec_progress_bar_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="gone">
@@ -26,6 +26,7 @@
         app:uidLabelPosition="bottom_center" />-->
 
     <com.philips.platform.uid.view.widget.ProgressBar
+        android:id="@+id/mec_progress_bar"
         style="@style/UIDProgressBarCircularIndeterminateMiddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
