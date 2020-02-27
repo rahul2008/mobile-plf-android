@@ -172,13 +172,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
         } else {
             gotoDeliveryAddress(mAddressList)
-            /*if (shoppingCart.deliveryAddress != null) {
-               // moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
-                gotoDeliveryAddress(mAddressList)
-            } else {
-               // profileViewModel.fetchUserProfile()
-            }*/
-
         }
 
     })
