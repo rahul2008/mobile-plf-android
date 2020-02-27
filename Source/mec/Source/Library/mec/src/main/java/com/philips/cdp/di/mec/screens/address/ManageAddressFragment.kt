@@ -32,18 +32,12 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
     }
 
     private val fetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
-
-
         dismiss()
-
     })
 
     private val errorObserver : Observer<MecError>  = Observer(fun( mecError: MecError?) {
-
-
         dismiss()
         Log.d(TAG ,"Error on deleting or setting address" )
-
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +46,7 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         binding = MecAddressManageBinding.inflate(inflater, container, false)
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        addressViewModel.ecsAddresses.observe(this,fetchAddressObserver)
+        activity?.let { addressViewModel.ecsAddresses.observe(it,fetchAddressObserver) }
         addressViewModel.mecError.observe(this,errorObserver)
 
         var ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>

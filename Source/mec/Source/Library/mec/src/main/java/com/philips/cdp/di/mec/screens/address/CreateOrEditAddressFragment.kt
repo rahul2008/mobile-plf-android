@@ -78,7 +78,7 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
 
         addressViewModel.regionsList.observe(this, regionListObserver)
         addressViewModel.mecError.observe(this, this)
-        addressViewModel.ecsAddresses.observe(this,updateAndFetchAddressObserver)
+        activity?.let { addressViewModel.ecsAddresses.observe(it,updateAndFetchAddressObserver) }
 
         addressFieldEnabler = context?.let { addressViewModel.getAddressFieldEnabler(ECSConfiguration.INSTANCE.country, it) }
 

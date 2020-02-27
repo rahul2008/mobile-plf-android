@@ -5,7 +5,6 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
-import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 
 class ECSFetchAddressesCallback (private val addressViewModel: AddressViewModel)  : ECSCallback<List<ECSAddress>, Exception> {
 
