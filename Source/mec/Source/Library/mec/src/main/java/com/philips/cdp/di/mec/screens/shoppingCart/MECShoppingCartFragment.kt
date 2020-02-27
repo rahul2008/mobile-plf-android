@@ -23,7 +23,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.philips.cdp.di.ecs.model.address.ECSUserProfile
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
@@ -34,7 +33,6 @@ import com.philips.cdp.di.mec.screens.address.*
 import com.philips.cdp.di.mec.screens.address.AddressViewModel
 
 import com.philips.cdp.di.mec.screens.address.MECDeliveryFragment
-import com.philips.cdp.di.mec.screens.profile.ProfileViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
 import java.io.Serializable
 import com.philips.platform.uid.view.widget.ValidationEditText
@@ -80,8 +78,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     val list: ArrayList<String>? = ArrayList()
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
-        hideProgressBar()
-        binding.mecProgress.mecProgressBarLayout.visibility = View.GONE
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         binding.shoppingCart = ecsShoppingCart
         shoppingCart = ecsShoppingCart!!
 
@@ -131,7 +128,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
 
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
-        hideProgressBar()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         productReviewList.clear()
         cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
@@ -173,7 +170,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
         mAddressList = addressList
-        hideProgressBar()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         if (mAddressList.isNullOrEmpty()) {
             replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
 
@@ -182,7 +179,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             /*if (shoppingCart.deliveryAddress != null) {
                // moveDefaultAddressToTopOfTheList(mAddressList!!, shoppingCart.deliveryAddress.id)
                 gotoDeliveryAddress(mAddressList)
-                hideProgressBar()
             } else {
                // profileViewModel.fetchUserProfile()
             }*/
@@ -290,7 +286,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     override fun onPositiveBtnClick() {
         if (removeVoucher) {
-            createCustomProgressBar(container, MEDIUM)
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
             removeVoucher = false
             ecsShoppingCartViewModel.removeVoucher(vouchersAdapter?.getVoucher()?.voucherCode.toString())
         } else {
@@ -309,13 +305,12 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     fun executeRequest() {
-        binding.mecProgress.mecProgressBarLayout.visibility = View.VISIBLE
-        //createCustomProgressBar(container, MEDIUM)
+        showProgressBar(binding.mecProgress.mecProgressBarContainer)
         ecsShoppingCartViewModel.getShoppingCart()
     }
 
     fun updateCartRequest(entries: ECSEntries, int: Int) {
-        createCustomProgressBar(container, MEDIUM)
+        showProgressBar(binding.mecProgress.mecProgressBarContainer)
         ecsShoppingCartViewModel.updateQuantity(entries, int)
     }
 
@@ -325,7 +320,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     fun onClickAddVoucher() {
-        createCustomProgressBar(container, MEDIUM)
+        showProgressBar(binding.mecProgress.mecProgressBarContainer)
         ecsShoppingCartViewModel.addVoucher(voucherCode, MECRequestType.MEC_APPLY_VOUCHER)
         binding.mecVoucherEditText.text?.clear()
     }
@@ -334,7 +329,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         if (MECDataHolder.INSTANCE.maxCartCount != 0 && shoppingCart.deliveryItemsQuantity > MECDataHolder.INSTANCE.maxCartCount) {
             fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it, getString(R.string.mec_ok), getString(R.string.mec_exceed_cart_limit), getString(R.string.mec_cannot_add) + MECDataHolder.INSTANCE.maxCartCount + getString(R.string.mec_product_in_cart)) } }
         } else {
-            createCustomProgressBar(container, MEDIUM)
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
             addressViewModel.fetchAddresses()
         }
     }
@@ -352,8 +347,14 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         binding.mecContinueCheckoutBtn.isEnabled = false
     }
 
+    override fun onStop() {
+        super.onStop()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+    }
+
 
     override fun processError(mecError: MecError?, bool: Boolean) {
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         MECDataHolder.INSTANCE.voucherCode = "invalid_code"
         if (mecError!!.mECRequestType == MECRequestType.MEC_APPLY_VOUCHER) {
             super.processError(mecError, false)

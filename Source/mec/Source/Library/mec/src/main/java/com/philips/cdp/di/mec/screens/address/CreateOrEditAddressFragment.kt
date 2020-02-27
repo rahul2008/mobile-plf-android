@@ -17,6 +17,7 @@ import com.philips.platform.uid.view.widget.ValidationEditText
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressEditBinding
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_main_activity.*
@@ -44,7 +45,7 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
 
             val mecRegions = MECRegions(regionList!!)
             binding.mecRegions = mecRegions
-            hideProgressBar()
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
 
     }
@@ -52,7 +53,7 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
 
     private val updateAndFetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
-        hideProgressBar()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         activity?.supportFragmentManager?.popBackStack()
 
     })
@@ -107,7 +108,7 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
                         addressViewModel.createAndFetchAddress(ecsAddress)
                     }
 
-                    createCustomProgressBar(container,MEDIUM)
+                    showProgressBar(binding.mecProgress.mecProgressBarContainer)
                 }
             }
         })
@@ -158,8 +159,18 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
 
         if(addressFieldEnabler?.isStateEnabled!!) {
             addressViewModel.fetchRegions()
-            createCustomProgressBar(container,MEDIUM)
+           showProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
+    }
+
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        super.processError(mecError, showDialog)
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
 

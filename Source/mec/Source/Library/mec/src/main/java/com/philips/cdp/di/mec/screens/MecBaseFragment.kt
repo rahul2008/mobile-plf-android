@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -32,6 +33,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.view.widget.ProgressBar
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel
 
 
 abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecError> {
@@ -211,6 +213,31 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             }
         }
     }
+
+    fun showProgressBar(mecProgressBar: FrameLayout?) {
+        mecProgressBar?.visibility = View.VISIBLE
+        if (activity != null) {
+            activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
+    fun showProgressBarWithText(mecProgressBar: FrameLayout?, mecProgressBarText: ProgressBarWithLabel?, text: String){
+        mecProgressBar?.visibility = View.VISIBLE
+        mecProgressBarText?.setText(text)
+        if (activity != null) {
+            activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
+    fun dismissProgressBar(mecProgressBar: FrameLayout?){
+        mecProgressBar?.visibility = View.GONE
+        if (activity != null) {
+            activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
 
     fun showProgressDialog() {
         mProgressDialog = ProgressDialog(UIDHelper.getPopupThemedContext(activity!!))

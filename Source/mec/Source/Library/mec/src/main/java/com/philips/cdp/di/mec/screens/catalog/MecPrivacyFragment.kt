@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import android.widget.FrameLayout
 import com.philips.cdp.di.ecs.constants.NetworkConstants
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalytics
@@ -34,10 +35,12 @@ class MecPrivacyFragment : MecBaseFragment() {
 
     private var mWebView: WebView? = null
     private var mUrl: String? = null
+    private var mProgressBar : FrameLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val group = inflater.inflate(R.layout.mec_web_fragment, container, false) as ViewGroup
-        createCustomProgressBar(group, MEDIUM)
+        mProgressBar = group.findViewById(R.id.mec_progress_bar_container) as FrameLayout
+        showProgressBar(mProgressBar)
         mUrl = arguments!!.getString(MECConstant.MEC_PRIVACY_URL)
         initializeWebView(group)
         return group
@@ -62,7 +65,7 @@ class MecPrivacyFragment : MecBaseFragment() {
 
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
-                hideProgressBar()
+                dismissProgressBar(mProgressBar)
 
             }
 
@@ -98,7 +101,7 @@ class MecPrivacyFragment : MecBaseFragment() {
             }
 
             override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
-                hideProgressBar()
+                dismissProgressBar(mProgressBar)
             }
 
             @TargetApi(Build.VERSION_CODES.M)

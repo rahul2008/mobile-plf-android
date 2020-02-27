@@ -147,5 +147,11 @@
 
         </LinearLayout>
 
+        <include
+            android:id="@+id/mec_progress"
+            layout="@layout/mec_progress_bar"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+
     </RelativeLayout>
 </layout>

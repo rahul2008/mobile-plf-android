@@ -8,6 +8,9 @@ import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
+import android.R
+import android.view.animation.*
+
 
 class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {
 
@@ -19,6 +22,26 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
                 .getImageLoader()
         binding.image.setImageUrl(cartSummary.entries.product.summary.imageURL,mImageLoader)
         bindCountView(binding.mecQuantityVal, cartSummary)
+        if(adapterPosition.equals(0)) {
+            //binding.parentLayout.startAnimation(shakeError())
+           // binding.parentLayout.startAnimation(AnimationUtils.loadAnimation(binding.image.context,R.anim.slide_in_left))
+        }
+
+    }
+
+    fun shakeError(): TranslateAnimation {
+        /*val inFromRight = TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, +1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f)
+        inFromRight.duration = 500
+        inFromRight.interpolator = AccelerateInterpolator()
+        return inFromRight*/
+        val shake = TranslateAnimation(200f, 0f, 0f, 200f)
+        shake.duration = 500
+        shake.interpolator = AccelerateInterpolator(4f)
+        return shake
     }
 
     private fun bindCountView(view: View, cartSummary: MECCartProductReview) {

@@ -1,11 +1,9 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import android.os.Bundle
 import android.view.View
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.view.widget.AlertDialogFragment
-import kotlinx.android.synthetic.main.mec_main_activity.*
 
 class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
     override fun getFragmentTag(): String {
@@ -22,7 +20,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
         if(isAllProductsFound()) {
             binding.progressBar.visibility = View.GONE
-            binding.mecCatalogProgress.mecProgressBar.visibility = View.GONE
+            dismissProgressBar(binding.mecCatalogProgress.mecProgressBarContainer)
         }else{
             isCallOnProgress =true
             ecsProductViewModel.initCategorized(currentPage, pageSize, categorizedCtns)
@@ -57,7 +55,7 @@ class MECProductCatalogCategorizedFragment : MECProductCatalogFragment() {
 
 
             if(productList.size==0) {
-                binding.mecCatalogProgress.mecProgressBar.visibility = View.VISIBLE
+                showProgressBar(binding.mecCatalogProgress.mecProgressBarContainer)
             }else{
                 binding.progressBar.visibility = View.VISIBLE
             }

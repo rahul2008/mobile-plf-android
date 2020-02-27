@@ -10,16 +10,17 @@
     </data>
 
 <FrameLayout
-    android:id="@+id/mec_progress_bar_layout"
+    android:id="@+id/mec_progress_bar_text_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="gone">
 
     <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+        android:id="@+id/mec_progress_bar_text"
         style="@style/UIDProgressBarCircularIndeterminateMiddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Loading cart..."
+        android:text="Loading..."
         android:layout_gravity="center|center_horizontal"
         app:uidCircularProgressBarSize="middle"
         app:uidIsIndeterminateProgressIndicator="true"
