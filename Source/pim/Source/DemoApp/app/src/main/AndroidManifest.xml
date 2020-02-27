@@ -4,7 +4,6 @@
     package="com.philips.platform.pimdemo">
 
     <application
-        android:name=".PimDemoApplication"
         android:icon="@drawable/pim_usr"
         android:label="@string/app_name"
         android:allowBackup="true"

@@ -34,7 +34,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -79,8 +78,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
     private Switch aSwitch, abTestingSwitch;
     private UserDataInterface userDataInterface;
-    private PIMInterface pimInterface;
-    private URInterface urInterface;
     private boolean isUSR;
     private Context mContext;
     private Spinner spinnerCountrySelection;
@@ -95,6 +92,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private HomeCountryUpdateReceiver receiver;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     private Boolean isABTestingStatus = false;
+    private PIMDemoUAppApplication uAppApplication;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,8 +104,62 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
 
-        appInfraInterface = new AppInfra.Builder().build(this);//PIMDemoUAppInterface.mAppInfra;
+        uAppApplication = (PIMDemoUAppApplication) getApplicationContext();
+        appInfraInterface = uAppApplication.getAppInfra();
 
+        initializeView();
+        intialiseLibrary();
+
+        mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
+        receiver = new HomeCountryUpdateReceiver(appInfraInterface);
+        mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
+
+        selectCountry();
+    }
+
+    private void selectCountry() {
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
+            spinnerCountrySelection.setVisibility(View.VISIBLE);
+            spinnerCountryText.setVisibility(View.GONE);
+            String[] stringArray = getResources().getStringArray(R.array.countries_array);
+
+            List<String> countryList = new ArrayList<>(Arrays.asList(stringArray));
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countryList);
+            spinnerCountrySelection.setAdapter(arrayAdapter);
+            spinnerCountrySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String countrycode = getCountryCode(countryList.get(position));
+                    appInfraInterface.getServiceDiscovery().setHomeCountry(countrycode);
+                    editor.putString(SELECTED_COUNTRY, countryList.get(position));
+                    editor.apply();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } else {
+            String selectedCountry = sharedPreferences.getString(SELECTED_COUNTRY, "");
+            spinnerCountryText.setVisibility(View.VISIBLE);
+            spinnerCountryText.setText(selectedCountry);
+            spinnerCountrySelection.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!userDataInterface.isOIDCToken() && userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            btnLaunchAsFragment.setEnabled(false);
+        }
+    }
+
+    private void initializeView(){
         btnGetUserDetail = findViewById(R.id.btn_GetUserDetail);
         btnGetUserDetail.setOnClickListener(this);
         btnLaunchAsActivity = findViewById(R.id.btn_login_activity);
@@ -128,8 +180,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btn_RegistrationPR.setOnClickListener(this);
         btn_IAP = findViewById(R.id.btn_IAP);
         btn_IAP.setOnClickListener(this);
-        PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(appInfraInterface);
-        PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
+        spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
+        spinnerCountryText = findViewById(R.id.spinner_Text);
 
         aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -142,61 +194,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         abTestingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             setABTestingStatus(isChecked);
         });
-        viewInitlization(pimDemoUAppDependencies, pimDemoUAppSettings);
-//        pimInterface = new PIMInterface();
-//        pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
-//        userDataInterface = pimInterface.getUserDataInterface();
-
-        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
-        spinnerCountryText = findViewById(R.id.spinner_Text);
-        if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
-            spinnerCountrySelection.setVisibility(View.VISIBLE);
-            spinnerCountryText.setVisibility(View.GONE);
-            String[] stringArray = getResources().getStringArray(R.array.countries_array);
-
-            List<String> countryList = new ArrayList<>(Arrays.asList(stringArray));
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countryList);
-            spinnerCountrySelection.setAdapter(arrayAdapter);
-            spinnerCountrySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String countrycode = getCountryCode(countryList.get(position));
-                    appInfraInterface.getServiceDiscovery().setHomeCountry(countrycode);
-                    editor.putString(SELECTED_COUNTRY, countryList.get(position));
-                    editor.apply();
-                    pimInterface = new PIMInterface();
-                    pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
-                    userDataInterface = pimInterface.getUserDataInterface();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-        } else {
-            String selectedCountry = sharedPreferences.getString(SELECTED_COUNTRY, "");
-            spinnerCountryText.setVisibility(View.VISIBLE);
-            spinnerCountryText.setText(selectedCountry);
-            spinnerCountrySelection.setVisibility(View.GONE);
-        }
-
-        mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
-        receiver = new HomeCountryUpdateReceiver(appInfraInterface);
-        mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!userDataInterface.isOIDCToken() && userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-            btnLaunchAsFragment.setEnabled(false);
-        }
-    }
-
-    private void viewInitlization(PIMDemoUAppDependencies pimDemoUAppDependencies, PIMDemoUAppSettings pimDemoUAppSettings) {
+    private void intialiseLibrary() {
         if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
             isUSR = true;
             Log.i(TAG, "Selected Liberary : USR");
@@ -207,38 +207,41 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             btn_IAP.setVisibility(View.GONE);
             btnGetUserDetail.setVisibility(View.GONE);
             btnLaunchAsFragment.setText("Launch USR");
-            urInterface = new URInterface();
-            urInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
-            userDataInterface = urInterface.getUserDataInterface();
+
+            uAppApplication.intialiseUR();
+            userDataInterface = uAppApplication.getUserDataInterface();
         } else {
             isUSR = false;
             Log.i(TAG, "Selected Liberary : PIM");
-            pimInterface = new PIMInterface();
-            pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
-            userDataInterface = pimInterface.getUserDataInterface();
+            //uAppApplication.initialisePim();
+            userDataInterface = uAppApplication.getUserDataInterface();
+
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 btnLaunchAsActivity.setVisibility(View.GONE);
                 btnLaunchAsFragment.setText("Launch User Profile");
+                intialiseIAP();
             } else {
                 btnLaunchAsActivity.setText("Launch PIM As Activity");
                 btnLaunchAsFragment.setText("Launch PIM As Fragment");
             }
-            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
-            mIapInterface = new IAPInterface();
-            mIAPSettings = new IAPSettings(this);
-            mCategorizedProductList = new ArrayList<>();
-            mCategorizedProductList.add("HD9745/90000");
-            mCategorizedProductList.add("HD9630/90");
-            mCategorizedProductList.add("HD9240/90");
-            mCategorizedProductList.add("HD9621/90");
-            mIapInterface.init(mIapDependencies, mIAPSettings);
-            mIapLaunchInput = new IAPLaunchInput();
-            mIapLaunchInput.setHybrisSupported(true);
-            mIapLaunchInput.setIapListener(this);
-
-            IAPUtility.getInstance().setHybrisSupported(true);
-
         }
+    }
+
+    private void intialiseIAP(){
+        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, userDataInterface);
+        mIapInterface = new IAPInterface();
+        mIAPSettings = new IAPSettings(this);
+        mCategorizedProductList = new ArrayList<>();
+        mCategorizedProductList.add("HD9745/90000");
+        mCategorizedProductList.add("HD9630/90");
+        mCategorizedProductList.add("HD9240/90");
+        mCategorizedProductList.add("HD9621/90");
+        mIapInterface.init(mIapDependencies, mIAPSettings);
+        mIapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput.setHybrisSupported(true);
+        mIapLaunchInput.setIapListener(this);
+
+        IAPUtility.getInstance().setHybrisSupported(true);
     }
 
     public String getCountryCode(String countryName) {
@@ -283,7 +286,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
                 launchInput.setParameterToLaunch(map);
                 ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-                pimInterface.launch(activityLauncher, launchInput);
+                new PIMInterface().launch(activityLauncher, launchInput);
             }
         } else if (v == btnLaunchAsFragment) {
             if (isUSR) {
@@ -330,9 +333,13 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_RegistrationPR) {
-            Fragment fragment = new PRGFragment(pimInterface, appInfraInterface);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+            if(userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                Fragment fragment = new PRGFragment(userDataInterface, appInfraInterface);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+            }else {
+                Toast.makeText(this, "Please add CTN", Toast.LENGTH_SHORT).show();
+            }
         } else if (v == btn_IAP) {
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 if (mCategorizedProductList.size() > 0) {
@@ -408,7 +415,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         HashMap<PIMParameterToLaunchEnum, Object> parameter = new HashMap<>();
         parameter.put(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT, isABTestingStatus());
         launchInput.setParameterToLaunch(parameter);
-        pimInterface.launch(fragmentLauncher, launchInput);
+        new PIMInterface().launch(fragmentLauncher, launchInput);
     }
 
     private void launchUSR() {
@@ -421,7 +428,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN)
-            urInterface.launch(fragmentLauncher, urLaunchInput);
+            new URInterface().launch(fragmentLauncher, urLaunchInput);
 
     }
 
