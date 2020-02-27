@@ -63,8 +63,9 @@ class MECDeliveryModesAdapter(private val deliveryModes : MutableList<ECSDeliver
             if(mSelectedItem!=getAdapterPosition()) {
                 mECSShoppingCartDeliveryModeEntity=null// reset previous set delivery mode
                 mSelectedItem = getAdapterPosition()
+                itemClickListener.onItemClick(deliveryModes.get(getAdapterPosition()) as Object)
                 notifyDataSetChanged()
-                itemClickListener.onItemClick(deliveryMode as Object)
+
             }
         }
     }
