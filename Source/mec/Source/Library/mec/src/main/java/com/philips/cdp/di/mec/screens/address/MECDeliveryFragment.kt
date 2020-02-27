@@ -45,18 +45,20 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private  var bottomSheetFragment: ManageAddressFragment? = null
 
     private val ecsDeliveryModesObserver: Observer<List<ECSDeliveryMode>> = Observer  (fun(eCSDeliveryMode: List<ECSDeliveryMode>?) {
-        binding.mecDeliveryProgressbar.visibility=View.GONE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
         mECSDeliveryModeList.clear()
         if (eCSDeliveryMode != null && eCSDeliveryMode.size>0) {
             eCSDeliveryMode?.let { mECSDeliveryModeList.addAll(it) }
         }
-        mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
+        if(null!=mECSShoppingCart.deliveryMode){
+            mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
+        }
         mECDeliveryModesAdapter?.notifyDataSetChanged()
 
     })
 
     private val ecsSetDeliveryModeObserver: Observer<Boolean> = Observer {boolean->
-        binding.mecDeliveryProgressbar.visibility=View.GONE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
         ecsShoppingCartViewModel.getShoppingCart()
 
     }
@@ -76,14 +78,14 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
-        binding.mecDeliveryProgressbar.visibility=View.GONE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
         ecsAddresses = addressList!!
         ecsShoppingCartViewModel.getShoppingCart()
 
     })
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
-        binding.mecDeliveryProgressbar.visibility=View.GONE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
         mECSShoppingCart=ecsShoppingCart
         if(null!=mECSDeliveryModeList && !mECSDeliveryModeList.isNullOrEmpty()){
             // if delivery modes are already fetched
@@ -166,7 +168,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     override fun onItemClick(item: Any) {
 
 
-        binding.mecDeliveryProgressbar.visibility=View.VISIBLE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.VISIBLE
 
         if(item is ECSDeliveryMode) {
             addressViewModel.setDeliveryMode(item as ECSDeliveryMode)
@@ -242,12 +244,13 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private fun fetchDeliveryModes(){
-        binding.mecDeliveryProgressbar.visibility=View.VISIBLE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.VISIBLE
+        binding.mecProgress.mecProgressBarText.setText("Fetching delivery mode")
         addressViewModel.fetchDeliveryModes()
     }
 
     override fun processError(mecError: MecError?, showDialog: Boolean) {
-        binding.mecDeliveryProgressbar.visibility=View.GONE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
         super.processError(mecError, showDialog)
     }
 
@@ -257,7 +260,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             // if shopping cart has delivery address and its ID is matching with one of the fetched address list
             fetchDeliveryModes()
         }else {
-            binding.mecDeliveryProgressbar.visibility=View.VISIBLE
+            binding.mecProgress.mecProgressBarTextContainer.visibility=View.VISIBLE
             profileViewModel.fetchUserProfile()
 
         }
@@ -265,7 +268,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
-        binding.mecDeliveryProgressbar.visibility=View.VISIBLE
+        binding.mecProgress.mecProgressBarTextContainer.visibility=View.VISIBLE
         addressViewModel.setAndFetchDeliveryAddress(ecsAddress!!)
     }
 }

@@ -3,41 +3,34 @@ package com.philips.cdp.di.mec.screens.shoppingCart
 
 import android.graphics.Canvas
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.philips.cdp.di.ecs.model.address.ECSAddress
-import com.philips.cdp.di.ecs.model.cart.ECSEntries
-import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
-
-import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
-import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.utils.AlertListener
-import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.platform.uid.view.widget.UIPicker
-import kotlinx.android.synthetic.main.mec_main_activity.*
-
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.philips.cdp.di.ecs.model.address.ECSUserProfile
+import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
-import com.philips.cdp.di.mec.utils.MECDataHolder
-
+import com.philips.cdp.di.ecs.model.cart.ECSEntries
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
-import com.philips.cdp.di.mec.screens.address.*
+import com.philips.cdp.di.mec.databinding.MecShoppingCartFragmentBinding
+import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.address.AddAddressFragment
 import com.philips.cdp.di.mec.screens.address.AddressViewModel
-
 import com.philips.cdp.di.mec.screens.address.MECDeliveryFragment
-import com.philips.cdp.di.mec.screens.profile.ProfileViewModel
+import com.philips.cdp.di.mec.utils.AlertListener
 import com.philips.cdp.di.mec.utils.MECConstant
-import java.io.Serializable
+import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.platform.uid.view.widget.UIPicker
 import com.philips.platform.uid.view.widget.ValidationEditText
+import kotlinx.android.synthetic.main.mec_main_activity.*
+import java.io.Serializable
 
 
 /**
@@ -81,7 +74,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         hideProgressBar()
-        binding.mecProgress.mecProgressBarLayout.visibility = View.GONE
+        binding.mecProgress.mecProgressBarTextContainer.visibility = View.GONE
         binding.shoppingCart = ecsShoppingCart
         shoppingCart = ecsShoppingCart!!
 
@@ -309,7 +302,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     fun executeRequest() {
-        binding.mecProgress.mecProgressBarLayout.visibility = View.VISIBLE
+        binding.mecProgress.mecProgressBarTextContainer .visibility = View.VISIBLE
         //createCustomProgressBar(container, MEDIUM)
         ecsShoppingCartViewModel.getShoppingCart()
     }
