@@ -46,7 +46,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
 
     private val ecsDeliveryModesObserver: Observer<List<ECSDeliveryMode>> = Observer  (fun(eCSDeliveryMode: List<ECSDeliveryMode>?) {
-        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         mECSDeliveryModeList.clear()
         if (eCSDeliveryMode != null && eCSDeliveryMode.size > 0) {
             eCSDeliveryMode?.let { mECSDeliveryModeList.addAll(it) }
@@ -59,13 +59,13 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     })
 
     private val ecsSetDeliveryModeObserver: Observer<Boolean> = Observer {boolean->
-        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
+
         ecsShoppingCartViewModel.getShoppingCart()
 
     }
 
     private val fetchProfileObserver: Observer<ECSUserProfile> = Observer { userProfile ->
-
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         var   profileECSAddress : ECSAddress? = null
 
         if(userProfile.defaultAddress != null) {
@@ -86,14 +86,14 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
         Log.d("Pabitra" , "In addressObserver")
-        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
+
         ecsAddresses = addressList!!
         ecsShoppingCartViewModel.getShoppingCart()
 
     })
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
-        binding.mecProgress.mecProgressBarTextContainer.visibility=View.GONE
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         mECSShoppingCart=ecsShoppingCart
         if(null!=mECSDeliveryModeList && !mECSDeliveryModeList.isNullOrEmpty()){
             // if delivery modes are already fetched
@@ -166,9 +166,15 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         setCartIconVisibility(false)
     }
 
+    override fun onStop() {
+        super.onStop()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+    }
+
     override fun onItemClick(item: Any) {
 
         if (item is ECSDeliveryMode) {
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
             addressViewModel.setDeliveryMode(item as ECSDeliveryMode)
 
         }
@@ -236,10 +242,13 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private fun fetchDeliveryModes() {
+        showProgressBar(binding.mecProgress.mecProgressBarContainer)
         addressViewModel.fetchDeliveryModes()
     }
 
     override fun processError(mecError: MecError?, showDialog: Boolean) {
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+
         super.processError(mecError, showDialog)
     }
 
@@ -260,6 +269,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
+        showProgressBar(binding.mecProgress.mecProgressBarContainer)
         addressViewModel.setAndFetchDeliveryAddress(ecsAddress!!)
     }
 }
