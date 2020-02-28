@@ -1,6 +1,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/mec_progress"
+            layout="@layout/mec_progress_bar"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,7 +80,9 @@
             android:textSize="16dp"
             app:uidComponentType="Secondary" />
 
+
     </LinearLayout>
 
+    </RelativeLayout>
 
 </layout>

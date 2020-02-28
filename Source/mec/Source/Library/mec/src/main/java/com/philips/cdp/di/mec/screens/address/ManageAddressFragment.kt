@@ -7,15 +7,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressManageBinding
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel
 import kotlinx.android.synthetic.main.mec_address_manage.view.*
 import java.io.Serializable
 
@@ -41,13 +45,11 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES,addressList as Serializable)
         intent.putExtra(MECConstant.BUNDLE_ADDRESSES,bundle)
         targetFragment?.onActivityResult(MECConstant.REQUEST_CODE_ADDRESSES, Activity.RESULT_OK,intent)
-        activity?.supportFragmentManager?.popBackStack()
-
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         dismiss()
     })
 
     private val errorObserver : Observer<MecError>  = Observer(fun( mecError: MecError?) {
-        dismiss()
         Log.d(TAG ,"Error on deleting or setting address" )
     })
 
@@ -77,22 +79,44 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
 
 
         binding.mecBtnDeleteAddress.setOnClickListener {
-
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
             val mSelectedAddress = addressBottomSheetRecyclerAdapter.mSelectedAddress
             addressViewModel.deleteAndFetchAddress(mSelectedAddress)
-            dismiss()
         }
 
         binding.mecBtnSetAddress.setOnClickListener {
-
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
             val mSelectedAddress = addressBottomSheetRecyclerAdapter.mSelectedAddress
-
             addressViewModel.setAndFetchDeliveryAddress(mSelectedAddress)
-            dismiss()
         }
 
         return binding.root
     }
 
+
+    fun showProgressBar(mecProgressBar: FrameLayout?) {
+        mecProgressBar?.visibility = View.VISIBLE
+        if (activity != null) {
+            activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
+    fun showProgressBarWithText(mecProgressBar: FrameLayout?, text: String){
+        mecProgressBar?.visibility = View.VISIBLE
+        val mecProgressBarText = mecProgressBar?.findViewById(R.id.mec_progress_bar_text) as ProgressBarWithLabel
+        mecProgressBarText?.setText(text)
+        if (activity != null) {
+            activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
+    fun dismissProgressBar(mecProgressBar: FrameLayout?){
+        mecProgressBar?.visibility = View.GONE
+        if (activity != null) {
+            activity?.getWindow()?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
 
 }
