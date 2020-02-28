@@ -48,7 +48,7 @@
     <string name="mec_continue_checkout">Continue to checkout</string>
     <string name="mec_bazaarVoice_Terms_And_Condition">These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.</string>
     <string name="mec_bazaarVoice_Detail_at">\nDetails at</string>
-    <string name="mec_bazaarVoice_link">    <font color="?attr/uidHyperlinkDefaultNormalTextColor"><u>"http://www.bazaarvoice.com/trustmark" </u></font></string>
+    <string name="mec_bazaarVoice_link">http://www.bazaarvoice.com/trustmark</string>
     <string name="mec_specs">Specs</string>
     <string name="mec_features">Features</string>
     <string name="mec_invalid_landing_view">Please provide a valid Landing View</string>
