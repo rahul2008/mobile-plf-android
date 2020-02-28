@@ -63,6 +63,10 @@ class AddressViewModel : CommonViewModel() {
 
     val ecsDeliveryModeSet = MutableLiveData<Boolean>()
 
+    lateinit var paramEcsAddress: ECSAddress
+
+    lateinit var paramEcsDeliveryMode: ECSDeliveryMode
+
 
     fun fetchRegions() {
         ecsRegionListCallback.mECRequestType=MECRequestType.MEC_FETCH_REGIONS
@@ -71,28 +75,35 @@ class AddressViewModel : CommonViewModel() {
 
     fun fetchAddresses(){
         ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_FETCH_SAVED_ADDRESSES
-        addressRepository.fetchSavedAddresses(ecsServices,ecsFetchAddressesCallback)
+        addressRepository.fetchSavedAddresses(ecsFetchAddressesCallback)
     }
 
     fun createAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
         ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_CREATE_ADDRESS
         addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
     }
 
     fun createAndFetchAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
+        ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS
         addressRepository.createAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
     fun deleteAndFetchAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
+        ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS
         addressRepository.deleteAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
         ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_SET_AND_FETCH_DELIVERY_ADDRESS
         addressRepository.setAndFetchDeliveryAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
     fun updateAndFetchAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
         ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS
         addressRepository.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
@@ -103,12 +114,34 @@ class AddressViewModel : CommonViewModel() {
     }
 
     fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode ){
+        paramEcsDeliveryMode=ecsDeliveryMode
         ecsSetDeliveryModesCallback.mECRequestType=MECRequestType.MEC_SET_DELIVERY_MODE
         addressRepository.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
 
     }
 
+    fun retryAPI(mecRequestType: MECRequestType) {
+        var retryAPI = selectAPIcall(mecRequestType)
+        authAndCallAPIagain(retryAPI,authFailCallback)
+    }
 
+    fun selectAPIcall(mecRequestType: MECRequestType):() -> Unit{
+
+        lateinit  var APIcall: () -> Unit
+        when(mecRequestType) {
+            MECRequestType.MEC_FETCH_REGIONS                     -> APIcall = { fetchRegions() }
+            MECRequestType.MEC_FETCH_SAVED_ADDRESSES             -> APIcall = { fetchAddresses()}
+            MECRequestType.MEC_CREATE_ADDRESS                    -> APIcall = { createAddress(paramEcsAddress) }
+            MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS          -> APIcall = { createAndFetchAddress(paramEcsAddress) }
+            MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS          -> APIcall = { deleteAndFetchAddress(paramEcsAddress) }
+            MECRequestType.MEC_SET_AND_FETCH_DELIVERY_ADDRESS    -> APIcall = { setAndFetchDeliveryAddress(paramEcsAddress) }
+            MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS          -> APIcall = { updateAndFetchAddress(paramEcsAddress) }
+            MECRequestType.MEC_FETCH_DELIVERY_MODES              -> APIcall = { fetchDeliveryModes() }
+            MECRequestType.MEC_SET_DELIVERY_MODE                 -> APIcall = { setDeliveryMode(paramEcsDeliveryMode) }
+
+        }
+        return APIcall
+    }
 
 
     private fun getAddressFieldEnablerJson(context: Context): String {

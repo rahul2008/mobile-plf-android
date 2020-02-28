@@ -12,7 +12,7 @@ class AddressRepository(val ecsServices: ECSServices) {
         ecsServices.fetchRegions(ECSConfiguration.INSTANCE.country,ecsRegionListCallback)
     }
 
-    fun fetchSavedAddresses(ecsServices: ECSServices , eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
+    fun fetchSavedAddresses( eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
         ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
     }
 
