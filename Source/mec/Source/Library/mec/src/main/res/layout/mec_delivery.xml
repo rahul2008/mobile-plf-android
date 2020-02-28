@@ -111,7 +111,7 @@
             style="@style/mec_header"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="@dimen/iap_margin_20dp"
+            android:layout_marginTop="10dp"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
             android:text="@string/mec_shipping_address" />
@@ -123,7 +123,7 @@
                 style="@style/mec_address_header"
                 android:layout_marginLeft="@dimen/border16_margin_left_right"
                 android:layout_marginRight="@dimen/border16_margin_left_right"
-                android:layout_marginTop="@dimen/border12_margin"
+                android:layout_marginTop="@dimen/iap_margin_10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@android:drawable/ic_menu_edit"
@@ -151,8 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:layout_above="@+id/mec_continue_shopping_btn"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:textColor="?attr/uidButtonPrimaryNormalTextColor"
@@ -190,19 +189,12 @@
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <com.philips.platform.uid.view.widget.ProgressBar
-        android:id="@+id/mec_delivery_progressbar"
-        style="@style/UIDProgressBarCircularIndeterminateMiddle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:color/transparent"
-        />
-    </LinearLayout>
+    <include
+        android:id="@+id/mec_progress"
+        android:layout_marginBottom="200dp"
+        layout="@layout/mec_progress_bar"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
 </RelativeLayout>
 

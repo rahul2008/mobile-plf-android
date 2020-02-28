@@ -37,9 +37,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/border12_margin"
             android:orientation="horizontal"
-            android:background="?attr/uidContentTertiaryBackgroundColor"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <com.philips.platform.uid.view.widget.Button
@@ -49,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/mec_continue_shopping_btn"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
-            android:layout_marginTop="12dp"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
             android:text="Deliver to this Address"

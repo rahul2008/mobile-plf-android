@@ -151,11 +151,13 @@ class AddAddressFragment : MecBaseFragment() {
 
                     // update region properly ..as two way data binding for region is not possible : Shipping
                     val ecsAddressShipping = binding.ecsAddressShipping
+                    ecsAddressShipping?.phone2 = ecsAddressShipping?.phone1
                     addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddressShipping!!)
 
                     //  // update region properly ..as two way data binding for region is not possible : Billing
 
                     val ecsAddressBilling = binding.ecsAddressBilling
+                    ecsAddressBilling?.phone2 = ecsAddressBilling?.phone1
                     addressViewModel.setRegion(binding.llBilling,binding.mecRegions,ecsAddressBilling!!)
 
 
