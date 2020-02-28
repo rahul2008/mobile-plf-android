@@ -60,6 +60,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
     private UserLoginListener mUserLoginListener;
     private final String USER_PROFILE_URL = "userreg.janrainoidc.userprofile";
     private HashMap consentParameterMap;
+    private boolean isTokenReqInProcess;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -191,19 +192,25 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
     @Override
     public void onLoginSuccess() {
         disableProgressBar();
+        isTokenReqInProcess = false;
         mUserLoginListener.onLoginSuccess();
     }
 
     @Override
     public void onLoginFailed(Error error) {
         disableProgressBar();
+        isTokenReqInProcess = false;
         mUserLoginListener.onLoginFailed(error);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mLoggingInterface.log(DEBUG, TAG, "onActivityResult : " + requestCode);
+        mLoggingInterface.log(DEBUG, TAG, "onActivityResult => requestCode : " + requestCode + "  resultCode : " + resultCode + "    isTokenReqInProcess : " + isTokenReqInProcess);
+        if (isTokenReqInProcess)
+            return;
+
         if (requestCode == 100 && resultCode == RESULT_OK && pimLoginManager.isAuthorizationSuccess(data)) {
+            isTokenReqInProcess = true;
             pimLoginManager.exchangeAuthorizationCode(data);
         } else if (requestCode == 100 && resultCode == RESULT_CANCELED) {
             disableProgressBar();
