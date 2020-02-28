@@ -118,6 +118,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
         vouchersAdapter?.notifyDataSetChanged()
         cartSummaryAdapter?.notifyDataSetChanged()
+        productsAdapter?.notifyDataSetChanged()
 
 
         if (ecsShoppingCart != null) {
