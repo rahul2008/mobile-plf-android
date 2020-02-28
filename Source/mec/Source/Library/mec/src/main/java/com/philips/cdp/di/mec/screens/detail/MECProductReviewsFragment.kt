@@ -1,9 +1,15 @@
 package com.philips.cdp.di.mec.screens.detail
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +24,9 @@ import com.philips.cdp.di.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECConstant
+import kotlinx.android.synthetic.main.mec_product_review_fragment.*
+import android.content.Intent
+import android.net.Uri
 
 
 /**
@@ -92,6 +101,8 @@ class MECProductReviewsFragment : MecBaseFragment() {
 
             this!!.productctn?.let { ecsProductDetailViewModel.getBazaarVoiceReview(it, offset, limit) }
 
+        bazaarvoiceLink(binding.mecBazaarvoiceLink)
+
         binding.mecNestedScroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 val lay = binding.recyclerView
@@ -112,6 +123,29 @@ class MECProductReviewsFragment : MecBaseFragment() {
         if(isVisibleToUser) {
             productctn?.let { tagActions(it) }
         }
+    }
+
+    private fun bazaarvoiceLink(view: TextView) {
+        val spanTxt = SpannableStringBuilder(
+                getString(R.string.mec_bazaarVoice_Terms_And_Condition))
+        spanTxt.append(getString(R.string.mec_bazaarVoice_Detail_at))
+        spanTxt.append(" ")
+        spanTxt.append(getString(R.string.mec_bazaarVoice_link))
+        spanTxt.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val uri = Uri.parse(getString(R.string.mec_bazaarVoice_link))
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = true
+                ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
+            }
+        }, spanTxt.length - getString(R.string.mec_bazaarVoice_link).length, spanTxt.length, 0)
+        binding.mecBazaarvoiceLink.setHighlightColor(Color.TRANSPARENT)
+        view.movementMethod = LinkMovementMethod.getInstance()
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE)
     }
 
     private fun tagActions(ctn : String) {
