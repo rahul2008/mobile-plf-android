@@ -118,7 +118,6 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
 
             //observe addressViewModel
-            addressViewModel.ecsDeliveryModes.observe(this, ecsDeliveryModesObserver)
             addressViewModel.mecError.observe(this, this)
             activity?.let { addressViewModel.ecsAddresses.observe(it, addressObserver) }
             addressViewModel.ecsDeliveryModes.observe(this, ecsDeliveryModesObserver)
@@ -143,8 +142,6 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
             mECSShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
-            mECSDeliveryModeList = mutableListOf()
-
 
 
             binding.ecsAddressShipping = ecsAddresses[0]

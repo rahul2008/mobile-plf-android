@@ -6,6 +6,7 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.utils.MECutility
 
 class ECSCreateAddressCallBack(private var addressViewModel: AddressViewModel) :ECSCallback<ECSAddress, Exception> {
 
@@ -16,6 +17,10 @@ class ECSCreateAddressCallBack(private var addressViewModel: AddressViewModel) :
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
         val mecError = MecError(error, ecsError,mECRequestType)
-        addressViewModel.mecError.value = mecError
+        if (MECutility.isAuthError(ecsError)) {
+            addressViewModel.retryAPI(mECRequestType)
+        }else{
+            addressViewModel.mecError.value = mecError
+        }
     }
 }
