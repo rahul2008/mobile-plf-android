@@ -203,16 +203,12 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mLoggingInterface.log(DEBUG, TAG, "onActivityResult : " + requestCode);
-        if (resultCode == RESULT_CANCELED) {
-              disableProgressBar();
-              Error error = new Error(PIMErrorCodes.USER_CANCELED_AUTH_FLOW,PIMErrorEnums.getLocalisedErrorDesc(mContext,PIMErrorCodes.USER_CANCELED_AUTH_FLOW));
-              mUserLoginListener.onLoginFailed(error);
-        } else if (resultCode == RESULT_OK) {
-            if (requestCode == 100 && pimLoginManager.isAuthorizationSuccess(data)) {
-                pimLoginManager.exchangeAuthorizationCode(data);
-            } else {
-                disableProgressBar();
-            }
+        if (requestCode == 100 && resultCode == RESULT_OK && pimLoginManager.isAuthorizationSuccess(data)) {
+            pimLoginManager.exchangeAuthorizationCode(data);
+        } else if (requestCode == 100 && resultCode == RESULT_CANCELED) {
+            disableProgressBar();
+            Error error = new Error(PIMErrorCodes.USER_CANCELED_AUTH_FLOW, PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorCodes.USER_CANCELED_AUTH_FLOW));
+            mUserLoginListener.onLoginFailed(error);
         } else {
             disableProgressBar();
         }
