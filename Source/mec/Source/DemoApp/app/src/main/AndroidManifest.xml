@@ -16,6 +16,7 @@
         android:theme="@style/Theme.DLS"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
+        android:screenOrientation="portrait"
         tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity">
 
         <activity
