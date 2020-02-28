@@ -110,6 +110,7 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
                     // update region properly ..as two way data binding for region is not possible
                     val ecsAddress = binding.ecsAddress
                     addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddress!!)
+                    ecsAddress.phone2 = ecsAddress.phone1
 
                     if(ecsAddress.id !=null) { // This means address already existed , so need to create it again
                         addressViewModel.updateAndFetchAddress(ecsAddress!!)

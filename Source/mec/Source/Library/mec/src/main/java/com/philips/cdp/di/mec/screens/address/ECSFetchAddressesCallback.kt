@@ -9,7 +9,7 @@ import com.philips.cdp.di.mec.utils.MECutility
 
 class ECSFetchAddressesCallback (private val addressViewModel: AddressViewModel)  : ECSCallback<List<ECSAddress>, Exception> {
 
-    lateinit var mECRequestType  : MECRequestType
+    var mECRequestType  = MECRequestType.MEC_FETCH_SAVED_ADDRESSES
     override fun onResponse(ecsAddresses: List<ECSAddress>) {
         addressViewModel.ecsAddresses.value = ecsAddresses
     }

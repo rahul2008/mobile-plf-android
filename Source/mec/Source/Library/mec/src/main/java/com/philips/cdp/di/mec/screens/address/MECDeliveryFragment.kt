@@ -99,6 +99,10 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
         if(mECSShoppingCart.deliveryAddress!=null) {
 
+            val findGivenAddressInAddressList = MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id, ecsAddresses)
+
+            if(findGivenAddressInAddressList!=null) binding.ecsAddressShipping = findGivenAddressInAddressList
+
             if (null != mECSDeliveryModeList && !mECSDeliveryModeList.isNullOrEmpty()) {
                 // if delivery modes are already fetched
                 mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
@@ -282,7 +286,9 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         if(requestCode == MECConstant.REQUEST_CODE_ADDRESSES){
-            ecsAddresses = data?.getSerializableExtra(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
+            val bundleExtra = data?.getBundleExtra(MECConstant.BUNDLE_ADDRESSES)
+            ecsAddresses = bundleExtra?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
             ecsShoppingCartViewModel.getShoppingCart()
         }
     }

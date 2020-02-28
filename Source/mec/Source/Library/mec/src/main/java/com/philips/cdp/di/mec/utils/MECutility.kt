@@ -219,14 +219,13 @@ class MECutility {
 
         @JvmStatic
         fun findGivenAddressInAddressList(ecsAddressID: String, ecsAddressList:List<ECSAddress>) :ECSAddress?{
-            var foundEcsAddress: ECSAddress ?=null
-            for (count in 0 until ecsAddressList.size-1){
-                if(ecsAddressID.equals(ecsAddressList.get(count).id,true)){
-                    foundEcsAddress=ecsAddressList.get(count)
-                    break;
+
+            for (ecsAddress in  ecsAddressList){
+                if(ecsAddressID.equals(ecsAddress.id,true)){
+                    return ecsAddress
                 }
             }
-            return foundEcsAddress
+            return null
         }
 
 
