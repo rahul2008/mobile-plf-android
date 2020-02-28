@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.screens.address
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -95,12 +96,18 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         mECSShoppingCart=ecsShoppingCart
-        if(null!=mECSDeliveryModeList && !mECSDeliveryModeList.isNullOrEmpty()){
-            // if delivery modes are already fetched
-            mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
-            mECDeliveryModesAdapter?.notifyDataSetChanged()
-        } else {
-            fetchDeliveryModes()
+
+        if(mECSShoppingCart.deliveryAddress!=null) {
+
+            if (null != mECSDeliveryModeList && !mECSDeliveryModeList.isNullOrEmpty()) {
+                // if delivery modes are already fetched
+                mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
+                mECDeliveryModesAdapter?.notifyDataSetChanged()
+            } else {
+                fetchDeliveryModes()
+            }
+        }else{
+            checkDeliveryAddressSet()
         }
     }
 
@@ -222,6 +229,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     private fun gotoCreateOrEditAddress(ecsAddress: ECSAddress) {
         var editAddressFragment = CreateOrEditAddressFragment()
+        editAddressFragment.setTargetFragment(this,MECConstant.REQUEST_CODE_ADDRESSES)
         var bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddress)
         editAddressFragment.arguments = bundle
@@ -232,6 +240,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         val bundle = Bundle()
 
         bottomSheetFragment = ManageAddressFragment()
+        bottomSheetFragment?.setTargetFragment(this,MECConstant.REQUEST_CODE_ADDRESSES)
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, ecsAddresses as Serializable)
         bundle.putSerializable(MECConstant.KEY_ITEM_CLICK_LISTENER, this)
         bottomSheetFragment?.arguments = bundle
@@ -268,5 +277,13 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
         showProgressBar(binding.mecProgress.mecProgressBarContainer)
         addressViewModel.setAndFetchDeliveryAddress(ecsAddress!!)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if(requestCode == MECConstant.REQUEST_CODE_ADDRESSES){
+            ecsAddresses = data?.getSerializableExtra(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
+            ecsShoppingCartViewModel.getShoppingCart()
+        }
     }
 }

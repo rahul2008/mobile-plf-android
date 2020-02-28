@@ -1,5 +1,7 @@
 package com.philips.cdp.di.mec.screens.address
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressManageBinding
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_address_manage.view.*
+import java.io.Serializable
 
 
 class ManageAddressFragment : BottomSheetDialogFragment(){
@@ -32,6 +35,14 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
     }
 
     private val fetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
+
+        val intent = Intent()
+        val bundle = Bundle()
+        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES,addressList as Serializable)
+        intent.putExtra(MECConstant.BUNDLE_ADDRESSES,bundle)
+        targetFragment?.onActivityResult(MECConstant.REQUEST_CODE_ADDRESSES, Activity.RESULT_OK,intent)
+        activity?.supportFragmentManager?.popBackStack()
+
         dismiss()
     })
 

@@ -8,6 +8,8 @@ import com.philips.cdp.di.mec.R
 
 object MECConstant {
 
+    val BUNDLE_ADDRESSES: String ="BUNDLE_ADDRESSES"
+    val REQUEST_CODE_ADDRESSES: Int = 1000
     val KEY_ITEM_CLICK_LISTENER: String? = "KEY_ITEM_CLICK_LISTENER"
     val CREATE_ADDRESS: String? = "CREATE_ADDRESS"
     val KEY_IS_HYBRIS: String? ="KEY_IS_HYBRIS"
