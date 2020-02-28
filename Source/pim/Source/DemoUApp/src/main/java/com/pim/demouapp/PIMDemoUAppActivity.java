@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.utils.IAPUtility;
+import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator;
@@ -63,6 +64,8 @@ import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.pim.PIMParameterToLaunchEnum;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -81,7 +84,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECListener {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECListener, MECBannerConfigurator {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
@@ -201,7 +204,31 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             spinnerCountryText.setText(selectedCountry);
             spinnerCountrySelection.setVisibility(View.GONE);
         }
+    }
 
+
+    private void initMEC() {
+//        ignorelistedRetailer.add("Frys.com");
+//        ignorelistedRetailer.add("Amazon - US");
+//        ignorelistedRetailer.add("BestBuy.com");
+
+        UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(mContext));
+        UappSettings uappSettings = new UappSettings(mContext);
+        mMecInterface = new MECInterface();
+        pimInterface.init(uappDependencies, uappSettings);
+
+        MECDependencies mIapDependencies = new MECDependencies(new AppInfra.Builder().build(mContext), pimInterface.getUserDataInterface());
+
+        mMecInterface.init(mIapDependencies, new MECSettings(mContext));
+
+        mMecLaunchInput = new MECLaunchInput();
+        mMecLaunchInput.setMecListener(this);
+
+
+        mMecLaunchInput.mecBannerConfigurator = this::getBannerViewProductList;
+        mMecLaunchInput.setSupportsHybris(true);
+        mMecLaunchInput.setSupportsRetailer(false);
+        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
     }
 
     @Override
@@ -258,19 +285,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             mIapLaunchInput = new IAPLaunchInput();
             mIapLaunchInput.setHybrisSupported(true);
             mIapLaunchInput.setIapListener(this);
-
-            IAPUtility.getInstance().setHybrisSupported(true);
-            MECDependencies mecDependencies = new MECDependencies(appInfraInterface, pimInterface.getUserDataInterface());
-            mMecInterface = new MECInterface();
-            mMecInterface.init(mecDependencies, new MECSettings(mContext));
-            mMecLaunchInput = new MECLaunchInput();
-            mMecLaunchInput.setMecListener(this);
-
-
-//            mMecLaunchInput.mecBannerConfigurator = this::getBannerViewProductList;
-            mMecLaunchInput.setSupportsHybris(true);
-            mMecLaunchInput.setSupportsRetailer(true);
-            mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
+            initializeBazaarVoice();
+            initMEC();
         }
     }
 
@@ -384,7 +400,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_MCS) {
-            showToast("Not implemented");
+             showToast("Not implemented");
 //            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
 //                MECFlowConfigurator pMecFlowConfigurator = new MECFlowConfigurator();
 //                pMecFlowConfigurator.setLandingView(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW);
@@ -673,5 +689,16 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             };
         }
 
+    }
+
+    @NotNull
+    @Override
+    public View getBannerViewProductList() {
+        if (true) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = inflater.inflate(com.mec.demouapp.R.layout.banner_view, null);
+            return v;
+        }
+        return null;
     }
 }
