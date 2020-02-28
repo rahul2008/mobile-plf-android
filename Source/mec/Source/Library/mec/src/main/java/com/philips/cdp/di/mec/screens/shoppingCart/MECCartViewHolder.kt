@@ -13,7 +13,9 @@ import android.view.animation.TranslateAnimation
 
 class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {
 
+
     private var mPopupWindow: UIPicker? = null
+    private var animation: Boolean? = true
     fun bind(cartSummary: MECCartProductReview) {
         binding.cart = cartSummary
         val mImageLoader: ImageLoader
@@ -21,14 +23,21 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
                 .getImageLoader()
         binding.image.setImageUrl(cartSummary.entries.product.summary.imageURL,mImageLoader)
         bindCountView(binding.mecQuantityVal, cartSummary)
-        /*if(adapterPosition.equals(0)) {
+        if(animation == true) {
+            animation()
+            animation = false
+        }
+    }
+
+    fun animation(){
+        if(adapterPosition.equals(0)) {
             val animation = TranslateAnimation((binding.parentLayout.width - 300).toFloat(), 0f, 0f, 0f) // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
             animation.duration = 500
             animation.repeatCount = 2
             animation.repeatMode = 2
             animation.setFillAfter(false)
             binding.parentLayout.startAnimation(animation)
-        }*/
+        }
     }
 
     private fun bindCountView(view: View, cartSummary: MECCartProductReview) {

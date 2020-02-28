@@ -128,7 +128,7 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
         }
     }
 
-    private fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
+    fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
         val buttonWidthWithoutPadding = buttonWidth - 20
         val corners = 16f
         val icon : Bitmap

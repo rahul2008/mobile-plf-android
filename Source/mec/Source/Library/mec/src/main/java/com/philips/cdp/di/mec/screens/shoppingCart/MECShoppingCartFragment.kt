@@ -258,6 +258,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             binding.mecCartSummaryRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
                     swipeController!!.onDraw(c)
+                    if(productsAdapter!!.itemCount>0 ) {
+                        swipeController!!.drawButtons(c, parent.findViewHolderForAdapterPosition(0)!!)
+                    }
                 }
             })
             mRootView = binding.root
