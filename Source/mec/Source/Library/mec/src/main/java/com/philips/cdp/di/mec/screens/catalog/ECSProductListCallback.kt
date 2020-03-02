@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.screens.catalog
 
+import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
@@ -13,13 +14,13 @@ class ECSProductListCallback(private var ecsProductViewModel:EcsProductViewModel
 
         val mutableLiveData = ecsProductViewModel.ecsProductsList
 
-        val value = mutableList(mutableLiveData)
+        val value = mutableList(mutableLiveData as MutableLiveData<MutableList<Any>>) as  MutableList<ECSProducts>
 
         val ecsProducts = ECSProducts()
         ecsProducts.products = ecsProductList
 
         value.add(ecsProducts)
-        mutableLiveData.value = value
+        mutableLiveData.value = value as MutableList<Any>
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
