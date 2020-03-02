@@ -36,6 +36,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -395,6 +396,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val colorCodeHighlighted:Int = typedArray.getColor(0,0)
         typedArray.recycle();
         return colorCodeHighlighted
+    }
+
+    override fun processError(mecError: MecError?) {
+        super.processError(mecError)
+        hideProgressBar()
     }
 
 }
