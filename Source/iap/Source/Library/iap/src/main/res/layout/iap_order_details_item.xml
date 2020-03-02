@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     style="@style/iapCentralesansBookFont"
                     android:layout_marginEnd="3dp"
-                    android:text="@string/iap_product_item_quantity"
+                    android:text="@string/iap_quantity"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:textSize="@dimen/iap_text_size_12"/>
 
