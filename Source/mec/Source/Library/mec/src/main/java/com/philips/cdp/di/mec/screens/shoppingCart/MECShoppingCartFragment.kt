@@ -264,7 +264,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
                 }
             })
             mRootView = binding.root
-            executeRequest()
+
         }
         return binding.root
     }
@@ -295,6 +295,11 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_shopping_cart, true)
         setCartIconVisibility(false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        executeRequest()
     }
 
     fun executeRequest() {
