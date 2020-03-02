@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Tooted puuduvad</string>
   <string name="iap_promotional_gift">Kampaania- või kingikood</string>
   <string name="iap_quantity">Kogus: %s</string>
+  <string name="iap_product_item_quantity">Kogus:</string>
   <string name="iap_questions">[et]Questions? Please visit our</string>
   <string name="iap_rate_it">Andke oma hinnang, kas positiivne või negatiivne!</string>
   <string name="iap_read">Lugege</string>

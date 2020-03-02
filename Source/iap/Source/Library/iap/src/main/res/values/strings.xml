@@ -297,6 +297,7 @@
   <string name="iap_your_order_number">Your order number is</string>
   <string name="iap_zero_results_found">0 results found for %s</string>
   <string name="iap_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
+  <string name="iap_product_item_quantity">Quantity:</string>
   <string name="iap_just_read"></string>
 
 

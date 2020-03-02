@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Нет доступных продуктов</string>
   <string name="iap_promotional_gift">Промокод или подарочный код</string>
   <string name="iap_quantity">Количество: %s</string>
+  <string name="iap_product_item_quantity">Количество:</string>
   <string name="iap_questions">[ru]Questions? Please visit our</string>
   <string name="iap_rate_it">Любое Ваше мнение очень важно для нас!</string>
   <string name="iap_read">Ознакомьтесь с нашим</string>

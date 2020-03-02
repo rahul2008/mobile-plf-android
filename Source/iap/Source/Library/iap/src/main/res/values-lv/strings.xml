@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Nav pieejams neviens produkts</string>
   <string name="iap_promotional_gift">Reklāmas vai dāvanu kods</string>
   <string name="iap_quantity">Daudzums: %s</string>
+  <string name="iap_product_item_quantity">Daudzums:</string>
   <string name="iap_questions">[lv]Questions? Please visit our</string>
   <string name="iap_rate_it">Labu vai sliktu, gaidām jūsu vērtējumu!</string>
   <string name="iap_read">Izlasiet mūsu</string>

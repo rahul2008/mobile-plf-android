@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Ei tuotteita saatavilla</string>
   <string name="iap_promotional_gift">Kampanja- tai lahjakoodi</string>
   <string name="iap_quantity">Määrä: %s</string>
+  <string name="iap_product_item_quantity">Määrä:</string>
   <string name="iap_questions">Kysymyksiä? Vieraile meidän</string>
   <string name="iap_rate_it">Anna risuja tai ruusuja</string>
   <string name="iap_read">Lue</string>

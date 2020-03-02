@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Không có sẵn sản phẩm</string>
   <string name="iap_promotional_gift">Mã khuyến mãi hoặc mã quà tặng</string>
   <string name="iap_quantity">Số lượng: %s</string>
+  <string name="iap_product_item_quantity">Số lượng:</string>
   <string name="iap_questions">[vi]Questions? Please visit our</string>
   <string name="iap_rate_it">Thích hoặc không thích, hãy xếp hạng!</string>
   <string name="iap_read">Đọc</string>

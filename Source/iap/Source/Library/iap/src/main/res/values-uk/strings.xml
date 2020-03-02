@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Немає виробів</string>
   <string name="iap_promotional_gift">Акційний або подарунковий код</string>
   <string name="iap_quantity">Кількість: %s</string>
+  <string name="iap_product_item_quantity">Кількість:</string>
   <string name="iap_questions">[uk]Questions? Please visit our</string>
   <string name="iap_rate_it">Подобається Вам цей виріб чи ні, ми хочемо дізнатися Вашу оцінку!</string>
   <string name="iap_read">Читайте наше</string>

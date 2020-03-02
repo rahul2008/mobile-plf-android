@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Nema dostupnih proizvoda</string>
   <string name="iap_promotional_gift">Promocijski ili darovni kôd</string>
   <string name="iap_quantity">Količina: %s</string>
+  <string name="iap_product_item_quantity">Količina:</string>
   <string name="iap_questions">[hr]Questions? Please visit our</string>
   <string name="iap_rate_it">Sviđao vam se ili ne, bilo bi nam drago da ga ocijenite!</string>
   <string name="iap_read">Pročitajte</string>

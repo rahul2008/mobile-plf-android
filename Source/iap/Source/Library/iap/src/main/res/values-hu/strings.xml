@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Nincsenek elérhető termékek</string>
   <string name="iap_promotional_gift">Promóciós vagy ajándékkód</string>
   <string name="iap_quantity">Mennyiség: %s</string>
+  <string name="iap_product_item_quantity">Mennyiség:</string>
   <string name="iap_questions">[hu]Questions? Please visit our</string>
   <string name="iap_rate_it">Szereti, nem szereti, mi arra kérjük, értékelje!</string>
   <string name="iap_read">Olvassa el a következőt:</string>

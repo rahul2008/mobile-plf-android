@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Geen producten beschikbaar</string>
   <string name="iap_promotional_gift">Promotie- of cadeaucode</string>
   <string name="iap_quantity">Aantal: %s</string>
+  <string name="iap_product_item_quantity">Aantal:</string>
   <string name="iap_questions">Vragen? Lees onze</string>
   <string name="iap_rate_it">Tevreden of niet, we horen graag uw mening!</string>
   <string name="iap_read">Lees onze</string>

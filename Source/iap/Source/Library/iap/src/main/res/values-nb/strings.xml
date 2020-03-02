@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Ingen produkter tilgjengelig</string>
   <string name="iap_promotional_gift">Kampanje- eller gavekode</string>
   <string name="iap_quantity">Antall: %s</string>
+  <string name="iap_product_item_quantity">Antall:</string>
   <string name="iap_questions">Spørsmål? Gå til</string>
   <string name="iap_rate_it">Elsk det eller hat det, vi vil at du skal vurdere det.</string>
   <string name="iap_read">Les vår</string>

@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Nu sunt produse disponibile</string>
   <string name="iap_promotional_gift">Cod promoţional sau cadou</string>
   <string name="iap_quantity">Cantitate: %s</string>
+  <string name="iap_product_item_quantity">Cantitate:</string>
   <string name="iap_questions">[ro]Questions? Please visit our</string>
   <string name="iap_rate_it">Fie că produsul îţi place sau nu, dorim să îl evaluezi!</string>
   <string name="iap_read">Citeşte</string>

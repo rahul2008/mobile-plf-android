@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">利用可能な製品なし</string>
   <string name="iap_promotional_gift">プロモーション／ギフトコード</string>
   <string name="iap_quantity">数量：%s</string>
+  <string name="iap_product_item_quantity">数量</string>
   <string name="iap_questions">[ja]Questions? Please visit our</string>
   <string name="iap_rate_it">製品に関するご意見をお聞かせください</string>
   <string name="iap_read">詳しくは、当社の</string>

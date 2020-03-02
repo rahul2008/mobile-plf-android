@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">ما من منتجات متوفرة</string>
   <string name="iap_promotional_gift">الرمز الترويجي أو رمز الهدية</string>
   <string name="iap_quantity">الكمية: %s</string>
+  <string name="iap_product_item_quantity">الكمية:</string>
   <string name="iap_questions">هل لديك أسئلة؟ يُرجى زيارة</string>
   <string name="iap_rate_it">لا تتردّد في التصنيف سلبيًا أو إيجابيًا!</string>
   <string name="iap_read">يرجى قراءة</string>

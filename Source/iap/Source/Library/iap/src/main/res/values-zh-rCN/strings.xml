@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">无可用产品</string>
   <string name="iap_promotional_gift">促销或礼品码</string>
   <string name="iap_quantity">数量：%s</string>
+  <string name="iap_product_item_quantity">数量：</string>
   <string name="iap_questions">[zh-CN]Questions? Please visit our</string>
   <string name="iap_rate_it">无论喜欢还是讨厌，我们希望您能进行评分！</string>
   <string name="iap_read">阅读我们的</string>

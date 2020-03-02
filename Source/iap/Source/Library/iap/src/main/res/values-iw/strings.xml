@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">אין מוצרים זמינים</string>
   <string name="iap_promotional_gift">קוד מבצע או שובר שי</string>
   <string name="iap_quantity">כמות: %s</string>
+  <string name="iap_product_item_quantity">כמות:</string>
   <string name="iap_questions">[he]Questions? Please visit our</string>
   <string name="iap_rate_it">נשמח לקבל מכם חוות דעת, בין אם חיובית או שלילית!</string>
   <string name="iap_read">קרא את</string>

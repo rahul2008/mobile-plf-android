@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Aucun produit disponible</string>
   <string name="iap_promotional_gift">Code promotionnel ou code cadeau</string>
   <string name="iap_quantity">Quantité : %s</string>
+  <string name="iap_product_item_quantity">Quantité :</string>
   <string name="iap_questions">Questions ? Veuillez visiter notre</string>
   <string name="iap_rate_it">Que vous adoriez ou détestiez un produit, votre avis nous intéresse !</string>
   <string name="iap_read">Lisez notre</string>

@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">ไม่มีผลิตภัณฑ์จำหน่าย</string>
   <string name="iap_promotional_gift">รหัสโปรโมชันหรือของขวัญ</string>
   <string name="iap_quantity">จำนวน: %s</string>
+  <string name="iap_product_item_quantity">จำนวน:</string>
   <string name="iap_questions">[th]Questions? Please visit our</string>
   <string name="iap_rate_it">ไม่ว่าชอบหรือไม่ชอบ เราขอให้คุณช่วยจัดอันดับ!</string>
   <string name="iap_read">อ่าน</string>

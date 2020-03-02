@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Gaminių nėra</string>
   <string name="iap_promotional_gift">Nuolaidos arba dovanos kodas</string>
   <string name="iap_quantity">Kiekis: %s</string>
+  <string name="iap_product_item_quantity">Kiekis:</string>
   <string name="iap_questions">[lt]Questions? Please visit our</string>
   <string name="iap_rate_it">Patinka gaminys ar ne, norime, kad jį įvertintumėte!</string>
   <string name="iap_read">Perskaitykite mūsų</string>

@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">Žiadne dostupné produkty</string>
   <string name="iap_promotional_gift">Propagačný alebo darčekový kód</string>
   <string name="iap_quantity">Množstvo: %s</string>
+  <string name="iap_product_item_quantity">Množstvo:</string>
   <string name="iap_questions">[sk]Questions? Please visit our</string>
   <string name="iap_rate_it">Páči? Nepáči? Podeľte sa s nami o vaše hodnotenie!</string>
   <string name="iap_read">Prečítajte</string>

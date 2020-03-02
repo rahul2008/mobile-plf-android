@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">|Δεν υπάρχουν διαθέσιμα προϊόντα|</string>
   <string name="iap_promotional_gift">|Промоционален код или код за подарък|</string>
   <string name="iap_quantity">|Количество: %s|</string>
+  <string name="iap_product_item_quantity">|Количество:|</string>
   <string name="iap_questions">|[zh-TW]Questions? Please visit our|</string>
   <string name="iap_rate_it">|Chcemy poznać Twoją opinię bez względu na to, czy go uwielbiasz, czy nienawidzisz!|</string>
   <string name="iap_read">|Ознакомьтесь с нашим|</string>

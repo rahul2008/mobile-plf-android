@@ -210,6 +210,7 @@
   <string name="iap_products_unavailable">沒有可以使用的產品</string>
   <string name="iap_promotional_gift">推廣或禮品代碼</string>
   <string name="iap_quantity">數量：%s</string>
+  <string name="iap_product_item_quantity">數量：</string>
   <string name="iap_questions">[zh-HK]Questions? Please visit our</string>
   <string name="iap_rate_it">喜歡我們的產品嗎？我們誠邀您作出評價！</string>
   <string name="iap_read">查閱</string>
