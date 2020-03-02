@@ -157,7 +157,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             binding.ecsAddressShipping = ecsAddresses[0]
 
-            binding.tvShippingAddressName.setOnClickListener { onEditClick() }
+            binding.mecAddressEditIcon.setOnClickListener { onEditClick() }
 
             binding.tvManageAddress.setOnClickListener { onManageAddressClick() }
 
@@ -263,10 +263,11 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private fun checkDeliveryAddressSet() {
-
-        val findGivenAddressInAddressList = MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id, ecsAddresses)
-
-        if (null != mECSShoppingCart.deliveryAddress && null != findGivenAddressInAddressList) {
+        var findGivenAddressInAddressList: ECSAddress? = null
+        if(null != mECSShoppingCart.deliveryAddress) {
+             findGivenAddressInAddressList = MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id, ecsAddresses)
+        }
+        if ( null != findGivenAddressInAddressList) {
             // if shopping cart has delivery address and its ID is matching with one of the fetched address list
             binding.ecsAddressShipping = findGivenAddressInAddressList
             fetchDeliveryModes()

@@ -121,28 +121,46 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_shipping_address_name"
                 style="@style/mec_address_header"
-                android:layout_marginLeft="@dimen/border16_margin_left_right"
-                android:layout_marginRight="@dimen/border16_margin_left_right"
+                android:layout_marginStart="@dimen/border16_margin_left_right"
+                android:layout_marginEnd="@dimen/border16_margin_left_right"
                 android:layout_marginTop="@dimen/iap_margin_10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@android:drawable/ic_menu_edit"
                 android:layout_weight="1.2"
                 android:padding="@dimen/iap_margin_4dp"
                 android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}" />
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/mec_address_edit_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_centerVertical="true"
+                android:textSize="20sp"
+                fontPath="fonts/iconfont.ttf"
+                android:textColor="?attr/uidButtonQuietEmphasisNormalTextColor"
+                android:text="@string/dls_edit"
+                />
         <com.philips.platform.uid.view.widget.Label
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="2dp"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             app:shippingAddress="@{ecsAddressShipping}"
-            android:gravity="start"
+            android:layout_alignParentStart="true"
             android:textSize="12sp"
+            android:layout_toStartOf="@+id/mec_address_edit_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
 
 
         <com.philips.platform.uid.view.widget.Button
@@ -151,7 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:textColor="?attr/uidButtonPrimaryNormalTextColor"
@@ -191,7 +209,6 @@
 
     <include
         android:id="@+id/mec_progress"
-        android:layout_marginBottom="200dp"
         layout="@layout/mec_progress_bar"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />

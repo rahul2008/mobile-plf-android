@@ -18,19 +18,31 @@
         android:padding="@dimen/iap_margin_10dp"
         app:cardUseCompatPadding="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:orientation="vertical"
             >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@android:drawable/ic_menu_add"/>
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                fontPath="fonts/centralesansbold.ttf"
+                android:textSize="56sp"
+                android:text="@string/mec_pros_plus"/>
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:text="Add new Shipping Address"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
+        <!--bold 56  ,,, book sp14  cengte-->
 <!-- pro cons unicode + 56*56 "\u{FF0B}"
      lebel - Add new Shipping Address
      -->

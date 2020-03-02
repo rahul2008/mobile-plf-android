@@ -5,11 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/mec_progress"
-            layout="@layout/mec_progress_bar"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,18 +22,22 @@
                 style="@style/mec_address_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/iap_margin_10dp"
+                android:layout_marginTop="12dp"
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingRight="@dimen/border16_margin_left_right"
-                android:text="Manage Shipping Addresses" />
+                fontPath="fonts/centralesansbold.ttf"
+                android:textSize="18sp"
+                android:text="Manage Address" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:layout_marginBottom="@dimen/iap_margin_4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingRight="@dimen/border16_margin_left_right"
+                android:textSize="14sp"
+                fontPath="fonts/centralesansbook.ttf"
                 android:text="Choose shipping address from below list" />
 
         </LinearLayout>
@@ -82,7 +82,12 @@
 
 
     </LinearLayout>
-
+        <include
+            android:id="@+id/mec_progress"
+            layout="@layout/mec_progress_bar"
+            android:layout_marginBottom="300dp"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
     </RelativeLayout>
 
 </layout>
