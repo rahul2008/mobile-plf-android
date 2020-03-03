@@ -29,9 +29,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.philips.cdp.di.ecs.error.ECSError
-import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productCatalogue
@@ -39,7 +36,6 @@ import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment

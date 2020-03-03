@@ -22,7 +22,6 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.MECRequestType
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.cdp.di.mec.view.MECDropDown
@@ -49,7 +48,7 @@ class AddressViewModel : CommonViewModel() {
 
     private var ecsSetDeliveryModesCallback = ECSSetDeliveryModesCallback(this)
 
-    var ecsServices = MecHolder.INSTANCE.eCSServices
+    var ecsServices = MECDataHolder.INSTANCE.eCSServices
 
     var addressRepository = AddressRepository(ecsServices)
 

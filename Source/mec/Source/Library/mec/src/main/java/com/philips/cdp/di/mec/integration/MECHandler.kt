@@ -8,28 +8,23 @@ import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.google.android.gms.common.api.internal.LifecycleCallback.getFragment
-
 import com.philips.cdp.di.ecs.ECSServices
+import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.config.ECSConfig
+import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.common.MECLauncherActivity
+import com.philips.cdp.di.mec.integration.serviceDiscovery.ServiceDiscoveryMapListener
+import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.*
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlMapListener
 import com.philips.platform.uappframework.launcher.ActivityLauncher
 import com.philips.platform.uappframework.launcher.FragmentLauncher
 import com.philips.platform.uappframework.launcher.UiLauncher
-
-import java.util.ArrayList
-import com.philips.cdp.di.ecs.error.ECSError
-import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.config.ECSConfig
-
-import com.philips.cdp.di.mec.analytics.MECAnalytics
-import com.philips.cdp.di.mec.integration.serviceDiscovery.ServiceDiscoveryMapListener
-
-import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
+import java.util.*
 
 
 internal class MECHandler(private val mMECDependencies: MECDependencies, private val mMECSetting: MECSettings, private val mUiLauncher: UiLauncher, private val mLaunchInput: MECLaunchInput) {
@@ -68,7 +63,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
             propertyForKey = propositionID as String
         }
         val ecsServices = ECSServices(propertyForKey, appInfra!!)
-        MecHolder.INSTANCE.eCSServices = ecsServices // singleton
+        MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
         MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
         MECDataHolder.INSTANCE.propositionId = propertyForKey
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator!!

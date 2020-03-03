@@ -1,14 +1,10 @@
 package com.philips.cdp.di.mec.screens.detail
 
-import android.view.View
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.mec.common.MecError
-import com.philips.cdp.di.mec.integration.MecHolder
-import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import kotlinx.android.synthetic.main.mec_main_activity.*
 import java.util.*
 
 /**
@@ -46,7 +42,7 @@ import java.util.*
 
   private fun fetchProductForRetailers() {
 
-    MecHolder.INSTANCE.eCSServices.fetchProductSummaries(Arrays.asList(product.code) , object :  ECSCallback<List<ECSProduct>, Exception>{
+      MECDataHolder.INSTANCE.eCSServices.fetchProductSummaries(Arrays.asList(product.code) , object :  ECSCallback<List<ECSProduct>, Exception>{
       override fun onResponse(result: List<ECSProduct>?) {
         product = result?.get(0) ?: product
         callParentExecute()
@@ -60,7 +56,7 @@ import java.util.*
   }
 
   private fun fetchProductForHybris() {
-    MecHolder.INSTANCE.eCSServices.fetchProduct(product.code, object : ECSCallback<ECSProduct, Exception> {
+      MECDataHolder.INSTANCE.eCSServices.fetchProduct(product.code, object : ECSCallback<ECSProduct, Exception> {
       override fun onResponse(result: ECSProduct?) {
         product = result!!
         callParentExecute()

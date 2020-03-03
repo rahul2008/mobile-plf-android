@@ -13,7 +13,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
-import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Label
 
 class EcsProductViewModel : CommonViewModel() {
@@ -22,7 +22,7 @@ class EcsProductViewModel : CommonViewModel() {
 
     val ecsProductsReviewList = MutableLiveData<MutableList<MECProductReview>>()
 
-    val ecsServices = MecHolder.INSTANCE.eCSServices
+    val ecsServices = MECDataHolder.INSTANCE.eCSServices
 
     var ecsCatalogRepository = ECSCatalogRepository()
 

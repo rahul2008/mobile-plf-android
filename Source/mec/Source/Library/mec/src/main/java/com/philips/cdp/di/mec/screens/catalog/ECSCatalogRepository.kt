@@ -1,16 +1,16 @@
 package com.philips.cdp.di.mec.screens.catalog
 
-import com.bazaarvoice.bvandroidsdk.*
+import com.bazaarvoice.bvandroidsdk.BulkRatingOptions
+import com.bazaarvoice.bvandroidsdk.BulkRatingsRequest
+import com.bazaarvoice.bvandroidsdk.EqualityOperator
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.common.MecError
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import okhttp3.internal.Internal
 
 class ECSCatalogRepository {
 
@@ -28,7 +28,7 @@ class ECSCatalogRepository {
 
 
         var modifiedList = existingList
-        val ecsServices = MecHolder.INSTANCE.eCSServices
+        val ecsServices = MECDataHolder.INSTANCE.eCSServices
         ecsServices.fetchProducts(pageNumber, pageSize, object : ECSCallback<ECSProducts, Exception> {
 
             override fun onFailure(error: Exception?, ecsError: ECSError?) {

@@ -1,26 +1,17 @@
 package com.philips.cdp.di.mec.screens.detail
 
 import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
 
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.*
-import org.mockito.Mockito.*
-
-import java.lang.Exception
-
 
 
 //@RunWith(RobolectricTestRunner::class)
