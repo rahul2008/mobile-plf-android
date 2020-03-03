@@ -20,7 +20,6 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.MECRequestType
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -39,7 +38,7 @@ class EcsProductDetailViewModel : CommonViewModel() {
 
     val review = MutableLiveData<ReviewResponse>()
 
-    var ecsServices = MecHolder.INSTANCE.eCSServices
+    var ecsServices = MECDataHolder.INSTANCE.eCSServices
 
     var ecsProductDetailRepository = ECSProductDetailRepository(this,ecsServices)
 

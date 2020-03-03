@@ -2,7 +2,6 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.integration.MecHolder
 import org.junit.Before
 
 import org.junit.Test

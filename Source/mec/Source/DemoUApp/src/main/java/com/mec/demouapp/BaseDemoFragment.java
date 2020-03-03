@@ -109,6 +109,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private MECBazaarVoiceInput mecBazaarVoiceInput;
     private TextView versionView;
     private View rootView;
+    private AppInfraInterface mAppInfraInterface;
 
 
     @Override
@@ -116,7 +117,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         if(null==rootView) {
             urInterface = new URInterface();
-            urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getContext())), new MecDemoAppSettings(getContext()));
+            mAppInfraInterface=new AppInfra.Builder().build(getContext());
+
 
             ignorelistedRetailer = new ArrayList<>();
             rootView = inflater.inflate(R.layout.base_demo_fragment, container, false);
@@ -148,8 +150,8 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             toggleVoucher = rootView.findViewById(R.id.toggleVoucher);
 
 
-            AppInfraInterface appInfra = new AppInfra.Builder().build(getContext());
-            AppConfigurationInterface configInterface = appInfra.getConfigInterface();
+
+            AppConfigurationInterface configInterface = mAppInfraInterface.getConfigInterface();
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
             String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "MEC", configError);
@@ -257,12 +259,13 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
             mCategorizedProductList = new ArrayList<>();
             //addCTNs(mCategorizedProductList);
-            mUserDataInterface = urInterface.getUserDataInterface();
+
 
 
             mMecInterface = new MECInterface();
             mMecSettings = new MECSettings(getActivity());
             //actionBar();
+
             initializeBazaarVoice();
             initializeMECComponant();
 
@@ -302,6 +305,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         toggleHybris.setVisibility(View.VISIBLE);
         initMEC();
 
+        mUserDataInterface = urInterface.getUserDataInterface();
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mRegister.setText(this.getString(R.string.log_out));
         } else {
@@ -316,15 +320,15 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         ignorelistedRetailer.add("Amazon - US");
         ignorelistedRetailer.add("BestBuy.com");
 
-        UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(getActivity()));
+        UappDependencies uappDependencies = new UappDependencies(mAppInfraInterface);
         UappSettings uappSettings = new UappSettings(getContext());
 
         urInterface.init(uappDependencies, uappSettings);
 
-        MECDependencies mIapDependencies = new MECDependencies(new AppInfra.Builder().build(getActivity()), urInterface.getUserDataInterface());
+        MECDependencies mecDependencies = new MECDependencies(mAppInfraInterface, urInterface.getUserDataInterface());
 
         try {
-            mMecInterface.init(mIapDependencies, mMecSettings);
+            mMecInterface.init(mecDependencies, mMecSettings);
         } catch (RuntimeException ex) {
         }
 

@@ -12,7 +12,6 @@ import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
@@ -36,7 +35,6 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.specialEvents
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.stockStatus
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecProductDetailsBinding
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.retailers.ECSRetailerViewModel
@@ -47,7 +45,6 @@ import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.MEC_PRODUCT
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
-import kotlinx.android.synthetic.main.mec_main_activity.*
 import kotlinx.android.synthetic.main.mec_product_details.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -428,7 +425,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     private fun getECSConfig(productFetchRequiredForCTN : String?){
-        MecHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
+        MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
 
             override fun onResponse(config: ECSConfig?) {
                 if (MECDataHolder.INSTANCE.hybrisEnabled) {

@@ -2,12 +2,10 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.screens.detail.ECSProductDetailRepository
 import com.philips.cdp.di.mec.screens.detail.EcsProductDetailViewModel
 import org.junit.Before
 
-import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

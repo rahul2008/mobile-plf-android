@@ -8,14 +8,14 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.ItemClickListener
-import com.philips.cdp.di.mec.integration.MecHolder
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Label
 
 class ECSRetailerViewModel : CommonViewModel() {
 
     val ecsRetailerList = MutableLiveData<ECSRetailerList>()
 
-    var ecsServices = MecHolder.INSTANCE.eCSServices
+    var ecsServices = MECDataHolder.INSTANCE.eCSServices
 
     var ecsRetailersRepository =  ECSRetailersRepository(ecsServices,this)
 

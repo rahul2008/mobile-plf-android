@@ -1,26 +1,19 @@
 package com.philips.cdp.di.mec.auth
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
-import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.ecs.R
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.ecs.util.ECSConfiguration
-import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface
-
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
 import com.philips.platform.pif.DataInterface.USR.enums.Error
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener
-import java.util.ArrayList
+import java.util.*
 
 
 class HybrisAuth {
@@ -74,7 +67,7 @@ class HybrisAuth {
                 }
             }
 
-            MecHolder.INSTANCE.eCSServices.hybrisOAthAuthentication(getJanrainAuthInput(), hybrisCallback)
+            MECDataHolder.INSTANCE.eCSServices.hybrisOAthAuthentication(getJanrainAuthInput(), hybrisCallback)
         }
 
 
@@ -107,7 +100,7 @@ class HybrisAuth {
                     }
                 }
             }
-            MecHolder.INSTANCE.eCSServices.hybrisRefreshOAuth(oAuthInput, hybrisCallback)
+            MECDataHolder.INSTANCE.eCSServices.hybrisRefreshOAuth(oAuthInput, hybrisCallback)
         }
 
 

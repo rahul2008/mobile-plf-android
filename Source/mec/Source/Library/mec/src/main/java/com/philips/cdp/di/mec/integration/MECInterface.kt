@@ -1,21 +1,11 @@
 package com.philips.cdp.di.mec.integration
 
 import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.ecs.error.ECSError
-import com.philips.cdp.di.ecs.error.ECSErrorEnum
-import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
-import com.philips.cdp.di.ecs.model.config.ECSConfig
-import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
-import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
-import com.philips.cdp.di.mec.screens.catalog.ECSCatalogRepository
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
-import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.uappframework.UappInterface
 import com.philips.platform.uappframework.launcher.UiLauncher
 import com.philips.platform.uappframework.uappinput.UappDependencies
@@ -66,7 +56,7 @@ class MECInterface : UappInterface {
         MECDataHolder.INSTANCE.propositionId = propertyForKey
         MECDataHolder.INSTANCE.voucherEnabled = voucher
         val ecsServices = ECSServices(propertyForKey, MECDependencies.appInfra as AppInfra)
-        MecHolder.INSTANCE.eCSServices = ecsServices // singleton
+        MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
     }
 
     /**

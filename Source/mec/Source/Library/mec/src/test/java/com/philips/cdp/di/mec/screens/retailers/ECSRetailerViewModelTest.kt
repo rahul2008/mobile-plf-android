@@ -1,10 +1,8 @@
 package com.philips.cdp.di.mec.screens.retailers
 
 import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.mec.integration.MecHolder
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
