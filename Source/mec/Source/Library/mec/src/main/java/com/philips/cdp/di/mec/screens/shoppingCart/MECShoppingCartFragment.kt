@@ -66,8 +66,8 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     private var voucherCode: String = ""
     private var removeVoucher: Boolean = true
-    private lateinit var name: String
-    private lateinit var price: String
+    private var name: String = ""
+    private var price: String = ""
     var validationEditText: ValidationEditText? = null
     val list: ArrayList<String>? = ArrayList()
 
@@ -137,8 +137,12 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         }
 
         for (i in 0..shoppingCart.appliedVouchers.size - 1) {
-            name = shoppingCart.appliedVouchers.get(i).name
-            price = "-" + shoppingCart.appliedVouchers.get(i).appliedValue.formattedValue
+            if(shoppingCart.appliedVouchers.get(i).name==null) {
+                name = shoppingCart.appliedVouchers.get(i).voucherCode
+            } else {
+                name = shoppingCart.appliedVouchers.get(i).name
+            }
+            price = "-" + shoppingCart.appliedVouchers?.get(i)?.appliedValue?.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
@@ -241,13 +245,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             swipeController = MECSwipeController(binding.mecCartSummaryRecyclerView.context, object : SwipeControllerActions() {
                 override fun onRightClicked(position: Int) {
                     itemPosition = position
-                    removeVoucher = false
+                    removeVoucher= false
                     showDialog()
                 }
 
                 override fun onLeftClicked(position: Int) {
                     itemPosition = position
-                    removeVoucher = false
+                    removeVoucher= false
                     showDialog()
                 }
             })
@@ -257,10 +261,10 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
             binding.mecCartSummaryRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                    swipeController!!.onDraw(c)
                     if(productsAdapter!!.itemCount>0 ) {
-                        swipeController!!.drawButtons(c, parent.findViewHolderForAdapterPosition(0)!!)
+                            swipeController!!.drawButtons(c, parent.findViewHolderForAdapterPosition(0)!!)
                     }
+                    swipeController!!.onDraw(c)
                 }
             })
             mRootView = binding.root

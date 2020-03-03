@@ -18,6 +18,12 @@
     </data>
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/uid_level_white"
+        android:paddingTop="5dp">
+
+    <RelativeLayout
         android:id="@+id/mec_applied_vocuher_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,6 +97,7 @@
             />
 
 
+    </RelativeLayout>
     </RelativeLayout>
 
 </layout>

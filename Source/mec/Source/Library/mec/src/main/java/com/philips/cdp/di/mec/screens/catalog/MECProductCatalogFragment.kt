@@ -39,6 +39,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.integration.MecHolder
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
@@ -309,7 +310,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 categorizedCtns = arguments?.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
                 totalProductsTobeSearched = categorizedCtns.size
             }
-
+            binding.progressBar.visibility = View.VISIBLE
             executeRequest()
             ////////////// start of update cart and login if required
             if(isUserLoggedIn()) {
@@ -413,6 +414,16 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val colorCodeHighlighted:Int = typedArray.getColor(0,0)
         typedArray.recycle();
         return colorCodeHighlighted
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.progressBar.visibility = View.GONE
+    }
+
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        super.processError(mecError, showDialog)
+        binding.progressBar.visibility = View.GONE
     }
 
 }
