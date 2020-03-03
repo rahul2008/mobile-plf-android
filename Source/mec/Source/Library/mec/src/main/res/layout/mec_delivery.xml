@@ -112,8 +112,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right"
+            android:paddingStart="@dimen/border16_margin_left_right"
+            android:paddingEnd="@dimen/border16_margin_left_right"
             android:text="@string/mec_shipping_address" />
 
 
@@ -147,15 +147,14 @@
                 android:text="@string/dls_edit"
                 />
         <com.philips.platform.uid.view.widget.Label
-            android:layout_gravity="center_horizontal"
+
             android:layout_marginTop="2dp"
             android:layout_marginStart="@dimen/border16_margin_left_right"
-            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginEnd="50dp"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             app:shippingAddress="@{ecsAddressShipping}"
             android:layout_alignParentStart="true"
             android:textSize="12sp"
-            android:layout_toStartOf="@+id/mec_address_edit_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -170,8 +169,8 @@
             android:layout_height="wrap_content"
             android:enabled="true"
             android:layout_marginTop="12dp"
-            android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
-            android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
             android:textColor="?attr/uidButtonPrimaryNormalTextColor"
             android:textSize="16dp"
             app:uidComponentType="Primary"
@@ -193,8 +192,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="@dimen/iap_margin_20dp"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right"
+            android:paddingStart="@dimen/border16_margin_left_right"
+            android:paddingEnd="@dimen/border16_margin_left_right"
             android:text="@string/mec_delivery_method" />
 
     </LinearLayout>
