@@ -128,7 +128,7 @@ class MECProductReviewsFragment : MecBaseFragment() {
     private fun bazaarvoiceLink(view: TextView) {
         val spanTxt = SpannableStringBuilder(
                 getString(R.string.mec_bazaarVoice_Terms_And_Condition))
-        spanTxt.append(getString(R.string.mec_bazaarVoice_Detail_at))
+        spanTxt.append("\n"+getString(R.string.mec_bazaarVoice_Detail_at))
         spanTxt.append(" ")
         spanTxt.append(getString(R.string.mec_bazaarVoice_link))
         spanTxt.setSpan(object : ClickableSpan() {
