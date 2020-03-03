@@ -30,7 +30,6 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECDependencies;
@@ -124,20 +123,53 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         uAppApplication = (PIMDemoUAppApplication) getApplicationContext();
         appInfraInterface = uAppApplication.getAppInfra();
 
-        initializeView();
-        intialiseLibrary();
+        btnGetUserDetail = findViewById(R.id.btn_GetUserDetail);
+        btnGetUserDetail.setOnClickListener(this);
+        btnLaunchAsActivity = findViewById(R.id.btn_login_activity);
+        btnLaunchAsActivity.setOnClickListener(this);
+        btnLaunchAsFragment = findViewById(R.id.btn_login_fragment);
+        btnLaunchAsFragment.setOnClickListener(this);
+        btnLogout = findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(this);
+        btnRefreshSession = findViewById(R.id.btn_RefreshSession);
+        btnRefreshSession.setOnClickListener(this);
+        btnISOIDCToken = findViewById(R.id.btn_IsOIDCToken);
+        btnISOIDCToken.setOnClickListener(this);
+        btnMigrator = findViewById(R.id.btn_MigrateUser);
+        btnMigrator.setOnClickListener(this);
+        aSwitch = findViewById(R.id.switch_cookies_consent);
+        abTestingSwitch = findViewById(R.id.switch_ab_testing_consent);
+        btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
+        btn_RegistrationPR.setOnClickListener(this);
+        btn_IAP = findViewById(R.id.btn_IAP);
+        btn_IAP.setOnClickListener(this);
+        btn_ECS = findViewById(R.id.btn_ECS);
+        btn_ECS.setOnClickListener(this);
+        btn_MCS = findViewById(R.id.btn_MEC);
+        btn_MCS.setOnClickListener(this);
+        PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(appInfraInterface);
+        PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
 
-        mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
-        receiver = new HomeCountryUpdateReceiver(appInfraInterface);
-        mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+            } else {
+                appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+            }
+        });
 
-        selectCountry();
-    }
+        abTestingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            setABTestingStatus(isChecked);
+        });
+        viewInitlization(pimDemoUAppDependencies, pimDemoUAppSettings);
+//        pimInterface = new PIMInterface();
+//        pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
+//        userDataInterface = pimInterface.getUserDataInterface();
 
-    private void selectCountry() {
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
+        spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
+        spinnerCountryText = findViewById(R.id.spinner_Text);
         if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
             spinnerCountrySelection.setVisibility(View.VISIBLE);
             spinnerCountryText.setVisibility(View.GONE);
@@ -176,6 +208,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 //        ignorelistedRetailer.add("Amazon - US");
 //        ignorelistedRetailer.add("BestBuy.com");
 
+        mMecInterface = new MECInterface();
+
         MECDependencies mIapDependencies = new MECDependencies(appInfraInterface, userDataInterface);
 
         mMecInterface.init(mIapDependencies, new MECSettings(mContext));
@@ -198,44 +232,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void initializeView() {
-        btnGetUserDetail = findViewById(R.id.btn_GetUserDetail);
-        btnGetUserDetail.setOnClickListener(this);
-        btnLaunchAsActivity = findViewById(R.id.btn_login_activity);
-        btnLaunchAsActivity.setOnClickListener(this);
-        btnLaunchAsFragment = findViewById(R.id.btn_login_fragment);
-        btnLaunchAsFragment.setOnClickListener(this);
-        btnLogout = findViewById(R.id.btn_logout);
-        btnLogout.setOnClickListener(this);
-        btnRefreshSession = findViewById(R.id.btn_RefreshSession);
-        btnRefreshSession.setOnClickListener(this);
-        btnISOIDCToken = findViewById(R.id.btn_IsOIDCToken);
-        btnISOIDCToken.setOnClickListener(this);
-        btnMigrator = findViewById(R.id.btn_MigrateUser);
-        btnMigrator.setOnClickListener(this);
-        aSwitch = findViewById(R.id.switch_cookies_consent);
-        abTestingSwitch = findViewById(R.id.switch_ab_testing_consent);
-        btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
-        btn_RegistrationPR.setOnClickListener(this);
-        btn_IAP = findViewById(R.id.btn_IAP);
-        btn_IAP.setOnClickListener(this);
-        spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
-        spinnerCountryText = findViewById(R.id.spinner_Text);
-
-        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-            } else {
-                appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-            }
-        });
-
-        abTestingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            setABTestingStatus(isChecked);
-        });
-    }
-
-    private void intialiseLibrary() {
+    private void viewInitlization(PIMDemoUAppDependencies pimDemoUAppDependencies, PIMDemoUAppSettings pimDemoUAppSettings) {
         if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
             isUSR = true;
             Log.i(TAG, "Selected Liberary : USR");
@@ -248,7 +245,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             btn_ECS.setVisibility(View.GONE);
             btnGetUserDetail.setVisibility(View.GONE);
             btnLaunchAsFragment.setText("Launch USR");
-
             uAppApplication.intialiseUR();
             userDataInterface = uAppApplication.getUserDataInterface();
         } else {
@@ -256,33 +252,33 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             Log.i(TAG, "Selected Liberary : PIM");
             uAppApplication.initialisePim();
             userDataInterface = uAppApplication.getUserDataInterface();
-
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 btnLaunchAsActivity.setVisibility(View.GONE);
                 btnLaunchAsFragment.setText("Launch User Profile");
-                intialiseIAP();
             } else {
                 btnLaunchAsActivity.setText("Launch PIM As Activity");
                 btnLaunchAsFragment.setText("Launch PIM As Fragment");
             }
+            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, userDataInterface);
+            mIAPSettings = new IAPSettings(this);
+            mIapInterface = new IAPInterface();
+            mIapInterface.init(mIapDependencies, mIAPSettings);
+            mServiceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
+            receiver = new HomeCountryUpdateReceiver(appInfraInterface);
+            mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
+//            mIAPSettings = new IAPSettings(this);
+            mCategorizedProductList = new ArrayList<>();
+            mCategorizedProductList.add("HD9745/90000");
+            mCategorizedProductList.add("HD9630/90");
+            mCategorizedProductList.add("HD9240/90");
+            mCategorizedProductList.add("HD9621/90");
+//            mIapInterface.init(mIapDependencies, mIAPSettings);
+            mIapLaunchInput = new IAPLaunchInput();
+            mIapLaunchInput.setHybrisSupported(true);
+            mIapLaunchInput.setIapListener(this);
+            initializeBazaarVoice();
+            initMEC();
         }
-    }
-
-    private void intialiseIAP() {
-        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, userDataInterface);
-        mIapInterface = new IAPInterface();
-        mIAPSettings = new IAPSettings(this);
-        mCategorizedProductList = new ArrayList<>();
-        mCategorizedProductList.add("HD9745/90000");
-        mCategorizedProductList.add("HD9630/90");
-        mCategorizedProductList.add("HD9240/90");
-        mCategorizedProductList.add("HD9621/90");
-        mIapInterface.init(mIapDependencies, mIAPSettings);
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setHybrisSupported(true);
-        mIapLaunchInput.setIapListener(this);
-
-        IAPUtility.getInstance().setHybrisSupported(true);
     }
 
     public String getCountryCode(String countryName) {
@@ -379,7 +375,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
             } else {
-                Toast.makeText(this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_IAP) {
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
