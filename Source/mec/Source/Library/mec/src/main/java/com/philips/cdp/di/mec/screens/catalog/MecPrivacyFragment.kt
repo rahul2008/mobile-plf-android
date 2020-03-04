@@ -49,6 +49,11 @@ class MecPrivacyFragment : MecBaseFragment() {
         mWebView!!.onResume()
     }
 
+    override fun onStop() {
+        super.onStop()
+        hideProgressBar()
+    }
+
     //TODO take this code to a separate class
 
     internal fun initializeWebView(group: View) {
