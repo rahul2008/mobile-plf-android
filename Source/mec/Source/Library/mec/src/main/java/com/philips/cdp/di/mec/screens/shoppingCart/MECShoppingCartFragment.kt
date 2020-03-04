@@ -209,9 +209,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
+        setCartIconVisibility(false)
         if (null == mRootView) {
-            setCartIconVisibility(false)
+
             binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
             binding.fragment = this
             binding.mecDataHolder = MECDataHolder.INSTANCE
