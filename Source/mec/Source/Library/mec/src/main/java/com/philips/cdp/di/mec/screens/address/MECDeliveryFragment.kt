@@ -17,6 +17,7 @@ import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecDeliveryBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.orderSummary.MECOrderSummaryFragment
 import com.philips.cdp.di.mec.screens.profile.ProfileViewModel
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -161,7 +162,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             binding.tvManageAddress.setOnClickListener { onManageAddressClick() }
 
-
+            binding.mecDeliveryFragment = this
             mRootView = binding.root
             checkDeliveryAddressSet()
         }
@@ -292,5 +293,10 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             showProgressBar(binding.mecProgress.mecProgressBarContainer)
             ecsShoppingCartViewModel.getShoppingCart()
         }
+    }
+
+    fun onOrderSummaryClick(){
+        val mecOrderSummaryFragment = MECOrderSummaryFragment()
+        replaceFragment(mecOrderSummaryFragment,MECOrderSummaryFragment.TAG, true)
     }
 }
