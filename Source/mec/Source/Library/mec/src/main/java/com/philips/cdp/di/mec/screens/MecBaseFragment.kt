@@ -62,7 +62,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     fun replaceFragment(newFragment: MecBaseFragment,
                         newFragmentTag: String, isReplaceWithBackStack: Boolean) {
         if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
-            RuntimeException("ActionBarListner and IAPListner cant be null")
+            RuntimeException("ActionBarListner and MECListner cant be null")
         else {
             if (null!=activity && !activity!!.isFinishing) {
 
@@ -84,7 +84,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     fun addFragment(newFragment: MecBaseFragment,
                         newFragmentTag: String, isAddWithBackStack: Boolean) {
         if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
-            RuntimeException("ActionBarListner and IAPListner cant be null")
+            RuntimeException("ActionBarListner and MECListner cant be null")
         else {
             if (null!=activity && !activity!!.isFinishing) {
                 val transaction = activity!!.supportFragmentManager.beginTransaction()

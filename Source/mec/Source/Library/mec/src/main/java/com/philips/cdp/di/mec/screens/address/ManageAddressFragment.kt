@@ -98,7 +98,7 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
 
     override fun onDestroy() {
         super.onDestroy()
-        showProgressBar(binding.mecProgress.mecProgressBarContainer)
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
 
