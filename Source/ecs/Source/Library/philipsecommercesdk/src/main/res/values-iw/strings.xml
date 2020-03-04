@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">ספק בבקשה app infra object</string>
+  <string name="ECSBaseURLNotFound">כתובת URL בסיסית לא נמצאת</string>
+  <string name="ECSCartEntryError">המוצר לא הוסף לעגלה</string>
+  <string name="ECSCartError">עדיין לא נוצרה עגלה</string>
+  <string name="ECSCommerceCartModificationError">הכמות לא יכולה להיות פחות מאפס</string>
+  <string name="ECSCtnNotProvided">ספק CTN בבקשה</string>
+  <string name="ECSHybrisNotAvailable">החנות של פיליפס אינה זמינה במדינה שנבחרה, רק מצב קמעונאי זמין</string>
+  <string name="ECSIllegalArgumentError">ספק נתוני כניסה חוקיים בבקשה</string>
+  <string name="ECSInsufficientStockError">לא ניתן לשלוח את המוצר כיוון שהוא אזל מהמלאי</string>
+  <string name="ECSInvalidPaymentInfoError">ספק פרטי תשלום חוקיים בבקשה</string>
+  <string name="ECSInvalidTokenError">נתקלנו בתקלה טכנית (אסימון גישה לא חוקי). בצע בבקשה Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">הגדר מקום בבקשה</string>
+  <string name="ECSNoSuchElementError">אירעה שגיאה בשליפת הנתונים מהשרת</string>
+  <string name="ECSOAuthDetailError">ספק פרטי OAuth מלאים בבקשה</string>
+  <string name="ECSOAuthNotCalled">לביצוע פעולה זו נדרש אישור משתמש</string>
+  <string name="ECSPaymentAuthorizationError">אימות התשלום נכשל</string>
+  <string name="ECSPropositionIdNotFound">קבע בבקשה Proposition ID תקפה</string>
+  <string name="ECSSiteIdNotFound">החנות של פיליפס אינה זמינה במדינה שנבחרה, רק מצב קמעונאי זמין</string>
+  <string name="ECSUnknownIdentifierError">המשאב המבוקש אינו זמין</string>
+  <string name="ECSUnsupportedDeliveryModeError">שיטת המשלוח שנבחרה אינה נתמכת</string>
+  <string name="ECSUnsupportedVoucherError">מצטערים, לא ניתן לממש שובר זה</string>
+  <string name="ECSValidationError">אימות הנתונים נכשל</string>
+  <string name="ECSVoucherOperationError">מצטערים, לא ניתן לממש שובר זה</string>
+  <string name="ECSaddressId">הכתובת שנמסרה אינה קיימת או שייכת למשתמש אחר</string>
+  <string name="ECScountryCodeNotGiven">ספק קידומת מדינה תקפה בבקשה</string>
+  <string name="ECScountryisocode">המדינה שנבחרה לא חוקית</string>
+  <string name="ECSfirstName">שים לב: התווים הבאים אינם מותרים לשימוש: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">נתקלנו בתקלה טכנית (פרטי זיהוי לא נכונים של הלקוח) התחבר שוב בבקשה</string>
+  <string name="ECSinvalid_grant">נתקלנו בתקלה טכנית (אסימון Janrain לא חוקי). התחבר שוב בבקשה</string>
+  <string name="ECSlastName">שים לב: התווים הבאים אינם מותרים לשימוש: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">ספק הזמנה תקפה בבקשה</string>
+  <string name="ECSphone1">מספר הטלפון שנבחר לא חוקי</string>
+  <string name="ECSphone2">מספר הטלפון שנבחר לא חוקי</string>
+  <string name="ECSpostUrl">הזמנה כבר שולמה/הושלמה</string>
+  <string name="ECSpostalCode">המיקוד שנבחר לא חוקי</string>
+  <string name="ECSregionisocode">האזור שנבחר לא חוקי</string>
+  <string name="ECSsessionCart">בחר את הכתובת למשלוח, אופן המשלוח ושיטת התשלום לפני ביצוע הזמנה</string>
+  <string name="ECSsomethingWentWrong">נתקלנו בתקלה טכנית. נסה שוב במועד מאוחר יותר בבקשה</string>
+  <string name="ECSunsupported_grant_type">נתקלנו בתקלה טכנית (סוג בקשת גישה לא נתמך). התחבר שוב בבקשה</string>
+</resources>

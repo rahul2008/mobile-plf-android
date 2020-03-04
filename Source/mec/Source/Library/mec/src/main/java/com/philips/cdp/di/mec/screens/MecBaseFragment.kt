@@ -42,6 +42,14 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     private var mMECBaseFragmentProgressBar: ProgressBar? = null
 
     override fun handleBackEvent(): Boolean {
+
+        val currentFragment = activity?.supportFragmentManager?.fragments?.last()
+
+        if (currentFragment?.getTag().equals("WebBuyFromRetailersFragment"))
+        {
+            setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
+        }
+
         return false
     }
 
@@ -50,7 +58,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
             RuntimeException("ActionBarListner and IAPListner cant be null")
         else {
-            if (!activity!!.isFinishing) {
+            if (null!= activity && !activity!!.isFinishing) {
 
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 val simpleName = newFragment.javaClass.simpleName
@@ -71,7 +79,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
             RuntimeException("ActionBarListner and IAPListner cant be null")
         else {
-            if (!activity!!.isFinishing) {
+            if (null!= activity && !activity!!.isFinishing) {
 
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 val simpleName = newFragment.javaClass.simpleName
@@ -207,5 +215,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         }
        // fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,"OK","Error",mecError!!.exception!!.message.toString()) } }
     }
+
+    abstract fun getFragmentTag():String
 
 }

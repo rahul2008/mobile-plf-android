@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Надайте app infra object</string>
+  <string name="ECSBaseURLNotFound">Базову URL-адресу не знайдено</string>
+  <string name="ECSCartEntryError">Продукт не додано до кошика</string>
+  <string name="ECSCartError">Кошика ще не створено</string>
+  <string name="ECSCommerceCartModificationError">Кількість має бути не менше нуля</string>
+  <string name="ECSCtnNotProvided">Надайте код CTN</string>
+  <string name="ECSHybrisNotAvailable">Магазин Philips недоступний у вибраній країні, можливий лише режим роздрібної торгівлі</string>
+  <string name="ECSIllegalArgumentError">Надайте дійсні вхідні дані</string>
+  <string name="ECSInsufficientStockError">Продукт неможливо доставити, бо його немає в наявності</string>
+  <string name="ECSInvalidPaymentInfoError">Надайте дійсні деталі оплати</string>
+  <string name="ECSInvalidTokenError">Стався технічний збій (недійсний маркер доступу). Виконайте Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">Встановіть регіональні налаштування</string>
+  <string name="ECSNoSuchElementError">Сталася помилка під час отримання даних із сервера</string>
+  <string name="ECSOAuthDetailError">Надайте усі деталі авторизації OAuth</string>
+  <string name="ECSOAuthNotCalled">Для цієї дії необхідна авторизація користувача</string>
+  <string name="ECSPaymentAuthorizationError">Авторизація оплати невдала</string>
+  <string name="ECSPropositionIdNotFound">Встановіть дійсний ідентифікатор Proposition ID</string>
+  <string name="ECSSiteIdNotFound">Магазин Philips недоступний у вибраній країні, можливий лише режим роздрібної торгівлі</string>
+  <string name="ECSUnknownIdentifierError">Потрібний ресурс недоступний</string>
+  <string name="ECSUnsupportedDeliveryModeError">Вибраний режим доставки не підтримується</string>
+  <string name="ECSUnsupportedVoucherError">Вибачте, цей ваучер неможливо застосувати</string>
+  <string name="ECSValidationError">Помилка перевірки даних</string>
+  <string name="ECSVoucherOperationError">Вибачте, цей ваучер неможливо застосувати</string>
+  <string name="ECSaddressId">Надана адреса не існує або належить іншому користувачу</string>
+  <string name="ECScountryCodeNotGiven">Надайте дійсний код країни</string>
+  <string name="ECScountryisocode">Вибрана країна недійсна</string>
+  <string name="ECSfirstName">Візьміть до уваги, що такі символи не дозволені: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Стався технічний збій (невірні облікові дані клієнта). Увійдіть у систему повторно</string>
+  <string name="ECSinvalid_grant">Стався технічний збій (недійсний маркер Janrain). Увійдіть у систему повторно</string>
+  <string name="ECSlastName">Візьміть до уваги, що такі символи не дозволені: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Надайте дійсне замовлення</string>
+  <string name="ECSphone1">Вибраний номер телефону недійсний</string>
+  <string name="ECSphone2">Вибраний номер телефону недійсний</string>
+  <string name="ECSpostUrl">Замовлення вже має статус оплаченого/завершеного</string>
+  <string name="ECSpostalCode">Вибраний індекс недійсний</string>
+  <string name="ECSregionisocode">Вибраний регіон недійсний</string>
+  <string name="ECSsessionCart">Виберіть адресу доставки, режим доставки й спосіб оплати, перш ніж надсилати замовлення</string>
+  <string name="ECSsomethingWentWrong">Стався технічний збій. Спробуйте пізніше</string>
+  <string name="ECSunsupported_grant_type">Стався технічний збій (непідтримуваний тип дозволу). Увійдіть у систему повторно</string>
+</resources>

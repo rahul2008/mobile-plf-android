@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="mec_add">Pridať</string>
+  <string name="mec_add_gift_Card">Pridať darčekový kód</string>
+  <string name="mec_add_to_cart">Pridať do košíka</string>
+  <string name="mec_anonymous">Anonynmný</string>
+  <string name="mec_bazaarVoice_Detail_at">Podrobnosti na</string>
+  <string name="mec_bazaarVoice_Terms_And_Condition">Tieto recenzie spravuje spoločnosť Bazaarvoice a sú v súlade s pravidlami autentickosti spoločnosti Bazaarvoice, podporovanými technológiou boja proti podvodom a ľudskou analýzou.</string>
+  <string name="mec_buy_from_retailers">Kúpiť od predajcu</string>
+  <string name="mec_cancel">Zrušiť</string>
+  <string name="mec_cart_login_error_message">Zaregistrujte sa alebo prihláste pre jednoduchšie objednávanie produktov</string>
+  <string name="mec_continue_checkout">Pokračovať k pokladni</string>
+  <string name="mec_continue_shopping">Pokračovať v nakupovaní</string>
+  <string name="mec_features">Vlastnosti</string>
+  <string name="mec_has_used_this_product_for">Použil/a tento produkt na</string>
+  <string name="mec_in_stock">na sklade</string>
+  <string name="mec_info">Informácie</string>
+  <string name="mec_invalid_landing_view">Poskytnite prosím platné Zobrazenie cieľového miesta</string>
+  <string name="mec_invalid_product_ctn">Číslo CTN produktu nemôže byť prázdne</string>
+  <string name="mec_loading">Načítava sa...</string>
+  <string name="mec_more_info">ďalšie informácie</string>
+  <string name="mec_no_product_available">Vo vašom obchode sa nenašiel žiaden produkt.</string>
+  <string name="mec_no_result">Našlo sa 0 výsledkov pre výraz</string>
+  <string name="mec_no_review_available">Neboli nájdené žiadne recenzie</string>
+  <string name="mec_ok">OK</string>
+  <string name="mec_online_retailers">Online predajcovia</string>
+  <string name="mec_out_of_stock">Nie je na sklade</string>
+  <string name="mec_privacy">Vyhlásenie o ochrane osobných údajov</string>
+  <string name="mec_product_detail_title"> Informácie o výrobku</string>
+  <string name="mec_product_title">Výrobky</string>
+  <string name="mec_read">Prečítajte</string>
+  <string name="mec_reviews">Recenzie</string>
+  <string name="mec_shopping_cart">Košík</string>
+  <string name="mec_specs">Špecifikácie</string>
+  <string name="mec_threshold_message">Môže to trvať dlhšie. Prajete si pokračovať?</string>
+  <string name="mec_threshold_title">Bol dosiahnutý limit požiadavky</string>
+  <string name="mec_zero_results_message"> Táto funkcia filtruje náš zoznam výrobkov. Skontrolujte, či vo výraze filtra nie sú chyby.</string>
+</resources>

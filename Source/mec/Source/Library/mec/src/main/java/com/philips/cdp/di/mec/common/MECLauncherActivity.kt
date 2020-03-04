@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
+import com.philips.cdp.di.mec.integration.FragmentSelector
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator
 
 import com.philips.cdp.di.mec.integration.MECListener
@@ -180,7 +181,7 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListe
 
          val bundle = bundle
 
-         val mecLandingFragment =getFragment(hybris, flowConfigurator!!,bundle)
+         val mecLandingFragment = FragmentSelector(). getLandingFragment(hybris, flowConfigurator!!,bundle)
 
          bundle.putInt("fragment_container",R.id.mec_fragment_container) // frame_layout for fragment
          mecLandingFragment?.arguments = bundle
@@ -191,56 +192,6 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListe
          val transaction = supportFragmentManager.beginTransaction()
          transaction.replace(R.id.mec_fragment_container, mecLandingFragment!!, tag)
          transaction.commitAllowingStateLoss()
-     }
-
-
-     private fun getFragment(isHybris: Boolean, mecFlowConfigurator: MECFlowConfigurator, bundle: Bundle): MecBaseFragment? {
-         var fragment: MecBaseFragment? = null
-
-         when (mecFlowConfigurator.landingView) {
-
-             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
-                 fragment = MECLandingProductDetailsFragment()
-                 putCtnsToBundle(bundle,mecFlowConfigurator)
-             }
-
-             MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
-                 fragment = MECProductCatalogFragment()
-             }
-             MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
-                 fragment = getCategorizedFragment(isHybris)
-                 putCtnsToBundle(bundle,mecFlowConfigurator)
-             }
-         }
-         return fragment
-     }
-
-     private fun getCategorizedFragment(isHybris: Boolean): MecBaseFragment? {
-         if (isHybris) {
-             return MECProductCatalogCategorizedFragment()
-         } else {
-             return MECCategorizedRetailerFragment()
-         }
-     }
-
-     fun putCtnsToBundle(bundle: Bundle , mecFlowConfigurator: MECFlowConfigurator){
-
-         var ctnList: ArrayList<String>? = ArrayList()
-
-         if (mecFlowConfigurator.productCTNs != null) {
-
-             for (ctn in mecFlowConfigurator.productCTNs!!) {
-                 ctnList?.add(ctn.replace("_", "/"))
-             }
-         }
-
-         bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, ctnList)
-
-         val ecsProduct = ECSProduct()
-         ecsProduct.code = ctnList?.get(0) ?: null
-
-         bundle?.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
-
      }
 
 }

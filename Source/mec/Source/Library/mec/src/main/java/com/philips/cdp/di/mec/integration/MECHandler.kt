@@ -8,6 +8,7 @@ import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.google.android.gms.common.api.internal.LifecycleCallback.getFragment
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.mec.common.MECLauncherActivity
@@ -39,7 +40,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
     private var appInfra: AppInfra? = null
     private var listOfServiceId: ArrayList<String>? = null
     lateinit var serviceUrlMapListener: OnGetServiceUrlMapListener
-    lateinit var fragmentTag:String
+
 
 
     private val IAP_PRIVACY_URL = "iap.privacyPolicy"
@@ -153,7 +154,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         val bundle = getBundle()
 
-        val mecLandingFragment =getFragment(hybris, mLaunchInput.flowConfigurator!!,bundle)
+        val mecLandingFragment =FragmentSelector().getLandingFragment(hybris, mLaunchInput.flowConfigurator!!,bundle)
         val fragmentLauncher = mUiLauncher as FragmentLauncher
         bundle.putInt("fragment_container", fragmentLauncher.parentContainerResourceID) // frame_layout for fragment
         mecLandingFragment?.arguments = bundle
@@ -161,69 +162,9 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         MECDataHolder.INSTANCE.setActionBarListener(fragmentLauncher.actionbarListener, mLaunchInput.mecListener!!)
         val transaction = fragmentLauncher.fragmentActivity.supportFragmentManager.beginTransaction()
-        transaction.replace(fragmentLauncher.parentContainerResourceID, mecLandingFragment!!, fragmentTag)
-        transaction.addToBackStack(fragmentTag)
+        transaction.replace(fragmentLauncher.parentContainerResourceID, mecLandingFragment!!, mecLandingFragment.getFragmentTag())
+        transaction.addToBackStack(mecLandingFragment.getFragmentTag())
         transaction.commitAllowingStateLoss()
     }
-
-
-    private fun getFragment(isHybris: Boolean, mecFlowConfigurator: MECFlowConfigurator ,bundle: Bundle): MecBaseFragment? {
-        var fragment: MecBaseFragment? = null
-
-        when (mecFlowConfigurator.landingView) {
-
-
-            MECFlowConfigurator.MECLandingView.MEC_PRODUCT_DETAILS_VIEW -> {
-                fragment = MECLandingProductDetailsFragment()
-                fragmentTag = MECLandingProductDetailsFragment.TAG
-
-            }
-
-            MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW -> {
-                fragment = MECProductCatalogFragment()
-                fragmentTag = MECProductCatalogFragment.TAG
-            }
-            MECFlowConfigurator.MECLandingView.MEC_CATEGORIZED_PRODUCT_LIST_VIEW -> {
-                fragment = getCategorizedFragment(isHybris)
-            }
-        }
-        putCtnsToBundle(bundle,mecFlowConfigurator)
-        return fragment
-    }
-
-    private fun getCategorizedFragment(isHybris: Boolean): MecBaseFragment? {
-        if (isHybris) {
-            fragmentTag = MECProductCatalogCategorizedFragment.TAG
-            return MECProductCatalogCategorizedFragment()
-        } else {
-            fragmentTag = MECCategorizedRetailerFragment.TAG
-            return MECCategorizedRetailerFragment()
-        }
-    }
-
-    fun putCtnsToBundle(bundle: Bundle , mecFlowConfigurator: MECFlowConfigurator){
-
-        var ctnList: ArrayList<String>? = ArrayList()
-
-        if (mecFlowConfigurator.productCTNs != null) {
-
-            for (ctn in mecFlowConfigurator.productCTNs!!) {
-                ctnList?.add(ctn.replace("_", "/"))
-            }
-        }
-
-        bundle?.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, ctnList)
-
-        val ecsProduct = ECSProduct()
-        if(ctnList?.size !=0) {
-            ecsProduct.code = ctnList?.get(0) ?: ""
-        }else{
-            ecsProduct.code = ""
-        }
-
-        bundle?.putSerializable(MECConstant.MEC_KEY_PRODUCT,ecsProduct)
-
-    }
-
 
 }

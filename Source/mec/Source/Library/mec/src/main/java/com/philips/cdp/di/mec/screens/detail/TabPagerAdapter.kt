@@ -1,16 +1,18 @@
 package com.philips.cdp.di.mec.screens.detail
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.screens.features.MECProductFeaturesFragment
 import com.philips.cdp.di.mec.screens.specification.SpecificationFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
-class TabPagerAdapter (var fm: FragmentManager, var ctn: String) : FragmentPagerAdapter(fm) {
+class TabPagerAdapter(var fm: FragmentManager, var ctn: String, var context: Context) : FragmentPagerAdapter(fm) {
 
 
 
@@ -56,12 +58,12 @@ class TabPagerAdapter (var fm: FragmentManager, var ctn: String) : FragmentPager
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> "Info"
-            1 -> "Features"
-            2 -> "Specs"
-            3 -> "Reviews"
+            0 -> context.getString(R.string.mec_info)
+            1 -> context.getString(R.string.mec_features)
+            2 -> context.getString(R.string.mec_specs)
+            3 -> context.getString(R.string.mec_reviews)
             else -> {
-                "Info"
+                context.getString(R.string.mec_info)
             }
         }
     }

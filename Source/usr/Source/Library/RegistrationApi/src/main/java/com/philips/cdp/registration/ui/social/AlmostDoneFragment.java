@@ -554,7 +554,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleAcceptPersonalConsentTrue() {
-        completeRegistration();
         trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_IN);
     }
 

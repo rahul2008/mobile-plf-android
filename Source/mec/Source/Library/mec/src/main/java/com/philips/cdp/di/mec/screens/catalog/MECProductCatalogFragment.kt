@@ -36,6 +36,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -47,6 +48,9 @@ import com.philips.platform.uid.view.widget.Label
  * A simple [Fragment] subclass.
  */
 open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickListener {
+    override fun getFragmentTag(): String {
+        return "MECProductCatalogFragment"
+    }
 
 
     companion object {
@@ -101,7 +105,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     var totalPages: Int = 0
     var currentPage: Int = 0
-    var pageSize: Int = 5
+    var pageSize: Int = 20
     var shouldSupportPagination = true
     var  isCallOnProgress : Boolean= true
 
@@ -322,9 +326,9 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
     private fun privacyTextView(view: TextView) {
         val spanTxt = SpannableStringBuilder(
-                getString(R.string.mec_read_privacy))
+                getString(R.string.mec_read))
         spanTxt.append(" ")
-        spanTxt.append(getString(R.string.mec_privacy_notice))
+        spanTxt.append(getString(R.string.mec_privacy))
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
@@ -336,7 +340,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_privacy_notice).length, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_privacy).length, spanTxt.length, 0)
         spanTxt.append(" ")
         spanTxt.append(getString(R.string.mec_more_info))
         binding.mecPrivacy.setHighlightColor(Color.TRANSPARENT)
@@ -382,7 +386,6 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
               return true
             }
         }
-
         return false
     }
 
@@ -393,6 +396,11 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
         val colorCodeHighlighted:Int = typedArray.getColor(0,0)
         typedArray.recycle();
         return colorCodeHighlighted
+    }
+
+    override fun processError(mecError: MecError?) {
+        super.processError(mecError)
+        hideProgressBar()
     }
 
 }

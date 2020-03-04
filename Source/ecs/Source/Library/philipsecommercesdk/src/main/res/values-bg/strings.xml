@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Моля, предоставете app infra object</string>
+  <string name="ECSBaseURLNotFound">Основният URL адрес не е намерен</string>
+  <string name="ECSCartEntryError">Продуктът не е добавен в количката</string>
+  <string name="ECSCartError">Все още няма създадена количка</string>
+  <string name="ECSCommerceCartModificationError">Количеството не трябва да бъде по-малко от нула</string>
+  <string name="ECSCtnNotProvided">Моля, предоставете CTN</string>
+  <string name="ECSHybrisNotAvailable">Магазинът на Philips не е достъпен за избраната държава, наличен е само режим за търговци на дребно</string>
+  <string name="ECSIllegalArgumentError">Моля, предоставете валидни данни за вход</string>
+  <string name="ECSInsufficientStockError">Продуктът не може да бъде изпратен, тъй като не е наличен</string>
+  <string name="ECSInvalidPaymentInfoError">Моля, предоставете валидни детайли за плащане</string>
+  <string name="ECSInvalidTokenError">Възникна техническа неизправност (Невалиден маркер за достъп). Моля, извършете Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">Моля, задайте езика</string>
+  <string name="ECSNoSuchElementError">Възникна грешка при извличане на данните от сървъра</string>
+  <string name="ECSOAuthDetailError">Моля, предоставете пълни детайли за OAuth</string>
+  <string name="ECSOAuthNotCalled">За това действие е необходимо удостоверяване на потребител</string>
+  <string name="ECSPaymentAuthorizationError">Удостоверяването на плащането не беше успешно</string>
+  <string name="ECSPropositionIdNotFound">Моля, задайте валиден Proposition ID</string>
+  <string name="ECSSiteIdNotFound">Магазинът на Philips не е достъпен за избраната държава, наличен е само режим за търговци на дребно</string>
+  <string name="ECSUnknownIdentifierError">Исканият източник не е наличен</string>
+  <string name="ECSUnsupportedDeliveryModeError">Избраният режим за доставка не се поддържа</string>
+  <string name="ECSUnsupportedVoucherError">Съжаляваме, този ваучер не може да бъде получен</string>
+  <string name="ECSValidationError">Неуспешно потвърждаване на данни</string>
+  <string name="ECSVoucherOperationError">Съжаляваме, този ваучер не може да бъде получен</string>
+  <string name="ECSaddressId">Предоставеният адрес не съществува или принадлежи на друг потребител</string>
+  <string name="ECScountryCodeNotGiven">Моля, предоставете валиден код на държавата</string>
+  <string name="ECScountryisocode">Избраната държава не е валидна</string>
+  <string name="ECSfirstName">Моля, обърнете внимание, че следните символи не са разрешени: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Възникна техническа неизправност (Неправилни клиентски данни за вход). Моля, впишете се отново</string>
+  <string name="ECSinvalid_grant">Възникна техническа неизправност (Невалиден маркер Janrain). Моля, впишете се отново</string>
+  <string name="ECSlastName">Моля, обърнете внимание, че следните символи не са разрешени: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Моля, предоставете валидна поръчка</string>
+  <string name="ECSphone1">Избраният телефонен номер не е валиден</string>
+  <string name="ECSphone2">Избраният телефонен номер не е валиден</string>
+  <string name="ECSpostUrl">Поръчката вече е в етап на плащане/завършване</string>
+  <string name="ECSpostalCode">Избраният пощенски код не е валиден</string>
+  <string name="ECSregionisocode">Избраният регион не е валиден</string>
+  <string name="ECSsessionCart">Моля, изберете адрес за доставка, режим за доставка и начин на плащане, преди да изпратите поръчка</string>
+  <string name="ECSsomethingWentWrong">Възникна техническа неизправност. Моля, опитайте отново малко по-късно</string>
+  <string name="ECSunsupported_grant_type">Възникна техническа неизправност (Неподдържан тип позволение). Моля, впишете се отново</string>
+</resources>

@@ -9,7 +9,7 @@
 
     <!-- Support Home Screen    null -->
     <string name="how_can_we_help"> Wilt u hulp? </string>
-    <string name="contact_us"> Neem dan contact met ons op </string>
+    <string name="contact_us"> Neem contact met ons op </string>
     <string name="view_product_details"> Bekijk productinformatie </string>
     <string name="view_faq"> FAQ\'s </string>
     <string name="find_philips_near_you"> Philips in uw buurt </string>
@@ -159,7 +159,7 @@
     <string name="dcc_send_email">E-mail</string>
     <string name="dcc_call_number">Ons bellen</string>
     <string name="dcc_chat_to_us">Chat met ons</string>
-    <string name="dcc_chat_desc">Chat 24/7 live in het Engels met een van onze productspecialisten. </string>
+    <string name="dcc_chat_desc">Chat live met onze productspecialist. </string>
     <string name="dcc_remove_photo">Foto verwijderen</string>
     <string name="dcc_continue">Doorgaan</string>
     <string name="dcc_characters_left">tekens over</string>

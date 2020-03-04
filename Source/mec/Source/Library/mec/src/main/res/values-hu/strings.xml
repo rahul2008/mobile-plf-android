@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="mec_add">Hozzáadás</string>
+  <string name="mec_add_gift_Card">Ajándékkód hozzáadása</string>
+  <string name="mec_add_to_cart">Kosárba tesz</string>
+  <string name="mec_anonymous">Név nélkül</string>
+  <string name="mec_bazaarVoice_Detail_at">Részletek:</string>
+  <string name="mec_bazaarVoice_Terms_And_Condition">Ezeket az értékeléseket a Bazaarvoice kezeli, és megfelelnek a Bazaarvoice hitelességszabályzatnak, amelyet a csalás elleni technológia és az emberi elemzés támogat.</string>
+  <string name="mec_buy_from_retailers">Vásárlás kiskereskedőtől</string>
+  <string name="mec_cancel">Mégse</string>
+  <string name="mec_cart_login_error_message">Kérjük, regisztráljon, vagy jelentkezzen be a termékek egyszerű megrendelése érdekében</string>
+  <string name="mec_continue_checkout">Folytatás a fizetéssel</string>
+  <string name="mec_continue_shopping">Vásárlás folytatása</string>
+  <string name="mec_features">Jellemzők</string>
+  <string name="mec_has_used_this_product_for">Ezt a terméket a következő célra használta:</string>
+  <string name="mec_in_stock">raktáron</string>
+  <string name="mec_info">Információk</string>
+  <string name="mec_invalid_landing_view">Adjon meg egy érvényes kezdőlapnézetet</string>
+  <string name="mec_invalid_product_ctn">Adjon meg egy nem üres termék CTN-t</string>
+  <string name="mec_loading">Betöltés...</string>
+  <string name="mec_more_info">a további tudnivalókért</string>
+  <string name="mec_no_product_available">Nem találtunk terméket boltjában.</string>
+  <string name="mec_no_result">Nincs találat a következőre:</string>
+  <string name="mec_no_review_available">Nem található értékelés</string>
+  <string name="mec_ok">OK</string>
+  <string name="mec_online_retailers">Online kiskereskedők</string>
+  <string name="mec_out_of_stock">Kifogyott</string>
+  <string name="mec_privacy">Adatvédelmi nyilatkozat</string>
+  <string name="mec_product_detail_title"> Termékadatok</string>
+  <string name="mec_product_title">Termékek</string>
+  <string name="mec_read">Olvassa el a következőt:</string>
+  <string name="mec_reviews">Értékelések</string>
+  <string name="mec_shopping_cart">Bevásárlókosár</string>
+  <string name="mec_specs">Műszaki adatok</string>
+  <string name="mec_threshold_message">Ez több időt vehet igénybe. Kívánja folytatni?</string>
+  <string name="mec_threshold_title">Elérte a kérés küszöbértékét</string>
+  <string name="mec_zero_results_message"> Ez szűri a terméklistát. Kérjük, ellenőrizze, hogy helyesen írta-e be a szűrőkifejezést.</string>
+</resources>

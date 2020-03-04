@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Zadajte infra objekt aplikácie</string>
+  <string name="ECSBaseURLNotFound">Základná adresa URL sa nenašla</string>
+  <string name="ECSCartEntryError">Produkt nebol pridaný do košíka</string>
+  <string name="ECSCartError">Zatiaľ nebol vytvorený žiadny košík</string>
+  <string name="ECSCommerceCartModificationError">Počet nesmie byť menší ako nula</string>
+  <string name="ECSCtnNotProvided">Poskytnite CTN</string>
+  <string name="ECSHybrisNotAvailable">Obchod Philips nie je k dispozícii pre vybratú krajinu, je k dispozícii iba režim predajcov</string>
+  <string name="ECSIllegalArgumentError">Uveďte platné vstupné údaje</string>
+  <string name="ECSInsufficientStockError">Produkt nie je možné expedovať, pretože je na sklade</string>
+  <string name="ECSInvalidPaymentInfoError">Uveďte platné platobné údaje</string>
+  <string name="ECSInvalidTokenError">Zaznamenali sme technickú závadu (neplatný prístupový token). Vykonajte opätovnú autorizáciu Hybris</string>
+  <string name="ECSLocaleNotFound">Nastavte miestne nastavenia</string>
+  <string name="ECSNoSuchElementError">Pri načítavaní údajov zo servera sa vyskytla chyba</string>
+  <string name="ECSOAuthDetailError">Uveďte úplné podrobnosti OAuth</string>
+  <string name="ECSOAuthNotCalled">Na tento úkon sa vyžaduje oprávnenie používateľa</string>
+  <string name="ECSPaymentAuthorizationError">Autorizácia platby nebola úspešná</string>
+  <string name="ECSPropositionIdNotFound">Nastavte platné ID ponuky</string>
+  <string name="ECSSiteIdNotFound">Obchod Philips nie je k dispozícii pre vybratú krajinu, je k dispozícii iba režim predajcov</string>
+  <string name="ECSUnknownIdentifierError">Požadovaný zdroj nie je k dispozícii</string>
+  <string name="ECSUnsupportedDeliveryModeError">Zvolený režim doručenia nie je podporovaný</string>
+  <string name="ECSUnsupportedVoucherError">Ľutujeme, tento kupón nie je možné uplatniť</string>
+  <string name="ECSValidationError">Overenie údajov zlyhalo</string>
+  <string name="ECSVoucherOperationError">Ľutujeme, tento kupón nie je možné uplatniť</string>
+  <string name="ECSaddressId">Zadaná adresa neexistuje alebo patrí inému používateľovi</string>
+  <string name="ECScountryCodeNotGiven">Zadajte platný kód krajiny</string>
+  <string name="ECScountryisocode">Zvolená krajina je neplatná</string>
+  <string name="ECSfirstName">Upozorňujeme, že nasledujúce znaky nie sú povolené: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Zaznamenali sme technickú závadu (nesprávne osobné doklady klienta). Prihláste sa znova</string>
+  <string name="ECSinvalid_grant">Zaznamenali sme technickú závadu (neplatný token Janrain). Prihláste sa znova</string>
+  <string name="ECSlastName">Upozorňujeme, že nasledujúce znaky nie sú povolené: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Uveďte platnú objednávku</string>
+  <string name="ECSphone1">Zvolené telefónne číslo je neplatné</string>
+  <string name="ECSphone2">Zvolené telefónne číslo je neplatné</string>
+  <string name="ECSpostUrl">Objednávka je už v stave úhrady/ukončenia</string>
+  <string name="ECSpostalCode">Zvolené PSČ je neplatné</string>
+  <string name="ECSregionisocode">Zvolená oblasť je neplatná</string>
+  <string name="ECSsessionCart">Pred odoslaním objednávky vyberte svoju dodaciu adresu, spôsob doručenia a spôsob platby</string>
+  <string name="ECSsomethingWentWrong">Zaznamenali sme technickú závadu. Skúste to znova o chvíľu</string>
+  <string name="ECSunsupported_grant_type">Zaznamenali sme technickú závadu (nepodporovaný typ grantu). Prihláste sa znova</string>
+</resources>

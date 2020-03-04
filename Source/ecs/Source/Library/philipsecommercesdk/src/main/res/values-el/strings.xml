@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Εισαγάγετε app infra object</string>
+  <string name="ECSBaseURLNotFound">Δεν βρέθηκε διεύθυνση URL βάσης</string>
+  <string name="ECSCartEntryError">Το προϊόν δεν προστέθηκε στο καλάθι</string>
+  <string name="ECSCartError">Δεν δημιουργήθηκε καλάθι ακόμη</string>
+  <string name="ECSCommerceCartModificationError">Η ποσότητα δεν πρέπει να είναι μικρότερη από μηδέν</string>
+  <string name="ECSCtnNotProvided">Εισαγάγετε το CTN</string>
+  <string name="ECSHybrisNotAvailable">Το κατάστημα της Philips δεν είναι διαθέσιμο για την επιλεγμένη χώρα, είναι διαθέσιμη μόνο η λειτουργία καταστήματος λιανικής</string>
+  <string name="ECSIllegalArgumentError">Εισαγάγετε έγκυρα δεδομένα εισόδου</string>
+  <string name="ECSInsufficientStockError">Το προϊόν δεν μπορεί να αποσταλεί καθώς έχει εξαντληθεί</string>
+  <string name="ECSInvalidPaymentInfoError">Εισαγάγετε έγκυρα στοιχεία πληρωμής</string>
+  <string name="ECSInvalidTokenError">Αντιμετωπίσαμε τεχνικό πρόβλημα (μη έγκυρο διακριτικό πρόσβασης). Πραγματοποιήστε Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">Επιλέξτε τοπικές ρυθμίσεις</string>
+  <string name="ECSNoSuchElementError">Παρουσιάστηκε σφάλμα κατά τη λήψη δεδομένων από τον διακομιστή</string>
+  <string name="ECSOAuthDetailError">Εισαγάγετε πλήρη στοιχεία OAuth</string>
+  <string name="ECSOAuthNotCalled">Απαιτείται έλεγχος ταυτότητας χρήστη για αυτήν την ενέργεια</string>
+  <string name="ECSPaymentAuthorizationError">Η εξουσιοδότηση πληρωμής δεν ήταν επιτυχής</string>
+  <string name="ECSPropositionIdNotFound">Ορίστε ένα έγκυρο Proposition ID</string>
+  <string name="ECSSiteIdNotFound">Το κατάστημα της Philips δεν είναι διαθέσιμο για την επιλεγμένη χώρα, είναι διαθέσιμη μόνο η λειτουργία καταστήματος λιανικής</string>
+  <string name="ECSUnknownIdentifierError">Ο ζητούμενος πόρος δεν είναι διαθέσιμος</string>
+  <string name="ECSUnsupportedDeliveryModeError">Ο επιλεγμένος τρόπος παράδοσης δεν υποστηρίζεται</string>
+  <string name="ECSUnsupportedVoucherError">Λυπούμαστε, αυτό το κουπόνι δεν μπορεί να εξαργυρωθεί</string>
+  <string name="ECSValidationError">Η επικύρωση δεδομένων απέτυχε</string>
+  <string name="ECSVoucherOperationError">Λυπούμαστε, αυτό το κουπόνι δεν μπορεί να εξαργυρωθεί</string>
+  <string name="ECSaddressId">Η διεύθυνση που εισαγάγατε δεν υπάρχει ή ανήκει σε άλλον χρήστη</string>
+  <string name="ECScountryCodeNotGiven">Εισαγάγετε έγκυρο κωδικό χώρας</string>
+  <string name="ECScountryisocode">Η επιλεγμένη χώρα δεν είναι έγκυρη</string>
+  <string name="ECSfirstName">Λάβετε υπόψη ότι δεν επιτρέπονται οι ακόλουθοι χαρακτήρες: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Αντιμετωπίσαμε τεχνικό πρόβλημα (εσφαλμένα διαπιστευτήρια υπολογιστή-πελάτη). Συνδεθείτε ξανά</string>
+  <string name="ECSinvalid_grant">Αντιμετωπίσαμε τεχνικό πρόβλημα (μη έγκυρο διακριτικό Janrain). Συνδεθείτε ξανά</string>
+  <string name="ECSlastName">Λάβετε υπόψη ότι δεν επιτρέπονται οι ακόλουθοι χαρακτήρες: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Εισαγάγετε έγκυρη παραγγελία</string>
+  <string name="ECSphone1">Ο επιλεγμένος αριθμός τηλεφώνου δεν είναι έγκυρος</string>
+  <string name="ECSphone2">Ο επιλεγμένος αριθμός τηλεφώνου δεν είναι έγκυρος</string>
+  <string name="ECSpostUrl">Η παραγγελία βρίσκεται ήδη σε κατάσταση πληρωμής/ολοκλήρωσης</string>
+  <string name="ECSpostalCode">Ο επιλεγμένος Τ.Κ. δεν είναι έγκυρος</string>
+  <string name="ECSregionisocode">Η επιλεγμένη περιοχή δεν είναι έγκυρη</string>
+  <string name="ECSsessionCart">Επιλέξτε τη διεύθυνση παράδοσης, τον τρόπο παράδοσης και τον τρόπο πληρωμής πριν υποβάλετε μια παραγγελία</string>
+  <string name="ECSsomethingWentWrong">Αντιμετωπίσαμε τεχνικό πρόβλημα. Δοκιμάστε ξανά σε λίγη ώρα</string>
+  <string name="ECSunsupported_grant_type">Αντιμετωπίσαμε τεχνικό πρόβλημα (μη υποστηριζόμενος τύπος εκχώρησης). Συνδεθείτε ξανά</string>
+</resources>

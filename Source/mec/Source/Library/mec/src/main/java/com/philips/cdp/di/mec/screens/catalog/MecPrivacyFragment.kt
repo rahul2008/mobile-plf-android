@@ -24,6 +24,10 @@ import java.net.URL
 
 class MecPrivacyFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "MecPrivacyFragment"
+    }
+
     companion object {
         val TAG:String="MecPrivacyFragment"
     }
@@ -41,8 +45,13 @@ class MecPrivacyFragment : MecBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(getString(R.string.mec_privacy_notice), true)
+        setTitleAndBackButtonVisibility(getString(R.string.mec_privacy), true)
         mWebView!!.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        hideProgressBar()
     }
 
     //TODO take this code to a separate class

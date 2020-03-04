@@ -28,7 +28,7 @@
     android:id="@+id/details_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/uid_level_white">
+    >
 
 
     <ScrollView
@@ -170,7 +170,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                        android:text="4"
                         android:textSize="@dimen/iap_product_original_price" />
 
                     <com.philips.platform.uid.view.widget.RatingBar
@@ -187,9 +186,8 @@
                         android:id="@+id/mec_review_lebel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="10dp"
                         android:textColor="?attr/uidContentItemSignalNormalTextWarningColor"
-                        android:text=" (3 reviews)"
                         android:textSize="@dimen/iap_product_original_price" />
 
                 </LinearLayout>
@@ -207,18 +205,20 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_retailerItem_ctn_lebel"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textSize="12sp"
+                    android:gravity="start"
+                    android:layout_gravity="start"
                     style="@style/mecCentralesansBookFont"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:text='@{product.code ?? ""}' />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/mec_product_detail_stock_status"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textSize="12sp"
                     android:gravity="end"
                     android:layout_gravity="end"
@@ -272,7 +272,7 @@
             app:uidComponentType="Primary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
             fontPath="fonts/iconfont.ttf"
-            android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
+            android:text="@{@string/dls_listview + @string/mec_empty_space + @string/mec_buy_from_retailers}"
             android:textSize="16sp"
             android:visibility="gone"
             />
@@ -290,7 +290,7 @@
             app:uidComponentType="Secondary"
             android:onClick="@{() -> fragment.onBuyFromRetailerClick()}"
             fontPath="fonts/iconfont.ttf"
-            android:text="@{@string/dls_listview + @string/mec_buy_from_retailers}"
+            android:text="@{@string/dls_listview + @string/mec_empty_space + @string/mec_buy_from_retailers}"
             android:textSize="16sp"
             android:visibility="gone"
             />
@@ -307,7 +307,7 @@
             android:textAlignment="center"
             android:visibility="gone"
             fontPath="fonts/mec_iconfont.ttf"
-            android:text="@{@string/dls_cart + @string/mec_add_to_cart}"
+            android:text="@{@string/dls_cart + @string/mec_empty_space + @string/mec_add_to_cart}"
             android:textSize="16sp"
             />
 

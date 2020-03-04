@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="mec_add">Thêm</string>
+  <string name="mec_add_gift_Card">Thêm mã quà tặng</string>
+  <string name="mec_add_to_cart">Thêm vào giỏ hàng</string>
+  <string name="mec_anonymous">Ẩn danh</string>
+  <string name="mec_bazaarVoice_Detail_at">Chi tiết tại</string>
+  <string name="mec_bazaarVoice_Terms_And_Condition">Các bài đánh giá này chịu sự quản lý của Bazaarvoice và tuân theo Chính sách xác thực của Bazaarvoice. Chính sách này được hỗ trợ bởi công nghệ chống gian lận và phân tích con người.</string>
+  <string name="mec_buy_from_retailers">Mua từ cửa hàng bán lẻ</string>
+  <string name="mec_cancel">Hủy</string>
+  <string name="mec_cart_login_error_message">Vui lòng chọn Đăng ký hoặc Đăng nhập để dễ dàng đặt hàng hơn</string>
+  <string name="mec_continue_checkout">Tiếp tục bước thanh toán</string>
+  <string name="mec_continue_shopping">Tiếp tục mua sắm</string>
+  <string name="mec_features">Đặc điểm</string>
+  <string name="mec_has_used_this_product_for">Đã sử dụng sản phẩm này cho</string>
+  <string name="mec_in_stock">còn hàng</string>
+  <string name="mec_info">Thông tin</string>
+  <string name="mec_invalid_landing_view">Vui lòng cung cấp Dạng xem trang đích hợp lệ</string>
+  <string name="mec_invalid_product_ctn">Vui lòng cung cấp CTN của sản phẩm không rỗng</string>
+  <string name="mec_loading">Đang tải...</string>
+  <string name="mec_more_info">của chúng tôi để biết thêm thông tin</string>
+  <string name="mec_no_product_available">Không tìm thấy sản phẩm trong Cửa hàng của bạn.</string>
+  <string name="mec_no_result">Tìm thấy 0 kết quả cho</string>
+  <string name="mec_no_review_available">Không tìm thấy bài đánh giá nào</string>
+  <string name="mec_ok">OK</string>
+  <string name="mec_online_retailers">Đại lý bán lẻ trực tuyến</string>
+  <string name="mec_out_of_stock">Hết hàng</string>
+  <string name="mec_privacy">Thông báo về quyền riêng tư</string>
+  <string name="mec_product_detail_title"> Chi tiết sản phẩm</string>
+  <string name="mec_product_title">Sản phẩm</string>
+  <string name="mec_read">Đọc</string>
+  <string name="mec_reviews">Đánh giá</string>
+  <string name="mec_shopping_cart">Giỏ hàng</string>
+  <string name="mec_specs">Quy cách</string>
+  <string name="mec_threshold_message">Thao tác này có thể nhiều thời gian. Bạn có muốn tiếp tục không?</string>
+  <string name="mec_threshold_title">Đã đạt ngưỡng yêu cầu</string>
+  <string name="mec_zero_results_message"> Từ khóa này sẽ lọc danh sách sản phẩm của chúng tôi. Vui lòng kiểm tra để đảm bảo không có lỗi chính tả nào trong từ khóa lọc của bạn</string>
+</resources>

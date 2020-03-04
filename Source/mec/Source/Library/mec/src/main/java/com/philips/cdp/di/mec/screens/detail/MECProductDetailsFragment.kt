@@ -47,6 +47,10 @@ import java.text.DecimalFormat
  */
 open class MECProductDetailsFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "MECProductDetailsFragment"
+    }
+
     private  var bottomSheetFragment: MECRetailersFragment? =null
     var mRootView :View? =null
 
@@ -169,7 +173,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
             ecsProductDetailViewModel.ecsProduct.value = product
 
-            val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code)
+            val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code, binding.mecReviewLebel.context)
             binding.viewpagerMain.offscreenPageLimit = 4
             binding.viewpagerMain.adapter = fragmentAdapter
             binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
@@ -186,9 +190,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
-        if(null!=bottomSheetFragment){
-            buyFromRetailers()
-        }
     }
 
     override fun onStart() {
@@ -242,7 +243,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         if (results != null && results.isNotEmpty()) {
             binding.mecRating.setRating((results.get(0).productStatistics.reviewStatistics.averageOverallRating).toFloat())
             binding.mecRatingLebel.text = DecimalFormat("0.0").format(results.get(0).productStatistics.reviewStatistics.averageOverallRating)
-            binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " reviews)"
+            binding.mecReviewLebel.text = " (" + results.get(0).productStatistics.reviewStatistics.totalReviewCount.toString() + " " + getString(R.string.mec_reviews)+ ")"
         }
 
     }
@@ -326,7 +327,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 tagActionsforRetailer(ecsRetailer.name, MECutility.stockStatus(ecsRetailer.availability))
                 val fragment = WebBuyFromRetailersFragment()
                 fragment.arguments = bundle
-                replaceFragment(fragment, WebBuyFromRetailersFragment.TAG, true)
+                addFragment(fragment, WebBuyFromRetailersFragment.TAG, true)
             }
         }
     }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">請提供 app infra object</string>
+  <string name="ECSBaseURLNotFound">找不到文檔根 URL</string>
+  <string name="ECSCartEntryError">產品未加入購物車</string>
+  <string name="ECSCartError">尚未創建購物車</string>
+  <string name="ECSCommerceCartModificationError">數量不可少於零</string>
+  <string name="ECSCtnNotProvided">請提供 CTN</string>
+  <string name="ECSHybrisNotAvailable">所選國家/地區不提供 Philips 商店服務，只提供零售商模式</string>
+  <string name="ECSIllegalArgumentError">請輸入有效數據</string>
+  <string name="ECSInsufficientStockError">產品缺貨，無法運送</string>
+  <string name="ECSInvalidPaymentInfoError">請提供有效付款詳情</string>
+  <string name="ECSInvalidTokenError">技術故障（存取權杖無效）。請進行 Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">請設定地域</string>
+  <string name="ECSNoSuchElementError">從伺服器獲取數據時出現錯誤</string>
+  <string name="ECSOAuthDetailError">請提供完整的 OAuth 詳情</string>
+  <string name="ECSOAuthNotCalled">獲得用戶授權後方可執行此操作</string>
+  <string name="ECSPaymentAuthorizationError">付款授權並未成功</string>
+  <string name="ECSPropositionIdNotFound">請設定有效的 Proposition ID</string>
+  <string name="ECSSiteIdNotFound">所選國家/地區不提供 Philips 商店服務，只提供零售商模式</string>
+  <string name="ECSUnknownIdentifierError">無法獲取所請求的資源</string>
+  <string name="ECSUnsupportedDeliveryModeError">不支援所選的送貨模式</string>
+  <string name="ECSUnsupportedVoucherError">抱歉，無法兌換此優惠券</string>
+  <string name="ECSValidationError">數據驗證失敗</string>
+  <string name="ECSVoucherOperationError">抱歉，無法兌換此優惠券</string>
+  <string name="ECSaddressId">所給地址不存在或屬於另一個用戶</string>
+  <string name="ECScountryCodeNotGiven">請提供有效國家代碼</string>
+  <string name="ECScountryisocode">所選國家無效</string>
+  <string name="ECSfirstName">請注意以下字元不可使用：\\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">技術故障（客戶端憑證錯誤）。請重新登入</string>
+  <string name="ECSinvalid_grant">技術故障（Janrain 權杖無效）。請重新登入</string>
+  <string name="ECSlastName">請注意以下字元不可使用：\\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">請提供有效訂單</string>
+  <string name="ECSphone1">所選電話號碼無效</string>
+  <string name="ECSphone2">所選電話號碼無效</string>
+  <string name="ECSpostUrl">訂單已處於已付款/完成狀態</string>
+  <string name="ECSpostalCode">所選郵政編碼無效</string>
+  <string name="ECSregionisocode">所選地區無效</string>
+  <string name="ECSsessionCart">請在提交訂單前選擇您的送貨地址、送貨模式及付款方式</string>
+  <string name="ECSsomethingWentWrong">技術故障。請稍後重試</string>
+  <string name="ECSunsupported_grant_type">技術故障（授權類型不受支援）。請重新登入</string>
+</resources>

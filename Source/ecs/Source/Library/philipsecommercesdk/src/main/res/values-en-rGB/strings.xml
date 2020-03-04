@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Please provide app infra object</string>
+  <string name="ECSBaseURLNotFound">Base URL not found</string>
+  <string name="ECSCartEntryError">The Product has not been added to the Basket</string>
+  <string name="ECSCartError">No basket created yet</string>
+  <string name="ECSCommerceCartModificationError">Quantity must not be less than zero</string>
+  <string name="ECSCtnNotProvided">Please provide the CTN</string>
+  <string name="ECSHybrisNotAvailable">The Philips shop is not available for the selected country. Only retailer mode is available</string>
+  <string name="ECSIllegalArgumentError">Please provide valid input data</string>
+  <string name="ECSInsufficientStockError">The product cannot be shipped as it is out of stock</string>
+  <string name="ECSInvalidPaymentInfoError">Please provide valid payment details</string>
+  <string name="ECSInvalidTokenError">We have encountered a technical glitch (Invalid access token). Please do Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">Please set the locale</string>
+  <string name="ECSNoSuchElementError">An error occurred while fetching the data from the server</string>
+  <string name="ECSOAuthDetailError">Please provide complete OAuth details</string>
+  <string name="ECSOAuthNotCalled">User authorisation is required for this action</string>
+  <string name="ECSPaymentAuthorizationError">Payment authorisation was not successful</string>
+  <string name="ECSPropositionIdNotFound">Please set a valid Proposition ID</string>
+  <string name="ECSSiteIdNotFound">The Philips shop is not available for the selected country. Only retailer mode is available</string>
+  <string name="ECSUnknownIdentifierError">The requested resource is not available</string>
+  <string name="ECSUnsupportedDeliveryModeError">The selected delivery mode is not supported</string>
+  <string name="ECSUnsupportedVoucherError">Sorry, this voucher can\'t be redeemed</string>
+  <string name="ECSValidationError">Data validation failed</string>
+  <string name="ECSVoucherOperationError">Sorry, this voucher can\'t be redeemed</string>
+  <string name="ECSaddressId">The given address doesn\'t exist or belongs to another user</string>
+  <string name="ECScountryCodeNotGiven">Please provide a valid country code</string>
+  <string name="ECScountryisocode">The country selected is invalid</string>
+  <string name="ECSfirstName">Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? / : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">We have encountered a technical glitch (Bad client credentials). Please log in again</string>
+  <string name="ECSinvalid_grant">We have encountered a technical glitch (Invalid Janrain Token). Please log in again</string>
+  <string name="ECSlastName">Please notice that the following characters are not allowed: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? / : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Please provide a valid order</string>
+  <string name="ECSphone1">The phone number selected is invalid</string>
+  <string name="ECSphone2">The phone number selected is invalid</string>
+  <string name="ECSpostUrl">Order is already in a paid/completed state</string>
+  <string name="ECSpostalCode">The postcode selected is invalid</string>
+  <string name="ECSregionisocode">The region selected is invalid</string>
+  <string name="ECSsessionCart">Please select your delivery address, delivery mode and payment method before submitting an order</string>
+  <string name="ECSsomethingWentWrong">We have encountered a technical glitch. Please try again after shortly</string>
+  <string name="ECSunsupported_grant_type">We have encountered a technical glitch (Unsupported grant type). Please log in again</string>
+</resources>

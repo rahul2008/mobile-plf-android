@@ -25,6 +25,10 @@ import java.net.URL
 
 class WebBuyFromRetailersFragment : MecBaseFragment() {
 
+    override fun getFragmentTag(): String {
+        return "WebBuyFromRetailersFragment"
+    }
+
     companion object {
         val TAG:String="WebBuyFromRetailersFragment"
     }
@@ -50,6 +54,11 @@ class WebBuyFromRetailersFragment : MecBaseFragment() {
             setTitleAndBackButtonVisibility(title, true)
         }
         mWebView!!.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        hideProgressBar()
     }
 
     //TODO take this code to a separate class

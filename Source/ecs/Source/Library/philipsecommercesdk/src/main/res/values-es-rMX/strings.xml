@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Proporcione el app infra object</string>
+  <string name="ECSBaseURLNotFound">No se encontró la URL base</string>
+  <string name="ECSCartEntryError">El producto no se agregó al carro</string>
+  <string name="ECSCartError">Aún no se crea el carro</string>
+  <string name="ECSCommerceCartModificationError">La cantidad no debe ser inferior a cero</string>
+  <string name="ECSCtnNotProvided">Proporcione el CTN</string>
+  <string name="ECSHybrisNotAvailable">La tienda Philips no está disponible para el país seleccionado, solo está disponible el modo minorista</string>
+  <string name="ECSIllegalArgumentError">Proporcione datos de entrada válidos</string>
+  <string name="ECSInsufficientStockError">El producto no se puede enviar porque está agotado</string>
+  <string name="ECSInvalidPaymentInfoError">Proporcione detalles de pago válidos</string>
+  <string name="ECSInvalidTokenError">Encontramos un problema técnico (token de acceso no válido). Realice la Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">Establezca la configuración regional</string>
+  <string name="ECSNoSuchElementError">Se produjo un error en la recuperación de los datos del servidor</string>
+  <string name="ECSOAuthDetailError">Proporcione todos los detalles de OAuth</string>
+  <string name="ECSOAuthNotCalled">Se requiere la autorización del usuario para realizar esta acción</string>
+  <string name="ECSPaymentAuthorizationError">La autorización de pago no se realizó correctamente</string>
+  <string name="ECSPropositionIdNotFound">Establezca un Proposition ID válido</string>
+  <string name="ECSSiteIdNotFound">La tienda Philips no está disponible para el país seleccionado, solo está disponible el modo minorista</string>
+  <string name="ECSUnknownIdentifierError">El recurso solicitado no está disponible</string>
+  <string name="ECSUnsupportedDeliveryModeError">El modo de entrega seleccionado no es compatible</string>
+  <string name="ECSUnsupportedVoucherError">Lo sentimos, no puede canjear este cupón</string>
+  <string name="ECSValidationError">Se produjo un error con la validación de datos</string>
+  <string name="ECSVoucherOperationError">Lo sentimos, no puede canjear este cupón</string>
+  <string name="ECSaddressId">La dirección proporcionada no existe o pertenece a otro usuario</string>
+  <string name="ECScountryCodeNotGiven">Proporcione un código de país válido</string>
+  <string name="ECScountryisocode">El país seleccionado no es válido</string>
+  <string name="ECSfirstName">Tenga en cuenta que no se permite el uso de los siguientes caracteres: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Encontramos un problema técnico (credenciales del cliente incorrectas). Vuelva a iniciar sesión</string>
+  <string name="ECSinvalid_grant">Encontramos un problema técnico (token de Janrain no válido). Vuelva a iniciar sesión</string>
+  <string name="ECSlastName">Tenga en cuenta que no se permite el uso de los siguientes caracteres: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Ingrese un pedido válido</string>
+  <string name="ECSphone1">El número de teléfono seleccionado no es válido</string>
+  <string name="ECSphone2">El número de teléfono seleccionado no es válido</string>
+  <string name="ECSpostUrl">El estado del pedido ya se encuentra como pagado/completado</string>
+  <string name="ECSpostalCode">El código postal seleccionado no es válido</string>
+  <string name="ECSregionisocode">La región seleccionada no es válida</string>
+  <string name="ECSsessionCart">Seleccione la dirección de entrega, el modo de entrega y el método de pago antes de realizar un pedido</string>
+  <string name="ECSsomethingWentWrong">Encontramos un problema técnico. Inténtelo de nuevo más tarde</string>
+  <string name="ECSunsupported_grant_type">Encontramos un problema técnico (tipo de concesión no compatible). Vuelva a iniciar sesión</string>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Adja meg az app infra objectet</string>
+  <string name="ECSBaseURLNotFound">Az alap URL nem található</string>
+  <string name="ECSCartEntryError">A termék nincs hozzáadva a kosárhoz</string>
+  <string name="ECSCartError">Még nincs létrehozva kosár</string>
+  <string name="ECSCommerceCartModificationError">A mennyiség nem lehet nullánál kisebb</string>
+  <string name="ECSCtnNotProvided">Adja meg a CTN-t</string>
+  <string name="ECSHybrisNotAvailable">A Philips bolt nem érhető el a kiválasztott országban, csak a viszonteladói mód érhető el</string>
+  <string name="ECSIllegalArgumentError">Adjon meg érvényes bemeneti adatokat</string>
+  <string name="ECSInsufficientStockError">A termék nem szállítható, mert nincs raktáron</string>
+  <string name="ECSInvalidPaymentInfoError">Adjon meg érvényes fizetési adatokat</string>
+  <string name="ECSInvalidTokenError">Műszaki hiba történt (érvénytelen hozzáférési token). Végezze el a Hybris Re-Auth műveletet</string>
+  <string name="ECSLocaleNotFound">Állítsa be a régiót</string>
+  <string name="ECSNoSuchElementError">Hiba történt az adatok kiszolgálóról való lekérése közben</string>
+  <string name="ECSOAuthDetailError">Adjon meg teljes OAuth-adatokat</string>
+  <string name="ECSOAuthNotCalled">Ehhez a művelethez felhasználói jogosultság szükséges</string>
+  <string name="ECSPaymentAuthorizationError">A fizetés engedélyezése sikertelen volt</string>
+  <string name="ECSPropositionIdNotFound">Adjon meg egy érvényes Proposition ID-t</string>
+  <string name="ECSSiteIdNotFound">A Philips bolt nem érhető el a kiválasztott országban, csak a viszonteladói mód érhető el</string>
+  <string name="ECSUnknownIdentifierError">A kért erőforrás nem elérhető</string>
+  <string name="ECSUnsupportedDeliveryModeError">A kiválasztott szállítási mód nem támogatott</string>
+  <string name="ECSUnsupportedVoucherError">Sajnáljuk, ez az utalvány nem váltható be</string>
+  <string name="ECSValidationError">Az adatok érvényesítése sikertelen</string>
+  <string name="ECSVoucherOperationError">Sajnáljuk, ez az utalvány nem váltható be</string>
+  <string name="ECSaddressId">A megadott cím nem létezik vagy egy másik felhasználóhoz tartozik</string>
+  <string name="ECScountryCodeNotGiven">Adjon meg egy érvényes országkódot</string>
+  <string name="ECScountryisocode">A kiválasztott ország érvénytelen</string>
+  <string name="ECSfirstName">A következő karakterek nem engedélyezettek: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Műszaki hiba történt (helytelen ügyfél-hitelesítő adatok). Jelentkezzen be újra</string>
+  <string name="ECSinvalid_grant">Műszaki hiba történt (érvénytelen Janrain token). Jelentkezzen be újra</string>
+  <string name="ECSlastName">A következő karakterek nem engedélyezettek: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Adjon meg érvényes rendelést</string>
+  <string name="ECSphone1">A kiválasztott telefonszám érvénytelen</string>
+  <string name="ECSphone2">A kiválasztott telefonszám érvénytelen</string>
+  <string name="ECSpostUrl">A rendelés már kifizetett/befejezett állapotban van</string>
+  <string name="ECSpostalCode">A kiválasztott irányítószám érvénytelen</string>
+  <string name="ECSregionisocode">A kiválasztott régió érvénytelen</string>
+  <string name="ECSsessionCart">A megrendelés elküldése előtt válassza ki a szállítási címet, a szállítási módot és a fizetési módot</string>
+  <string name="ECSsomethingWentWrong">Műszaki hiba történt. Próbálja meg később</string>
+  <string name="ECSunsupported_grant_type">Műszaki hiba történt (nem támogatott engedélyezési típus). Jelentkezzen be újra</string>
+</resources>

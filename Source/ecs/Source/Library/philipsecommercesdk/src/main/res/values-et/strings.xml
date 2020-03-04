@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">Palun esitage rakenduse infraobjekt</string>
+  <string name="ECSBaseURLNotFound">Baas-URL-i ei leitud</string>
+  <string name="ECSCartEntryError">Toodet ei lisatud ostukorvi</string>
+  <string name="ECSCartError">Ostukorvi ei ole veel loodud</string>
+  <string name="ECSCommerceCartModificationError">Kogus ei saa olla väiksem kui null</string>
+  <string name="ECSCtnNotProvided">Palun esitage CTN</string>
+  <string name="ECSHybrisNotAvailable">Philipsi pood ei ole valitud riikides saadaval; saadaval on ainult edasimüüja režiim</string>
+  <string name="ECSIllegalArgumentError">Palun esitage kehtivad sisendandmed</string>
+  <string name="ECSInsufficientStockError">Toodet ei saa transportida, kuna seda ei ole laos</string>
+  <string name="ECSInvalidPaymentInfoError">Palun esitage kehtivad makseandmed</string>
+  <string name="ECSInvalidTokenError">Meil tekkis tehniline tõrge (kehtetu juurdepääsuluba). Palun autentige Hybrises uuesti</string>
+  <string name="ECSLocaleNotFound">Palun määrake lokaat</string>
+  <string name="ECSNoSuchElementError">Meil tekkis tõrge andmete serverist toomisel</string>
+  <string name="ECSOAuthDetailError">Palun esitage täielikud OAuthi andmed</string>
+  <string name="ECSOAuthNotCalled">Selle tegevuse jaoks on vajalik kasutaja autentimine</string>
+  <string name="ECSPaymentAuthorizationError">Makse autoriseerimine ebaõnnestus</string>
+  <string name="ECSPropositionIdNotFound">Palun määrake kehtiv propositsiooni ID</string>
+  <string name="ECSSiteIdNotFound">Philipsi pood ei ole valitud riikides saadaval; saadaval on ainult edasimüüja režiim</string>
+  <string name="ECSUnknownIdentifierError">Soovitud vahend ei ole saadaval</string>
+  <string name="ECSUnsupportedDeliveryModeError">Valitud transpordiviis ei ole toetatud</string>
+  <string name="ECSUnsupportedVoucherError">Kahjuks ei saa seda kupongi kasutada</string>
+  <string name="ECSValidationError">Andmete valideerimine ebaõnnestus</string>
+  <string name="ECSVoucherOperationError">Kahjuks ei saa seda kupongi kasutada</string>
+  <string name="ECSaddressId">Sisestatud aadresi ei ole olemas või kuulub teisele kasutajale</string>
+  <string name="ECScountryCodeNotGiven">Palun esitage kehtiv riigikood</string>
+  <string name="ECScountryisocode">Valitud riik ei ole õige</string>
+  <string name="ECSfirstName">Pöörame teie tähelepanu sellele, et järgmised tähemärgid ei ole lubatud: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">Meil tekkis tehniline tõrge (vale identimisteave). Palun logige uuesti sisse</string>
+  <string name="ECSinvalid_grant">Meil tekkis tehniline tõrge (vale Janraini luba). Palun logige uuesti sisse</string>
+  <string name="ECSlastName">Pöörame teie tähelepanu sellele, et järgmised tähemärgid ei ole lubatud: \\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">Palun esitage kehtiv tellimus</string>
+  <string name="ECSphone1">Valitud telefoninumber ei ole õige</string>
+  <string name="ECSphone2">Valitud telefoninumber ei ole õige</string>
+  <string name="ECSpostUrl">Tellimus on juba makstud või lõpetatud faasis</string>
+  <string name="ECSpostalCode">Valitud sihtnumber ei ole õige</string>
+  <string name="ECSregionisocode">Valitud piirkond ei ole õige</string>
+  <string name="ECSsessionCart">Enne tellimuse esitamist valige oma tarneaadress, tarneviis ja maksemeetod</string>
+  <string name="ECSsomethingWentWrong">Meil tekkis tehniline tõrge. Proovige uuesti mõne aja pärast</string>
+  <string name="ECSunsupported_grant_type">Meil tekkis tehniline tõrge (toetuseta hüvitise tüüp). Palun logige uuesti sisse</string>
+</resources>

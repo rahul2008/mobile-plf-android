@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2020
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="ECSAppInfraNotFound">请提供 app infra object</string>
+  <string name="ECSBaseURLNotFound">未找到基本 URL</string>
+  <string name="ECSCartEntryError">产品未添加至购物车</string>
+  <string name="ECSCartError">尚未创建购物车</string>
+  <string name="ECSCommerceCartModificationError">数量不得小于零</string>
+  <string name="ECSCtnNotProvided">请提供 CTN</string>
+  <string name="ECSHybrisNotAvailable">所选国家/地区的飞利浦商城不可用，只有零售商模式可用</string>
+  <string name="ECSIllegalArgumentError">请提供有效输入数据</string>
+  <string name="ECSInsufficientStockError">产品缺货，无法发货</string>
+  <string name="ECSInvalidPaymentInfoError">请提供有效付款详情</string>
+  <string name="ECSInvalidTokenError">我们遇到了技术故障（无效访问令牌）。请执行 Hybris Re-Auth</string>
+  <string name="ECSLocaleNotFound">请设置区域</string>
+  <string name="ECSNoSuchElementError">从服务器获取数据时出错</string>
+  <string name="ECSOAuthDetailError">请提供完整的 OAuth 详情</string>
+  <string name="ECSOAuthNotCalled">该操作需要用户授权</string>
+  <string name="ECSPaymentAuthorizationError">付款授权未成功</string>
+  <string name="ECSPropositionIdNotFound">请设置有效的 Proposition ID</string>
+  <string name="ECSSiteIdNotFound">所选国家/地区的飞利浦商城不可用，只有零售商模式可用</string>
+  <string name="ECSUnknownIdentifierError">请求的资源不可用</string>
+  <string name="ECSUnsupportedDeliveryModeError">不支持所选的送货方式</string>
+  <string name="ECSUnsupportedVoucherError">很抱歉，该优惠券无法兑换</string>
+  <string name="ECSValidationError">数据验证失败</string>
+  <string name="ECSVoucherOperationError">很抱歉，该优惠券无法兑换</string>
+  <string name="ECSaddressId">给定地址不存在或属于其他用户</string>
+  <string name="ECScountryCodeNotGiven">请提供有效的国家/地区代码</string>
+  <string name="ECScountryisocode">所选的国家/地区无效</string>
+  <string name="ECSfirstName">请注意，不允许使用以下字符：\\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSinvalid_client">我们遇到了技术故障（无效客户凭证）。请重新登录</string>
+  <string name="ECSinvalid_grant">我们遇到了技术故障（无效 Janrain 令牌）。请重新登录</string>
+  <string name="ECSlastName">请注意，不允许使用以下字符：\\\" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+  <string name="ECSorderIdNil">请提供有效订单</string>
+  <string name="ECSphone1">所选的电话号码无效</string>
+  <string name="ECSphone2">所选的电话号码无效</string>
+  <string name="ECSpostUrl">订单已处于已付款/已完成状态</string>
+  <string name="ECSpostalCode">所选的邮政编码无效</string>
+  <string name="ECSregionisocode">所选的区域无效</string>
+  <string name="ECSsessionCart">请在提交订单之前选择您的送货地址、送货方式和付款方式</string>
+  <string name="ECSsomethingWentWrong">我们遇到了技术故障。请过一会儿重试</string>
+  <string name="ECSunsupported_grant_type">我们遇到了技术故障（不支持的授权类型）。请重新登录</string>
+</resources>
