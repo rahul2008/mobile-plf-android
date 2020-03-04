@@ -72,9 +72,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     val list: ArrayList<String>? = ArrayList()
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
-        hideProgressBar()
-
-        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         binding.shoppingCart = ecsShoppingCart
         shoppingCart = ecsShoppingCart!!
 
@@ -121,11 +118,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             val quantity = MECutility.getQuantity(ecsShoppingCart)
             updateCount(quantity)
         }
+        if(productsAdapter!!.itemCount>0 ) {
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        }
     }
 
 
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
-        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         productReviewList.clear()
         cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
@@ -136,9 +135,15 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
+        if(shoppingCart.deliveryCost!=null){
+            name = getString(R.string.mec_delivery_cost)
+            price = shoppingCart.deliveryCost.formattedValue
+            cartSummaryList.add(MECCartSummary(name, price))
+        }
+
         for (i in 0..shoppingCart.appliedVouchers.size - 1) {
             if(shoppingCart.appliedVouchers.get(i).name==null) {
-                name = shoppingCart.appliedVouchers.get(i).voucherCode
+                name = " "
             } else {
                 name = shoppingCart.appliedVouchers.get(i).name
             }
@@ -152,16 +157,19 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
-        for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
+        /*for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
             name = shoppingCart.appliedProductPromotions.get(i).promotion.description
             price = "-" + shoppingCart.appliedProductPromotions.get(i).promotion.promotionDiscount.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
-        }
+        }*/
 
         productsAdapter?.notifyDataSetChanged()
         cartSummaryAdapter?.notifyDataSetChanged()
         if (productsAdapter != null) {
             //MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
+        }
+        if(productsAdapter!!.itemCount>0 ) {
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
     }
 
@@ -171,7 +179,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
         mAddressList = addressList
-        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        if(productsAdapter!!.itemCount>0 ) {
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        }
         if (mAddressList.isNullOrEmpty()) {
             replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
 

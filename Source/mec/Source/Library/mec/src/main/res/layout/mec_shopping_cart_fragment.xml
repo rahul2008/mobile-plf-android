@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
-            android:text="@string/mec_cart_summary" />
+            android:text='@{shoppingCart.totalItems + @string/mec_empty_space + @string/mec_products ?? ""}' />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -63,6 +63,13 @@
             android:layout_below="@+id/mec_cart_Summary"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <include
+            android:id="@+id/mec_product_progress_bar"
+            layout="@layout/mec_progress_bar"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/mec_cart_Summary"
+            android:layout_width="match_parent" />
 
 
         <com.philips.platform.uid.view.widget.Label
@@ -142,7 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="3dp"
             android:layout_below="@+id/mec_accepted_code"
             android:visibility="@{shoppingCart.appliedVouchers.size() > 0 ? View.VISIBLE : View.GONE, default = gone}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
@@ -196,7 +203,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text='@{"Total (" + shoppingCart.totalItems + " Products)" ?? ""}'
+                android:text='@{@string/mec_total + @string/mec_empty_space + "("+ shoppingCart.totalItems + @string/mec_empty_space + @string/mec_products + ")" ?? ""}'
                 android:textSize="@dimen/iap_text_size_16sp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 style="@style/mecCentralesansBookFont"
@@ -223,7 +230,7 @@
             android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
             android:layout_above="@+id/mec_continue_checkout_btn"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:text='@{"Price including " + shoppingCart.totalTax.formattedValue + " vat" ?? ""}'
+            android:text='@{@string/mec_pice_including + @string/mec_empty_space + shoppingCart.totalTax.formattedValue + @string/mec_empty_space + @string/mec_vat ?? ""}'
             android:textSize="12dp"
             />
 
