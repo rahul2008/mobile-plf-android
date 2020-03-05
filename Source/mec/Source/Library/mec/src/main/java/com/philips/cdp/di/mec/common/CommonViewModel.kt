@@ -10,6 +10,8 @@ import com.philips.cdp.di.mec.auth.HybrisAuth
 
 open class CommonViewModel : ViewModel() {
     val mecError = MutableLiveData<MecError>()
+
+
     var authFailCallback ={ error: Exception?, ecsError: ECSError? -> authFailureCallback(error, ecsError) }
 
     fun authAndCallAPIagain(retryAPIcall: () -> Unit, authFailureCallback: (Exception, ECSError) -> Unit){

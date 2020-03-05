@@ -11,14 +11,27 @@ import com.philips.cdp.di.mec.databinding.MecAddressCreateCardBinding
 import kotlinx.android.synthetic.main.mec_address_card.view.*
 
 
-class AddressBottomSheetRecyclerAdapter(private val mecAddresses: MECAddresses, val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AddressBottomSheetRecyclerAdapter(private val mecAddresses: MECAddresses, val defaultAddressId: String, val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val totalItem = mecAddresses.ecsAddresses.size + 1
 
     private val CREATE_ADDRESS = "CREATE_ADDRESS"
-    private var mSelectedItem = 0
-
+    private var mSelectedItem =0
     var mSelectedAddress = mecAddresses.ecsAddresses[0]
+
+
+    fun setDefaultSelectedAddressAndPosition() {
+
+        for (x in 0 until totalItem-1){
+
+            if(mecAddresses.ecsAddresses[x].id .equals(defaultAddressId,true)){
+                mSelectedItem = x
+                mSelectedAddress = mecAddresses.ecsAddresses[x]
+            }
+        }
+    }
+
+
 
     private val VIEW_TYPE_FOOTER = 1
     lateinit var binding: ViewDataBinding
@@ -52,19 +65,10 @@ class AddressBottomSheetRecyclerAdapter(private val mecAddresses: MECAddresses, 
             viewHolder.bind(mecAddresses.ecsAddresses[position])
 
             if(position == mSelectedItem){
-                //textBoxxDefaultValidator background
-                // border color  - textBoxxDefaultValidator border
-                // corner radious 4 - border width - 1 dp
-                //textcolor - textBoxDefaultValidator text
                 viewHolder.binding.root.tv_name.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
                 viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_selector)
             }else{
-                // background - ContentPrimary
-                //border colorr - separatorContent background
-                //corner same
-                // text color - contentItemPrimary text
-
                 viewHolder.binding.root.tv_name.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
                 viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_deselector)

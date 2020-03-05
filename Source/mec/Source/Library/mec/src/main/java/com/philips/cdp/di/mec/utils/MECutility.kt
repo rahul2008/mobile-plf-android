@@ -241,6 +241,7 @@ class MECutility {
         var line2 = ecsAddress.line2
         var town = ecsAddress.town
         var postalCode = ecsAddress.postalCode
+        var phoneNumber = ecsAddress.phone1
 
         formattedAddress = if (!houseNumber.isNullOrEmpty()) formattedAddress+ houseNumber +"," else formattedAddress
         formattedAddress = if (!line1.isNullOrEmpty()) formattedAddress+ line1 + ","+"\n" else formattedAddress

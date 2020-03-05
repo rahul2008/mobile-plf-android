@@ -11,15 +11,12 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.philips.cdp.di.ecs.model.address.ECSAddress
-import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressManageBinding
 import com.philips.cdp.di.mec.utils.MECConstant
-import com.philips.platform.uid.view.widget.ProgressBarWithLabel
 import kotlinx.android.synthetic.main.mec_address_manage.view.*
 import java.io.Serializable
 
@@ -33,6 +30,8 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
     private lateinit var mecAddresses: MECAddresses
 
     private lateinit var addressBottomSheetRecyclerAdapter : AddressBottomSheetRecyclerAdapter
+
+    private lateinit var defaultAddressId : String
 
     companion object {
         val TAG:String="ManageAddressFragment"
@@ -63,6 +62,7 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         addressViewModel.mecError.observe(this,errorObserver)
 
         var ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
+        defaultAddressId = arguments?.getSerializable(MECConstant.KEY_MEC_DEFAULT_ADDRESSES_ID) as String
         var itemClickListener = arguments?.getSerializable(MECConstant.KEY_ITEM_CLICK_LISTENER) as ItemClickListener
 
         mecAddresses = MECAddresses(ecsAddresses)
@@ -72,8 +72,8 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
             binding.root.mec_btn_delete_address.isEnabled = false
         }
 
-        addressBottomSheetRecyclerAdapter = AddressBottomSheetRecyclerAdapter(mecAddresses, itemClickListener)
-
+        addressBottomSheetRecyclerAdapter = AddressBottomSheetRecyclerAdapter(mecAddresses, defaultAddressId,itemClickListener)
+        addressBottomSheetRecyclerAdapter.setDefaultSelectedAddressAndPosition()
         binding.recyclerView.adapter = addressBottomSheetRecyclerAdapter
 
 
@@ -96,16 +96,6 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
 
     fun showProgressBar(mecProgressBar: FrameLayout?) {
         mecProgressBar?.visibility = View.VISIBLE
-        if (activity != null) {
-            activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        }
-    }
-
-    fun showProgressBarWithText(mecProgressBar: FrameLayout?, text: String){
-        mecProgressBar?.visibility = View.VISIBLE
-        val mecProgressBarText = mecProgressBar?.findViewById(R.id.mec_progress_bar_text) as ProgressBarWithLabel
-        mecProgressBarText?.setText(text)
         if (activity != null) {
             activity?.getWindow()?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
