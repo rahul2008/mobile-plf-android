@@ -128,7 +128,7 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
         }
     }
 
-    /*fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
+    fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
         val buttonWidthWithoutPadding = buttonWidth - 20
         val corners = 16f
         val icon : Bitmap
@@ -166,9 +166,9 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
             if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
                 buttonInstance = rightButton
             }
-    }*/
+    }
 
-    fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
+    /*fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
         val buttonWidthWithoutPadding = buttonWidth - 20
         val corners = 16f
 
@@ -191,7 +191,7 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
         } else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
             buttonInstance = rightButton
         }
-    }
+    }*/
 
     private fun drawText(text: String, c: Canvas, button: RectF, p: Paint) {
         val textSize = 60f
