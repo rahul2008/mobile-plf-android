@@ -128,7 +128,7 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
         }
     }
 
-    fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
+    /*fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
         val buttonWidthWithoutPadding = buttonWidth - 20
         val corners = 16f
         val icon : Bitmap
@@ -166,9 +166,9 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
             if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
                 buttonInstance = rightButton
             }
-    }
+    }*/
 
-    /*private fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
+    fun drawButtons(c: Canvas, viewHolder: RecyclerView.ViewHolder) {
         val buttonWidthWithoutPadding = buttonWidth - 20
         val corners = 16f
 
@@ -176,14 +176,14 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
         val p = Paint()
 
         val leftButton = RectF(itemView.getLeft().toFloat(), itemView.getTop().toFloat(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom().toFloat())
-        p.color = Color.BLUE
+        p.color = (ContextCompat.getColor(context, R.color.uid_signal_red_level_60))
         c.drawRoundRect(leftButton, corners, corners, p)
-        drawText("EDIT", c, leftButton, p)
+        drawText(context.getString(R.string.dls_delete), c, leftButton, p)
 
         val rightButton = RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop().toFloat(), itemView.getRight().toFloat(), itemView.getBottom().toFloat())
-        p.color = Color.RED
+        p.color = (ContextCompat.getColor(context, R.color.uid_signal_red_level_60))
         c.drawRoundRect(rightButton, corners, corners, p)
-        drawText("DELETE", c, rightButton, p)
+        drawText(context.getString(R.string.dls_delete), c, rightButton, p)
 
         buttonInstance = null
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
@@ -191,7 +191,7 @@ internal class MECSwipeController(context : Context,buttonsActions: SwipeControl
         } else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
             buttonInstance = rightButton
         }
-    }*/
+    }
 
     private fun drawText(text: String, c: Canvas, button: RectF, p: Paint) {
         val textSize = 60f
