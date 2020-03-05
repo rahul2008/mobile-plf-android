@@ -308,14 +308,14 @@ public class RegistrationRequest extends PrxRequest {
         data.setType("productRegistration");
         UserProfile userProfile = new UserProfile();
         userProfile.setOptIn(Boolean.parseBoolean(isReceiveMarketingEmail()));
-        data.setUserProfile(userProfile);
         Attributes attributes = new Attributes();
         attributes.setProductId(ctn);
         attributes.setCatalog(getCatalog().toString());
         attributes.setSector(getSector().toString());
         attributes.setSerialNumber(getSerialNumber());
         attributes.setPurchased(purchaseDate(getPurchaseDate()));
-        attributes.setMicrositeId(Integer.parseInt(PRUiHelper.getInstance().getAppInfraInstance().getAppIdentity().getMicrositeId()));
+        attributes.setMicrositeId(PRUiHelper.getInstance().getAppInfraInstance().getAppIdentity().getMicrositeId());
+        attributes.setUserProfile(userProfile);
 
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(serviceID);
