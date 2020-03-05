@@ -20,6 +20,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -136,11 +137,16 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @VisibleForTesting
     protected SpannableString setDescription(String normalText, String mobileNumber) {
-        String formattedStr = String.format(normalText, mobileNumber);
-        StringBuilder fStringBuilder = new StringBuilder(formattedStr);
-        SpannableString str = new SpannableString(formattedStr);
-        str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString str = new SpannableString(normalText);
+        try {
+            String formattedStr = String.format(normalText, mobileNumber);
+            StringBuilder fStringBuilder = new StringBuilder(formattedStr);
+            str = new SpannableString(formattedStr);
+            str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } catch(Exception e){
+            RLog.d(TAG, "setDescription : Error =" + e.getLocalizedMessage());
+        }
         return str;
     }
 
@@ -204,7 +210,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onRefreshUserSuccess() {
       try {
 
-          if (getRegistrationFragment().getCurrentFragment() instanceof MobileVerifyCodeFragment) {
           if (this.isVisible()) {
               RLog.d(TAG, "onRefreshUserSuccess");
               storePreference(user.getMobile());
@@ -212,11 +217,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
               regVerifyMobileDesc1.setText(description);
               hideProgressSpinner();
               if (isVerified) {
-                  EventBus.getDefault().unregister(this);
-                  getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+                  if (getRegistrationFragment().getCurrentFragment() instanceof MobileVerifyCodeFragment) {
+                      EventBus.getDefault().unregister(this);
+                      getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+                  }
               }
           }
-      }
       } catch (Exception e){
 
       }
@@ -261,7 +267,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onResume() {
-        user.refreshUser(this);
+//        user.refreshUser(this);
         super.onResume();
         EventBus.getDefault().register(this);
     }
@@ -273,7 +279,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
-        user.refreshUser(this);
+      //  user.refreshUser(this);
         super.onViewStateRestored(savedInstanceState);
     }
 
