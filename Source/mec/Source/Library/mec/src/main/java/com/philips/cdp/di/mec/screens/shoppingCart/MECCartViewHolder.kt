@@ -9,6 +9,7 @@ import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
 import android.view.animation.TranslateAnimation
+import java.util.*
 
 
 class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {
@@ -24,16 +25,31 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
         binding.image.setImageUrl(cartSummary.entries.product.summary.imageURL,mImageLoader)
         bindCountView(binding.mecQuantityVal, cartSummary)
         if(animation == true) {
-            animation()
+            rightAnimation()
             animation = false
         }
     }
 
-    fun animation(){
+    fun rightAnimation(){
         if(adapterPosition.equals(0)) {
             val animation = TranslateAnimation((binding.parentLayout.width - 300).toFloat(), 0f, 0f, 0f) // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
-            animation.duration = 500
-            animation.repeatCount = 2
+            animation.duration = 800
+            animation.repeatCount = 0
+            animation.repeatMode = 2
+            animation.setFillAfter(false)
+            binding.parentLayout.startAnimation(animation)
+        }
+        Thread {
+            Thread.sleep(800)
+            leftAnimation()
+        }.start()
+    }
+
+    fun leftAnimation(){
+        if(adapterPosition.equals(0)) {
+            val animation = TranslateAnimation(0.0f, 300.0f, 0.0f, 0.0f)
+            animation.duration = 800
+            animation.repeatCount = 0
             animation.repeatMode = 2
             animation.setFillAfter(false)
             binding.parentLayout.startAnimation(animation)

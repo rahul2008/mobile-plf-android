@@ -18,6 +18,12 @@
     </data>
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/uid_level_white"
+        android:paddingTop="3dp">
+
+    <RelativeLayout
         android:id="@+id/mec_applied_vocuher_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +36,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
-            android:padding="@dimen/border16_margin_left_right"
+            android:paddingLeft="@dimen/iap_text_size_16sp"
+            android:paddingRight="@dimen/iap_text_size_16sp"
+            android:paddingTop="@dimen/iap_margin_10dp"
+            android:paddingBottom="@dimen/iap_margin_10dp"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
@@ -39,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text='@{"Gift code: " + voucher.voucherCode ?? "" }'
+                android:text='@{voucher.voucherCode ?? "" }'
                 android:textSize="@dimen/iap_text_size_16sp" />
 
             <LinearLayout
@@ -52,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                    android:text='@{voucher.valueFormatted + " discount | " ?? ""}'
+                    android:text='@{voucher.valueFormatted + @string/mec_empty_space + @string/mec_discount + @string/mec_empty_space + "|" + @string/mec_empty_space ?? ""}'
                     android:textSize="@dimen/iap_text_size_12" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -60,7 +69,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textColor="?attr/uidButtonSecondaryNormalTextColor"
                     android:text='@{voucher.appliedValue.formattedValue?? ""}'
                     android:textSize="@dimen/iap_text_size_12"
                      />
@@ -91,6 +100,7 @@
             />
 
 
+    </RelativeLayout>
     </RelativeLayout>
 
 </layout>

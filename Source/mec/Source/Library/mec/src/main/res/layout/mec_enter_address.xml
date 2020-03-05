@@ -31,6 +31,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textDirection="locale"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -208,6 +209,7 @@
                     style="@style/mec_address_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:text="@string/mec_address" />
 
                 <LinearLayout

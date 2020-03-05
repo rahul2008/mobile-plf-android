@@ -52,7 +52,7 @@
 
             <LinearLayout
             android:id="@+id/mec_product_layout"
-            android:layout_toRightOf="@+id/frame"
+            android:layout_toEndOf="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

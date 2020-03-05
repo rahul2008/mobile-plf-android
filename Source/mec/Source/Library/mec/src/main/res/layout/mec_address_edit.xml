@@ -27,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/border16_margin_left_right"
-        android:layout_marginEnd="@dimen/border16_margin_left_right">
+        android:layout_marginEnd="@dimen/border16_margin_left_right"
+        android:textDirection="locale">
 
 
 
@@ -54,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/iap_margin_20dp"
                     android:textSize="20sp"
+                    android:layout_gravity="start"
                     android:text="@string/mec_shipping_address" />
 
                 <LinearLayout

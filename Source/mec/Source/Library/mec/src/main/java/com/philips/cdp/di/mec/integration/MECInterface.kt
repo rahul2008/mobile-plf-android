@@ -33,7 +33,7 @@ class MECInterface : UappInterface {
 
 
         if (null == mUserDataInterface)
-            throw RuntimeException("UserDataInterface is not injected in IAPDependencies.")
+            throw RuntimeException("UserDataInterface is not injected in MECDependencies.")
 
         mMECSettings = uappSettings as MECSettings
         mUappDependencies = uappDependencies

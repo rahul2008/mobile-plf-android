@@ -17,6 +17,8 @@ import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressManageBinding
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel
 import kotlinx.android.synthetic.main.mec_address_manage.view.*
 import java.io.Serializable
 
@@ -49,7 +51,10 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
     })
 
     private val errorObserver : Observer<MecError>  = Observer(fun( mecError: MecError?) {
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         Log.d(TAG ,"Error on deleting or setting address" )
+        MECutility.tagAndShowError(mecError,true,fragmentManager,context)
+
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +96,11 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         }
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
 

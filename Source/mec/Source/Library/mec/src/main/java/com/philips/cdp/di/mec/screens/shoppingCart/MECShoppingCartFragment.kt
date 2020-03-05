@@ -66,15 +66,12 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     private var voucherCode: String = ""
     private var removeVoucher: Boolean = true
-    private lateinit var name: String
-    private lateinit var price: String
+    private var name: String = ""
+    private var price: String = ""
     var validationEditText: ValidationEditText? = null
     val list: ArrayList<String>? = ArrayList()
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
-        hideProgressBar()
-
-        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         binding.shoppingCart = ecsShoppingCart
         shoppingCart = ecsShoppingCart!!
 
@@ -121,11 +118,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             val quantity = MECutility.getQuantity(ecsShoppingCart)
             updateCount(quantity)
         }
+        if(productsAdapter!!.itemCount>0 ) {
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        }
     }
 
 
     private val productReviewObserver: Observer<MutableList<MECCartProductReview>> = Observer { mecProductReviews ->
-        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         productReviewList.clear()
         cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
@@ -136,9 +135,19 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
+        if(shoppingCart.deliveryCost!=null){
+            name = getString(R.string.mec_delivery_cost)
+            price = shoppingCart.deliveryCost.formattedValue
+            cartSummaryList.add(MECCartSummary(name, price))
+        }
+
         for (i in 0..shoppingCart.appliedVouchers.size - 1) {
-            name = shoppingCart.appliedVouchers.get(i).name
-            price = "-" + shoppingCart.appliedVouchers.get(i).appliedValue.formattedValue
+            if(shoppingCart.appliedVouchers.get(i).name==null) {
+                name = " "
+            } else {
+                name = shoppingCart.appliedVouchers.get(i).name
+            }
+            price = "-" + shoppingCart.appliedVouchers?.get(i)?.appliedValue?.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
@@ -148,16 +157,19 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
-        for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
+        /*for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
             name = shoppingCart.appliedProductPromotions.get(i).promotion.description
             price = "-" + shoppingCart.appliedProductPromotions.get(i).promotion.promotionDiscount.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
-        }
+        }*/
 
         productsAdapter?.notifyDataSetChanged()
         cartSummaryAdapter?.notifyDataSetChanged()
         if (productsAdapter != null) {
             //MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
+        }
+        if(productsAdapter!!.itemCount>0 ) {
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
     }
 
@@ -167,7 +179,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
         mAddressList = addressList
-        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        if(productsAdapter!!.itemCount>0 ) {
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        }
         if (mAddressList.isNullOrEmpty()) {
             replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
 
@@ -205,9 +219,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
+        setCartIconVisibility(false)
         if (null == mRootView) {
-            setCartIconVisibility(false)
+
             binding = MecShoppingCartFragmentBinding.inflate(inflater, container, false)
             binding.fragment = this
             binding.mecDataHolder = MECDataHolder.INSTANCE
@@ -241,13 +255,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             swipeController = MECSwipeController(binding.mecCartSummaryRecyclerView.context, object : SwipeControllerActions() {
                 override fun onRightClicked(position: Int) {
                     itemPosition = position
-                    removeVoucher = false
+                    removeVoucher= false
                     showDialog()
                 }
 
                 override fun onLeftClicked(position: Int) {
                     itemPosition = position
-                    removeVoucher = false
+                    removeVoucher= false
                     showDialog()
                 }
             })
@@ -257,10 +271,10 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
             binding.mecCartSummaryRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                    swipeController!!.onDraw(c)
                     if(productsAdapter!!.itemCount>0 ) {
-                        swipeController!!.drawButtons(c, parent.findViewHolderForAdapterPosition(0)!!)
+                            swipeController!!.drawButtons(c, parent.findViewHolderForAdapterPosition(0)!!)
                     }
+                    swipeController!!.onDraw(c)
                 }
             })
             mRootView = binding.root

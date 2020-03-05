@@ -3,13 +3,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textDirection="locale"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,6 +29,7 @@
                 android:paddingRight="@dimen/border16_margin_left_right"
                 fontPath="fonts/centralesansbold.ttf"
                 android:textSize="18sp"
+                android:gravity="start"
                 android:text="Manage Address" />
 
             <com.philips.platform.uid.view.widget.Label

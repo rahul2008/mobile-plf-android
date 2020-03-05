@@ -2,20 +2,21 @@ package com.philips.cdp.di.mec.utils
 
 import android.app.Activity
 import android.content.Context
-import androidx.fragment.app.FragmentManager
 import android.text.TextUtils
-import android.view.View
+import androidx.fragment.app.FragmentManager
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.mec.analytics.MECAnalyticServer
+import com.philips.cdp.di.mec.analytics.MECAnalytics
+import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
-import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
 import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.utils.DialogConstants
 import com.philips.platform.uid.view.widget.AlertDialogFragment
-import java.util.ArrayList
 
 class MECutility {
 
@@ -228,6 +229,34 @@ class MECutility {
             return null
         }
 
+        @JvmStatic
+        fun tagAndShowError(mecError: MecError?, showDialog: Boolean, aFragmentManager: FragmentManager?, Acontext: Context?){
+            if (!mecError!!.ecsError!!.errorType.equals("No internet connection")) {
+                try {
+                    //tag all techinical defect except "No internet connection"
+                    var errorString: String = MECAnalyticsConstant.COMPONENT_NAME + ":"
+                    if (mecError!!.ecsError!!.errorcode == 1000) {
+                        errorString += MECAnalyticServer.bazaarVoice + ":"
+                    } else if (mecError!!.ecsError!!.errorcode >= 5000 && mecError!!.ecsError!!.errorcode < 6000) {
+                        errorString += MECAnalyticServer.hybris + ":"
+                    } else {
+                        //
+                        errorString += MECAnalyticServer.prx + ":"
+                    }
+                    errorString = errorString + mecError!!.exception!!.message.toString()
+                    errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
+
+                    MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.technicalError, errorString)
+                } catch (e: Exception) {
+
+                }
+            }
+            if (showDialog.equals(true)) {
+                aFragmentManager?.let { Acontext?.let { it1 -> MECutility.showErrorDialog(it1, it, "OK", "Error", mecError!!.exception!!.message.toString()) } }
+            }
+
+        }
+
 
     }
 
@@ -253,6 +282,8 @@ class MECutility {
 
         return formattedAddress
     }
+
+
 
 
 

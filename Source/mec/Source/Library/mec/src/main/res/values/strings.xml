@@ -131,6 +131,14 @@
     <string name="mec_delivery_method">Delivery method</string>
     <string name="mec_seperator">&#160;|&#160;</string>
     <string name="mec_empty_space">&#160;</string>
+    <string name="mec_delivery_cost">Delivery cost</string>
+    <string name="mec_discount">discount</string>
+    <string name="mec_total">Total</string>
+    <string name="mec_products">Product(s)</string>
+    <string name="mec_pice_including">Price including</string>
+    <string name="mec_vat">vat</string>
+    <string name="mec_only">Only</string>
+    <string name="mec_left">left</string>
 
 
 </resources>

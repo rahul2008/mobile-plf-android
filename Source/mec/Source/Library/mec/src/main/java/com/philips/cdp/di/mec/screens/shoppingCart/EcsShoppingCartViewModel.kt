@@ -159,10 +159,10 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
                     stockLabel.text = stockLabel.context.getString(R.string.mec_out_of_stock)
                 }
                 if(product.stock.stockLevel<=5 && product.stock.stockLevel!=0){
-                    stockLabel.text = "Only " + product.stock.stockLevel + " items left"
+                    stockLabel.text = stockLabel.context.getString(R.string.mec_only) + " " + product.stock.stockLevel + " " + stockLabel.context.getString(R.string.mec_products)+ " " + stockLabel.context.getString(R.string.mec_left)
                 }
                 if(quantity>product.stock!!.stockLevel && product.stock.stockLevel!=0) {
-                    stockLabel.text = "Only " + product.stock.stockLevel + " items left"
+                    stockLabel.text = stockLabel.context.getString(R.string.mec_only) + " " + product.stock.stockLevel + " " + stockLabel.context.getString(R.string.mec_products)+ " " + stockLabel.context.getString(R.string.mec_left);
                 }
                 stockLabel.visibility = View.VISIBLE
             }

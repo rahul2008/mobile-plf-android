@@ -16,7 +16,8 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="@dimen/iap_margin_10dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        android:textDirection="locale">
 
         <LinearLayout
             android:layout_width="150dp"

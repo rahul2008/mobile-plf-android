@@ -773,7 +773,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void updateActionBar(int resId, boolean enableBackKey) {
-        updateActionBar(getString(resId), enableBackKey);
+        if(getContext()!=null) {
+            updateActionBar(getString(resId), enableBackKey);
+        }
     }
 
     /**
