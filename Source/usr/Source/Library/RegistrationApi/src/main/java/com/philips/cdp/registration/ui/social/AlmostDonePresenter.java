@@ -97,11 +97,13 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (isEmailExist && almostDoneContract.getPreferenceStoredState((mEmail))) {
                 almostDoneContract.hideAcceptTermsView();
+                almostDoneContract.showPersonalConsentOptCheck();
                 updateTermsAndReceiveMarketingOpt(false);
             }
             if (mBundle != null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR) != null) {
                 almostDoneContract.updateABTestingUIFlow();
                 almostDoneContract.showAcceptTermsView();
+                almostDoneContract.showPersonalConsentOptCheck();
             }
         } else {
             almostDoneContract.hideAcceptTermsView();
@@ -118,6 +120,10 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
         if (mUser.isTermsAndConditionAccepted()) {
             almostDoneContract.updateTermsAndConditionView();
         }
+        if (mUser.isPersonalConsentAccepted()) {
+            almostDoneContract.updatePersonalConsentView();
+        }
+
 
 
 
@@ -362,16 +368,14 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
 
     public void handleTraditionalTermsAndCondition() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()
-                && (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
-                || RegistrationConfiguration.getInstance().getPersonalConsent() != ConsentStates.inactive)) {
+                && (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())) {
             if (almostDoneContract.isAcceptTermsChecked()) {
                 almostDoneContract.handleAcceptTermsTrue();
             } else {
                 almostDoneContract.showTermsAndConditionError();
             }
         } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()
-                && (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
-                && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)) {
+                && (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())) {
             if (almostDoneContract.isAcceptTermsChecked() && almostDoneContract.isAcceptPersonalConsentChecked()) {
                 almostDoneContract.handleAcceptTermsTrue();
                 almostDoneContract.handleAcceptPersonalConsentTrue();
@@ -385,7 +389,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
                 almostDoneContract.showTermsAndConditionError();
                 almostDoneContract.showPersonalConsentError();
             }
-        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive) {
+        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
             if (almostDoneContract.isAcceptPersonalConsentChecked()) {
                 almostDoneContract.handleAcceptPersonalConsentTrue();
             } else {
@@ -398,13 +402,13 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
 
     void handleSocialTermsAndCondition() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || RegistrationConfiguration.getInstance().getPersonalConsent() != ConsentStates.inactive)) {
+                (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() )) {
             if (almostDoneContract.isAcceptTermsChecked()) {
                 register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
             } else {
                 almostDoneContract.showTermsAndConditionError();
             }
-        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive
+        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
                 && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
             if (almostDoneContract.isAcceptTermsChecked() && almostDoneContract.isAcceptPersonalConsentChecked()) {
                 register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
@@ -419,7 +423,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
                 almostDoneContract.showPersonalConsentError();
             }
 
-        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive) {
+        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
             if (almostDoneContract.isAcceptPersonalConsentChecked()) {
                 almostDoneContract.handleAcceptPersonalConsentTrue();
             } else {
