@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.model_request;
+package com.philips.cdp.prodreg.model.registrationrequest;
 
 import com.google.gson.annotations.SerializedName;
 
