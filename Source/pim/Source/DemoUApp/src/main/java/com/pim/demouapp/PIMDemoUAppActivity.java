@@ -225,10 +225,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         mMecLaunchInput.setMecListener(this);
 
 
-        mMecLaunchInput.mecBannerConfigurator = this::getBannerViewProductList;
+        mMecLaunchInput.setMecBannerConfigurator(this);
         mMecLaunchInput.setSupportsHybris(true);
         mMecLaunchInput.setSupportsRetailer(false);
-        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
+        mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
     }
 
     @Override
