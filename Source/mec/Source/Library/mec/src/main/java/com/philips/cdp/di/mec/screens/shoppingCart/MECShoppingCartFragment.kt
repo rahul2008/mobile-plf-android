@@ -151,11 +151,11 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
-        for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
-            name = shoppingCart.appliedOrderPromotions.get(i).promotion.description
-            price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
-            cartSummaryList.add(MECCartSummary(name, price))
-        }
+//        for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
+//            name = shoppingCart.appliedOrderPromotions!!.get(i).promotion.description
+//            price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
+//            cartSummaryList.add(MECCartSummary(name, price))
+//        }
 
         /*for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
             name = shoppingCart.appliedProductPromotions.get(i).promotion.description

@@ -1,0 +1,28 @@
+package com.philips.cdp.di.mec.screens.orderSummary
+
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.mec.databinding.MecOrderSummaryCartItemsBinding
+
+
+class MECOrderSummaryProductsAdapter(private val mecCart: ECSShoppingCart) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return MECOrderSummaryViewHolder(MecOrderSummaryCartItemsBinding.inflate(LayoutInflater.from(parent.context)))
+    }
+
+    override fun getItemCount(): Int {
+        return mecCart.entries.size
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val cartSummary = mecCart.entries[position]
+        val viewHolder = holder as MECOrderSummaryViewHolder
+        viewHolder.bind(cartSummary)
+    }
+
+}
+

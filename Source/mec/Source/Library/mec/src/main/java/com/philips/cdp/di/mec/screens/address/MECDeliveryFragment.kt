@@ -297,6 +297,10 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     fun onOrderSummaryClick(){
         val mecOrderSummaryFragment = MECOrderSummaryFragment()
+        var bundle = Bundle()
+        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses[0])
+        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
+        mecOrderSummaryFragment.arguments = bundle
         replaceFragment(mecOrderSummaryFragment,MECOrderSummaryFragment.TAG, true)
     }
 }

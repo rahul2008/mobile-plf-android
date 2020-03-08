@@ -225,6 +225,7 @@
                 android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
                 android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
                 android:layout_marginTop="@dimen/border16_margin_left_right"
+                android:layout_marginBottom="@dimen/border16_margin_left_right"
                 android:enabled="true"
                 android:onClick="@{() -> mecDeliveryFragment.onOrderSummaryClick()}"
                 android:text="@string/mec_order_summary"
