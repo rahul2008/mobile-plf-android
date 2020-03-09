@@ -19,6 +19,7 @@ import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.LogoutRequest;
 import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.UserProfileRequest;
+import com.philips.platform.pim.utilities.PIMInitState;
 
 import net.openid.appauth.AuthState;
 
@@ -127,6 +128,7 @@ public class PIMUserManager {
             removeUUIDFromPref();
             authState = null;
             pimoidcUserProfile = null;
+            PIMSettingManager.getInstance().getPimInitLiveData().postValue(PIMInitState.INIT_FAILED);
             logoutSessionListener.logoutSessionSuccess();
         }, error -> {
             PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo("setError","technicalError","logout");

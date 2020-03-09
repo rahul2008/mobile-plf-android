@@ -3,6 +3,8 @@ package com.philips.platform.pim.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
@@ -27,6 +29,7 @@ import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.LogoutRequest;
 import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.UserProfileRequest;
+import com.philips.platform.pim.utilities.PIMInitState;
 
 import junit.framework.TestCase;
 
@@ -93,6 +96,8 @@ public class PIMUserManagerTest extends TestCase {
     PIMAuthManager mockPimAuthManager;
     @Mock
     SecureStorageInterface mockStorageInterface;
+    @Mock
+    private MutableLiveData<PIMInitState> mockPimInitViewModel;
 
 
     @Captor
@@ -115,6 +120,7 @@ public class PIMUserManagerTest extends TestCase {
         PIMSettingManager mockPimSettingManager = mock(PIMSettingManager.class);
 
         Mockito.when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
+        when(mockPimSettingManager.getPimInitLiveData()).thenReturn(mockPimInitViewModel);
         Mockito.when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
         Mockito.when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         Mockito.when(mockPimSettingManager.getTaggingInterface()).thenReturn(mockTaggingInterface);
