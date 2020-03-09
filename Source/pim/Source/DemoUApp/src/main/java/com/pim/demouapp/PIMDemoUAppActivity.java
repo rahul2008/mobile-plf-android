@@ -263,6 +263,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
         int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;

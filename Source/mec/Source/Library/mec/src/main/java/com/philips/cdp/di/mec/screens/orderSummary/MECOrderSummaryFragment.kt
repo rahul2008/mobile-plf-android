@@ -27,7 +27,6 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private lateinit var binding: MecOrderSummaryFragmentBinding
-    lateinit var ecsOrderSummaryViewModel: EcsOrderSummaryViewModel
     private lateinit var ecsShoppingCart: ECSShoppingCart
     private lateinit var ecsAddress: ECSAddress
     private lateinit var ecsPayment: ECSPayment
@@ -47,19 +46,16 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         binding = MecOrderSummaryFragmentBinding.inflate(inflater, container, false)
         binding.fragment = this
         binding.shoppingCart
-        ecsOrderSummaryViewModel = ViewModelProviders.of(this).get(EcsOrderSummaryViewModel::class.java)
 
         ecsAddress = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESS) as ECSAddress
         ecsShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
-
         binding.ecsAddressShipping = ecsAddress
         binding.shoppingCart = ecsShoppingCart
-        binding.ecsPayment = ecsPayment
+//        binding.ecsPaymentMode = ecsPayment
         cartSummaryList = mutableListOf()
         cartSummaryAdapter = MECCartSummaryAdapter(addCartSummaryList(ecsShoppingCart))
         productsAdapter = MECOrderSummaryProductsAdapter(ecsShoppingCart)
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
-//        binding.mecPriceSummaryRecyclerView.adapter = cartSummaryAdapter
         return binding.root
     }
 
@@ -72,8 +68,8 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         cartSummaryList.clear()
         var name: String
         var price: String
-        for (i in 0..ecsShoppingCart.entries.size - 1) {
-            name = ecsShoppingCart.entries.get(i).quantity.toString() + "x " + ecsShoppingCart.entries.get(i).product.summary.productTitle
+        for (i in 0 until ecsShoppingCart.entries.size) {
+            name = ecsShoppingCart.entries[i].quantity.toString() + "x " + ecsShoppingCart.entries.get(i).product.summary.productTitle
             price = ecsShoppingCart.entries.get(i).totalPrice.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
         }
@@ -84,7 +80,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
-        for (i in 0..ecsShoppingCart.appliedVouchers.size - 1) {
+        for (i in 0 until ecsShoppingCart.appliedVouchers.size) {
             if (ecsShoppingCart.appliedVouchers.get(i).name == null) {
                 name = " "
             } else {

@@ -176,20 +176,16 @@ class MECutility {
                 return false
             }
 
-            return if (stockLevelStatus.equals(IN_STOCK, ignoreCase = true) ||
-                    stockLevelStatus.equals(LOW_STOCK, ignoreCase = true) || stockLevel > 0) {
-                true
-            } else false
-
+            return  (stockLevelStatus.equals(IN_STOCK, ignoreCase = true) ||
+                    stockLevelStatus.equals(LOW_STOCK, ignoreCase = true) || stockLevel > 0)
         }
 
         fun stockStatus(availability : String): String {
-            if(availability.equals("YES")){
-                return "available"
-            } else if(availability.equals("NO")){
-                return "out of stock"
+            return when(availability) {
+                "YES" -> "available"
+                "NO" -> "out of stock"
+                else -> ""
             }
-            return ""
         }
 
         fun getQuantity(carts: ECSShoppingCart): Int {
@@ -199,7 +195,7 @@ class MECutility {
                 val entries = carts.entries
                 if (totalItems != 0 && null != entries) {
                     for (i in entries.indices) {
-                        quantity = quantity + entries[i].quantity
+                        quantity += entries[i].quantity
                     }
                 }
             }
@@ -208,13 +204,16 @@ class MECutility {
 
         fun isAuthError(ecsError: ECSError?):Boolean{
             var authError :Boolean = false
-            if (ecsError!!.errorcode == ECSErrorEnum.ECSInvalidTokenError.errorCode
-                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_grant.errorCode
-                    || ecsError!!.errorcode == ECSErrorEnum.ECSinvalid_client.errorCode
-                    || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthDetailError.errorCode
-                    || ecsError!!.errorcode == ECSErrorEnum.ECSOAuthNotCalled.errorCode){
-                authError=true
+            with(ecsError!!.errorcode){
+                if (this == ECSErrorEnum.ECSInvalidTokenError.errorCode
+                        || this == ECSErrorEnum.ECSinvalid_grant.errorCode
+                        || this == ECSErrorEnum.ECSinvalid_client.errorCode
+                        || this == ECSErrorEnum.ECSOAuthDetailError.errorCode
+                        || this == ECSErrorEnum.ECSOAuthNotCalled.errorCode){
+                    authError=true
+                }
             }
+
             return authError
         }
 
