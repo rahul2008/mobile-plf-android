@@ -46,7 +46,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -64,8 +63,6 @@ import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.pim.PIMParameterToLaunchEnum;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -95,8 +92,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btn_ECS, btn_MCS, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
     private Switch aSwitch, abTestingSwitch;
     private UserDataInterface userDataInterface;
-    private PIMInterface pimInterface;
-    private URInterface urInterface;
     private boolean isUSR;
     private Context mContext;
     private Spinner spinnerCountrySelection;
@@ -113,6 +108,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private Boolean isABTestingStatus = false;
     private MECLaunchInput mMecLaunchInput;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
+    private PIMDemoUAppApplication uAppApplication;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,7 +120,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
 
-        appInfraInterface = new AppInfra.Builder().build(this);//PIMDemoUAppInterface.mAppInfra;
+        uAppApplication = (PIMDemoUAppApplication) getApplicationContext();
+        appInfraInterface = uAppApplication.getAppInfra();
 
         btnGetUserDetail = findViewById(R.id.btn_GetUserDetail);
         btnGetUserDetail.setOnClickListener(this);
@@ -188,9 +185,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                     appInfraInterface.getServiceDiscovery().setHomeCountry(countrycode);
                     editor.putString(SELECTED_COUNTRY, countryList.get(position));
                     editor.apply();
-                    pimInterface = new PIMInterface();
-                    pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
-                    userDataInterface = pimInterface.getUserDataInterface();
+                    uAppApplication.initialisePim();
+                    userDataInterface = uAppApplication.getUserDataInterface();
                 }
 
                 @Override
@@ -212,12 +208,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 //        ignorelistedRetailer.add("Amazon - US");
 //        ignorelistedRetailer.add("BestBuy.com");
 
-        UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(mContext));
-        UappSettings uappSettings = new UappSettings(mContext);
         mMecInterface = new MECInterface();
-        pimInterface.init(uappDependencies, uappSettings);
 
-        MECDependencies mIapDependencies = new MECDependencies(new AppInfra.Builder().build(mContext), pimInterface.getUserDataInterface());
+        MECDependencies mIapDependencies = new MECDependencies(appInfraInterface, userDataInterface);
 
         mMecInterface.init(mIapDependencies, new MECSettings(mContext));
 
@@ -252,15 +245,13 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             btn_ECS.setVisibility(View.GONE);
             btnGetUserDetail.setVisibility(View.GONE);
             btnLaunchAsFragment.setText("Launch USR");
-            urInterface = new URInterface();
-            urInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
-            userDataInterface = urInterface.getUserDataInterface();
+            uAppApplication.intialiseUR();
+            userDataInterface = uAppApplication.getUserDataInterface();
         } else {
             isUSR = false;
             Log.i(TAG, "Selected Liberary : PIM");
-            pimInterface = new PIMInterface();
-            pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
-            userDataInterface = pimInterface.getUserDataInterface();
+            uAppApplication.initialisePim();
+            userDataInterface = uAppApplication.getUserDataInterface();
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 btnLaunchAsActivity.setVisibility(View.GONE);
                 btnLaunchAsFragment.setText("Launch User Profile");
@@ -268,7 +259,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 btnLaunchAsActivity.setText("Launch PIM As Activity");
                 btnLaunchAsFragment.setText("Launch PIM As Fragment");
             }
-            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+            IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, userDataInterface);
             mIAPSettings = new IAPSettings(this);
             mIapInterface = new IAPInterface();
             mIapInterface.init(mIapDependencies, mIAPSettings);
@@ -333,7 +324,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
                 launchInput.setParameterToLaunch(map);
                 ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-                pimInterface.launch(activityLauncher, launchInput);
+                new PIMInterface().launch(activityLauncher, launchInput);
             }
         } else if (v == btnLaunchAsFragment) {
             if (isUSR) {
@@ -380,9 +371,13 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_RegistrationPR) {
-            Fragment fragment = new PRGFragment(pimInterface, appInfraInterface);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                Fragment fragment = new PRGFragment(userDataInterface, appInfraInterface);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+            } else {
+                showToast("User is not loged-in, Please login!");
+            }
         } else if (v == btn_IAP) {
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 if (mCategorizedProductList.size() > 0) {
@@ -401,7 +396,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_MCS) {
-             showToast("Not implemented");
+            showToast("Not implemented");
 //            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
 //                MECFlowConfigurator pMecFlowConfigurator = new MECFlowConfigurator();
 //                pMecFlowConfigurator.setLandingView(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW);
@@ -491,7 +486,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         HashMap<PIMParameterToLaunchEnum, Object> parameter = new HashMap<>();
         parameter.put(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT, isABTestingStatus());
         launchInput.setParameterToLaunch(parameter);
-        pimInterface.launch(fragmentLauncher, launchInput);
+        new PIMInterface().launch(fragmentLauncher, launchInput);
     }
 
     private void launchUSR() {
@@ -504,7 +499,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN)
-            urInterface.launch(fragmentLauncher, urLaunchInput);
+            new URInterface().launch(fragmentLauncher, urLaunchInput);
 
     }
 
@@ -573,10 +568,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         spinnerCountryText.setText(selectedCountry);
         spinnerCountrySelection.setVisibility(View.GONE);
         btnLaunchAsFragment.setText("Launch User Profile");
-        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+        IAPDependencies mIapDependencies = new IAPDependencies(appInfraInterface, userDataInterface);
         mIAPSettings = new IAPSettings(this);
         mIapInterface.init(mIapDependencies, mIAPSettings);
-        MECDependencies mecDependencies = new MECDependencies(appInfraInterface, pimInterface.getUserDataInterface());
+        MECDependencies mecDependencies = new MECDependencies(appInfraInterface, userDataInterface);
         mMecInterface = new MECInterface();
         mMecInterface.init(mecDependencies, new MECSettings(mContext));
         initializeBazaarVoice();
