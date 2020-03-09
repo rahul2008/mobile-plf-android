@@ -225,10 +225,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         mMecLaunchInput.setMecListener(this);
 
 
-        mMecLaunchInput.mecBannerConfigurator = this::getBannerViewProductList;
+        mMecLaunchInput.setMecBannerConfigurator(this);
         mMecLaunchInput.setSupportsHybris(true);
         mMecLaunchInput.setSupportsRetailer(false);
-        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
+        mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
     }
 
     @Override
@@ -312,6 +312,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
         int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
