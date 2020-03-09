@@ -263,7 +263,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecLaunchInput.setMecListener(this);
 
 
-       // mMecLaunchInput.setMecBannerConfigurator(this);
+        mMecLaunchInput.setMecBannerConfigurator(this);
         mMecLaunchInput.setSupportsHybris(isHybrisEnable);
         mMecLaunchInput.setSupportsRetailer(isRetailerEnabled);
         mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
