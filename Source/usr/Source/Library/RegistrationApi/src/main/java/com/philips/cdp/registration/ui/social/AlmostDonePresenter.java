@@ -97,17 +97,20 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (isEmailExist && almostDoneContract.getPreferenceStoredState((mEmail))) {
                 almostDoneContract.hideAcceptTermsView();
-                almostDoneContract.showPersonalConsentOptCheck();
+
                 updateTermsAndReceiveMarketingOpt(false);
             }
             if (mBundle != null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR) != null) {
                 almostDoneContract.updateABTestingUIFlow();
                 almostDoneContract.showAcceptTermsView();
-                almostDoneContract.showPersonalConsentOptCheck();
             }
         } else {
             almostDoneContract.hideAcceptTermsView();
         }
+        if(RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+            almostDoneContract.showPersonalConsentOptCheck();
+        else
+            almostDoneContract.hidePersonalConsentOptCheck();
 
         updateTermsAndReceiveMarketingOpt(setMarketingOptinVisible());
     }
