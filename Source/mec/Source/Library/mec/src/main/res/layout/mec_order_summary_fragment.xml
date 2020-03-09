@@ -69,7 +69,7 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/mec_circular"
+                                android:background="@drawable/mec_circular_grey"
                                 android:gravity="center"
                                 android:text="1"
                                 android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
@@ -105,7 +105,7 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/mec_circular_grey"
+                                android:background="@drawable/mec_circular"
                                 android:gravity="center"
                                 android:text="2"
                                 android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
@@ -161,7 +161,6 @@
                         <com.philips.platform.uid.view.widget.Label
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
                             android:layout_marginStart="@dimen/border16_margin_left_right"
                             android:layout_marginTop="2dp"
                             android:layout_marginEnd="50dp"
@@ -225,7 +224,6 @@
                         <com.philips.platform.uid.view.widget.Label
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
                             android:layout_marginStart="@dimen/border16_margin_left_right"
                             android:layout_marginTop="2dp"
                             android:layout_marginEnd="50dp"
@@ -237,11 +235,38 @@
                             style="@style/mec_button_border"
                             android:layout_marginTop="@dimen/border8_margin" />
 
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_billing_address_name"
+                            style="@style/mec_address_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="@dimen/iap_margin_10dp"
+                            android:layout_marginEnd="@dimen/border16_margin_left_right"
+                            android:layout_weight="1.2"
+                            android:gravity="start"
+                            android:padding="@dimen/iap_margin_4dp"
+                            android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="50dp"
+                            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                            android:textSize="12sp"
+                            app:shippingAddress="@{ecsAddressShipping}" />
+
+
+                        <View
+                            style="@style/mec_button_border"
+                            android:layout_marginTop="@dimen/border8_margin" />
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/mec_accepted_code_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_below="@+id/mec_accepted_code"
                             android:layout_marginBottom="3dp"
                             android:nestedScrollingEnabled="false"
                             android:visibility="@{shoppingCart.appliedVouchers.size() > 0 ? View.VISIBLE : View.GONE, default = gone}"
@@ -261,7 +286,6 @@
                             android:id="@+id/mec_cart_summary_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/mec_cart_Summary"
                             android:nestedScrollingEnabled="false"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -334,24 +358,22 @@
 
                           </LinearLayout>-->
 
-                        <com.philips.platform.uid.view.widget.Label
-                            android:id="@+id/mec_order_Summary"
-                            style="@style/mec_header"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/mec_accepted_code_recycler_view"
-                            android:paddingLeft="@dimen/border16_margin_left_right"
-                            android:paddingRight="@dimen/border16_margin_left_right" />
+                        <!--                        <com.philips.platform.uid.view.widget.Label-->
+                        <!--                            android:id="@+id/mec_order_Summary"-->
+                        <!--                            style="@style/mec_header"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:paddingLeft="@dimen/border16_margin_left_right"-->
+                        <!--                            android:paddingRight="@dimen/border16_margin_left_right" />-->
 
 
-                        <!--<androidx.recyclerview.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/mec_price_summary_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/mec_order_Summary"
                             android:layout_marginTop="@dimen/iap_margin_10dp"
                             android:nestedScrollingEnabled="false"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </LinearLayout>
                 </RelativeLayout>
             </ScrollView>

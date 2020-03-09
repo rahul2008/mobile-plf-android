@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.cdp.di.mec.R
@@ -32,7 +32,9 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     private lateinit var ecsPayment: ECSPayment
     private var cartSummaryAdapter: MECCartSummaryAdapter? = null
     private var productsAdapter: MECOrderSummaryProductsAdapter? = null
+    private var vouchersAdapter: MECOrderSummaryVouchersAdapter? = null
     private lateinit var cartSummaryList: MutableList<MECCartSummary>
+    private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     override fun onItemClick(item: Any) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -53,9 +55,16 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         binding.shoppingCart = ecsShoppingCart
 //        binding.ecsPaymentMode = ecsPayment
         cartSummaryList = mutableListOf()
+        voucherList = mutableListOf()
+        if (ecsShoppingCart.appliedVouchers.size > 0) {
+            ecsShoppingCart.appliedVouchers?.let { voucherList.addAll(it) }
+        }
         cartSummaryAdapter = MECCartSummaryAdapter(addCartSummaryList(ecsShoppingCart))
         productsAdapter = MECOrderSummaryProductsAdapter(ecsShoppingCart)
+        vouchersAdapter = MECOrderSummaryVouchersAdapter(voucherList)
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
+        binding.mecAcceptedCodeRecyclerView.adapter = vouchersAdapter
+        binding.mecPriceSummaryRecyclerView.adapter = cartSummaryAdapter
         return binding.root
     }
 
@@ -68,11 +77,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         cartSummaryList.clear()
         var name: String
         var price: String
-        for (i in 0 until ecsShoppingCart.entries.size) {
-            name = ecsShoppingCart.entries[i].quantity.toString() + "x " + ecsShoppingCart.entries.get(i).product.summary.productTitle
-            price = ecsShoppingCart.entries.get(i).totalPrice.formattedValue
-            cartSummaryList.add(MECCartSummary(name, price))
-        }
+//        for (i in 0 until ecsShoppingCart.entries.size) {
+//            name = ecsShoppingCart.entries[i].quantity.toString() + "x " + ecsShoppingCart.entries.get(i).product.summary.productTitle
+//            price = ecsShoppingCart.entries.get(i).totalPrice.formattedValue
+//            cartSummaryList.add(MECCartSummary(name, price))
+//        }
 
         if (ecsShoppingCart.deliveryCost != null) {
             name = getString(R.string.mec_delivery_cost)

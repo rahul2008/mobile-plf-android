@@ -61,7 +61,7 @@ class MECutility {
             if (alertDialogFragment == null) {
                 alertDialogFragment = fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG) as AlertDialogFragment?
             }
-            if (alertDialogFragment != null  && isCallingFragmentVisible(fragmentManager))
+            if (alertDialogFragment != null && isCallingFragmentVisible(fragmentManager))
                 alertDialogFragment.dismiss()
         }
 
@@ -176,12 +176,12 @@ class MECutility {
                 return false
             }
 
-            return  (stockLevelStatus.equals(IN_STOCK, ignoreCase = true) ||
+            return (stockLevelStatus.equals(IN_STOCK, ignoreCase = true) ||
                     stockLevelStatus.equals(LOW_STOCK, ignoreCase = true) || stockLevel > 0)
         }
 
-        fun stockStatus(availability : String): String {
-            return when(availability) {
+        fun stockStatus(availability: String): String {
+            return when (availability) {
                 "YES" -> "available"
                 "NO" -> "out of stock"
                 else -> ""
@@ -202,15 +202,15 @@ class MECutility {
             return quantity
         }
 
-        fun isAuthError(ecsError: ECSError?):Boolean{
-            var authError :Boolean = false
-            with(ecsError!!.errorcode){
+        fun isAuthError(ecsError: ECSError?): Boolean {
+            var authError: Boolean = false
+            with(ecsError!!.errorcode) {
                 if (this == ECSErrorEnum.ECSInvalidTokenError.errorCode
                         || this == ECSErrorEnum.ECSinvalid_grant.errorCode
                         || this == ECSErrorEnum.ECSinvalid_client.errorCode
                         || this == ECSErrorEnum.ECSOAuthDetailError.errorCode
-                        || this == ECSErrorEnum.ECSOAuthNotCalled.errorCode){
-                    authError=true
+                        || this == ECSErrorEnum.ECSOAuthNotCalled.errorCode) {
+                    authError = true
                 }
             }
 
@@ -218,10 +218,10 @@ class MECutility {
         }
 
         @JvmStatic
-        fun findGivenAddressInAddressList(ecsAddressID: String, ecsAddressList:List<ECSAddress>) :ECSAddress?{
+        fun findGivenAddressInAddressList(ecsAddressID: String, ecsAddressList: List<ECSAddress>): ECSAddress? {
 
-            for (ecsAddress in  ecsAddressList){
-                if(ecsAddressID.equals(ecsAddress.id,true)){
+            for (ecsAddress in ecsAddressList) {
+                if (ecsAddressID.equals(ecsAddress.id, true)) {
                     return ecsAddress
                 }
             }
@@ -229,7 +229,7 @@ class MECutility {
         }
 
         @JvmStatic
-        fun tagAndShowError(mecError: MecError?, showDialog: Boolean, aFragmentManager: FragmentManager?, Acontext: Context?){
+        fun tagAndShowError(mecError: MecError?, showDialog: Boolean, aFragmentManager: FragmentManager?, Acontext: Context?) {
             if (!mecError!!.ecsError!!.errorType.equals("No internet connection")) {
                 try {
                     //tag all techinical defect except "No internet connection"
@@ -259,30 +259,27 @@ class MECutility {
 
     }
 
-    fun  constructShippingAddressDisplayField(ecsAddress: ECSAddress) : String{
+    fun constructShippingAddressDisplayField(ecsAddress: ECSAddress): String {
 
         var formattedAddress = ""
-        var regionDisplayName =  if (ecsAddress.region?.name !=null)  ecsAddress.region?.name else  ecsAddress.region?.isocodeShort
-        var countryDisplayName = if (ecsAddress.country?.name !=null)  ecsAddress.country?.name else  ecsAddress.country?.isocode
-        var houseNumber = ecsAddress.houseNumber
-        var line1 = ecsAddress.line1
-        var line2 = ecsAddress.line2
-        var town = ecsAddress.town
-        var postalCode = ecsAddress.postalCode
+        val regionDisplayName = if (ecsAddress.region?.name != null) ecsAddress.region?.name else ecsAddress.region?.isocodeShort
+        val countryDisplayName = if (ecsAddress.country?.name != null) ecsAddress.country?.name else ecsAddress.country?.isocode
+        val houseNumber = ecsAddress.houseNumber
+        val line1 = ecsAddress.line1
+        val line2 = ecsAddress.line2
+        val town = ecsAddress.town
+        val postalCode = ecsAddress.postalCode
 
-        formattedAddress = if (!houseNumber.isNullOrEmpty()) formattedAddress+ houseNumber +"," else formattedAddress
-        formattedAddress = if (!line1.isNullOrEmpty()) formattedAddress+ line1 + ","+"\n" else formattedAddress
-        formattedAddress = if (!line2.isNullOrEmpty()) formattedAddress+ line2 + ","+"\n" else formattedAddress
-        formattedAddress = if (!town.isNullOrEmpty()) formattedAddress+ town + ","+"\n" else formattedAddress
-        formattedAddress = if (!regionDisplayName.isNullOrEmpty()) formattedAddress+ regionDisplayName + ","+"\n" else formattedAddress
-        formattedAddress = if (!postalCode.isNullOrEmpty()) formattedAddress+ postalCode + ","+"\n" else formattedAddress
-        formattedAddress = if (!countryDisplayName.isNullOrEmpty()) formattedAddress+ countryDisplayName  else formattedAddress
+        formattedAddress = if (!houseNumber.isNullOrEmpty()) "$formattedAddress$houseNumber," else formattedAddress
+        formattedAddress = if (!line1.isNullOrEmpty()) "$formattedAddress$line1,\n" else formattedAddress
+        formattedAddress = if (!line2.isNullOrEmpty()) "$formattedAddress$line2,\n" else formattedAddress
+        formattedAddress = if (!town.isNullOrEmpty()) "$formattedAddress$town,\n" else formattedAddress
+        formattedAddress = if (!regionDisplayName.isNullOrEmpty()) "$formattedAddress$regionDisplayName,\n" else formattedAddress
+        formattedAddress = if (!postalCode.isNullOrEmpty()) "$formattedAddress$postalCode,\n" else formattedAddress
+        formattedAddress = if (!countryDisplayName.isNullOrEmpty()) formattedAddress + countryDisplayName else formattedAddress
 
         return formattedAddress
     }
-
-
-
 
 
 }

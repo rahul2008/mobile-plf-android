@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.philips.cdp.di.mec.screens.address
 
 import android.content.Intent
@@ -12,6 +14,7 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.ecs.model.address.ECSUserProfile
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
@@ -37,6 +40,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     lateinit var ecsAddresses: List<ECSAddress>
     lateinit var mECSShoppingCart: ECSShoppingCart
+    lateinit var mECSPayment: ECSPayment
 
     private lateinit var addressViewModel: AddressViewModel
 
@@ -166,6 +170,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             mRootView = binding.root
             checkDeliveryAddressSet()
         }
+        
         return binding.root
     }
 
