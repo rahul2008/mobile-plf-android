@@ -25,6 +25,7 @@ object MECConstant {
     val COMPONENT_NAME: String = "mec"
     const val SELECTED_RETAILER: String ="SELECTED_RETAILER"
     const val RETAILER_REQUEST_CODE: Int = 5000
+    const val PAYMENT_REQUEST_CODE: Int = 5001
     val KEY_BAZAAR_LOCALE: String? ="Locale"
     //Keys
     val MEC_KEY_PRODUCT ="mec_key_product"
@@ -36,6 +37,7 @@ object MECConstant {
     val MEC_BUY_URL = "MEC_BUY_URL";
     val MEC_IS_PHILIPS_SHOP = "MEC_IS_PHILIPS_SHOP";
     val MEC_STORE_NAME = "MEC_STORE_NAME";
+    val MEC_PAYMENT_METHOD = "MEC_PAYMENT_METHOD";
     val MEC_CLICK_LISTENER = "MEC_CLICK_LISTENER";
     internal val IN_STOCK = "inStock"
     internal val LOW_STOCK = "lowStock"

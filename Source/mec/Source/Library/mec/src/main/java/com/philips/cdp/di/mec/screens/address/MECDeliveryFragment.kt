@@ -305,6 +305,12 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         var bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses[0])
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
+        // Todo remove this new object
+         var ecsPayment: ECSPayment? = null
+        ecsPayment=ECSPayment()
+        //ecsPayment.cardNumber="3462********2387"
+
+        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, ecsPayment)
         mecOrderSummaryFragment.arguments = bundle
         replaceFragment(mecOrderSummaryFragment,MECOrderSummaryFragment.TAG, true)
     }

@@ -51,6 +51,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
         ecsAddress = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESS) as ECSAddress
         ecsShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
+        ecsPayment = arguments?.getSerializable(MECConstant.MEC_PAYMENT_METHOD) as ECSPayment
         binding.ecsAddressShipping = ecsAddress
         binding.shoppingCart = ecsShoppingCart
 //        binding.ecsPaymentMode = ecsPayment
@@ -114,5 +115,19 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
         cartSummaryAdapter?.notifyDataSetChanged()
         return cartSummaryList
+    }
+
+    fun onClickPay(){
+        var bundle = Bundle()
+        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD,ecsPayment)
+        var meccvvBottomSheetFragment = MECCVVFragment()
+        meccvvBottomSheetFragment.arguments=bundle
+        meccvvBottomSheetFragment.setTargetFragment(this, MECConstant.PAYMENT_REQUEST_CODE)
+        fragmentManager?.let { meccvvBottomSheetFragment.show(it, meccvvBottomSheetFragment.tag) }
+
+    }
+
+    fun onClickBackToShoppingCart(){
+        fragmentManager!!.popBackStack()
     }
 }

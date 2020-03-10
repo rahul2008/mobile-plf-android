@@ -444,6 +444,7 @@
                 android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
                 android:enabled="true"
                 android:text="Order and pay"
+                android:onClick="@{()->fragment.onClickPay()}"
                 android:textColor="?attr/uidButtonPrimaryNormalTextColor"
                 android:textSize="16dp"
                 app:uidComponentType="Primary" />
@@ -460,6 +461,7 @@
                 android:layout_marginBottom="@dimen/iap_shopping_cart_btn_margin"
                 android:enabled="true"
                 android:text="Back to Shopping Cart"
+                android:onClick="@{()->fragment.onClickBackToShoppingCart()}"
                 android:textColor="?attr/uidButtonSecondaryNormalTextColor"
                 android:textSize="16dp"
                 app:uidComponentType="Secondary" />
