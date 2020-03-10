@@ -20,6 +20,10 @@
 
     </data>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -225,14 +229,17 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 />
 
-            <include
-                android:id="@+id/mec_progress"
-                layout="@layout/mec_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
 
 </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
+        <include
+            android:id="@+id/mec_progress"
+            layout="@layout/mec_progress_bar"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 
 </layout>
