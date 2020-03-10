@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecRetailersItemBinding
-import com.philips.cdp.di.mec.utils.MECDataHolder
 
 class MECRetailersAdapter (private val mecRetailers: List<ECSRetailer>? ,val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

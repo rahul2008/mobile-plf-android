@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.databinding.MecProductSpecsFragmentBinding
+import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
-import com.philips.cdp.prxclient.datamodels.specification.*
+import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
 
 
 class SpecificationFragment : MecBaseFragment() {

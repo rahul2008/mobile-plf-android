@@ -12,18 +12,17 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.philips.cdp.di.ecs.model.region.ECSRegion
-import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.platform.uid.view.widget.InputValidationLayout
-import com.philips.platform.uid.view.widget.ValidationEditText
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressEditBinding
+import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.address.region.RegionViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
-import kotlinx.android.synthetic.main.mec_main_activity.*
+import com.philips.platform.uid.view.widget.InputValidationLayout
+import com.philips.platform.uid.view.widget.ValidationEditText
 import java.io.Serializable
 
 

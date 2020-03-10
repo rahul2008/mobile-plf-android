@@ -8,9 +8,10 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
-import com.philips.cdp.di.mec.databinding.*
+import com.philips.cdp.di.mec.databinding.MecBillingAddressCreateCardBinding
+import com.philips.cdp.di.mec.databinding.MecBillingAddressEditCardBinding
+import com.philips.cdp.di.mec.databinding.MecPaymentCardBinding
 import com.philips.cdp.di.mec.utils.MECConstant
-import kotlinx.android.synthetic.main.mec_address_card.view.*
 import kotlinx.android.synthetic.main.mec_address_card.view.ll_rl_address
 import kotlinx.android.synthetic.main.mec_address_card.view.mec_address_card_view
 import kotlinx.android.synthetic.main.mec_address_card.view.tv_address_text

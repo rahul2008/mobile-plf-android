@@ -18,7 +18,6 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressManageBinding
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.platform.uid.view.widget.ProgressBarWithLabel
 import kotlinx.android.synthetic.main.mec_address_manage.view.*
 import java.io.Serializable
 

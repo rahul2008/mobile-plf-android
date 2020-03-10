@@ -7,11 +7,7 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.prxclient.PRXDependencies
 import com.philips.cdp.prxclient.PrxConstants
 import com.philips.cdp.prxclient.RequestManager
-import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
-import com.philips.cdp.prxclient.error.PrxError
 import com.philips.cdp.prxclient.request.ProductSpecificationRequest
-import com.philips.cdp.prxclient.response.ResponseData
-import com.philips.cdp.prxclient.response.ResponseListener
 
 class SpecificationRepository {
 

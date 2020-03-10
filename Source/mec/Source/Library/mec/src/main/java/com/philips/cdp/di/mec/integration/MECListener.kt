@@ -5,11 +5,6 @@
 package com.philips.cdp.di.mec.integration
 
 
-import com.philips.cdp.di.mec.common.MecError
-
-import java.util.ArrayList
-
-
 interface MECListener {
 
     /**

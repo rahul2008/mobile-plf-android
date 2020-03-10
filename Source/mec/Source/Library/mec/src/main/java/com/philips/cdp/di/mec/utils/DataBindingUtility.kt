@@ -12,15 +12,15 @@ import com.android.volley.toolbox.NetworkImageView
 import com.philips.cdp.di.ecs.model.asset.Asset
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.screens.detail.ImageAdapter
+import com.philips.cdp.di.mec.screens.features.ProductFeatureChildRecyclerAdapter
+import com.philips.cdp.di.mec.screens.features.ProductFeatureParentRecyclerAdapter
 import com.philips.cdp.di.mec.screens.specification.SpecificationChildRecyclerAdapter
 import com.philips.cdp.di.mec.screens.specification.SpecificationParentRecyclerAdapter
+import com.philips.cdp.prxclient.datamodels.features.FeatureItem
+import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 import com.philips.cdp.prxclient.datamodels.specification.CsItemItem
 import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
 import com.philips.platform.uid.view.widget.Label
-import com.philips.cdp.di.mec.screens.features.ProductFeatureChildRecyclerAdapter
-import com.philips.cdp.di.mec.screens.features.ProductFeatureParentRecyclerAdapter
-import com.philips.cdp.prxclient.datamodels.features.FeatureItem
-import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 
 
 class DataBindingUtility {
