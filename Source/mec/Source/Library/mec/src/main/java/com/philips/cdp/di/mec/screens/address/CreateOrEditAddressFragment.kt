@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
@@ -20,6 +21,7 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressEditBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.address.region.RegionViewModel
+import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.ValidationEditText
@@ -32,6 +34,9 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
     }
 
 
+    private lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
+    private var mAddressList: List<ECSAddress>? = null
+    private var mECSShoppingCart: ECSShoppingCart? = null
     private lateinit var regionViewModel: RegionViewModel
 
     private lateinit var ecsAddress: ECSAddress
@@ -46,30 +51,59 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
 
     var mecRegions :MECRegions ? = null
 
-    private val regionListObserver: Observer<List<ECSRegion>> = object : Observer<List<ECSRegion>> {
+    private val regionListObserver: Observer<List<ECSRegion>> = Observer { regionList ->
+        mecRegions = MECRegions(regionList!!)
+        binding.mecRegions = mecRegions
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+    }
 
-        override fun onChanged(regionList: List<ECSRegion>?) {
 
-            mecRegions = MECRegions(regionList!!)
-            binding.mecRegions = mecRegions
-            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+    private val setDeliveryAddressObserver: Observer<Boolean> = Observer {isAddressSet->
+
+        if(isAddressSet){
+            ecsShoppingCartViewModel.getShoppingCart()
+        }else{
+            addressViewModel.fetchAddresses()
         }
 
     }
 
+    private val updateAddressObserver: Observer<Boolean> = Observer {isAddressUpdated->
+            ecsShoppingCartViewModel.getShoppingCart()
+    }
 
-    private val updateAndFetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
+
+    private val createAddressObserver: Observer<ECSAddress> = Observer { ecsAddress ->
+        Log.d(this@CreateOrEditAddressFragment.javaClass.name, ecsAddress?.id)
+        addressViewModel.setDeliveryAddress(ecsAddress!!)
+    }
+
+    private val fetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
+        mAddressList = addressList
+        gotoDeliveryAddress(addressList)
+    })
+
+    private fun gotoDeliveryAddress(mAddressList: List<ECSAddress> ?) {
 
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-
         val intent = Intent()
         val bundle = Bundle()
-        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES,addressList as Serializable)
+        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES,mAddressList as Serializable)
+
+        if(mECSShoppingCart!=null) {
+            bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
+        }
+
         intent.putExtra(MECConstant.BUNDLE_ADDRESSES,bundle)
         targetFragment?.onActivityResult(MECConstant.REQUEST_CODE_ADDRESSES, Activity.RESULT_OK,intent)
         activity?.supportFragmentManager?.popBackStack()
 
-    })
+    }
+
+    private val cartObserver: Observer<ECSShoppingCart> = Observer { ecsShoppingCart ->
+        mECSShoppingCart = ecsShoppingCart
+        addressViewModel.fetchAddresses()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -90,47 +124,52 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
         binding.ecsAddress = ecsAddress
 
 
-        addressViewModel.ecsAddresses.observe(this,updateAndFetchAddressObserver)
+        addressViewModel.ecsAddresses.observe(this,fetchAddressObserver)
+        addressViewModel.eCSAddress.observe(this,createAddressObserver)
+        addressViewModel.isDeliveryAddressSet.observe(this,setDeliveryAddressObserver)
         addressViewModel.mecError.observe(this, this)
+        addressViewModel.isAddressUpdate.observe(this,updateAddressObserver)
 
 
         regionViewModel = activity?.let { ViewModelProviders.of(it).get(RegionViewModel::class.java) }!!
         regionViewModel.regionsList.observe(activity!!, regionListObserver)
         regionViewModel.mecError.observe(this,this)
 
+        ecsShoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+        ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
+        ecsShoppingCartViewModel.mecError.observe(this,this)
+
         addressFieldEnabler = context?.let { addressViewModel.getAddressFieldEnabler(ECSConfiguration.INSTANCE.country, it) }
 
         binding.addressFieldEnabler = addressFieldEnabler
 
 
-        binding.btnContinue.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+        binding.btnContinue.setOnClickListener {
 
-                //Re assign
-                isError = false
-                validationEditText = null
+            //Re assign
+            isError = false
+            validationEditText = null
 
-                validateEditTexts(binding.addressContainer)
+            validateEditTexts(binding.addressContainer)
 
-                if(isError){
-                    validationEditText?.requestFocus()
+            if(isError){
+                validationEditText?.requestFocus()
 
+            }else{
+                // update region properly ..as two way data binding for region is not possible
+                val ecsAddress = binding.ecsAddress
+                addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddress!!)
+                ecsAddress.phone2 = ecsAddress.phone1
+
+                if(ecsAddress.id !=null) { // This means address already existed , so need to create it again
+                    addressViewModel.updateAddress(ecsAddress)
                 }else{
-                    // update region properly ..as two way data binding for region is not possible
-                    val ecsAddress = binding.ecsAddress
-                    addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddress!!)
-                    ecsAddress.phone2 = ecsAddress.phone1
-
-                    if(ecsAddress.id !=null) { // This means address already existed , so need to create it again
-                        addressViewModel.updateAndFetchAddress(ecsAddress!!)
-                    }else{
-                        addressViewModel.createAndFetchAddress(ecsAddress)
-                    }
-
-                    showProgressBar(binding.mecProgress.mecProgressBarContainer)
+                    addressViewModel.createAddress(ecsAddress)
                 }
+
+                showProgressBar(binding.mecProgress.mecProgressBarContainer)
             }
-        })
+        }
 
         return binding.root
     }

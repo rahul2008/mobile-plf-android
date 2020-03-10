@@ -191,7 +191,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
         if (mAddressList.isNullOrEmpty()) {
-            replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
+            gotoAddAddressFragment()
 
         } else {
             gotoDeliveryAddress(mAddressList)
@@ -199,20 +199,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     })
 
-    private fun moveDefaultAddressToTopOfTheList(addressList: List<ECSAddress>, defaultAddressID: String) {
-        val mutableAddressList = addressList.toMutableList()
+    private fun gotoAddAddressFragment() {
 
-        val iterator = mutableAddressList.iterator()
-
-        while (iterator.hasNext()) {
-
-            val ecsAddress = iterator.next()
-
-            if (ecsAddress.id.equals(defaultAddressID, true)) {
-                mutableAddressList.remove(ecsAddress)
-                mutableAddressList.add(0, ecsAddress)
-            }
-        }
+        var addAddressFragment = AddAddressFragment()
+        var bundle = Bundle()
+        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, shoppingCart)
+        addAddressFragment.arguments = bundle
+        replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
     }
 
     private fun gotoDeliveryAddress(addressList: List<ECSAddress>?) {

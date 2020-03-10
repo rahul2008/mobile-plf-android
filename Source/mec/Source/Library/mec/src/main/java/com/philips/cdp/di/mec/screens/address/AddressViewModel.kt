@@ -17,7 +17,6 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
-import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
@@ -47,6 +46,12 @@ class AddressViewModel : CommonViewModel() {
 
     private var ecsSetDeliveryModesCallback = ECSSetDeliveryModesCallback(this)
 
+    private var deleteAddressCallBack = DeleteAddressCallBack(this)
+
+    private var updateAddressCallBack = UpdateAddressCallBack(this)
+
+
+
     var ecsServices = MECDataHolder.INSTANCE.eCSServices
 
     var addressRepository = AddressRepository(ecsServices)
@@ -56,9 +61,18 @@ class AddressViewModel : CommonViewModel() {
 
     val ecsAddresses = MutableLiveData<List<ECSAddress>>()
 
+    val isDeliveryAddressSet = MutableLiveData<Boolean>()
+
+    val isAddressDelete = MutableLiveData<Boolean>()
+
+    val isAddressUpdate = MutableLiveData<Boolean>()
+
+
     val ecsDeliveryModes = MutableLiveData<List<ECSDeliveryMode>>()
 
     val ecsDeliveryModeSet = MutableLiveData<Boolean>()
+
+
 
     lateinit var paramEcsAddress: ECSAddress
 
@@ -85,7 +99,12 @@ class AddressViewModel : CommonViewModel() {
     fun deleteAndFetchAddress(ecsAddress: ECSAddress){
         paramEcsAddress=ecsAddress
         ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS
-        addressRepository.deleteAddress(ecsAddress,ecsFetchAddressesCallback)
+        addressRepository.deleteAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun deleteAddress(ecsAddress: ECSAddress){
+        paramEcsAddress = ecsAddress
+        addressRepository.deleteAddress(ecsAddress,deleteAddressCallBack)
     }
 
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
@@ -94,10 +113,20 @@ class AddressViewModel : CommonViewModel() {
         addressRepository.setAndFetchDeliveryAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
+    fun setDeliveryAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
+
+    }
+
     fun updateAndFetchAddress(ecsAddress: ECSAddress){
         paramEcsAddress=ecsAddress
         ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS
         addressRepository.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun updateAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
+        addressRepository.updateAddress(ecsAddress,updateAddressCallBack)
     }
 
     fun fetchDeliveryModes(){

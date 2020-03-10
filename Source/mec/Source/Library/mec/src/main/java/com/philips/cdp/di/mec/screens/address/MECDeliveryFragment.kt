@@ -58,7 +58,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private val ecsDeliveryModesObserver: Observer<List<ECSDeliveryMode>> = Observer  (fun(eCSDeliveryMode: List<ECSDeliveryMode>?) {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         mECSDeliveryModeList.clear()
-        if (eCSDeliveryMode != null && eCSDeliveryMode.size > 0) {
+        if (eCSDeliveryMode != null && eCSDeliveryMode.isNotEmpty()) {
             eCSDeliveryMode?.let { mECSDeliveryModeList.addAll(it) }
         }
         if(null!=mECSShoppingCart.deliveryMode){
@@ -173,7 +173,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
             profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
             ecsShoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
-            paymentViewModel = ViewModelProviders.of(this).get(PaymentViewModel::class.java)
+            paymentViewModel = activity?.let { ViewModelProviders.of(it).get(PaymentViewModel::class.java) }!!
 
 
             //observe addressViewModel
@@ -193,8 +193,8 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             ecsShoppingCartViewModel.mecError.observe(this,this)
 
             //observe paymentViewmodel
-            paymentViewModel.paymentList.observe(this,paymentObserver)
-            paymentViewModel.mecError.observe(this,this)
+            activity?.let { paymentViewModel.paymentList.observe(it,paymentObserver) }
+            activity?.let { paymentViewModel.mecError.observe(it,this) }
 
 
 
@@ -223,7 +223,10 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             mRootView = binding.root
             checkDeliveryAddressSet()
-            paymentViewModel.fetchPaymentDetails()
+
+            if(paymentViewModel.paymentList!=null && paymentViewModel.paymentList.value!=null){
+                paymentViewModel.fetchPaymentDetails()
+            }
         }
         return binding.root
     }

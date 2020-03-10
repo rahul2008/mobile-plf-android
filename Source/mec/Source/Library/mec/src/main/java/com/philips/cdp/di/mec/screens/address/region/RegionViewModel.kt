@@ -9,6 +9,7 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 class RegionViewModel : CommonViewModel() {
 
     private var ecsRegionListCallback = ECSRegionListCallback(this)
+
     var regionsList = MutableLiveData<List<ECSRegion>>()
 
     var ecsServices = MECDataHolder.INSTANCE.eCSServices

@@ -13,9 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.philips.cdp.di.ecs.model.address.ECSAddress
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressManageBinding
+import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_address_manage.view.*
@@ -25,6 +27,8 @@ import java.io.Serializable
 class ManageAddressFragment : BottomSheetDialogFragment(){
 
 
+    private var mECSShoppingCart: ECSShoppingCart? = null
+    private lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
     private lateinit var addressViewModel: AddressViewModel
     private lateinit var binding: MecAddressManageBinding
 
@@ -43,11 +47,38 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         val intent = Intent()
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES,addressList as Serializable)
+        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
         intent.putExtra(MECConstant.BUNDLE_ADDRESSES,bundle)
         targetFragment?.onActivityResult(MECConstant.REQUEST_CODE_ADDRESSES, Activity.RESULT_OK,intent)
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         dismiss()
     })
+
+    private val setDeliveryAddressObserver: Observer<Boolean> = Observer {isAddressSet->
+
+        if(isAddressSet){
+            ecsShoppingCartViewModel.getShoppingCart()
+        }else{
+            addressViewModel.fetchAddresses()
+        }
+
+    }
+
+    private val deleteAddressObserver: Observer<Boolean> = Observer {isAddressDelete->
+
+        if(isAddressDelete){
+            ecsShoppingCartViewModel.getShoppingCart()
+        }else{
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        }
+    }
+
+
+    private val cartObserver: Observer<ECSShoppingCart> = Observer { ecsShoppingCart ->
+        mECSShoppingCart = ecsShoppingCart
+        addressViewModel.fetchAddresses()
+    }
+
 
     private val errorObserver : Observer<MecError>  = Observer(fun( mecError: MecError?) {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
@@ -62,8 +93,17 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         binding = MecAddressManageBinding.inflate(inflater, container, false)
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        activity?.let { addressViewModel.ecsAddresses.observe(it,fetchAddressObserver) }
+        addressViewModel.ecsAddresses.observe(this,fetchAddressObserver)
         addressViewModel.mecError.observe(this,errorObserver)
+        addressViewModel.isDeliveryAddressSet.observe(this,setDeliveryAddressObserver)
+        addressViewModel.isAddressDelete.observe(this,deleteAddressObserver)
+
+
+        ecsShoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+        ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
+        ecsShoppingCartViewModel.mecError.observe(this,errorObserver)
+
+
 
         var ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
         defaultAddressId = arguments?.getSerializable(MECConstant.KEY_MEC_DEFAULT_ADDRESSES_ID) as String
@@ -91,7 +131,7 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         binding.mecBtnSetAddress.setOnClickListener {
             showProgressBar(binding.mecProgress.mecProgressBarContainer)
             val mSelectedAddress = addressBottomSheetRecyclerAdapter.mSelectedAddress
-            addressViewModel.setAndFetchDeliveryAddress(mSelectedAddress)
+            addressViewModel.setDeliveryAddress(mSelectedAddress)
         }
 
         return binding.root

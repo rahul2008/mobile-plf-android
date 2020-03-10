@@ -19,6 +19,10 @@ class AddressRepository(val ecsServices: ECSServices) {
         ecsServices.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
+    fun updateAddress(ecsAddress: ECSAddress,updateAddressCallBack: UpdateAddressCallBack){
+        ecsServices.updateAddress(ecsAddress,updateAddressCallBack)
+    }
+
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress, ecsFetchAddressesCallback: ECSFetchAddressesCallback) {
         ecsServices.setAndFetchDeliveryAddress(true,ecsAddress,ecsFetchAddressesCallback)
     }
@@ -35,8 +39,12 @@ class AddressRepository(val ecsServices: ECSServices) {
         ecsServices.createAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
-    fun deleteAddress(ecsAddress: ECSAddress,ecsFetchAddressesCallback: ECSFetchAddressesCallback){
+    fun deleteAndFetchAddress(ecsAddress: ECSAddress, ecsFetchAddressesCallback: ECSFetchAddressesCallback){
         ecsServices.deleteAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun deleteAddress(ecsAddress: ECSAddress, deleteAddressCallBack: DeleteAddressCallBack) {
+        ecsServices.deleteAddress(ecsAddress,deleteAddressCallBack)
     }
 
 
