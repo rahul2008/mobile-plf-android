@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.mec.databinding.MecCartSummaryLayoutBinding
-import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
 
 
 class MECCartSummaryAdapter(private val mecCart: MutableList<MECCartSummary>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

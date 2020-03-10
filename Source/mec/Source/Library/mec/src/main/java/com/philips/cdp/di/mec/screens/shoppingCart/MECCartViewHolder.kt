@@ -2,14 +2,13 @@ package com.philips.cdp.di.mec.screens.shoppingCart
 
 
 import android.view.View
+import android.view.animation.TranslateAnimation
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.toolbox.ImageLoader
 import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.UIPicker
-import android.view.animation.TranslateAnimation
-import java.util.*
 
 
 class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.ViewHolder(binding.root) {

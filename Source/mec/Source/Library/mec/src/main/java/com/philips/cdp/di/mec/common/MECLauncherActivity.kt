@@ -5,24 +5,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import com.philips.cdp.di.ecs.model.products.ECSProduct
-
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
 import com.philips.cdp.di.mec.integration.FragmentSelector
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator
-
 import com.philips.cdp.di.mec.integration.MECListener
-import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.cdp.di.mec.screens.catalog.MECCategorizedRetailerFragment
-import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment
-import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
-import com.philips.cdp.di.mec.screens.detail.MECLandingProductDetailsFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.DEFAULT_THEME
 import com.philips.cdp.di.mec.utils.MECConstant.IAP_KEY_ACTIVITY_THEME
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.platform.uappframework.launcher.FragmentLauncher
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener
 import com.philips.platform.uid.thememanager.*
@@ -30,10 +21,9 @@ import com.philips.platform.uid.utils.UIDActivity
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.mec_action_bar.*
 import java.util.*
-import java.util.ResourceBundle.getBundle
 
 
- class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListener, MECListener {
+class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListener, MECListener {
 
 
 

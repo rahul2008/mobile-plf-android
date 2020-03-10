@@ -1,9 +1,9 @@
 package com.philips.cdp.di.mec.utils
 
-import com.philips.cdp.di.mec.integration.MECBannerConfigurator
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.config.ECSConfig
+import com.philips.cdp.di.mec.integration.MECBannerConfigurator
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.screens.address.UserInfo
@@ -13,7 +13,7 @@ import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.uappframework.listener.ActionBarListener
-import java.util.ArrayList
+import java.util.*
 
 enum class MECDataHolder {
 
