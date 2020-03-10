@@ -44,20 +44,21 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/mec_circular"
+                        android:background="@drawable/mec_circular_wizard_on"
                         android:gravity="center"
                         android:text="1"
-                        android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
+                        android:textColor="?attr/uidWizardDefaultNormalOnCircleTextColor"
                         android:textSize="16sp" />
 
                     <com.philips.platform.uid.view.widget.Label
+                        style="@style/mecCentralesansMediumFont"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/border8_margin"
                         android:gravity="center"
                         android:text="@string/mec_delivery"
-                        android:textColor="@color/uidColorBlack"
+                        android:textColor="?attr/uidWizardDefaultNormalOnTitleTextColor"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -67,7 +68,7 @@
                     android:layout_height="2dp"
                     android:layout_gravity="top"
                     android:layout_marginTop="16dp"
-                    android:background="?attr/uidTokenDefaultNormalBackgroundColor" />
+                    android:background="?attr/uidWizardDefaultNormalOffTrackColor" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -79,20 +80,21 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/mec_circular_grey"
+                        android:background="@drawable/mec_circular_wizard_off"
                         android:gravity="center"
                         android:text="2"
-                        android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
+                        android:textColor="?attr/uidWizardDefaultNormalOffCircleTextColor"
                         android:textSize="16sp" />
 
                     <com.philips.platform.uid.view.widget.Label
+                        style="@style/mecCentralesansBookFont"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/border8_margin"
                         android:gravity="center"
                         android:text="@string/mec_checkout"
-                        android:textColor="@color/mec_address_text_color"
+                        android:textColor="?attr/uidWizardDefaultNormalOffTitleTextColor"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -114,7 +116,6 @@
                     style="@style/mec_header"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
                     android:paddingStart="@dimen/border16_margin_left_right"
                     android:paddingEnd="@dimen/border16_margin_left_right"
                     android:text="@string/mec_shipping_address" />
