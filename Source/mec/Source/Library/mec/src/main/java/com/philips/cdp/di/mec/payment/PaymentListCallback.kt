@@ -16,6 +16,10 @@ class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSC
                 mecPaymentList.add(MECPayment(ecsPayment,false))
             }
         }
+
+        val value = paymentViewModel.paymentList.value
+        value?.toMutableList()?.addAll(mecPaymentList)
+
         paymentViewModel.paymentList.value = mecPaymentList
     }
 

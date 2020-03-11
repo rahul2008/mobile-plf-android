@@ -28,6 +28,17 @@
             >
 
             <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/mec_address_edit_icon"
+                fontPath="fonts/iconfont.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:text="@string/dls_edit"
+                android:visibility="gone"
+                android:textColor="?attr/uidButtonQuietEmphasisNormalTextColor"
+                android:textSize="20sp" />
+
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_name"
                 style="@style/mec_address_header"
                 android:layout_marginLeft="@dimen/border16_margin_left_right"

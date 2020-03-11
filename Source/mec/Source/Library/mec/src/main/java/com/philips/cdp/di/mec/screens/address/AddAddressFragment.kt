@@ -170,9 +170,14 @@ class AddAddressFragment : MecBaseFragment() {
 
                     //  // update region properly ..as two way data binding for region is not possible : Billing
 
-                    val ecsAddressBilling = binding.ecsAddressBilling
-                    ecsAddressBilling?.phone2 = ecsAddressBilling?.phone1
-                    addressViewModel.setRegion(binding.llBilling,binding.mecRegions,ecsAddressBilling!!)
+                    eCSAddressBilling = binding.ecsAddressBilling
+                    eCSAddressBilling?.phone2 = eCSAddressBilling?.phone1
+
+                    if(binding.billingCheckBox.isChecked){ // assign shipping address to billing address if checkbox is checked
+                        eCSAddressBilling = ecsAddressShipping
+                    }
+
+                    addressViewModel.setRegion(binding.llBilling,binding.mecRegions,eCSAddressBilling)
 
 
                     addressViewModel.createAddress(ecsAddressShipping!!)
@@ -236,6 +241,7 @@ class AddAddressFragment : MecBaseFragment() {
         var deliveryFragment = MECDeliveryFragment()
         var bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, addressList as Serializable)
+        bundle.putSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS,eCSAddressBilling)
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART , mECSShoppingCart)
         deliveryFragment.arguments = bundle
         replaceFragment(deliveryFragment, MECDeliveryFragment().getFragmentTag(), true)
