@@ -75,10 +75,10 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         MecHolder.INSTANCE.eCSServices = ecsServices // singleton
         MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
         MECDataHolder.INSTANCE.propositionId = propertyForKey
-        MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator!!
+        MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.supportsHybris
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
-        MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput!!
+        MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput
 
         if (MECDataHolder.INSTANCE.bvClient == null) {
             val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(mMECSetting.context.applicationContext as Application)
