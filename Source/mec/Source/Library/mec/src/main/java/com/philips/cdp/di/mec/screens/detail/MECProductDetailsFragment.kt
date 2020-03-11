@@ -194,7 +194,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             if(isUserLoggedIn()) {
                 GlobalScope.launch {
                     var mecManager: MECManager = MECManager()
-                    mecManager.getShoppingCartData(MECDataHolder.INSTANCE.mecListener)
+                    MECDataHolder.INSTANCE.mecListener?.let { mecManager.getShoppingCartData(it) }
                 }
             }
             ////////////// end of update cart and login if required
@@ -380,7 +380,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         binding.detailsParentLayout.visibility = View.GONE
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
-        super.processError(mecError)
+        super.processError(mecError,true)
 
     }
 
@@ -446,7 +446,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 if(isUserLoggedIn()) {
                     GlobalScope.launch {
                         var mecManager: MECManager = MECManager()
-                        mecManager.getProductCartCountWorker(MECDataHolder.INSTANCE.mecListener)
+                        MECDataHolder.INSTANCE.mecListener?.let { mecManager.getProductCartCountWorker(it) }
                     }
                 }else{
                     setCartIconVisibility(false)

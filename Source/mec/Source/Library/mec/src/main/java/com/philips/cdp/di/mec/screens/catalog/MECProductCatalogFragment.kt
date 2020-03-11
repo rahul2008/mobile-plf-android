@@ -7,18 +7,14 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.philips.cdp.di.ecs.model.products.ECSProducts
-
-import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
-
-import android.text.SpannableStringBuilder
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -30,6 +26,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.analytics.MECAnalyticPageNames.productCatalogue
 import com.philips.cdp.di.mec.analytics.MECAnalytics
@@ -37,9 +34,10 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.listView
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
-import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uid.view.widget.Label
@@ -312,7 +310,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
             if(isUserLoggedIn()) {
                 GlobalScope.launch {
                     var mecManager: MECManager = MECManager()
-                    mecManager.getShoppingCartData(MECDataHolder.INSTANCE.mecListener)
+                    MECDataHolder.INSTANCE.mecListener?.let { mecManager.getShoppingCartData(it) }
                 }
             }
             ////////////// end of update cart and login if required

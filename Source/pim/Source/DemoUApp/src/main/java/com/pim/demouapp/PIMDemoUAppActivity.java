@@ -697,4 +697,14 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
         return null;
     }
+
+    @Override
+    public void onUpdateCartCount(int count) {
+
+    }
+
+    @Override
+    public void onFailure(@NotNull Exception exception) {
+
+    }
 }
