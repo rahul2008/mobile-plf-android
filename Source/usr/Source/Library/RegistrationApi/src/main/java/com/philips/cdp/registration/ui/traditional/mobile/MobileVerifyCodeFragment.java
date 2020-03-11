@@ -20,6 +20,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -37,6 +38,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.HomeFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -135,11 +137,16 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @VisibleForTesting
     protected SpannableString setDescription(String normalText, String mobileNumber) {
-        String formattedStr = String.format(normalText, mobileNumber);
-        StringBuilder fStringBuilder = new StringBuilder(formattedStr);
-        SpannableString str = new SpannableString(formattedStr);
-        str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString str = new SpannableString(normalText);
+        try {
+            String formattedStr = String.format(normalText, mobileNumber);
+            StringBuilder fStringBuilder = new StringBuilder(formattedStr);
+            str = new SpannableString(formattedStr);
+            str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } catch(Exception e){
+            RLog.d(TAG, "setDescription : Error =" + e.getLocalizedMessage());
+        }
         return str;
     }
 
@@ -201,15 +208,20 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onRefreshUserSuccess() {
-      try{
+      try {
+
           if (this.isVisible()) {
               RLog.d(TAG, "onRefreshUserSuccess");
               storePreference(user.getMobile());
               SpannableString description = setDescription(normalText, user.getMobile());
               regVerifyMobileDesc1.setText(description);
               hideProgressSpinner();
-              if (isVerified)
-                  getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+              if (isVerified) {
+                  if (getRegistrationFragment().getCurrentFragment() instanceof MobileVerifyCodeFragment) {
+                      EventBus.getDefault().unregister(this);
+                      getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+                  }
+              }
           }
       } catch (Exception e){
 
@@ -255,7 +267,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onResume() {
-        user.refreshUser(this);
+//        user.refreshUser(this);
         super.onResume();
         EventBus.getDefault().register(this);
     }
@@ -267,7 +279,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
-        user.refreshUser(this);
+      //  user.refreshUser(this);
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -337,6 +349,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void storePreference(String emailOrMobileNumber) {
         RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailOrMobileNumber);
+        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), RegConstants.PERSONAL_CONSENT, emailOrMobileNumber);
     }
 
     @Override

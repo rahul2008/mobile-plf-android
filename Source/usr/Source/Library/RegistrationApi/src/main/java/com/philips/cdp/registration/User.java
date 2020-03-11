@@ -598,6 +598,11 @@ public class User {
             RLog.i(TAG, "getUserLoginState PENDING_TERM_CONDITION");
             return UserLoginState.PENDING_TERM_CONDITION;
         }
+
+        if (!isSignedInOnPersonalConsent()) {
+            RLog.i(TAG, "getUserLoginState isSignedInOnPersonalConsent PENDING_TERM_CONDITION");
+            return UserLoginState.PENDING_TERM_CONDITION;
+        }
         if (isHsdpFlow && !isHSDPUserSignedIn()) {
             RLog.i(TAG, "getUserLoginState PENDING_HSDP_LOGIN");
             return UserLoginState.PENDING_HSDP_LOGIN;
@@ -687,6 +692,19 @@ public class User {
         return true;
     }
 
+    private boolean isSignedInOnPersonalConsent() {
+        boolean personalConsentAcceptanceRequired = RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired();
+        if (personalConsentAcceptanceRequired) {
+            RLog.d(TAG, "isUserSignIn personalConsentAcceptanceRequired : " + personalConsentAcceptanceRequired);
+
+            if (!isPersonalConsentAccepted()) {
+                RLog.d(TAG, "isSignedInOnPersonalConsent personalConsentAcceptanceRequired clear data on SignIn :" + false);
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean isHSDPUserSignedIn() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         final boolean hsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
@@ -726,6 +744,26 @@ public class User {
             return getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mobileNo);
         }
         return isValidEmail && getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, email);
+    }
+
+    /**
+     * {@code isTermsAndConditionAccepted} method checks if a user is accepted terms and condition or no
+     *
+     * @since 1.0.0
+     */
+    public boolean isPersonalConsentAccepted() {
+        String mobileNo = getMobile();
+        String email = getEmail();
+        boolean isValidMobileNo = FieldsValidator.isValidMobileNumber(mobileNo);
+        boolean isValidEmail = FieldsValidator.isValidEmail(email);
+        if (isValidMobileNo && isValidEmail) {
+            return getPreferenceValue(mContext, RegConstants.PERSONAL_CONSENT, mobileNo) &&
+                    getPreferenceValue(mContext, RegConstants.PERSONAL_CONSENT, email);
+        }
+        if (isValidMobileNo) {
+            return getPreferenceValue(mContext, RegConstants.PERSONAL_CONSENT, mobileNo);
+        }
+        return isValidEmail && getPreferenceValue(mContext, RegConstants.PERSONAL_CONSENT, email);
     }
 
     /**
