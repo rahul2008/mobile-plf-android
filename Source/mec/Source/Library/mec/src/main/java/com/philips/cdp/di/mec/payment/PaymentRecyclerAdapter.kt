@@ -26,7 +26,7 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
 
     var ecsBillingAddress: ECSAddress? = null
 
-    var mSelectedAddress : ECSPayment? = null
+    var mSelectedAddress : MECPayment? = null
 
     private val VIEW_TYPE_FOOTER = 1
     lateinit var binding: ViewDataBinding

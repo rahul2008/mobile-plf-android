@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="ecsPayment"
-            type="com.philips.cdp.di.ecs.model.payment.ECSPayment" />
+            name="mecPayment"
+            type="com.philips.cdp.di.mec.payment.MECPayment" />
 
 
     </data>
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/iap_margin_4dp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text="@{ecsPayment.billingAddress.firstName}" />
+                android:text="@{mecPayment.ecsPayment.billingAddress.firstName}" />
 
 
             <com.philips.platform.uid.view.widget.Label
@@ -53,7 +53,7 @@
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:gravity="start"
                 android:textSize="12sp"
-                android:text="@{ecsPayment.billingAddress.id}"
+                android:text="@{mecPayment.ecsPayment.billingAddress.id}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

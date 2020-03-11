@@ -8,8 +8,8 @@ import com.philips.cdp.di.mec.databinding.MecPaymentCardBinding
 
 class PaymentHolder (val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ECSPayment) {
+    fun bind(item: MECPayment) {
         val mecPaymentCardBinding = binding as MecPaymentCardBinding
-        mecPaymentCardBinding.ecsPayment = item
+        mecPaymentCardBinding.mecPayment = item
     }
 }

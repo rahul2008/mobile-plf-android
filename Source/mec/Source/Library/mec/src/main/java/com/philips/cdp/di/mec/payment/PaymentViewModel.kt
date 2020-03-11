@@ -7,7 +7,7 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 
 class PaymentViewModel : CommonViewModel() {
 
-    var paymentList = MutableLiveData<List<ECSPayment>>()
+    var paymentList = MutableLiveData<List<MECPayment>>()
 
     var ecsServices = MECDataHolder.INSTANCE.eCSServices
 

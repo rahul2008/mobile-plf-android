@@ -17,6 +17,7 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecDeliveryBinding
+import com.philips.cdp.di.mec.payment.MECPayment
 import com.philips.cdp.di.mec.payment.MECPayments
 import com.philips.cdp.di.mec.payment.PaymentRecyclerAdapter
 import com.philips.cdp.di.mec.payment.PaymentViewModel
@@ -102,9 +103,9 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     })
 
-    private val paymentObserver: Observer<List<ECSPayment>> = Observer(fun(paymentList: List<ECSPayment>?) {
+    private val paymentObserver: Observer<List<MECPayment>> = Observer(fun(paymentList: List<MECPayment>?) {
 
-        val mutableListOf = mutableListOf<ECSPayment>()
+        val mutableListOf = mutableListOf<MECPayment>()
 
         var ecspayment1 = ECSPayment()
         var ecspayment2 = ECSPayment()
@@ -127,9 +128,13 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         ecsAddress3.id = "1233344554545"
         ecspayment3.billingAddress =ecsAddress3
 
-        mutableListOf.add(ecspayment1)
-        mutableListOf.add(ecspayment2)
-        mutableListOf.add(ecspayment3)
+        var mecPayment1 = MECPayment(ecspayment1,false)
+        var mecPayment2 = MECPayment(ecspayment2,false)
+        var mecPayment3 = MECPayment(ecspayment3,false)
+
+        mutableListOf.add(mecPayment1)
+        mutableListOf.add(mecPayment1)
+        mutableListOf.add(mecPayment1)
 
         var paymentList = mutableListOf.toList()
 
@@ -219,7 +224,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             binding.tvManageAddress.setOnClickListener { onManageAddressClick() }
 
             //Create a empty payment list
-            val mutableListOfPayments = mutableListOf<ECSPayment>() //creating empty payment
+            val mutableListOfPayments = mutableListOf<MECPayment>() //creating empty payment
             val mecPayments = MECPayments(mutableListOfPayments.toList())
             mecPaymentAdapter = PaymentRecyclerAdapter(mecPayments,this)
             binding.mecPaymentRecyclerView.adapter = mecPaymentAdapter

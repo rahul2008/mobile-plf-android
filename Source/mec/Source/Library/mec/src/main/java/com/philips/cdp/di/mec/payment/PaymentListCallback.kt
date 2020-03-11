@@ -4,11 +4,19 @@ import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
 
-class PaymentListCallback(val paymentViewModel: PaymentViewModel) : ECSCallback<List<ECSPayment>, Exception> {
+class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSCallback<List<ECSPayment>, Exception> {
 
-    override fun onResponse(result: List<ECSPayment>?) {
+    override fun onResponse(payments: List<ECSPayment>?) {
 
-        paymentViewModel.paymentList.value = result
+        val mecPaymentList : MutableList<MECPayment> = mutableListOf()
+
+        if (payments != null) {
+
+            for (ecsPayment in payments){
+                mecPaymentList.add(MECPayment(ecsPayment,false))
+            }
+        }
+        paymentViewModel.paymentList.value = mecPaymentList
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
