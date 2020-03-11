@@ -154,7 +154,7 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListe
      }
 
      private fun initTheme() {
-         var themeIndex = intent.getIntExtra(IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME)
+         var themeIndex = intent.getIntExtra(MECConstant.MEC_KEY_ACTIVITY_THEME, DEFAULT_THEME)
          if (themeIndex <= 0) {
              themeIndex = DEFAULT_THEME
          }

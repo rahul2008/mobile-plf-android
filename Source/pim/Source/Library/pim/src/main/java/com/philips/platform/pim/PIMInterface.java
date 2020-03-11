@@ -6,6 +6,7 @@
 
 package com.philips.platform.pim;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,14 +41,11 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 
 /**
  * Used to initialize and launch PIM
- *
- * @since TODO:Shashi need to update pim version
  */
 public class PIMInterface implements UappInterface {
     static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
     public static final String PIM_KEY_CONSENTS = "PIM_KEY_CONSENTS";
     private final String TAG = PIMInterface.class.getSimpleName();
-    private LoggingInterface mLoggingInterface;
 
     private Context context;
 
@@ -60,11 +58,11 @@ public class PIMInterface implements UappInterface {
      */
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
-        context = uappSettings.getContext();
+        context = uappSettings.getContext().getApplicationContext();
 
-        PIMInitViewModel pimInitViewModel = ViewModelProviders.of((FragmentActivity) context).get(PIMInitViewModel.class);
+        PIMInitViewModel pimInitViewModel = new PIMInitViewModel((Application) context);
         MutableLiveData<PIMInitState> livedata = pimInitViewModel.getMuatbleInitLiveData();
-        livedata.observe((FragmentActivity) context, observer);
+        livedata.observeForever(observer);
         livedata.postValue(PIMInitState.INIT_IN_PROGRESS);
 
         PIMSettingManager.getInstance().setPIMInitLiveData(livedata);
@@ -76,8 +74,7 @@ public class PIMInterface implements UappInterface {
         PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
         pimConfigManager.init(uappSettings.getContext(), uappDependencies.getAppInfra().getServiceDiscovery());
 
-        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
+        PIMSettingManager.getInstance().getLoggingInterface().log(DEBUG, TAG, "PIMInterface init called.");
     }
 
     private Observer<PIMInitState> observer = new Observer<PIMInitState>() {
@@ -88,7 +85,7 @@ public class PIMInterface implements UappInterface {
                     PIMMigrator pimMigrator = new PIMMigrator(context);
                     pimMigrator.migrateUSRToPIM();
                 } else {
-                    mLoggingInterface.log(DEBUG, TAG, "User is already logged in");
+                    PIMSettingManager.getInstance().getLoggingInterface().log(DEBUG, TAG, "User is already logged in");
                 }
                 PIMSettingManager.getInstance().getPimInitLiveData().removeObserver(observer);
             } else if (pimInitState == PIMInitState.INIT_FAILED) {
@@ -109,10 +106,10 @@ public class PIMInterface implements UappInterface {
 
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), (PIMLaunchInput) uappLaunchInput);
-            mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as activity");
+            PIMSettingManager.getInstance().getLoggingInterface().log(DEBUG, TAG, "Launch : Launched as activity");
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, (PIMLaunchInput) uappLaunchInput);
-            mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as fragment");
+            PIMSettingManager.getInstance().getLoggingInterface().log(DEBUG, TAG, "Launch : Launched as fragment");
         }
     }
 
@@ -151,7 +148,7 @@ public class PIMInterface implements UappInterface {
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {
-            mLoggingInterface.log(DEBUG, TAG, "getUserDataInterface: Context is null");
+            PIMSettingManager.getInstance().getLoggingInterface().log(DEBUG, TAG, "getUserDataInterface: Context is null");
             return null;
         }
         return new PIMDataImplementation(context, PIMSettingManager.getInstance().getPimUserManager());

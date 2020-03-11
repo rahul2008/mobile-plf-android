@@ -12,13 +12,14 @@ import java.io.Serializable
 class MECLaunchInput : UappLaunchInput(), Serializable {
 
 
-    lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
-    lateinit var mecBannerConfigurator: MECBannerConfigurator
+    var mecBazaarVoiceInput = MECBazaarVoiceInput()
+    var mecBannerConfigurator: MECBannerConfigurator ? = null
     var voucherCode : String = ""
     var maxCartCount : Int = 0
 
-    //TODO :-Blacklist retailer
+
     var mecListener: MECListener ? =null
+    //TODO :-Blacklist retailer
     var blackListedRetailerNames : List<String>? = null
     var flowConfigurator: MECFlowConfigurator ? =null
 
