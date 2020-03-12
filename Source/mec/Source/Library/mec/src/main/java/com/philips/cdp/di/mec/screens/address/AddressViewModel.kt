@@ -42,6 +42,8 @@ class AddressViewModel : CommonViewModel() {
 
     private var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
 
+    private var setDeliveryAddressCallBack = SetDeliveryAddressCallBack(this)
+
     private var ecsFetchDeliveryModesCallback = ECSFetchDeliveryModesCallback(this)
 
     private var ecsSetDeliveryModesCallback = ECSSetDeliveryModesCallback(this)
@@ -115,7 +117,7 @@ class AddressViewModel : CommonViewModel() {
 
     fun setDeliveryAddress(ecsAddress: ECSAddress){
         paramEcsAddress=ecsAddress
-
+        addressRepository.setDeliveryAddress(ecsAddress,setDeliveryAddressCallBack)
     }
 
     fun updateAndFetchAddress(ecsAddress: ECSAddress){

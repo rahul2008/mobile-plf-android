@@ -306,9 +306,9 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         }
 
         // when Edit Billing Address is clicked
-        if (item is ECSPayment && item.id.equals(MECConstant.NEW_CARD_PAYMENT, true)) {
+        if (item is MECPayment && item.ecsPayment.id.equals(MECConstant.NEW_CARD_PAYMENT, true)) {
             Log.d("ADDRESS", "CREATE_BILLING_ADDRESS")
-            gotoCreateOrEditBillingAddress(item.billingAddress)
+            gotoCreateOrEditBillingAddress(item.ecsPayment.billingAddress)
         }
 
 

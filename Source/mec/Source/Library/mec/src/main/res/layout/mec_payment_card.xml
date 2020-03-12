@@ -61,10 +61,11 @@
                 android:layout_marginRight="@dimen/border16_margin_left_right"
                 android:layout_marginTop="@dimen/border12_margin"
                 android:layout_marginBottom="@dimen/border12_margin"
+                android:padding="@dimen/iap_margin_4dp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:gravity="start"
                 android:textSize="12sp"
-                android:text="@{mecPayment.ecsPayment.billingAddress.id}"
+                app:shippingAddress="@{mecPayment.ecsPayment.billingAddress}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

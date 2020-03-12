@@ -26,10 +26,6 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
 
     private var totalItem = if(items.isNewCardPresent()) items.payments.size else items.payments.size+1
 
-
-    private var mSelectedItem = 0
-
-
     var mSelectedAddress : MECPayment? = null
 
     private val VIEW_TYPE_FOOTER = 1
@@ -64,7 +60,8 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
 
             viewHolder.bind(mecPayment)
 
-            if(position == mSelectedItem){
+            //TODO pabitra ..take this code to binding utility
+            if(mecPayment.isSelected){
                 viewHolder.binding.root.tv_name.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
                 viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_selector)
@@ -78,10 +75,10 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
 
             val mecAddressEditIcon = viewHolder.binding.root.mec_address_edit_icon
 
-            if(mecPayment.ecsPayment.id .equals(MECConstant.NEW_CARD_PAYMENT)){
+            if(mecPayment.ecsPayment.id .equals(MECConstant.NEW_CARD_PAYMENT,true)){
                 mecAddressEditIcon.visibility = View.VISIBLE
                 mecAddressEditIcon.isClickable = true
-                mecAddressEditIcon.setOnClickListener { itemClickListener.onItemClick(MECConstant.CREATE_BILLING_ADDRESS) }
+                mecAddressEditIcon.setOnClickListener { itemClickListener.onItemClick(mecPayment) }
 
             }else{
                 mecAddressEditIcon.visibility = View.GONE
@@ -90,7 +87,7 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
 
             viewHolder.binding.root.setOnClickListener {
                 mSelectedAddress = mecPayment
-                mSelectedItem = position
+                mSelectedAddress!!.isSelected = true
                 notifyDataSetChanged()
             }
         }
@@ -102,6 +99,5 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
         if (position == totalItem - 1 && !items.isNewCardPresent()) return VIEW_TYPE_FOOTER  //if New crad is not present show option to add New Card
 
         return super.getItemViewType(position)
-
     }
 }

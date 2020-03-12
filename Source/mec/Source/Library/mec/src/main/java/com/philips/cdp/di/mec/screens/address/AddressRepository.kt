@@ -27,6 +27,10 @@ class AddressRepository(val ecsServices: ECSServices) {
         ecsServices.setAndFetchDeliveryAddress(true,ecsAddress,ecsFetchAddressesCallback)
     }
 
+    fun setDeliveryAddress(ecsAddress: ECSAddress, setDeliveryAddressCallBack: SetDeliveryAddressCallBack ) {
+        ecsServices.setDeliveryAddress(true,ecsAddress,setDeliveryAddressCallBack)
+    }
+
     fun fetchDeliveryModes(eCSFetchDeliveryModesCallback :ECSFetchDeliveryModesCallback ){
         ecsServices.fetchDeliveryModes(eCSFetchDeliveryModesCallback)
     }

@@ -125,7 +125,7 @@ class ManageAddressFragment : BottomSheetDialogFragment(){
         binding.mecBtnDeleteAddress.setOnClickListener {
             showProgressBar(binding.mecProgress.mecProgressBarContainer)
             val mSelectedAddress = addressBottomSheetRecyclerAdapter.mSelectedAddress
-            addressViewModel.deleteAndFetchAddress(mSelectedAddress)
+            addressViewModel.deleteAddress(mSelectedAddress)
         }
 
         binding.mecBtnSetAddress.setOnClickListener {
