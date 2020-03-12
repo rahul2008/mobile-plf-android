@@ -132,5 +132,11 @@
     <string name="mec_save_and_continue">Save and Continue</string>
     <string name="mec_new_line">\n</string>
 
+    <string name="mec_cvv_code">Please enter the CVV/CVC for </string>
+    <string name="mec_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
+    <string name="mec_continue">Continue</string>
+    <string name="mec_not_now">Not now</string>
+
+
 
 </resources>

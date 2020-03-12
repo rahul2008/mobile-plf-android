@@ -22,6 +22,7 @@ import com.philips.cdp.di.mec.payment.MECPayments
 import com.philips.cdp.di.mec.payment.PaymentRecyclerAdapter
 import com.philips.cdp.di.mec.payment.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.orderSummary.MECOrderSummaryFragment
 import com.philips.cdp.di.mec.screens.profile.ProfileViewModel
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
@@ -68,7 +69,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
         }
         mECDeliveryModesAdapter?.notifyDataSetChanged()
-
+        binding.mecOrderSummaryBtn.visibility = View.VISIBLE
     })
 
     private val ecsSetDeliveryModeObserver: Observer<Boolean> = Observer {boolean->
@@ -166,7 +167,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             if (findGivenAddressInAddressList != null) binding.ecsAddressShipping = findGivenAddressInAddressList
 
-            if (null != mECSDeliveryModeList && !mECSDeliveryModeList.isNullOrEmpty()) {
+            if (!mECSDeliveryModeList.isNullOrEmpty()) {
                 // if delivery modes are already fetched
                 mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
                 mECDeliveryModesAdapter?.notifyDataSetChanged()
@@ -252,8 +253,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             binding.tvManageAddress.setOnClickListener { onManageAddressClick() }
 
-
-
+            binding.mecDeliveryFragment = this
 
             mRootView = binding.root
             checkDeliveryAddressSet()
@@ -431,5 +431,20 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             mecPaymentAdapter = PaymentRecyclerAdapter(MECPayments(mutableListOfPayments.toList(),true),this)
             binding.mecPaymentRecyclerView.adapter = mecPaymentAdapter
         }
+    }
+
+    fun onOrderSummaryClick(){
+        val mecOrderSummaryFragment = MECOrderSummaryFragment()
+        var bundle = Bundle()
+        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses[0])
+        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
+        // Todo remove this new object
+         var ecsPayment: ECSPayment? = null
+        ecsPayment=ECSPayment()
+        //ecsPayment.cardNumber="3462********2387"
+
+        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, ecsPayment)
+        mecOrderSummaryFragment.arguments = bundle
+        replaceFragment(mecOrderSummaryFragment,MECOrderSummaryFragment.TAG, true)
     }
 }
