@@ -208,9 +208,10 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             //observe ecsShoppingCartViewModel
             ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
             ecsShoppingCartViewModel.mecError.observe(this,this)
+            paymentViewModel.mecPayments.observe(this,paymentObserver)
 
             //observe paymentViewmodel
-            activity?.let { paymentViewModel.mecPayments.observe(it,paymentObserver) }
+           // activity?.let { paymentViewModel.mecPayments.observe(it,paymentObserver) }
             activity?.let { paymentViewModel.mecError.observe(it,this) }
 
 
