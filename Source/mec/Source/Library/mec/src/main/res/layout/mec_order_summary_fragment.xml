@@ -1,0 +1,561 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.cdp.di.mec.screens.orderSummary.MECOrderSummaryFragment" />
+
+
+        <variable
+            name="shoppingCart"
+            type="com.philips.cdp.di.ecs.model.cart.ECSShoppingCart" />
+
+        <variable
+            name="ecsAddressShipping"
+            type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
+
+        <variable
+            name="ecsPaymentMode"
+            type="com.philips.cdp.di.ecs.model.payment.ECSPayment" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/parent_layout"
+        android:layout_width="@dimen/iap_match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/uidColorWhite"
+        android:textDirection="locale">
+
+        <RelativeLayout
+            android:id="@+id/mec_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <ScrollView
+                android:id="@+id/mec_sv_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/price_button_view"
+                android:layout_alignParentTop="true">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/mec_delivery_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_margin="@dimen/iap_margin_10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:orientation="vertical">
+
+                            <com.philips.platform.uid.view.widget.Label
+                                style="@style/mecCentralesansBoldFont"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/mec_circular_wizard_on"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textColor="?attr/uidWizardDefaultNormalOnCircleTextColor"
+                                android:textSize="16sp" />
+
+                            <com.philips.platform.uid.view.widget.Label
+                                style="@style/mecCentralesansBookFont"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/border8_margin"
+                                android:gravity="center"
+                                android:text="@string/mec_delivery"
+                                android:textColor="?attr/uidWizardDefaultNormalOnTitleTextColor"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="100dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="top"
+                            android:layout_marginTop="16dp"
+                            android:background="?attr/uidWizardDefaultNormalOnTrackColor" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:orientation="vertical">
+
+                            <com.philips.platform.uid.view.widget.Label
+                                style="@style/mecCentralesansBoldFont"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/mec_circular_wizard_on"
+                                android:gravity="center"
+                                android:text="2"
+                                android:textColor="?attr/uidTokenDefaultNormalCircleTextColor"
+                                android:textSize="16sp" />
+
+                            <com.philips.platform.uid.view.widget.Label
+                                style="@style/mecCentralesansMediumFont"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/border8_margin"
+                                android:gravity="center"
+                                android:text="@string/mec_checkout"
+                                android:textColor="?attr/uidWizardDefaultNormalOnTitleTextColor"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mec_order_Summary_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mec_delivery_status"
+                        android:background="?attr/uidContentPrimaryBackgroundColor"
+                        android:orientation="vertical">
+
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_shipping_address"
+                            style="@style/mec_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:paddingStart="@dimen/border16_margin_left_right"
+                            android:paddingEnd="@dimen/border16_margin_left_right"
+                            android:text="Delivery Information" />
+
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_shipping_address_name"
+                            style="@style/mec_address_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="@dimen/iap_margin_10dp"
+                            android:layout_marginEnd="@dimen/border16_margin_left_right"
+                            android:layout_weight="1.2"
+                            android:gravity="start"
+                            android:padding="@dimen/iap_margin_4dp"
+                            android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="50dp"
+                            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                            android:textSize="12sp"
+                            app:shippingAddress="@{ecsAddressShipping}" />
+
+                        <View
+                            style="@style/mec_button_border"
+                            android:layout_marginTop="@dimen/border8_margin" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/mec_delivery_mode_Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="@dimen/border12_margin"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="2dp"
+                            android:text='@{shoppingCart.deliveryMode.name }'
+                            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                            android:textSize="@dimen/iap_text_size_16sp" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/mec_delivery_mode_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="@dimen/border12_margin"
+                            android:lines="1"
+                            android:maxLines="2"
+                            android:text='@{ shoppingCart.deliveryMode.description!=null ?  shoppingCart.deliveryMode.deliveryCost.formattedValue + " | " + shoppingCart.deliveryMode.description  : shoppingCart.deliveryMode.deliveryCost.formattedValue }'
+                            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                            android:textSize="@dimen/iap_text_size_12" />
+
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/mec_payment_method_Summary"
+                            style="@style/mec_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/border16_margin_left_right"
+                            android:paddingRight="@dimen/border16_margin_left_right"
+                            android:text="Payment method" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_payment_method"
+                            style="@style/mec_address_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="@dimen/iap_margin_10dp"
+                            android:layout_marginEnd="@dimen/border16_margin_left_right"
+                            android:layout_weight="1.2"
+                            android:gravity="start"
+                            android:text="Visa****1548" />
+                        <!--  android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}"-->
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="50dp"
+                            android:text="Susan Jones"
+                            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                            android:textSize="12sp" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_billing_address_name"
+                            style="@style/mec_address_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="@dimen/iap_margin_10dp"
+                            android:layout_marginEnd="@dimen/border16_margin_left_right"
+                            android:layout_weight="1.2"
+                            android:gravity="start"
+                            android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="50dp"
+                            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                            android:textSize="12sp"
+                            android:layout_marginBottom="@dimen/border12_margin"
+                            app:shippingAddress="@{ecsAddressShipping}" />
+
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_applied_voucher_address"
+                            style="@style/mec_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:paddingStart="@dimen/border16_margin_left_right"
+                            android:paddingEnd="@dimen/border16_margin_left_right"
+                            android:text="Applied Vouchers" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/mec_accepted_code_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="3dp"
+                            android:nestedScrollingEnabled="false"
+                            android:visibility="@{shoppingCart.appliedVouchers.size() > 0 ? View.VISIBLE : View.GONE, default = gone}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/mec_cart_Summary"
+                            style="@style/mec_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/border16_margin_left_right"
+                            android:paddingRight="@dimen/border16_margin_left_right"
+                            android:text="@string/mec_order_summary" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/mec_cart_summary_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                        <!-- <include
+                             android:id="@+id/mec_product_progress_bar"
+                             layout="@layout/mec_progress_bar"
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent"
+                             android:layout_below="@+id/mec_cart_Summary" />-->
+
+
+                        <!-- <com.philips.platform.uid.view.widget.Label
+                             android:id="@+id/mec_gift_code"
+                             style="@style/mec_header"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_below="@+id/mec_cart_summary_recycler_view"
+                             android:paddingLeft="@dimen/border16_margin_left_right"
+                             android:paddingRight="@dimen/border16_margin_left_right"
+                             android:text="@string/mec_add_gift_codes"
+                             android:visibility="visible" />
+     -->
+                        <!--  <LinearLayout
+                              android:id="@+id/mec_voucher_layout"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@+id/mec_gift_code"
+                              android:layout_marginTop="20dp"
+                              android:layout_marginBottom="@dimen/iap_margin_20dp"
+                              android:orientation="horizontal"
+                              android:paddingLeft="@dimen/border16_margin_left_right"
+                              android:paddingRight="@dimen/border16_margin_left_right"
+                              android:visibility="@{mecDataHolder.voucherEnabled ? View.VISIBLE : View.GONE, default = gone}">
+
+                              <com.philips.platform.uid.view.widget.InputValidationLayout
+                                  android:id="@+id/ll_add_voucher"
+                                  android:layout_width="0dp"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginEnd="8dp"
+                                  android:layout_weight="1"
+                                  android:background="?attr/uidTextBoxDefaultPressedBackgroundColor"
+                                  app:emptyValidator="@{null}"
+                                  app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                                  app:uidTextBoxValidationErrorText="@string/mec_invalid_voucher_error">
+
+                                  <com.philips.platform.uid.view.widget.ValidationEditText
+                                      android:id="@+id/mec_voucher_editText"
+                                      style="@style/mec_voucher_validation_text"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="match_parent"
+                                      android:afterTextChanged="@{(edtitable)->fragment.afterUserNameChange(edtitable)}"
+                                      android:hint="@string/mec_add_gift_code"
+                                      android:textSize="16dp"
+                                      app:uidInputTextWithClearButton="true" />
+                              </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+                              <com.philips.platform.uid.view.widget.Button
+                                  android:id="@+id/mec_voucher_btn"
+                                  style="@style/mecCentralesansBookFont"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:enabled="false"
+                                  android:onClick="@{() -> fragment.onClickAddVoucher()}"
+                                  android:paddingTop="14dp"
+                                  android:paddingBottom="14dp"
+                                  android:text="@string/mec_add"
+                                  android:textColor="?attr/uidButtonSecondaryNormalTextColor"
+                                  android:textSize="@dimen/iap_text_size_16sp"
+                                  app:uidComponentType="Secondary" />
+
+                          </LinearLayout>-->
+
+                        <!--                        <com.philips.platform.uid.view.widget.Label-->
+                        <!--                            android:id="@+id/mec_order_Summary"-->
+                        <!--                            style="@style/mec_header"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:paddingLeft="@dimen/border16_margin_left_right"-->
+                        <!--                            android:paddingRight="@dimen/border16_margin_left_right" />-->
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/mec_price_summary_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/iap_margin_4dp"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </ScrollView>
+
+
+            <View
+                android:id="@+id/price_button_view"
+                android:layout_width="match_parent"
+                android:layout_height="0.05dp"
+                android:layout_above="@+id/mecPriceLayout"
+                android:layout_marginTop="5dp"
+                android:background="?attr/uidContentItemTertiaryNormalTextColor" />
+
+            <LinearLayout
+                android:id="@+id/mecPriceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/mec_vat"
+                android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+                android:background="?attr/uidBottomSheetDefaultBackgroundColor"
+                android:backgroundTint="#FFFFFF"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/mec_total_products"
+                    style="@style/mecCentralesansBookFont"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text='@{@string/mec_total + @string/mec_empty_space + "("+ shoppingCart.totalItems + @string/mec_empty_space + @string/mec_products + ")" ?? ""}'
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="@dimen/iap_text_size_16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/mec_total_price"
+                    style="@style/mecCentralesansBookFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{shoppingCart.totalPriceWithTax.formattedValue ?? ""}'
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="@dimen/iap_margin_20dp" />
+
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/mec_vat"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/mec_continue_checkout_btn"
+                android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
+                android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
+                android:text='@{@string/mec_pice_including + @string/mec_empty_space + shoppingCart.totalTax.formattedValue + @string/mec_empty_space + @string/mec_vat ?? ""}'
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:textSize="12dp" />
+
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/mec_continue_checkout_btn"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/mec_continue_shopping_btn"
+                android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+                android:enabled="true"
+                android:text="Order and pay"
+                android:onClick="@{()->fragment.onClickPay()}"
+                android:textColor="?attr/uidButtonPrimaryNormalTextColor"
+                android:textSize="16dp"
+                app:uidComponentType="Primary" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/mec_continue_shopping_btn"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+                android:layout_marginBottom="@dimen/iap_shopping_cart_btn_margin"
+                android:enabled="true"
+                android:text="Back to Shopping Cart"
+                android:onClick="@{()->fragment.onClickBackToShoppingCart()}"
+                android:textColor="?attr/uidButtonSecondaryNormalTextColor"
+                android:textSize="16dp"
+                app:uidComponentType="Secondary" />
+        </RelativeLayout>
+
+        <!--    <LinearLayout
+                android:id="@+id/mec_empty_result"
+                android:layout_width="@dimen/iap_match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/uidContentPrimaryBackgroundColor"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/extra_option"
+                    style="@style/mec_list_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/border16_margin_left_right"
+                    android:paddingRight="@dimen/border16_margin_left_right"
+                    android:text="@string/mec_cart_summary" />
+
+                <LinearLayout
+                    android:id="@+id/ll_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/uidColorWhite"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/border16_margin_left_right"
+                    android:paddingTop="@dimen/border16_margin_left_right"
+                    android:paddingEnd="@dimen/border16_margin_left_right"
+                    android:paddingBottom="@dimen/border16_margin_left_right">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="@dimen/iap_product_ctn_12"
+                            android:background="@drawable/mec_info_image"
+                            android:scaleType="fitXY" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/product_name_view"
+                            style="@style/iapCentralesansBoldFont"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/mec_nothing_in_cart"
+                            android:textColor="?attr/uidNotificationDefaultHeaderInfoColor"
+                            android:textSize="@dimen/iap_text_size_16sp" />
+                    </LinearLayout>
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/empty_cart"
+                        style="@style/mecCentralesansBookFont"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/border16_margin_left_right"
+                        android:text="@string/mec_empty_cart"
+                        android:textColor="?attr/uidNotificationDefaultTextColor"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                   <com.philips.platform.uid.view.widget.Button
+                       android:id="@+id/btn_continue_shopping"
+                       style="@style/mecCentralesansBookFont"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginLeft="@dimen/border16_margin_left_right"
+                       android:layout_marginTop="@dimen/border16_margin_left_right"
+                       android:layout_marginRight="@dimen/border16_margin_left_right"
+                       android:clickable="true"
+                       android:enabled="true"
+                       android:focusable="true"
+                       android:text="@string/mec_continue_shopping" />
+            </LinearLayout>-->
+
+        <include
+            android:id="@+id/mec_progress"
+            layout="@layout/mec_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</layout>
