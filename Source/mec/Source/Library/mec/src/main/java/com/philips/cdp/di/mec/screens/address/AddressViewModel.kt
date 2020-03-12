@@ -17,7 +17,6 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
-import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
@@ -38,39 +37,49 @@ import java.util.*
 class AddressViewModel : CommonViewModel() {
 
 
-    private var ecsRegionListCallback = ECSRegionListCallback(this)
 
     private var ecsCreateAddressCallBack = ECSCreateAddressCallBack(this)
 
     private var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
 
+    private var setDeliveryAddressCallBack = SetDeliveryAddressCallBack(this)
+
     private var ecsFetchDeliveryModesCallback = ECSFetchDeliveryModesCallback(this)
 
     private var ecsSetDeliveryModesCallback = ECSSetDeliveryModesCallback(this)
+
+    private var deleteAddressCallBack = DeleteAddressCallBack(this)
+
+    private var updateAddressCallBack = UpdateAddressCallBack(this)
+
+
 
     var ecsServices = MECDataHolder.INSTANCE.eCSServices
 
     var addressRepository = AddressRepository(ecsServices)
 
-    var regionsList = MutableLiveData<List<ECSRegion>>()
 
     var eCSAddress = MutableLiveData<ECSAddress>()
 
     val ecsAddresses = MutableLiveData<List<ECSAddress>>()
 
+    val isDeliveryAddressSet = MutableLiveData<Boolean>()
+
+    val isAddressDelete = MutableLiveData<Boolean>()
+
+    val isAddressUpdate = MutableLiveData<Boolean>()
+
+
     val ecsDeliveryModes = MutableLiveData<List<ECSDeliveryMode>>()
 
     val ecsDeliveryModeSet = MutableLiveData<Boolean>()
+
+
 
     lateinit var paramEcsAddress: ECSAddress
 
     lateinit var paramEcsDeliveryMode: ECSDeliveryMode
 
-
-    fun fetchRegions() {
-        ecsRegionListCallback.mECRequestType=MECRequestType.MEC_FETCH_REGIONS
-        addressRepository.getRegions(ecsRegionListCallback)
-    }
 
     fun fetchAddresses(){
         ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_FETCH_SAVED_ADDRESSES
@@ -92,7 +101,12 @@ class AddressViewModel : CommonViewModel() {
     fun deleteAndFetchAddress(ecsAddress: ECSAddress){
         paramEcsAddress=ecsAddress
         ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS
-        addressRepository.deleteAddress(ecsAddress,ecsFetchAddressesCallback)
+        addressRepository.deleteAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun deleteAddress(ecsAddress: ECSAddress){
+        paramEcsAddress = ecsAddress
+        addressRepository.deleteAddress(ecsAddress,deleteAddressCallBack)
     }
 
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
@@ -101,10 +115,20 @@ class AddressViewModel : CommonViewModel() {
         addressRepository.setAndFetchDeliveryAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
+    fun setDeliveryAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
+        addressRepository.setDeliveryAddress(ecsAddress,setDeliveryAddressCallBack)
+    }
+
     fun updateAndFetchAddress(ecsAddress: ECSAddress){
         paramEcsAddress=ecsAddress
         ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS
         addressRepository.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun updateAddress(ecsAddress: ECSAddress){
+        paramEcsAddress=ecsAddress
+        addressRepository.updateAddress(ecsAddress,updateAddressCallBack)
     }
 
     fun fetchDeliveryModes(){
@@ -128,7 +152,6 @@ class AddressViewModel : CommonViewModel() {
 
         lateinit  var APIcall: () -> Unit
         when(mecRequestType) {
-            MECRequestType.MEC_FETCH_REGIONS                     -> APIcall = { fetchRegions() }
             MECRequestType.MEC_FETCH_SAVED_ADDRESSES             -> APIcall = { fetchAddresses()}
             MECRequestType.MEC_CREATE_ADDRESS                    -> APIcall = { createAddress(paramEcsAddress) }
             MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS          -> APIcall = { createAndFetchAddress(paramEcsAddress) }
@@ -264,7 +287,7 @@ class AddressViewModel : CommonViewModel() {
 
             if (dropDownData.isNullOrEmpty()) return
 
-            validationEditText.setCompoundDrawables(null, null, getImageArrow(validationEditText.context), null)
+            validationEditText.setCompoundDrawables(null, null, MECutility.getImageArrow(validationEditText.context), null)
             val salutationDropDown = MECDropDown(validationEditText,dropDownData)
 
             salutationDropDown.createPopUp()
@@ -274,13 +297,6 @@ class AddressViewModel : CommonViewModel() {
             })
         }
 
-        private fun getImageArrow(mContext: Context): Drawable {
-            val width = mContext.resources.getDimension(R.dimen.mec_drop_down_icon_width_size).toInt()
-            val height = mContext.resources.getDimension(R.dimen.mec_drop_down_icon_height_size).toInt()
-            val imageArrow = VectorDrawableCompat.create(mContext.resources, R.drawable.mec_product_count_drop_down, mContext.theme)
-            imageArrow!!.setBounds(0, 0, width, height)
-            return imageArrow
-        }
 
 
         @JvmStatic

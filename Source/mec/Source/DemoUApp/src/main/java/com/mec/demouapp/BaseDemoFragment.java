@@ -336,10 +336,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecLaunchInput.setMecListener(this);
 
 
-        mMecLaunchInput.mecBannerConfigurator = this::getBannerViewProductList;
+        mMecLaunchInput.setMecBannerConfigurator(this);
         mMecLaunchInput.setSupportsHybris(isHybrisEnable);
         mMecLaunchInput.setSupportsRetailer(isRetailerEnabled);
-        mMecLaunchInput.mecBazaarVoiceInput = mecBazaarVoiceInput;
+        mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
     }
 
 
@@ -501,7 +501,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             //update shopping cart count if user logged in
-            mMecInterface.getProductCartCount(this);
+          //  mMecInterface.getProductCartCount(this);
             }else{
             updateCartIconVisibility(false);
         }

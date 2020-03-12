@@ -166,7 +166,7 @@ public class PIMDataImplementation implements UserDataInterface {
         isInitRequiredAgain = true;
         MutableLiveData<PIMInitState> pimInitLiveData = PIMSettingManager.getInstance().getPimInitLiveData();
         new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(mContext, PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
-        pimInitLiveData.observe((FragmentActivity) mContext, new Observer<PIMInitState>() {
+        pimInitLiveData.observeForever( new Observer<PIMInitState>() {
             @Override
             public void onChanged(@Nullable PIMInitState pimInitState) {
                 if (pimInitState == PIMInitState.INIT_SUCCESS) {

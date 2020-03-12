@@ -5,10 +5,11 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 
-class ECSSetAndFetchDeliveryAddressCallBack(private var addressViewModel: AddressViewModel) :ECSCallback<Boolean, Exception> {
-    var mECRequestType : MECRequestType?=null
+class DeleteAddressCallBack(private var addressViewModel: AddressViewModel) :ECSCallback<Boolean, Exception> {
+
+    var mECRequestType : MECRequestType?=MECRequestType.MEC_DELETE_ADDRESS
     override fun onResponse(isSetDeliveryAddress: Boolean) {
-       // addressViewModel.isDeliveryAddressSet.value = isSetDeliveryAddress
+        addressViewModel.isAddressDelete.value = isSetDeliveryAddress
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {

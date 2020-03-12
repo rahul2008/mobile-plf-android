@@ -71,4 +71,8 @@ public class ECSPayment implements Serializable {
     public String getSubscriptionId() {
         return subscriptionId;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

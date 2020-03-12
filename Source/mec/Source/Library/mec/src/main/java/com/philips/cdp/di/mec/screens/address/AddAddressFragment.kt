@@ -20,10 +20,10 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressCreateBinding
+import com.philips.cdp.di.mec.screens.address.region.RegionViewModel
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
-import kotlinx.android.synthetic.main.mec_main_activity.*
 import java.io.Serializable
 
 
@@ -33,55 +33,59 @@ class AddAddressFragment : MecBaseFragment() {
     }
 
 
+    private lateinit var mECSShoppingCart: ECSShoppingCart
+    private lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
     private var addressFieldEnabler: MECAddressFieldEnabler? = null
 
     lateinit var binding: MecAddressCreateBinding
 
     lateinit var addressViewModel: AddressViewModel
 
-    lateinit var shoppingCartViewModel: EcsShoppingCartViewModel
+    lateinit var regionViewModel: RegionViewModel
+
 
     var isError = false
     var validationEditText : ValidationEditText ? =null
 
     var eCSAddressShipping : ECSAddress = ECSAddress()
 
-    var eCSAddressBilling : ECSAddress = ECSAddress()
+    private var eCSAddressBilling : ECSAddress = ECSAddress()
 
-    var mAddressList: List<ECSAddress>? = null
+    private var mAddressList: List<ECSAddress>? = null
+
+    var mecRegions : MECRegions? = null
 
 
-    private val regionListObserver: Observer<List<ECSRegion>> = object : Observer<List<ECSRegion>> {
-
-        override fun onChanged(regionList: List<ECSRegion>?) {
-
-            val mecRegions = MECRegions(regionList!!)
-            binding.mecRegions = mecRegions
-            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-        }
-
-    }
-
-    private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
-
-        gotoDeliveryAddress(mAddressList,ecsShoppingCart)
+    private val regionListObserver: Observer<List<ECSRegion>> = Observer { regionList ->
+        mecRegions = MECRegions(regionList!!)
+        binding.mecRegions = mecRegions
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
-    private val createAddressObserver: Observer<ECSAddress> = object : Observer<ECSAddress> {
+    private val setDeliveryAddressObserver: Observer<Boolean> = Observer {isAddressSet->
 
-        override fun onChanged(ecsAddress: ECSAddress?) {
-
-            Log.d(this@AddAddressFragment.javaClass.name, ecsAddress?.id)
-            addressViewModel.setAndFetchDeliveryAddress(ecsAddress!!)
-        }
+         if(isAddressSet){
+             ecsShoppingCartViewModel.getShoppingCart()
+         }else{
+             addressViewModel.fetchAddresses()
+         }
 
     }
 
-    private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
-        mAddressList = addressList
+    private val createAddressObserver: Observer<ECSAddress> = Observer { ecsAddress ->
+        Log.d(this@AddAddressFragment.javaClass.name, ecsAddress?.id)
+        addressViewModel.setDeliveryAddress(ecsAddress!!)
+    }
 
+    private val fetchAddressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
+        mAddressList = addressList
+        gotoDeliveryAddress(mAddressList)
     })
+
+    private val cartObserver: Observer<ECSShoppingCart> = Observer { ecsShoppingCart ->
+        mECSShoppingCart = ecsShoppingCart
+        addressViewModel.fetchAddresses()
+    }
 
 
     override fun onResume() {
@@ -97,7 +101,10 @@ class AddAddressFragment : MecBaseFragment() {
         binding.pattern = MECSalutationHolder()
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        shoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+        regionViewModel = activity?.let { ViewModelProviders.of(it).get(RegionViewModel::class.java) }!!
+
+        mECSShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART)!! as ECSShoppingCart
+
 
         //Set Country before binding
         eCSAddressShipping.country =addressViewModel.getCountry()
@@ -124,11 +131,18 @@ class AddAddressFragment : MecBaseFragment() {
 
 
 
-        addressViewModel.regionsList.observe(this, regionListObserver)
+        regionViewModel.regionsList.observe(activity!!, regionListObserver)
+        regionViewModel.mecError.observe(this,this)
+
         addressViewModel.mecError.observe(this, this)
         addressViewModel.eCSAddress.observe(this,createAddressObserver)
-        addressViewModel.ecsAddresses.observe(this,addressObserver)
-        shoppingCartViewModel.ecsShoppingCart.observe(this,cartObserver)
+        addressViewModel.ecsAddresses.observe(this,fetchAddressObserver)
+        addressViewModel.isDeliveryAddressSet.observe(this,setDeliveryAddressObserver)
+
+        ecsShoppingCartViewModel = ViewModelProviders.of(this).get(EcsShoppingCartViewModel::class.java)
+        ecsShoppingCartViewModel.ecsShoppingCart.observe(this, cartObserver)
+        ecsShoppingCartViewModel.mecError.observe(this,this)
+
 
         addressFieldEnabler = context?.let { addressViewModel.getAddressFieldEnabler(ECSConfiguration.INSTANCE.country, it) }
 
@@ -154,14 +168,17 @@ class AddAddressFragment : MecBaseFragment() {
                     ecsAddressShipping?.phone2 = ecsAddressShipping?.phone1
                     addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddressShipping!!)
 
-                    //  // update region properly ..as two way data binding for region is not possible : Billing
 
-                    val ecsAddressBilling = binding.ecsAddressBilling
-                    ecsAddressBilling?.phone2 = ecsAddressBilling?.phone1
-                    addressViewModel.setRegion(binding.llBilling,binding.mecRegions,ecsAddressBilling!!)
+                    if(binding.billingCheckBox.isChecked){ // assign shipping address to billing address if checkbox is checked
+                        eCSAddressBilling = ecsAddressShipping
+                    }else{
+                        eCSAddressBilling = binding.ecsAddressBilling!!
+                        eCSAddressBilling.phone2 = eCSAddressBilling.phone1
+                        // update region properly ..as two way data binding for region is not possible : Billing
+                        addressViewModel.setRegion(binding.llBilling,binding.mecRegions,eCSAddressBilling)
+                    }
 
-
-                    addressViewModel.createAddress(ecsAddressShipping!!)
+                    addressViewModel.createAddress(ecsAddressShipping)
                     showProgressBar(binding.mecProgress.mecProgressBarContainer)
                 }
             }
@@ -211,17 +228,19 @@ class AddAddressFragment : MecBaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if(addressFieldEnabler?.isStateEnabled!!) {
-            addressViewModel.fetchRegions()
+        if(addressFieldEnabler?.isStateEnabled!! && mecRegions==null) {
+            regionViewModel.fetchRegions()
             showProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
     }
 
-    private fun gotoDeliveryAddress(addressList: List<ECSAddress>? , shoppingCart : ECSShoppingCart) {
+    private fun gotoDeliveryAddress(addressList: List<ECSAddress>?) {
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         var deliveryFragment = MECDeliveryFragment()
         var bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, addressList as Serializable)
-        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART,shoppingCart)
+        bundle.putSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS,eCSAddressBilling)
+        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART , mECSShoppingCart)
         deliveryFragment.arguments = bundle
         replaceFragment(deliveryFragment, MECDeliveryFragment().getFragmentTag(), true)
     }

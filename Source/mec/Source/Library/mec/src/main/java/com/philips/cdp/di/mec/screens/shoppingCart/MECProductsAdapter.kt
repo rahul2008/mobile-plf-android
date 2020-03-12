@@ -2,11 +2,9 @@ package com.philips.cdp.di.mec.screens.shoppingCart
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.philips.cdp.di.mec.databinding.MecShoppingCartItemsBinding
-import com.philips.platform.uid.view.widget.UIPicker
 
 
 class MECProductsAdapter(private val mecCart: MutableList<MECCartProductReview>, private var mecShoppingCartFragment: MECShoppingCartFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -1,10 +1,23 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/design_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="5dip"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="380dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
 
@@ -88,9 +101,9 @@
         <include
             android:id="@+id/mec_progress"
             layout="@layout/mec_progress_bar"
-            android:layout_marginBottom="300dp"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
     </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

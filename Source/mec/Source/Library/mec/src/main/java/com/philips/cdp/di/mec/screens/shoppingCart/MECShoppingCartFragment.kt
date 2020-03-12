@@ -82,6 +82,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         } else if (ecsShoppingCart.entries.size == 0) {
             binding.mecEmptyResult.visibility = View.VISIBLE
             binding.mecParentLayout.visibility = View.GONE
+            dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
 
         voucherList.clear()
@@ -151,11 +152,18 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
-//        for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
-//            name = shoppingCart.appliedOrderPromotions!!.get(i).promotion.description
-//            price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
-//            cartSummaryList.add(MECCartSummary(name, price))
-//        }
+        if(shoppingCart.appliedOrderPromotions.size>0) {
+            for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
+                if(shoppingCart.appliedOrderPromotions.get(i).promotion.description == null) {
+                    name = " "
+                } else {
+                    name = shoppingCart.appliedOrderPromotions.get(i).promotion.description
+                }
+                price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
+                cartSummaryList.add(MECCartSummary(name, price))
+            }
+        }
+
 
         /*for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
             name = shoppingCart.appliedProductPromotions.get(i).promotion.description
@@ -183,7 +191,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
         if (mAddressList.isNullOrEmpty()) {
-            replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
+            gotoAddAddressFragment()
 
         } else {
             gotoDeliveryAddress(mAddressList)
@@ -191,20 +199,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     })
 
-    private fun moveDefaultAddressToTopOfTheList(addressList: List<ECSAddress>, defaultAddressID: String) {
-        val mutableAddressList = addressList.toMutableList()
+    private fun gotoAddAddressFragment() {
 
-        val iterator = mutableAddressList.iterator()
-
-        while (iterator.hasNext()) {
-
-            val ecsAddress = iterator.next()
-
-            if (ecsAddress.id.equals(defaultAddressID, true)) {
-                mutableAddressList.remove(ecsAddress)
-                mutableAddressList.add(0, ecsAddress)
-            }
-        }
+        var addAddressFragment = AddAddressFragment()
+        var bundle = Bundle()
+        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, shoppingCart)
+        addAddressFragment.arguments = bundle
+        replaceFragment(addAddressFragment, addAddressFragment.getFragmentTag(), true)
     }
 
     private fun gotoDeliveryAddress(addressList: List<ECSAddress>?) {
@@ -359,6 +360,10 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     fun disableButton() {
         binding.mecContinueCheckoutBtn.isEnabled = false
+    }
+
+    fun enableButton() {
+        binding.mecContinueCheckoutBtn.isEnabled = true
     }
 
     override fun onStop() {

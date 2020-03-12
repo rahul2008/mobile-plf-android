@@ -3,14 +3,9 @@ package com.philips.cdp.di.mec.screens.address
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
-import com.philips.cdp.di.ecs.util.ECSConfiguration
 
 class AddressRepository(val ecsServices: ECSServices) {
 
-
-    fun getRegions(ecsRegionListCallback: ECSRegionListCallback){
-        ecsServices.fetchRegions(ECSConfiguration.INSTANCE.country,ecsRegionListCallback)
-    }
 
     fun fetchSavedAddresses( eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
         ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
@@ -24,8 +19,16 @@ class AddressRepository(val ecsServices: ECSServices) {
         ecsServices.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
+    fun updateAddress(ecsAddress: ECSAddress,updateAddressCallBack: UpdateAddressCallBack){
+        ecsServices.updateAddress(ecsAddress,updateAddressCallBack)
+    }
+
     fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress, ecsFetchAddressesCallback: ECSFetchAddressesCallback) {
         ecsServices.setAndFetchDeliveryAddress(true,ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun setDeliveryAddress(ecsAddress: ECSAddress, setDeliveryAddressCallBack: SetDeliveryAddressCallBack ) {
+        ecsServices.setDeliveryAddress(true,ecsAddress,setDeliveryAddressCallBack)
     }
 
     fun fetchDeliveryModes(eCSFetchDeliveryModesCallback :ECSFetchDeliveryModesCallback ){
@@ -40,8 +43,12 @@ class AddressRepository(val ecsServices: ECSServices) {
         ecsServices.createAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
-    fun deleteAddress(ecsAddress: ECSAddress,ecsFetchAddressesCallback: ECSFetchAddressesCallback){
+    fun deleteAndFetchAddress(ecsAddress: ECSAddress, ecsFetchAddressesCallback: ECSFetchAddressesCallback){
         ecsServices.deleteAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    }
+
+    fun deleteAddress(ecsAddress: ECSAddress, deleteAddressCallBack: DeleteAddressCallBack) {
+        ecsServices.deleteAddress(ecsAddress,deleteAddressCallBack)
     }
 
 

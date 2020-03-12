@@ -3,4 +3,6 @@
     <string name="dls_grid" translatable="false">\uF001</string>
     <string name="dls_cart" translatable="false">\uF002</string>
     <string name="dls_downarrow" translatable="false">\uF003</string>
+    <string name="dls_currency" translatable="false">\uF004</string>
+    <string name="dls_delete" translatable="false">\uF005</string>
 </resources>

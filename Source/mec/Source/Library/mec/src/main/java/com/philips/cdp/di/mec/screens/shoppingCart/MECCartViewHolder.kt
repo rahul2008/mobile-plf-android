@@ -51,7 +51,7 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
             animation.repeatCount = 0
             animation.repeatMode = 2
             animation.setFillAfter(false)
-           // binding.parentLayout.startAnimation(animation)
+//            binding.parentLayout.startAnimation(animation)
         }
     }
 
@@ -80,10 +80,14 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
 
             if(cartSummary.entries.quantity > cartSummary.entries.product.stock.stockLevel) {
                 mecShoppingCartFragment.disableButton()
+            } else{
+                mecShoppingCartFragment.enableButton()
             }
 
         }else if (!MECutility.isStockAvailable(cartSummary.entries.product.stock!!.stockLevelStatus, cartSummary.entries.product.stock!!.stockLevel)){
             mecShoppingCartFragment.disableButton()
+        } else{
+            mecShoppingCartFragment.enableButton()
         }
     }
 }
