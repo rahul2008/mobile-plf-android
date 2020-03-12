@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
-import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecOrderSummaryFragmentBinding
+import com.philips.cdp.di.mec.payment.MECPayment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummaryAdapter
@@ -29,7 +29,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     private lateinit var binding: MecOrderSummaryFragmentBinding
     private lateinit var ecsShoppingCart: ECSShoppingCart
     private lateinit var ecsAddress: ECSAddress
-    private lateinit var ecsPayment: ECSPayment
+    private lateinit var mecPayment: MECPayment
     private var cartSummaryAdapter: MECCartSummaryAdapter? = null
     private var productsAdapter: MECOrderSummaryProductsAdapter? = null
     private var vouchersAdapter: MECOrderSummaryVouchersAdapter? = null
@@ -48,13 +48,12 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         binding = MecOrderSummaryFragmentBinding.inflate(inflater, container, false)
         binding.fragment = this
         binding.shoppingCart
-
         ecsAddress = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESS) as ECSAddress
         ecsShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
-        ecsPayment = arguments?.getSerializable(MECConstant.MEC_PAYMENT_METHOD) as ECSPayment
+        mecPayment = arguments?.getSerializable(MECConstant.MEC_PAYMENT_METHOD) as MECPayment
         binding.ecsAddressShipping = ecsAddress
         binding.shoppingCart = ecsShoppingCart
-//        binding.ecsPaymentMode = ecsPayment
+        binding.mecPayment = mecPayment
         cartSummaryList = mutableListOf()
         voucherList = mutableListOf()
         if (ecsShoppingCart.appliedVouchers.size > 0) {
@@ -117,17 +116,17 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         return cartSummaryList
     }
 
-    fun onClickPay(){
-        var bundle = Bundle()
-        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD,ecsPayment)
-        var meccvvBottomSheetFragment = MECCVVFragment()
-        meccvvBottomSheetFragment.arguments=bundle
+    fun onClickPay() {
+        val bundle = Bundle()
+        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
+        val meccvvBottomSheetFragment = MECCVVFragment()
+        meccvvBottomSheetFragment.arguments = bundle
         meccvvBottomSheetFragment.setTargetFragment(this, MECConstant.PAYMENT_REQUEST_CODE)
         fragmentManager?.let { meccvvBottomSheetFragment.show(it, meccvvBottomSheetFragment.tag) }
 
     }
 
-    fun onClickBackToShoppingCart(){
+    fun onClickBackToShoppingCart() {
         fragmentManager!!.popBackStack()
     }
 }

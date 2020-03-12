@@ -5,12 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.philips.cdp.di.ecs.model.address.ECSAddress
-import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecBillingAddressCreateCardBinding
-import com.philips.cdp.di.mec.databinding.MecBillingAddressEditCardBinding
 import com.philips.cdp.di.mec.databinding.MecPaymentCardBinding
 import com.philips.cdp.di.mec.utils.MECConstant
 import kotlinx.android.synthetic.main.mec_address_card.view.ll_rl_address
@@ -18,15 +15,13 @@ import kotlinx.android.synthetic.main.mec_address_card.view.mec_address_card_vie
 import kotlinx.android.synthetic.main.mec_address_card.view.tv_address_text
 import kotlinx.android.synthetic.main.mec_address_card.view.tv_name
 import kotlinx.android.synthetic.main.mec_billing_address_edit_card.view.*
-import kotlinx.android.synthetic.main.mec_billing_address_edit_card.view.mec_address_edit_icon
-import kotlinx.android.synthetic.main.mec_payment_card.view.*
 
-class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private var totalItem = if(items.isNewCardPresent()) items.payments.size else items.payments.size+1
+    private var totalItem = if (items.isNewCardPresent()) items.payments.size else items.payments.size + 1
 
-    var mSelectedAddress : MECPayment? = null
+    private var mSelectedAddress: MECPayment? = null
 
     private val VIEW_TYPE_FOOTER = 1
     lateinit var binding: ViewDataBinding
@@ -41,7 +36,7 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
             binding.root.setOnClickListener { itemClickListener.onItemClick(MECConstant.CREATE_BILLING_ADDRESS) }
             return AddressBillingCreateFooterHolder(binding)
 
-        }else {
+        } else {
             binding = MecPaymentCardBinding.inflate(inflater)
             PaymentHolder(binding)
         }
@@ -49,7 +44,7 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
     }
 
     override fun getItemCount(): Int {
-            return totalItem
+        return totalItem
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
@@ -61,26 +56,26 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
             viewHolder.bind(mecPayment)
 
             //TODO pabitra ..take this code to binding utility
-            if(mecPayment.isSelected){
+            if (mecPayment.isSelected) {
                 viewHolder.binding.root.tv_name.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
                 viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_selector)
-                viewHolder.binding.root.mec_address_card_view.cardElevation= 30f
-            }else{
+                viewHolder.binding.root.mec_address_card_view.cardElevation = 30f
+            } else {
                 viewHolder.binding.root.tv_name.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
                 viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_deselector)
-                viewHolder.binding.root.mec_address_card_view.cardElevation= 15f
+                viewHolder.binding.root.mec_address_card_view.cardElevation = 15f
             }
 
             val mecAddressEditIcon = viewHolder.binding.root.mec_address_edit_icon
 
-            if(mecPayment.ecsPayment.id .equals(MECConstant.NEW_CARD_PAYMENT,true)){
+            if (mecPayment.ecsPayment.id.equals(MECConstant.NEW_CARD_PAYMENT, true)) {
                 mecAddressEditIcon.visibility = View.VISIBLE
                 mecAddressEditIcon.isClickable = true
                 mecAddressEditIcon.setOnClickListener { itemClickListener.onItemClick(mecPayment) }
 
-            }else{
+            } else {
                 mecAddressEditIcon.visibility = View.GONE
                 mecAddressEditIcon.isClickable = false
             }
@@ -88,6 +83,7 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
             viewHolder.binding.root.setOnClickListener {
                 mSelectedAddress = mecPayment
                 mSelectedAddress!!.isSelected = true
+                itemClickListener.onItemClick(mecPayment)
                 notifyDataSetChanged()
             }
         }
