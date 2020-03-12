@@ -406,6 +406,7 @@
                             android:id="@+id/et_state"
                             style="@style/mec_address_validation_text"
                             android:hint="@string/mec_state"
+                            android:textIsSelectable="true"
                             android:text="@{ecsAddress.region.name}"
                             android:inputType="text"
                             android:maxLines="1"

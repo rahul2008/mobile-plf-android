@@ -46,9 +46,9 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     lateinit var ecsAddresses: List<ECSAddress>
     lateinit var mECSShoppingCart: ECSShoppingCart
 
-
-
     private lateinit var addressViewModel: AddressViewModel
+
+    var ecsBillingAddress :ECSAddress? = null
 
 
     override fun getFragmentTag(): String {
@@ -219,9 +219,9 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             ecsAddresses = arguments?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
             mECSShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
-            var ecsBillingAddress = arguments?.getSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS) as ECSAddress
-
-
+            if (arguments?.getSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS) != null){
+                ecsBillingAddress = arguments?.getSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS)  as ECSAddress
+            }
 
             //Create a empty payment list
             mutableListOfPayments = mutableListOf<MECPayment>() //creating empty payment
@@ -421,8 +421,9 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             ecsPayment.id = MECConstant.NEW_CARD_PAYMENT
             ecsPayment.billingAddress = ecsBillingAddress
 
+            mutableListOfPayments.add(MECPayment(ecsPayment,true))
+
             mecPaymentAdapter = PaymentRecyclerAdapter(MECPayments(mutableListOfPayments.toList(),true),this)
-            binding.mecPaymentRecyclerView.adapter = mecPaymentAdapter
             binding.mecPaymentRecyclerView.adapter = mecPaymentAdapter
         }
     }

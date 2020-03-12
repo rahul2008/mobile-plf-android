@@ -205,7 +205,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         var bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, shoppingCart)
         addAddressFragment.arguments = bundle
-        replaceFragment(AddAddressFragment(), AddAddressFragment().getFragmentTag(), true)
+        replaceFragment(addAddressFragment, addAddressFragment.getFragmentTag(), true)
     }
 
     private fun gotoDeliveryAddress(addressList: List<ECSAddress>?) {

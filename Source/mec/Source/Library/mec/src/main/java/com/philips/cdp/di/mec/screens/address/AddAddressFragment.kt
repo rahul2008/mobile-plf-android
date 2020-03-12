@@ -103,7 +103,7 @@ class AddAddressFragment : MecBaseFragment() {
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
         regionViewModel = activity?.let { ViewModelProviders.of(it).get(RegionViewModel::class.java) }!!
 
-        mECSShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
+        mECSShoppingCart = arguments?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART)!! as ECSShoppingCart
 
 
         //Set Country before binding
@@ -168,19 +168,17 @@ class AddAddressFragment : MecBaseFragment() {
                     ecsAddressShipping?.phone2 = ecsAddressShipping?.phone1
                     addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddressShipping!!)
 
-                    //  // update region properly ..as two way data binding for region is not possible : Billing
-
-                    eCSAddressBilling = binding.ecsAddressBilling
-                    eCSAddressBilling?.phone2 = eCSAddressBilling?.phone1
 
                     if(binding.billingCheckBox.isChecked){ // assign shipping address to billing address if checkbox is checked
                         eCSAddressBilling = ecsAddressShipping
+                    }else{
+                        eCSAddressBilling = binding.ecsAddressBilling!!
+                        eCSAddressBilling.phone2 = eCSAddressBilling.phone1
+                        // update region properly ..as two way data binding for region is not possible : Billing
+                        addressViewModel.setRegion(binding.llBilling,binding.mecRegions,eCSAddressBilling)
                     }
 
-                    addressViewModel.setRegion(binding.llBilling,binding.mecRegions,eCSAddressBilling)
-
-
-                    addressViewModel.createAddress(ecsAddressShipping!!)
+                    addressViewModel.createAddress(ecsAddressShipping)
                     showProgressBar(binding.mecProgress.mecProgressBarContainer)
                 }
             }

@@ -51,7 +51,7 @@ class MECCartViewHolder(val binding: MecShoppingCartItemsBinding, var mecShoppin
             animation.repeatCount = 0
             animation.repeatMode = 2
             animation.setFillAfter(false)
-            binding.parentLayout.startAnimation(animation)
+//            binding.parentLayout.startAnimation(animation)
         }
     }
 

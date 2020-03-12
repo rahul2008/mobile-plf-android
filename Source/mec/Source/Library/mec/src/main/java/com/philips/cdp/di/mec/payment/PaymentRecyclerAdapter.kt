@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.mec_payment_card.view.*
 class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private val totalItem = items.payments.size
+    private var totalItem = if(items.isNewCardPresent()) items.payments.size else items.payments.size+1
 
 
     private var mSelectedItem = 0
@@ -40,10 +40,10 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
         val inflater = LayoutInflater.from(parent.context)
 
         return if (viewType == VIEW_TYPE_FOOTER) {
-            // Edit billing address
-            binding = MecBillingAddressEditCardBinding.inflate(inflater)
-            binding.root.mec_address_edit_icon.setOnClickListener { itemClickListener.onItemClick(MECConstant.EDIT_BILLING_ADDRESS) }
-            AddressBillingEditFooterHolder(binding)
+            // Create billing address
+            binding = MecBillingAddressCreateCardBinding.inflate(inflater)
+            binding.root.setOnClickListener { itemClickListener.onItemClick(MECConstant.CREATE_BILLING_ADDRESS) }
+            return AddressBillingCreateFooterHolder(binding)
 
         }else {
             binding = MecPaymentCardBinding.inflate(inflater)
@@ -53,9 +53,7 @@ class PaymentRecyclerAdapter (val items: MECPayments , val itemClickListener: It
     }
 
     override fun getItemCount(): Int {
-
-        if(!items.isNewCardPresent()) return totalItem+1  // if New crad is not present , add one more item to show option to add New Card
-        return totalItem
+            return totalItem
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
