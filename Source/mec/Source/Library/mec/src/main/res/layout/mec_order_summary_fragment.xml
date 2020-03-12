@@ -218,7 +218,6 @@
                             android:layout_marginEnd="@dimen/border16_margin_left_right"
                             android:layout_weight="1.2"
                             android:gravity="start"
-                            android:padding="@dimen/iap_margin_4dp"
                             android:text="Visa****1548" />
                         <!--  android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}"-->
 
@@ -232,10 +231,6 @@
                             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                             android:textSize="12sp" />
 
-                        <View
-                            style="@style/mec_button_border"
-                            android:layout_marginTop="@dimen/border8_margin" />
-
                         <com.philips.platform.uid.view.widget.Label
                             android:id="@+id/tv_billing_address_name"
                             style="@style/mec_address_header"
@@ -246,7 +241,6 @@
                             android:layout_marginEnd="@dimen/border16_margin_left_right"
                             android:layout_weight="1.2"
                             android:gravity="start"
-                            android:padding="@dimen/iap_margin_4dp"
                             android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}" />
 
                         <com.philips.platform.uid.view.widget.Label
@@ -257,12 +251,18 @@
                             android:layout_marginEnd="50dp"
                             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                             android:textSize="12sp"
+                            android:layout_marginBottom="@dimen/border12_margin"
                             app:shippingAddress="@{ecsAddressShipping}" />
 
 
-                        <View
-                            style="@style/mec_button_border"
-                            android:layout_marginTop="@dimen/border8_margin" />
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_applied_voucher_address"
+                            style="@style/mec_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:paddingStart="@dimen/border16_margin_left_right"
+                            android:paddingEnd="@dimen/border16_margin_left_right"
+                            android:text="Applied Vouchers" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/mec_accepted_code_recycler_view"
@@ -372,7 +372,7 @@
                             android:id="@+id/mec_price_summary_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/iap_margin_10dp"
+                            android:layout_marginTop="@dimen/iap_margin_4dp"
                             android:nestedScrollingEnabled="false"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </LinearLayout>

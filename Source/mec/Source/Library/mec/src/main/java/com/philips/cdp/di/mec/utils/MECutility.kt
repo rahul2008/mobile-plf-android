@@ -274,9 +274,10 @@ class MECutility {
         formattedAddress = if (!line1.isNullOrEmpty()) "$formattedAddress$line1,\n" else formattedAddress
         formattedAddress = if (!line2.isNullOrEmpty()) "$formattedAddress$line2,\n" else formattedAddress
         formattedAddress = if (!town.isNullOrEmpty()) "$formattedAddress$town,\n" else formattedAddress
-        formattedAddress = if (!regionDisplayName.isNullOrEmpty()) "$formattedAddress$regionDisplayName,\n" else formattedAddress
-        formattedAddress = if (!postalCode.isNullOrEmpty()) "$formattedAddress$postalCode,\n" else formattedAddress
+        formattedAddress = if (!regionDisplayName.isNullOrEmpty()) "$formattedAddress$regionDisplayName, " else formattedAddress
+        formattedAddress = if (!postalCode.isNullOrEmpty()) "$formattedAddress$postalCode, " else formattedAddress
         formattedAddress = if (!countryDisplayName.isNullOrEmpty()) formattedAddress + countryDisplayName else formattedAddress
+
 
         return formattedAddress
     }
