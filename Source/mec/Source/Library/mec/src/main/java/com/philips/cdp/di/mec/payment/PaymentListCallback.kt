@@ -17,10 +17,10 @@ class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSC
             }
         }
 
-        val value = paymentViewModel.paymentList.value
-        value?.toMutableList()?.addAll(mecPaymentList)
+        val value = paymentViewModel.mecPayments.value
+        value?.payments?.toMutableList()?.addAll(mecPaymentList)
 
-        paymentViewModel.paymentList.value = mecPaymentList
+        paymentViewModel.mecPayments.value = MECPayments(mecPaymentList,true)
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {

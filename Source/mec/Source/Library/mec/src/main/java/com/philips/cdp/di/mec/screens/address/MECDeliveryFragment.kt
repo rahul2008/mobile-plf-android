@@ -105,7 +105,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     })
 
-    private val paymentObserver: Observer<List<MECPayment>> = Observer(fun(paymentList: List<MECPayment>?) {
+    private val paymentObserver: Observer<MECPayments> = Observer(fun(paymentList: MECPayments?) {
 
 
 
@@ -206,7 +206,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             ecsShoppingCartViewModel.mecError.observe(this,this)
 
             //observe paymentViewmodel
-            activity?.let { paymentViewModel.paymentList.observe(it,paymentObserver) }
+            activity?.let { paymentViewModel.mecPayments.observe(it,paymentObserver) }
             activity?.let { paymentViewModel.mecError.observe(it,this) }
 
 
@@ -255,7 +255,7 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             mRootView = binding.root
             checkDeliveryAddressSet()
 
-            if(paymentViewModel.paymentList!=null && paymentViewModel.paymentList.value!=null){
+            if(paymentViewModel.mecPayments.value==null || !paymentViewModel.mecPayments.value!!.isPaymentDownloaded){
                 paymentViewModel.fetchPaymentDetails()
             }
         }

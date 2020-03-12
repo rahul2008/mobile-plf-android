@@ -3,7 +3,7 @@ package com.philips.cdp.di.mec.payment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
-class MECPayments(val payments:List<MECPayment> , isPaymentDownloaded: Boolean ){
+class MECPayments(val payments:List<MECPayment> , var isPaymentDownloaded: Boolean ){
 
 
     fun isNewCardPresent() : Boolean{
