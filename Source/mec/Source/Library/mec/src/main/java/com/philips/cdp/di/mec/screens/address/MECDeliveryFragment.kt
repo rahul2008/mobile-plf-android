@@ -61,7 +61,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
         }
         mECDeliveryModesAdapter?.notifyDataSetChanged()
-
+        binding.mecOrderSummaryBtn.visibility = View.VISIBLE
     })
 
     private val ecsSetDeliveryModeObserver: Observer<Boolean> = Observer {boolean->
@@ -108,7 +108,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             if(findGivenAddressInAddressList!=null) binding.ecsAddressShipping = findGivenAddressInAddressList
 
-            if (null != mECSDeliveryModeList && !mECSDeliveryModeList.isNullOrEmpty()) {
+            if (!mECSDeliveryModeList.isNullOrEmpty()) {
                 // if delivery modes are already fetched
                 mECDeliveryModesAdapter?.setSelectedDeliveryModeAsCart(mECSShoppingCart.deliveryMode)
                 mECDeliveryModesAdapter?.notifyDataSetChanged()

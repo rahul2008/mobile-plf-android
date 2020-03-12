@@ -235,6 +235,7 @@
                 android:textColor="?attr/uidButtonPrimaryNormalTextColor"
                 android:textSize="16dp"
                 android:clickable="true"
+                android:visibility="gone"
                 android:focusable="true"
                 app:uidComponentType="Primary" />
 
