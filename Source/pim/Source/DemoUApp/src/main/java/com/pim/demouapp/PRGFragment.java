@@ -26,6 +26,7 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -40,13 +41,13 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
     private final String userRegServiceID = "userreg.janrain.api";
     private PRLaunchInput prLaunchInput;
     private PRInterface prInterface;
-    private PIMInterface pimInterface;
+    private UserDataInterface userDataInterface;
     private EditText ctnEditText;
     private AppInfraInterface mAppInfraInterface;
 
     @SuppressLint("ValidFragment")
-    public PRGFragment(PIMInterface pimInterface, AppInfraInterface appInfraInterface) {
-        this.pimInterface = pimInterface;
+    public PRGFragment(UserDataInterface userDataInterface, AppInfraInterface appInfraInterface) {
+        this.userDataInterface = userDataInterface;
         this.mAppInfraInterface = appInfraInterface;
 
     }
@@ -126,7 +127,7 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
 //        });
 // fragLauncher.setCustomAnimation(0, 0);
         prInterface = new PRInterface();
-        prInterface.init(new PRDependencies(mAppInfraInterface, pimInterface.getUserDataInterface()), new UappSettings(getContext()));
+        prInterface.init(new PRDependencies(mAppInfraInterface, userDataInterface), new UappSettings(getContext()));
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this.getActivity(), R.id.pimDemoU_mainFragmentContainer, null);
         if (type.equalsIgnoreCase("app_flow")) {
             prLaunchInput = new PRLaunchInput(products, true);

@@ -144,7 +144,8 @@ public class PIMLoginManager {
         bool = privacyConsent.equals(AppTaggingInterface.PrivacyStatus.OPTIN);
         if (bool)
             consentList.add(PIMParameterToLaunchEnum.PIM_ANALYTICS_CONSENT.pimConsent);
-        if (consentParameterMap.get(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT) != null)
+        if (consentParameterMap != null && consentParameterMap.get(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT) != null
+                && (Boolean) consentParameterMap.get(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT))
             consentList.add(PIMParameterToLaunchEnum.PIM_AB_TESTING_CONSENT.pimConsent);
         mLoggingInterface.log(DEBUG, TAG, "consent list parameters : " + consentList.toString());
         return consentList;

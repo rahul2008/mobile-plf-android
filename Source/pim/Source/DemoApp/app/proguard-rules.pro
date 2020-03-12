@@ -6,6 +6,8 @@
 
 -keepclassmembers enum * { *; }
 
+-keep class org.xmlpull.v1.** { *; }
+
 -keepnames class * implements java.io.Serializable
 
 #Webkit (Registration)
