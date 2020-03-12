@@ -2,21 +2,33 @@ package com.philips.platform.pim.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlMapListener;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.LogoutRequest;
+import com.philips.platform.pim.rest.MarketInOptedInRequest;
 import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.UserProfileRequest;
 
@@ -24,6 +36,10 @@ import net.openid.appauth.AuthState;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
@@ -107,7 +123,7 @@ public class PIMUserManager {
 
             @Override
             public void onTokenRequestFailed(Error error) {
-                PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo("setError","technicalError","refresh_session");
+                PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo("setError", "technicalError", "refresh_session");
                 refreshSessionListener.refreshSessionFailed(error);
             }
         });
@@ -129,7 +145,7 @@ public class PIMUserManager {
             pimoidcUserProfile = null;
             logoutSessionListener.logoutSessionSuccess();
         }, error -> {
-            PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo("setError","technicalError","logout");
+            PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo("setError", "technicalError", "logout");
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             logoutSessionListener.logoutSessionFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
@@ -242,5 +258,87 @@ public class PIMUserManager {
             return false;
         }
         return true;
+    }
+
+    public void refecthUserProfile(RefetchUserDetailsListener refetchUserDetailsListener) {
+        requestUserProfile(authState, new PIMUserProfileDownloadListener() {
+            @Override
+            public void onUserProfileDownloadSuccess() {
+                refetchUserDetailsListener.onRefetchSuccess();
+            }
+
+            @Override
+            public void onUserProfileDownloadFailed(Error error) {
+                refetchUserDetailsListener.onRefetchFailure(error);
+            }
+        });
+    }
+
+    public void updateMarketingOptIn(UpdateUserDetailsHandler updateUserDetailsHandler, boolean optin) {
+
+        Map<String, String> requestData = new HashMap<>();
+        requestData.put(MarketInOptedInRequest.LOCALE, PIMSettingManager.getInstance().getLocale());
+        requestData.put(MarketInOptedInRequest.ACCESS_TOKEN, authState.getAccessToken());
+        requestData.put(MarketInOptedInRequest.API_KEY, PIMSettingManager.getInstance().getPimOidcConfigration().getMarketingOptinAPIKey());
+        requestData.put(MarketInOptedInRequest.CONSENT_MARKETING_OPTEDIN, Boolean.toString(optin));
+
+        ArrayList<String> serviceIdList = new ArrayList<>();
+        serviceIdList.add("userreg.janrainoidc.migration");
+        PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery().getServicesWithCountryPreference(serviceIdList, new OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                ServiceDiscoveryService serviceDiscoveryService = urlMap.get("userreg.janrainoidc.migration");
+                String marketingOptinUrl = serviceDiscoveryService != null ? serviceDiscoveryService.getConfigUrls() : null;
+                mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference  marketingOptinUrl : " + marketingOptinUrl);
+
+                if (marketingOptinUrl != null) {
+                    requestData.put(MarketInOptedInRequest.ENDPOINT, "https://stg.eu-west-1.api.philips.com/consumerIdentityService/users");
+                    requestUpdateOptinAndDownloadUserprofile(updateUserDetailsHandler, requestData);
+                } else
+                    updateUserDetailsHandler.onUpdateFailedWithError(0);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                mLoggingInterface.log(DEBUG, TAG, "update marketing optin failed!! Not able to fetch url from service discovery");
+                updateUserDetailsHandler.onUpdateFailedWithError(error.ordinal());
+            }
+        }, null);
+    }
+
+    private void requestUpdateOptinAndDownloadUserprofile(UpdateUserDetailsHandler updateUserDetailsHandler, Map requestData) {
+        MarketInOptedInRequest marketInOptedInRequest = new MarketInOptedInRequest(requestData);
+        PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
+        pimRestClient.invokeRequest(marketInOptedInRequest, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                requestUserProfile(authState, getUserProfileDownloadListener(updateUserDetailsHandler));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mLoggingInterface.log(DEBUG, TAG, "update marketing optin failed!! error : " + error);
+                if (error != null && error.networkResponse != null)
+                    updateUserDetailsHandler.onUpdateFailedWithError(error.networkResponse.statusCode);
+                else
+                    updateUserDetailsHandler.onUpdateFailedWithError(0);
+            }
+        });
+    }
+
+    private PIMUserProfileDownloadListener getUserProfileDownloadListener(UpdateUserDetailsHandler updateUserDetailsHandler) {
+        return new PIMUserProfileDownloadListener() {
+            @Override
+            public void onUserProfileDownloadSuccess() {
+                mLoggingInterface.log(DEBUG, TAG, "Marketing opted in successfully updated!!");
+                updateUserDetailsHandler.onUpdateSuccess();
+            }
+
+            @Override
+            public void onUserProfileDownloadFailed(Error error) {
+                mLoggingInterface.log(DEBUG, TAG, "update marketing optin failed in dowloading user profile !! error : " + error);
+                updateUserDetailsHandler.onUpdateFailedWithError(error.getErrCode());
+            }
+        };
     }
 }

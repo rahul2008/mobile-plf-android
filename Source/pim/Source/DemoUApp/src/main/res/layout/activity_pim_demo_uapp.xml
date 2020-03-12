@@ -155,6 +155,15 @@
                 android:text="A/B Testing Consent"
                 app:switchPadding="30dp" />
 
+            <com.philips.platform.uid.view.widget.Switch
+                android:id="@+id/switch_marketing_optedin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:text="Marketing Opted In"
+                app:switchPadding="30dp" />
+
             <FrameLayout
                 android:id="@+id/pimDemoU_mainFragmentContainer"
                 android:layout_width="fill_parent"

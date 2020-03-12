@@ -188,11 +188,22 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public void refetchUserDetails(RefetchUserDetailsListener userDetailsListener) {
+        if (pimUserManager.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+            userDetailsListener.onRefetchFailure(new Error(Error.UserDetailError.NotLoggedIn));
+            return;
+        }
 
+        pimUserManager.refecthUserProfile(userDetailsListener);
     }
 
     @Override
     public void updateReceiveMarketingEmail(UpdateUserDetailsHandler updateUserDetailsHandler, boolean receiveMarketingEmail) {
+        if (pimUserManager.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+            updateUserDetailsHandler.onUpdateFailedWithError(Error.UserDetailError.NotLoggedIn.ordinal());
+            return;
+        }
+
+        pimUserManager.updateMarketingOptIn(updateUserDetailsHandler, receiveMarketingEmail);
 
     }
 
@@ -239,6 +250,7 @@ public class PIMDataImplementation implements UserDataInterface {
         keyList.add(UserDetailConstants.ID_TOKEN);
         keyList.add(UserDetailConstants.EXPIRES_IN);
         keyList.add(UserDetailConstants.TOKEN_TYPE);
+        keyList.add(UserDetailConstants.RECEIVE_MARKETING_OPTED_IN);
         return keyList;
     }
 

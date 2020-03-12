@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.PIMInterface;
@@ -93,7 +95,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
 
     private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btn_ECS, btn_MCS, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
-    private Switch aSwitch, abTestingSwitch;
+    private Switch aSwitch, abTestingSwitch, marketingOptedSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
     private URInterface urInterface;
@@ -142,6 +144,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnMigrator.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
         abTestingSwitch = findViewById(R.id.switch_ab_testing_consent);
+        marketingOptedSwitch = findViewById(R.id.switch_marketing_optedin);
         btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
         btn_RegistrationPR.setOnClickListener(this);
         btn_IAP = findViewById(R.id.btn_IAP);
@@ -164,6 +167,25 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         abTestingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             setABTestingStatus(isChecked);
         });
+
+        marketingOptedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                userDataInterface.updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
+                    @Override
+                    public void onUpdateSuccess() {
+                        showToast("Marketing Opted-In updated successfully.");
+
+                    }
+
+                    @Override
+                    public void onUpdateFailedWithError(int error) {
+                        showToast("Updating marketing opted-in failed with error code : "+error );
+                    }
+                }, isChecked);
+            }
+        });
+
         viewInitlization(pimDemoUAppDependencies, pimDemoUAppSettings);
 //        pimInterface = new PIMInterface();
 //        pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
