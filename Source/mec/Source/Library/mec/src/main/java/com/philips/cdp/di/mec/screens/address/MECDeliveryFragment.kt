@@ -105,10 +105,11 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     })
 
-    private val paymentObserver: Observer<MECPayments> = Observer(fun(paymentList: MECPayments?) {
+    private val paymentObserver: Observer<MECPayments> = Observer(fun(mecPayments: MECPayments) {
 
 
 
+       /* //Added for testing purpose
         var ecspayment1 = ECSPayment()
         var ecspayment2 = ECSPayment()
         var ecspayment3 = ECSPayment()
@@ -141,6 +142,8 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         var paymentList = mutableListOfPayments.toList()
 
         val mecPayments = MECPayments(paymentList, true)
+
+        //===========*/
 
         binding.mecPayments = mecPayments
 
@@ -415,6 +418,8 @@ class  MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
         if(requestCode == MECConstant.REQUEST_CODE_BILLING_ADDRESS){
 
+            //TODO duplicate issue
+            
             val bundleExtra = data?.getBundleExtra(MECConstant.BUNDLE_BILLING_ADDRESS)
             var ecsBillingAddress = bundleExtra?.getSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS) as ECSAddress
             var ecsPayment = ECSPayment()
