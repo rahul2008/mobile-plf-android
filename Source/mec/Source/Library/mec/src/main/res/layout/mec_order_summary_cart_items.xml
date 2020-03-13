@@ -46,7 +46,8 @@
                     android:background="@drawable/mec_circular_background"
                     android:src="@drawable/mec_wishlist"
                     android:tint="@color/colorAccent"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"
+                    android:contentDescription="@string/app_name" />
             </FrameLayout>
 
 
@@ -76,7 +77,7 @@
                         android:id="@+id/mec_quantity_val"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text='@{"Qty: "+ ecsEntries.quantity}'
+                        android:text='@{"Quantity: "+ ecsEntries.quantity}'
                         android:textColor="?attr/uidTextBoxQuietNormalTextColor"
                         android:textSize="@dimen/iap_text_size_16sp" />
 
@@ -90,7 +91,7 @@
                         android:gravity="end"
                         android:text="@{ecsEntries.totalPrice.formattedValue}"
                         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/iap_text_size_16sp" />
 
                 </LinearLayout>
 

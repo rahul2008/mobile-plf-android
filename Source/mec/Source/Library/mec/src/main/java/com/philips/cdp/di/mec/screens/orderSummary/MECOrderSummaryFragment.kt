@@ -84,7 +84,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 //        }
 
         if (ecsShoppingCart.deliveryCost != null) {
-            name = getString(R.string.mec_delivery_cost)
+            name = getString(R.string.mec_shipping_cost)
             price = ecsShoppingCart.deliveryCost.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
         }

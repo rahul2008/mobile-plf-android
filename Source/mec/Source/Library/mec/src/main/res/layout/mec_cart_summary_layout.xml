@@ -7,47 +7,46 @@
             type="com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary" />
 
     </data>
+
     <RelativeLayout
         android:id="@+id/parent_layout"
         android:layout_width="@dimen/iap_match_parent"
-        android:background="@color/uidColorWhite"
         android:layout_height="match_parent"
-        >
+        android:gravity="center_vertical"
+        android:background="@color/uidColorWhite">
 
-            <LinearLayout
-                android:id="@+id/mecPriceLayout"
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/mecPriceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+            android:background="?attr/uidBottomSheetDefaultBackgroundColor"
+            android:backgroundTint="#FFFFFF"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/mec_total_products"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FFFFFF"
-                android:background="?attr/uidBottomSheetDefaultBackgroundColor"
-                android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
-                android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
-                android:orientation="horizontal">
+                android:layout_weight="0.75"
+                android:minLines="2"
+                android:text='@{cart.name ?? ""}'
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/mec_total_products"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:minLines="2"
-                    android:text='@{cart.name ?? ""}'
-                    android:textSize="12dp"
-                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                    style="@style/mecCentralesansBookFont"
-                    />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/mec_total_price"
+                style="@style/mecCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text='@{cart.price ?? ""}'
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/mec_total_price"
-                    style="@style/mecCentralesansBookFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                    android:text='@{cart.price ?? ""}'
-                    android:textSize="12dp"
-                    />
-
-            </LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 

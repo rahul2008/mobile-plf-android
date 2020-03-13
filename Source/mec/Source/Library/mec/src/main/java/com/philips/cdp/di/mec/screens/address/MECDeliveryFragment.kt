@@ -147,10 +147,8 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
          //===========*/
 
         binding.mecPayments = mecPayments
-
         mecPaymentAdapter = PaymentRecyclerAdapter(mecPayments, this)
         binding.mecPaymentRecyclerView.adapter = mecPaymentAdapter
-
     })
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
@@ -231,14 +229,12 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             //Create a empty payment list
             mutableListOfPayments = mutableListOf<MECPayment>() //creating empty payment
 
-
             if (ecsBillingAddress != null) {
 
-                //var ecsPayment = ECSPayment()
                 ecsPayment.id = MECConstant.NEW_CARD_PAYMENT
                 ecsPayment.billingAddress = ecsBillingAddress
-                val mecPayment = MECPayment(ecsPayment, true)
-                mutableListOfPayments.add(mecPayment)
+                mecPayment = MECPayment(ecsPayment, true)
+                mutableListOfPayments.add(mecPayment!!)
             }
 
             val mecPayments = MECPayments(mutableListOfPayments.toList(), false)
@@ -427,8 +423,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             //TODO duplicate issue
 
             val bundleExtra = data?.getBundleExtra(MECConstant.BUNDLE_BILLING_ADDRESS)
-            var ecsBillingAddress = bundleExtra?.getSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS) as ECSAddress
-//            var ecsPayment = ECSPayment()
+            val ecsBillingAddress = bundleExtra?.getSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS) as ECSAddress
             ecsPayment.id = MECConstant.NEW_CARD_PAYMENT
             ecsPayment.billingAddress = ecsBillingAddress
 
@@ -444,18 +439,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         var bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses[0])
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
-//        // Todo remove this new object
-//         var ecsPayment: ECSPayment? = null
-//        ecsPayment=ECSPayment()
-        //ecsPayment.cardNumber="3462********2387"
-//        if (ecsBillingAddress != null) {
-//            bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
-//        }else{
-//            mecPayment = MECPayment(ecsPayment, true)
-//            mecPayment.ecsPayment = ecsPayment
-
-            bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
-//        }
+        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
         mecOrderSummaryFragment.arguments = bundle
         replaceFragment(mecOrderSummaryFragment, MECOrderSummaryFragment.TAG, true)
     }

@@ -54,7 +54,6 @@ class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: Item
             val mecPayment = items.payments[position]
 
             viewHolder.bind(mecPayment)
-
             //TODO pabitra ..take this code to binding utility
             if (mecPayment.isSelected) {
                 viewHolder.binding.root.tv_name.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
@@ -79,10 +78,9 @@ class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: Item
                 mecAddressEditIcon.visibility = View.GONE
                 mecAddressEditIcon.isClickable = false
             }
-
             viewHolder.binding.root.setOnClickListener {
                 mSelectedAddress = mecPayment
-                mSelectedAddress!!.isSelected = true
+                viewHolder.binding.root.isSelected = true
                 itemClickListener.onItemClick(mecPayment)
                 notifyDataSetChanged()
             }
