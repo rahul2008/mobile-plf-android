@@ -18,6 +18,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ServerTime;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 
 import org.json.JSONException;
@@ -56,7 +57,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             Date secondDate = sdf.parse(ServerTime.getCurrentTime());
             if (firstDate.compareTo(secondDate) > 0) {
                 ThreadUtils.postInMainThread(mContext, () ->
-                        mUpdateUserDetails.onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR));
+                        mUpdateUserDetails.onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,"")));
                 return;
             }
             if (isJanrainInitializeRequired()) {
@@ -66,7 +67,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             performActualUpdate();
         } catch (ParseException e) {
             ThreadUtils.postInMainThread(mContext, () ->
-                    mUpdateUserDetails.onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR));
+                    mUpdateUserDetails.onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,"")));
         }
     }
 
@@ -86,7 +87,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             if (null != mUpdateUserDetails)
                 ThreadUtils.postInMainThread(mContext, () ->
                         mUpdateUserDetails.
-                                onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR));
+                                onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,"")));
         }
     }
 

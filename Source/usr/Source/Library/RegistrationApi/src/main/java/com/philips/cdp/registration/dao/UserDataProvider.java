@@ -216,7 +216,7 @@ public class UserDataProvider extends User implements UserDataInterface {
     @Override
     public void updateReceiveMarketingEmail(UpdateUserDetailsHandler updateUserDetailsHandler, boolean receiveMarketingEmail) {
         if (getUserLoginState().ordinal() < UserLoginState.PENDING_VERIFICATION.ordinal()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(getUserLoginState().ordinal(),""));
             return;
         }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new

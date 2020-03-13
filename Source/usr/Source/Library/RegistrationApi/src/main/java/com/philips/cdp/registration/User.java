@@ -57,6 +57,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.platform.appinfra.logging.CloudLoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 
 import org.json.JSONException;
@@ -790,7 +791,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(getUserLoginState().ordinal(),""));
             return;
         }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
@@ -812,7 +813,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(getUserLoginState().ordinal(),""));
             return;
         }
         UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
@@ -837,7 +838,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Gender gender) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(getUserLoginState().ordinal(),""));
             return;
         }
         UpdateGender updateGender = new UpdateGender(mContext);

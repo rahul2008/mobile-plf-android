@@ -2,7 +2,6 @@ package com.philips.platform.pim.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -11,10 +10,8 @@ import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlMapListener;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -32,6 +29,7 @@ import com.philips.platform.pim.rest.MarketInOptedInRequest;
 import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.UserProfileRequest;
 import com.philips.platform.pim.utilities.PIMInitState;
+import com.philips.platform.pim.utilities.PIMTaggingConstants;
 
 import net.openid.appauth.AuthState;
 
@@ -118,13 +116,23 @@ public class PIMUserManager {
         pimAuthManager.refreshToken(authState, new PIMTokenRequestListener() {
             @Override
             public void onTokenRequestSuccess() {
-                storeAuthStateToSecureStorage(authState);  //Update auth state to secure storage on token refresh
-                refreshSessionListener.refreshSessionSuccess();
+                requestUserProfile(authState, new PIMUserProfileDownloadListener() {
+                    @Override
+                    public void onUserProfileDownloadSuccess() {
+                        refreshSessionListener.refreshSessionSuccess();
+                    }
+
+                    @Override
+                    public void onUserProfileDownloadFailed(Error error) {
+                        tagTechnicalError(PIMTaggingConstants.REFRESH_SESSION);
+                        refreshSessionListener.refreshSessionFailed(error);
+                    }
+                });
             }
 
             @Override
             public void onTokenRequestFailed(Error error) {
-                PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo("setError", "technicalError", "refresh_session");
+                tagTechnicalError(PIMTaggingConstants.REFRESH_SESSION);
                 refreshSessionListener.refreshSessionFailed(error);
             }
         });
@@ -147,7 +155,7 @@ public class PIMUserManager {
             PIMSettingManager.getInstance().getPimInitLiveData().postValue(PIMInitState.INIT_FAILED);
             logoutSessionListener.logoutSessionSuccess();
         }, error -> {
-            PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo("setError", "technicalError", "logout");
+            tagTechnicalError(PIMTaggingConstants.LOGOUT);
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             logoutSessionListener.logoutSessionFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
@@ -279,31 +287,34 @@ public class PIMUserManager {
     public void updateMarketingOptIn(UpdateUserDetailsHandler updateUserDetailsHandler, boolean optin) {
 
         Map<String, String> requestData = new HashMap<>();
-        requestData.put(MarketInOptedInRequest.LOCALE, PIMSettingManager.getInstance().getLocale());
         requestData.put(MarketInOptedInRequest.ACCESS_TOKEN, authState.getAccessToken());
         requestData.put(MarketInOptedInRequest.API_KEY, PIMSettingManager.getInstance().getPimOidcConfigration().getMarketingOptinAPIKey());
         requestData.put(MarketInOptedInRequest.CONSENT_MARKETING_OPTEDIN, Boolean.toString(optin));
 
         ArrayList<String> serviceIdList = new ArrayList<>();
-        serviceIdList.add("userreg.janrainoidc.migration");
+        serviceIdList.add("userreg.janrainoidc.marketingoptin");
         PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery().getServicesWithCountryPreference(serviceIdList, new OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                ServiceDiscoveryService serviceDiscoveryService = urlMap.get("userreg.janrainoidc.migration");
+                ServiceDiscoveryService serviceDiscoveryService = urlMap.get("userreg.janrainoidc.marketingoptin");
                 String marketingOptinUrl = serviceDiscoveryService != null ? serviceDiscoveryService.getConfigUrls() : null;
                 mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference  marketingOptinUrl : " + marketingOptinUrl);
-
+                PIMSettingManager.getInstance().setLocale(serviceDiscoveryService.getLocale());
+                requestData.put(MarketInOptedInRequest.LOCALE, PIMSettingManager.getInstance().getLocale());
                 if (marketingOptinUrl != null) {
-                    requestData.put(MarketInOptedInRequest.ENDPOINT, "https://stg.eu-west-1.api.philips.com/consumerIdentityService/users");
+                    requestData.put(MarketInOptedInRequest.OPTIN_URL, marketingOptinUrl);
                     requestUpdateOptinAndDownloadUserprofile(updateUserDetailsHandler, requestData);
                 } else
-                    updateUserDetailsHandler.onUpdateFailedWithError(0);
+                    updateUserDetailsHandler.onUpdateFailedWithError(new Error(PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode)));
+
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
                 mLoggingInterface.log(DEBUG, TAG, "update marketing optin failed!! Not able to fetch url from service discovery");
-                updateUserDetailsHandler.onUpdateFailedWithError(error.ordinal());
+                tagTechnicalError(PIMTaggingConstants.MARKETING_OPTIN);
+                updateUserDetailsHandler.onUpdateFailedWithError(new Error(PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode)));
+
             }
         }, null);
     }
@@ -320,10 +331,8 @@ public class PIMUserManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mLoggingInterface.log(DEBUG, TAG, "update marketing optin failed!! error : " + error);
-                if (error != null && error.networkResponse != null)
-                    updateUserDetailsHandler.onUpdateFailedWithError(error.networkResponse.statusCode);
-                else
-                    updateUserDetailsHandler.onUpdateFailedWithError(0);
+                tagTechnicalError(PIMTaggingConstants.MARKETING_OPTIN);
+                updateUserDetailsHandler.onUpdateFailedWithError(new Error(PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode)));
             }
         });
     }
@@ -332,15 +341,32 @@ public class PIMUserManager {
         return new PIMUserProfileDownloadListener() {
             @Override
             public void onUserProfileDownloadSuccess() {
-                mLoggingInterface.log(DEBUG, TAG, "Marketing opted in successfully updated!!");
+                mLoggingInterface.log(DEBUG, TAG, "Marketing optin successfully updated!!");
+                trackActionForMarketingOptin();
                 updateUserDetailsHandler.onUpdateSuccess();
             }
 
             @Override
             public void onUserProfileDownloadFailed(Error error) {
                 mLoggingInterface.log(DEBUG, TAG, "update marketing optin failed in dowloading user profile !! error : " + error);
-                updateUserDetailsHandler.onUpdateFailedWithError(error.getErrCode());
+                tagTechnicalError(PIMTaggingConstants.MARKETING_OPTIN);
+                updateUserDetailsHandler.onUpdateFailedWithError(new Error(PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.MARKETING_OPTIN_ERROR.errorCode)));
+
             }
         };
+    }
+
+    protected void trackActionForMarketingOptin() {
+        ArrayList<String> keylist = new ArrayList<>();
+        keylist.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+        HashMap<String, Object> userDetails = getUserProfile().fetchUserDetails(keylist);
+        boolean optinstatus = (boolean) userDetails.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+
+        String state = optinstatus ? PIMTaggingConstants.REMARKETING_OPTION_IN : PIMTaggingConstants.REMARKETING_OPTION_OUT;
+        PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo(state, null, null);
+    }
+
+    private void tagTechnicalError(String tagValue) {
+        PIMSettingManager.getInstance().getTaggingInterface().trackActionWithInfo(PIMTaggingConstants.SET_ERROR, PIMTaggingConstants.TECHNICAL_ERROR, tagValue);
     }
 }

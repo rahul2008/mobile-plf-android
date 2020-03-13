@@ -166,11 +166,11 @@ public class PIMDataImplementation implements UserDataInterface {
         isInitRequiredAgain = true;
         MutableLiveData<PIMInitState> pimInitLiveData = PIMSettingManager.getInstance().getPimInitLiveData();
         new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(mContext, PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
-        pimInitLiveData.observeForever( new Observer<PIMInitState>() {
+        pimInitLiveData.observeForever(new Observer<PIMInitState>() {
             @Override
             public void onChanged(@Nullable PIMInitState pimInitState) {
                 if (pimInitState == PIMInitState.INIT_SUCCESS) {
-                    pimInitLiveData.removeObservers((FragmentActivity) mContext);
+                    pimInitLiveData.removeObserver( this);
                     PIMMigrator pimMigrator = new PIMMigrator(mContext, userMigrationListener);
                     pimMigrator.migrateUSRToPIM();
                 } else if (pimInitState == PIMInitState.INIT_FAILED) {
@@ -178,7 +178,7 @@ public class PIMDataImplementation implements UserDataInterface {
                         new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(mContext, PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
                         isInitRequiredAgain = false;
                     } else {
-                        pimInitLiveData.removeObservers((FragmentActivity) mContext);
+                        pimInitLiveData.removeObserver(this);
                         userMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
                     }
                 }
@@ -199,7 +199,7 @@ public class PIMDataImplementation implements UserDataInterface {
     @Override
     public void updateReceiveMarketingEmail(UpdateUserDetailsHandler updateUserDetailsHandler, boolean receiveMarketingEmail) {
         if (pimUserManager.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
-            updateUserDetailsHandler.onUpdateFailedWithError(Error.UserDetailError.NotLoggedIn.ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(Error.UserDetailError.NotLoggedIn));
             return;
         }
 
@@ -250,7 +250,6 @@ public class PIMDataImplementation implements UserDataInterface {
         keyList.add(UserDetailConstants.ID_TOKEN);
         keyList.add(UserDetailConstants.EXPIRES_IN);
         keyList.add(UserDetailConstants.TOKEN_TYPE);
-        keyList.add(UserDetailConstants.RECEIVE_MARKETING_OPTED_IN);
         return keyList;
     }
 

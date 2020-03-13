@@ -1,6 +1,5 @@
 package com.philips.platform.pim.rest;
 
-import com.android.volley.Request;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.manager.PIMSettingManager;
 
@@ -12,7 +11,7 @@ import java.util.Map;
 
 public class MarketInOptedInRequest implements PIMRequestInterface {
 
-    public static final String ENDPOINT = "Opted_endpint";
+    public static final String OPTIN_URL = "Optin_url";
     public static final String API_KEY = "Api-Key";
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String LOCALE = "locale";
@@ -27,7 +26,7 @@ public class MarketInOptedInRequest implements PIMRequestInterface {
 
     @Override
     public String getUrl() {
-        return requestData.get(ENDPOINT);
+        return requestData.get(OPTIN_URL);
     }
 
     @Override
