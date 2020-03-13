@@ -10,6 +10,7 @@ package com.philips.cdp.registration.configuration;
 
 
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,11 @@ public class AppConfiguration extends BaseConfiguration {
     }
 
     public String getRegistrationEnvironment() {
+
+        RLog.d(TAG, "getRegistrationEnvironment : " + appInfraWrapper);
+        if(null == appInfraWrapper){
+            return AppIdentityInterface.AppState.STAGING.toString();
+        }
         RLog.d(TAG, "getRegistrationEnvironment : " + appInfraWrapper.getAppState().toString());
         return appInfraWrapper.getAppState().toString();
     }
