@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.ecs.model.address.ECSUserProfile
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.payment.CardType
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
@@ -230,7 +231,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             mutableListOfPayments = mutableListOf<MECPayment>() //creating empty payment
 
             if (ecsBillingAddress != null) {
-
+                ecsPayment = ECSPayment()
                 ecsPayment.id = MECConstant.NEW_CARD_PAYMENT
                 ecsPayment.billingAddress = ecsBillingAddress
                 mecPayment = MECPayment(ecsPayment, true)
@@ -424,7 +425,13 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
             val bundleExtra = data?.getBundleExtra(MECConstant.BUNDLE_BILLING_ADDRESS)
             val ecsBillingAddress = bundleExtra?.getSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS) as ECSAddress
+            ecsPayment = ECSPayment()
+
             ecsPayment.id = MECConstant.NEW_CARD_PAYMENT
+
+            val newCardType = CardType()
+            newCardType.name = "New Card"
+            ecsPayment.cardType = newCardType
             ecsPayment.billingAddress = ecsBillingAddress
 
             mutableListOfPayments.add(MECPayment(ecsPayment, true))

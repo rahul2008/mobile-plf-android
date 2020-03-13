@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.MECRequestType
+import com.philips.cdp.di.mec.payment.MECPayment
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.cdp.di.mec.view.MECDropDown
@@ -326,7 +327,13 @@ class AddressViewModel : CommonViewModel() {
         @JvmStatic
         @BindingAdapter("shippingAddress")
         fun setShippingAddress(lebel: Label, ecsAddress: ECSAddress){
-            lebel.setText(MECutility().constructShippingAddressDisplayField(ecsAddress))
+            lebel.text = MECutility().constructShippingAddressDisplayField(ecsAddress)
+        }
+
+        @JvmStatic
+        @BindingAdapter("cardDetail")
+        fun cardDetail(lebel: Label, mecPayment: MECPayment){
+            lebel.text = MECutility().constructCardDetails(mecPayment)
         }
 
     }

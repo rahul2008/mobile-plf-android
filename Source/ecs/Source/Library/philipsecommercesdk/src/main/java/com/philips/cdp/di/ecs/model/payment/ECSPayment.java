@@ -24,6 +24,11 @@ public class ECSPayment implements Serializable {
 
     private ECSAddress billingAddress;
     private String cardNumber;
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
+
     private CardType cardType;
     private boolean defaultPayment;
     private String expiryMonth;

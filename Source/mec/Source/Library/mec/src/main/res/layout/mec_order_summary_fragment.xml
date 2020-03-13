@@ -218,7 +218,7 @@
                             android:layout_marginEnd="@dimen/border16_margin_left_right"
                             android:layout_weight="1.2"
                             android:gravity="start"
-                            android:text="@{mecPayment!=null ? mecPayment.ecsPayment.cardType.name +@string/mec_empty_space + mecPayment.ecsPayment.cardNumber: @string/mec_empty_space}" />
+                            app:cardDetail="@{mecPayment}" />
                         <!--  android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}"-->
 
                         <com.philips.platform.uid.view.widget.Label

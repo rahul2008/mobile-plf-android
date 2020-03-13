@@ -15,6 +15,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticServer
 import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.payment.MECPayment
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.uid.thememanager.UIDHelper
@@ -239,13 +240,13 @@ class MECutility {
                     var errorString: String = MECAnalyticsConstant.COMPONENT_NAME + ":"
                     if (mecError!!.ecsError!!.errorcode == 1000) {
                         errorString += MECAnalyticServer.bazaarVoice + ":"
-                    } else if (mecError!!.ecsError!!.errorcode >= 5000 && mecError!!.ecsError!!.errorcode < 6000) {
+                    } else if (mecError!!.ecsError!!.errorcode in 5000..5999) {
                         errorString += MECAnalyticServer.hybris + ":"
                     } else {
                         //
                         errorString += MECAnalyticServer.prx + ":"
                     }
-                    errorString = errorString + mecError!!.exception!!.message.toString()
+                    errorString += mecError!!.exception!!.message.toString()
                     errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
 
                     MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.technicalError, errorString)
@@ -289,8 +290,19 @@ class MECutility {
         formattedAddress = if (!postalCode.isNullOrEmpty()) "$formattedAddress$postalCode, " else formattedAddress
         formattedAddress = if (!countryDisplayName.isNullOrEmpty()) formattedAddress + countryDisplayName else formattedAddress
 
-
         return formattedAddress
+    }
+
+    //        @{mecPayment!=null ? mecPayment.ecsPayment.cardType.name
+//            +@string/mec_empty_space + mecPayment.ecsPayment.cardNumber:
+//            @string/mec_empty_space}"
+    fun constructCardDetails(mecPayment: MECPayment): CharSequence? {
+        var formattedCardDetail = ""
+        val cardType = if (mecPayment.ecsPayment.cardType != null) mecPayment.ecsPayment.cardType.name else ""
+        val cardNumber = if (mecPayment.ecsPayment.cardNumber != null) mecPayment.ecsPayment.cardNumber else ""
+
+        formattedCardDetail = "$formattedCardDetail$cardType $cardNumber"
+        return formattedCardDetail
     }
 
 
