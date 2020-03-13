@@ -6,6 +6,7 @@ import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +65,7 @@ public class MarketingAccountPresenterTest {
     @Test
     public void onUpdateFailedWithError() throws Exception {
 
-        marketingAccountPresenter.onUpdateFailedWithError(1);
+        marketingAccountPresenter.onUpdateFailedWithError(new Error(1,""));
         Mockito.verify(marketingAccountContractMock).hideRefreshProgress();
     }
 

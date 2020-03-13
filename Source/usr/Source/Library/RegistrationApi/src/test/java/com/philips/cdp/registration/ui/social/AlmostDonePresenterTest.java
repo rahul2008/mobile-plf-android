@@ -16,6 +16,7 @@ import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -144,20 +145,20 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testUpdateReceivingMarketingEmail_failure_invalid_refresh_token() {
-        presenter.onUpdateFailedWithError(ErrorCodes.HSDP_INPUT_ERROR_1151);
+        presenter.onUpdateFailedWithError(new Error(ErrorCodes.HSDP_INPUT_ERROR_1151,""));
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).replaceWithHomeFragment();
     }
 
     @Test
     public void testUpdateReceivingMarketingEmail_failure_to_connect() {
-        presenter.onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR);
+        presenter.onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,""));
         verify(mockContract).failedToConnectToServer();
     }
 
     @Test
     public void testUpdateReceivingMarketingEmail_marketing_opt_failure() {
-        presenter.onUpdateFailedWithError(33);
+        presenter.onUpdateFailedWithError(new Error(33,""));
         verify(mockContract).updateMarketingOptFailedError();
     }
 

@@ -22,6 +22,7 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 
 import org.junit.Before;
@@ -245,7 +246,7 @@ public class UserTest {
     public void updateDateOfBirth_UserNotLoggedIn() throws Exception {
         PowerMockito.doReturn(true).when(userspy, "getUserNotLoggedInState");
         userspy.updateDateOfBirth(mockUpdateUserDetailsHandler, mockDate);
-        Mockito.verify(mockUpdateUserDetailsHandler).onUpdateFailedWithError(userspy.getUserLoginState().ordinal());
+        Mockito.verify(mockUpdateUserDetailsHandler).onUpdateFailedWithError(Mockito.any(Error.class));
     }
 
     @Test
@@ -261,7 +262,7 @@ public class UserTest {
     public void updateGender_UserNotLoggedIn() throws Exception {
         PowerMockito.doReturn(true).when(userspy, "getUserNotLoggedInState");
         userspy.updateGender(mockUpdateUserDetailsHandler, Gender.MALE);
-        Mockito.verify(mockUpdateUserDetailsHandler).onUpdateFailedWithError(userspy.getUserLoginState().ordinal());
+        Mockito.verify(mockUpdateUserDetailsHandler).onUpdateFailedWithError(Mockito.any(Error.class));
     }
 
     @Test

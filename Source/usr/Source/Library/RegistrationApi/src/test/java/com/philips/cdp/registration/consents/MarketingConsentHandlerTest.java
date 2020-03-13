@@ -6,6 +6,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
@@ -292,7 +293,7 @@ public class MarketingConsentHandlerTest {
         List<String> types = givenConsentDefinition.getTypes();
         marketingConsentHandler.storeConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenStatus, givenConsentDefinition.getVersion(), givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
-        marketingCallbackCaptor.getValue().onUpdateFailedWithError(errorCode);
+        marketingCallbackCaptor.getValue().onUpdateFailedWithError(new Error(errorCode,""));
     }
 
     private void theMarketingConsentIsReportedToCallback(ConsentStates active) {
