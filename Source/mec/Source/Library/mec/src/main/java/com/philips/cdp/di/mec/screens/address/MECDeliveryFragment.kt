@@ -150,6 +150,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         binding.mecPayments = mecPayments
         mecPaymentAdapter = PaymentRecyclerAdapter(mecPayments, this)
         binding.mecPaymentRecyclerView.adapter = mecPaymentAdapter
+        mecPayment = mecPayments.payments.get(0)
     })
 
     private val cartObserver: Observer<ECSShoppingCart> = Observer<ECSShoppingCart> { ecsShoppingCart ->
@@ -320,10 +321,9 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private fun gotoCreateOrEditBillingAddress(ecsAddress: ECSAddress) {
-
-        var editAddressFragment = AddOrEditBillingAddressFragment()
+        val editAddressFragment = AddOrEditBillingAddressFragment()
         editAddressFragment.setTargetFragment(this, MECConstant.REQUEST_CODE_BILLING_ADDRESS)
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddress)
         editAddressFragment.arguments = bundle
         replaceFragment(editAddressFragment, editAddressFragment.getFragmentTag(), true)
@@ -356,9 +356,9 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     private fun gotoCreateOrEditAddress(ecsAddress: ECSAddress) {
-        var editAddressFragment = CreateOrEditAddressFragment()
+        val editAddressFragment = CreateOrEditAddressFragment()
         editAddressFragment.setTargetFragment(this, MECConstant.REQUEST_CODE_ADDRESSES)
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddress)
         editAddressFragment.arguments = bundle
         replaceFragment(editAddressFragment, editAddressFragment.getFragmentTag(), true)
@@ -443,7 +443,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     fun onOrderSummaryClick() {
         val mecOrderSummaryFragment = MECOrderSummaryFragment()
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses[0])
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
         bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)

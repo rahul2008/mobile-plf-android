@@ -15,6 +15,7 @@ import com.philips.cdp.di.mec.payment.MECPayment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummaryAdapter
+import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 
 
@@ -77,11 +78,6 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         cartSummaryList.clear()
         var name: String
         var price: String
-//        for (i in 0 until ecsShoppingCart.entries.size) {
-//            name = ecsShoppingCart.entries[i].quantity.toString() + "x " + ecsShoppingCart.entries.get(i).product.summary.productTitle
-//            price = ecsShoppingCart.entries.get(i).totalPrice.formattedValue
-//            cartSummaryList.add(MECCartSummary(name, price))
-//        }
 
         if (ecsShoppingCart.deliveryCost != null) {
             name = getString(R.string.mec_shipping_cost)
@@ -99,18 +95,6 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
             cartSummaryList.add(MECCartSummary(name, price))
 
         }
-/*
-        for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
-            name = shoppingCart.appliedOrderPromotions.get(i).promotion.description
-            price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
-            cartSummaryList.add(MECCartSummary(name, price))
-        }*/
-
-        /*for (i in 0..shoppingCart.appliedProductPromotions.size - 1) {
-            name = shoppingCart.appliedProductPromotions.get(i).promotion.description
-            price = "-" + shoppingCart.appliedProductPromotions.get(i).promotion.promotionDiscount.formattedValue
-            cartSummaryList.add(MECCartSummary(name, price))
-        }*/
 
         cartSummaryAdapter?.notifyDataSetChanged()
         return cartSummaryList
@@ -119,14 +103,14 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     fun onClickPay() {
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
-        val meccvvBottomSheetFragment = MECCVVFragment()
-        meccvvBottomSheetFragment.arguments = bundle
-        meccvvBottomSheetFragment.setTargetFragment(this, MECConstant.PAYMENT_REQUEST_CODE)
-        fragmentManager?.let { meccvvBottomSheetFragment.show(it, meccvvBottomSheetFragment.tag) }
+        val mecCvvBottomSheetFragment = MECCVVFragment()
+        mecCvvBottomSheetFragment.arguments = bundle
+        mecCvvBottomSheetFragment.setTargetFragment(this, MECConstant.PAYMENT_REQUEST_CODE)
+        fragmentManager?.let { mecCvvBottomSheetFragment.show(it, mecCvvBottomSheetFragment.tag) }
 
     }
 
     fun onClickBackToShoppingCart() {
-        fragmentManager!!.popBackStack()
+        fragmentManager!!.popBackStack(MECShoppingCartFragment.TAG, 0)
     }
 }

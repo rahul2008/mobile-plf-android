@@ -132,13 +132,12 @@
                         android:id="@+id/tv_shipping_address_name"
                         style="@style/mec_address_header"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_marginStart="@dimen/border16_margin_left_right"
                         android:layout_marginTop="@dimen/iap_margin_10dp"
                         android:layout_marginEnd="@dimen/border16_margin_left_right"
                         android:layout_weight="1.2"
                         android:gravity="start"
-                        android:padding="@dimen/iap_margin_4dp"
                         android:text="@{ecsAddressShipping.firstName + @string/mec_empty_space  +ecsAddressShipping.lastName}" />
 
 

@@ -329,7 +329,7 @@
                     android:layout_marginTop="@dimen/border16_margin_left_right"
                     android:text="@string/mec_empty_cart"
                     android:textColor="?attr/uidNotificationDefaultTextColor"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -338,7 +338,6 @@
                 style="@style/mecCentralesansBookFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/border16_margin_left_right"
                 android:layout_marginTop="@dimen/border16_margin_left_right"
                 android:layout_marginRight="@dimen/border16_margin_left_right"

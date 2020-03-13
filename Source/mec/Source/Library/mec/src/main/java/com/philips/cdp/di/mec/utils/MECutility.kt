@@ -21,6 +21,7 @@ import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.utils.DialogConstants
 import com.philips.platform.uid.view.widget.AlertDialogFragment
+import java.util.*
 
 class MECutility {
 
@@ -300,8 +301,7 @@ class MECutility {
         var formattedCardDetail = ""
         val cardType = if (mecPayment.ecsPayment.cardType != null) mecPayment.ecsPayment.cardType.name else ""
         val cardNumber = if (mecPayment.ecsPayment.cardNumber != null) mecPayment.ecsPayment.cardNumber else ""
-
-        formattedCardDetail = "$formattedCardDetail$cardType $cardNumber"
+        formattedCardDetail = "$formattedCardDetail$cardType ${cardNumber.takeLast(8)}"
         return formattedCardDetail
     }
 

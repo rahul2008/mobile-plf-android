@@ -40,9 +40,9 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
     lateinit var addressViewModel: AddressViewModel
 
     var isError = false
-    var validationEditText : ValidationEditText ? =null
+    var validationEditText: ValidationEditText? = null
 
-    var mecRegions : MECRegions? = null
+    var mecRegions: MECRegions? = null
 
     private val regionListObserver: Observer<List<ECSRegion>> = object : Observer<List<ECSRegion>> {
 
@@ -73,7 +73,7 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
 
         regionViewModel = activity?.let { ViewModelProviders.of(it).get(RegionViewModel::class.java) }!!
         regionViewModel.regionsList.observe(activity!!, regionListObserver)
-        regionViewModel.mecError.observe(this,this)
+        regionViewModel.mecError.observe(this, this)
 
 
 
@@ -83,7 +83,11 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
         binding.ecsAddress = ecsAddress
 
 
-
+        if (!ecsAddress.isShippingAddress) {
+            binding.tvShippingAddress.setText(R.string.mec_billing_address)
+            binding.dlsIapAddressShipping.labelFirstName.setText(R.string.mec_card_holder_fname)
+            binding.dlsIapAddressShipping.lableLastName.setText(R.string.mec_card_holder_lname)
+        }
 
 
 
@@ -91,7 +95,7 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
 
         binding.addressFieldEnabler = addressFieldEnabler
 
-
+        //On click of continue button
         binding.btnContinue.setOnClickListener {
             //Re assign
             isError = false
@@ -99,13 +103,13 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
 
             validateEditTexts(binding.addressContainer)
 
-            if(isError){
+            if (isError) {
                 validationEditText?.requestFocus()
 
-            }else{
+            } else {
                 // update region properly ..as two way data binding for region is not possible
                 val ecsAddress = binding.ecsAddress
-                addressViewModel.setRegion(binding.llShipping,binding.mecRegions,ecsAddress!!)
+                addressViewModel.setRegion(binding.llShipping, binding.mecRegions, ecsAddress!!)
                 ecsAddress.phone2 = ecsAddress.phone1
 
                 // billing Address  is created
@@ -120,32 +124,32 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
     private fun sendBillingAddressToDeliveryFragment(ecsAddress: ECSAddress?) {
         val intent = Intent()
         val bundle = Bundle()
-        bundle.putSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS,ecsAddress)
-        intent.putExtra(MECConstant.BUNDLE_BILLING_ADDRESS,bundle)
-        targetFragment?.onActivityResult(MECConstant.REQUEST_CODE_BILLING_ADDRESS, Activity.RESULT_OK,intent)
+        bundle.putSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS, ecsAddress)
+        intent.putExtra(MECConstant.BUNDLE_BILLING_ADDRESS, bundle)
+        targetFragment?.onActivityResult(MECConstant.REQUEST_CODE_BILLING_ADDRESS, Activity.RESULT_OK, intent)
         activity?.supportFragmentManager?.popBackStack()
     }
 
-    private fun validateEditTexts(v: ViewGroup){
+    private fun validateEditTexts(v: ViewGroup) {
 
         for (i in 0 until v.childCount) {
             val child = v.getChildAt(i)
 
             if (v is InputValidationLayout && child is ValidationEditText && child.visibility == View.VISIBLE) {
 
-                Log.d("MEC",child.hint.toString())
+                Log.d("MEC", child.hint.toString())
 
-                var validator:InputValidationLayout.Validator
+                var validator: InputValidationLayout.Validator
 
-                if(child.inputType == InputType.TYPE_CLASS_PHONE){
-                    validator = PhoneNumberInputValidator(child , PhoneNumberUtil.getInstance())
-                }else{
+                if (child.inputType == InputType.TYPE_CLASS_PHONE) {
+                    validator = PhoneNumberInputValidator(child, PhoneNumberUtil.getInstance())
+                } else {
                     validator = EmptyInputValidator()
                 }
 
-                if(!validator.validate(child.text.toString())){
+                if (!validator.validate(child.text.toString())) {
                     child.startAnimation(addressViewModel.shakeError())
-                    if(validationEditText==null) {
+                    if (validationEditText == null) {
                         validationEditText = child
                     }
                     v.showError()
@@ -154,7 +158,7 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
 
             } else if (child is ViewGroup) {
 
-                if(child.visibility == View.VISIBLE) {
+                if (child.visibility == View.VISIBLE) {
                     validateEditTexts(child)  // Recursive call.
                 }
 
@@ -163,11 +167,10 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
     }
 
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if(addressFieldEnabler?.isStateEnabled!! && mecRegions==null ) {
+        if (addressFieldEnabler?.isStateEnabled!! && mecRegions == null) {
 
             regionViewModel.fetchRegions()
             showProgressBar(binding.mecProgress.mecProgressBarContainer)
