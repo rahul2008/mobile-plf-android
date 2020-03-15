@@ -117,7 +117,7 @@
       "usr.login": "DOT-ReceiveMarketingOptIn"
     },
     "servicediscovery.platformMicrositeId": "70000",
-    "servicediscovery.platformEnvironment": "staging",
+    "servicediscovery.platformEnvironment": "production",
     "servicediscovery.propositionEnabled": true,
     "appconfig.cloudServiceId": "appinfra.appconfigdownload",
     "timesync.ntp.hosts": [
