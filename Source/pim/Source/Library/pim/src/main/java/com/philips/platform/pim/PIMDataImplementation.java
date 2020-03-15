@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import android.content.Context;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
@@ -193,7 +192,7 @@ public class PIMDataImplementation implements UserDataInterface {
             return;
         }
 
-        pimUserManager.refecthUserProfile(userDetailsListener);
+        pimUserManager.refetchUserProfile(userDetailsListener);
     }
 
     @Override
@@ -219,12 +218,12 @@ public class PIMDataImplementation implements UserDataInterface {
             ArrayList<String> allValidKeys = getAllValidUserDetailsKeys();
             return pimoidcUserProfile.fetchUserDetails(allValidKeys);
         } else {
-            ArrayList<String> validDetailKey = fillOnlyReqestedValidKeyToKeyList(detailKeys);
+            ArrayList<String> validDetailKey = fillOnlyRequestedValidKeyToKeyList(detailKeys);
             return pimoidcUserProfile.fetchUserDetails(validDetailKey);
         }
     }
 
-    private ArrayList<String> fillOnlyReqestedValidKeyToKeyList(ArrayList<String> detailskey) throws UserDataInterfaceException {
+    private ArrayList<String> fillOnlyRequestedValidKeyToKeyList(ArrayList<String> detailskey) throws UserDataInterfaceException {
         ArrayList<String> allValidKeys = getAllValidUserDetailsKeys();
         ArrayList<String> validDetailsKey = new ArrayList<>();
         for (String key : detailskey) {

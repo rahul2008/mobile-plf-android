@@ -270,7 +270,7 @@ public class PIMUserManager {
         return true;
     }
 
-    public void refecthUserProfile(RefetchUserDetailsListener refetchUserDetailsListener) {
+    public void refetchUserProfile(RefetchUserDetailsListener refetchUserDetailsListener) {
         requestUserProfile(authState, new PIMUserProfileDownloadListener() {
             @Override
             public void onUserProfileDownloadSuccess() {

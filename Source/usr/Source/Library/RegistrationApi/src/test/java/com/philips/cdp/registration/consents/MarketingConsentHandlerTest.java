@@ -3,6 +3,8 @@ package com.philips.cdp.registration.consents;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.JanrainErrorEnum;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
@@ -36,6 +38,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -293,7 +296,9 @@ public class MarketingConsentHandlerTest {
         List<String> types = givenConsentDefinition.getTypes();
         marketingConsentHandler.storeConsentTypeState(types.get(types.indexOf(USR_MARKETING_CONSENT)), givenStatus, givenConsentDefinition.getVersion(), givenPostConsentCallback);
         verify(mockUser).updateReceiveMarketingEmail(marketingCallbackCaptor.capture(), eq(givenStatus));
-        marketingCallbackCaptor.getValue().onUpdateFailedWithError(new Error(errorCode,""));
+        Error mockError = mock(Error.class);
+        when(mockError.getErrCode()).thenReturn(errorCode);
+        marketingCallbackCaptor.getValue().onUpdateFailedWithError(mockError);
     }
 
     private void theMarketingConsentIsReportedToCallback(ConsentStates active) {

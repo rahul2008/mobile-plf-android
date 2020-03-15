@@ -12,6 +12,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.HSDPErrorEnum;
+import com.philips.cdp.registration.errors.JanrainErrorEnum;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -28,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static com.philips.cdp.registration.errors.ErrorCodes.HSDP_INPUT_ERROR_1151;
 import static com.philips.cdp.registration.errors.ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -46,6 +49,9 @@ public class AlmostDonePresenterTest {
 
     @Mock
     private User mockUser;
+
+    @Mock
+    private Context mockContext;
 
     private UserRegistrationFailureInfo userRegistrationFailureInfo;
 
@@ -145,20 +151,20 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testUpdateReceivingMarketingEmail_failure_invalid_refresh_token() {
-        presenter.onUpdateFailedWithError(new Error(ErrorCodes.HSDP_INPUT_ERROR_1151,""));
+        presenter.onUpdateFailedWithError(new Error(ErrorCodes.HSDP_INPUT_ERROR_1151, HSDPErrorEnum.getLocalizedError(mockContext,HSDP_INPUT_ERROR_1151)));
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).replaceWithHomeFragment();
     }
 
     @Test
     public void testUpdateReceivingMarketingEmail_failure_to_connect() {
-        presenter.onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,""));
+        presenter.onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR, JanrainErrorEnum.getLocalizedError(mockContext,ErrorCodes.UNKNOWN_ERROR)));
         verify(mockContract).failedToConnectToServer();
     }
 
     @Test
     public void testUpdateReceivingMarketingEmail_marketing_opt_failure() {
-        presenter.onUpdateFailedWithError(new Error(33,""));
+        presenter.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mockContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR)));
         verify(mockContract).updateMarketingOptFailedError();
     }
 

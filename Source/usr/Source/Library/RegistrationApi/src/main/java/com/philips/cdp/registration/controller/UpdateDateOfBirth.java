@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.JanrainErrorEnum;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ServerTime;
@@ -57,7 +58,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             Date secondDate = sdf.parse(ServerTime.getCurrentTime());
             if (firstDate.compareTo(secondDate) > 0) {
                 ThreadUtils.postInMainThread(mContext, () ->
-                        mUpdateUserDetails.onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,"")));
+                        mUpdateUserDetails.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR, JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR))));
                 return;
             }
             if (isJanrainInitializeRequired()) {
@@ -67,7 +68,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             performActualUpdate();
         } catch (ParseException e) {
             ThreadUtils.postInMainThread(mContext, () ->
-                    mUpdateUserDetails.onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,"")));
+                    mUpdateUserDetails.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR))));
         }
     }
 
@@ -87,7 +88,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             if (null != mUpdateUserDetails)
                 ThreadUtils.postInMainThread(mContext, () ->
                         mUpdateUserDetails.
-                                onUpdateFailedWithError(new Error(ErrorCodes.UNKNOWN_ERROR,"")));
+                                onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR))));
         }
     }
 

@@ -34,6 +34,7 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.JanrainErrorEnum;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
@@ -791,7 +792,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(new Error(getUserLoginState().ordinal(),""));
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR)));
             return;
         }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
@@ -813,7 +814,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(new Error(getUserLoginState().ordinal(),""));
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR)));
             return;
         }
         UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
@@ -838,7 +839,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Gender gender) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(new Error(getUserLoginState().ordinal(),""));
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR)));
             return;
         }
         UpdateGender updateGender = new UpdateGender(mContext);
