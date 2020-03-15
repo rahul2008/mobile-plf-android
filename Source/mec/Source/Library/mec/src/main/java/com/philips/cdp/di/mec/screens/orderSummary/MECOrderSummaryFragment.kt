@@ -102,7 +102,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
     fun onClickPay() {
         val bundle = Bundle()
-        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
+        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment.ecsPayment)
         val mecCvvBottomSheetFragment = MECCVVFragment()
         mecCvvBottomSheetFragment.arguments = bundle
         mecCvvBottomSheetFragment.setTargetFragment(this, MECConstant.PAYMENT_REQUEST_CODE)
