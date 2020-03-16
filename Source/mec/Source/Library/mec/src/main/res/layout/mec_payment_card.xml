@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -29,45 +30,52 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/mec_address_edit_icon"
                 fontPath="fonts/iconfont.ttf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|start"
+                android:layout_width="@dimen/border_margin_32dp"
+                android:layout_height="@dimen/border_margin_32dp"
+                android:layout_alignParentEnd="true"
+                android:padding="@dimen/iap_margin_4dp"
+                android:gravity="right|end"
                 android:text="@string/dls_edit"
                 android:textColor="?attr/uidButtonQuietEmphasisNormalTextColor"
                 android:textSize="20sp"
-                android:visibility="gone" />
+                tools:ignore="RtlHardcoded" />
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/tv_name"
-                style="@style/mec_address_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/border16_margin_left_right"
-                android:layout_marginTop="@dimen/border12_margin"
-                android:layout_marginRight="@dimen/border16_margin_left_right"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="@dimen/iap_margin_4dp"
-                android:text="@{mecPayment.ecsPayment.billingAddress.firstName}"
-                android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
+            <LinearLayout
+                android:id="@+id/box"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/tv_name"
+                    style="@style/mec_address_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/border16_margin_left_right"
+                    android:layout_marginTop="@dimen/border12_margin"
+                    android:layout_marginRight="@dimen/border16_margin_left_right"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="@dimen/iap_margin_4dp"
+                    android:text="@{mecPayment.ecsPayment.billingAddress.firstName}"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/tv_address_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_name"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="@dimen/border16_margin_left_right"
-                android:layout_marginTop="@dimen/border12_margin"
-                android:layout_marginRight="@dimen/border16_margin_left_right"
-                android:layout_marginBottom="@dimen/border12_margin"
-                android:gravity="start"
-                android:padding="@dimen/iap_margin_4dp"
-                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:textSize="12sp"
-                app:shippingAddress="@{mecPayment.ecsPayment.billingAddress}" />
-
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/tv_address_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/border16_margin_left_right"
+                    android:layout_marginTop="@dimen/border8_margin"
+                    android:layout_marginRight="@dimen/border16_margin_left_right"
+                    android:layout_marginBottom="@dimen/border12_margin"
+                    android:gravity="start"
+                    android:padding="@dimen/iap_margin_4dp"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="12sp"
+                    app:shippingAddress="@{mecPayment.ecsPayment.billingAddress}" />
+            </LinearLayout>
         </RelativeLayout>
 
 
