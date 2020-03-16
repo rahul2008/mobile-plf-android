@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.products.ECSProduct
+import com.philips.cdp.di.mec.utils.MECDataHolder
 import org.junit.Before
 
 import org.junit.Test
@@ -32,7 +33,7 @@ class EcsProductViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        MecHolder.INSTANCE.eCSServices = ecsServices
+        MECDataHolder.INSTANCE.eCSServices = ecsServices
         ecsProductViewModel = EcsProductViewModel()
         ecsProductViewModel.ecsCatalogRepository = eCSCatalogRepository
         ecsProductViewModel.ecsProductsCallback = ecsProductsCallback
