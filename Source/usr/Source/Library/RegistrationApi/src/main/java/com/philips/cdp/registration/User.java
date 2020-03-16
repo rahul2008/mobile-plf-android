@@ -34,6 +34,7 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.JanrainErrorEnum;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
@@ -57,6 +58,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.platform.appinfra.logging.CloudLoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 
 import org.json.JSONException;
@@ -790,7 +792,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR)));
             return;
         }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
@@ -812,7 +814,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR)));
             return;
         }
         UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
@@ -837,7 +839,7 @@ public class User {
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Gender gender) {
         if (getUserNotLoggedInState()) {
-            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            updateUserDetailsHandler.onUpdateFailedWithError(new Error(ErrorCodes.UPDATE_USER_DETAILS_ERROR,JanrainErrorEnum.getLocalizedError(mContext,ErrorCodes.UPDATE_USER_DETAILS_ERROR)));
             return;
         }
         UpdateGender updateGender = new UpdateGender(mContext);

@@ -20,6 +20,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
@@ -298,8 +299,8 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     }
 
     @Override
-    public void onUpdateFailedWithError(final int error) {
-        handleUpdateReceiveMarket(error);
+    public void onUpdateFailedWithError(final Error error) {
+        handleUpdateReceiveMarket(error.getErrCode());
     }
 
     private void handleUpdateReceiveMarket(int error) {
