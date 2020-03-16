@@ -1,6 +1,7 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 
+import android.content.Context
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -306,10 +307,14 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setCartIconVisibility(false)
+    }
+
     override fun onResume() {
         super.onResume()
         setTitleAndBackButtonVisibility(R.string.mec_shopping_cart, true)
-        setCartIconVisibility(false)
     }
 
     override fun onStart() {
