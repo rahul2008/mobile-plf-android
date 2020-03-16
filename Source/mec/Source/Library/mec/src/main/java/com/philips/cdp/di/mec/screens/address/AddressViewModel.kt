@@ -336,6 +336,12 @@ class AddressViewModel : CommonViewModel() {
             lebel.text = MECutility().constructCardDetails(mecPayment)
         }
 
+        @JvmStatic
+        @BindingAdapter("cardValidityDetail")
+        fun cardValidityDetail(label: Label, mecPayment: MECPayment){
+            label.text = MECutility().constructCardValidityDetails(mecPayment)
+        }
+
     }
 
     enum class AddressFieldJsonEnum (val addressField: String) {

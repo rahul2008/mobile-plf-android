@@ -415,7 +415,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         if (requestCode == MECConstant.REQUEST_CODE_ADDRESSES) {
             val bundleExtra = data?.getBundleExtra(MECConstant.BUNDLE_ADDRESSES)
             ecsAddresses = bundleExtra?.getSerializable(MECConstant.KEY_ECS_ADDRESSES) as List<ECSAddress>
-            mECSShoppingCart = bundleExtra?.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
+            mECSShoppingCart = bundleExtra.getSerializable(MECConstant.KEY_ECS_SHOPPING_CART) as ECSShoppingCart
             onRefreshCart()
         }
 

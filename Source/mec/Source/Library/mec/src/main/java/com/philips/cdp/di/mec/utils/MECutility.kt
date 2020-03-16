@@ -21,7 +21,6 @@ import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.utils.DialogConstants
 import com.philips.platform.uid.view.widget.AlertDialogFragment
-import java.util.*
 
 class MECutility {
 
@@ -303,6 +302,14 @@ class MECutility {
         val cardNumber = if (mecPayment.ecsPayment.cardNumber != null) mecPayment.ecsPayment.cardNumber else ""
         formattedCardDetail = "$formattedCardDetail$cardType ${cardNumber.takeLast(8)}"
         return formattedCardDetail
+    }
+
+    fun constructCardValidityDetails(mecPayment: MECPayment): CharSequence? {
+        var formattedCardValidityDetail = ""
+        val cardExpMon = if (mecPayment.ecsPayment.expiryMonth != null) mecPayment.ecsPayment.expiryMonth else ""
+        val cardExpYear = if (mecPayment.ecsPayment.expiryYear != null) mecPayment.ecsPayment.expiryYear else ""
+        formattedCardValidityDetail = "Valid until $cardExpMon/$cardExpYear"
+        return formattedCardValidityDetail
     }
 
 

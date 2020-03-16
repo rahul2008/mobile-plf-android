@@ -220,14 +220,25 @@
                             app:cardDetail="@{mecPayment}" />
 
                         <com.philips.platform.uid.view.widget.Label
-                            android:id="@+id/tv_billing_address_name"
-                            style="@style/mec_address_header"
+                            android:id="@+id/tv_payment_valid"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/border16_margin_left_right"
                             android:layout_marginTop="@dimen/iap_margin_10dp"
                             android:layout_marginEnd="@dimen/border16_margin_left_right"
                             android:layout_weight="1.2"
+                            android:gravity="start"
+                            app:cardValidityDetail="@{mecPayment}" />
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/tv_billing_address_name"
+                            style="@style/mec_address_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/border16_margin_left_right"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="@dimen/border16_margin_left_right"
+                            android:layout_marginBottom="@dimen/border12_margin"
                             android:gravity="start"
                             android:text="@{mecPayment.ecsPayment.billingAddress.firstName +@string/mec_empty_space+ mecPayment.ecsPayment.billingAddress.lastName}" />
 
