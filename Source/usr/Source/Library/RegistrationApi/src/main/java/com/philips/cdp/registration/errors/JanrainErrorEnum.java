@@ -61,7 +61,7 @@ public enum JanrainErrorEnum {
     RESEND_MAIL_FAILED_SERVER_ERROR(ErrorCodes.RESEND_MAIL_FAILED_SERVER_ERROR, R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_FLOW_DOWNLOAD_ERROR(ErrorCodes.JANRAIN_FLOW_DOWNLOAD_ERROR, R.string.USR_Janrain_HSDP_ServerErrorMsg),
     JANRAIN_ERROR_ON_FLOW(ErrorCodes.JANRAIN_ERROR_ON_FLOW, R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg),
-    MARKETING_OPTIN_ERROR(ErrorCodes.UPDATE_USER_DETAILS_ERROR,R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg);
+    UPDATE_USER_DETAILS_ERROR(ErrorCodes.UPDATE_USER_DETAILS_ERROR,R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg);
 
     int errorCode;
     int stringId;
