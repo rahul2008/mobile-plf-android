@@ -65,7 +65,7 @@ public class URFaceBookUtilityTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        accessToken = new AccessToken("someToken", "someApplicationId", "someUserId", null, null, null, null, null,null);
+        accessToken = new AccessToken("someToken", "someApplicationId", "someUserId", null, null, null, null, null, null,null);
 
         RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
