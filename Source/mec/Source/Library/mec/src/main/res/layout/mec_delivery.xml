@@ -272,7 +272,6 @@
                     android:layout_marginBottom="@dimen/border16_margin_left_right"
                     android:clickable="true"
                     android:enabled="true"
-
                     android:focusable="true"
                     android:onClick="@{() -> mecDeliveryFragment.onOrderSummaryClick()}"
                     android:text="@string/mec_order_summary"

@@ -138,6 +138,10 @@
     <string name="mec_not_now">Not now</string>
     <string name="mec_card_holder_fname">Card holder first name</string>
     <string name="mec_card_holder_lname">Card holder last name</string>
+    <string name="mec_billing_address_info">* The payment detail will be saved once you place an order.</string>
+    <string name="mec_address_caution">Please set a valid Payment Method</string>
+    <string name="mec_delivery_mode_caution">Please set a valid Delivery Mode</string>
+    <string name="mec_shipping_caution">Please select a Shipping Address</string>
 
 
 </resources>

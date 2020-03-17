@@ -230,6 +230,7 @@
                             android:gravity="start"
                             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                             android:textSize="12sp"
+                            android:visibility="@{mecPayment.ecsPayment.expiryMonth !=null ? View.VISIBLE : View.GONE, default = gone }"
                             app:cardValidityDetail="@{mecPayment}" />
 
                         <com.philips.platform.uid.view.widget.Label
