@@ -59,13 +59,14 @@
                             android:textSize="16sp" />
 
                         <com.philips.platform.uid.view.widget.Label
+                            style="@style/mecCentralesansMediumFont"
                             android:layout_width="wrap_content"
                             android:layout_height="20dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/border8_margin"
                             android:gravity="center"
                             android:text="@string/mec_delivery"
-                            android:textColor="@color/uidColorBlack"
+                            android:textColor="?attr/uidWizardDefaultNormalOnTitleTextColor"
                             android:textSize="14sp" />
 
                     </LinearLayout>
