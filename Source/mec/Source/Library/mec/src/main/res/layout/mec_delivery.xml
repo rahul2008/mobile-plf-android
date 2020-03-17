@@ -242,13 +242,11 @@
                     android:layout_marginBottom="@dimen/border16_margin_left_right"
                     android:clickable="true"
                     android:enabled="true"
-
                     android:focusable="true"
                     android:onClick="@{() -> mecDeliveryFragment.onOrderSummaryClick()}"
                     android:text="@string/mec_order_summary"
                     android:textColor="?attr/uidButtonPrimaryNormalTextColor"
                     android:textSize="16dp"
-                    android:visibility="gone"
                     app:uidComponentType="Primary" />
 
             </RelativeLayout>

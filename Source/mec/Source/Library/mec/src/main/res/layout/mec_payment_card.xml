@@ -8,6 +8,7 @@
             name="mecPayment"
             type="com.philips.cdp.di.mec.payment.MECPayment" />
 
+        <import type="android.view.View" />
 
     </data>
 
@@ -65,6 +66,7 @@
                     android:gravity="start"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:textSize="12sp"
+                    android:visibility="@{mecPayment.ecsPayment.expiryMonth !=null ? View.VISIBLE : View.GONE, default = gone }"
                     app:cardValidityDetail="@{mecPayment}" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -88,6 +90,7 @@
                     android:layout_marginStart="@dimen/border16_margin_left_right"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="@dimen/border16_margin_left_right"
+                    android:ellipsize="end"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="12sp"
                     app:shippingAddress="@{mecPayment.ecsPayment.billingAddress}" />
@@ -97,10 +100,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/border16_margin_left_right"
-                    android:layout_marginTop="@dimen/border12_margin"
+                    android:layout_marginTop="@dimen/border8_margin"
                     android:layout_marginEnd="@dimen/border16_margin_left_right"
-                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:text="@string/mec_billing_address_info"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="8sp" />
             </LinearLayout>
         </RelativeLayout>
