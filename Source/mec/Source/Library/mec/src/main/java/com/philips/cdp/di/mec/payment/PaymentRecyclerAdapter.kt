@@ -21,7 +21,6 @@ class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: Item
 
     private var totalItem = if (items.isNewCardPresent()) items.payments.size else items.payments.size + 1
 
-    private var mSelectedAddress: MECPayment? = null
 
     private val VIEW_TYPE_FOOTER = 1
     lateinit var binding: ViewDataBinding
@@ -74,16 +73,22 @@ class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: Item
                 mecAddressEditIcon.isClickable = true
                 mecAddressEditIcon.setOnClickListener { itemClickListener.onItemClick(mecPayment) }
 
+                viewHolder.binding.root.setOnClickListener {
+                    items.setSelection(mecPayment)
+                    notifyDataSetChanged()
+                }
+
             } else {
                 mecAddressEditIcon.visibility = View.GONE
                 mecAddressEditIcon.isClickable = false
+
+                viewHolder.binding.root.setOnClickListener {
+                    items.setSelection(mecPayment)
+                    itemClickListener.onItemClick(mecPayment)
+                    notifyDataSetChanged()
+                }
             }
-            viewHolder.binding.root.setOnClickListener {
-                mSelectedAddress = mecPayment
-                viewHolder.binding.root.isSelected = true
-                itemClickListener.onItemClick(mecPayment)
-                notifyDataSetChanged()
-            }
+
         }
 
     }
@@ -94,4 +99,5 @@ class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: Item
 
         return super.getItemViewType(position)
     }
+
 }

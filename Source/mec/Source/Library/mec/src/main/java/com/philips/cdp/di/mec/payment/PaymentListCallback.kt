@@ -13,7 +13,7 @@ class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSC
         if (payments != null) {
 
             for (ecsPayment in payments){
-                mecPaymentList.add(MECPayment(ecsPayment,false))
+                mecPaymentList.add(MECPayment(ecsPayment))
             }
         }
 

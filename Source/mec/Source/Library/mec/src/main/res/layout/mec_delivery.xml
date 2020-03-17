@@ -11,10 +11,6 @@
             type="com.philips.cdp.di.ecs.model.address.ECSAddress" />
 
         <variable
-            name="mecPayments"
-            type="com.philips.cdp.di.mec.payment.MECPayments" />
-
-        <variable
             name="mecDeliveryFragment"
             type="com.philips.cdp.di.mec.screens.address.MECDeliveryFragment" />
 
@@ -220,14 +216,48 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+                <FrameLayout
+                    android:id="@+id/mec_payment_framelayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mec_delivery_mode_recycler_view">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mec_payment_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/mec_delivery_mode_recycler_view"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:id="@+id/mec_payment_progress_bar">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/mec_address_card_view"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="@dimen/iap_margin_10dp"
+
+                            app:cardUseCompatPadding="true">
+
+                        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+                            style="@style/UIDProgressBarCircularIndeterminateMiddle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Loading payment"
+                            android:layout_gravity="center|center_horizontal"
+                            android:background="@android:color/transparent"
+                            app:uidLabelPosition="bottom_center"
+                            />
+                        </androidx.cardview.widget.CardView>
+
+                    </FrameLayout>
+
+                </FrameLayout>
 
 
                 <com.philips.platform.uid.view.widget.Button
@@ -235,7 +265,7 @@
                     style="@style/mecCentralesansBookFont"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/mec_payment_recycler_view"
+                    android:layout_below="@+id/mec_payment_framelayout"
                     android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
                     android:layout_marginTop="@dimen/border16_margin_left_right"
                     android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
@@ -248,7 +278,6 @@
                     android:text="@string/mec_order_summary"
                     android:textColor="?attr/uidButtonPrimaryNormalTextColor"
                     android:textSize="16dp"
-                    android:visibility="gone"
                     app:uidComponentType="Primary" />
 
             </RelativeLayout>

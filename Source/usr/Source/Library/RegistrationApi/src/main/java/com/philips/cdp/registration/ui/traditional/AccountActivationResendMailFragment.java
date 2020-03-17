@@ -12,7 +12,6 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.VisibleForTesting;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -23,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
+
+import androidx.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;

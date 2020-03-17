@@ -376,6 +376,12 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        MECDataHolder.INSTANCE.PAYMENT_HOLDER.payments.clear() //Reset payment billing address cache
+        MECDataHolder.INSTANCE.PAYMENT_HOLDER.isPaymentDownloaded = false
+    }
+
 
     override fun processError(mecError: MecError?, bool: Boolean) {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
