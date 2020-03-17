@@ -38,7 +38,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private lateinit var paymentViewModel: PaymentViewModel
     var mRootView: View? = null
     private lateinit var profileViewModel: ProfileViewModel
-    private lateinit var mecPayment: MECPayment
+    private var mecPayment: MECPayment? = null
     private lateinit var binding: MecDeliveryBinding
     private var mECDeliveryModesAdapter: MECDeliveryModesAdapter? = null
     private var mecPaymentAdapter: PaymentRecyclerAdapter? = null
@@ -46,7 +46,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private lateinit var mECSDeliveryModeList: MutableList<ECSDeliveryMode>
     lateinit var ecsShoppingCartViewModel: EcsShoppingCartViewModel
 
-    lateinit var ecsAddresses: List<ECSAddress>
+    var ecsAddresses: List<ECSAddress>? = null
     lateinit var mECSShoppingCart: ECSShoppingCart
 
     private lateinit var addressViewModel: AddressViewModel
@@ -85,7 +85,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         var profileECSAddress: ECSAddress? = null
 
         if (userProfile.defaultAddress != null) {
-            profileECSAddress = MECutility.findGivenAddressInAddressList(userProfile.defaultAddress.id, ecsAddresses)
+            profileECSAddress = ecsAddresses?.let { MECutility.findGivenAddressInAddressList(userProfile.defaultAddress.id, it) }
         }
 
         if (profileECSAddress != null) {
@@ -94,7 +94,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             binding.ecsAddressShipping = profileECSAddress
         } else {
             //if delivery address  not present neither in Cart nor in user profile then set first address of fetched list
-            setAndFetchDeliveryAddress(ecsAddresses[0])
+            ecsAddresses?.get(0)?.let { setAndFetchDeliveryAddress(it) }
         }
 
     }
@@ -125,7 +125,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private fun onRefreshCart() {
         if (mECSShoppingCart.deliveryAddress != null) {
 
-            val findGivenAddressInAddressList = MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id, ecsAddresses)
+            val findGivenAddressInAddressList = ecsAddresses?.let { MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id, it) }
 
             if (findGivenAddressInAddressList != null) binding.ecsAddressShipping = findGivenAddressInAddressList
 
@@ -198,7 +198,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
                 ecsPayment.id = MECConstant.NEW_CARD_PAYMENT
                 ecsPayment.billingAddress = ecsBillingAddress
                 mecPayment = MECPayment(ecsPayment, true)
-                mutableListOfPayments.add(mecPayment)
+                mutableListOfPayments.add(mecPayment!!)
             }
 
             val mecPayments = MECPayments(mutableListOfPayments.toList(), false)
@@ -208,7 +208,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
             // Payment logic ends
 
 
-            binding.ecsAddressShipping = ecsAddresses[0]
+            binding.ecsAddressShipping = ecsAddresses!![0]
 
             binding.mecAddressEditIcon.setOnClickListener { onEditClick() }
 
@@ -352,7 +352,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     private fun checkDeliveryAddressSet() {
         var findGivenAddressInAddressList: ECSAddress? = null
         if (null != mECSShoppingCart.deliveryAddress) {
-            findGivenAddressInAddressList = MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id, ecsAddresses)
+            findGivenAddressInAddressList = ecsAddresses?.let { MECutility.findGivenAddressInAddressList(mECSShoppingCart.deliveryAddress.id, it) }
         }
         if (null != findGivenAddressInAddressList) {
             // if shopping cart has delivery address and its ID is matching with one of the fetched address list
@@ -406,9 +406,24 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
     fun onOrderSummaryClick() {
         val mecOrderSummaryFragment = MECOrderSummaryFragment()
         val bundle = Bundle()
-        bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses[0])
-        bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
-        bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
+        if (mecPayment != null) {
+            bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment)
+        } else {
+            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_address), getString(R.string.mec_address_caution), fragmentManager!!)
+            return
+        }
+        if (mECSShoppingCart.deliveryMode != null) {
+            bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
+        } else {
+            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_delivery_method), getString(R.string.mec_delivery_mode_caution), fragmentManager!!)
+            return
+        }
+        if (ecsAddresses!!.isNotEmpty()) {
+            bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses?.get(0))
+        } else {
+            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_shipping_address), getString(R.string.mec_shipping_caution), fragmentManager!!)
+            return
+        }
         mecOrderSummaryFragment.arguments = bundle
         replaceFragment(mecOrderSummaryFragment, MECOrderSummaryFragment.TAG, true)
     }
