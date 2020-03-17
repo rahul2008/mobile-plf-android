@@ -1,3 +1,4 @@
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -226,8 +227,8 @@
                             android:layout_marginStart="@dimen/border16_margin_left_right"
                             android:layout_marginTop="2dp"
                             android:layout_marginEnd="@dimen/border16_margin_left_right"
-                            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                             android:gravity="start"
+                            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                             android:textSize="12sp"
                             app:cardValidityDetail="@{mecPayment}" />
 
@@ -294,7 +295,6 @@
                             android:id="@+id/mec_price_summary_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/iap_margin_4dp"
                             android:nestedScrollingEnabled="false"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </LinearLayout>
@@ -354,6 +354,21 @@
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="@dimen/iap_text_size_12" />
 
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/mecPrivacy"
+                style="@style/iapCentralesansMediumFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/iap_text_size_16sp"
+                android:layout_marginBottom="@dimen/iap_text_size_16sp"
+                android:layout_below="@+id/mec_vat"
+                android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
+                android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
+                android:autoLink="all"
+                android:linksClickable="true"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
+                android:textSize="@dimen/iap_product_original_price"
+                android:visibility="visible" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/mec_continue_checkout_btn"
@@ -362,7 +377,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/mec_continue_shopping_btn"
                 android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/border24_margin"
                 android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
                 android:enabled="true"
                 android:onClick="@{()->fragment.onClickPay()}"

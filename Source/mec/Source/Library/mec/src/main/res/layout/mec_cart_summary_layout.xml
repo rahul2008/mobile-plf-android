@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+            android:layout_marginTop="@dimen/iap_text_size_16sp"
             android:background="?attr/uidBottomSheetDefaultBackgroundColor"
             android:backgroundTint="#FFFFFF"
             android:orientation="horizontal">

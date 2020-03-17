@@ -1,10 +1,16 @@
 package com.philips.cdp.di.mec.screens.orderSummary
 
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
@@ -13,10 +19,12 @@ import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecOrderSummaryFragmentBinding
 import com.philips.cdp.di.mec.payment.MECPayment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummaryAdapter
 import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECDataHolder
 
 
 /**
@@ -66,6 +74,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
         binding.mecAcceptedCodeRecyclerView.adapter = vouchersAdapter
         binding.mecPriceSummaryRecyclerView.adapter = cartSummaryAdapter
+
+        privacyTextView(binding.mecPrivacy)
+        if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
+            binding.mecPrivacy.visibility = View.GONE
+        }
         return binding.root
     }
 
@@ -112,5 +125,37 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
     fun onClickBackToShoppingCart() {
         fragmentManager!!.popBackStack(MECShoppingCartFragment.TAG, 0)
+    }
+
+    private fun privacyTextView(view: TextView) {
+        val spanTxt = SpannableStringBuilder(
+                getString(R.string.mec_read))
+        spanTxt.append(" ")
+        spanTxt.append(getString(R.string.mec_privacy))
+        spanTxt.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                showPrivacyFragment()
+//                binding.progressBar.visibility = View.GONE
+                // hideProgressBar()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = true
+                ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
+            }
+        }, spanTxt.length - getString(R.string.mec_privacy).length, spanTxt.length, 0)
+        spanTxt.append(" ")
+        spanTxt.append(getString(R.string.mec_more_info))
+        binding.mecPrivacy.setHighlightColor(Color.TRANSPARENT)
+        view.movementMethod = LinkMovementMethod.getInstance()
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE)
+    }
+
+    private fun showPrivacyFragment() {
+        val bundle = Bundle()
+        bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
+        val mecPrivacyFragment = MecPrivacyFragment()
+        mecPrivacyFragment.arguments = bundle
+        replaceFragment(mecPrivacyFragment, MecPrivacyFragment.TAG, true)
     }
 }

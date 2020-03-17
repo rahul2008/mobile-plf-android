@@ -18,7 +18,7 @@ class MECCartSummaryAdapter(private val mecCart: MutableList<MECCartSummary>) : 
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val cartSummary = mecCart.get(position)
+        val cartSummary = mecCart[position]
         val viewHolder = holder as MECCartSummaryViewHolder
         viewHolder.bind(cartSummary)
     }
