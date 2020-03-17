@@ -308,6 +308,7 @@ class MECutility {
         var formattedCardValidityDetail = ""
         val cardExpMon = if (mecPayment.ecsPayment.expiryMonth != null) mecPayment.ecsPayment.expiryMonth else ""
         val cardExpYear = if (mecPayment.ecsPayment.expiryYear != null) mecPayment.ecsPayment.expiryYear else ""
+        if (cardExpMon == "" || cardExpYear == "") return formattedCardValidityDetail
         formattedCardValidityDetail = "Valid until $cardExpMon/$cardExpYear"
         return formattedCardValidityDetail
     }

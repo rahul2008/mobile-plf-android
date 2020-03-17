@@ -33,7 +33,6 @@
                 android:layout_width="@dimen/border_margin_32dp"
                 android:layout_height="@dimen/border_margin_32dp"
                 android:layout_alignParentEnd="true"
-                android:gravity="right|end"
                 android:padding="@dimen/iap_margin_4dp"
                 android:text="@string/dls_edit"
                 android:textColor="?attr/uidButtonQuietEmphasisNormalTextColor"
@@ -86,14 +85,23 @@
                     android:id="@+id/tv_address_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/border16_margin_left_right"
                     android:layout_marginTop="4dp"
-                    android:layout_marginLeft="@dimen/border16_margin_left_right"
-                    android:layout_marginRight="@dimen/border16_margin_left_right"
-                    android:gravity="start"
+                    android:layout_marginEnd="@dimen/border16_margin_left_right"
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="12sp"
                     app:shippingAddress="@{mecPayment.ecsPayment.billingAddress}" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/tv_billing_address_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/border16_margin_left_right"
+                    android:layout_marginTop="@dimen/border12_margin"
+                    android:layout_marginEnd="@dimen/border16_margin_left_right"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:text="@string/mec_billing_address_info"
+                    android:textSize="8sp" />
             </LinearLayout>
         </RelativeLayout>
 

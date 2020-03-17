@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.mec_address_card.view.mec_address_card_vie
 import kotlinx.android.synthetic.main.mec_address_card.view.tv_address_text
 import kotlinx.android.synthetic.main.mec_address_card.view.tv_name
 import kotlinx.android.synthetic.main.mec_billing_address_edit_card.view.*
+import kotlinx.android.synthetic.main.mec_billing_address_edit_card.view.mec_address_edit_icon
+import kotlinx.android.synthetic.main.mec_payment_card.view.*
 
 class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -68,14 +70,17 @@ class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: Item
             }
 
             val mecAddressEditIcon = viewHolder.binding.root.mec_address_edit_icon
+            val tvBillingAddressInfo = viewHolder.binding.root.tv_billing_address_info
 
             if (mecPayment.ecsPayment.id.equals(MECConstant.NEW_CARD_PAYMENT, true)) {
                 mecAddressEditIcon.visibility = View.VISIBLE
+                tvBillingAddressInfo.visibility = View.VISIBLE
                 mecAddressEditIcon.isClickable = true
                 mecAddressEditIcon.setOnClickListener { itemClickListener.onItemClick(mecPayment) }
 
             } else {
                 mecAddressEditIcon.visibility = View.GONE
+                tvBillingAddressInfo.visibility = View.GONE
                 mecAddressEditIcon.isClickable = false
             }
             viewHolder.binding.root.setOnClickListener {
