@@ -42,7 +42,7 @@
                 android:layout_marginStart="@dimen/border16_margin_left_right"
                 android:layout_marginTop="@dimen/iap_margin_10dp"
                 android:layout_marginEnd="@dimen/border16_margin_left_right"
-                android:text="@string/mec_add_a_new_payment_method"
+                android:text="@string/mec_add_payment_method"
                 android:textSize="14sp" />
 
         </LinearLayout>

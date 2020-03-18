@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.screens.address
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.MotionEvent
 import android.view.View
@@ -16,6 +17,7 @@ import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.ecs.util.ECSConfiguration
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.payment.MECPayment
@@ -34,7 +36,6 @@ import java.io.IOException
 class AddressViewModel : CommonViewModel() {
 
 
-
     private var ecsCreateAddressCallBack = ECSCreateAddressCallBack(this)
 
     private var ecsFetchAddressesCallback = ECSFetchAddressesCallback(this)
@@ -48,7 +49,6 @@ class AddressViewModel : CommonViewModel() {
     private var deleteAddressCallBack = DeleteAddressCallBack(this)
 
     private var updateAddressCallBack = UpdateAddressCallBack(this)
-
 
 
     var ecsServices = MECDataHolder.INSTANCE.eCSServices
@@ -72,91 +72,90 @@ class AddressViewModel : CommonViewModel() {
     val ecsDeliveryModeSet = MutableLiveData<Boolean>()
 
 
-
     lateinit var paramEcsAddress: ECSAddress
 
     lateinit var paramEcsDeliveryMode: ECSDeliveryMode
 
 
-    fun fetchAddresses(){
-        ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_FETCH_SAVED_ADDRESSES
+    fun fetchAddresses() {
+        ecsFetchAddressesCallback.mECRequestType = MECRequestType.MEC_FETCH_SAVED_ADDRESSES
         addressRepository.fetchSavedAddresses(ecsFetchAddressesCallback)
     }
 
-    fun createAddress(ecsAddress: ECSAddress){
-        paramEcsAddress=ecsAddress
-        ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_CREATE_ADDRESS
-        addressRepository.createAddress(ecsAddress,ecsCreateAddressCallBack)
-    }
-
-    fun createAndFetchAddress(ecsAddress: ECSAddress){
-        paramEcsAddress=ecsAddress
-        ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS
-        addressRepository.createAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
-    }
-
-    fun deleteAndFetchAddress(ecsAddress: ECSAddress){
-        paramEcsAddress=ecsAddress
-        ecsCreateAddressCallBack.mECRequestType=MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS
-        addressRepository.deleteAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
-    }
-
-    fun deleteAddress(ecsAddress: ECSAddress){
+    fun createAddress(ecsAddress: ECSAddress) {
         paramEcsAddress = ecsAddress
-        addressRepository.deleteAddress(ecsAddress,deleteAddressCallBack)
+        ecsCreateAddressCallBack.mECRequestType = MECRequestType.MEC_CREATE_ADDRESS
+        addressRepository.createAddress(ecsAddress, ecsCreateAddressCallBack)
     }
 
-    fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress){
-        paramEcsAddress=ecsAddress
-        ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_SET_AND_FETCH_DELIVERY_ADDRESS
-        addressRepository.setAndFetchDeliveryAddress(ecsAddress,ecsFetchAddressesCallback)
+    fun createAndFetchAddress(ecsAddress: ECSAddress) {
+        paramEcsAddress = ecsAddress
+        ecsCreateAddressCallBack.mECRequestType = MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS
+        addressRepository.createAndFetchAddress(ecsAddress, ecsFetchAddressesCallback)
     }
 
-    fun setDeliveryAddress(ecsAddress: ECSAddress){
-        paramEcsAddress=ecsAddress
-        addressRepository.setDeliveryAddress(ecsAddress,setDeliveryAddressCallBack)
+    fun deleteAndFetchAddress(ecsAddress: ECSAddress) {
+        paramEcsAddress = ecsAddress
+        ecsCreateAddressCallBack.mECRequestType = MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS
+        addressRepository.deleteAndFetchAddress(ecsAddress, ecsFetchAddressesCallback)
     }
 
-    fun updateAndFetchAddress(ecsAddress: ECSAddress){
-        paramEcsAddress=ecsAddress
-        ecsFetchAddressesCallback.mECRequestType=MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS
-        addressRepository.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
+    fun deleteAddress(ecsAddress: ECSAddress) {
+        paramEcsAddress = ecsAddress
+        addressRepository.deleteAddress(ecsAddress, deleteAddressCallBack)
     }
 
-    fun updateAddress(ecsAddress: ECSAddress){
-        paramEcsAddress=ecsAddress
-        addressRepository.updateAddress(ecsAddress,updateAddressCallBack)
+    fun setAndFetchDeliveryAddress(ecsAddress: ECSAddress) {
+        paramEcsAddress = ecsAddress
+        ecsFetchAddressesCallback.mECRequestType = MECRequestType.MEC_SET_AND_FETCH_DELIVERY_ADDRESS
+        addressRepository.setAndFetchDeliveryAddress(ecsAddress, ecsFetchAddressesCallback)
     }
 
-    fun fetchDeliveryModes(){
+    fun setDeliveryAddress(ecsAddress: ECSAddress) {
+        paramEcsAddress = ecsAddress
+        addressRepository.setDeliveryAddress(ecsAddress, setDeliveryAddressCallBack)
+    }
+
+    fun updateAndFetchAddress(ecsAddress: ECSAddress) {
+        paramEcsAddress = ecsAddress
+        ecsFetchAddressesCallback.mECRequestType = MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS
+        addressRepository.updateAndFetchAddress(ecsAddress, ecsFetchAddressesCallback)
+    }
+
+    fun updateAddress(ecsAddress: ECSAddress) {
+        paramEcsAddress = ecsAddress
+        addressRepository.updateAddress(ecsAddress, updateAddressCallBack)
+    }
+
+    fun fetchDeliveryModes() {
         ecsFetchDeliveryModesCallback.mECRequestType = MECRequestType.MEC_FETCH_DELIVERY_MODES
         addressRepository.fetchDeliveryModes(ecsFetchDeliveryModesCallback)
     }
 
-    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode ){
-        paramEcsDeliveryMode=ecsDeliveryMode
-        ecsSetDeliveryModesCallback.mECRequestType=MECRequestType.MEC_SET_DELIVERY_MODE
-        addressRepository.setDeliveryMode(ecsDeliveryMode,ecsSetDeliveryModesCallback)
+    fun setDeliveryMode(ecsDeliveryMode: ECSDeliveryMode) {
+        paramEcsDeliveryMode = ecsDeliveryMode
+        ecsSetDeliveryModesCallback.mECRequestType = MECRequestType.MEC_SET_DELIVERY_MODE
+        addressRepository.setDeliveryMode(ecsDeliveryMode, ecsSetDeliveryModesCallback)
 
     }
 
     fun retryAPI(mecRequestType: MECRequestType) {
         var retryAPI = selectAPIcall(mecRequestType)
-        authAndCallAPIagain(retryAPI,authFailCallback)
+        authAndCallAPIagain(retryAPI, authFailCallback)
     }
 
-    fun selectAPIcall(mecRequestType: MECRequestType):() -> Unit{
+    fun selectAPIcall(mecRequestType: MECRequestType): () -> Unit {
 
-        lateinit  var APIcall: () -> Unit
-        when(mecRequestType) {
-            MECRequestType.MEC_FETCH_SAVED_ADDRESSES             -> APIcall = { fetchAddresses()}
-            MECRequestType.MEC_CREATE_ADDRESS                    -> APIcall = { createAddress(paramEcsAddress) }
-            MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS          -> APIcall = { createAndFetchAddress(paramEcsAddress) }
-            MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS          -> APIcall = { deleteAndFetchAddress(paramEcsAddress) }
-            MECRequestType.MEC_SET_AND_FETCH_DELIVERY_ADDRESS    -> APIcall = { setAndFetchDeliveryAddress(paramEcsAddress) }
-            MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS          -> APIcall = { updateAndFetchAddress(paramEcsAddress) }
-            MECRequestType.MEC_FETCH_DELIVERY_MODES              -> APIcall = { fetchDeliveryModes() }
-            MECRequestType.MEC_SET_DELIVERY_MODE                 -> APIcall = { setDeliveryMode(paramEcsDeliveryMode) }
+        lateinit var APIcall: () -> Unit
+        when (mecRequestType) {
+            MECRequestType.MEC_FETCH_SAVED_ADDRESSES -> APIcall = { fetchAddresses() }
+            MECRequestType.MEC_CREATE_ADDRESS -> APIcall = { createAddress(paramEcsAddress) }
+            MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS -> APIcall = { createAndFetchAddress(paramEcsAddress) }
+            MECRequestType.MEC_DELETE_AND_FETCH_ADDRESS -> APIcall = { deleteAndFetchAddress(paramEcsAddress) }
+            MECRequestType.MEC_SET_AND_FETCH_DELIVERY_ADDRESS -> APIcall = { setAndFetchDeliveryAddress(paramEcsAddress) }
+            MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS -> APIcall = { updateAndFetchAddress(paramEcsAddress) }
+            MECRequestType.MEC_FETCH_DELIVERY_MODES -> APIcall = { fetchDeliveryModes() }
+            MECRequestType.MEC_SET_DELIVERY_MODE -> APIcall = { setDeliveryMode(paramEcsDeliveryMode) }
 
         }
         return APIcall
@@ -173,7 +172,7 @@ class AddressViewModel : CommonViewModel() {
         return String(formArray)
     }
 
-    fun getAddressFieldEnabler(country: String , context: Context): MECAddressFieldEnabler? {
+    fun getAddressFieldEnabler(country: String, context: Context): MECAddressFieldEnabler? {
 
         var addressFieldEnablerJson: String? = null
         var addressFieldEnabler: MECAddressFieldEnabler? = null
@@ -215,16 +214,15 @@ class AddressViewModel : CommonViewModel() {
             AddressFieldJsonEnum.PHONE -> addressFieldEnabler.isPhoneEnabled = false
             AddressFieldJsonEnum.FIRST_NAME -> addressFieldEnabler.isFirstNameEnabled = false
             AddressFieldJsonEnum.LAST_NAME -> addressFieldEnabler.isLastNmeEnabled = false
-            AddressFieldJsonEnum.STATE -> addressFieldEnabler.isStateEnabled= false
+            AddressFieldJsonEnum.STATE -> addressFieldEnabler.isStateEnabled = false
             AddressFieldJsonEnum.SALUTATION -> addressFieldEnabler.isSalutationEnabled = false
             AddressFieldJsonEnum.COUNTRY -> addressFieldEnabler.isCountryEnabled = false
             AddressFieldJsonEnum.POSTAL_CODE -> addressFieldEnabler.isPostalCodeEnabled = false
-            AddressFieldJsonEnum.HOUSE_NUMBER -> addressFieldEnabler.isHouseNumberEnabled =false
+            AddressFieldJsonEnum.HOUSE_NUMBER -> addressFieldEnabler.isHouseNumberEnabled = false
             AddressFieldJsonEnum.TOWN -> addressFieldEnabler.isTownEnabled = false
         }
 
     }
-
 
 
     companion object DataBindingAdapter {
@@ -232,16 +230,16 @@ class AddressViewModel : CommonViewModel() {
         //for Address
 
         @JvmStatic
-        @BindingAdapter("billingView","scrollView")
-        fun enableBillingForm(checkBox: CheckBox, view: LinearLayout , scrollView:ScrollView){
+        @BindingAdapter("billingView", "scrollView")
+        fun enableBillingForm(checkBox: CheckBox, view: LinearLayout, scrollView: ScrollView) {
 
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 val animate = view.animate()
                 animate.duration = 500
 
-                if(isChecked){
+                if (isChecked) {
                     animate.alpha(0.0f)
-                    animate.setListener(object: AnimatorListenerAdapter() {
+                    animate.setListener(object : AnimatorListenerAdapter() {
 
                         override fun onAnimationEnd(animation: Animator) {
 
@@ -251,12 +249,12 @@ class AddressViewModel : CommonViewModel() {
 
                 } else {
                     animate.alpha(1.0f)
-                    animate.setListener(object: AnimatorListenerAdapter() {
+                    animate.setListener(object : AnimatorListenerAdapter() {
 
                         override fun onAnimationEnd(animation: Animator) {
 
                             view.visibility = View.VISIBLE
-                            view.parent.requestChildFocus(view,view)
+                            view.parent.requestChildFocus(view, view)
 
                         }
                     })
@@ -267,25 +265,25 @@ class AddressViewModel : CommonViewModel() {
 
         @JvmStatic
         @BindingAdapter("phoneNumberEditText")
-        fun setPhoneNumberValidator(inputValidationLayout: InputValidationLayout,phoneNumberValidationEditText: ValidationEditText) {
+        fun setPhoneNumberValidator(inputValidationLayout: InputValidationLayout, phoneNumberValidationEditText: ValidationEditText) {
             inputValidationLayout.setValidator(PhoneNumberInputValidator(phoneNumberValidationEditText, PhoneNumberUtil.getInstance()))
         }
 
         @JvmStatic
         @BindingAdapter("emptyValidator")
-        fun setEmptyValidator(inputValidationLayout: InputValidationLayout, obj:Any?) { // As binding Adapter without parameter not possible
+        fun setEmptyValidator(inputValidationLayout: InputValidationLayout, obj: Any?) { // As binding Adapter without parameter not possible
 
             inputValidationLayout.setValidator(EmptyInputValidator())
         }
 
         @JvmStatic
         @BindingAdapter("dropDownData")
-        fun setDropDown(validationEditText: ValidationEditText, dropDownData:Array<String> ?){
+        fun setDropDown(validationEditText: ValidationEditText, dropDownData: Array<String>?) {
 
             if (dropDownData.isNullOrEmpty()) return
 
             validationEditText.setCompoundDrawables(null, null, MECutility.getImageArrow(validationEditText.context), null)
-            val salutationDropDown = MECDropDown(validationEditText,dropDownData)
+            val salutationDropDown = MECDropDown(validationEditText, dropDownData)
 
             salutationDropDown.createPopUp()
             validationEditText.setOnTouchListener(fun(v: View, event: MotionEvent): Boolean {
@@ -295,13 +293,12 @@ class AddressViewModel : CommonViewModel() {
         }
 
 
-
         @JvmStatic
         @BindingAdapter("firstName")
-        fun setFirstName(validationEditText: ValidationEditText, obj:Any?){
+        fun setFirstName(validationEditText: ValidationEditText, obj: Any?) {
 
             val firstName = MECDataHolder.INSTANCE.getUserInfo().firstName
-            if(!firstName.isNullOrEmpty() && !firstName.equals("null",true)){
+            if (!firstName.isNullOrEmpty() && !firstName.equals("null", true)) {
                 validationEditText.setText(firstName)
             }
 
@@ -309,10 +306,10 @@ class AddressViewModel : CommonViewModel() {
 
         @JvmStatic
         @BindingAdapter("lastName")
-        fun setLastName(validationEditText: ValidationEditText, obj:Any?){
+        fun setLastName(validationEditText: ValidationEditText, obj: Any?) {
 
             val lastName = MECDataHolder.INSTANCE.getUserInfo().lastName
-            if(!lastName.isNullOrEmpty() && !lastName.equals("null",true)){
+            if (!lastName.isNullOrEmpty() && !lastName.equals("null", true)) {
                 validationEditText.setText(lastName)
             }
 
@@ -322,25 +319,26 @@ class AddressViewModel : CommonViewModel() {
 
         @JvmStatic
         @BindingAdapter("shippingAddress")
-        fun setShippingAddress(lebel: Label, ecsAddress: ECSAddress){
+        fun setShippingAddress(lebel: Label, ecsAddress: ECSAddress) {
             lebel.text = MECutility().constructShippingAddressDisplayField(ecsAddress)
         }
 
         @JvmStatic
         @BindingAdapter("cardDetail")
-        fun cardDetail(lebel: Label, mecPayment: MECPayment){
+        fun cardDetail(lebel: Label, mecPayment: MECPayment) {
             lebel.text = MECutility().constructCardDetails(mecPayment)
         }
 
+        @SuppressLint("SetTextI18n")
         @JvmStatic
         @BindingAdapter("cardValidityDetail")
-        fun cardValidityDetail(label: Label, mecPayment: MECPayment){
-            label.text = MECutility().constructCardValidityDetails(mecPayment)
+        fun cardValidityDetail(label: Label, mecPayment: MECPayment) {
+            label.text = label.context.getText(R.string.mec_valid_until).toString()+ " "+  MECutility().constructCardValidityDetails(mecPayment)
         }
 
     }
 
-    enum class AddressFieldJsonEnum (val addressField: String) {
+    enum class AddressFieldJsonEnum(val addressField: String) {
 
         SALUTATION("salutation"),
         FIRST_NAME("firstName"),
@@ -372,14 +370,14 @@ class AddressViewModel : CommonViewModel() {
         }
     }
 
-    fun getCountry() : Country{
+    fun getCountry(): Country {
         val country = Country()
         country.isocode = ECSConfiguration.INSTANCE.country
         return country
     }
 
-    fun setRegion(linearLayout: LinearLayout , mecRegions: MECRegions? ,ecsAddress: ECSAddress){
-        var state= linearLayout.et_state.text.toString()
+    fun setRegion(linearLayout: LinearLayout, mecRegions: MECRegions?, ecsAddress: ECSAddress) {
+        var state = linearLayout.et_state.text.toString()
         ecsAddress.region = mecRegions?.getRegion(state)
     }
 

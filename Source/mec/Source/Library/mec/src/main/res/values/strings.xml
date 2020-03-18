@@ -89,6 +89,21 @@
     <string name="mec_blank_cvv_error">Please enter a valid CVV</string>
     <string name="mec_payment_failed_message">There was a problem processing your payment. Your account has not been charged. Please try again or choose another payment method.</string>
     <string name="mec_cart_out_of_stock_message">This product is temporarily out of stock. Please remove it from cart to shop further.</string>
+    <string name="mec_checkout">Checkout</string>
+    <string name="mec_continue">Continue</string>
+    <string name="mec_cvv_code">Please enter the CVV/CVC for </string>
+    <string name="mec_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
+    <string name="mec_payment_method">Payment method</string>
+    <string name="mec_fetching_payment">Fetching Payment Details...</string><!--Implement in Delivery screen. its not there-->
+    <string name="mec_add_payment_method">Add a new payment method</string>
+    <string name="mec_valid_until">Valid until</string>
+    <string name="mec_payment">Payment</string>
+    <string name="mec_confirmation">Confirmation</string>
+    <string name="mec_thank_for_order">Thank you for your order</string>
+    <string name="mec_confirmation_email_msg">"You will receive a confirmation e-mail shortly at</string>
+    <string name="mec_payment_is_pending">Payment pending</string>
+    <string name="mec_payment_pending">Your payment is pending</string>
+    <string name="mec_payment_pending_confirmation">If the payment is confirmed you will receive a confirmation e-mail at</string>
 
     <!--- String match -->
     <string name="mec_reviews">Reviews</string>
@@ -135,7 +150,7 @@
     <string name="mec_add_gift_codes">Add gift codes</string>
 
 
-    <string name="mec_order_summary">Order summary</string>
+    <string name="mec_order_summary">Order Summary</string>
 
     <string name="mec_remove_product">Remove product</string>
     <string name="mec_remove_voucher">Remove voucher</string>
@@ -150,7 +165,6 @@
 
 
     <string name="mec_invalid_voucher_error">Sorry, this voucher can\'t be redeemed</string>
-    <string name="mec_checkout">Checkout</string>
 
     <string name="mec_exceed_cart_limit">Exceed Cart limit</string>
     <string name="mec_cannot_add">You can not add more than </string>
@@ -168,18 +182,16 @@
     <string name="mec_left">left</string>
     <string name="mec_new_line">\n</string>
 
-    <string name="mec_cvv_code">Please enter the CVV/CVC for </string>
-    <string name="mec_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
-    <string name="mec_continue">Continue</string>
     <string name="mec_not_now">Not now</string>
 
 
-    <string name="mec_order_summary_privacy_i_have_read_the">I have read the </string>
-    <string name="mec_order_summary_privacy_question">Questions? Please visit our </string>
-    <string name="mec_order_summary_privacy_page_by_placing">page by placing the order, I accept Philips\'</string>
+    <string name="mec_read_privacy">I have read the </string>
+    <string name="mec_questions">Questions? Please visit our </string>
+    <string name="mec_accept_terms">by placing the order, I accept Philips\'</string>
     <string name="mec_faq">FAQ</string>
+    <string name="mec_page">page</string>
+    <string name="mec_shopping_cart_title">Cart</string>
 
-    <string name="mec_add_a_new_payment_method">Add a new payment method</string>
 
 
 </resources>

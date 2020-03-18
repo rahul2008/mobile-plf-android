@@ -206,7 +206,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="@dimen/border16_margin_left_right"
                             android:paddingRight="@dimen/border16_margin_left_right"
-                            android:text="Payment method" />
+                            android:text="@string/mec_payment_method" />
 
                         <com.philips.platform.uid.view.widget.Label
                             android:id="@+id/tv_payment_method"
@@ -360,7 +360,6 @@
                 style="@style/iapCentralesansMediumFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/iap_text_size_16sp"
                 android:layout_marginBottom="@dimen/iap_text_size_16sp"
                 android:layout_below="@+id/mec_vat"
                 android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
