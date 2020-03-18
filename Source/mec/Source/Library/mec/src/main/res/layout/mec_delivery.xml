@@ -216,11 +216,31 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+                <LinearLayout
+                    android:id="@+id/mec_payment_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mec_delivery_mode_recycler_view"
+                    android:background="?attr/uidContentPrimaryBackgroundColor"
+                    android:orientation="vertical">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/mec_payment_delivery_mode"
+                        style="@style/mec_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="@dimen/iap_margin_20dp"
+                        android:paddingStart="@dimen/border16_margin_left_right"
+                        android:paddingEnd="@dimen/border16_margin_left_right"
+                        android:text="Payment Method" />
+
+                </LinearLayout>
+
                 <FrameLayout
                     android:id="@+id/mec_payment_framelayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/mec_delivery_mode_recycler_view">
+                    android:layout_below="@+id/mec_payment_mode">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mec_payment_recycler_view"
                     android:layout_width="match_parent"
