@@ -407,10 +407,14 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         if (!isClickable()) return;
 
         if (view == mShopNow) {
-            if (getActivity() instanceof LaunchAsActivity) {
-                launchMEC(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, new MECFlowConfigurator(), null);
-            } else if (getActivity() instanceof LaunchAsFragment) {
-                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, new MECFlowConfigurator(), null);
+            if(mEtPropositionId.getText().toString().trim().length()>0 && isHybrisEnable) {
+                if (getActivity() instanceof LaunchAsActivity) {
+                    launchMEC(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, new MECFlowConfigurator(), null);
+                } else if (getActivity() instanceof LaunchAsFragment) {
+                    launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, new MECFlowConfigurator(), null);
+                }
+            }else{
+                Toast.makeText(getActivity(), "Please provide Proposition ID", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mLaunchProductDetail) {
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
@@ -502,7 +506,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             //update shopping cart count if user logged in
             updateCartIconVisibility(true);
-           // mMecInterface.getProductCartCount(this);
+            mMecInterface.getProductCartCount(this);
             }else{
             updateCartIconVisibility(false);
         }

@@ -8,7 +8,6 @@ import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.config.ECSConfig
@@ -19,7 +18,6 @@ import com.philips.cdp.di.mec.screens.reviews.BazaarVoiceHelper
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.appinfra.AppInfra
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlMapListener
 import com.philips.platform.uappframework.launcher.ActivityLauncher
 import com.philips.platform.uappframework.launcher.FragmentLauncher
@@ -54,7 +52,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
 
     fun launchMEC() {
-        appInfra = mMECDependencies.appInfra as AppInfra
+      /*  appInfra = mMECDependencies.appInfra as AppInfra
         val configInterface = appInfra!!.configInterface
         val configError = AppConfigurationInterface.AppConfigurationError()
         val propositionID = configInterface.getPropertyForKey("propositionid", "MEC", configError)
@@ -65,7 +63,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         val ecsServices = ECSServices(propertyForKey, appInfra!!)
         MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
         MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
-        MECDataHolder.INSTANCE.propositionId = propertyForKey
+        MECDataHolder.INSTANCE.propositionId = propertyForKey*/
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.supportsHybris
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
@@ -87,7 +85,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         // get config
 
-        ecsServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception>{
+        MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception>{
 
             override fun onResponse(config: ECSConfig?) {
 
@@ -128,7 +126,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         listOfServiceId = ArrayList()
         listOfServiceId!!.add(IAP_PRIVACY_URL)
         serviceUrlMapListener = ServiceDiscoveryMapListener()
-        appInfra!!.serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener, null)
+        MECDataHolder.INSTANCE.appinfra!!.serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener, null)
     }
 
 

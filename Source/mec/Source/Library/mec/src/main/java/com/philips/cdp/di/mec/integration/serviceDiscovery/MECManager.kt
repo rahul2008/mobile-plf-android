@@ -21,8 +21,8 @@ class MECManager {
     fun getProductCartCountWorker(mecListener: MECListener){
         MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
             override fun onResponse(result: ECSConfig) {
-                if (result.isHybris) {
-                    getShoppingCartData(mecListener)
+                if (result.isHybris &&  null!=result!!.rootCategory) {
+                        getShoppingCartData(mecListener)
                 } else {
                     //hybris not available
                     mecListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
