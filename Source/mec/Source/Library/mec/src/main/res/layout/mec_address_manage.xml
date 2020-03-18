@@ -54,7 +54,7 @@
                 android:paddingRight="@dimen/border16_margin_left_right"
                 android:textSize="14sp"
                 fontPath="fonts/centralesansbook.ttf"
-                android:text="@string/mec_choose_shipping_address_from_below_list" />
+                android:text="@string/mec_choose_address_text" />
 
         </LinearLayout>
 

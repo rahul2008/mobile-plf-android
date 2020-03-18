@@ -447,7 +447,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         if (ecsAddresses!!.isNotEmpty()) {
             bundle.putSerializable(MECConstant.KEY_ECS_ADDRESS, ecsAddresses?.get(0))
         } else {
-            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_shipping_address), getString(R.string.mec_shipping_caution), fragmentManager!!)
+            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_shipping_address), getString(R.string.mec_no_address_select_message), fragmentManager!!)
             return
         }
         mecOrderSummaryFragment.arguments = bundle

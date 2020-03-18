@@ -52,9 +52,43 @@
     <string name="mec_delete_item_alert_message">Would you like to delete this shipping address?</string>
     <string name="mec_no_delivery_mode_error_message">Please select a Delivery Mode</string>
     <string name="mec_no_payment_error_message">Please select a Payment Method</string>
+    <string name="mec_no_address_select_message">Please select a Shipping Address</string><!-- One scenario is missing from manage address add over there-->
+    <string name="mec_set_shipping_address_alert_message">Do you want to set this address as the shipping address?</string>
+    <string name="mec_set_text">Set</string>
 
-
-    <string name="mec_shipping_caution">Please select a Shipping Address</string>
+    <!--    //New  String-->
+    <string name="mec_cart_total">Total</string>
+    <string name="mec_add_wishlist">Add to wishlist</string>
+    <string name="mec_authentication">Authentication</string><!-- Implementation is required android-->
+    <string name="mec_delete_product_confirmation_title">Would you like to delete this product from shopping cart?</string>
+    <string name="mec_delete_voucher_confirmation_title">Would you like to remove this voucher from shopping cart?</string>
+    <string name="mec_cart_tax_message">Price including %s VAT</string><!-- Check for alignment. mec_shopping_cart_fragment-->
+    <string name="mec_save_and_continue">Save and continue</string>
+    <string name="mec_card_holder_first_name">Card Holder First name</string>
+    <string name="mec_card_holder_last_name">Card Holder Last name</string>
+    <string name="mec_salutation_error">Please select a salutation</string><!-- Not imp0lemented-->
+    <string name="mec_delete_item_description">Your product will be removed from your shopping cart. Are you sure?</string>
+    <string name="mec_delete_voucher_description">Your voucher will be removed from your shopping cart. Are you sure?</string>
+    <string name="mec_choose_address_text">Choose Shipping Address from below list</string>
+    <string name="mec_add_new_address">Add a new shipping address</string>
+    <string name="mec_delivery">Delivery</string>
+    <string name="mec_manage_address">Manage Address</string>
+    <string name="mec_stock_available">products left</string><!-- Update in screen for stock-->
+    <string name="dfs">This product is temporarily out of stock. please remove it from cart to shop further</string>
+    <string name="mec_only">Only</string>
+    <string name="mec_enter_code">Enter gift code</string>
+    <string name="mec_discount">discount</string>
+    <string name="mec_apply">Apply</string>
+    <string name="mec_shipping_cost">Shipping cost</string>
+    <string name="mec_new_payment_disclaimer">* This payment detail will be saved once you place an order.</string><!-- note: update star from code-->
+    <string name="mec_new_card_text">New Card</string><!--mecdeliveryfragment.kt-->
+    <string name="mec_order_pay">Order and pay</string>
+    <string name="mec_back_shoppingCart">Back to Shopping cart</string>
+    <string name="mec_order_summary_shipping">Delivery information</string><!--Mec_order_summary_fragment.xml-->
+    <string name="mec_quantity">Quantity</string><!--update requided place-->
+    <string name="mec_blank_cvv_error">Please enter a valid CVV</string>
+    <string name="mec_payment_failed_message">There was a problem processing your payment. Your account has not been charged. Please try again or choose another payment method.</string>
+    <string name="mec_cart_out_of_stock_message">This product is temporarily out of stock. Please remove it from cart to shop further.</string>
 
     <!--- String match -->
     <string name="mec_reviews">Reviews</string>
@@ -77,7 +111,7 @@
     <string name="mec_anonymous">Anonymous</string>
     <string name="mec_has_used_this_product_for">Has used this product for </string>
     <string name="mec_add_gift_Card">Add gift code</string>
-    <string name="mec_add">Apply</string>
+
     <string name="mec_add_to_cart">Add to cart</string>
     <string name="mec_online_retailers">Online Retailers</string>
     <string name="mec_continue_checkout">Continue to checkout</string>
@@ -99,7 +133,7 @@
     <string name="mec_continue_shopping">Continue shopping</string>
     <string name="mec_invalid_product_ctn">Please provide a non empty product CTN</string>
     <string name="mec_add_gift_codes">Add gift codes</string>
-    <string name="mec_add_gift_code">Enter gift code</string>
+
 
     <string name="mec_order_summary">Order summary</string>
 
@@ -108,8 +142,6 @@
     <string name="mec_delete_item">Delete Item</string>
     <string name="mec_delete_voucher">Delete Voucher</string>
 
-    <string name="mec_delete_item_description">Your product will be removed from your shopping cart. Are you sure?</string>
-    <string name="mec_delete_voucher_description">Your voucher will be removed from your shopping cart. Are you sure?</string>
 
     <!--Address screen strings-->
 
@@ -119,42 +151,35 @@
 
     <string name="mec_invalid_voucher_error">Sorry, this voucher can\'t be redeemed</string>
     <string name="mec_checkout">Checkout</string>
-    <string name="mec_delivery">Delivery</string>
+
     <string name="mec_exceed_cart_limit">Exceed Cart limit</string>
     <string name="mec_cannot_add">You can not add more than </string>
     <string name="mec_product_in_cart"> products in your cart</string>
     <string name="mec_delivery_ups_parcel">Delivery via %s</string>
-    <string name="mec_shipping_cost">Shipping cost</string>
     <string name="mec_seperator">&#160;|&#160;</string>
     <string name="mec_empty_space">&#160;</string>
     <string name="mec_delivery_cost">Delivery cost</string>
-    <string name="mec_discount">discount</string>
-    <string name="mec_total">Total</string>
+
+
     <string name="mec_products">Products</string>
     <string name="mec_pice_including">Price including</string>
     <string name="mec_vat">vat</string>
-    <string name="mec_only">Only</string>
+
     <string name="mec_left">left</string>
-    <string name="mec_save_and_continue">Save and Continue</string>
     <string name="mec_new_line">\n</string>
 
     <string name="mec_cvv_code">Please enter the CVV/CVC for </string>
     <string name="mec_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
     <string name="mec_continue">Continue</string>
     <string name="mec_not_now">Not now</string>
-    <string name="mec_card_holder_fname">Card holder first name</string>
-    <string name="mec_card_holder_lname">Card holder last name</string>
-    <string name="mec_billing_address_info">* The payment detail will be saved once you place an order.</string>
+
 
     <string name="mec_order_summary_privacy_i_have_read_the">I have read the </string>
     <string name="mec_order_summary_privacy_question">Questions? Please visit our </string>
     <string name="mec_order_summary_privacy_page_by_placing">page by placing the order, I accept Philips\'</string>
     <string name="mec_faq">FAQ</string>
-    <string name="mec_order_and_pay">Order and pay</string>
-    <string name="mec_back_to_shopping_cart">Back to Shopping Cart</string>
-    <string name="mec_choose_shipping_address_from_below_list">Choose shipping address from below list</string>
-    <string name="mec_manage_address">Manage Address</string>
+
     <string name="mec_add_a_new_payment_method">Add a new payment method</string>
-    <string name="mec_set_shipping_address_item_alert_message">Do you want to set this address as the shipping address?</string>
-    <string name="mect_set">Set</string>
+
+
 </resources>

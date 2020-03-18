@@ -131,7 +131,7 @@ class ManageAddressFragment : BottomSheetDialogFragment(), AlertListener {
 
         binding.mecBtnSetAddress.setOnClickListener {
             isAddressPopup = true
-            MECutility.showActionDialog(binding.mecBtnSetAddress.context, getString(R.string.mect_set), getString(R.string.mec_cancel), getString(R.string.mec_address), getString(R.string.mec_set_shipping_address_item_alert_message), fragmentManager!!, this)
+            MECutility.showActionDialog(binding.mecBtnSetAddress.context, getString(R.string.mec_set_text), getString(R.string.mec_cancel), getString(R.string.mec_address), getString(R.string.mec_set_shipping_address_alert_message), fragmentManager!!, this)
         }
 
         return binding.root
