@@ -236,8 +236,8 @@ class AddAddressFragment : MecBaseFragment() {
 
     private fun gotoDeliveryAddress(addressList: List<ECSAddress>?) {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-        var deliveryFragment = MECDeliveryFragment()
-        var bundle = Bundle()
+        val deliveryFragment = MECDeliveryFragment()
+        val bundle = Bundle()
         bundle.putSerializable(MECConstant.KEY_ECS_ADDRESSES, addressList as Serializable)
         bundle.putSerializable(MECConstant.KEY_ECS_BILLING_ADDRESS,eCSAddressBilling)
         bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART , mECSShoppingCart)

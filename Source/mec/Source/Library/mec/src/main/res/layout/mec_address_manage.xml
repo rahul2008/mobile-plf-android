@@ -43,7 +43,7 @@
                 fontPath="fonts/centralesansbold.ttf"
                 android:textSize="18sp"
                 android:gravity="start"
-                android:text="Manage Address" />
+                android:text="@string/mec_manage_address" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                 android:paddingRight="@dimen/border16_margin_left_right"
                 android:textSize="14sp"
                 fontPath="fonts/centralesansbook.ttf"
-                android:text="Choose shipping address from below list" />
+                android:text="@string/mec_choose_shipping_address_from_below_list" />
 
         </LinearLayout>
 
@@ -71,13 +71,12 @@
             style="@style/mecCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/mec_continue_shopping_btn"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
-            android:text="Deliver to this Address"
+            android:text="@string/mec_deliver_to_this_address"
             android:textColor="?attr/uidButtonPrimaryNormalTextColor"
-            android:textSize="16dp"
+            android:textSize="@dimen/iap_text_size_16sp"
             app:uidComponentType="Primary" />
 
         <com.philips.platform.uid.view.widget.Button
@@ -85,15 +84,14 @@
             style="@style/mecCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginTop="8dp"
             android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
             android:layout_marginBottom="@dimen/iap_shopping_cart_btn_margin"
             android:enabled="true"
-            android:text="Delete"
+            android:text="@string/mec_delete"
             android:textColor="?attr/uidButtonSecondaryNormalTextColor"
-            android:textSize="16dp"
+            android:textSize="@dimen/iap_text_size_16sp"
             app:uidComponentType="Secondary" />
 
 

@@ -238,7 +238,7 @@
                         android:layout_marginTop="@dimen/iap_margin_4dp"
                         app:emptyValidator="@{null}"
                         app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                        app:uidTextBoxValidationErrorText="@string/mec_houseNumber_error">
+                        app:uidTextBoxValidationErrorText="@string/mec_house_number_error">
 
                         <com.philips.platform.uid.view.widget.ValidationEditText
                             android:id="@+id/et_house_no"

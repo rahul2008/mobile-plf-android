@@ -91,7 +91,7 @@ class MECutility {
                 dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager)
             }
             alertDialogFragment = builder.setCancelable(false).create()
-            if (!alertDialogFragment!!.isVisible()) {
+            if (!alertDialogFragment!!.isVisible) {
                 alertDialogFragment!!.show(pFragmentManager, ALERT_DIALOG_TAG)
             }
         }
