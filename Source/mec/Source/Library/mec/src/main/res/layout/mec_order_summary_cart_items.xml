@@ -22,7 +22,9 @@
             android:id="@+id/product_parent_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/iap_text_size_16sp">
+            android:paddingStart="@dimen/iap_text_size_16sp"
+            android:paddingTop="@dimen/iap_text_size_16sp"
+            android:paddingEnd="@dimen/iap_text_size_16sp">
 
             <FrameLayout
                 android:id="@+id/frame"

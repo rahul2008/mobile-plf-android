@@ -435,13 +435,13 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
         if (MECDataHolder.INSTANCE.PAYMENT_HOLDER.getSelectedPayment() != null) {
             bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, MECDataHolder.INSTANCE.PAYMENT_HOLDER.getSelectedPayment())
         } else {
-            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_address), getString(R.string.mec_address_caution), fragmentManager!!)
+            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_address), getString(R.string.mec_no_payment_error_message), fragmentManager!!)
             return
         }
         if (mECSShoppingCart.deliveryMode != null) {
             bundle.putSerializable(MECConstant.KEY_ECS_SHOPPING_CART, mECSShoppingCart)
         } else {
-            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_delivery_method), getString(R.string.mec_delivery_mode_caution), fragmentManager!!)
+            MECutility.showDLSDialog(binding.mecPaymentRecyclerView.context, getString(R.string.mec_ok), getString(R.string.mec_delivery_method), getString(R.string.mec_no_delivery_mode_error_message), fragmentManager!!)
             return
         }
         if (ecsAddresses!!.isNotEmpty()) {

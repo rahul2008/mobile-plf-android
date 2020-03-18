@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/border16_margin_left_right"
                     android:checked="true"
-                    android:text="Use this as billing Address"
+                    android:text="@string/mec_use_as_billing_address"
                     app:billingView="@{llBilling}"
                     app:scrollView="@{addressContainer}" />
 

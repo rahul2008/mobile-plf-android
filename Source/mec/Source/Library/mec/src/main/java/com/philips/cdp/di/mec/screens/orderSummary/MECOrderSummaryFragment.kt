@@ -129,14 +129,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
     private fun privacyTextView(view: TextView) {
         val spanTxt = SpannableStringBuilder(
-                getString(R.string.mec_read))
-        spanTxt.append(" ")
+                getString(R.string.mec_order_summary_privacy_i_have_read_the))
         spanTxt.append(getString(R.string.mec_privacy))
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
-//                binding.progressBar.visibility = View.GONE
-                // hideProgressBar()
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -144,9 +141,29 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
         }, spanTxt.length - getString(R.string.mec_privacy).length, spanTxt.length, 0)
-        spanTxt.append(" ")
-        spanTxt.append(getString(R.string.mec_more_info))
-        binding.mecPrivacy.setHighlightColor(Color.TRANSPARENT)
+        spanTxt.append(getString(R.string.mec_order_summary_privacy_question))
+        spanTxt.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                showPrivacyFragment()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = true
+                ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
+            }
+        }, spanTxt.length - getString(R.string.mec_faq).length, spanTxt.length, 0)
+        spanTxt.append(getString(R.string.mec_order_summary_privacy_page_by_placing))
+        spanTxt.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                showPrivacyFragment()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = true
+                ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
+            }
+        }, spanTxt.length - getString(R.string.mec_faq).length, spanTxt.length, 0)
+        binding.mecPrivacy.highlightColor = Color.TRANSPARENT
         view.movementMethod = LinkMovementMethod.getInstance()
         view.setText(spanTxt, TextView.BufferType.SPANNABLE)
     }
