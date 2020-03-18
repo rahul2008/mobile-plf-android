@@ -3,8 +3,12 @@ package com.philips.cdp.di.mec.payment
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
+import com.philips.cdp.di.mec.common.MECRequestType
+import com.philips.cdp.di.mec.common.MecError
 
 class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSCallback<List<ECSPayment>, Exception> {
+
+    var mECRequestType = MECRequestType.MEC_FETCH_PAYMENT_DETAILS
 
     override fun onResponse(payments: List<ECSPayment>?) {
 
@@ -25,6 +29,7 @@ class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSC
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
 
-       // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val mecError = MecError(error, ecsError,mECRequestType)
+        paymentViewModel.mecError.value = mecError
     }
 }

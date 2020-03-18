@@ -16,6 +16,7 @@ import com.philips.cdp.di.ecs.model.payment.CardType
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecDeliveryBinding
 import com.philips.cdp.di.mec.payment.MECPayment
@@ -356,7 +357,11 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
 
     override fun processError(mecError: MecError?, showDialog: Boolean) {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-        binding.mecPaymentProgressBar.visibility = View.GONE
+
+        if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_PAYMENT_DETAILS) {
+            binding.mecPaymentProgressBar.visibility = View.GONE
+            showPaymentCardList() // even for error inflate the Add Payment view
+        }
         super.processError(mecError, showDialog)
     }
 
