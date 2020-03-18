@@ -85,8 +85,8 @@ class AddOrEditBillingAddressFragment : MecBaseFragment() {
 
         if (!ecsAddress.isShippingAddress) {
             binding.tvShippingAddress.setText(R.string.mec_billing_address)
-            binding.dlsIapAddressShipping.labelFirstName.setText(R.string.mec_card_holder_fname)
-            binding.dlsIapAddressShipping.lableLastName.setText(R.string.mec_card_holder_lname)
+            binding.dlsIapAddressShipping.labelFirstName.setText(R.string.mec_card_holder_first_name)
+            binding.dlsIapAddressShipping.lableLastName.setText(R.string.mec_card_holder_last_name)
         }
 
 
