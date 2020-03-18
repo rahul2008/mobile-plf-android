@@ -25,6 +25,7 @@ class MECRegions(private val regionList: List<ECSRegion>){
             if(ecsRegion.name.equals(regionName,true)){
 
                 region.isocodeShort = ecsRegion.getIsocode()
+                region.name = regionName
             }
         }
         return region

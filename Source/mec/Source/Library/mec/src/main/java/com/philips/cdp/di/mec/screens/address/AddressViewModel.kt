@@ -3,7 +3,6 @@ package com.philips.cdp.di.mec.screens.address
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.CycleInterpolator
@@ -12,13 +11,11 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.ecs.util.ECSConfiguration
-import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.payment.MECPayment
@@ -33,7 +30,6 @@ import kotlinx.android.synthetic.main.mec_enter_address.view.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.util.*
 
 class AddressViewModel : CommonViewModel() {
 
@@ -363,7 +359,7 @@ class AddressViewModel : CommonViewModel() {
         companion object {
 
             fun getAddressFieldJsonEnumFromField(field: String): AddressFieldJsonEnum? {
-                val values = AddressFieldJsonEnum.values()
+                val values = values()
 
                 for (addressFieldJsonEnum in values) {
 
@@ -374,43 +370,6 @@ class AddressViewModel : CommonViewModel() {
                 return null
             }
         }
-    }
-
-    fun getECSAddress(linearLayout: LinearLayout, mecRegions: MECRegions?): ECSAddress {
-
-        val firstName = linearLayout.et_first_name.text.toString()
-        val lastName = linearLayout.et_last_name.text.toString()
-        // val countryCode = linearLayout.et_country.text.toString()
-        val addressLineOne = linearLayout.et_address_line_one.text.toString()
-        val addressLineTwo = linearLayout.et_address_line_two.text.toString()
-        val postalCode = linearLayout.et_postal_code.text.toString()
-        val phoneOne = linearLayout.et_phone1.text.toString()
-        val town = linearLayout.et_town.text.toString()
-        val houseNumber = linearLayout.et_house_no.text.toString()
-        val title = linearLayout.et_salutation.text.toString()
-        val state =linearLayout.et_state.text.toString()
-
-
-        val ecsAddress = ECSAddress()
-
-        ecsAddress.firstName = firstName
-        ecsAddress.lastName = lastName
-        ecsAddress.titleCode = title.toLowerCase(Locale.getDefault()) // Todo , pass the locale to lower case
-
-        val country = Country()
-        country.isocode = ECSConfiguration.INSTANCE.country
-        ecsAddress.country = country
-
-        ecsAddress.line1 = addressLineOne
-        ecsAddress.line2 = addressLineTwo
-        ecsAddress.postalCode = postalCode
-        ecsAddress.phone1 = phoneOne
-        ecsAddress.phone2=phoneOne
-        ecsAddress.town = town
-        ecsAddress.houseNumber = houseNumber
-        ecsAddress.region = mecRegions?.getRegion(state)
-
-        return ecsAddress
     }
 
     fun getCountry() : Country{

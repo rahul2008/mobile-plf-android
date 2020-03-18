@@ -239,20 +239,19 @@
                             android:layout_height="150dp"
                             android:clickable="false"
                             android:focusable="false"
+                            android:padding="@dimen/iap_margin_10dp"
                             app:cardCornerRadius="10dp"
                             app:cardElevation="@dimen/iap_margin_10dp"
-
                             app:cardUseCompatPadding="true">
 
-                        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
-                            style="@style/UIDProgressBarCircularIndeterminateMiddle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fetching payment Details..."
-                            android:layout_gravity="center"
-                            android:background="@android:color/transparent"
-                            app:uidLabelPosition="bottom_left"
-                            />
+                            <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+                                style="@style/UIDProgressBarCircularIndeterminateMiddle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fetching payment Details..."
+                                app:uidCircularProgressBarSize="middle"
+                                app:uidIsIndeterminateProgressIndicator="true"
+                                app:uidLabelPosition="bottom_center" />
                         </androidx.cardview.widget.CardView>
 
                     </FrameLayout>
