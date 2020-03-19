@@ -4,10 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.ConversationsException
 import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.philips.cdp.di.mec.common.MecError
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
@@ -51,11 +50,11 @@ class MECReviewConversationsDisplayCallbackTest {
         //assertNotNull(ecsProductDetailViewModelMock.bulkRatingResponse.value)
     }
 
-    @Test
+ /*   @Test
     fun onFailure() {
         mecReviewConversationsDisplayCallback.onFailure(exceptionMock)
         assertNotNull(ecsProductDetailViewModelMock.mecError)
         //TODO
         //assertNotNull(ecsProductDetailViewModelMock.mecError.value)
-    }
+    }*/
 }
