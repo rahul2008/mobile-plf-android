@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
+import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -329,7 +331,14 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         try {
             mMecInterface.init(mecDependencies, mMecSettings);
+            if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                //update shopping cart count if user logged in
+                if(null!=mMecInterface) {
+                    mMecInterface.getProductCartCount(this);
+                }
+            }
         } catch (RuntimeException ex) {
+            Log.v("MecInterface","MecInterface init failed "+ex.getMessage());
         }
 
         mMecLaunchInput = new MECLaunchInput();
@@ -340,6 +349,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecLaunchInput.setSupportsHybris(isHybrisEnable);
         mMecLaunchInput.setSupportsRetailer(isRetailerEnabled);
         mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
+
+
+
     }
 
 
@@ -506,7 +518,6 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             //update shopping cart count if user logged in
             updateCartIconVisibility(true);
-            mMecInterface.getProductCartCount(this);
             }else{
             updateCartIconVisibility(false);
         }

@@ -234,6 +234,7 @@ class MECutility {
 
         @JvmStatic
         fun tagAndShowError(mecError: MecError?, showDialog: Boolean, aFragmentManager: FragmentManager?, Acontext: Context?) {
+            var errorMessage: String=""
             if (!mecError!!.ecsError!!.errorType.equals("No internet connection")) {
                 try {
                     //tag all techinical defect except "No internet connection"
@@ -246,7 +247,13 @@ class MECutility {
                         //
                         errorString += MECAnalyticServer.prx + ":"
                     }
-                    errorString += mecError!!.exception!!.message.toString()
+
+                    if (null == mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true)) {
+                            errorMessage = Acontext!!.getString(R.string.mec_time_out_error)
+                    } else{
+                         errorMessage= mecError!!.exception!!.message.toString()
+                    }
+                    errorString += errorMessage
                     errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
 
                     MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.technicalError, errorString)
@@ -255,7 +262,7 @@ class MECutility {
                 }
             }
             if (showDialog.equals(true)) {
-                aFragmentManager?.let { Acontext?.let { it1 -> MECutility.showErrorDialog(it1, it, "OK", "Error", mecError!!.exception!!.message.toString()) } }
+                aFragmentManager?.let { Acontext?.let { it1 -> MECutility.showErrorDialog(it1, it, "OK", "Error", errorMessage) } }
             }
 
         }

@@ -19,20 +19,22 @@ class MECManager {
 
     // to be called by Proposition getProductCartCount() API call to show cart count
     fun getProductCartCountWorker(mecListener: MECListener){
-        MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
-            override fun onResponse(result: ECSConfig) {
-                if (result.isHybris &&  null!=result!!.rootCategory) {
+        if(null!= MECDataHolder.INSTANCE.eCSServices) {
+            MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
+                override fun onResponse(result: ECSConfig) {
+                    if (result.isHybris && null != result!!.rootCategory) {
                         getShoppingCartData(mecListener)
-                } else {
-                    //hybris not available
-                    mecListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
+                    } else {
+                        //hybris not available
+                        mecListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
+                    }
                 }
-            }
 
-            override fun onFailure(error: Exception, ecsError: ECSError) {
-                mecListener.onFailure(error)
-            }
-        })
+                override fun onFailure(error: Exception, ecsError: ECSError) {
+                    mecListener.onFailure(error)
+                }
+            })
+        }
     }
 
     //to be called by Catalog and Product Detail screen to show cart count
