@@ -84,7 +84,6 @@ class AddressViewModel : CommonViewModel() {
 
     fun createAddress(ecsAddress: ECSAddress) {
         paramEcsAddress = ecsAddress
-        ecsCreateAddressCallBack.mECRequestType = MECRequestType.MEC_CREATE_ADDRESS
         addressRepository.createAddress(ecsAddress, ecsCreateAddressCallBack)
     }
 

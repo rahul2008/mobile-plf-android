@@ -4,7 +4,9 @@ import com.android.volley.DefaultRetryPolicy
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECLog
 import com.philips.platform.appinfra.AppInfra
+import com.philips.platform.appinfra.BuildConfig
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.uappframework.UappInterface
@@ -23,6 +25,7 @@ class MECInterface : UappInterface {
     private var mMECSettings: MECSettings?=null
     private var mUappDependencies: UappDependencies? = null
     private var mUserDataInterface: UserDataInterface? = null
+    val MEC_NOTATION = "mec"
 
     /**
      * @param uappDependencies Object of UappDependencies
@@ -41,6 +44,11 @@ class MECInterface : UappInterface {
 
 
         MECDataHolder.INSTANCE.appinfra = MECDependencies.appInfra
+
+        //enable appInfra logging
+        MECLog.isLoggingEnabled = true
+        MECLog.appInfraLoggingInterface = MECDependencies.appInfra.logging.createInstanceForComponent(MEC_NOTATION, BuildConfig.VERSION_NAME)
+
         MECDataHolder.INSTANCE.userDataInterface = MECDependencies.userDataInterface
         val configError = AppConfigurationInterface.AppConfigurationError()
         val propositionID = MECDependencies.appInfra.configInterface.getPropertyForKey("propositionid", "MEC", configError)
@@ -62,7 +70,7 @@ class MECInterface : UappInterface {
 
         MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
         val defaultRetryPolicy = DefaultRetryPolicy( // 10 second time out
-                10000,
+                30000,
                 0,
                 0f)
         MECDataHolder.INSTANCE.eCSServices.setVolleyTimeoutAndRetryCount(defaultRetryPolicy)

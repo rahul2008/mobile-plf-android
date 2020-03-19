@@ -683,7 +683,6 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         if (buttonView.isPressed()) {
             showDialog();
         }
-        initializeMECComponant();
     }
 
     private void showDialog() {
