@@ -20,6 +20,6 @@ class PRXProductFeaturesResponseCallback(private val productFeaturesViewModel: P
         val exception = Exception(description)
         val ecsError = ECSError(1000,description)
         val mecError = MecError(exception, ecsError,mECRequestType)
-        productFeaturesViewModel.mecError.value = mecError
+        //productFeaturesViewModel.mecError.value = mecError
     }
 }

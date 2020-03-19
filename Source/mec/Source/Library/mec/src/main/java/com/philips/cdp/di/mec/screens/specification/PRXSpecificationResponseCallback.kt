@@ -21,6 +21,6 @@ class PRXSpecificationResponseCallback(private val prxSpecificationViewModel: Sp
         val exception = Exception(description)
         val ecsError = ECSError(1000,description)
         val mecError = MecError(exception, ecsError,mECRequestType)
-        prxSpecificationViewModel.mecError.value = mecError
+        //prxSpecificationViewModel.mecError.value = mecError
     }
 }
