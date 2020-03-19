@@ -20,6 +20,7 @@ class ECSProductDetailRepository(private val ecsProductDetailViewModel: EcsProdu
     var ratingCb = MECDetailBulkRatingConversationsDisplayCallback(ecsProductDetailViewModel)
 
     fun getProductDetail(ecsProduct: ECSProduct){
+        ecsProductDetailCallBack.mECRequestType=MECRequestType.MEC_FETCH_PRODUCT_DETAILS
         ecsServices.fetchProductDetails(ecsProduct,ecsProductDetailCallBack)
     }
 

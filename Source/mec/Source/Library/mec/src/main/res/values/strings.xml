@@ -190,6 +190,7 @@
     <string name="mec_faq">FAQ</string>
     <string name="mec_page">page</string>
     <string name="mec_shopping_cart_title">Cart</string>
+    <string name="mec_time_out_error">Network timeout reached!</string>
 
 
 

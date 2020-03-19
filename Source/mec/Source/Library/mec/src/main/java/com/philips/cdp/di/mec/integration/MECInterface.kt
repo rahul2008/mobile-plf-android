@@ -1,5 +1,6 @@
 package com.philips.cdp.di.mec.integration
 
+import com.android.volley.DefaultRetryPolicy
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -42,21 +43,31 @@ class MECInterface : UappInterface {
         MECDataHolder.INSTANCE.appinfra = MECDependencies.appInfra
         MECDataHolder.INSTANCE.userDataInterface = MECDependencies.userDataInterface
         val configError = AppConfigurationInterface.AppConfigurationError()
-        val propositionID = MECDependencies.appInfra.configInterface.getPropertyForKey("propositionid", "MEC", configError) as String
+        val propositionID = MECDependencies.appInfra.configInterface.getPropertyForKey("propositionid", "MEC", configError)
+        var propertyForKey = ""
+        if (propositionID != null) {
+            propertyForKey = propositionID as String
+        }
+
         var voucher :Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
         try {
             voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
         }catch(e: Exception){
 
         }
-        var propertyForKey = ""
-        if (propositionID != null) {
-            propertyForKey = propositionID
-        }
+
         MECDataHolder.INSTANCE.propositionId = propertyForKey
         MECDataHolder.INSTANCE.voucherEnabled = voucher
         val ecsServices = ECSServices(propertyForKey, MECDependencies.appInfra as AppInfra)
+
         MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
+        val defaultRetryPolicy = DefaultRetryPolicy( // 10 second time out
+                10000,
+                0,
+                0f)
+        MECDataHolder.INSTANCE.eCSServices.setVolleyTimeoutAndRetryCount(defaultRetryPolicy)
+
+
     }
 
     /**
