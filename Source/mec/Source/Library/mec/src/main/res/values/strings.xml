@@ -74,7 +74,6 @@
     <string name="mec_delivery">Delivery</string>
     <string name="mec_manage_address">Manage Address</string>
     <string name="mec_stock_available">products left</string><!-- Update in screen for stock-->
-    <string name="dfs">This product is temporarily out of stock. please remove it from cart to shop further</string>
     <string name="mec_only">Only</string>
     <string name="mec_enter_code">Enter gift code</string>
     <string name="mec_discount">discount</string>
