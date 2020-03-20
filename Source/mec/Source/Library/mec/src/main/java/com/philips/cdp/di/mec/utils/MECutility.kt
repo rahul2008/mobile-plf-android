@@ -250,7 +250,9 @@ class MECutility {
 
                     if (null == mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true)) {
                             errorMessage = Acontext!!.getString(R.string.mec_time_out_error)
-                    } else{
+                    } else if(null != mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true) && mecError!!.exception!!.message!!.contains("java.net.UnknownHostException")) {
+                        errorMessage = Acontext!!.getString(R.string.mec_check_internet_connection)
+                    }else{
                          errorMessage= mecError!!.exception!!.message.toString()
                     }
                     errorString += errorMessage

@@ -184,7 +184,7 @@
     <string name="mec_new_line">\n</string>
     <string name="mec_not_now">Not now</string>
     <string name="mec_time_out_error">Network timeout reached!</string>
-
+    <string name="mec_check_internet_connection">Please check your Internet Connection</string>
 
 
 </resources>
