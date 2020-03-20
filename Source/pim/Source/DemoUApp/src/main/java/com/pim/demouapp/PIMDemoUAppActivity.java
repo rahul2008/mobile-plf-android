@@ -426,14 +426,14 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         } else if (v == btn_MCS) {
-            showToast("Not implemented");
-//            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-//                MECFlowConfigurator pMecFlowConfigurator = new MECFlowConfigurator();
-//                pMecFlowConfigurator.setLandingView(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW);
-//                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, pMecFlowConfigurator, null);
-//            } else {
-//                showToast("User is not loged-in, Please login!");
-//            }
+            //showToast("Not implemented");
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                MECFlowConfigurator pMecFlowConfigurator = new MECFlowConfigurator();
+                pMecFlowConfigurator.setLandingView(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW);
+                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_PRODUCT_LIST_VIEW, pMecFlowConfigurator, null);
+            } else {
+                showToast("User is not loged-in, Please login!");
+            }
         } else if (v == btnMigrator) {
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 userDataInterface.migrateUserToPIM(new UserMigrationListener() {
