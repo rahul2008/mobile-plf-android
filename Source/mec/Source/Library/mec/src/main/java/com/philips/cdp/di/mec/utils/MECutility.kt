@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
+import android.view.animation.CycleInterpolator
+import android.view.animation.TranslateAnimation
 import androidx.fragment.app.FragmentManager
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.philips.cdp.di.ecs.error.ECSError
@@ -257,7 +259,7 @@ class MECutility {
                     }
                     errorString += errorMessage
                     errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
-                    MECLog.d(javaClass.simpleName,errorString)
+                    MECLog.e(javaClass.simpleName,errorString)
                     MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.technicalError, errorString)
                 } catch (e: Exception) {
 
@@ -275,6 +277,13 @@ class MECutility {
             val imageArrow = VectorDrawableCompat.create(mContext.resources, R.drawable.mec_product_count_drop_down, mContext.theme)
             imageArrow!!.setBounds(0, 0, width, height)
             return imageArrow
+        }
+
+        fun getShakeAnimation(): TranslateAnimation {
+            val shake = TranslateAnimation(0f, 10f, 0f, 0f)
+            shake.duration = 500
+            shake.interpolator = CycleInterpolator(7f)
+            return shake
         }
 
 
@@ -321,6 +330,5 @@ class MECutility {
         formattedCardValidityDetail = "$cardExpMon/$cardExpYear"
         return formattedCardValidityDetail
     }
-
 
 }

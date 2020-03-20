@@ -88,21 +88,16 @@
                 android:onClick="@{()-> fragment.onClickContinue()}"
                 app:uidComponentType="Primary" />
 
-        <!--    <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/not_now_btn"
-                style="@style/mecCentralesansBookFont"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:enabled="true"
-                android:text="@string/mec_not_now"
-                android:onClick="@{()-> fragment.onClickCancel()}"
-                app:uidComponentType="Secondary" />-->
-
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/reg_scroll_margin" />
         </LinearLayout>
     </LinearLayout>
+
+    <include
+        android:id="@+id/mec_progress"
+        layout="@layout/mec_progress_bar"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 </RelativeLayout>
 </layout>

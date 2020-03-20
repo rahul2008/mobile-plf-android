@@ -71,8 +71,9 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
 
     }
 
+    //TODO call List of Address API on update Address
     private val updateAddressObserver: Observer<Boolean> = Observer {isAddressUpdated->
-            ecsShoppingCartViewModel.getShoppingCart()
+            if(isAddressUpdated)ecsShoppingCartViewModel.getShoppingCart()
     }
 
 
@@ -229,9 +230,14 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
         if(mecError?.mECRequestType == MECRequestType.MEC_CREATE_ADDRESS || mecError?.mECRequestType == MECRequestType.MEC_UPDATE_ADDRESS){
             super.processError(mecError, showDialog)
         }else{
-            var errorMessage= mecError!!.exception!!.message
-            MECLog.d(javaClass.simpleName,errorMessage)
-            MECutility.tagAndShowError(mecError, false, fragmentManager, context)
+            if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_SHOPPING_CART){
+                addressViewModel.fetchAddresses()
+                showProgressBar(binding.mecProgress.mecProgressBarContainer)
+            }else {
+                var errorMessage = mecError!!.exception!!.message
+                MECLog.e(javaClass.simpleName, errorMessage)
+                MECutility.tagAndShowError(mecError, false, fragmentManager, context)
+            }
         }
 
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
@@ -241,7 +247,6 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
         super.onStop()
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
-
 
 }
 
