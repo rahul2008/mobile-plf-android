@@ -11,13 +11,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecOrderSummaryFragmentBinding
 import com.philips.cdp.di.mec.payment.MECPayment
+import com.philips.cdp.di.mec.payment.MECWebPaymentFragment
+import com.philips.cdp.di.mec.payment.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary
@@ -25,6 +31,7 @@ import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummaryAdapter
 import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECLog
 
 
 /**
@@ -44,6 +51,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     private var vouchersAdapter: MECOrderSummaryVouchersAdapter? = null
     private lateinit var cartSummaryList: MutableList<MECCartSummary>
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
+    private lateinit var paymentViewModel: PaymentViewModel
     override fun onItemClick(item: Any) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -52,6 +60,21 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         return "MECOrderSummaryFragment"
     }
 
+    private val orderObserver: Observer<ECSOrderDetail> = Observer<ECSOrderDetail> { eCSOrderDetail->
+        MECLog.v("orderObserver ",""+eCSOrderDetail.code)
+        paymentViewModel.makePayment(eCSOrderDetail,mecPayment.ecsPayment.billingAddress)
+    }
+
+    private val makePaymentObserver: Observer<ECSPaymentProvider> = Observer<ECSPaymentProvider> { eCSPaymentProvider->
+        MECLog.v("mkPaymentObs ",""+eCSPaymentProvider.worldpayUrl)
+        val mECWebPaymentFragment = MECWebPaymentFragment()
+        val bundle = Bundle()
+        bundle.putString(MECConstant.WEB_PAY_URL, eCSPaymentProvider.worldpayUrl)
+        mECWebPaymentFragment.arguments=bundle
+
+
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecOrderSummaryFragmentBinding.inflate(inflater, container, false)
@@ -74,6 +97,10 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         binding.mecCartSummaryRecyclerView.adapter = productsAdapter
         binding.mecAcceptedCodeRecyclerView.adapter = vouchersAdapter
         binding.mecPriceSummaryRecyclerView.adapter = cartSummaryAdapter
+
+        paymentViewModel =  ViewModelProviders.of(this).get(PaymentViewModel::class.java)
+        paymentViewModel.ecsOrderDetail.observe(this,orderObserver)
+        paymentViewModel.eCSPaymentProvider.observe(this,makePaymentObserver)
 
         privacyTextView(binding.mecPrivacy)
         if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
@@ -114,13 +141,21 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     fun onClickPay() {
+        if(mecPayment.ecsPayment.id==null) {  // first time user
+            paymentViewModel.submitOrder(null)
+        }else{   // user with saved payment method
+            showCVV()
+        }
+
+    }
+
+    fun showCVV(){
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment.ecsPayment)
         val mecCvvBottomSheetFragment = MECCVVFragment()
         mecCvvBottomSheetFragment.arguments = bundle
         mecCvvBottomSheetFragment.setTargetFragment(this, MECConstant.PAYMENT_REQUEST_CODE)
         fragmentManager?.let { mecCvvBottomSheetFragment.show(it, mecCvvBottomSheetFragment.tag) }
-
     }
 
     fun onClickBackToShoppingCart() {

@@ -13,7 +13,7 @@ class PaymentRepository(val ecsServices: ECSServices) {
         ecsServices.fetchPaymentsDetails(paymentListCallback)
     }
 
-    fun submitOrder(cvv : String , submitOrderCallback: SubmitOrderCallback) {
+    fun submitOrder(cvv : String? , submitOrderCallback: SubmitOrderCallback) {
         ecsServices.submitOrder(cvv,submitOrderCallback)
     }
 

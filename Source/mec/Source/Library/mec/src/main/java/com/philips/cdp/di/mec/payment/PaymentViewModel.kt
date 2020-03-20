@@ -32,7 +32,7 @@ class PaymentViewModel : CommonViewModel() {
         paymentRepository.fetchPaymentDetails(paymentListCallback)
     }
 
-    fun submitOrder(cvv :String){
+    fun submitOrder(cvv :String?){
         submitOrderCallback.mECRequestType=MECRequestType.MEC_SUBMIT_ORDER
         paymentRepository.submitOrder(cvv,submitOrderCallback)
     }
