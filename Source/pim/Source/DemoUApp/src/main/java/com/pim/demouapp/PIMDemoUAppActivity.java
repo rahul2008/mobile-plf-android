@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.ecs.demotestuapp.integration.EcsDemoTestAppSettings;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppDependencies;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppInterface;
 import com.ecs.demouapp.integration.EcsLaunchInput;
+import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -83,6 +85,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import utils.PIMNetworkUtility;
 
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECListener, MECBannerConfigurator {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
@@ -348,6 +352,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        if (!isNetworkConnected()) return;
+
         if (v == btnLaunchAsActivity) {
             if (!isUSR) {
                 PIMLaunchInput launchInput = new PIMLaunchInput();
@@ -770,6 +776,20 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             marketingOptedSwitch.setTag(null);
         } catch (UserDataInterfaceException e) {
             e.printStackTrace();
+        }
+    }
+
+    protected boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(connectivityManager))
+        {
+            PIMNetworkUtility.getInstance().showErrorDialog(mContext,
+                    getSupportFragmentManager(), "OK",
+                    "You are offline", "Your internet connection does not seem to be working. Please check and try again");
+            return false;
+        } else {
+            return true;
         }
     }
 }
