@@ -154,6 +154,7 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListe
      }
 
      private fun initTheme() {
+         UIDHelper.injectCalligraphyFonts()
          var themeIndex = intent.getIntExtra(MECConstant.MEC_KEY_ACTIVITY_THEME, DEFAULT_THEME)
          if (themeIndex <= 0) {
              themeIndex = DEFAULT_THEME
