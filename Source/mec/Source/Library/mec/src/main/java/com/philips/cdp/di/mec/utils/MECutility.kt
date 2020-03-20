@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
+import android.view.animation.CycleInterpolator
+import android.view.animation.TranslateAnimation
 import androidx.fragment.app.FragmentManager
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.philips.cdp.di.ecs.error.ECSError
@@ -275,6 +277,13 @@ class MECutility {
             return imageArrow
         }
 
+        fun getShakeAnimation(): TranslateAnimation {
+            val shake = TranslateAnimation(0f, 10f, 0f, 0f)
+            shake.duration = 500
+            shake.interpolator = CycleInterpolator(7f)
+            return shake
+        }
+
 
     }
 
@@ -319,6 +328,5 @@ class MECutility {
         formattedCardValidityDetail = "$cardExpMon/$cardExpYear"
         return formattedCardValidityDetail
     }
-
 
 }
