@@ -1,6 +1,7 @@
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 
+import android.annotation.SuppressLint
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
@@ -140,17 +141,16 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         fun setDiscountPrice(discountPriceLabel: Label, product: ECSProduct?, basePriceEntity: BasePriceEntity?) {
             val discount = (product!!.price!!.value - basePriceEntity!!.value) / product.price!!.value * 100
 
-            if(discount!=null) {
-                val discountRounded: String = String.format("%.2f", discount).toString()
-                discountPriceLabel.text = "-" + discountRounded + "%"
-                if (discountRounded.equals("0.00")) {
-                    discountPriceLabel.visibility = View.GONE
-                } else {
-                    discountPriceLabel.visibility = View.VISIBLE
-                }
+            val discountRounded: String = String.format("%.2f", discount).toString()
+            discountPriceLabel.text = "-" + discountRounded + "%"
+            if (discountRounded.equals("0.00")) {
+                discountPriceLabel.visibility = View.GONE
+            } else {
+                discountPriceLabel.visibility = View.VISIBLE
             }
         }
 
+        @SuppressLint("SetTextI18n")
         @JvmStatic
         @BindingAdapter("setStock","setQuantity")
         fun setStock(stockLabel : Label , product: ECSProduct?, quantity: Int) {
@@ -159,10 +159,10 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
                     stockLabel.text = stockLabel.context.getString(R.string.mec_cart_out_of_stock_message)
                 }
                 if(product.stock.stockLevel<=5 && product.stock.stockLevel!=0){
-                    stockLabel.text = stockLabel.context.getString(R.string.mec_only) + " " + product.stock.stockLevel + " " + stockLabel.context.getString(R.string.mec_product_title)+ " " + stockLabel.context.getString(R.string.mec_left)
+                    stockLabel.text = stockLabel.context.getString(R.string.mec_only) + " " + product.stock.stockLevel + " " + stockLabel.context.getString(R.string.mec_stock_available)
                 }
                 if(quantity>product.stock!!.stockLevel && product.stock.stockLevel!=0) {
-                    stockLabel.text = stockLabel.context.getString(R.string.mec_only) + " " + product.stock.stockLevel + " " + stockLabel.context.getString(R.string.mec_product_title)+ " " + stockLabel.context.getString(R.string.mec_left);
+                    stockLabel.text = stockLabel.context.getString(R.string.mec_only) + " " + product.stock.stockLevel + " " + stockLabel.context.getString(R.string.mec_stock_available);
                 }
                 stockLabel.visibility = View.VISIBLE
             }

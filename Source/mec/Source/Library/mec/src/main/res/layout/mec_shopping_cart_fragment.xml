@@ -104,7 +104,7 @@
                             android:background="?attr/uidTextBoxDefaultPressedBackgroundColor"
                             app:emptyValidator="@{null}"
                             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                            app:uidTextBoxValidationErrorText="@string/mec_invalid_voucher_error">
+                            app:uidTextBoxValidationErrorText="Voucher Error">
 
                             <com.philips.platform.uid.view.widget.ValidationEditText
                                 android:id="@+id/mec_voucher_editText"
@@ -227,10 +227,9 @@
                 android:layout_above="@+id/mec_continue_checkout_btn"
                 android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
                 android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
-                android:text='@{@string/mec_pice_including + @string/mec_empty_space + shoppingCart.totalTax.formattedValue + @string/mec_empty_space + @string/mec_vat ?? ""}'
+                android:text="@{String.format(@string/mec_cart_tax_message, shoppingCart.totalTax.formattedValue)}"
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
-
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/mec_continue_checkout_btn"

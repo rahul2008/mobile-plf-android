@@ -107,7 +107,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
         mTitleTextView = findViewById(R.id.mec_demo_app_header_title);
         //fragment = new BaseDemoFragment();
         fragment.setTextView(mTitleTextView);
-        setTitle(getString(R.string.mec_app_name));
+        setTitle(getString(R.string.demo_app_name));
       /*  mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

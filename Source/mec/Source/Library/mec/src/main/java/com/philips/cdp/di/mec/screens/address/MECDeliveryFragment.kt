@@ -419,7 +419,7 @@ class MECDeliveryFragment : MecBaseFragment(), ItemClickListener {
                 var ecsPayment = ECSPayment()
                 ecsPayment.id = MECConstant.NEW_CARD_PAYMENT
                 val newCardType = CardType()
-                newCardType.name = "New Card"
+                newCardType.name = getString(R.string.mec_new_card_text)
                 ecsPayment.cardType = newCardType
                 ecsPayment.billingAddress = ecsBillingAddress
                 val mecPaymentNew = MECPayment(ecsPayment)

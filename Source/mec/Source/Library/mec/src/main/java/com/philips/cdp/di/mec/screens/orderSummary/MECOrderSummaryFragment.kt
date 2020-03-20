@@ -102,8 +102,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         paymentViewModel.ecsOrderDetail.observe(this,orderObserver)
         paymentViewModel.eCSPaymentProvider.observe(this,makePaymentObserver)
 
-        privacyTextView(binding.mecPrivacy)
-        if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
+
+        if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && MECDataHolder.INSTANCE.getFaqUrl() != null && MECDataHolder.INSTANCE.getTermsUrl() != null) {
+            binding.mecPrivacy.visibility = View.VISIBLE
+            privacyTextView(binding.mecPrivacy)
+        } else {
             binding.mecPrivacy.visibility = View.GONE
         }
         return binding.root
@@ -156,6 +159,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         mecCvvBottomSheetFragment.arguments = bundle
         mecCvvBottomSheetFragment.setTargetFragment(this, MECConstant.PAYMENT_REQUEST_CODE)
         fragmentManager?.let { mecCvvBottomSheetFragment.show(it, mecCvvBottomSheetFragment.tag) }
+
     }
 
     fun onClickBackToShoppingCart() {
@@ -170,28 +174,28 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         spanTxt.append(" ")
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                showPrivacyFragment()
+                showPrivacyFragment(getString(R.string.mec_privacy))
             }
 
             override fun updateDrawState(ds: TextPaint) {
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_privacy).length-1, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_privacy).length - 1, spanTxt.length, 0)
         spanTxt.append(getString(R.string.mec_questions))
         spanTxt.append(" ")
         spanTxt.append(getString(R.string.mec_faq))
         spanTxt.append(" ")
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                showPrivacyFragment()
+                showPrivacyFragment(getString(R.string.mec_faq))
             }
 
             override fun updateDrawState(ds: TextPaint) {
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_faq).length-1, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_faq).length - 1, spanTxt.length, 0)
         spanTxt.append(getString(R.string.mec_page))
         spanTxt.append(getString(R.string.mec_accept_terms))
         spanTxt.append(" ")
@@ -199,22 +203,33 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         spanTxt.append(" ")
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                showPrivacyFragment()
+                showPrivacyFragment(getString(R.string.mec_terms_conditions))
             }
 
             override fun updateDrawState(ds: TextPaint) {
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_terms_conditions).length-1, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_terms_conditions).length - 1, spanTxt.length, 0)
         binding.mecPrivacy.highlightColor = Color.TRANSPARENT
         view.movementMethod = LinkMovementMethod.getInstance()
         view.setText(spanTxt, TextView.BufferType.SPANNABLE)
     }
 
-    private fun showPrivacyFragment() {
+    private fun showPrivacyFragment(stringRes: String) {
         val bundle = Bundle()
-        bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
+        when (stringRes) {
+            getString(R.string.mec_privacy) -> {
+                bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getPrivacyUrl())
+            }
+            getString(R.string.mec_faq) -> {
+                bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getFaqUrl())
+            }
+            getString(R.string.mec_terms_conditions) -> {
+                bundle.putString(MECConstant.MEC_PRIVACY_URL, MECDataHolder.INSTANCE.getTermsUrl())
+            }
+
+        }
         val mecPrivacyFragment = MecPrivacyFragment()
         mecPrivacyFragment.arguments = bundle
         replaceFragment(mecPrivacyFragment, MecPrivacyFragment.TAG, true)

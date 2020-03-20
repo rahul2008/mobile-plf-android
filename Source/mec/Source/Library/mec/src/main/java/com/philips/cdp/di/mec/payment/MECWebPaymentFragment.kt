@@ -93,7 +93,7 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
             launchConfirmationScreen(createErrorBundle(bundle))
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
             mIsPaymentFailed = true
-            MECutility.showErrorDialog(mContext!!,fragmentManager!!,getString(R.string.mec_ok),getString(R.string.mec_error),getString(R.string.mec_payment_failed_message ))
+            MECutility.showErrorDialog(mContext!!,fragmentManager!!,getString(R.string.mec_ok),getString(R.string.mec_payment),getString(R.string.mec_payment_failed_message ))
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
 
             val bundle = Bundle()
