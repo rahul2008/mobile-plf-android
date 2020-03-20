@@ -137,7 +137,7 @@ open class MECProductCatalogFragment : MecBaseFragment(),Pagination, ItemClickLi
 
                 binding.mecCatalogParentLayout.visibility = View.VISIBLE
 
-                if (productList.size != 0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") || MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
+                if (productList.size != 0 && MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
                     binding.mecPrivacyLayout.visibility = View.VISIBLE
                     binding.mecSeparator.visibility = View.VISIBLE
                     binding.mecLlLayout.visibility = View.VISIBLE

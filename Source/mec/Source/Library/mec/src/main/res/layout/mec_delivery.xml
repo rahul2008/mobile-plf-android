@@ -296,7 +296,7 @@
                     android:enabled="true"
                     android:focusable="true"
                     android:onClick="@{() -> mecDeliveryFragment.onOrderSummaryClick()}"
-                    android:text="@string/mec_order_summary"
+                    android:text="@string/mec_continue"
                     android:textColor="?attr/uidButtonPrimaryNormalTextColor"
                     android:textSize="16dp"
                     app:uidComponentType="Primary" />
