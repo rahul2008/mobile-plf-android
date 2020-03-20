@@ -101,7 +101,7 @@ class AddAddressFragment : MecBaseFragment() {
                               savedInstanceState: Bundle?): View? {
 
         binding = MecAddressCreateBinding.inflate(inflater, container, false)
-        binding.pattern = MECSalutationHolder()
+        binding.pattern = MECSalutationHolder(context)
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
         regionViewModel = activity?.let { ViewModelProviders.of(it).get(RegionViewModel::class.java) }!!

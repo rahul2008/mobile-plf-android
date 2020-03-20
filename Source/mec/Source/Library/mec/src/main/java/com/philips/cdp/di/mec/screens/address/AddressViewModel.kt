@@ -16,6 +16,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.philips.cdp.di.ecs.model.address.Country
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
@@ -332,9 +333,8 @@ class AddressViewModel : CommonViewModel() {
         @JvmStatic
         @BindingAdapter("cardValidityDetail")
         fun cardValidityDetail(label: Label, mecPayment: MECPayment) {
-            label.text = label.context.getText(R.string.mec_valid_until).toString()+ " "+  MECutility().constructCardValidityDetails(mecPayment)
+            label.text = label.context.getText(R.string.mec_valid_until).toString() + " " + MECutility().constructCardValidityDetails(mecPayment)
         }
-
     }
 
     enum class AddressFieldJsonEnum(val addressField: String) {

@@ -331,14 +331,14 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     override fun onFailure(error: Exception?, ecsError: ECSError?) {
                         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
                         val mecError = MecError(error, ecsError,null)
-                        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), mecError!!.exception!!.message.toString()) } }
+                        fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_product_detail_title), mecError!!.exception!!.message.toString()) } }
                     }
 
                 }
                 product?.let { ecsProductDetailViewModel.addProductToShoppingcart(it,addToProductCallback) }
             }else{
                 dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-                fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_error), getString(R.string.mec_cart_login_error_message)) } }
+                fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_product_detail_title), getString(R.string.mec_cart_login_error_message)) } }
             }
         }
     }

@@ -91,7 +91,7 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListe
          mec_header_back_button_framelayout.setOnClickListener { onBackPressed() }
          val mBackDrawable = VectorDrawableCompat.create(resources, R.drawable.mec_back_arrow, theme)
          mec_iv_header_back_button.background=mBackDrawable
-         title = getString(R.string.mec_app_name)
+         title = getString(R.string.app_name)
          val mCartIconDrawable = VectorDrawableCompat.create(resources, R.drawable.mec_shopping_cart, theme)
          cart_icon.background = mCartIconDrawable
          cart_icon.setOnClickListener { //todo launch Shopping cart

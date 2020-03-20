@@ -3,7 +3,6 @@ package com.philips.cdp.di.mec.screens.address
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,14 +88,14 @@ class ManageAddressFragment : BottomSheetDialogFragment(), AlertListener {
 
     private val errorObserver: Observer<MecError> = Observer(fun(mecError: MecError?) {
 
-        if(mecError?.mECRequestType == MECRequestType.MEC_SET_DELIVERY_ADDRESS || mecError?.mECRequestType == MECRequestType.MEC_DELETE_ADDRESS){
+        if (mecError?.mECRequestType == MECRequestType.MEC_SET_DELIVERY_ADDRESS || mecError?.mECRequestType == MECRequestType.MEC_DELETE_ADDRESS) {
             MECutility.tagAndShowError(mecError, true, fragmentManager, context)
-        }else{
+        } else {
 
-            if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_SHOPPING_CART){
+            if (mecError?.mECRequestType == MECRequestType.MEC_FETCH_SHOPPING_CART) {
                 addressViewModel.fetchAddresses()
                 showProgressBar(binding.mecProgress.mecProgressBarContainer)
-            }else {
+            } else {
                 var errorMessage = mecError!!.exception!!.message
                 MECLog.e(javaClass.simpleName, errorMessage)
                 MECutility.tagAndShowError(mecError, false, fragmentManager, context)
@@ -142,7 +141,7 @@ class ManageAddressFragment : BottomSheetDialogFragment(), AlertListener {
 
         binding.mecBtnDeleteAddress.setOnClickListener {
             isAddressPopup = false
-            MECutility.showActionDialog(binding.mecBtnDeleteAddress.context, getString(R.string.mec_cancel), getString(R.string.mec_delete), getString(R.string.mec_address), getString(R.string.mec_delete_item_alert_message), fragmentManager!!,this )
+            MECutility.showActionDialog(binding.mecBtnDeleteAddress.context, getString(R.string.mec_delete), getString(R.string.mec_cancel), getString(R.string.mec_address), getString(R.string.mec_delete_item_alert_message), fragmentManager!!, this)
         }
 
         binding.mecBtnSetAddress.setOnClickListener {
@@ -190,7 +189,6 @@ class ManageAddressFragment : BottomSheetDialogFragment(), AlertListener {
     override fun onNegativeBtnClick() {
         isAddressPopup = false
     }
-
 
 
 }

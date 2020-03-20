@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -128,6 +129,7 @@
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/tv_shipping_address_name"
                         style="@style/mec_address_header"
+                        fontPath="fonts/centralesansbook.ttf"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginStart="@dimen/border16_margin_left_right"
@@ -181,7 +183,7 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
                         android:enabled="true"
-                        android:text="Manage Address"
+                        android:text="@string/mec_manage_address"
                         android:textColor="?attr/uidButtonPrimaryNormalTextColor"
                         android:textSize="@dimen/iap_text_size_16sp"
                         app:uidComponentType="Primary" />
@@ -229,10 +231,9 @@
                         style="@style/mec_header"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginTop="@dimen/iap_margin_20dp"
                         android:paddingStart="@dimen/border16_margin_left_right"
                         android:paddingEnd="@dimen/border16_margin_left_right"
-                        android:text="Payment Method" />
+                        android:text="@string/mec_payment_method" />
 
                 </LinearLayout>
 
@@ -241,22 +242,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/mec_payment_mode">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mec_payment_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/mec_payment_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     <FrameLayout
+                        android:id="@+id/mec_payment_progress_bar"
+                        android:layout_marginBottom="@dimen/border16_margin_left_right"
                         android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:id="@+id/mec_payment_progress_bar">
+                        android:layout_height="150dp">
+
                         <androidx.cardview.widget.CardView
                             android:id="@+id/mec_address_card_view"
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
+                            android:layout_width="160dp"
+                            android:layout_height="200dp"
+                            android:layout_marginBottom="@dimen/border16_margin_left_right"
                             android:clickable="false"
                             android:focusable="false"
                             android:padding="@dimen/iap_margin_10dp"
@@ -268,13 +273,14 @@
                                 style="@style/UIDProgressBarCircularIndeterminateMiddle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fetching payment Details..."
+                                android:layout_gravity="center"
+                                android:paddingStart="5dp"
+                                android:text="@string/mec_fetching_payment"
                                 android:textSize="10sp"
                                 app:uidCircularProgressBarSize="small"
                                 app:uidIsIndeterminateProgressIndicator="true"
-                                android:paddingStart="5dp"
-                                android:layout_gravity="center"
-                                app:uidLabelPosition="bottom_center" />
+                                app:uidLabelPosition="bottom_center"
+                                tools:ignore="RtlSymmetry" />
                         </androidx.cardview.widget.CardView>
 
                     </FrameLayout>

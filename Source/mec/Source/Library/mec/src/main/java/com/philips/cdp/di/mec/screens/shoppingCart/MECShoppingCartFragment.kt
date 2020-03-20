@@ -103,7 +103,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             }
         }
 
-        if(ecsShoppingCart!!.appliedVouchers.size > 0){
+        if (ecsShoppingCart!!.appliedVouchers.size > 0) {
             binding.mecAcceptedCode.visibility = View.VISIBLE
             binding.mecAcceptedCodeRecyclerView.visibility = View.VISIBLE
         } else {
@@ -120,7 +120,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             val quantity = MECutility.getQuantity(ecsShoppingCart)
             updateCount(quantity)
         }
-        if(productsAdapter!!.itemCount>0 ) {
+        if (productsAdapter!!.itemCount > 0) {
             dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
     }
@@ -137,14 +137,14 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
-        if(shoppingCart.deliveryCost!=null){
+        if (shoppingCart.deliveryCost != null) {
             name = getString(R.string.mec_shipping_cost)
             price = shoppingCart.deliveryCost.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
         for (i in 0..shoppingCart.appliedVouchers.size - 1) {
-            if(shoppingCart.appliedVouchers.get(i).name==null) {
+            if (shoppingCart.appliedVouchers.get(i).name == null) {
                 name = " "
             } else {
                 name = shoppingCart.appliedVouchers.get(i).name
@@ -153,9 +153,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             cartSummaryList.add(MECCartSummary(name, price))
         }
 
-        if(shoppingCart.appliedOrderPromotions.size>0) {
+        if (shoppingCart.appliedOrderPromotions.size > 0) {
             for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
-                if(shoppingCart.appliedOrderPromotions.get(i).promotion.description == null) {
+                if (shoppingCart.appliedOrderPromotions.get(i).promotion.description == null) {
                     name = " "
                 } else {
                     name = shoppingCart.appliedOrderPromotions.get(i).promotion.description
@@ -177,18 +177,16 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         if (productsAdapter != null) {
             //MECProductsAdapter.CloseWindow(this.mPopupWindow).onStop()
         }
-        if(productsAdapter!!.itemCount>0 ) {
+        if (productsAdapter!!.itemCount > 0) {
             dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
     }
 
 
-
-
     private val addressObserver: Observer<List<ECSAddress>> = Observer(fun(addressList: List<ECSAddress>?) {
 
         mAddressList = addressList
-        if(productsAdapter!!.itemCount>0 ) {
+        if (productsAdapter!!.itemCount > 0) {
             dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         }
         if (mAddressList.isNullOrEmpty()) {
@@ -257,13 +255,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
             swipeController = MECSwipeController(binding.mecCartSummaryRecyclerView.context, object : SwipeControllerActions() {
                 override fun onRightClicked(position: Int) {
                     itemPosition = position
-                    removeVoucher= false
+                    removeVoucher = false
                     showDialog()
                 }
 
                 override fun onLeftClicked(position: Int) {
                     itemPosition = position
-                    removeVoucher= false
+                    removeVoucher = false
                     showDialog()
                 }
             })
@@ -273,8 +271,8 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
             binding.mecCartSummaryRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                    if(productsAdapter!!.itemCount>0 ) {
-                            swipeController!!.drawButtons(c, parent.findViewHolderForAdapterPosition(0)!!)
+                    if (productsAdapter!!.itemCount > 0) {
+                        swipeController!!.drawButtons(c, parent.findViewHolderForAdapterPosition(0)!!)
                     }
                     swipeController!!.onDraw(c)
                 }
@@ -287,9 +285,9 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     fun showDialog() {
         if (removeVoucher) {
-            MECutility.showActionDialog(binding.mecVoucherEditText.context, getString(R.string.mec_remove_voucher), getString(R.string.mec_cancel), getString(R.string.mec_delete_voucher), getString(R.string.mec_delete_voucher_confirmation_title), fragmentManager!!, this)
+            MECutility.showActionDialog(binding.mecVoucherEditText.context, getString(R.string.mec_delete), getString(R.string.mec_cancel), getString(R.string.mec_shopping_cart_title), getString(R.string.mec_delete_voucher_confirmation_title), fragmentManager!!, this)
         } else {
-            MECutility.showActionDialog(binding.mecVoucherEditText.context, getString(R.string.mec_remove_product), getString(R.string.mec_cancel), getString(R.string.mec_delete_item), getString(R.string.mec_delete_product_confirmation_title), fragmentManager!!, this)
+            MECutility.showActionDialog(binding.mecVoucherEditText.context, getString(R.string.mec_delete), getString(R.string.mec_cancel), getString(R.string.mec_shopping_cart_title), getString(R.string.mec_delete_product_confirmation_title), fragmentManager!!, this)
         }
     }
 
@@ -314,7 +312,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_shopping_cart, true)
+        setTitleAndBackButtonVisibility(R.string.mec_shopping_cart_title, true)
     }
 
     override fun onStart() {
@@ -347,7 +345,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     fun onCheckOutClick() {
         if (MECDataHolder.INSTANCE.maxCartCount != 0 && shoppingCart.deliveryItemsQuantity > MECDataHolder.INSTANCE.maxCartCount) {
-            fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it, getString(R.string.mec_ok), getString(R.string.mec_exceed_cart_limit), getString(R.string.mec_cannot_add) + MECDataHolder.INSTANCE.maxCartCount + getString(R.string.mec_product_in_cart)) } }
+            fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it, getString(R.string.mec_ok), getString(R.string.mec_shopping_cart_title), String.format(getString(R.string.mec_cart_count_exceed_message), MECDataHolder.INSTANCE.maxCartCount)) } }
         } else {
             showProgressBar(binding.mecProgress.mecProgressBarContainer)
             addressViewModel.fetchAddresses()
@@ -386,18 +384,23 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     override fun processError(mecError: MecError?, bool: Boolean) {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         MECDataHolder.INSTANCE.voucherCode = "invalid_code"
-        if (mecError!!.mECRequestType == MECRequestType.MEC_APPLY_VOUCHER) {
-            super.processError(mecError, false)
-            if (mecError!!.exception!!.message.toString().contentEquals(getString(R.string.mec_invalid_voucher_error))) {
+        when {
+            mecError!!.mECRequestType == MECRequestType.MEC_APPLY_VOUCHER -> {
+//            super.processError(mecError, false)
+                //TODO: iOS shows server inline error
+//            if (mecError!!.exception!!.message.toString().contentEquals(getString(R.string.mec_invalid_voucher_error))) {
                 validationEditText = null
                 binding.mecVoucherEditText.startAnimation(addressViewModel.shakeError())
                 binding.llAddVoucher.showError()
                 validationEditText?.requestFocus()
+//            }
             }
-        }else if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_USER_PROFILE){
-            gotoDeliveryAddress(mAddressList)
-        }else{
-            super.processError(mecError, true)
+            mecError.mECRequestType == MECRequestType.MEC_FETCH_USER_PROFILE -> {
+                gotoDeliveryAddress(mAddressList)
+            }
+            else -> {
+                super.processError(mecError, true)
+            }
         }
     }
 }

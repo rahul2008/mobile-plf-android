@@ -119,7 +119,7 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
                               savedInstanceState: Bundle?): View? {
 
         binding = MecAddressEditBinding.inflate(inflater, container, false)
-        binding.pattern = MECSalutationHolder()
+        binding.pattern = MECSalutationHolder(context)
 
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)

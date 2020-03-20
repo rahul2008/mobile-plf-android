@@ -69,7 +69,7 @@
     <string name="mec_postal_code_error">Please enter a valid Zip Code</string>
     <string name="mec_postal_code_hint">Enter ZIP/Postal code</string>
     <string name="mec_state">State</string>
-    <string name="mec_state_error">Please select a state</string> <!-- Update required Address screen inline error-->
+    <string name="mec_state_error">Please select a state</string>
     <string name="mec_country">Country</string>
     <string name="mec_country_error">Please enter a valid Country</string>
     <string name="mec_shipping_address">Shipping address</string>
@@ -94,29 +94,29 @@
     <string name="mec_authentication">Authentication</string><!-- Implementation is required android-->
     <string name="mec_delete_product_confirmation_title">Would you like to delete this product from shopping cart?</string>
     <string name="mec_delete_voucher_confirmation_title">Would you like to remove this voucher from shopping cart?</string>
-    <string name="mec_cart_tax_message">Price including %s VAT</string><!-- Check for alignment. mec_shopping_cart_fragment-->
+    <string name="mec_cart_tax_message">Price including %s VAT</string>
     <string name="mec_save_and_continue">Save and continue</string>
     <string name="mec_card_holder_first_name">Card Holder First name</string>
     <string name="mec_card_holder_last_name">Card Holder Last name</string>
-    <string name="mec_salutation_error">Please select a salutation</string><!-- Not imp0lemented-->
+    <string name="mec_salutation_error">Please select a salutation</string>
     <string name="mec_delete_item_description">Your product will be removed from your shopping cart. Are you sure?</string>
     <string name="mec_delete_voucher_description">Your voucher will be removed from your shopping cart. Are you sure?</string>
     <string name="mec_choose_address_text">Choose Shipping Address from below list</string>
     <string name="mec_add_new_address">Add a new shipping address</string>
     <string name="mec_delivery">Delivery</string>
     <string name="mec_manage_address">Manage Address</string>
-    <string name="mec_stock_available">products left</string><!-- Update in screen for stock-->
+    <string name="mec_stock_available">products left</string>
     <string name="mec_only">Only</string>
     <string name="mec_enter_code">Enter gift code</string>
     <string name="mec_discount">discount</string>
     <string name="mec_apply">Apply</string>
     <string name="mec_shipping_cost">Shipping cost</string>
-    <string name="mec_new_payment_disclaimer">* This payment detail will be saved once you place an order.</string><!-- note: update star from code-->
-    <string name="mec_new_card_text">New Card</string><!--mecdeliveryfragment.kt-->
+    <string name="mec_new_payment_disclaimer">This payment detail will be saved once you place an order.</string>
+    <string name="mec_new_card_text">New Card</string>
     <string name="mec_order_pay">Order and pay</string>
     <string name="mec_back_shoppingCart">Back to Shopping cart</string>
-    <string name="mec_order_summary_shipping">Delivery information</string><!--Mec_order_summary_fragment.xml-->
-    <string name="mec_quantity">Quantity</string><!--update requided place-->
+    <string name="mec_order_summary_shipping">Delivery information</string>
+    <string name="mec_quantity">Quantity</string>
     <string name="mec_blank_cvv_error">Please enter a valid CVV</string>
     <string name="mec_payment_failed_message">There was a problem processing your payment. Your account has not been charged. Please try again or choose another payment method.</string>
     <string name="mec_cart_out_of_stock_message">This product is temporarily out of stock. Please remove it from cart to shop further.</string>
@@ -125,7 +125,7 @@
     <string name="mec_cvv_code">Please enter the CVV/CVC for </string>
     <string name="mec_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
     <string name="mec_payment_method">Payment method</string>
-    <string name="mec_fetching_payment">Fetching Payment Details...</string><!--Implement in Delivery screen. its not there-->
+    <string name="mec_fetching_payment">Fetching Payment Details...</string>
     <string name="mec_add_payment_method">Add a new payment method</string>
     <string name="mec_valid_until">Valid until</string>
     <string name="mec_order_summary">Order Summary</string>
@@ -136,8 +136,7 @@
     <string name="mec_payment_is_pending">Payment pending</string>
     <string name="mec_payment_pending">Your payment is pending</string>
     <string name="mec_payment_pending_confirmation">If the payment is confirmed you will receive a confirmation e-mail at</string>
-
-    <string name="mec_cart_count_exceed_message">Cannot add more than %d products in Cart</string><!--Not implemented in Android but available in iOS-->
+    <string name="mec_cart_count_exceed_message">Cannot add more than %d products in Cart</string>
     <string name="mec_shopping_cart_title">Cart</string>
     <string name="mec_add_gift_codes">Add gift codes</string>
     <string name="mec_terms_conditions">Terms and Conditions</string>
@@ -146,43 +145,12 @@
     <string name="mec_accept_terms">by placing the order, I accept Philips\'</string>
     <string name="mec_faq">FAQ</string>
     <string name="mec_page">page</string>
-
-
-
-
-
-
-
-
-
-
-
-    <!--- Extra String Which is not in iOS -->
-    <string name="mec_error">Error</string>
-    <string name="mec_app_name">Mobile Ecommerce</string>
-    <string name="mec_bazaarVoice_link">    <font color="?attr/uidHyperlinkDefaultNormalTextColor"><u>"http://www.bazaarvoice.com/trustmark" </u></font></string>
-    <string name="mec_currency">\u00A4</string>
-    <string name="mec_pros_plus">\uFF0B</string>
-    <string name="mec_pros_minus">\uFF0D</string>
-    <string name="mec_shopping_cart">Shopping cart</string>
-    <string name="mec_remove_product">Remove product</string>
-    <string name="mec_remove_voucher">Remove voucher</string>
-    <string name="mec_delete_item">Delete Item</string>
-    <string name="mec_delete_voucher">Delete Voucher</string>
-    <string name="mec_title">Title</string>
-    <string name="mec_invalid_voucher_error">Sorry, this voucher can\'t be redeemed</string>
-    <string name="mec_exceed_cart_limit">Exceed Cart limit</string>
-    <string name="mec_cannot_add">You can not add more than </string>
-    <string name="mec_product_in_cart"> products in your cart</string>
-    <string name="mec_delivery_ups_parcel">Delivery via %s</string>
+    <string name="mec_pros_plus" translatable="false">\uFF0B</string>
+    <string name="mec_pros_minus" translatable="false">\uFF0D</string>
     <string name="mec_seperator">&#160;|&#160;</string>
     <string name="mec_empty_space">&#160;</string>
-    <string name="mec_delivery_cost">Delivery cost</string>
-    <string name="mec_pice_including">Price including</string>
-    <string name="mec_vat">vat</string>
-    <string name="mec_left">left</string>
-    <string name="mec_new_line">\n</string>
-    <string name="mec_not_now">Not now</string>
+
+    <!--- Extra String Which is not in iOS -->
     <string name="mec_time_out_error">Network timeout reached!</string>
     <string name="mec_check_internet_connection">Please check your Internet Connection</string>
 
