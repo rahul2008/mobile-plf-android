@@ -31,7 +31,7 @@ ext.versions = [
         jacocoToolVersion                   : '0.7.4.201502262128',
         sourceCompatibility                 : 1.8,
         targetCompatibility                 : 1.8,
-        mockito                             : '3.3.0', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
+        mockito                             : '2.8.9', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         powermock                           : '1.7.4', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         robolectric                         : '4.3'
 ]
