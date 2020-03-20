@@ -257,7 +257,7 @@ class MECutility {
                     }
                     errorString += errorMessage
                     errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
-                    MECLog.d(javaClass.simpleName,errorString)
+                    MECLog.e(javaClass.simpleName,errorString)
                     MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.technicalError, errorString)
                 } catch (e: Exception) {
 

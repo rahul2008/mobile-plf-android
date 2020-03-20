@@ -254,9 +254,14 @@ class AddAddressFragment : MecBaseFragment() {
         if(mecError?.mECRequestType == MECRequestType.MEC_CREATE_ADDRESS){
             super.processError(mecError, showDialog)
         }else{
-            var errorMessage= mecError!!.exception!!.message
-            MECLog.d(javaClass.simpleName,errorMessage)
-            MECutility.tagAndShowError(mecError, false, fragmentManager, context)
+            if(mecError?.mECRequestType == MECRequestType.MEC_FETCH_SHOPPING_CART){
+                addressViewModel.fetchAddresses()
+                showProgressBar(binding.mecProgress.mecProgressBarContainer)
+            }else {
+                var errorMessage = mecError!!.exception!!.message
+                MECLog.e(javaClass.simpleName, errorMessage)
+                MECutility.tagAndShowError(mecError, false, fragmentManager, context)
+            }
         }
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
