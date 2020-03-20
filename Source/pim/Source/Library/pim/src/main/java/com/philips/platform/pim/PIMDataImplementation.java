@@ -2,7 +2,9 @@ package com.philips.platform.pim;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
 import android.content.Context;
+
 import androidx.annotation.Nullable;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
@@ -48,8 +50,11 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public void logoutSession(LogoutSessionListener logoutSessionListener) {
-        if (pimUserManager != null)
-            pimUserManager.logoutSession(getLogoutSessionListener(logoutSessionListener));
+        if (pimUserManager.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+            logoutSessionListener.logoutSessionFailed(new Error(Error.UserDetailError.NotLoggedIn));
+            return;
+        }
+        pimUserManager.logoutSession(getLogoutSessionListener(logoutSessionListener));
     }
 
     private LogoutSessionListener getLogoutSessionListener(LogoutSessionListener logoutSessionListener) {
@@ -90,6 +95,10 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public void refreshSession(RefreshSessionListener refreshSessionListener) {
+        if (pimUserManager.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+            refreshSessionListener.refreshSessionFailed(new Error(Error.UserDetailError.NotLoggedIn));
+            return;
+        }
         pimUserManager.refreshSession(getRefreshSessionListener(refreshSessionListener));
     }
 
@@ -100,7 +109,7 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public boolean isOIDCToken() {
-        if(pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
+        if (pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
             return true;
         return false;
     }
@@ -169,7 +178,7 @@ public class PIMDataImplementation implements UserDataInterface {
             @Override
             public void onChanged(@Nullable PIMInitState pimInitState) {
                 if (pimInitState == PIMInitState.INIT_SUCCESS) {
-                    pimInitLiveData.removeObserver( this);
+                    pimInitLiveData.removeObserver(this);
                     PIMMigrator pimMigrator = new PIMMigrator(mContext, userMigrationListener);
                     pimMigrator.migrateUSRToPIM();
                 } else if (pimInitState == PIMInitState.INIT_FAILED) {

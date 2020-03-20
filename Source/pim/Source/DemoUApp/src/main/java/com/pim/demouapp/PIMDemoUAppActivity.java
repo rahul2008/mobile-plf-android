@@ -173,6 +173,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.getTag() != null)
                     return;
+                if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN){
+                    marketingOptedSwitch.setChecked(false);
+                    showToast("User is not loged-in, Please login!");
+                    return;
+                }
                 userDataInterface.updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                     @Override
                     public void onUpdateSuccess() {
