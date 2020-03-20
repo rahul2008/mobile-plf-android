@@ -366,8 +366,7 @@
                 android:autoLink="all"
                 android:linksClickable="true"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
-                android:textSize="@dimen/iap_product_original_price"
-                android:visibility="visible" />
+                android:textSize="@dimen/iap_product_original_price" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/mec_continue_checkout_btn"
