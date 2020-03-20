@@ -1,4 +1,3 @@
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -144,7 +143,7 @@
                             android:layout_height="40dp"
                             android:paddingStart="@dimen/border16_margin_left_right"
                             android:paddingEnd="@dimen/border16_margin_left_right"
-                            android:text="Delivery Information" />
+                            android:text="@string/mec_order_summary_shipping" />
 
 
                         <com.philips.platform.uid.view.widget.Label
@@ -327,7 +326,7 @@
                     style="@style/mecCentralesansBookFont"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.6"
                     android:text='@{@string/mec_cart_total + @string/mec_empty_space + "("+ shoppingCart.totalItems + @string/mec_empty_space + @string/mec_products + ")" ?? ""}'
                     android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="@dimen/iap_text_size_16sp" />
@@ -348,7 +347,7 @@
                 style="@style/mecCentralesansBookFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/mec_continue_checkout_btn"
+                android:layout_above="@+id/mecPrivacy"
                 android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
                 android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
                 android:text='@{@string/mec_pice_including + @string/mec_empty_space + shoppingCart.totalTax.formattedValue + @string/mec_empty_space + @string/mec_vat ?? ""}'
@@ -358,11 +357,11 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/mecPrivacy"
                 style="@style/iapCentralesansMediumFont"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/iap_text_size_16sp"
-                android:layout_below="@+id/mec_vat"
+                android:layout_above="@+id/mec_continue_checkout_btn"
                 android:layout_marginStart="@dimen/iap_shopping_cart_btn_margin"
+                android:layout_marginTop="@dimen/border16_margin_left_right"
                 android:layout_marginEnd="@dimen/iap_shopping_cart_btn_margin"
                 android:autoLink="all"
                 android:linksClickable="true"
@@ -377,7 +376,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/mec_continue_shopping_btn"
                 android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
-                android:layout_marginTop="@dimen/border24_margin"
+                android:layout_marginTop="@dimen/iap_shopping_cart_btn_margin"
                 android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
                 android:enabled="true"
                 android:onClick="@{()->fragment.onClickPay()}"
@@ -403,12 +402,6 @@
                 android:textSize="@dimen/iap_text_size_16sp"
                 app:uidComponentType="Secondary" />
         </RelativeLayout>
-
-        <include
-            android:id="@+id/mec_progress"
-            layout="@layout/mec_progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </RelativeLayout>
 
