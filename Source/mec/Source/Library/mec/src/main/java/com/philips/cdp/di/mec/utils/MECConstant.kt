@@ -81,5 +81,9 @@ object MECConstant {
     val PHILIPS_EXIT_LINK_PARAMETER = "15_global_%s_%s-app_%s-app"
 
     val HTTP_REDIRECT = 307
+    val WEB_PAY_URL = "webpay_url"
+    val ORDER_NUMBER = "order_number"
+    val PAYMENT_SUCCESS_STATUS = "payment_success_status"
+    val PAYMENT_CANCELLED = "PAYMENT_CANCELLED"
 
 }

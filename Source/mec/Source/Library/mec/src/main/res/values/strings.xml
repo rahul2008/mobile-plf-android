@@ -146,6 +146,8 @@
     <string name="mec_accept_terms">by placing the order, I accept Philips\'</string>
     <string name="mec_faq">FAQ</string>
     <string name="mec_page">page</string>
+    <string name="mec_cancel_order_title">Cancel Order</string>
+    <string name="mec_cancel_payment">Do you want to cancel the payment? Your cart will be empty.</string>
 
 
 
