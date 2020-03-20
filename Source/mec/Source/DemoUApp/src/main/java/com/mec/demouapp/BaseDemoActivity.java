@@ -80,6 +80,7 @@ public class BaseDemoActivity extends AppCompatActivity implements ActionBarList
     }
 
     private void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
         int themeResourceID = new ThemeHelper(this).getThemeResourceId();
         int themeIndex = themeResourceID;
         if (themeIndex <= 0) {
