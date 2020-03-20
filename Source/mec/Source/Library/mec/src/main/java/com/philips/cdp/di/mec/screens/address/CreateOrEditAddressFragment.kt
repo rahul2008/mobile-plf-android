@@ -17,12 +17,15 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressEditBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.address.region.RegionViewModel
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECLog
+import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.InputValidationLayout
 import com.philips.platform.uid.view.widget.ValidationEditText
 import java.io.Serializable
@@ -222,7 +225,15 @@ class CreateOrEditAddressFragment : MecBaseFragment() {
     }
 
     override fun processError(mecError: MecError?, showDialog: Boolean) {
-        super.processError(mecError, showDialog)
+
+        if(mecError?.mECRequestType == MECRequestType.MEC_CREATE_ADDRESS || mecError?.mECRequestType == MECRequestType.MEC_UPDATE_ADDRESS){
+            super.processError(mecError, showDialog)
+        }else{
+            var errorMessage= mecError!!.exception!!.message
+            MECLog.d(javaClass.simpleName,errorMessage)
+            MECutility.tagAndShowError(mecError, false, fragmentManager, context)
+        }
+
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 

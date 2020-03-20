@@ -130,7 +130,9 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     private fun privacyTextView(view: TextView) {
         val spanTxt = SpannableStringBuilder(
                 getString(R.string.mec_read_privacy))
+        spanTxt.append(" ")
         spanTxt.append(getString(R.string.mec_privacy))
+        spanTxt.append(" ")
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
@@ -140,8 +142,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_privacy).length, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_privacy).length-1, spanTxt.length, 0)
         spanTxt.append(getString(R.string.mec_questions))
+        spanTxt.append(" ")
+        spanTxt.append(getString(R.string.mec_faq))
+        spanTxt.append(" ")
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
@@ -151,9 +156,12 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_faq).length, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_faq).length-1, spanTxt.length, 0)
         spanTxt.append(getString(R.string.mec_page))
         spanTxt.append(getString(R.string.mec_accept_terms))
+        spanTxt.append(" ")
+        spanTxt.append(getString(R.string.mec_terms_conditions))
+        spanTxt.append(" ")
         spanTxt.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
                 showPrivacyFragment()
@@ -163,7 +171,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
                 ds.isUnderlineText = true
                 ds.color = R.attr.uidHyperlinkDefaultPressedTextColor
             }
-        }, spanTxt.length - getString(R.string.mec_faq).length, spanTxt.length, 0)
+        }, spanTxt.length - getString(R.string.mec_terms_conditions).length-1, spanTxt.length, 0)
         binding.mecPrivacy.highlightColor = Color.TRANSPARENT
         view.movementMethod = LinkMovementMethod.getInstance()
         view.setText(spanTxt, TextView.BufferType.SPANNABLE)

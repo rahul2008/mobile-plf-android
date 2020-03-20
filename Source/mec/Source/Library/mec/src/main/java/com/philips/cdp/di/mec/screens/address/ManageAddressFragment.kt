@@ -16,11 +16,13 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressManageBinding
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.AlertListener
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECLog
 import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_address_manage.view.*
 import java.io.Serializable
@@ -84,10 +86,16 @@ class ManageAddressFragment : BottomSheetDialogFragment(), AlertListener {
 
 
     private val errorObserver: Observer<MecError> = Observer(fun(mecError: MecError?) {
-        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-        Log.d(TAG, "Error on deleting or setting address")
-        MECutility.tagAndShowError(mecError, true, fragmentManager, context)
 
+        if(mecError?.mECRequestType == MECRequestType.MEC_SET_DELIVERY_ADDRESS || mecError?.mECRequestType == MECRequestType.MEC_DELETE_ADDRESS){
+            MECutility.tagAndShowError(mecError, true, fragmentManager, context)
+        }else{
+            var errorMessage= mecError!!.exception!!.message
+            MECLog.d(javaClass.simpleName,errorMessage)
+            MECutility.tagAndShowError(mecError, false, fragmentManager, context)
+        }
+
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -5,6 +5,39 @@
 
 <resources>
     <!-- Aligned with iOS -->
+    <string name="mec_add_gift_Card">Add gift code</string>
+    <string name="mec_add_to_cart">Add to cart</string>
+    <string name="mec_anonymous">Anonymous</string>
+    <string name="mec_bazaarVoice_Detail_at">Details at</string>
+    <string name="mec_bazaarVoice_Terms_And_Condition">These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.</string>
+    <string name="mec_buy_from_retailers">Buy From Retailer</string>
+    <string name="mec_cancel">Cancel</string>
+    <string name="mec_cart_login_error_message">Please Register or Login to easily order your products</string>
+    <string name="mec_continue_checkout">Continue to checkout</string>
+    <string name="mec_continue_shopping">Continue shopping</string>
+    <string name="mec_features">Features</string>
+    <string name="mec_has_used_this_product_for">Has used this product for </string>
+    <string name="mec_in_stock">In stock</string>
+    <string name="mec_info">Info</string>
+    <string name="mec_invalid_landing_view">Please provide a valid Landing View</string>
+    <string name="mec_invalid_product_ctn">Please provide a non empty product CTN</string>
+    <string name="mec_loading">Loading..</string>
+    <string name="mec_more_info">for more info</string>
+    <string name="mec_no_product_available">No product found in your Store.</string>
+    <string name="mec_no_result">0 results found for</string>
+    <string name="mec_no_review_available">No reviews found</string>
+    <string name="mec_ok">OK</string>
+    <string name="mec_online_retailers">Online Retailers</string>
+    <string name="mec_out_of_stock">Out of stock</string>
+    <string name="mec_privacy">Privacy Notice</string>
+    <string name="mec_product_detail_title">Product details</string>
+    <string name="mec_product_title">Products</string>
+    <string name="mec_read">Read our</string>
+    <string name="mec_reviews">Reviews</string>
+    <string name="mec_specs">Specs</string>
+    <string name="mec_threshold_message">This might take more time. Do you wish to continue?</string>
+    <string name="mec_threshold_title">Request threshold reached</string>
+    <string name="mec_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
     <string name="mec_personal_details">Personal details</string>
     <string name="mec_salutation">Salutation</string>
     <string name="mec_salutation_none">None</string>
@@ -55,7 +88,6 @@
     <string name="mec_no_address_select_message">Please select a Shipping Address</string><!-- One scenario is missing from manage address add over there-->
     <string name="mec_set_shipping_address_alert_message">Do you want to set this address as the shipping address?</string>
     <string name="mec_set_text">Set</string>
-
     <!--    //New  String-->
     <string name="mec_cart_total">Total</string>
     <string name="mec_add_wishlist">Add to wishlist</string>
@@ -74,7 +106,6 @@
     <string name="mec_delivery">Delivery</string>
     <string name="mec_manage_address">Manage Address</string>
     <string name="mec_stock_available">products left</string><!-- Update in screen for stock-->
-    <string name="dfs">This product is temporarily out of stock. please remove it from cart to shop further</string>
     <string name="mec_only">Only</string>
     <string name="mec_enter_code">Enter gift code</string>
     <string name="mec_discount">discount</string>
@@ -97,6 +128,7 @@
     <string name="mec_fetching_payment">Fetching Payment Details...</string><!--Implement in Delivery screen. its not there-->
     <string name="mec_add_payment_method">Add a new payment method</string>
     <string name="mec_valid_until">Valid until</string>
+    <string name="mec_order_summary">Order Summary</string>
     <string name="mec_payment">Payment</string>
     <string name="mec_confirmation">Confirmation</string>
     <string name="mec_thank_for_order">Thank you for your order</string>
@@ -105,67 +137,40 @@
     <string name="mec_payment_pending">Your payment is pending</string>
     <string name="mec_payment_pending_confirmation">If the payment is confirmed you will receive a confirmation e-mail at</string>
 
-    <!--- String match -->
-    <string name="mec_reviews">Reviews</string>
-    <string name="mec_buy_from_retailers">Buy From Retailer</string>
-    <string name="mec_cancel">Cancel</string>
-    <string name="mec_in_stock">In stock</string>
-    <string name="mec_info">Info</string>
-    <string name="mec_error">Error</string>
-    <string name="mec_more_info">for more info</string>
-    <string name="mec_no_product_available">No product found in your Store.</string>
-    <string name="mec_no_result">0 results found for</string>
-    <string name="mec_ok">OK</string>
-    <string name="mec_out_of_stock">Out of stock</string>
-    <string name="mec_privacy">Privacy Notice</string>
-    <string name="mec_product_detail_title">Product details</string>
-    <string name="mec_product_title">Products</string>
-    <string name="mec_read">Read our</string>
-    <string name="mec_app_name">Mobile Ecommerce</string>
-    <string name="mec_no_review_available">No reviews found</string>
-    <string name="mec_anonymous">Anonymous</string>
-    <string name="mec_has_used_this_product_for">Has used this product for </string>
-    <string name="mec_add_gift_Card">Add gift code</string>
+    <string name="mec_cart_count_exceed_message">Cannot add more than %d products in Cart</string><!--Not implemented in Android but available in iOS-->
+    <string name="mec_shopping_cart_title">Cart</string>
+    <string name="mec_add_gift_codes">Add gift codes</string>
+    <string name="mec_terms_conditions">Terms and Conditions</string>
+    <string name="mec_read_privacy">I have read the </string>
+    <string name="mec_questions">Questions? Please visit our </string>
+    <string name="mec_accept_terms">by placing the order, I accept Philips\'</string>
+    <string name="mec_faq">FAQ</string>
+    <string name="mec_page">page</string>
 
-    <string name="mec_add_to_cart">Add to cart</string>
-    <string name="mec_online_retailers">Online Retailers</string>
-    <string name="mec_continue_checkout">Continue to checkout</string>
-    <string name="mec_bazaarVoice_Terms_And_Condition">These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.</string>
-    <string name="mec_bazaarVoice_Detail_at">Details at</string>
+
+
+
+
+
+
+
+
+
+
+    <!--- Extra String Which is not in iOS -->
+    <string name="mec_error">Error</string>
+    <string name="mec_app_name">Mobile Ecommerce</string>
     <string name="mec_bazaarVoice_link">    <font color="?attr/uidHyperlinkDefaultNormalTextColor"><u>"http://www.bazaarvoice.com/trustmark" </u></font></string>
-    <string name="mec_specs">Specs</string>
-    <string name="mec_features">Features</string>
-    <string name="mec_invalid_landing_view">Please provide a valid Landing View</string>
-    <string name="mec_cart_login_error_message">Please Register or Login to easily order your products</string>
-    <string name="mec_loading">Loading..</string>
-    <string name="mec_threshold_title">Request threshold reached</string>
-    <string name="mec_threshold_message">This might take more time. Do you wish to continue?</string>
-    <string name="mec_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
     <string name="mec_currency">\u00A4</string>
     <string name="mec_pros_plus">\uFF0B</string>
     <string name="mec_pros_minus">\uFF0D</string>
     <string name="mec_shopping_cart">Shopping cart</string>
-    <string name="mec_continue_shopping">Continue shopping</string>
-    <string name="mec_invalid_product_ctn">Please provide a non empty product CTN</string>
-    <string name="mec_add_gift_codes">Add gift codes</string>
-
-
-    <string name="mec_order_summary">Order Summary</string>
-
     <string name="mec_remove_product">Remove product</string>
     <string name="mec_remove_voucher">Remove voucher</string>
     <string name="mec_delete_item">Delete Item</string>
     <string name="mec_delete_voucher">Delete Voucher</string>
-
-
-    <!--Address screen strings-->
-
-
     <string name="mec_title">Title</string>
-
-
     <string name="mec_invalid_voucher_error">Sorry, this voucher can\'t be redeemed</string>
-
     <string name="mec_exceed_cart_limit">Exceed Cart limit</string>
     <string name="mec_cannot_add">You can not add more than </string>
     <string name="mec_product_in_cart"> products in your cart</string>
@@ -173,24 +178,11 @@
     <string name="mec_seperator">&#160;|&#160;</string>
     <string name="mec_empty_space">&#160;</string>
     <string name="mec_delivery_cost">Delivery cost</string>
-
-
-    <string name="mec_products">Products</string>
     <string name="mec_pice_including">Price including</string>
     <string name="mec_vat">vat</string>
-
     <string name="mec_left">left</string>
     <string name="mec_new_line">\n</string>
-
     <string name="mec_not_now">Not now</string>
-
-
-    <string name="mec_read_privacy">I have read the </string>
-    <string name="mec_questions">Questions? Please visit our </string>
-    <string name="mec_accept_terms">by placing the order, I accept Philips\'</string>
-    <string name="mec_faq">FAQ</string>
-    <string name="mec_page">page</string>
-    <string name="mec_shopping_cart_title">Cart</string>
     <string name="mec_time_out_error">Network timeout reached!</string>
 
 
