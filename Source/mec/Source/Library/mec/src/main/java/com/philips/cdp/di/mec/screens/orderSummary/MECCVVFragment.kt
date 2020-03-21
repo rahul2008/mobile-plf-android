@@ -14,6 +14,8 @@ import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCvcCodeFragmentBinding
 import com.philips.cdp.di.mec.payment.MECPayments
 import com.philips.cdp.di.mec.payment.PaymentViewModel
+import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECLog
@@ -32,6 +34,7 @@ class MECCVVFragment: BottomSheetDialogFragment() {
     private val orderDetailObserver: Observer<ECSOrderDetail> = Observer(fun(ecsOrderDetail: ECSOrderDetail) {
         MECLog.d(javaClass.simpleName ,ecsOrderDetail.code)
         binding.root.mec_progress.visibility = View.GONE
+        gotoPaymentConfirmationFragment()
     })
 
     private val errorObserver: Observer<MecError> = Observer(fun(mecError: MecError?) {
@@ -58,6 +61,28 @@ class MECCVVFragment: BottomSheetDialogFragment() {
         var cvv=binding.root.mec_cvv_digits.toString()
         if(cvv.trim().isNotEmpty()) paymentViewModel.submitOrder(cvv) else binding.root.mec_cvv_digits.startAnimation(MECutility.getShakeAnimation())
 
+    }
+
+    fun gotoPaymentConfirmationFragment(){
+        val mecPaymentConfirmationFragment : MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
+        replaceFragment(mecPaymentConfirmationFragment, false)
+    }
+
+    private fun replaceFragment(newFragment: MecBaseFragment, isReplaceWithBackStack: Boolean) {
+        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
+            RuntimeException("ActionBarListner and MECListner cant be null")
+        else {
+            if (null!=activity && !activity!!.isFinishing) {
+
+                val transaction = activity!!.supportFragmentManager.beginTransaction()
+                val simpleName = newFragment.javaClass.simpleName
+                transaction.replace(id, newFragment, simpleName)
+                if (isReplaceWithBackStack) {
+                    transaction.addToBackStack(simpleName)
+                }
+                transaction.commitAllowingStateLoss()
+            }
+        }
     }
 
 }
