@@ -8,6 +8,7 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecAddressCardBinding
 import com.philips.cdp.di.mec.databinding.MecAddressCreateCardBinding
+import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_address_card.view.*
 
 
@@ -16,21 +17,20 @@ class AddressBottomSheetRecyclerAdapter(private val mecAddresses: MECAddresses, 
     private val totalItem = mecAddresses.ecsAddresses.size + 1
 
     private val CREATE_ADDRESS = "CREATE_ADDRESS"
-    private var mSelectedItem =0
+    private var mSelectedItem = 0
     var mSelectedAddress = mecAddresses.ecsAddresses[0]
 
 
     fun setDefaultSelectedAddressAndPosition() {
 
-        for (x in 0 until totalItem-1){
+        for (x in 0 until totalItem - 1) {
 
-            if(mecAddresses.ecsAddresses[x].id .equals(defaultAddressId,true)){
+            if (mecAddresses.ecsAddresses[x].id.equals(defaultAddressId, true)) {
                 mSelectedItem = x
                 mSelectedAddress = mecAddresses.ecsAddresses[x]
             }
         }
     }
-
 
 
     private val VIEW_TYPE_FOOTER = 1
@@ -48,7 +48,7 @@ class AddressBottomSheetRecyclerAdapter(private val mecAddresses: MECAddresses, 
             }
 
             return AddressBottomSheetFooterViewHolder(binding)
-        }else {
+        } else {
             binding = MecAddressCardBinding.inflate(inflater)
             return AddressBottomSheetViewHolder(binding)
         }
@@ -64,13 +64,13 @@ class AddressBottomSheetRecyclerAdapter(private val mecAddresses: MECAddresses, 
         if (viewHolder is AddressBottomSheetViewHolder) {
             viewHolder.bind(mecAddresses.ecsAddresses[position])
 
-            if(position == mSelectedItem){
-                viewHolder.binding.root.tv_name.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
-                viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
+            if (position == mSelectedItem) {
+                viewHolder.binding.root.tv_name.setTextColor(MECutility.getAttributeColor(binding.root.context, R.attr.uidTextBoxDefaultValidatedTextColor))
+                viewHolder.binding.root.tv_address_text.setTextColor(MECutility.getAttributeColor(binding.root.context, R.attr.uidTextBoxDefaultValidatedTextColor))
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_selector)
-            }else{
-                viewHolder.binding.root.tv_name.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
-                viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
+            } else {
+                viewHolder.binding.root.tv_name.setTextColor(MECutility.getAttributeColor(binding.root.context, R.attr.uidContentItemPrimaryNormalTextColor))
+                viewHolder.binding.root.tv_address_text.setTextColor(MECutility.getAttributeColor(binding.root.context, R.attr.uidContentItemPrimaryNormalTextColor))
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_deselector)
             }
 

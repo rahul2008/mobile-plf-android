@@ -37,7 +37,6 @@ import com.philips.cdp.di.mec.integration.MECListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
-import com.philips.cdp.di.mec.utils.MECDataHolder;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -417,6 +416,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(final View view) {
         if (!isClickable()) return;
+        if(!mAppInfraInterface.getRestClient().isInternetReachable()){
+            Toast.makeText(getActivity(), "Internet Not Available", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (view == mShopNow) {
             if(mEtPropositionId.getText().toString().trim().length()>0 && isHybrisEnable) {

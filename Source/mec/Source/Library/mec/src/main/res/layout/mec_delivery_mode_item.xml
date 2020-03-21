@@ -1,69 +1,66 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
-       <variable
-           name="deliveryMode"
-           type="com.philips.cdp.di.ecs.model.address.ECSDeliveryMode"
-           />
+        <variable
+            name="deliveryMode"
+            type="com.philips.cdp.di.ecs.model.address.ECSDeliveryMode" />
 
 
-    <!--    <variable
-            name="mecDeliveryFragment"
-            type="com.philips.cdp.di.mec.screens.address.MECDeliveryFragment" />-->
+        <!--    <variable
+                name="mecDeliveryFragment"
+                type="com.philips.cdp.di.mec.screens.address.MECDeliveryFragment" />-->
 
     </data>
-<RelativeLayout
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:id="@+id/mec_delivery_mode_item_row"
-    android:textDirection="locale"
-    android:layout_marginStart="@dimen/border16_margin_left_right"
-    android:layout_marginEnd="@dimen/border16_margin_left_right"
-    >
 
-    <com.philips.platform.uid.view.widget.RadioButton
-        android:id="@+id/mec_delivery_mode_radio_button"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/mec_delivery_mode_item_row"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/border16_margin_left_right"
-        android:layout_alignParentStart="true"
-        android:gravity="center"
-        />
+        android:layout_marginEnd="@dimen/border16_margin_left_right"
+        android:textDirection="locale">
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/mec_delivery_mode_Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="@dimen/border12_margin"
-        android:layout_marginBottom="2dp"
-        android:textSize="@dimen/iap_text_size_16sp"
-        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/mec_delivery_mode_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:gravity="center" />
 
-        android:text='@{deliveryMode.name }'
-        android:layout_toEndOf="@+id/mec_delivery_mode_radio_button"/>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_delivery_mode_Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/mec_delivery_mode_radio_button"
+            android:text='@{deliveryMode.name }'
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/mec_delivery_mode_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:lines="1"
-        android:textSize="@dimen/iap_text_size_12"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="@dimen/border12_margin"
-        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-        android:text='@{ deliveryMode.description!=null ?  deliveryMode.deliveryCost.formattedValue + " | " + deliveryMode.description  : deliveryMode.deliveryCost.formattedValue }'
-        android:layout_toEndOf="@+id/mec_delivery_mode_radio_button"
-        android:layout_below="@+id/mec_delivery_mode_Title"
-        />
-    <View
-        android:id="@+id/line"
-        android:layout_marginTop="@dimen/border8_margin"
-        style="@style/mec_button_border"
-        android:layout_below="@+id/mec_delivery_mode_description"
-        />
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/iap_text_size_16sp" />
 
-</RelativeLayout>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/mec_delivery_mode_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mec_delivery_mode_Title"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:layout_toEndOf="@+id/mec_delivery_mode_radio_button"
+            android:lines="1"
+            android:maxLines="2"
+            android:text='@{ deliveryMode.description!=null ?  deliveryMode.deliveryCost.formattedValue + " | " + deliveryMode.description  : deliveryMode.deliveryCost.formattedValue }'
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/iap_text_size_12" />
+
+        <View
+            android:id="@+id/line"
+            style="@style/mec_button_border"
+            android:layout_below="@+id/mec_delivery_mode_description"
+            android:layout_marginTop="@dimen/border8_margin" />
+
+    </RelativeLayout>
 </layout>

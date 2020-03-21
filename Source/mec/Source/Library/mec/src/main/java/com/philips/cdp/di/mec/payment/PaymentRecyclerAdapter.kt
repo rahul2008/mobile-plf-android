@@ -10,12 +10,11 @@ import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecBillingAddressCreateCardBinding
 import com.philips.cdp.di.mec.databinding.MecPaymentCardBinding
 import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECutility
 import kotlinx.android.synthetic.main.mec_address_card.view.ll_rl_address
 import kotlinx.android.synthetic.main.mec_address_card.view.mec_address_card_view
 import kotlinx.android.synthetic.main.mec_address_card.view.tv_address_text
 import kotlinx.android.synthetic.main.mec_address_card.view.tv_name
-import kotlinx.android.synthetic.main.mec_billing_address_edit_card.view.*
-import kotlinx.android.synthetic.main.mec_billing_address_edit_card.view.mec_address_edit_icon
 import kotlinx.android.synthetic.main.mec_payment_card.view.*
 
 class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -57,13 +56,13 @@ class PaymentRecyclerAdapter(val items: MECPayments, val itemClickListener: Item
             viewHolder.bind(mecPayment)
             //TODO pabitra ..take this code to binding utility
             if (mecPayment.isSelected) {
-                viewHolder.binding.root.tv_name.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
-                viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidTextBoxDefaultValidatedTextColor)
+                viewHolder.binding.root.tv_name.setTextColor(MECutility.getAttributeColor(binding.root.context,R.attr.uidTextBoxDefaultValidatedTextColor))
+                viewHolder.binding.root.tv_address_text.setTextColor(MECutility.getAttributeColor(binding.root.context,R.attr.uidTextBoxDefaultValidatedTextColor))
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_selector)
                 viewHolder.binding.root.mec_address_card_view.cardElevation = 30f
             } else {
-                viewHolder.binding.root.tv_name.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
-                viewHolder.binding.root.tv_address_text.setTextColor(R.attr.uidContentItemPrimaryNormalTextColor)
+                viewHolder.binding.root.tv_name.setTextColor(MECutility.getAttributeColor(binding.root.context,R.attr.uidContentItemPrimaryNormalTextColor))
+                viewHolder.binding.root.tv_address_text.setTextColor(MECutility.getAttributeColor(binding.root.context,R.attr.uidContentItemPrimaryNormalTextColor))
                 viewHolder.binding.root.ll_rl_address.setBackgroundResource(R.drawable.address_deselector)
                 viewHolder.binding.root.mec_address_card_view.cardElevation = 15f
             }

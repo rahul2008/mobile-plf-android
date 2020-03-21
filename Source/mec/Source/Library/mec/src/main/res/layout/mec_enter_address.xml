@@ -64,7 +64,7 @@
                         <com.philips.platform.uid.view.widget.Label
                             android:id="@+id/tv_salutation"
                             style="@style/AddressItemLabel"
-                            android:text="@string/mec_title" />
+                            android:text="@string/mec_salutation" />
 
                         <com.philips.platform.uid.view.widget.InputValidationLayout
                             android:id="@+id/ll_salutation"
@@ -73,7 +73,7 @@
                             android:layout_marginTop="@dimen/iap_margin_4dp"
                             app:emptyValidator="@{null}"
                             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                            app:uidTextBoxValidationErrorText="@string/mec_title">
+                            app:uidTextBoxValidationErrorText="@string/mec_salutation_error">
 
                             <com.philips.platform.uid.view.widget.ValidationEditText
                                 android:id="@+id/et_salutation"
@@ -82,7 +82,7 @@
                                 android:cursorVisible="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
-                                android:hint="@string/mec_title"
+                                android:hint="@string/mec_salutation_none"
                                 android:text="@={ecsAddress.titleCode}"
                                 android:inputType="none"
                                 android:maxLines="1"
@@ -400,7 +400,7 @@
                         android:layout_marginTop="@dimen/iap_margin_4dp"
                         app:emptyValidator="@{null}"
                         app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                        app:uidTextBoxValidationErrorText="@string/mec_state">
+                        app:uidTextBoxValidationErrorText="@string/mec_state_error">
 
                         <com.philips.platform.uid.view.widget.ValidationEditText
                             android:id="@+id/et_state"

@@ -2,6 +2,7 @@ package com.philips.cdp.di.mec.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.view.animation.CycleInterpolator
@@ -236,7 +237,7 @@ class MECutility {
 
         @JvmStatic
         fun tagAndShowError(mecError: MecError?, showDialog: Boolean, aFragmentManager: FragmentManager?, Acontext: Context?) {
-            var errorMessage: String=""
+            var errorMessage: String = ""
             if (!mecError!!.ecsError!!.errorType.equals("No internet connection")) {
                 try {
                     //tag all techinical defect except "No internet connection"
@@ -251,13 +252,15 @@ class MECutility {
                     }
 
                     if (null == mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true)) {
-                            errorMessage = Acontext!!.getString(R.string.mec_time_out_error)
-                    } else{
-                         errorMessage= mecError!!.exception!!.message.toString()
+                        errorMessage = Acontext!!.getString(R.string.mec_time_out_error)
+                    } else if (null != mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true) && mecError!!.exception!!.message!!.contains("java.net.UnknownHostException")) {
+                        errorMessage = Acontext!!.getString(R.string.mec_check_internet_connection)
+                    } else {
+                        errorMessage = mecError!!.exception!!.message.toString()
                     }
                     errorString += errorMessage
                     errorString = errorString + mecError!!.ecsError!!.errorcode + ":"
-                    MECLog.e(javaClass.simpleName,errorString)
+                    MECLog.e(javaClass.simpleName, errorString)
                     MECAnalytics.trackAction(MECAnalyticsConstant.sendData, MECAnalyticsConstant.technicalError, errorString)
                 } catch (e: Exception) {
 
@@ -285,6 +288,15 @@ class MECutility {
         }
 
 
+        fun getAttributeColor(context: Context, id: Int): Int {
+            val numbers: IntArray = intArrayOf(id)
+            var typedArray: TypedArray = context!!.obtainStyledAttributes(numbers)
+            val colorCodeHighlighted: Int = typedArray.getColor(0, 0)
+            typedArray.recycle();
+            return colorCodeHighlighted
+        }
+
+
     }
 
     fun constructShippingAddressDisplayField(ecsAddress: ECSAddress): String {
@@ -309,9 +321,7 @@ class MECutility {
         return formattedAddress
     }
 
-    //        @{mecPayment!=null ? mecPayment.ecsPayment.cardType.name
-//            +@string/mec_empty_space + mecPayment.ecsPayment.cardNumber:
-//            @string/mec_empty_space}"
+
     fun constructCardDetails(mecPayment: MECPayment): CharSequence? {
         var formattedCardDetail = ""
         val cardType = if (mecPayment.ecsPayment.cardType != null) mecPayment.ecsPayment.cardType.name else ""

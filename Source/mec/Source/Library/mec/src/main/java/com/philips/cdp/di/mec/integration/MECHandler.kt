@@ -25,22 +25,24 @@ import com.philips.platform.uappframework.launcher.UiLauncher
 import java.util.*
 
 
-internal class MECHandler(private val mMECDependencies: MECDependencies, private val mMECSetting: MECSettings, private val mUiLauncher: UiLauncher, private val mLaunchInput: MECLaunchInput) {
+internal open class MECHandler(private val mMECDependencies: MECDependencies, private val mMECSetting: MECSettings, private val mUiLauncher: UiLauncher, private val mLaunchInput: MECLaunchInput) {
     private var appInfra: AppInfra? = null
     private var listOfServiceId: ArrayList<String>? = null
     lateinit var serviceUrlMapListener: OnGetServiceUrlMapListener
 
 
-
-    private val IAP_PRIVACY_URL = "iap.privacyPolicy"
-
+    companion object {
+        val IAP_PRIVACY_URL = "iap.privacyPolicy"
+        val IAP_FAQ_URL = "iap.faq"
+        val IAP_TERMS_URL = "iap.termOfUse"
+    }
 
     // mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.getFlowConfigurator());
     fun getBundle(): Bundle {
         val mBundle = Bundle()
         if (mLaunchInput.flowConfigurator != null) {
 
-            mBundle.putSerializable(MECConstant.FLOW_INPUT,mLaunchInput.flowConfigurator)
+            mBundle.putSerializable(MECConstant.FLOW_INPUT, mLaunchInput.flowConfigurator)
 
             if (mLaunchInput.flowConfigurator!!.productCTNs != null) {
                 mBundle.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS,
@@ -52,18 +54,18 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
 
     fun launchMEC() {
-      /*  appInfra = mMECDependencies.appInfra as AppInfra
-        val configInterface = appInfra!!.configInterface
-        val configError = AppConfigurationInterface.AppConfigurationError()
-        val propositionID = configInterface.getPropertyForKey("propositionid", "MEC", configError)
-        var propertyForKey = ""
-        if(propositionID!=null) {
-            propertyForKey = propositionID as String
-        }
-        val ecsServices = ECSServices(propertyForKey, appInfra!!)
-        MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
-        MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
-        MECDataHolder.INSTANCE.propositionId = propertyForKey*/
+        /*  appInfra = mMECDependencies.appInfra as AppInfra
+          val configInterface = appInfra!!.configInterface
+          val configError = AppConfigurationInterface.AppConfigurationError()
+          val propositionID = configInterface.getPropertyForKey("propositionid", "MEC", configError)
+          var propertyForKey = ""
+          if(propositionID!=null) {
+              propertyForKey = propositionID as String
+          }
+          val ecsServices = ECSServices(propertyForKey, appInfra!!)
+          MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
+          MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
+          MECDataHolder.INSTANCE.propositionId = propertyForKey*/
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.supportsHybris
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
@@ -85,7 +87,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         // get config
 
-        MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception>{
+        MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
 
             override fun onResponse(config: ECSConfig?) {
 
@@ -99,7 +101,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
                 MECDataHolder.INSTANCE.locale = config!!.locale
                 MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
-                if(null!=config!!.rootCategory){
+                if (null != config!!.rootCategory) {
                     MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
                 }
 
@@ -112,21 +114,22 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
             }
 
             override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                Log.e("MEC","Config failed : Can't Launch MEC")
+                Log.e("MEC", "Config failed : Can't Launch MEC")
             }
         })
-
 
 
     }
 
     //TODO
-    fun getUrl() {
+    private fun getUrl() {
 
         listOfServiceId = ArrayList()
         listOfServiceId!!.add(IAP_PRIVACY_URL)
+        listOfServiceId!!.add(IAP_FAQ_URL)
+        listOfServiceId!!.add(IAP_TERMS_URL)
         serviceUrlMapListener = ServiceDiscoveryMapListener()
-        MECDataHolder.INSTANCE.appinfra!!.serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener, null)
+        MECDataHolder.INSTANCE.appinfra.serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener, null)
     }
 
 
@@ -135,7 +138,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
         val activityLauncher = mUiLauncher as ActivityLauncher
         val bundle = getBundle()
         bundle.putSerializable(MECConstant.KEY_FLOW_CONFIGURATION, mLaunchInput.flowConfigurator)
-        bundle.putBoolean(MECConstant.KEY_IS_HYBRIS,isHybris)
+        bundle.putBoolean(MECConstant.KEY_IS_HYBRIS, isHybris)
         bundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.uiKitTheme)
         intent.putExtras(bundle)
         mMECSetting.context.startActivity(intent)
@@ -146,7 +149,7 @@ internal class MECHandler(private val mMECDependencies: MECDependencies, private
 
         val bundle = getBundle()
 
-        val mecLandingFragment =FragmentSelector().getLandingFragment(hybris, mLaunchInput.flowConfigurator!!,bundle)
+        val mecLandingFragment = FragmentSelector().getLandingFragment(hybris, mLaunchInput.flowConfigurator!!, bundle)
         val fragmentLauncher = mUiLauncher as FragmentLauncher
         bundle.putInt("fragment_container", fragmentLauncher.parentContainerResourceID) // frame_layout for fragment
         mecLandingFragment?.arguments = bundle
