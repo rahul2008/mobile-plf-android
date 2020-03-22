@@ -63,7 +63,7 @@ class MECCVVFragment: BottomSheetDialogFragment() {
 
     }
 
-    fun gotoPaymentConfirmationFragment(){
+    private fun gotoPaymentConfirmationFragment(){
         val mecPaymentConfirmationFragment : MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
         replaceFragment(mecPaymentConfirmationFragment, false)
     }
