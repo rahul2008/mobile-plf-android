@@ -61,6 +61,11 @@ abstract class MECWebFragment : MecBaseFragment() {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressBar(mProgressBar)
+    }
+
      abstract fun getWebUrl(): String
 
     open fun shouldOverrideUrlLoading(url: String): Boolean {
@@ -85,7 +90,7 @@ abstract class MECWebFragment : MecBaseFragment() {
             return this@MECWebFragment.shouldOverrideUrlLoading(request.url.toString())
         }
 
-        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
         }
 
@@ -95,7 +100,7 @@ abstract class MECWebFragment : MecBaseFragment() {
         }
 
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
-            hideProgressBar()
+            dismissProgressBar(mProgressBar)
         }
 
         @TargetApi(Build.VERSION_CODES.M)
@@ -109,7 +114,7 @@ abstract class MECWebFragment : MecBaseFragment() {
         }
 
         override fun onPageFinished(view: WebView, url: String) {
-            hideProgressBar()
+            dismissProgressBar(mProgressBar)
             super.onPageFinished(view, url)
         }
     }

@@ -53,9 +53,10 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
 
     override fun getWebUrl(): String {
         val arguments = arguments
+        orderNumber= arguments?.getString(MECConstant.ORDER_NUMBER)!!
         if (arguments == null || !arguments.containsKey(MECConstant.WEB_PAY_URL)) {
             MECLog.v(TAG, "payment URL must be provided")
-            orderNumber= arguments?.getString(MECConstant.ORDER_NUMBER)!!
+
         }
         val builder = StringBuilder()
         builder.append(arguments!!.getString(MECConstant.WEB_PAY_URL))

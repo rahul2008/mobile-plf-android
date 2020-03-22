@@ -41,8 +41,8 @@
     <string name="mec_personal_details">Personal details</string>
     <string name="mec_salutation">Salutation</string>
     <string name="mec_salutation_none">None</string>
-    <string name="mec_mr">Mr</string> <!-- Update required -->
-    <string name="mec_mrs">Ms</string> <!-- Update required -->
+    <string name="mec_mr">Mr.</string> <!-- Update required -->
+    <string name="mec_mrs">Ms.</string> <!-- Update required -->
     <string name="mec_first_name">First name</string>
     <string name="mec_first_name_error">Please enter a valid first name</string>
     <string name="mec_first_name_hint">Enter first name</string>
@@ -156,6 +156,7 @@
 
     <string name="mec_cancel_order_title">Cancel Order</string>
     <string name="mec_cancel_payment">Do you want to cancel the payment? Your cart will be empty.</string>
+    <string name="mec_your_order_number">Your order number is</string>
 
 
 </resources>

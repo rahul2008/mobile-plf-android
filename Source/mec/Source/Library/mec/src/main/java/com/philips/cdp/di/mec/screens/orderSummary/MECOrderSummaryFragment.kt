@@ -84,7 +84,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
         bundle.putString(MECConstant.WEB_PAY_URL, eCSPaymentProvider.worldpayUrl)
         mECWebPaymentFragment.arguments=bundle
-
+        addFragment(mECWebPaymentFragment, MECWebPaymentFragment.TAG, true)
 
 
     }
