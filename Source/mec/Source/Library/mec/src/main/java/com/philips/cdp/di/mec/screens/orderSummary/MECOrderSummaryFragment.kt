@@ -11,20 +11,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecOrderSummaryFragmentBinding
 import com.philips.cdp.di.mec.payment.MECPayment
+import com.philips.cdp.di.mec.payment.MECWebPaymentFragment
+import com.philips.cdp.di.mec.payment.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
+import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummaryAdapter
 import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECLog
 
 
 /**
@@ -44,6 +52,8 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     private var vouchersAdapter: MECOrderSummaryVouchersAdapter? = null
     private lateinit var cartSummaryList: MutableList<MECCartSummary>
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
+    private lateinit var paymentViewModel: PaymentViewModel
+    private lateinit var orderNumber :String
     override fun onItemClick(item: Any) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -52,6 +62,32 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         return "MECOrderSummaryFragment"
     }
 
+    private val orderObserver: Observer<ECSOrderDetail> = Observer<ECSOrderDetail> { eCSOrderDetail->
+        MECLog.v("orderObserver ",""+eCSOrderDetail.code)
+        orderNumber=eCSOrderDetail.getCode()
+        if(isPaymentMethodAvailable()) { // for saved payment user
+            val mECPaymentConfirmationFragment: MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
+            val bundle = Bundle()
+            bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
+            bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, java.lang.Boolean.TRUE)
+            mECPaymentConfirmationFragment.arguments = bundle
+            addFragment(mECPaymentConfirmationFragment, MECPaymentConfirmationFragment.TAG, true)
+        }else { // for new user
+            paymentViewModel.makePayment(eCSOrderDetail, mecPayment.ecsPayment.billingAddress)
+        }
+    }
+
+    private val makePaymentObserver: Observer<ECSPaymentProvider> = Observer<ECSPaymentProvider> { eCSPaymentProvider->
+        MECLog.v("mkPaymentObs ",""+eCSPaymentProvider.worldpayUrl)
+        val mECWebPaymentFragment = MECWebPaymentFragment()
+        val bundle = Bundle()
+        bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
+        bundle.putString(MECConstant.WEB_PAY_URL, eCSPaymentProvider.worldpayUrl)
+        mECWebPaymentFragment.arguments=bundle
+        addFragment(mECWebPaymentFragment, MECWebPaymentFragment.TAG, true)
+
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecOrderSummaryFragmentBinding.inflate(inflater, container, false)
@@ -75,12 +111,17 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         binding.mecAcceptedCodeRecyclerView.adapter = vouchersAdapter
         binding.mecPriceSummaryRecyclerView.adapter = cartSummaryAdapter
 
+        paymentViewModel =  ViewModelProviders.of(this).get(PaymentViewModel::class.java)
+        paymentViewModel.ecsOrderDetail.observe(this,orderObserver)
+        paymentViewModel.eCSPaymentProvider.observe(this,makePaymentObserver)
+
 
         if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && MECDataHolder.INSTANCE.getFaqUrl() != null && MECDataHolder.INSTANCE.getTermsUrl() != null) {
             binding.mecPrivacy.visibility = View.VISIBLE
             privacyTextView(binding.mecPrivacy)
-        } else
+        } else {
             binding.mecPrivacy.visibility = View.GONE
+        }
         return binding.root
     }
 
@@ -116,6 +157,19 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     fun onClickPay() {
+        if(!isPaymentMethodAvailable()) {  // first time user
+            paymentViewModel.submitOrder(null)
+        }else{   // user with saved payment method
+            showCVV()
+        }
+
+    }
+
+    private fun isPaymentMethodAvailable(): Boolean {
+        return mecPayment.ecsPayment.id==null
+    }
+
+    fun showCVV(){
         val bundle = Bundle()
         bundle.putSerializable(MECConstant.MEC_PAYMENT_METHOD, mecPayment.ecsPayment)
         val mecCvvBottomSheetFragment = MECCVVFragment()

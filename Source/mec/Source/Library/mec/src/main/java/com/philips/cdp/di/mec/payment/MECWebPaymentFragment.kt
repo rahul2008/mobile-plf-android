@@ -1,15 +1,17 @@
 package com.philips.cdp.di.mec.payment
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.webkit.WebView
-import android.widget.FrameLayout
+import android.webkit.CookieManager
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.screens.MecBaseFragment
+import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
+import com.philips.cdp.di.mec.utils.AlertListener
+import com.philips.cdp.di.mec.utils.MECConstant
+import com.philips.cdp.di.mec.utils.MECLog
+import com.philips.cdp.di.mec.utils.MECutility
 
-class MECWebPaymentFragment :MecBaseFragment() {
+class MECWebPaymentFragment :MECWebFragment() , AlertListener {
+
 
 
     override fun getFragmentTag(): String {
@@ -20,25 +22,129 @@ class MECWebPaymentFragment :MecBaseFragment() {
         val TAG:String="MECWebPaymentFragment"
     }
 
-    protected lateinit var mWebView: WebView
-    private var mUrl: String? = null
-    private var mProgressBar : FrameLayout? = null
+    private var mContext: Context? = null
+    private var mIsPaymentFailed: Boolean = false
+    private lateinit var orderNumber:String
+
+    private val SUCCESS_KEY = "successURL"
+    private val PENDING_KEY = "pendingURL"
+    private val FAILURE_KEY = "failureURL"
+    private val CANCEL_KEY = "cancelURL"
+
+    private val PAYMENT_SUCCESS_CALLBACK_URL = "http://www.philips.com/paymentSuccess"
+    private val PAYMENT_PENDING_CALLBACK_URL = "http://www.philips.com/paymentPending"
+    private val PAYMENT_FAILURE_CALLBACK_URL = "http://www.philips.com/paymentFailure"
+    private val PAYMENT_CANCEL_CALLBACK_URL = "http://www.philips.com/paymentCancel"
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val group = inflater.inflate(R.layout.mec_web_fragment, container, false) as ViewGroup
-        mProgressBar = group.findViewById(R.id.mec_progress_bar_container) as FrameLayout
-        showProgressBar(mProgressBar)
-        mWebView = group.findViewById<View>(R.id.mec_webView) as WebView
-       // mWebView.webViewClient= IAPWebViewClient()
-        mWebView.settings.javaScriptEnabled = true
-        mWebView.settings.saveFormData = false
-        mWebView.settings.javaScriptCanOpenWindowsAutomatically = true
-        mWebView.settings.setUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13E233 Safari/601.1")
-        mWebView.settings.domStorageEnabled = true
-        mWebView.settings.setAppCacheEnabled(true)
-        mWebView.settings.loadsImagesAutomatically = true
-        mWebView.settings.useWideViewPort = true
-        return group
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
     }
+
+    override fun onResume() {
+        super.onResume()
+        setTitleAndBackButtonVisibility(R.string.mec_payment, true)
+        setCartIconVisibility(false)
+    }
+
+
+
+
+    override fun getWebUrl(): String {
+        val arguments = arguments
+        orderNumber= arguments?.getString(MECConstant.ORDER_NUMBER)!!
+        if (arguments == null || !arguments.containsKey(MECConstant.WEB_PAY_URL)) {
+            MECLog.v(TAG, "payment URL must be provided")
+
+        }
+        val builder = StringBuilder()
+        builder.append(arguments!!.getString(MECConstant.WEB_PAY_URL))
+        builder.append("&$SUCCESS_KEY=$PAYMENT_SUCCESS_CALLBACK_URL")
+        builder.append("&$PENDING_KEY=$PAYMENT_PENDING_CALLBACK_URL")
+        builder.append("&$FAILURE_KEY=$PAYMENT_FAILURE_CALLBACK_URL")
+        builder.append("&$CANCEL_KEY=$PAYMENT_CANCEL_CALLBACK_URL")
+        return builder.toString()
+    }
+
+    private fun createSuccessBundle(): Bundle {
+        val bundle = Bundle()
+        bundle.putString(MECConstant.ORDER_NUMBER,orderNumber )
+        bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, true)
+        return bundle
+    }
+
+    private fun createErrorBundle(bundle: Bundle): Bundle {
+        bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, false)
+        return bundle
+    }
+
+    private fun launchConfirmationScreen(bundle: Bundle) {
+       val  mECPaymentConfirmationFragment: MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
+        mECPaymentConfirmationFragment.arguments=bundle
+        addFragment(mECPaymentConfirmationFragment,MECPaymentConfirmationFragment.TAG,true)
+    }
+
+    override fun shouldOverrideUrlLoading(url: String): Boolean {
+        return verifyResultCallBacks(url)
+    }
+
+    private fun verifyResultCallBacks(url: String): Boolean {
+
+        var match = true
+        if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
+            MECLog.v("PAY_SUCCESS", url)
+            launchConfirmationScreen(createSuccessBundle())
+        } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
+            MECLog.v("PAY_PEND", url)
+            val bundle = Bundle()
+            launchConfirmationScreen(createErrorBundle(bundle))
+        } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
+            MECLog.v("PAY_FAIL", url)
+            mIsPaymentFailed = true
+            MECutility.showErrorDialog(mContext!!,fragmentManager!!,getString(R.string.mec_ok),getString(R.string.mec_payment),getString(R.string.mec_payment_failed_message ))
+        } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
+            MECLog.v("PAY_CANC", url)
+            val bundle = Bundle()
+            bundle.putBoolean(MECConstant.PAYMENT_CANCELLED, true)
+            launchConfirmationScreen(createErrorBundle(bundle))
+        } else {
+            match = false
+        }
+        if (match) {
+            clearCookies()
+        }
+        return match
+    }
+
+
+    override fun handleBackEvent(): Boolean {
+        mIsPaymentFailed = false
+        MECutility.showActionDialog(mContext!!, mContext!!.getString(R.string.mec_ok), mContext!!.getString(R.string.mec_cancel), mContext!!.getString(R.string.mec_cancel_order_title), mContext!!.getString(R.string.mec_cancel_payment), fragmentManager!!, this)
+        return true
+    }
+
+    private fun handleNavigation() {
+       /* if (shouldGiveCallBack()) {
+            sendCallback(false)
+            return
+        }*/
+        showProductCatalogFragment(MECWebPaymentFragment.TAG)
+    }
+
+    override fun onPositiveBtnClick() {
+        clearCookies()
+        handleNavigation()
+    }
+
+    override fun onNegativeBtnClick() {
+        if (mIsPaymentFailed) {
+            handleNavigation()
+        }
+    }
+
+    private fun clearCookies() {
+        CookieManager.getInstance().removeSessionCookies(null)
+    }
+
 }

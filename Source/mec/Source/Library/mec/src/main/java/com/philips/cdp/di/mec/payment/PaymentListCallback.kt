@@ -8,7 +8,7 @@ import com.philips.cdp.di.mec.common.MecError
 
 class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSCallback<List<ECSPayment>, Exception> {
 
-    var mECRequestType = MECRequestType.MEC_FETCH_PAYMENT_DETAILS
+    lateinit var mECRequestType : MECRequestType
 
     override fun onResponse(payments: List<ECSPayment>?) {
 

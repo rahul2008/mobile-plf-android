@@ -1,6 +1,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+    <variable
+        name="fragment"
+        type="com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment" />
+
+    </data>
+
 <ScrollView
     android:layout_width="@dimen/iap_match_parent"
     android:layout_height="match_parent"
@@ -34,7 +42,7 @@
             android:layout_marginTop="10dp"
             style="@style/iapCentralesansMediumFont"
             android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
-            android:text="Order number"
+            android:text="@string/mec_your_order_number"
             android:visibility="gone"
             android:textSize="@dimen/iap_text_size_16sp"/>
 
@@ -64,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:enabled="true"
+            android:onClick="@{()->fragment.onClickOk()}"
             android:text="@string/mec_ok"
             app:uidComponentType="Primary" />
 
