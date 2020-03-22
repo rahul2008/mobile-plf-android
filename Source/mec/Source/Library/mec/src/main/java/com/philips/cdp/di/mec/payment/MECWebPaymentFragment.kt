@@ -24,6 +24,7 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
 
     private var mContext: Context? = null
     private var mIsPaymentFailed: Boolean = false
+    private lateinit var orderNumber:String
 
     private val SUCCESS_KEY = "successURL"
     private val PENDING_KEY = "pendingURL"
@@ -54,6 +55,7 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
         val arguments = arguments
         if (arguments == null || !arguments.containsKey(MECConstant.WEB_PAY_URL)) {
             MECLog.v(TAG, "payment URL must be provided")
+            orderNumber= arguments?.getString(MECConstant.ORDER_NUMBER)!!
         }
         val builder = StringBuilder()
         builder.append(arguments!!.getString(MECConstant.WEB_PAY_URL))
@@ -66,7 +68,7 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
 
     private fun createSuccessBundle(): Bundle {
         val bundle = Bundle()
-        bundle.putString(MECConstant.ORDER_NUMBER,"order number" )
+        bundle.putString(MECConstant.ORDER_NUMBER,orderNumber )
         bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, true)
         return bundle
     }
@@ -78,8 +80,6 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
 
     private fun launchConfirmationScreen(bundle: Bundle) {
        val  mECPaymentConfirmationFragment: MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
-        val bundle = Bundle()
-       // todo bundle.putString(MECConstant.WEB_PAY_URL, eCSPaymentProvider.worldpayUrl)
         mECPaymentConfirmationFragment.arguments=bundle
         addFragment(mECPaymentConfirmationFragment,MECPaymentConfirmationFragment.TAG,true)
     }
@@ -92,15 +92,18 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
 
         var match = true
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
+            MECLog.v("PAY_SUCCESS", url)
             launchConfirmationScreen(createSuccessBundle())
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
+            MECLog.v("PAY_PEND", url)
             val bundle = Bundle()
             launchConfirmationScreen(createErrorBundle(bundle))
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
+            MECLog.v("PAY_FAIL", url)
             mIsPaymentFailed = true
             MECutility.showErrorDialog(mContext!!,fragmentManager!!,getString(R.string.mec_ok),getString(R.string.mec_payment),getString(R.string.mec_payment_failed_message ))
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
-
+            MECLog.v("PAY_CANC", url)
             val bundle = Bundle()
             bundle.putBoolean(MECConstant.PAYMENT_CANCELLED, true)
             launchConfirmationScreen(createErrorBundle(bundle))

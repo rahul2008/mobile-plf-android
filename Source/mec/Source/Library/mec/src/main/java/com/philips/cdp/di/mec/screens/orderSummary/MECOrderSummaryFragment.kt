@@ -53,6 +53,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     private lateinit var cartSummaryList: MutableList<MECCartSummary>
     private lateinit var voucherList: MutableList<AppliedVoucherEntity>
     private lateinit var paymentViewModel: PaymentViewModel
+    private lateinit var orderNumber :String
     override fun onItemClick(item: Any) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -63,10 +64,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
     private val orderObserver: Observer<ECSOrderDetail> = Observer<ECSOrderDetail> { eCSOrderDetail->
         MECLog.v("orderObserver ",""+eCSOrderDetail.code)
+        orderNumber=eCSOrderDetail.getCode()
         if(isPaymentMethodAvailable()) { // for saved payment user
             val mECPaymentConfirmationFragment: MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
             val bundle = Bundle()
-            bundle.putString(MECConstant.ORDER_NUMBER, eCSOrderDetail.getCode())
+            bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
             bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, java.lang.Boolean.TRUE)
             mECPaymentConfirmationFragment.arguments = bundle
             addFragment(mECPaymentConfirmationFragment, MECPaymentConfirmationFragment.TAG, true)
@@ -79,6 +81,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         MECLog.v("mkPaymentObs ",""+eCSPaymentProvider.worldpayUrl)
         val mECWebPaymentFragment = MECWebPaymentFragment()
         val bundle = Bundle()
+        bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
         bundle.putString(MECConstant.WEB_PAY_URL, eCSPaymentProvider.worldpayUrl)
         mECWebPaymentFragment.arguments=bundle
 
@@ -154,7 +157,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     fun onClickPay() {
-        if(isPaymentMethodAvailable()) {  // first time user
+        if(!isPaymentMethodAvailable()) {  // first time user
             paymentViewModel.submitOrder(null)
         }else{   // user with saved payment method
             showCVV()
