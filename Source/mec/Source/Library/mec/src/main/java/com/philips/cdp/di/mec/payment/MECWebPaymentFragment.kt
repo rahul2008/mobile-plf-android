@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.webkit.CookieManager
 import com.philips.cdp.di.mec.R
+import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
 import com.philips.cdp.di.mec.utils.AlertListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECLog
@@ -76,7 +77,11 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
     }
 
     private fun launchConfirmationScreen(bundle: Bundle) {
-       //todo  addFragment(PaymentConfirmationFragment.createInstance(bundle, InAppBaseFragment.AnimationType.NONE), null, true)
+       val  mECPaymentConfirmationFragment: MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
+        val bundle = Bundle()
+       // todo bundle.putString(MECConstant.WEB_PAY_URL, eCSPaymentProvider.worldpayUrl)
+        mECPaymentConfirmationFragment.arguments=bundle
+        addFragment(mECPaymentConfirmationFragment,MECPaymentConfirmationFragment.TAG,true)
     }
 
     override fun shouldOverrideUrlLoading(url: String): Boolean {

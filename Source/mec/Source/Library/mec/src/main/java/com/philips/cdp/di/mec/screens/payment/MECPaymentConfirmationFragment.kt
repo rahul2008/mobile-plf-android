@@ -8,7 +8,9 @@ import com.philips.cdp.di.mec.databinding.MecPaymentConfirmationBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 
 class MECPaymentConfirmationFragment : MecBaseFragment() {
-
+    companion object {
+        val TAG = "MECPaymentConfirmationFragment"
+    }
     private lateinit var binding: MecPaymentConfirmationBinding
     private var mecPaymentConfirmationService = MECPaymentConfirmationService()
 
