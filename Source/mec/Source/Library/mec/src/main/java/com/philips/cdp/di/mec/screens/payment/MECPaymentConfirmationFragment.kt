@@ -61,6 +61,7 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         context?.let { mecPaymentConfirmationService.getTitle(PaymentStatus.SUCCESS, it) }
+        setTitleAndBackButtonVisibility(R.string.mec_confirmation, true)
     }
 
     fun onClickOk(){

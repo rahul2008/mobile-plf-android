@@ -22,11 +22,10 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecOrderSummaryFragmentBinding
 import com.philips.cdp.di.mec.payment.MECPayment
-import com.philips.cdp.di.mec.screens.payment.MECWebPaymentFragment
 import com.philips.cdp.di.mec.payment.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
-import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
+import com.philips.cdp.di.mec.screens.payment.MECWebPaymentFragment
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary
 import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummaryAdapter
 import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
@@ -65,16 +64,16 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     private val orderObserver: Observer<ECSOrderDetail> = Observer<ECSOrderDetail> { eCSOrderDetail->
         MECLog.v("orderObserver ",""+eCSOrderDetail.code)
         orderNumber=eCSOrderDetail.getCode()
-        if(isPaymentMethodAvailable()) { // for saved payment user
+     /*   if(isPaymentMethodAvailable()) { // for saved payment user
             val mECPaymentConfirmationFragment: MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
             val bundle = Bundle()
             bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
             bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, java.lang.Boolean.TRUE)
             mECPaymentConfirmationFragment.arguments = bundle
             addFragment(mECPaymentConfirmationFragment, MECPaymentConfirmationFragment.TAG, true)
-        }else { // for new user
+        }else { // for new user*/
             paymentViewModel.makePayment(eCSOrderDetail, mecPayment.ecsPayment.billingAddress)
-        }
+      //  }
     }
 
     private val makePaymentObserver: Observer<ECSPaymentProvider> = Observer<ECSPaymentProvider> { eCSPaymentProvider->
@@ -157,16 +156,16 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     fun onClickPay() {
-        if(!isPaymentMethodAvailable()) {  // first time user
-            paymentViewModel.submitOrder(null)
-        }else{   // user with saved payment method
+        if(isPaymentMethodAvailable()) { // user with saved payment method
             showCVV()
+        }else{    // first time user
+            paymentViewModel.submitOrder(null)
         }
 
     }
 
-    private fun isPaymentMethodAvailable(): Boolean {
-        return mecPayment.ecsPayment.id==null
+    private fun isPaymentMethodAvailable(): Boolean {// is user has selected a already saved payment
+        return !mecPayment.ecsPayment.id.equals(MECConstant.NEW_CARD_PAYMENT,true)
     }
 
     fun showCVV(){
