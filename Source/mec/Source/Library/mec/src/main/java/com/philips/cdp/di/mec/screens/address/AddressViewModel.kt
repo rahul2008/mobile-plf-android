@@ -281,7 +281,6 @@ class AddressViewModel : CommonViewModel() {
         fun setDropDown(validationEditText: ValidationEditText, dropDownData: Array<String>?) {
 
             if (dropDownData.isNullOrEmpty()) return
-
             validationEditText.setCompoundDrawables(null, null, MECutility.getImageArrow(validationEditText.context), null)
             val salutationDropDown = MECDropDown(validationEditText, dropDownData)
 

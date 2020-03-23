@@ -1,7 +1,6 @@
 package com.philips.cdp.di.mec.screens.payment
 
 import android.content.Context
-import com.philips.cdp.di.mec.R
 
 class MECPaymentConfirmationService {
 
