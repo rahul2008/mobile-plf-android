@@ -92,8 +92,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 binding.mecFindRetailerButtonSecondary.isEnabled = false
             }
             ecsProductDetailViewModel.setStockInfoWithRetailer(binding.mecProductDetailStockStatus, product, retailersList)
-            binding.progressImage.visibility = View.GONE
-            //getStock(binding.mecProductDetailStockStatus.text.toString())
         }
 
     }
@@ -104,43 +102,43 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         }
     }
 
-    private val ratingObserver: Observer<BulkRatingsResponse> = object : Observer<BulkRatingsResponse> {
-        override fun onChanged(response: BulkRatingsResponse?) {
-            updateData(response?.results)
+    private val ratingObserver: Observer<BulkRatingsResponse> = Observer<BulkRatingsResponse> { response -> updateData(response?.results) }
+
+    private val productObserver: Observer<ECSProduct> = Observer<ECSProduct> { ecsProduct ->
+
+        //TO show No Image for no asset found for a product
+        if(ecsProduct.assets== null || ecsProduct.assets.asset == null || ecsProduct.assets.asset.isEmpty()){
+            ecsProductDetailViewModel.addNoAsset(product)
         }
 
-    }
-
-    private val productObserver: Observer<ECSProduct> = object : Observer<ECSProduct> {
-
-        override fun onChanged(ecsProduct: ECSProduct?) {
-
-            binding.product = ecsProduct
-            showPriceDetail()
-            addToCartVisibility(ecsProduct!!)
-            if (!MECDataHolder.INSTANCE.hybrisEnabled && !MECDataHolder.INSTANCE.retailerEnabled) {
-                binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
-                binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
-            }
-            if (MECDataHolder.INSTANCE.retailerEnabled) {
-                getRetailerDetails()
-            } else {
-                binding.mecFindRetailerButtonPrimary.visibility = View.GONE
-                binding.mecFindRetailerButtonSecondary.visibility = View.GONE
-                if (MECDataHolder.INSTANCE.hybrisEnabled) {
-                    if (null != product && null != product!!.stock) {
-                        if (MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel)) {
-                            binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_in_stock)
-                            binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_green_level_30))
-                        } else {
-                            binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
-                            binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
-                            tagOutOfStockActions(product!!)
-                        }
+        binding.product = ecsProduct
+        setUpTab(ecsProduct)
+        showPriceDetail()
+        addToCartVisibility(ecsProduct!!)
+        if (!MECDataHolder.INSTANCE.hybrisEnabled && !MECDataHolder.INSTANCE.retailerEnabled) {
+            binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
+            binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
+        }
+        if (MECDataHolder.INSTANCE.retailerEnabled) {
+            getRetailerDetails()
+        } else {
+            binding.mecFindRetailerButtonPrimary.visibility = View.GONE
+            binding.mecFindRetailerButtonSecondary.visibility = View.GONE
+            if (MECDataHolder.INSTANCE.hybrisEnabled) {
+                if (null != product && null != product!!.stock) {
+                    if (MECutility.isStockAvailable(product!!.stock!!.stockLevelStatus, product!!.stock!!.stockLevel)) {
+                        binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_in_stock)
+                        binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_green_level_30))
+                    } else {
+                        binding.mecProductDetailStockStatus.text = binding.mecProductDetailStockStatus.context.getString(R.string.mec_out_of_stock)
+                        binding.mecProductDetailStockStatus.setTextColor(binding.mecProductDetailStockStatus.context.getColor(R.color.uid_signal_red_level_30))
+                        tagOutOfStockActions(product!!)
                     }
                 }
             }
         }
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        binding.detailsParentLayout.visibility = View.VISIBLE
 
     }
 
@@ -157,9 +155,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.fragment = this
             binding.mecDataHolder = MECDataHolder.INSTANCE
 
-            ecsProductDetailViewModel = activity!!?.let { ViewModelProviders.of(it).get(EcsProductDetailViewModel::class.java) }!!
+            ecsProductDetailViewModel =  ViewModelProviders.of(this).get(EcsProductDetailViewModel::class.java)
 
-            ecsRetailerViewModel = this!!?.let { ViewModelProviders.of(it).get(ECSRetailerViewModel::class.java) }!!
+            ecsRetailerViewModel =  ViewModelProviders.of(this).get(ECSRetailerViewModel::class.java)
 
             ecsRetailerViewModel.ecsRetailerList.observe(this, eCSRetailerListObserver)
 
@@ -178,14 +176,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
 
 
             //if assets are not available , we should show one Default image
-            ecsProductDetailViewModel.addNoAsset(product)
+           // ecsProductDetailViewModel.addNoAsset(product)
 
-            ecsProductDetailViewModel.ecsProduct.value = product
+           // ecsProductDetailViewModel.ecsProduct.value = product
 
-            val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product.code, binding.mecReviewLebel.context)
-            binding.viewpagerMain.offscreenPageLimit = 4
-            binding.viewpagerMain.adapter = fragmentAdapter
-            binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
+
             MECAnalytics.trackPage(productDetails)
             tagActions(product)
             mRootView=binding.root
@@ -203,6 +198,12 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         return mRootView
     }
 
+    private fun setUpTab(product: ECSProduct) {
+        val fragmentAdapter = TabPagerAdapter(this.childFragmentManager, product, binding.mecReviewLebel.context)
+        binding.viewpagerMain.offscreenPageLimit = 4
+        binding.viewpagerMain.adapter = fragmentAdapter
+        binding.tabsMain.setupWithViewPager(binding.viewpagerMain)
+    }
 
 
     private fun showData() {
@@ -238,20 +239,20 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     open fun executeRequest() {
-        binding.progressImage.visibility = View.VISIBLE
-        ecsProductDetailViewModel.getProductDetail(product!!)
+        showProgressBar(binding.mecProgress.mecProgressBarContainer)
+        ecsProductDetailViewModel.getProductDetail(product)
     }
 
 
 
     private fun getRetailerDetails() {
         if(null!=product) {
-            ecsRetailerViewModel.getRetailers(product!!.code)
+            ecsRetailerViewModel.getRetailers(product.code)
         }
     }
 
     private fun getRatings() {
-        ecsProductDetailViewModel.getRatings(product!!.codeForBazaarVoice)
+        ecsProductDetailViewModel.getRatings(product.codeForBazaarVoice)
     }
 
 

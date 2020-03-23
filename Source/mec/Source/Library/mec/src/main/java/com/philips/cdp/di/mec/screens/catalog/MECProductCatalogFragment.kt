@@ -158,6 +158,9 @@ open class MECProductCatalogFragment : MecBaseFragment(), Pagination, ItemClickL
 
     open fun showNoProduct() {
         isCallOnProgress = false
+        binding.mecCatalogParentLayout.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+        binding.mecCatalogProgress.mecProgressBar.visibility = View.GONE
         binding.mecProductCatalogEmptyTextLabel.visibility = View.VISIBLE
     }
 
@@ -300,12 +303,12 @@ open class MECProductCatalogFragment : MecBaseFragment(), Pagination, ItemClickL
             MECAnalytics.tagProductList(productList, listView)
             mRootView = binding.root
 
-            binding.mecCatalogProgress.mecProgressBar.visibility = View.VISIBLE
+
             if (arguments != null) {
                 categorizedCtns = arguments?.getStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS) as ArrayList<String>
                 totalProductsTobeSearched = categorizedCtns.size
             }
-            binding.progressBar.visibility = View.VISIBLE
+            binding.mecCatalogProgress.mecProgressBar.visibility = View.VISIBLE
             executeRequest()
             ////////////// start of update cart and login if required
             if (isUserLoggedIn()) {

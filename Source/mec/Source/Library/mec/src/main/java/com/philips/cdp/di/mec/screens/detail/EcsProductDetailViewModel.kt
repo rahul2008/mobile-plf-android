@@ -1,9 +1,14 @@
 package com.philips.cdp.di.mec.screens.detail
 
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.ImageLoader
+import com.android.volley.toolbox.NetworkImageView
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
@@ -20,11 +25,14 @@ import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.MECRequestType
+import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.cdp.di.mec.screens.reviews.MECReview
 import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.cdp.di.mec.utils.MECLog
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.uid.view.widget.Label
+import com.philips.platform.uid.view.widget.ProgressBar
 import java.util.*
 
 class EcsProductDetailViewModel : CommonViewModel() {
@@ -127,6 +135,37 @@ class EcsProductDetailViewModel : CommonViewModel() {
                     // stockLabel.setTextColor(R.attr.uidContentItemSignalNormalTextErrorColor)
                 }
             }
+        }
+
+
+        @BindingAdapter("mec_item_progressbar","pager_item_image")
+        @JvmStatic
+        fun loadImage(imageView: ImageView, mec_item_progressbar: ProgressBar, pager_item_image: String?) {
+
+            mec_item_progressbar.visibility = View.VISIBLE
+            val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
+
+            imageLoader.get(pager_item_image, object : ImageLoader.ImageListener {
+                override fun onResponse(response: ImageLoader.ImageContainer?, isImmediate: Boolean) {
+
+
+                    if(response?.bitmap!=null){
+                        mec_item_progressbar.visibility = View.GONE
+                        imageView.visibility = View.VISIBLE
+                        imageView.setImageBitmap(response.bitmap)
+                    }
+                }
+
+                override fun onErrorResponse(error: VolleyError?) {
+                   mec_item_progressbar.visibility = View.GONE
+
+                    if(error?.message!=null) {
+                        MECLog.e("Volley Loading", error?.message)
+                    }
+                    imageView.visibility = View.VISIBLE
+                    imageView.setImageDrawable(imageView.context.getDrawable(R.drawable.no_icon))
+                }
+            })
         }
     }
 

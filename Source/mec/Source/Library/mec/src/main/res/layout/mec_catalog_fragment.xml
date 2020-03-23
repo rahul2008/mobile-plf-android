@@ -202,6 +202,7 @@
 
         <include
             android:id="@+id/mec_catalog_progress"
+            android:visibility="visible"
             layout="@layout/mec_progress_bar"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />

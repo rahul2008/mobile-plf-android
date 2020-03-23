@@ -22,12 +22,13 @@
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:orientation="horizontal">
+       android:orientation="vertical">
 
 <RelativeLayout
     android:id="@+id/details_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="gone"
     >
 
     <ScrollView
@@ -53,15 +54,6 @@
                 android:layout_marginStart="@dimen/border16_margin_left_right"
                 android:layout_marginEnd="@dimen/border16_margin_left_right"
                 >
-
-                <com.philips.platform.uid.view.widget.ProgressBar
-                    android:id="@+id/progress_image"
-                    style="@style/UIDProgressBarCircularIndeterminateSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:visibility="gone" />
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/pager"
@@ -314,13 +306,17 @@
 
     </LinearLayout>
 
-    <include
-        android:id="@+id/mec_progress"
-        layout="@layout/mec_progress_bar"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
+
 
 </RelativeLayout>
+
+       <include
+           android:id="@+id/mec_progress"
+           layout="@layout/mec_progress_bar"
+           android:visibility="visible"
+           android:layout_centerInParent="true"
+           android:layout_height="match_parent"
+           android:layout_width="match_parent" />
 
        <com.philips.platform.uid.view.widget.Label
            android:id="@+id/mec_productDetails_emptyText_label"
@@ -328,7 +324,6 @@
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:gravity="center"
-           android:layout_centerInParent="true"
            android:text="@string/mec_no_product_available"
            android:visibility="gone"
            android:textSize="@dimen/iap_product_ctn_12"/>

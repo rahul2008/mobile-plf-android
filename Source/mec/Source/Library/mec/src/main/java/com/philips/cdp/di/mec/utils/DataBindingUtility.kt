@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.philips.cdp.di.ecs.model.asset.Asset
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 import com.philips.cdp.di.mec.screens.detail.ImageAdapter
 import com.philips.cdp.di.mec.screens.features.ProductFeatureChildRecyclerAdapter
@@ -35,7 +36,6 @@ class DataBindingUtility {
             val imageView = imageView as NetworkImageView
             val imageLoader = NetworkImageLoader.getInstance(imageView.context).imageLoader
             imageLoader.get(image_url, ImageLoader.getImageListener(imageView, 0,com.philips.cdp.di.mec.R.drawable.no_icon))
-
             imageView.setImageUrl(image_url!!, imageLoader)
         }
 
@@ -59,8 +59,20 @@ class DataBindingUtility {
         @JvmStatic
         @BindingAdapter("assets")
         fun setAdapter(pager: ViewPager, assets: List<Asset> ?) {
-            if(assets!=null)
-            pager.adapter = ImageAdapter(assets)
+            if(assets!=null) {
+
+                // modifying url for specific size image
+                val  width = pager.context?.resources?.displayMetrics?.widthPixels ?: 0
+                val height = pager.context?.resources?.getDimension(R.dimen.iap_product_detail_image_height)?.toInt()
+                        ?:0
+                val sizeExtension = "?wid=$width&hei=$height&\$pnglarge$&fit=fit,1"
+
+                for (asset in assets){
+                    asset.asset =  asset.asset + sizeExtension
+                }
+
+                pager.adapter = ImageAdapter(assets)
+            }
         }
 
         @JvmStatic
