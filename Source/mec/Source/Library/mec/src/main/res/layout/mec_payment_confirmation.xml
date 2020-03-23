@@ -7,6 +7,10 @@
         name="fragment"
         type="com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment" />
 
+        <variable
+            name="isPaymentCompleted"
+            type="java.lang.Boolean" />
+
     </data>
 
 <ScrollView
@@ -26,51 +30,49 @@
         android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/tv_thank_you_title"
+            android:id="@+id/tv_mec_thank_for_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            style="@style/iapCentralesansBoldFont"
+            android:layout_marginTop="24dp"
+            style="@style/iapCentralesansBoldFont20"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:text="@string/mec_thank_for_order"
-            android:textSize="@dimen/iap_text_size_20sp"/>
+            android:text="@{isPaymentCompleted? @string/mec_thank_for_order : @string/mec_payment_pending}"
+           />
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/tv_order_number"
+            android:id="@+id/tv_mec_your_order_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            style="@style/iapCentralesansMediumFont"
-            android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
-            android:text="@string/mec_your_order_number"
+            android:layout_marginTop="12dp"
+            fontPath="@fonts/centralesansbook.ttf"
+            android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+            android:text="@{isPaymentCompleted? @string/mec_your_order_number: @string/mec_thank_for_order}"
             android:visibility="gone"
-            android:textSize="@dimen/iap_text_size_16sp"/>
+            android:textSize="18sp"/>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_order_number_val"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="4dp"
             style="@style/iapCentralesansBoldFont"
-            android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
-            android:textSize="@dimen/iap_text_size_16sp"/>
+            android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+           />
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/tv_confirmation_email_shortly"
+            android:id="@+id/tv_mec_confirmation_email_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            style="@style/mecCentralesansMediumFont"
-            android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
-            android:text="@string/mec_confirmation_email_msg"
+            android:layout_marginTop="8dp"
+            fontPath="@fonts/centralesansbook.ttf"
+            android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
             android:textSize="@dimen/iap_text_size_16sp"/>
 
         <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/ok_btn"
-            style="@style/mecCentralesansBookFont"
+            android:id="@+id/button_mec_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:enabled="true"
             android:onClick="@{()->fragment.onClickOk()}"
             android:text="@string/mec_ok"

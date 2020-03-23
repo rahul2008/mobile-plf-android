@@ -66,10 +66,10 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
         return builder.toString()
     }
 
-    private fun createSuccessBundle(): Bundle {
+    private fun createSuccessBundle(paymentCompleted: Boolean): Bundle {
         val bundle = Bundle()
         bundle.putString(MECConstant.ORDER_NUMBER,orderNumber )
-        bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, true)
+        bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, paymentCompleted)
         return bundle
     }
 
@@ -93,12 +93,13 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
         var match = true
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
             MECLog.v("PAY_SUCCESS", url)
-            launchConfirmationScreen(createSuccessBundle())
+            launchConfirmationScreen(createSuccessBundle(true))
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
             MECLog.v("PAY_PEND", url)
             val bundle = Bundle()
-            launchConfirmationScreen(createErrorBundle(bundle))
+            launchConfirmationScreen(createSuccessBundle(false))
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
+            // todo  handle failure
             MECLog.v("PAY_FAIL", url)
             mIsPaymentFailed = true
             MECutility.showErrorDialog(mContext!!,fragmentManager!!,getString(R.string.mec_ok),getString(R.string.mec_payment),getString(R.string.mec_payment_failed_message ))

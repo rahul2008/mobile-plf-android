@@ -397,6 +397,11 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="iapCentralesansBoldFont20">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="MecTabStyle" parent="Widget.Design.TabLayout">
 
         <item name="tabBackground">?attr/uidContentPrimaryBackgroundColor</item>

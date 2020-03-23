@@ -30,11 +30,12 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecPaymentConfirmationBinding.inflate(inflater, container, false)
         binding.fragment = this
+        binding.isPaymentCompleted =  arguments!!?.getBoolean(MECConstant.PAYMENT_SUCCESS_STATUS,false)
         val arguments = arguments
         if (arguments != null && arguments.containsKey(MECConstant.ORDER_NUMBER)) {
-            binding.tvOrderNumber.visibility=View.VISIBLE
+            binding.tvMecYourOrderNumber.visibility=View.VISIBLE
             binding.tvOrderNumberVal.visibility=View.VISIBLE
-            arguments?.getString(MECConstant.ORDER_NUMBER)
+
             binding.tvOrderNumberVal.text=arguments?.getString(MECConstant.ORDER_NUMBER)
         }
         val detailKeys = ArrayList<String>()
@@ -43,25 +44,28 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
         val email: String = userDetails.get(UserDetailConstants.EMAIL).toString();
 
 
-        ///////////
-        val emailConfirmation = getString(R.string.mec_confirmation_email_msg)
+        val emailConfirmation = if (binding.isPaymentCompleted as Boolean) getString(R.string.mec_confirmation_email_msg) else getString(R.string.mec_payment_pending_confirmation)
         val boldCount: Spanned
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             boldCount = Html.fromHtml("$emailConfirmation  <b>$email</b>", Html.FROM_HTML_MODE_LEGACY)
         } else {
             boldCount = Html.fromHtml("$emailConfirmation  <b>$email</b>")
         }
-        //////////
 
+        binding.tvMecConfirmationEmailMsg.text = boldCount
+        updateCount(0) // reset cart count to 0 as current shopping cart is deleted now as result of submit order API call
 
-        binding.tvConfirmationEmailShortly.text = boldCount
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
         context?.let { mecPaymentConfirmationService.getTitle(PaymentStatus.SUCCESS, it) }
-        setTitleAndBackButtonVisibility(R.string.mec_confirmation, true)
+        if( binding.isPaymentCompleted as Boolean) {
+            setTitleAndBackButtonVisibility(R.string.mec_confirmation, false)
+        }else{
+            setTitleAndBackButtonVisibility(R.string.mec_payment_is_pending, false)
+        }
     }
 
     fun onClickOk(){
