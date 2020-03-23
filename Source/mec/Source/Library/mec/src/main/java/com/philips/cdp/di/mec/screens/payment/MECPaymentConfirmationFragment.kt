@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecPaymentConfirmationBinding
-import com.philips.cdp.di.mec.payment.MECWebPaymentFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder

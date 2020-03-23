@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.payment
+package com.philips.cdp.di.mec.screens.payment
 
 import android.annotation.TargetApi
 import android.graphics.Bitmap

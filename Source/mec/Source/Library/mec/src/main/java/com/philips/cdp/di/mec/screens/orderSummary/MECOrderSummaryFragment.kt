@@ -22,7 +22,7 @@ import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.databinding.MecOrderSummaryFragmentBinding
 import com.philips.cdp.di.mec.payment.MECPayment
-import com.philips.cdp.di.mec.payment.MECWebPaymentFragment
+import com.philips.cdp.di.mec.screens.payment.MECWebPaymentFragment
 import com.philips.cdp.di.mec.payment.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.catalog.MecPrivacyFragment
