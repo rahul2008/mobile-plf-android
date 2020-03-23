@@ -9,10 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
-import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCvcCodeFragmentBinding
-import com.philips.cdp.di.mec.payment.MECPayments
 import com.philips.cdp.di.mec.payment.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
@@ -26,6 +24,7 @@ class MECCVVFragment: BottomSheetDialogFragment() {
 
     private lateinit var binding: MecCvcCodeFragmentBinding
     private lateinit var paymentViewModel: PaymentViewModel
+    private lateinit var orderNumber :String
 
     companion object {
         const val TAG:String="MECCVVFragment"
@@ -33,6 +32,7 @@ class MECCVVFragment: BottomSheetDialogFragment() {
 
     private val orderDetailObserver: Observer<ECSOrderDetail> = Observer(fun(ecsOrderDetail: ECSOrderDetail) {
         MECLog.d(javaClass.simpleName ,ecsOrderDetail.code)
+        orderNumber=ecsOrderDetail.getCode()
         binding.root.mec_progress.visibility = View.GONE
         gotoPaymentConfirmationFragment()
     })
@@ -44,7 +44,7 @@ class MECCVVFragment: BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecCvcCodeFragmentBinding.inflate(inflater,container,false)
-
+        binding.fragment=this
         var bundle= arguments
         var ecsPayment=bundle?.getSerializable(MECConstant.MEC_PAYMENT_METHOD) as ECSPayment
         binding.paymentMethod=ecsPayment
@@ -58,13 +58,17 @@ class MECCVVFragment: BottomSheetDialogFragment() {
 
     fun onClickContinue(){ // TODO pass the text from editText through the method
         binding.root.mec_progress.visibility = View.VISIBLE
-        var cvv=binding.root.mec_cvv_digits.toString()
+        var cvv=binding.root.mec_cvv_digits.text.toString()
         if(cvv.trim().isNotEmpty()) paymentViewModel.submitOrder(cvv) else binding.root.mec_cvv_digits.startAnimation(MECutility.getShakeAnimation())
 
     }
 
     private fun gotoPaymentConfirmationFragment(){
         val mecPaymentConfirmationFragment : MECPaymentConfirmationFragment = MECPaymentConfirmationFragment()
+        val bundle = Bundle()
+        bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
+        bundle.putBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, java.lang.Boolean.TRUE)
+        mecPaymentConfirmationFragment.arguments = bundle
         replaceFragment(mecPaymentConfirmationFragment, false)
     }
 

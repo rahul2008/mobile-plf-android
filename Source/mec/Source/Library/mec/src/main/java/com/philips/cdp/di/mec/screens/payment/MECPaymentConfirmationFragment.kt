@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecPaymentConfirmationBinding
-import com.philips.cdp.di.mec.payment.MECWebPaymentFragment
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
@@ -30,6 +29,7 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecPaymentConfirmationBinding.inflate(inflater, container, false)
+        binding.fragment = this
         val arguments = arguments
         if (arguments != null && arguments.containsKey(MECConstant.ORDER_NUMBER)) {
             binding.tvOrderNumber.visibility=View.VISIBLE
@@ -61,6 +61,7 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
     override fun onResume() {
         super.onResume()
         context?.let { mecPaymentConfirmationService.getTitle(PaymentStatus.SUCCESS, it) }
+        setTitleAndBackButtonVisibility(R.string.mec_confirmation, true)
     }
 
     fun onClickOk(){

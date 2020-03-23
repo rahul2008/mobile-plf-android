@@ -1,16 +1,15 @@
-package com.philips.cdp.di.mec.payment
+package com.philips.cdp.di.mec.screens.payment
 
 import android.content.Context
 import android.os.Bundle
 import android.webkit.CookieManager
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
 import com.philips.cdp.di.mec.utils.AlertListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECLog
 import com.philips.cdp.di.mec.utils.MECutility
 
-class MECWebPaymentFragment :MECWebFragment() , AlertListener {
+class MECWebPaymentFragment : MECWebFragment() , AlertListener {
 
 
 
@@ -129,7 +128,7 @@ class MECWebPaymentFragment :MECWebFragment() , AlertListener {
             sendCallback(false)
             return
         }*/
-        showProductCatalogFragment(MECWebPaymentFragment.TAG)
+        showProductCatalogFragment(TAG)
     }
 
     override fun onPositiveBtnClick() {
