@@ -22,7 +22,7 @@ abstract class MECWebFragment : MecBaseFragment() {
 
     protected lateinit var mWebView: WebView
     private var mUrl: String? = null
-    private var mProgressBar : FrameLayout? = null
+    private var mProgressBar: FrameLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val viewGroup = inflater.inflate(R.layout.mec_web_fragment, container, false) as ViewGroup
@@ -66,7 +66,7 @@ abstract class MECWebFragment : MecBaseFragment() {
         dismissProgressBar(mProgressBar)
     }
 
-     abstract fun getWebUrl(): String
+    abstract fun getWebUrl(): String
 
     open fun shouldOverrideUrlLoading(url: String): Boolean {
         return false

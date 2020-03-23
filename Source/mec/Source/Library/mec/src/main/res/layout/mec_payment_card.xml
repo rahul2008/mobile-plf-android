@@ -6,7 +6,7 @@
 
         <variable
             name="mecPayment"
-            type="com.philips.cdp.di.mec.payment.MECPayment" />
+            type="com.philips.cdp.di.mec.paymentServices.MECPayment" />
 
         <import type="android.view.View" />
 

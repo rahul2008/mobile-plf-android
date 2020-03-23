@@ -18,7 +18,7 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticServer
 import com.philips.cdp.di.mec.analytics.MECAnalytics
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant
 import com.philips.cdp.di.mec.common.MecError
-import com.philips.cdp.di.mec.payment.MECPayment
+import com.philips.cdp.di.mec.paymentServices.MECPayment
 import com.philips.cdp.di.mec.utils.MECConstant.IN_STOCK
 import com.philips.cdp.di.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.uid.thememanager.UIDHelper

@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.payment
+package com.philips.cdp.di.mec.paymentServices
 
 import com.philips.cdp.di.mec.utils.MECConstant
 

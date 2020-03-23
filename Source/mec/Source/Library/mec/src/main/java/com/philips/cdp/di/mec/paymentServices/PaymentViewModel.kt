@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.payment
+package com.philips.cdp.di.mec.paymentServices
 
 import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.model.address.ECSAddress

@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.payment
+package com.philips.cdp.di.mec.paymentServices
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

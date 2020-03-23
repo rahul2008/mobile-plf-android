@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.payment
+package com.philips.cdp.di.mec.paymentServices
 
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback

@@ -6,8 +6,8 @@ import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
 import com.philips.cdp.di.mec.integration.MECListener
-import com.philips.cdp.di.mec.payment.MECPayment
-import com.philips.cdp.di.mec.payment.MECPayments
+import com.philips.cdp.di.mec.paymentServices.MECPayment
+import com.philips.cdp.di.mec.paymentServices.MECPayments
 import com.philips.cdp.di.mec.screens.address.UserInfo
 import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface

@@ -19,10 +19,10 @@ import com.philips.cdp.di.mec.common.ItemClickListener
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecDeliveryBinding
-import com.philips.cdp.di.mec.payment.MECPayment
-import com.philips.cdp.di.mec.payment.MECPayments
-import com.philips.cdp.di.mec.payment.PaymentRecyclerAdapter
-import com.philips.cdp.di.mec.payment.PaymentViewModel
+import com.philips.cdp.di.mec.paymentServices.MECPayment
+import com.philips.cdp.di.mec.paymentServices.MECPayments
+import com.philips.cdp.di.mec.paymentServices.PaymentRecyclerAdapter
+import com.philips.cdp.di.mec.paymentServices.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.orderSummary.MECOrderSummaryFragment
 import com.philips.cdp.di.mec.screens.profile.ProfileViewModel

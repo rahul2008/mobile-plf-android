@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec.payment
+package com.philips.cdp.di.mec.paymentServices
 
 import android.view.LayoutInflater
 import android.view.View
