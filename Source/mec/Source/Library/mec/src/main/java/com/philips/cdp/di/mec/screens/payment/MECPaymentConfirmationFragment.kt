@@ -29,6 +29,7 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecPaymentConfirmationBinding.inflate(inflater, container, false)
+        binding.fragment = this
         val arguments = arguments
         if (arguments != null && arguments.containsKey(MECConstant.ORDER_NUMBER)) {
             binding.tvOrderNumber.visibility=View.VISIBLE
