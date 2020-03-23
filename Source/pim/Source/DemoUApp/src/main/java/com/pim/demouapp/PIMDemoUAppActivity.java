@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.ecs.demotestuapp.integration.EcsDemoTestAppSettings;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppDependencies;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppInterface;
 import com.ecs.demouapp.integration.EcsLaunchInput;
+import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -84,6 +86,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import utils.PIMNetworkUtility;
+
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECListener, MECBannerConfigurator {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -112,6 +116,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private MECLaunchInput mMecLaunchInput;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
     private PIMDemoUAppApplication uAppApplication;
+    private boolean isOptedIn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -171,9 +176,14 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         marketingOptedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.getTag() != null)
-                    return;
-                if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN){
+                    if ((!isNetworkConnected()) || buttonView.getTag() != null) {
+                        if (buttonView.isPressed()) {
+                            marketingOptedSwitch.setChecked(isOptedIn);
+                        }
+                        return;
+                    }
+
+                if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                     marketingOptedSwitch.setChecked(false);
                     showToast("User is not loged-in, Please login!");
                     return;
@@ -348,6 +358,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        if (!isNetworkConnected()) return;
+
         if (v == btnLaunchAsActivity) {
             if (!isUSR) {
                 PIMLaunchInput launchInput = new PIMLaunchInput();
@@ -764,12 +776,25 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         keyList.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
         try {
             final HashMap<String, Object> userDetails = userDataInterface.getUserDetails(keyList);
-            boolean isOptedIn = (boolean) userDetails.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            isOptedIn = (boolean) userDetails.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
             marketingOptedSwitch.setTag(false);
             marketingOptedSwitch.setChecked(isOptedIn);
             marketingOptedSwitch.setTag(null);
         } catch (UserDataInterfaceException e) {
             e.printStackTrace();
+        }
+    }
+
+    protected boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
+            PIMNetworkUtility.getInstance().showErrorDialog(mContext,
+                    getSupportFragmentManager(), "OK",
+                    "You are offline", "Your internet connection does not seem to be working. Please check and try again");
+            return false;
+        } else {
+            return true;
         }
     }
 }
