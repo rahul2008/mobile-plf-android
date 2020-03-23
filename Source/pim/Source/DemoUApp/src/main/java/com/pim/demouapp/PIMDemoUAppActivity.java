@@ -116,6 +116,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private MECLaunchInput mMecLaunchInput;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
     private PIMDemoUAppApplication uAppApplication;
+    private boolean isOptedIn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -175,9 +176,14 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         marketingOptedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.getTag() != null)
-                    return;
-                if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN){
+                    if ((!isNetworkConnected()) || buttonView.getTag() != null) {
+                        if (buttonView.isPressed()) {
+                            marketingOptedSwitch.setChecked(isOptedIn);
+                        }
+                        return;
+                    }
+
+                if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                     marketingOptedSwitch.setChecked(false);
                     showToast("User is not loged-in, Please login!");
                     return;
@@ -770,7 +776,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         keyList.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
         try {
             final HashMap<String, Object> userDetails = userDataInterface.getUserDetails(keyList);
-            boolean isOptedIn = (boolean) userDetails.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            isOptedIn = (boolean) userDetails.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
             marketingOptedSwitch.setTag(false);
             marketingOptedSwitch.setChecked(isOptedIn);
             marketingOptedSwitch.setTag(null);
@@ -782,8 +788,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     protected boolean isNetworkConnected() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(connectivityManager))
-        {
+        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
             PIMNetworkUtility.getInstance().showErrorDialog(mContext,
                     getSupportFragmentManager(), "OK",
                     "You are offline", "Your internet connection does not seem to be working. Please check and try again");

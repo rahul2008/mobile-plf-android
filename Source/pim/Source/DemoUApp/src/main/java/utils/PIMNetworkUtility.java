@@ -39,13 +39,13 @@ public class PIMNetworkUtility {
                         setPositiveButton(pButtonText, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
+                                dismissAlertFragmentDialog(alertDialogFragment);
                             }
                         });
 
         builder.setTitle(pErrorString);
         if (alertDialogFragment != null) {
-            dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
+            dismissAlertFragmentDialog(alertDialogFragment);
         }
         alertDialogFragment = builder.create();
         if(alertDialogFragment==null) {
@@ -58,11 +58,8 @@ public class PIMNetworkUtility {
 
     }
 
-    private void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment, FragmentManager fragmentManager) {
+    private void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment) {
 
-        if(alertDialogFragment==null){
-            alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
-        }
         if(alertDialogFragment!=null && alertDialogFragment.isVisible())
             alertDialogFragment.dismiss();
     }
