@@ -20,6 +20,7 @@ import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
 import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.ItemClickListener
+import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecOrderSummaryFragmentBinding
 import com.philips.cdp.di.mec.paymentServices.MECPayment
 import com.philips.cdp.di.mec.paymentServices.PaymentViewModel
@@ -74,6 +75,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         bundle.putString(MECConstant.ORDER_NUMBER, orderNumber)
         bundle.putString(MECConstant.WEB_PAY_URL, eCSPaymentProvider.worldpayUrl)
         mECWebPaymentFragment.arguments = bundle
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         addFragment(mECWebPaymentFragment, MECWebPaymentFragment.TAG, true)
 
 
@@ -120,6 +122,13 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         setTitleAndBackButtonVisibility(R.string.mec_checkout, true)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+    }
+
+
+
     private fun addCartSummaryList(ecsShoppingCart: ECSShoppingCart): MutableList<MECCartSummary> {
         cartSummaryList.clear()
         var name: String
@@ -147,9 +156,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     }
 
     fun onClickPay() {
+
         if (isPaymentMethodAvailable()) { // user with saved payment method
             showCVV()
         } else {    // first time user
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
             paymentViewModel.submitOrder(null)
         }
 
@@ -240,5 +251,10 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         val mecPrivacyFragment = MecPrivacyFragment()
         mecPrivacyFragment.arguments = bundle
         replaceFragment(mecPrivacyFragment, MecPrivacyFragment.TAG, true)
+    }
+
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
+        super.processError(mecError, showDialog)
     }
 }
