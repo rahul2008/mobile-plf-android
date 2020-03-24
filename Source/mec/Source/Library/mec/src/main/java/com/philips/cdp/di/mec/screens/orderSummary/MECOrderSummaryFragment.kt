@@ -141,14 +141,26 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         }
 
         for (i in 0 until ecsShoppingCart.appliedVouchers.size) {
-            if (ecsShoppingCart.appliedVouchers.get(i).name == null) {
+            if (ecsShoppingCart.appliedVouchers[i].name == null) {
                 name = " "
             } else {
-                name = ecsShoppingCart.appliedVouchers.get(i).name
+                name = ecsShoppingCart.appliedVouchers[i].name
             }
             price = "-" + ecsShoppingCart.appliedVouchers?.get(i)?.appliedValue?.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
 
+        }
+
+        if (ecsShoppingCart.appliedOrderPromotions.size > 0) {
+            for (i in 0 until ecsShoppingCart.appliedOrderPromotions.size) {
+                name = if (ecsShoppingCart.appliedOrderPromotions[i].promotion.name == null) {
+                    " "
+                } else {
+                    ecsShoppingCart.appliedOrderPromotions[i].promotion.name
+                }
+                price = "-" + ecsShoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
+                cartSummaryList.add(MECCartSummary(name, price))
+            }
         }
 
         cartSummaryAdapter?.notifyDataSetChanged()

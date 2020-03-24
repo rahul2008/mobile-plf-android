@@ -50,8 +50,8 @@ class MECCVVFragment: BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecCvcCodeFragmentBinding.inflate(inflater,container,false)
         binding.fragment=this
-        var bundle= arguments
-        var ecsPayment=bundle?.getSerializable(MECConstant.MEC_PAYMENT_METHOD) as ECSPayment
+        val bundle= arguments
+        val ecsPayment=bundle?.getSerializable(MECConstant.MEC_PAYMENT_METHOD) as ECSPayment
         binding.paymentMethod=ecsPayment
 
         paymentViewModel =  ViewModelProviders.of(this).get(PaymentViewModel::class.java)
@@ -63,7 +63,7 @@ class MECCVVFragment: BottomSheetDialogFragment() {
 
     fun onClickContinue(){ // TODO pass the text from editText through the method
         binding.root.mec_progress.visibility = View.VISIBLE
-        var cvv=binding.root.mec_cvv_digits.text.toString()
+        val cvv=binding.root.mec_cvv_digits.text.toString()
         if(cvv.trim().isNotEmpty()) paymentViewModel.submitOrder(cvv) else binding.root.mec_cvv_digits.startAnimation(MECutility.getShakeAnimation())
 
     }

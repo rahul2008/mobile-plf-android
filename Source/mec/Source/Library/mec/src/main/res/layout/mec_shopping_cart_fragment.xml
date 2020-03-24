@@ -47,7 +47,7 @@
                     android:orientation="vertical">
 
                     <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/mec_cart_Summary"
+                        android:id="@+id/mec_cart_Summary_label"
                         style="@style/mec_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                         android:id="@+id/mec_cart_summary_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/mec_cart_Summary"
+                        android:layout_below="@+id/mec_cart_Summary_label"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -69,7 +69,7 @@
                         layout="@layout/mec_progress_bar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/mec_cart_Summary" />
+                        android:layout_below="@+id/mec_cart_Summary_label" />
 
 
                     <com.philips.platform.uid.view.widget.Label
@@ -155,22 +155,21 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/mec_order_Summary"
+                        android:id="@+id/mec_cart_Summary"
                         style="@style/mec_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/mec_accepted_code_recycler_view"
                         android:paddingLeft="@dimen/border16_margin_left_right"
                         android:paddingRight="@dimen/border16_margin_left_right"
-                        android:text="@string/mec_order_summary" />
+                        android:text="@string/mec_cart_summary" />
 
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/mec_price_summary_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/mec_order_Summary"
-                        android:layout_marginTop="@dimen/iap_margin_10dp"
+                        android:layout_below="@+id/mec_cart_Summary"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
