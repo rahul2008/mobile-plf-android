@@ -9,15 +9,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
 import com.philips.cdp.di.ecs.model.payment.ECSPayment
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecCvcCodeFragmentBinding
 import com.philips.cdp.di.mec.paymentServices.PaymentViewModel
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.payment.MECPaymentConfirmationFragment
-import com.philips.cdp.di.mec.utils.MECConstant
-import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.cdp.di.mec.utils.MECLog
-import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.cdp.di.mec.utils.*
 import kotlinx.android.synthetic.main.mec_cvc_code_fragment.view.*
 
 class MECCVVFragment: BottomSheetDialogFragment() {
@@ -38,9 +36,26 @@ class MECCVVFragment: BottomSheetDialogFragment() {
     })
 
     private val errorObserver: Observer<MecError> = Observer(fun(mecError: MecError?) {
-        MECutility.tagAndShowError(mecError, true, fragmentManager, context)
+        MECutility.tagAndShowError(mecError, false, fragmentManager, context)
+        showErrorDialog()
         binding.root.mec_progress.visibility = View.GONE
     })
+
+    private fun showErrorDialog() {
+        //TODO - Remove Cancel and goto catalog on OK press
+        context?.let {
+            MECutility.showActionDialog(it, it.getString(R.string.mec_ok), it.getString(R.string.mec_cancel), it.getString(R.string.mec_payment), it.getString(R.string.mec_payment_failed_message), fragmentManager!!, object : AlertListener {
+
+                override fun onPositiveBtnClick() {
+                    dismiss()
+                }
+
+                override fun onNegativeBtnClick() {
+                    dismiss()
+                }
+            })
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecCvcCodeFragmentBinding.inflate(inflater,container,false)
