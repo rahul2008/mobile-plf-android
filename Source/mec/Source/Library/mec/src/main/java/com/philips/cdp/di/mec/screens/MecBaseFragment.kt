@@ -11,12 +11,9 @@ package com.philips.cdp.di.mec.screens
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -31,7 +28,6 @@ import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.uappframework.listener.BackEventListener
-import com.philips.platform.uid.thememanager.UIDHelper
 import com.philips.platform.uid.view.widget.ProgressBar
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel
 
@@ -53,14 +49,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     override fun handleBackEvent(): Boolean {
-        val currentFragment = activity?.supportFragmentManager?.fragments?.last()
-        // assuming that user come back to Product detail page only from Retailer and Shopping cart screen
-       /* if (currentFragment?.getTag().equals(WebBuyFromRetailersFragment.TAG) )
-        {
-            setTitleAndBackButtonVisibility(R.string.mec_product_detail_title, true)
-            setCartIconVisibility(true)
-        }*/
-
         return false
     }
 
@@ -118,13 +106,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         }
     }
 
-    fun showFragment(fragmentTag: String) {
-        if (activity != null && !activity!!.isFinishing) {
-            activity!!.supportFragmentManager.popBackStackImmediate(fragmentTag, 0)
-
-        }
-    }
-
 
     protected fun setTitleAndBackButtonVisibility(resourceId: Int, isVisible: Boolean) {
         if (MECDataHolder.INSTANCE.actionbarUpdateListener != null)
@@ -157,52 +138,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     protected fun isUserLoggedIn(): Boolean {
         return (MECDataHolder.INSTANCE.userDataInterface != null && MECDataHolder.INSTANCE.userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
 
-    }
-
-            fun createCustomProgressBar(group: ViewGroup?, size: Int) {
-        createCustomProgressBar(group,size,RelativeLayout.CENTER_IN_PARENT)
-
-    }
-    fun createCustomProgressBar(group: ViewGroup?, size: Int, gravity: Int) {
-        var group = group
-        if (context == null) return
-        val parentView = view as ViewGroup?
-        val layoutViewGroup = group
-        if (parentView != null) {
-            group = parentView
-        }
-
-        when (size) {
-            BIG -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBBig, true)
-            SMALL -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBSmall, true)
-            MEDIUM -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBMedium, true)
-            else -> context!!.theme.applyStyle(com.philips.cdp.di.mec.R.style.MECCircularPBMedium, true)
-        }
-
-        mMECBaseFragmentProgressBar = ProgressBar(context!!, null, com.philips.cdp.di.mec.R.attr.pth_cirucular_pb)
-        val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL)
-        params.addRule(gravity)
-
-        if(gravity == RelativeLayout.ALIGN_PARENT_BOTTOM){
-            params.setMargins(0, 0, 0, 130);
-        }
-
-        mMECBaseFragmentProgressBar!!.setLayoutParams(params)
-
-        try {
-            group!!.addView(mMECBaseFragmentProgressBar)
-        } catch (e: Exception) {
-            layoutViewGroup?.addView(mMECBaseFragmentProgressBar)
-        }
-
-        if (mMECBaseFragmentProgressBar != null) {
-            mMECBaseFragmentProgressBar!!.setVisibility(View.VISIBLE)
-            if (activity != null) {
-                activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            }
-        }
     }
 
     fun hideProgressBar() {
@@ -239,26 +174,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
         }
     }
 
-
-    fun showProgressDialog() {
-        mProgressDialog = ProgressDialog(UIDHelper.getPopupThemedContext(activity!!))
-        mProgressDialog!!.getWindow()!!.setGravity(Gravity.CENTER)
-        mProgressDialog!!.setCancelable(false)
-        mProgressDialog!!.setMessage("Please wait" + "...")
-
-        if (!mProgressDialog!!.isShowing() && !activity!!.isFinishing()) {
-            mProgressDialog!!.show()
-            mProgressDialog!!.setContentView(R.layout.progressbar_dls)
-        }
-    }
-
-    fun dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog!!.isShowing()) {
-            mProgressDialog!!.dismiss()
-        }
-    }
-
-    protected fun finishActivity() {
+    private fun finishActivity() {
         if (activity != null && activity is MECLauncherActivity && !activity!!.isFinishing) {
             activity!!.finish()
         }
@@ -281,4 +197,48 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
 
+    fun moveToCaller(isSuccess: Boolean, fragmentTag: String) {
+        val mecOrderFlowCompletion = MECDataHolder.INSTANCE.mecOrderFlowCompletion
+
+        if (isSuccess) {
+            MECDataHolder.INSTANCE.mecOrderFlowCompletion?.onOrderPlace()
+        } else {
+            MECDataHolder.INSTANCE.mecOrderFlowCompletion?.onOrderCancel()
+        }
+
+        val shouldMoveToVertical = mecOrderFlowCompletion?.shouldMoveToVertcal() ?: false
+
+        if(shouldMoveToVertical){
+            exitMEC()
+        }else{
+            showProductCatalogFragment(fragmentTag)
+        }
+
+    }
+
+
+
+    open fun removeMECFragments() {
+
+            if(activity!=null) {
+                val fragManager = activity!!.supportFragmentManager
+                var count = fragManager.backStackEntryCount
+                while (count >= 0) {
+                    val fragmentList = fragManager.fragments
+                    if (fragmentList != null && fragmentList.size > 0) {
+
+                        val fragment = fragmentList[0]
+                        if(fragment is MecBaseFragment) {
+                            fragManager.popBackStack()
+                        }
+                    }
+                    count--
+                }
+            }
+    }
+
+    private fun exitMEC() {
+        removeMECFragments()
+        finishActivity()
+    }
 }

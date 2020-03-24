@@ -78,7 +78,7 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
     }
 
     fun onClickOk(){
-        showProductCatalogFragment(MECWebPaymentFragment.TAG)
+        moveToCaller(binding.isPaymentCompleted,MECWebPaymentFragment.TAG)
     }
 
 

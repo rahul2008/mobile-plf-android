@@ -13,10 +13,7 @@ import android.content.Context
 import android.os.Bundle
 import android.webkit.CookieManager
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.utils.AlertListener
-import com.philips.cdp.di.mec.utils.MECConstant
-import com.philips.cdp.di.mec.utils.MECLog
-import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.cdp.di.mec.utils.*
 
 class MECWebPaymentFragment : MECWebFragment() , AlertListener {
 
@@ -134,11 +131,7 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
     }
 
     private fun handleNavigation() {
-       /* if (shouldGiveCallBack()) {
-            sendCallback(false)
-            return
-        }*/
-        showProductCatalogFragment(TAG)
+        moveToCaller(false,TAG)
     }
 
     override fun onPositiveBtnClick() {
