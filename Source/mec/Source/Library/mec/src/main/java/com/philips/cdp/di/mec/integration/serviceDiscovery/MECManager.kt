@@ -7,7 +7,9 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.mec.auth.HybrisAuth
-import com.philips.cdp.di.mec.integration.MECListener
+import com.philips.cdp.di.mec.integration.CartListener
+import com.philips.cdp.di.mec.integration.MECCartUpdateListener
+import com.philips.cdp.di.mec.integration.MECFetchCartListener
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 
@@ -18,34 +20,38 @@ import com.philips.cdp.di.mec.utils.MECutility
 class MECManager {
 
     // to be called by Proposition getProductCartCount() API call to show cart count
-    fun getProductCartCountWorker(mecListener: MECListener){
+    fun getProductCartCountWorker(cartListener: CartListener){
         if(null!= MECDataHolder.INSTANCE.eCSServices) {
             MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
                 override fun onResponse(result: ECSConfig) {
                     if (result.isHybris && null != result!!.rootCategory) {
-                        getShoppingCartData(mecListener)
+                        getShoppingCartData(cartListener)
                     } else {
                         //hybris not available
-                        mecListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
+                        cartListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
                     }
                 }
 
                 override fun onFailure(error: Exception, ecsError: ECSError) {
-                    mecListener.onFailure(error)
+                    cartListener.onFailure(error)
                 }
             })
         }
     }
 
     //to be called by Catalog and Product Detail screen to show cart count
-    fun getShoppingCartData(mecListener: MECListener){
+    fun getShoppingCartData(cartListener: CartListener){
         MECDataHolder.INSTANCE.eCSServices.fetchShoppingCart(object : ECSCallback<ECSShoppingCart, Exception> {
             override fun onResponse(carts: ECSShoppingCart?) {
                 if (carts != null) {
                     val quantity = MECutility.getQuantity(carts)
-                    mecListener.onGetCartCount(quantity)
+                    if(cartListener is MECFetchCartListener){
+                        cartListener.onGetCartCount(quantity)
+                    }else if(cartListener is MECCartUpdateListener){
+                        cartListener.onUpdateCartCount(quantity)
+                    }
                 } else {
-                    mecListener.onFailure(Exception(ECSErrorEnum.ECSsomethingWentWrong.localizedErrorString))
+                    cartListener.onFailure(Exception(ECSErrorEnum.ECSsomethingWentWrong.localizedErrorString))
                 }
             }
 
@@ -54,18 +60,18 @@ class MECManager {
                     var authCallBack = object: ECSCallback<ECSOAuthData, Exception> {
 
                         override fun onResponse(result: ECSOAuthData?) {
-                            getProductCartCountWorker(mecListener)
+                            getProductCartCountWorker(cartListener)
                         }
 
                         override fun onFailure(error: Exception, ecsError: ECSError) {
-                            mecListener.onFailure(error)
+                            cartListener.onFailure(error)
                         }
 
                     }
                     HybrisAuth.hybrisAuthentication(authCallBack)
 
                 }else {
-                    mecListener.onFailure(error)
+                    cartListener.onFailure(error)
                 }
             }
         })

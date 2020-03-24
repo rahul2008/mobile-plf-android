@@ -314,7 +314,7 @@ open class MECProductCatalogFragment : MecBaseFragment(), Pagination, ItemClickL
             if (isUserLoggedIn()) {
                 GlobalScope.launch {
                     var mecManager: MECManager = MECManager()
-                    MECDataHolder.INSTANCE.mecListener?.let { mecManager.getShoppingCartData(it) }
+                    MECDataHolder.INSTANCE.mecCartUpdateListener?.let { mecManager.getShoppingCartData(it) }
                 }
             }
             ////////////// end of update cart and login if required

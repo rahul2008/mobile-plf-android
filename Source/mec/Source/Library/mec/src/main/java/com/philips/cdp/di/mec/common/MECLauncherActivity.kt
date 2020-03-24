@@ -8,11 +8,11 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.databinding.MecActivityLauncherBinding
 import com.philips.cdp.di.mec.integration.FragmentSelector
+import com.philips.cdp.di.mec.integration.MECCartUpdateListener
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator
-import com.philips.cdp.di.mec.integration.MECListener
+import com.philips.cdp.di.mec.integration.MECFetchCartListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.DEFAULT_THEME
-import com.philips.cdp.di.mec.utils.MECConstant.IAP_KEY_ACTIVITY_THEME
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.mec_action_bar.*
 import java.util.*
 
 
-class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListener, MECListener {
+class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListener, MECFetchCartListener ,MECCartUpdateListener {
 
 
 
@@ -118,7 +118,7 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListe
 
 
 
-     override fun updateCartIconVisibility(shouldShow: Boolean) {
+     override fun shouldShowCart(shouldShow: Boolean) {
          if(shouldShow) {
              mec_cart_item_count.visibility=View.VISIBLE
          }else{
@@ -176,7 +176,7 @@ class MECLauncherActivity : UIDActivity(), View.OnClickListener , ActionBarListe
          mecLandingFragment?.arguments = bundle
 
 
-         MECDataHolder.INSTANCE.setActionBarListener(this, this)
+         MECDataHolder.INSTANCE.setUpdateCartListener(this, this)
          val tag = mecLandingFragment?.javaClass?.name
          val transaction = supportFragmentManager.beginTransaction()
          transaction.replace(R.id.mec_fragment_container, mecLandingFragment!!, tag)

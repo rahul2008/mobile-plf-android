@@ -5,7 +5,8 @@ import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
-import com.philips.cdp.di.mec.integration.MECListener
+import com.philips.cdp.di.mec.integration.MECCartUpdateListener
+import com.philips.cdp.di.mec.integration.MECFetchCartListener
 import com.philips.cdp.di.mec.paymentServices.MECPayment
 import com.philips.cdp.di.mec.paymentServices.MECPayments
 import com.philips.cdp.di.mec.screens.address.UserInfo
@@ -23,7 +24,7 @@ enum class MECDataHolder {
 
     lateinit var appinfra: AppInfraInterface
     lateinit var actionbarUpdateListener: ActionBarListener
-    var mecListener: MECListener? = null
+    var mecCartUpdateListener: MECCartUpdateListener? = null
     var mecBannerEnabler: MECBannerConfigurator? = null
     lateinit var locale: String
     lateinit var propositionId: String
@@ -89,9 +90,9 @@ enum class MECDataHolder {
 
     var bvClient: BVConversationsClient? = null
 
-    fun setActionBarListener(mActionbarUpdateListener: ActionBarListener, mECListener: MECListener) {
+    fun setUpdateCartListener(mActionbarUpdateListener: ActionBarListener, mecCartUpdateListener: MECCartUpdateListener) {
         actionbarUpdateListener = mActionbarUpdateListener
-        mecListener = mECListener
+        this.mecCartUpdateListener = mecCartUpdateListener
     }
 
     fun setPrivacyPolicyUrls(privacyUrl: String, faqUrl: String, termsUrl: String) {

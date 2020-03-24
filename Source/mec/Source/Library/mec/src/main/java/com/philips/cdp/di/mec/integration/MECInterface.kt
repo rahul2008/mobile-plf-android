@@ -90,12 +90,12 @@ class MECInterface : UappInterface {
     }
 
     /**
-     * @param mecListener
+     * @param mecFetchCartListener
      */
-    fun getProductCartCount(mecListener: MECListener) {
+    fun fetchCartCount(mecFetchCartListener: MECFetchCartListener) {
         GlobalScope.launch {
            var  mecManager: MECManager = MECManager()
-            mecManager.getProductCartCountWorker(mecListener)
+            mecManager.getProductCartCountWorker(mecFetchCartListener)
         }
 
     }

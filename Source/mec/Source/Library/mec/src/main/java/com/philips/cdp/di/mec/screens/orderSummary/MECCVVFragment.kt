@@ -78,7 +78,7 @@ class MECCVVFragment: BottomSheetDialogFragment() {
     }
 
     private fun replaceFragment(newFragment: MecBaseFragment, isReplaceWithBackStack: Boolean) {
-        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
+        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecCartUpdateListener == null)
             RuntimeException("ActionBarListner and MECListner cant be null")
         else {
             if (null!=activity && !activity!!.isFinishing) {

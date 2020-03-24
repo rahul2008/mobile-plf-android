@@ -32,11 +32,12 @@ import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
+import com.philips.cdp.di.mec.integration.MECCartUpdateListener;
 import com.philips.cdp.di.mec.integration.MECDependencies;
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator;
 import com.philips.cdp.di.mec.integration.MECInterface;
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
-import com.philips.cdp.di.mec.integration.MECListener;
+import com.philips.cdp.di.mec.integration.MECFetchCartListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -81,7 +82,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECListener, MECBannerConfigurator {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECFetchCartListener, MECCartUpdateListener, MECBannerConfigurator {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
@@ -215,7 +216,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         mMecInterface.init(mIapDependencies, new MECSettings(mContext));
 
         mMecLaunchInput = new MECLaunchInput();
-        mMecLaunchInput.setMecListener(this);
+        mMecLaunchInput.setMecCartUpdateListener(this);
 
 
         mMecLaunchInput.setMecBannerConfigurator(this);
@@ -598,6 +599,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    public void shouldShowCart(boolean shouldShow) {
+
+    }
+
+    @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
 
     }
@@ -698,13 +704,14 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         return null;
     }
 
+
     @Override
-    public void onUpdateCartCount(int count) {
+    public void onFailure(@NotNull Exception exception) {
 
     }
 
     @Override
-    public void onFailure(@NotNull Exception exception) {
+    public void onUpdateCartCount(int count) {
 
     }
 }

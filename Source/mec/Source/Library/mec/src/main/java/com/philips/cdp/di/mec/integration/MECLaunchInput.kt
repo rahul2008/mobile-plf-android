@@ -18,8 +18,7 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
     var maxCartCount : Int = 0
 
 
-    var mecListener: MECListener ? =null
-    //TODO :-Blacklist retailer
+    var mecCartUpdateListener: MECCartUpdateListener ? =null
     var blackListedRetailerNames : List<String>? = null
     var flowConfigurator: MECFlowConfigurator ? =null
 

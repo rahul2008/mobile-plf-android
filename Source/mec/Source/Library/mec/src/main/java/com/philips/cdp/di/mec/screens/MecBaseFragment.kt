@@ -61,7 +61,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     fun replaceFragment(newFragment: MecBaseFragment,
                         newFragmentTag: String, isReplaceWithBackStack: Boolean) {
-        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
+        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecCartUpdateListener == null)
             RuntimeException("ActionBarListner and MECListner cant be null")
         else {
             if (null!=activity && !activity!!.isFinishing) {
@@ -83,7 +83,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
     fun addFragment(newFragment: MecBaseFragment,
                         newFragmentTag: String, isAddWithBackStack: Boolean) {
-        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecListener == null)
+        if (MECDataHolder.INSTANCE.actionbarUpdateListener == null || MECDataHolder.INSTANCE.mecCartUpdateListener == null)
             RuntimeException("ActionBarListner and MECListner cant be null")
         else {
             if (null!=activity && !activity!!.isFinishing) {
@@ -134,17 +134,17 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     }
 
     fun updateCount(count: Int) {
-        if (MECDataHolder.INSTANCE.mecListener  != null) {
-            MECDataHolder.INSTANCE.mecListener!!.onUpdateCartCount(count)
+        if (MECDataHolder.INSTANCE.mecCartUpdateListener  != null) {
+            MECDataHolder.INSTANCE.mecCartUpdateListener!!.onUpdateCartCount(count)
         }
     }
 
     fun setCartIconVisibility(shouldShow: Boolean) {
-        if (MECDataHolder.INSTANCE.mecListener != null) {
+        if (MECDataHolder.INSTANCE.mecCartUpdateListener != null) {
             if (isUserLoggedIn() && MECDataHolder.INSTANCE.hybrisEnabled) {
-                MECDataHolder.INSTANCE.mecListener!!.updateCartIconVisibility(shouldShow)
+                MECDataHolder.INSTANCE.mecCartUpdateListener!!.shouldShowCart(shouldShow)
             } else {
-                MECDataHolder.INSTANCE.mecListener!!.updateCartIconVisibility(false)
+                MECDataHolder.INSTANCE.mecCartUpdateListener!!.shouldShowCart(false)
             }
         }
     }

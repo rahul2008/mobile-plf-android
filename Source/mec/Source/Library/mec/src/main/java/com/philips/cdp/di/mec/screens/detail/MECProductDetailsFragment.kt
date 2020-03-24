@@ -189,7 +189,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             if(isUserLoggedIn()) {
                 GlobalScope.launch {
                     var mecManager: MECManager = MECManager()
-                    MECDataHolder.INSTANCE.mecListener?.let { mecManager.getShoppingCartData(it) }
+                    MECDataHolder.INSTANCE.mecCartUpdateListener?.let { mecManager.getShoppingCartData(it) }
                 }
             }
             ////////////// end of update cart and login if required
@@ -447,7 +447,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                 if(isUserLoggedIn()) {
                     GlobalScope.launch {
                         var mecManager: MECManager = MECManager()
-                        MECDataHolder.INSTANCE.mecListener?.let { mecManager.getProductCartCountWorker(it) }
+                        MECDataHolder.INSTANCE.mecCartUpdateListener?.let { mecManager.getProductCartCountWorker(it) }
                     }
                 }else{
                     setCartIconVisibility(false)
