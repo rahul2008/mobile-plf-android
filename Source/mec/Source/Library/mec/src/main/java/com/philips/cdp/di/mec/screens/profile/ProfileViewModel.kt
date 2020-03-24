@@ -1,9 +1,19 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.screens.profile
 
 
 import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.model.address.ECSUserProfile
 import com.philips.cdp.di.mec.common.CommonViewModel
+import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
 class ProfileViewModel : CommonViewModel() {
@@ -19,6 +29,20 @@ class ProfileViewModel : CommonViewModel() {
 
     fun fetchUserProfile(){
         profileRepository.fetchUserProfile(ecsUserProfileCallBack)
+    }
+
+    fun retryAPI(mecRequestType: MECRequestType) {
+        var retryAPI = selectAPIcall(mecRequestType)
+        authAndCallAPIagain(retryAPI, authFailCallback)
+    }
+
+    fun selectAPIcall(mecRequestType: MECRequestType): () -> Unit {
+
+        lateinit var APIcall: () -> Unit
+        when (mecRequestType) {
+            MECRequestType.MEC_FETCH_USER_PROFILE -> APIcall = { fetchUserProfile() }
+        }
+        return APIcall
     }
 
 

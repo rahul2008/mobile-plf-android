@@ -11,6 +11,10 @@
             name="isPaymentCompleted"
             type="java.lang.Boolean" />
 
+        <variable
+            name="orderNumber"
+            type="String" />
+
     </data>
 
 <ScrollView
@@ -55,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:text="@{isPaymentCompleted? orderNumber: @string/mec_empty_space}"
             style="@style/iapCentralesansBoldFont"
             android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
            />

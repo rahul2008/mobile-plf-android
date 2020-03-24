@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.mec.screens.shoppingCart
 
 
@@ -131,7 +136,7 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         cartSummaryList.clear()
         mecProductReviews?.let { productReviewList.addAll(it) }
 
-        for (i in 0..shoppingCart.entries.size - 1) {
+        for (i in 0 until shoppingCart.entries.size) {
             name = shoppingCart.entries.get(i).quantity.toString() + "x " + shoppingCart.entries.get(i).product.summary.productTitle
             price = shoppingCart.entries.get(i).totalPrice.formattedValue
             cartSummaryList.add(MECCartSummary(name, price))
@@ -154,13 +159,13 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         }
 
         if (shoppingCart.appliedOrderPromotions.size > 0) {
-            for (i in 0..shoppingCart.appliedOrderPromotions.size - 1) {
-                if (shoppingCart.appliedOrderPromotions.get(i).promotion.description == null) {
-                    name = " "
+            for (i in 0 until shoppingCart.appliedOrderPromotions.size) {
+                name = if (shoppingCart.appliedOrderPromotions.get(i).promotion.name == null) {
+                    " "
                 } else {
-                    name = shoppingCart.appliedOrderPromotions.get(i).promotion.description
+                    shoppingCart.appliedOrderPromotions[i].promotion.name
                 }
-                price = "-" + shoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
+                price = "-" + shoppingCart.appliedOrderPromotions[i].promotion.promotionDiscount.formattedValue
                 cartSummaryList.add(MECCartSummary(name, price))
             }
         }

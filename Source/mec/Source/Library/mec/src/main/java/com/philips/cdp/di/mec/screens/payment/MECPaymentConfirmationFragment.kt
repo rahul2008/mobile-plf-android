@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.screens.payment
 
 import android.os.Build
@@ -35,8 +44,8 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
         if (arguments != null && arguments.containsKey(MECConstant.ORDER_NUMBER)) {
             binding.tvMecYourOrderNumber.visibility=View.VISIBLE
             binding.tvOrderNumberVal.visibility=View.VISIBLE
+            binding.orderNumber = arguments?.getString(MECConstant.ORDER_NUMBER)
 
-            binding.tvOrderNumberVal.text=arguments?.getString(MECConstant.ORDER_NUMBER)
         }
         val detailKeys = ArrayList<String>()
         detailKeys.add(UserDetailConstants.EMAIL)
