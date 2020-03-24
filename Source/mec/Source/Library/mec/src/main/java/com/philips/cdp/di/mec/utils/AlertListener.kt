@@ -16,5 +16,5 @@ package com.philips.cdp.di.mec.utils
 interface AlertListener {
 
     fun onPositiveBtnClick()
-    fun onNegativeBtnClick()
+    fun onNegativeBtnClick(){}
 }

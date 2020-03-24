@@ -12,10 +12,7 @@ package com.philips.cdp.di.mec.utils
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.config.ECSConfig
-import com.philips.cdp.di.mec.integration.MECBannerConfigurator
-import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
-import com.philips.cdp.di.mec.integration.MECCartUpdateListener
-import com.philips.cdp.di.mec.integration.MECFetchCartListener
+import com.philips.cdp.di.mec.integration.*
 import com.philips.cdp.di.mec.paymentServices.MECPayment
 import com.philips.cdp.di.mec.paymentServices.MECPayments
 import com.philips.cdp.di.mec.screens.address.UserInfo
@@ -35,6 +32,7 @@ enum class MECDataHolder {
     lateinit var actionbarUpdateListener: ActionBarListener
     var mecCartUpdateListener: MECCartUpdateListener? = null
     var mecBannerEnabler: MECBannerConfigurator? = null
+    var mecOrderFlowCompletion: MECOrderFlowCompletion? = null
     lateinit var locale: String
     lateinit var propositionId: String
     lateinit var voucherCode: String

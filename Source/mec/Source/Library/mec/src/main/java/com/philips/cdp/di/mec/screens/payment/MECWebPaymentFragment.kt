@@ -13,10 +13,7 @@ import android.content.Context
 import android.os.Bundle
 import android.webkit.CookieManager
 import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.utils.AlertListener
-import com.philips.cdp.di.mec.utils.MECConstant
-import com.philips.cdp.di.mec.utils.MECLog
-import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.cdp.di.mec.utils.*
 
 class MECWebPaymentFragment : MECWebFragment() , AlertListener {
 
@@ -111,7 +108,12 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
             // todo  handle failure
             MECLog.v("PAY_FAIL", url)
             mIsPaymentFailed = true
-            MECutility.showErrorDialog(mContext!!,fragmentManager!!,getString(R.string.mec_ok),getString(R.string.mec_payment),getString(R.string.mec_payment_failed_message ))
+
+            MECutility.showActionDialog(mContext!!, mContext!!.getString(R.string.mec_ok), null, mContext!!.getString(R.string.mec_payment), mContext!!.getString(R.string.mec_payment_failed_message), fragmentManager!!, object:AlertListener{
+                override fun onPositiveBtnClick() {
+                    moveToCaller(mIsPaymentFailed,TAG)
+                }
+            })
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             MECLog.v("PAY_CANC", url)
             val bundle = Bundle()
@@ -134,11 +136,7 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
     }
 
     private fun handleNavigation() {
-       /* if (shouldGiveCallBack()) {
-            sendCallback(false)
-            return
-        }*/
-        showProductCatalogFragment(TAG)
+        moveToCaller(false,TAG)
     }
 
     override fun onPositiveBtnClick() {

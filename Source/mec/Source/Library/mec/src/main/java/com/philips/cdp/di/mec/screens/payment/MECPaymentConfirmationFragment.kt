@@ -29,6 +29,8 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
         val TAG = "MECPaymentConfirmationFragment"
     }
 
+    private var paymentStatus: Boolean = false
+
     private lateinit var binding: MecPaymentConfirmationBinding
     private var mecPaymentConfirmationService = MECPaymentConfirmationService()
 
@@ -39,7 +41,8 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecPaymentConfirmationBinding.inflate(inflater, container, false)
         binding.fragment = this
-        binding.isPaymentCompleted =  arguments!!?.getBoolean(MECConstant.PAYMENT_SUCCESS_STATUS,false)
+        paymentStatus = arguments!!.getBoolean(MECConstant.PAYMENT_SUCCESS_STATUS, false)
+        binding.isPaymentCompleted = paymentStatus
         val arguments = arguments
         if (arguments != null && arguments.containsKey(MECConstant.ORDER_NUMBER)) {
             binding.tvMecYourOrderNumber.visibility=View.VISIBLE
@@ -78,7 +81,7 @@ class MECPaymentConfirmationFragment : MecBaseFragment() {
     }
 
     fun onClickOk(){
-        showProductCatalogFragment(MECWebPaymentFragment.TAG)
+        moveToCaller(paymentStatus,MECWebPaymentFragment.TAG)
     }
 
 

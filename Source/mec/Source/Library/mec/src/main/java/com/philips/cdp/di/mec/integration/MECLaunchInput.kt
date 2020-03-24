@@ -23,6 +23,7 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
 
     var mecBazaarVoiceInput = MECBazaarVoiceInput()
     var mecBannerConfigurator: MECBannerConfigurator ? = null
+    var mecOrderFlowCompletion: MECOrderFlowCompletion? = null
     var voucherCode : String = ""
     var maxCartCount : Int = 0
 

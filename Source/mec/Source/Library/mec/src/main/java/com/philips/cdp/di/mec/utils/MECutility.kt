@@ -81,7 +81,7 @@ class MECutility {
                 alertDialogFragment.dismiss()
         }
 
-        fun showActionDialog(context: Context, positiveBtnText: String, negativeBtnText: String,
+        fun showActionDialog(context: Context, positiveBtnText: String, negativeBtnText: String?,
                              pErrorString: String, descriptionText: String, pFragmentManager: FragmentManager, alertListener: AlertListener) {
             val builder = AlertDialogFragment.Builder(context)
             builder.setDialogType(DialogConstants.TYPE_ALERT)
@@ -98,9 +98,12 @@ class MECutility {
                 alertListener.onPositiveBtnClick()
                 dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager)
             }
-            builder.setNegativeButton(negativeBtnText) {
-                alertListener.onNegativeBtnClick()
-                dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager)
+
+            if(negativeBtnText!=null) {
+                builder.setNegativeButton(negativeBtnText) {
+                    alertListener.onNegativeBtnClick()
+                    dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager)
+                }
             }
             alertDialogFragment = builder.setCancelable(false).create()
             if (!alertDialogFragment!!.isVisible) {
@@ -109,7 +112,7 @@ class MECutility {
         }
 
 
-        fun isCallingFragmentVisible(fragmentManager: FragmentManager?): Boolean {
+        private fun isCallingFragmentVisible(fragmentManager: FragmentManager?): Boolean {
 
             if (fragmentManager != null) {
                 val fragments = fragmentManager.fragments
