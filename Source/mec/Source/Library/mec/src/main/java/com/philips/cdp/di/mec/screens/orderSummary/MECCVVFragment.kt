@@ -42,18 +42,8 @@ class MECCVVFragment: BottomSheetDialogFragment() {
     })
 
     private fun showErrorDialog() {
-        //TODO - Remove Cancel and goto catalog on OK press
         context?.let {
-            MECutility.showActionDialog(it, it.getString(R.string.mec_ok), it.getString(R.string.mec_cancel), it.getString(R.string.mec_payment), it.getString(R.string.mec_payment_failed_message), fragmentManager!!, object : AlertListener {
-
-                override fun onPositiveBtnClick() {
-                    dismiss()
-                }
-
-                override fun onNegativeBtnClick() {
-                    dismiss()
-                }
-            })
+            fragmentManager?.let { it1 -> MECutility.showDLSDialog(it, it.getString(R.string.mec_ok), it.getString(R.string.mec_payment), it.getString(R.string.mec_payment_failed_message), it1) }
         }
     }
 
