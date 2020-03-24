@@ -52,7 +52,7 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
 
     override fun onResume() {
         super.onResume()
-        setTitleAndBackButtonVisibility(R.string.mec_payment, true)
+        setTitleAndBackButtonVisibility(R.string.mec_payment, false)
         setCartIconVisibility(false)
     }
 
