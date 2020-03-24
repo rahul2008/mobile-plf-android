@@ -108,7 +108,12 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
             // todo  handle failure
             MECLog.v("PAY_FAIL", url)
             mIsPaymentFailed = true
-            MECutility.showErrorDialog(mContext!!,fragmentManager!!,getString(R.string.mec_ok),getString(R.string.mec_payment),getString(R.string.mec_payment_failed_message ))
+
+            MECutility.showActionDialog(mContext!!, mContext!!.getString(R.string.mec_ok), null, mContext!!.getString(R.string.mec_payment), mContext!!.getString(R.string.mec_payment_failed_message), fragmentManager!!, object:AlertListener{
+                override fun onPositiveBtnClick() {
+                    moveToCaller(mIsPaymentFailed,TAG)
+                }
+            })
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             MECLog.v("PAY_CANC", url)
             val bundle = Bundle()

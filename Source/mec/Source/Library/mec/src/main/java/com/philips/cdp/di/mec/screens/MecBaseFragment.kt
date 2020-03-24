@@ -110,7 +110,6 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
     protected fun setTitleAndBackButtonVisibility(resourceId: Int, isVisible: Boolean) {
         if (MECDataHolder.INSTANCE.actionbarUpdateListener != null)
             MECDataHolder.INSTANCE.actionbarUpdateListener!!.updateActionBar(resourceId, isVisible)
-
     }
 
 
@@ -218,7 +217,7 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
 
 
 
-    open fun removeMECFragments() {
+    private fun removeMECFragments() {
 
             if(activity!=null) {
                 val fragManager = activity!!.supportFragmentManager
