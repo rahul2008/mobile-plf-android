@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.screens.detail
 
 import android.annotation.SuppressLint
@@ -5,13 +14,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import com.philips.cdp.di.mec.databinding.MecReviewRowBinding
-import com.philips.cdp.di.mec.screens.reviews.MECReview
-import android.R
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
+import com.philips.cdp.di.mec.databinding.MecReviewRowBinding
+import com.philips.cdp.di.mec.screens.reviews.MECReview
 
 
 class MECReviewsAdapter(private val mecReviews: List<MECReview>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

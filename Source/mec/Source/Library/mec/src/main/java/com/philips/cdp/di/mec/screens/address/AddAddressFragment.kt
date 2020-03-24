@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.screens.address
 
 
@@ -10,23 +19,23 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.philips.cdp.di.ecs.model.region.ECSRegion
-import com.philips.cdp.di.mec.screens.MecBaseFragment
-import com.philips.platform.uid.view.widget.InputValidationLayout
-import com.philips.platform.uid.view.widget.ValidationEditText
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
+import com.philips.cdp.di.ecs.model.region.ECSRegion
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
 import com.philips.cdp.di.mec.databinding.MecAddressCreateBinding
+import com.philips.cdp.di.mec.screens.MecBaseFragment
 import com.philips.cdp.di.mec.screens.address.region.RegionViewModel
 import com.philips.cdp.di.mec.screens.shoppingCart.EcsShoppingCartViewModel
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECLog
 import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.platform.uid.view.widget.InputValidationLayout
+import com.philips.platform.uid.view.widget.ValidationEditText
 import java.io.Serializable
 
 

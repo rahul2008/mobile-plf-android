@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.analytics
 
 import android.app.Activity
@@ -8,10 +17,10 @@ import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.currency
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.mecProducts
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.productListLayout
 import com.philips.cdp.di.mec.analytics.MECAnalyticsConstant.sendData
-import com.philips.platform.appinfra.tagging.AppTaggingInterface
 import com.philips.cdp.di.mec.integration.MECDependencies
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.appinfra.BuildConfig
+import com.philips.platform.appinfra.tagging.AppTaggingInterface
 import java.util.*
 import kotlin.collections.HashMap
 
