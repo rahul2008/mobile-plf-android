@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.common
 
 import android.content.Context
@@ -12,7 +21,6 @@ import com.philips.cdp.di.mec.integration.MECFlowConfigurator
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.MECConstant.DEFAULT_THEME
-import com.philips.cdp.di.mec.utils.MECConstant.IAP_KEY_ACTIVITY_THEME
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.uappframework.listener.ActionBarListener
 import com.philips.platform.uappframework.listener.BackEventListener

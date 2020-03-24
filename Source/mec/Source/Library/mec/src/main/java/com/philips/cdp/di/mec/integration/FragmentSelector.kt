@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.integration
 
 import android.os.Bundle
@@ -9,7 +18,7 @@ import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.screens.detail.MECLandingProductDetailsFragment
 import com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment
 import com.philips.cdp.di.mec.utils.MECConstant
-import java.util.ArrayList
+import java.util.*
 
 class FragmentSelector {
 

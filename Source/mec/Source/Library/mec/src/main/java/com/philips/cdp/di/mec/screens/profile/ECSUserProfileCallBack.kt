@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.screens.profile
 
 import com.philips.cdp.di.ecs.error.ECSError
@@ -5,16 +14,22 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.address.ECSUserProfile
 import com.philips.cdp.di.mec.common.MECRequestType
 import com.philips.cdp.di.mec.common.MecError
+import com.philips.cdp.di.mec.utils.MECutility
 
 class ECSUserProfileCallBack(private var ecsProfileViewModel: ProfileViewModel) :ECSCallback<ECSUserProfile, Exception> {
 
-    var mECRequestType : MECRequestType?=MECRequestType.MEC_FETCH_USER_PROFILE
+    lateinit var mECRequestType : MECRequestType
     override fun onResponse(userProfile: ECSUserProfile) {
         ecsProfileViewModel.userProfile.value = userProfile
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {
-        val mecError = MecError(error, ecsError,mECRequestType)
-        ecsProfileViewModel.mecError.value = mecError
+
+        if (MECutility.isAuthError(ecsError)) {
+            ecsProfileViewModel.retryAPI(mECRequestType)
+        }else{
+            val mecError = MecError(error, ecsError,mECRequestType)
+            ecsProfileViewModel.mecError.value = mecError
+        }
     }
 }

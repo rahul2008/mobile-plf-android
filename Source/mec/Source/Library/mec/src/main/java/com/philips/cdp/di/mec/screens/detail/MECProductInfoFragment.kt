@@ -1,3 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2020
+
+ * All rights are reserved. Reproduction or dissemination
+
+ * in whole or in part is prohibited without the prior written
+
+ * consent of the copyright holder.
+
+ */
 package com.philips.cdp.di.mec.screens.detail
 
 
@@ -5,10 +14,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.philips.cdp.di.ecs.model.products.ECSProduct
-
 import com.philips.cdp.di.mec.databinding.MecProductInfoFragmentBinding
 import com.philips.cdp.di.mec.screens.MecBaseFragment
 
