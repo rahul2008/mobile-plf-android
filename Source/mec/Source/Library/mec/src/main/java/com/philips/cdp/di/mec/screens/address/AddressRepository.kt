@@ -16,19 +16,24 @@ import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 class AddressRepository(val ecsServices: ECSServices) {
 
 
+    private var addressService = AddressService()
+
     fun fetchSavedAddresses( eCSFetchAddressesCallback: ECSFetchAddressesCallback) {
         ecsServices.fetchSavedAddresses(eCSFetchAddressesCallback)
     }
 
     fun createAddress(ecsAddress: ECSAddress , ecsCreateAddressCallBack :ECSCreateAddressCallBack) {
+        addressService.setEnglishSalutation(ecsAddress) //set salutation to english ,while doing service call
         ecsServices.createAddress(ecsAddress,ecsCreateAddressCallBack)
     }
 
     fun updateAndFetchAddress(ecsAddress: ECSAddress,ecsFetchAddressesCallback: ECSFetchAddressesCallback){
+        addressService.setEnglishSalutation(ecsAddress) //set salutation to english ,while doing service call
         ecsServices.updateAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 
     fun updateAddress(ecsAddress: ECSAddress,updateAddressCallBack: UpdateAddressCallBack){
+        addressService.setEnglishSalutation(ecsAddress) //set salutation to english ,while doing service call
         ecsServices.updateAddress(ecsAddress,updateAddressCallBack)
     }
 
@@ -49,6 +54,7 @@ class AddressRepository(val ecsServices: ECSServices) {
     }
 
     fun createAndFetchAddress(ecsAddress: ECSAddress, ecsFetchAddressesCallback: ECSFetchAddressesCallback) {
+        addressService.setEnglishSalutation(ecsAddress) //set salutation to english ,while doing service call
         ecsServices.createAndFetchAddress(ecsAddress,ecsFetchAddressesCallback)
     }
 

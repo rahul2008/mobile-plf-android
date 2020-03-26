@@ -36,7 +36,6 @@ class PaymentViewModel : CommonViewModel() {
 
     var paymentRepository = PaymentRepository(ecsServices)
 
-    private var addressService = AddressService()
 
     var mCVV :String? =null
 
@@ -57,7 +56,6 @@ class PaymentViewModel : CommonViewModel() {
 
     fun makePayment(orderDetail: ECSOrderDetail, billingAddress: ECSAddress){
         mOrderDetail=orderDetail
-        addressService.setEnglishSalutation(billingAddress)
         mBillingAdress =billingAddress
 
 

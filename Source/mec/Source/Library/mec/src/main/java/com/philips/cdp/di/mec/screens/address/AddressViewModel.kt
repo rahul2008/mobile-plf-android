@@ -50,9 +50,6 @@ class AddressViewModel : CommonViewModel() {
 
     private var updateAddressCallBack = UpdateAddressCallBack(this)
 
-    private var addressService = AddressService()
-
-
     var ecsServices = MECDataHolder.INSTANCE.eCSServices
 
     var addressRepository = AddressRepository(ecsServices)
@@ -85,13 +82,11 @@ class AddressViewModel : CommonViewModel() {
     }
 
     fun createAddress(ecsAddress: ECSAddress) {
-        addressService.setEnglishSalutation(ecsAddress) //set saluation to english ,while doing service call
         paramEcsAddress = ecsAddress
         addressRepository.createAddress(ecsAddress, ecsCreateAddressCallBack)
     }
 
     fun createAndFetchAddress(ecsAddress: ECSAddress) {
-        addressService.setEnglishSalutation(ecsAddress) //set saluation to english ,while doing service call
         paramEcsAddress = ecsAddress
         ecsCreateAddressCallBack.mECRequestType = MECRequestType.MEC_CREATE_AND_FETCH_ADDRESS
         addressRepository.createAndFetchAddress(ecsAddress, ecsFetchAddressesCallback)
@@ -120,14 +115,12 @@ class AddressViewModel : CommonViewModel() {
     }
 
     fun updateAndFetchAddress(ecsAddress: ECSAddress) {
-        addressService.setEnglishSalutation(ecsAddress) //set saluation to english ,while doing service call
         paramEcsAddress = ecsAddress
         ecsFetchAddressesCallback.mECRequestType = MECRequestType.MEC_UPDATE_AND_FETCH_ADDRESS
         addressRepository.updateAndFetchAddress(ecsAddress, ecsFetchAddressesCallback)
     }
 
     fun updateAddress(ecsAddress: ECSAddress) {
-        addressService.setEnglishSalutation(ecsAddress) //set saluation to english ,while doing service call
         paramEcsAddress = ecsAddress
         addressRepository.updateAddress(ecsAddress, updateAddressCallBack)
     }
