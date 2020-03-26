@@ -15,6 +15,7 @@ import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
 import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider
 import com.philips.cdp.di.mec.common.CommonViewModel
 import com.philips.cdp.di.mec.common.MECRequestType
+import com.philips.cdp.di.mec.screens.address.AddressService
 import com.philips.cdp.di.mec.utils.MECDataHolder
 
 class PaymentViewModel : CommonViewModel() {
@@ -35,6 +36,8 @@ class PaymentViewModel : CommonViewModel() {
 
     var paymentRepository = PaymentRepository(ecsServices)
 
+    private var addressService = AddressService()
+
     var mCVV :String? =null
 
     lateinit var  mOrderDetail: ECSOrderDetail
@@ -52,11 +55,14 @@ class PaymentViewModel : CommonViewModel() {
         paymentRepository.submitOrder(cvv,submitOrderCallback)
     }
 
-    fun makePayment(orderDetail: ECSOrderDetail, billingAdress: ECSAddress){
+    fun makePayment(orderDetail: ECSOrderDetail, billingAddress: ECSAddress){
         mOrderDetail=orderDetail
-        mBillingAdress =billingAdress
+        addressService.setEnglishSalutation(billingAddress)
+        mBillingAdress =billingAddress
+
+
         makePaymentCallback.mECRequestType=MECRequestType.MEC_MAKE_PAYMENT
-        paymentRepository.makePayment(orderDetail,billingAdress,makePaymentCallback )
+        paymentRepository.makePayment(orderDetail,billingAddress,makePaymentCallback )
     }
 
     fun retryAPI(mecRequestType: MECRequestType) {
