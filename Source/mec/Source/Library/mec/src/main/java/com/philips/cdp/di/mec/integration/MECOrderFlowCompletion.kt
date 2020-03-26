@@ -6,5 +6,5 @@ package com.philips.cdp.di.mec.integration
 interface MECOrderFlowCompletion {
     fun onOrderPlace() {}
     fun onOrderCancel() {}
-    fun shouldMoveToVertcal(): Boolean
+    fun shouldMoveToProductList(): Boolean
 }

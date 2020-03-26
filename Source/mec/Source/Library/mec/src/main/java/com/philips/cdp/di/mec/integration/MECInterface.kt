@@ -109,11 +109,10 @@ class MECInterface : UappInterface {
 
     }
 
+    fun ishybrisavailable( callback :(Boolean) -> Unit){
 
 
-
-
-
+    }
 }
 
 
