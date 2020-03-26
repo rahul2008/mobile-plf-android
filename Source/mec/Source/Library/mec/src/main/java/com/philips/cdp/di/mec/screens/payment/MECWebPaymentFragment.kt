@@ -131,7 +131,7 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
 
     override fun handleBackEvent(): Boolean {
         mIsPaymentFailed = false
-        MECutility.showActionDialog(mContext!!, mContext!!.getString(R.string.mec_ok), mContext!!.getString(R.string.mec_cancel), mContext!!.getString(R.string.mec_cancel_order_title), mContext!!.getString(R.string.mec_cancel_payment), fragmentManager!!, this)
+        MECutility.showActionDialog(mContext!!, mContext!!.getString(R.string.mec_ok), mContext!!.getString(R.string.mec_cancel), mContext!!.getString(R.string.mec_payment), mContext!!.getString(R.string.mec_cancel_payment), fragmentManager!!, this)
         return true
     }
 
