@@ -30,6 +30,7 @@
   <string name="mec_blank_cvv_error">[et]Please enter a valid CVV</string>
   <string name="mec_buy_from_retailers">Osta jaemüüjalt</string>
   <string name="mec_cancel">Tühista</string>
+  <string name="mec_cancel_payment">Kas soovite makse tühistada? Teie ostukorv tühjendatakse.</string>
   <string name="mec_card_holder_first_name">[et]Card Holder First name</string>
   <string name="mec_card_holder_last_name">[et]Card Holder Last name</string>
   <string name="mec_cart_count_exceed_message">Ostukorvi ei saa üle %d toote lisada</string>
@@ -38,7 +39,6 @@
   <string name="mec_cart_summary">Ostukorvi kokkuvõte</string>
   <string name="mec_cart_tax_message">[et]Price including %s VAT</string>
   <string name="mec_cart_total">[et]Total</string>
-  <string name="mec_check_internet_connection">[et]Please check your Internet Connection.</string>
   <string name="mec_checkout">Kassa</string>
   <string name="mec_choose_address_text">[et]Choose Shipping Address from below list</string>
   <string name="mec_confirmation">Kinnitus</string>
@@ -87,6 +87,7 @@
   <string name="mec_new_payment_disclaimer">[et]This payment detail will be saved once you place an order</string>
   <string name="mec_no_address_select_message">[et]Please select a Shipping Address</string>
   <string name="mec_no_delivery_mode_error_message">[et]Please select a Delivery Mode</string>
+  <string name="mec_no_internet">Tundub, et viga on teie internetiühenduses. Kontrollige ja proovige uuesti</string>
   <string name="mec_no_payment_error_message">[et]Please select a Payment Method</string>
   <string name="mec_no_product_available">Poest ei leitud ühtegi toodet.</string>
   <string name="mec_no_result">0 tulemust leitud otsingule</string>

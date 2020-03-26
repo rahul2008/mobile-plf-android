@@ -30,6 +30,7 @@
   <string name="mec_blank_cvv_error">[bg]Please enter a valid CVV</string>
   <string name="mec_buy_from_retailers">Купуване от търговец на дребно</string>
   <string name="mec_cancel">Отказ</string>
+  <string name="mec_cancel_payment">Искате ли да отмените плащането? Вашата количка ще бъде празна.</string>
   <string name="mec_card_holder_first_name">[bg]Card Holder First name</string>
   <string name="mec_card_holder_last_name">[bg]Card Holder Last name</string>
   <string name="mec_cart_count_exceed_message">Не е възможно добавянето на повече от %d продукта в количката за пазаруване</string>
@@ -38,7 +39,6 @@
   <string name="mec_cart_summary">Резюме на количката за пазаруване</string>
   <string name="mec_cart_tax_message">[bg]Price including %s VAT</string>
   <string name="mec_cart_total">[bg]Total</string>
-  <string name="mec_check_internet_connection">[bg]Please check your Internet Connection.</string>
   <string name="mec_checkout">Финализиране</string>
   <string name="mec_choose_address_text">[bg]Choose Shipping Address from below list</string>
   <string name="mec_confirmation">Потвърждение</string>
@@ -87,6 +87,7 @@
   <string name="mec_new_payment_disclaimer">[bg]This payment detail will be saved once you place an order</string>
   <string name="mec_no_address_select_message">[bg]Please select a Shipping Address</string>
   <string name="mec_no_delivery_mode_error_message">[bg]Please select a Delivery Mode</string>
+  <string name="mec_no_internet">Изглежда, че вашата интернет връзка не работи. Проверете и опитайте отново.</string>
   <string name="mec_no_payment_error_message">[bg]Please select a Payment Method</string>
   <string name="mec_no_product_available">Няма намерен продукт във вашия магазин.</string>
   <string name="mec_no_result">Открити са 0 резултата за</string>

@@ -30,6 +30,7 @@
   <string name="mec_blank_cvv_error">[nl]Please enter a valid CVV</string>
   <string name="mec_buy_from_retailers">Kopen in de winkel</string>
   <string name="mec_cancel">Annuleren</string>
+  <string name="mec_cancel_payment">Wilt u uw betaling annuleren? Uw winkelwagentje wordt gewist.</string>
   <string name="mec_card_holder_first_name">[nl]Card Holder First name</string>
   <string name="mec_card_holder_last_name">[nl]Card Holder Last name</string>
   <string name="mec_cart_count_exceed_message">Er kunnen niet meer dan %d producten worden toegevoegd aan de winkelwagen</string>
@@ -38,7 +39,6 @@
   <string name="mec_cart_summary">Overzicht van de inhoud van de winkelwagen</string>
   <string name="mec_cart_tax_message">[nl]Price including %s VAT</string>
   <string name="mec_cart_total">[nl]Total</string>
-  <string name="mec_check_internet_connection">[nl]Please check your Internet Connection.</string>
   <string name="mec_checkout">Afrekenen</string>
   <string name="mec_choose_address_text">[nl]Choose Shipping Address from below list</string>
   <string name="mec_confirmation">Bevestiging</string>
@@ -87,6 +87,7 @@
   <string name="mec_new_payment_disclaimer">[nl]This payment detail will be saved once you place an order</string>
   <string name="mec_no_address_select_message">[nl]Please select a Shipping Address</string>
   <string name="mec_no_delivery_mode_error_message">[nl]Please select a Delivery Mode</string>
+  <string name="mec_no_internet">Uw internetverbinding lijkt niet te werken. Controleer deze en probeer het opnieuw</string>
   <string name="mec_no_payment_error_message">[nl]Please select a Payment Method</string>
   <string name="mec_no_product_available">Er werd geen product gevonden in uw winkel.</string>
   <string name="mec_no_result">0 resultaten gevonden voor</string>

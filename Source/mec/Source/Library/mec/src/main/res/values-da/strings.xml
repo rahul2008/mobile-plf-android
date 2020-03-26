@@ -30,6 +30,7 @@
   <string name="mec_blank_cvv_error">[da]Please enter a valid CVV</string>
   <string name="mec_buy_from_retailers">Køb hos forhandler</string>
   <string name="mec_cancel">Annuller</string>
+  <string name="mec_cancel_payment">Ønsker du at annullere betalingen? Din indkøbskurv vil være tom.</string>
   <string name="mec_card_holder_first_name">[da]Card Holder First name</string>
   <string name="mec_card_holder_last_name">[da]Card Holder Last name</string>
   <string name="mec_cart_count_exceed_message">Kan ikke tilføje mere end %d produkter i indkøbskurven</string>
@@ -38,7 +39,6 @@
   <string name="mec_cart_summary">Oversigt over indkøbskurv</string>
   <string name="mec_cart_tax_message">[da]Price including %s VAT</string>
   <string name="mec_cart_total">[da]Total</string>
-  <string name="mec_check_internet_connection">[da]Please check your Internet Connection.</string>
   <string name="mec_checkout">Gå til betaling</string>
   <string name="mec_choose_address_text">[da]Choose Shipping Address from below list</string>
   <string name="mec_confirmation">Bekræftelse</string>
@@ -87,6 +87,7 @@
   <string name="mec_new_payment_disclaimer">[da]This payment detail will be saved once you place an order</string>
   <string name="mec_no_address_select_message">[da]Please select a Shipping Address</string>
   <string name="mec_no_delivery_mode_error_message">[da]Please select a Delivery Mode</string>
+  <string name="mec_no_internet">Din internetforbindelse virker tilsyneladende ikke. Kontrollér forbindelsen, og prøv igen</string>
   <string name="mec_no_payment_error_message">[da]Please select a Payment Method</string>
   <string name="mec_no_product_available">Der er ingen produkter i din Store.</string>
   <string name="mec_no_result">0 resultater fundet for</string>

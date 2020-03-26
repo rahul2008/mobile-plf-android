@@ -30,6 +30,7 @@
   <string name="mec_blank_cvv_error">[ko]Please enter a valid CVV</string>
   <string name="mec_buy_from_retailers">소매점에서 구매하기</string>
   <string name="mec_cancel">취소</string>
+  <string name="mec_cancel_payment">결제를 취소하시겠습니까? 장바구니가 비워집니다.</string>
   <string name="mec_card_holder_first_name">[ko]Card Holder First name</string>
   <string name="mec_card_holder_last_name">[ko]Card Holder Last name</string>
   <string name="mec_cart_count_exceed_message">장바구니에 최대 %d개의 제품만 추가할 수 있습니다.</string>
@@ -38,7 +39,6 @@
   <string name="mec_cart_summary">장바구니 요약</string>
   <string name="mec_cart_tax_message">[ko]Price including %s VAT</string>
   <string name="mec_cart_total">[ko]Total</string>
-  <string name="mec_check_internet_connection">[ko]Please check your Internet Connection.</string>
   <string name="mec_checkout">계산</string>
   <string name="mec_choose_address_text">[ko]Choose Shipping Address from below list</string>
   <string name="mec_confirmation">확인</string>
@@ -87,6 +87,7 @@
   <string name="mec_new_payment_disclaimer">[ko]This payment detail will be saved once you place an order</string>
   <string name="mec_no_address_select_message">[ko]Please select a Shipping Address</string>
   <string name="mec_no_delivery_mode_error_message">[ko]Please select a Delivery Mode</string>
+  <string name="mec_no_internet">인터넷 연결이 작동하지 않는 것으로 보입니다. 확인 후 다시 시도하십시오.</string>
   <string name="mec_no_payment_error_message">[ko]Please select a Payment Method</string>
   <string name="mec_no_product_available">스토어에 제품이 없습니다.</string>
   <string name="mec_no_result">다음에 대한 검색 결과 없음:</string>
