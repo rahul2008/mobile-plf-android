@@ -205,12 +205,12 @@ abstract class MecBaseFragment : Fragment(), BackEventListener, Observer<MecErro
             MECDataHolder.INSTANCE.mecOrderFlowCompletion?.onOrderCancel()
         }
 
-        val shouldMoveToVertical = mecOrderFlowCompletion?.shouldMoveToVertcal() ?: false
+        val shouldMoveToProductList = mecOrderFlowCompletion?.shouldMoveToProductList() ?: true
 
-        if(shouldMoveToVertical){
-            exitMEC()
-        }else{
+        if(shouldMoveToProductList){
             showProductCatalogFragment(fragmentTag)
+        }else{
+            exitMEC()
         }
 
     }
