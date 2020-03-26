@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
  * MECInterface is the public class for any proposition to consume MEC micro app. Its the starting initialization point.
  * @since 1.0.0
  */
-class MECInterface : UappInterface {
+ class MECInterface : UappInterface {
     private var mMECSettings: MECSettings?=null
     private var mUappDependencies: UappDependencies? = null
     private var mUserDataInterface: UserDataInterface? = null
@@ -109,10 +109,16 @@ class MECInterface : UappInterface {
 
     }
 
-    fun ishybrisavailable( callback :(Boolean) -> Unit){
-
+    fun ishybrisavailable( mECHybrisAvailabilityListener :MECHybrisAvailabilityListener){
+        GlobalScope.launch {
+            var  mecManager: MECManager = MECManager()
+            mecManager.ishybrisavailableWorker(mECHybrisAvailabilityListener)
+        }
 
     }
+
+
+
 }
 
 

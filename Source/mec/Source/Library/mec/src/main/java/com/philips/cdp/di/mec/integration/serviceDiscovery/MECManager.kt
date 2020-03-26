@@ -19,6 +19,7 @@ import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.integration.CartListener
 import com.philips.cdp.di.mec.integration.MECCartUpdateListener
 import com.philips.cdp.di.mec.integration.MECFetchCartListener
+import com.philips.cdp.di.mec.integration.MECHybrisAvailabilityListener
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
 
@@ -27,6 +28,20 @@ import com.philips.cdp.di.mec.utils.MECutility
 * */
 
 class MECManager {
+
+    // to be called by Proposition to check if Hybris available
+    fun ishybrisavailableWorker(mECHybrisAvailabilityListener : MECHybrisAvailabilityListener){
+        if(null!= MECDataHolder.INSTANCE.eCSServices) {
+            MECDataHolder.INSTANCE.eCSServices.configureECS(object : ECSCallback<Boolean,java.lang.Exception> {
+                override fun onResponse(result: Boolean) {
+                    mECHybrisAvailabilityListener.isHybrisAvailable(result)
+                }
+                override fun onFailure(error: java.lang.Exception, ecsError: ECSError) {
+                    mECHybrisAvailabilityListener.isHybrisAvailable(false)
+                }
+            })
+        }
+    }
 
     // to be called by Proposition getProductCartCount() API call to show cart count
     fun getProductCartCountWorker(cartListener: CartListener){

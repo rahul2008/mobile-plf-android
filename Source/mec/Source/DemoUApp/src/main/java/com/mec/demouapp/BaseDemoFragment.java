@@ -31,10 +31,11 @@ import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
 import com.philips.cdp.di.mec.integration.MECCartUpdateListener;
 import com.philips.cdp.di.mec.integration.MECDependencies;
+import com.philips.cdp.di.mec.integration.MECFetchCartListener;
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator;
+import com.philips.cdp.di.mec.integration.MECHybrisAvailabilityListener;
 import com.philips.cdp.di.mec.integration.MECInterface;
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
-import com.philips.cdp.di.mec.integration.MECFetchCartListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.di.mec.utils.MECConstant;
@@ -69,7 +70,7 @@ import java.util.Locale;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class BaseDemoFragment extends Fragment implements View.OnClickListener, MECFetchCartListener, MECCartUpdateListener, BackEventListener,
+public class BaseDemoFragment extends Fragment implements View.OnClickListener, MECFetchCartListener, MECCartUpdateListener, MECHybrisAvailabilityListener, BackEventListener,
         UserRegistrationUIEventListener, MECBannerConfigurator, ActionBarListener, CompoundButton.OnCheckedChangeListener {
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -334,7 +335,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 //update shopping cart count if user logged in
                 if(null!=mMecInterface) {
+
                     mMecInterface.fetchCartCount(this);
+
+                    mMecInterface.ishybrisavailable(this );
                 }
             }
         } catch (RuntimeException ex) {
@@ -353,6 +357,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
 
     }
+
 
 
     private void displayFlowViews(boolean b) {
@@ -824,6 +829,10 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     }
 
 
+    @Override
+    public void isHybrisAvailable(boolean bool) {
+        Log.v("isHybrisAvailable: ",""+bool);
+    }
 }
 
 
