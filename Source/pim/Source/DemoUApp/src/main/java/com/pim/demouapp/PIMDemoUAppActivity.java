@@ -238,9 +238,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
         mMecInterface = new MECInterface();
 
-        MECDependencies mIapDependencies = new MECDependencies(appInfraInterface, userDataInterface);
+        MECDependencies mMecDependencies = new MECDependencies(appInfraInterface, userDataInterface);
 
-        mMecInterface.init(mIapDependencies, new MECSettings(mContext));
+        mMecInterface.init(mMecDependencies, new MECSettings(mContext));
 
         mMecLaunchInput = new MECLaunchInput();
         mMecLaunchInput.setMecListener(this);
@@ -248,7 +248,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
         mMecLaunchInput.setMecBannerConfigurator(this);
         mMecLaunchInput.setSupportsHybris(true);
-        mMecLaunchInput.setSupportsRetailer(false);
+        mMecLaunchInput.setSupportsRetailer(true);
         mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
     }
 

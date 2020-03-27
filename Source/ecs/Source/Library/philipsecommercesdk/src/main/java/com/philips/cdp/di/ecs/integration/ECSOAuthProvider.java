@@ -13,7 +13,7 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
  */
 public abstract class ECSOAuthProvider {
 
-
+    public static final String CLIENT_SECRET_OTHERS = "secret";
     public static final String CLIENT_SECRET_ACCEPTANCE = "acc_inapp_12345";
     public static final String CLIENT_SECRET_PRODUCTION = "prod_inapp_54321";
 
@@ -27,10 +27,11 @@ public abstract class ECSOAuthProvider {
     public String getClientSecret() {
         if(ECSConfiguration.INSTANCE.getAppInfra().getAppIdentity().getAppState().equals(AppIdentityInterface.AppState.PRODUCTION)){
             return CLIENT_SECRET_PRODUCTION;
-        } else if (ECSConfiguration.INSTANCE.getAppInfra().getAppIdentity().getAppState().equals(AppIdentityInterface.AppState.ACCEPTANCE)) {
+        } else if ((ECSConfiguration.INSTANCE.getAppInfra().getAppIdentity().getAppState().equals(AppIdentityInterface.AppState.ACCEPTANCE))|| (ECSConfiguration.INSTANCE.getAppInfra().getAppIdentity().getAppState().equals(AppIdentityInterface.AppState.STAGING))) {
             return CLIENT_SECRET_ACCEPTANCE;
+        } else {
+            return CLIENT_SECRET_OTHERS;
         }
-        return "";
     }
 
     public GrantType getGrantType() {

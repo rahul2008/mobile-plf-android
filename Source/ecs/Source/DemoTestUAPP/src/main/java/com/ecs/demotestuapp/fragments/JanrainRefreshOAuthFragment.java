@@ -35,8 +35,10 @@ public class JanrainRefreshOAuthFragment extends BaseAPIFragment {
         etSecret = getLinearLayout().findViewWithTag("et_one");
         if (ECSConfiguration.INSTANCE.getAppInfra().getAppIdentity().getAppState().equals(AppIdentityInterface.AppState.PRODUCTION)) {
             etSecret.setText("prod_inapp_54321");
-        } else{
+        } else if ((ECSConfiguration.INSTANCE.getAppInfra().getAppIdentity().getAppState().equals(AppIdentityInterface.AppState.ACCEPTANCE))||ECSConfiguration.INSTANCE.getAppInfra().getAppIdentity().getAppState().equals(AppIdentityInterface.AppState.STAGING)){
             etSecret.setText("acc_inapp_12345");
+        } else {
+            etSecret.setText("secret");
         }
 
         etClient = getLinearLayout().findViewWithTag("et_two");
