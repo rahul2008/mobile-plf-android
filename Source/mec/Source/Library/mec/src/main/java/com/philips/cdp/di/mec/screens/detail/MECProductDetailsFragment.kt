@@ -429,54 +429,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
     }
 
-    private fun getECSConfig(productFetchRequiredForCTN : String?){
-        MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object: ECSCallback<ECSConfig, Exception> {
 
-            override fun onResponse(config: ECSConfig?) {
-                if (MECDataHolder.INSTANCE.hybrisEnabled) {
-                    MECDataHolder.INSTANCE.hybrisEnabled = config?.isHybris ?: return
-
-                }
-                MECDataHolder.INSTANCE.locale = config!!.locale
-                MECAnalytics.setCurrencyString(MECDataHolder.INSTANCE.locale)
-                if(null!=config!!.rootCategory){
-                    MECDataHolder.INSTANCE.rootCategory = config!!.rootCategory
-                }
-                /////////////////
-                if (MECDataHolder.INSTANCE.hybrisEnabled) {
-                    binding.mecFindRetailerButtonPrimary.visibility = View.GONE
-                    binding.mecFindRetailerButtonSecondary.visibility = View.VISIBLE
-                } else if (!MECDataHolder.INSTANCE.hybrisEnabled) {
-                    binding.mecFindRetailerButtonPrimary.visibility = View.VISIBLE
-                    binding.mecFindRetailerButtonSecondary.visibility = View.GONE
-                }
-
-
-                ////////////// start of update cart and login if required
-                if(isUserLoggedIn()) {
-                    GlobalScope.launch {
-                        var mecManager: MECManager = MECManager()
-                        MECDataHolder.INSTANCE.mecCartUpdateListener?.let { mecManager.getProductCartCountWorker(it) }
-                    }
-                }else{
-                    setCartIconVisibility(false)
-                }
-                ////////////// end of update cart and login if required
-
-                if(null==productFetchRequiredForCTN) {
-                    executeRequest()
-                    getRatings()
-                }else{
-                    //getProduct(productFetchRequiredForCTN)
-                }
-
-            }
-
-            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        } )
-    }
 
 }

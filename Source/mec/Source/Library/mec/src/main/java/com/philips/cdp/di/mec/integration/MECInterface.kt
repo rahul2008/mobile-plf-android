@@ -11,20 +11,18 @@ package com.philips.cdp.di.mec.integration
 
 import com.android.volley.DefaultRetryPolicy
 import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECLog
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.BuildConfig
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
+import com.philips.platform.pif.DataInterface.MEC.MECDataInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.uappframework.UappInterface
 import com.philips.platform.uappframework.launcher.UiLauncher
 import com.philips.platform.uappframework.uappinput.UappDependencies
 import com.philips.platform.uappframework.uappinput.UappLaunchInput
 import com.philips.platform.uappframework.uappinput.UappSettings
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 /**
  * MECInterface is the public class for any proposition to consume MEC micro app. Its the starting initialization point.
@@ -36,9 +34,11 @@ import kotlinx.coroutines.launch
     private var mUserDataInterface: UserDataInterface? = null
     val MEC_NOTATION = "mec"
 
+
     /**
      * @param uappDependencies Object of UappDependencies
      * @param uappSettings     Object of UppSettings
+     *   * @since 2001.1
      */
     override fun init(uappDependencies: UappDependencies, uappSettings: UappSettings) {
         val MECDependencies = uappDependencies as MECDependencies
@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
 
         var voucher :Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
         try {
-            voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
+            voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucherCode.enable", "MEC", configError) as Boolean
         }catch(e: Exception){
 
         }
@@ -98,25 +98,22 @@ import kotlinx.coroutines.launch
         mecHandler?.launchMEC()
     }
 
-    /**
-     * @param mecFetchCartListener
-     */
-    fun fetchCartCount(mecFetchCartListener: MECFetchCartListener) {
-        GlobalScope.launch {
-           var  mecManager: MECManager = MECManager()
-            mecManager.getProductCartCountWorker(mecFetchCartListener)
+
+
+
+    companion object {
+        /**
+         * Get the Singleton MEC Data Interface to call MEC public API
+         *
+         * @since 2002.0
+         */
+
+        @JvmStatic
+        open fun getMECDataInterface(): MECDataInterface {
+
+            return MECDataProvider()
         }
-
     }
-
-    fun ishybrisavailable( mECHybrisAvailabilityListener :MECHybrisAvailabilityListener){
-        GlobalScope.launch {
-            var  mecManager: MECManager = MECManager()
-            mecManager.ishybrisavailableWorker(mECHybrisAvailabilityListener)
-        }
-
-    }
-
 
 
 }

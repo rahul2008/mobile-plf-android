@@ -59,18 +59,6 @@ internal open class MECHandler(private val mMECDependencies: MECDependencies, pr
 
 
     fun launchMEC() {
-        /*  appInfra = mMECDependencies.appInfra as AppInfra
-          val configInterface = appInfra!!.configInterface
-          val configError = AppConfigurationInterface.AppConfigurationError()
-          val propositionID = configInterface.getPropertyForKey("propositionid", "MEC", configError)
-          var propertyForKey = ""
-          if(propositionID!=null) {
-              propertyForKey = propositionID as String
-          }
-          val ecsServices = ECSServices(propertyForKey, appInfra!!)
-          MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
-          MECDataHolder.INSTANCE.appinfra = appInfra as AppInfra
-          MECDataHolder.INSTANCE.propositionId = propertyForKey*/
         MECDataHolder.INSTANCE.mecBannerEnabler = mLaunchInput.mecBannerConfigurator
         MECDataHolder.INSTANCE.hybrisEnabled = mLaunchInput.supportsHybris
         MECDataHolder.INSTANCE.retailerEnabled = mLaunchInput.supportsRetailer
@@ -160,7 +148,7 @@ internal open class MECHandler(private val mMECDependencies: MECDependencies, pr
         mecLandingFragment?.arguments = bundle
 
 
-        MECDataHolder.INSTANCE.setUpdateCartListener(fragmentLauncher.actionbarListener, mLaunchInput.mecCartUpdateListener!!)
+       MECDataHolder.INSTANCE.setUpdateCartListener(fragmentLauncher.actionbarListener, mLaunchInput.mecCartUpdateListener)
         val transaction = fragmentLauncher.fragmentActivity.supportFragmentManager.beginTransaction()
         transaction.replace(fragmentLauncher.parentContainerResourceID, mecLandingFragment!!, mecLandingFragment.getFragmentTag())
         transaction.addToBackStack(mecLandingFragment.getFragmentTag())
