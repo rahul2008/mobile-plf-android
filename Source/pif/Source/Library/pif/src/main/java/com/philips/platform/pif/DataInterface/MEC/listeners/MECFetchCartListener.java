@@ -3,12 +3,20 @@ package com.philips.platform.pif.DataInterface.MEC.listeners;
 /**
  * The interface Mec fetch cart listener.
  */
-public interface MECFetchCartListener  extends  CartListener{
+public interface MECFetchCartListener  {
     /**
-     * On get cart count.
+     * This API is called to get current shopping cart product count explicitly. e.g. Total number of products added to cart
      *
      * @param count the total number of product added to shopping cart
-     *@since 2002.1.0
+     *@since 2002.0
      */
     void onGetCartCount(int count);
+
+    /**
+     * This API is called to decide if shopping cart icon should be displayed or not
+     *
+     * Any failure in onGetCartCount call
+     * @since 2002.0
+     */
+    void onFailure(Exception exception);
 }

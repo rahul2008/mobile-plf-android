@@ -334,7 +334,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         try {
             mMecInterface.init(mecDependencies, mMecSettings);
-            mMECDataInterface = mMecInterface.getMECDataInterface();
+            mMECDataInterface = MECInterface.getMECDataInterface();
             if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 //update shopping cart count if user logged in
                 if(null!=mMecInterface) {
@@ -343,7 +343,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
                     mMECDataInterface.isHybrisAvailable(this );
 
-                    mMECDataInterface.cartUpdate(this);
+                    mMECDataInterface.addCartUpdateListener(this);
                 }
             }
         } catch (RuntimeException ex) {

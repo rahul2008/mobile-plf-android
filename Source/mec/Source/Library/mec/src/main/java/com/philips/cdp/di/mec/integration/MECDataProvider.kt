@@ -26,18 +26,18 @@ class MECDataProvider : MECDataInterface {
      * Cart product count update .
      *
      * @param mecCartUpdateListener the Cart product count update listener
-     * @since 2002.1.0
+     * @since 2002.2
      */
-    override fun cartUpdate(mecCartUpdateListener: MECCartUpdateListener?) {
+    override fun addCartUpdateListener(mecCartUpdateListener: MECCartUpdateListener?) {
         MECDataHolder.INSTANCE.mecCartUpdateListener=mecCartUpdateListener
     }
     
 
 
-    override fun fetchCartCount(mecFetchCartListener: MECFetchCartListener) {
+    override fun fetchCartCount(mECFetchCartListener: MECFetchCartListener) {
         GlobalScope.launch {
             var  mecManager: MECManager = MECManager()
-            mecManager.getProductCartCountWorker(mecFetchCartListener)
+            mecManager.getProductCartCountWorker(mECFetchCartListener)
         }
     }
 

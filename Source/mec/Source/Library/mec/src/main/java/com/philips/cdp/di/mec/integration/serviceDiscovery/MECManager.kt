@@ -18,7 +18,6 @@ import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.mec.auth.HybrisAuth
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
-import com.philips.platform.pif.DataInterface.MEC.listeners.CartListener
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilityListener
@@ -44,38 +43,40 @@ class MECManager {
     }
 
     // to be called by Proposition getProductCartCount() API call to show cart count
-    fun getProductCartCountWorker(cartListener: CartListener){
+    fun getProductCartCountWorker(mECFetchCartListener: MECFetchCartListener){
         if(null!= MECDataHolder.INSTANCE.eCSServices) {
             MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
                 override fun onResponse(result: ECSConfig) {
                     if (result.isHybris && null != result!!.rootCategory) {
-                        getShoppingCartData(cartListener)
+
+                        getShoppingCartData(object : MECCartUpdateListener {
+                            override fun onUpdateCartCount(count: Int) {
+                                mECFetchCartListener.onGetCartCount(count)
+                            }
+                            override fun shouldShowCart(shouldShow: Boolean?) {
+                               // do nothing
+                            }
+                        })
                     } else {
                         //hybris not available
-                        cartListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
+                        mECFetchCartListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
                     }
                 }
-
                 override fun onFailure(error: Exception, ecsError: ECSError) {
-                    cartListener.onFailure(error)
+                    mECFetchCartListener.onFailure(error)
                 }
             })
         }
     }
 
     //to be called by Catalog and Product Detail screen to show cart count
-    fun getShoppingCartData(cartListener: CartListener){
+    fun getShoppingCartData(mECCartUpdateListener: MECCartUpdateListener){
         MECDataHolder.INSTANCE.eCSServices.fetchShoppingCart(object : ECSCallback<ECSShoppingCart, Exception> {
             override fun onResponse(carts: ECSShoppingCart?) {
                 if (carts != null) {
                     val quantity = MECutility.getQuantity(carts)
-                    if(cartListener is MECFetchCartListener){
-                        cartListener.onGetCartCount(quantity)
-                    }else if(cartListener is MECCartUpdateListener){
-                        cartListener.onUpdateCartCount(quantity)
-                    }
-                } else {
-                    cartListener.onFailure(Exception(ECSErrorEnum.ECSsomethingWentWrong.localizedErrorString))
+                    mECCartUpdateListener.onUpdateCartCount(quantity)
+
                 }
             }
 
@@ -84,18 +85,15 @@ class MECManager {
                     var authCallBack = object: ECSCallback<ECSOAuthData, Exception> {
 
                         override fun onResponse(result: ECSOAuthData?) {
-                            getProductCartCountWorker(cartListener)
+                            getShoppingCartData(mECCartUpdateListener)
                         }
 
                         override fun onFailure(error: Exception, ecsError: ECSError) {
-                            cartListener.onFailure(error)
+                            //do nothing on auth failure
                         }
-
                     }
                     HybrisAuth.hybrisAuthentication(authCallBack)
 
-                }else {
-                    cartListener.onFailure(error)
                 }
             }
         })

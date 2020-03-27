@@ -14,10 +14,10 @@ package com.philips.platform.pif.DataInterface.MEC.listeners;
  */
 public interface MECHybrisAvailabilityListener {
     /**
-     * Is hybris available.
+     * This API is called  to check if  Hybris is currently available for selected country
      *
-     * @param bool is Hybris available
-     * @since 2002.1.0
+     * @param isHybrisAvailable returns true if Hybris is currently available
+     * @since 2002.0
      */
-    void isHybrisAvailable( Boolean bool);
+    void isHybrisAvailable( Boolean isHybrisAvailable);
 }

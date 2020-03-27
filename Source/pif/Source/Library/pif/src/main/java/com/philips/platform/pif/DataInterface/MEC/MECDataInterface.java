@@ -22,7 +22,7 @@ public interface MECDataInterface {
      * Fetch cart count.
      *
      * @param mecFetchCartListener the mec fetch cart listener
-     *  @since 2002.1.0
+     *  @since 2002.0
      */
     void fetchCartCount(MECFetchCartListener mecFetchCartListener);
 
@@ -30,7 +30,7 @@ public interface MECDataInterface {
      * Is hybris available.
      *
      * @param mECHybrisAvailabilityListener the m ec hybris availability listener
-     *  @since 2002.1.0
+     *  @since 2002.0
      */
     void isHybrisAvailable(  MECHybrisAvailabilityListener mECHybrisAvailabilityListener );
 
@@ -39,7 +39,7 @@ public interface MECDataInterface {
      * Cart product count update .
      *
      * @param mecCartUpdateListener the Cart product count update listener
-     *  @since 2002.1.0
+     *  @since 2002.0
      */
-    void cartUpdate(MECCartUpdateListener mecCartUpdateListener ) ;
+    void addCartUpdateListener(MECCartUpdateListener mecCartUpdateListener ) ;
 }

@@ -34,6 +34,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings
     private var mUserDataInterface: UserDataInterface? = null
     val MEC_NOTATION = "mec"
 
+
     /**
      * @param uappDependencies Object of UappDependencies
      * @param uappSettings     Object of UppSettings
@@ -98,17 +99,21 @@ import com.philips.platform.uappframework.uappinput.UappSettings
     }
 
 
-    /**
-     * Get the MEC Data Interface
-     *
-     * @since 2002.1.0
-     */
-    open fun getMECDataInterface(): MECDataInterface {
 
-       return MECDataProvider()
+
+    companion object {
+        /**
+         * Get the Singleton MEC Data Interface to call MEC public API
+         *
+         * @since 2002.0
+         */
+
+        @JvmStatic
+        open fun getMECDataInterface(): MECDataInterface {
+
+            return MECDataProvider()
+        }
     }
-
-
 
 
 }
