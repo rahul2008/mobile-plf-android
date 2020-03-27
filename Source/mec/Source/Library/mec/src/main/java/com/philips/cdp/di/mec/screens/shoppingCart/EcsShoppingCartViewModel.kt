@@ -7,13 +7,16 @@ package com.philips.cdp.di.mec.screens.shoppingCart
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.error.ECSError
@@ -161,7 +164,7 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
         fun setStock(stockLabel : Label , product: ECSProduct?, quantity: Int) {
             if (null != product && null != product.stock) {
                 if ((!MECutility.isStockAvailable(product.stock!!.stockLevelStatus, product.stock!!.stockLevel)) || (product.stock.stockLevel==0)) {
-                    stockLabel.text = stockLabel.context.getString(R.string.mec_cart_out_of_stock_message)
+                    setSpannedText(stockLabel)
                 }
                 if(product.stock.stockLevel<=5 && product.stock.stockLevel!=0){
                     stockLabel.text = stockLabel.context.getString(R.string.mec_only) + " " + product.stock.stockLevel + " " + stockLabel.context.getString(R.string.mec_stock_available)
@@ -172,6 +175,19 @@ open class EcsShoppingCartViewModel : CommonViewModel() {
                 stockLabel.visibility = View.VISIBLE
             }
         }
-    }
 
+        private fun setSpannedText(stockLabel : Label ) {
+            var context = stockLabel.context
+            val stockMessage: String = context.getString(R.string.mec_cart_out_of_stock_message).toLowerCase()
+            val stock: String =context.getString(R.string.mec_out_of_stock).toLowerCase()
+
+            val startIndex = stockMessage.indexOf(stock)
+            val endIndex = startIndex + stock.length
+
+            val spanTxt = SpannableStringBuilder(context.getString(R.string.mec_cart_out_of_stock_message))
+            spanTxt.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.uid_signal_red_level_60)), startIndex, endIndex, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+            stockLabel.text = spanTxt
+        }
+    }
+    
 }

@@ -73,6 +73,7 @@ enum class MECDataHolder {
 
         var firstName = ""
         var lastName = ""
+        var email=""
 
         if (userDataInterface != null && userDataInterface.userLoggedInState == UserLoggedInState.USER_LOGGED_IN) {
 
@@ -85,13 +86,14 @@ enum class MECDataHolder {
                 val hashMap = userDataInterface.getUserDetails(userDataMap)
                 firstName = hashMap.get(UserDetailConstants.GIVEN_NAME) as String
                 lastName = hashMap.get(UserDetailConstants.FAMILY_NAME) as String
+                email = hashMap.get(UserDetailConstants.EMAIL) as String
             } catch (e: UserDataInterfaceException) {
                 e.printStackTrace()
             }
 
         }
 
-        return UserInfo(firstName, lastName)
+        return UserInfo(firstName, lastName,email)
     }
 
 

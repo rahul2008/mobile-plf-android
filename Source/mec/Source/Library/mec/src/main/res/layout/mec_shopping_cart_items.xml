@@ -157,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/iap_margin_10dp"
-                    android:layout_gravity="end"
+                    android:layout_gravity="start"
                     android:gravity="end">
 
                     <com.philips.platform.uid.view.widget.Label
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         style="@style/mecCentralesansBookFont"
                         android:textSize="@dimen/iap_product_ctn_12"
-                        android:textColor="?attr/uidContentItemSignalNormalTextErrorColor"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                         app:setStock="@{ cart.entries.product}"
                         app:setQuantity="@{cart.entries.quantity}"
                         android:visibility="gone"/>
