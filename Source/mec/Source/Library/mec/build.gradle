@@ -150,19 +150,22 @@ dependencies {
     }
 
     // Tests
-    testImplementation 'org.mockito:mockito-inline:2.13.0' // to mock final class
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+//    testImplementation 'org.mockito:mockito-inline:2.13.0' // to mock final class
+//    testImplementation deps.mockito
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation 'com.bazaarvoice.bvandroidsdk:conversations:8.5.1'
     testImplementation deps.junit
-    testImplementation deps.mockito
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
+    testImplementation deps.powermock_core
     testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_junit_rule_agent
     testImplementation deps.powermock_classloading_xstream
-    testImplementation deps.robolectric
-    testImplementation deps.robolectric_junit
-    testImplementation deps.robolectric_shadows
-    testImplementation deps.robolectric_utils
+
+//    testImplementation deps.robolectric
+//    testImplementation deps.robolectric_junit
+//    testImplementation deps.robolectric_shadows
+//    testImplementation deps.robolectric_utils
     testImplementation deps.adobemobilelib
     testImplementation deps.design
 

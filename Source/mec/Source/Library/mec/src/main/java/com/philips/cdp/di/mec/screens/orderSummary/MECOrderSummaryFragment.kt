@@ -52,6 +52,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         val TAG = "MECOrderSummaryFragment"
     }
 
+    private lateinit var mecOrderSummaryService: MECOrderSummaryServices
     private lateinit var binding: MecOrderSummaryFragmentBinding
     private lateinit var ecsShoppingCart: ECSShoppingCart
     private lateinit var ecsAddress: ECSAddress
@@ -90,6 +91,11 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mecOrderSummaryService = MECOrderSummaryServices()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MecOrderSummaryFragmentBinding.inflate(inflater, container, false)
         binding.fragment = this
@@ -105,6 +111,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         if (ecsShoppingCart.appliedVouchers.size > 0) {
             ecsShoppingCart.appliedVouchers?.let { voucherList.addAll(it) }
         }
+        cartSummaryList.clear()
         cartSummaryAdapter = MECCartSummaryAdapter(addCartSummaryList(ecsShoppingCart))
         productsAdapter = MECOrderSummaryProductsAdapter(ecsShoppingCart)
         vouchersAdapter = MECOrderSummaryVouchersAdapter(voucherList)
@@ -137,44 +144,14 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
     }
 
 
-
     private fun addCartSummaryList(ecsShoppingCart: ECSShoppingCart): MutableList<MECCartSummary> {
-        cartSummaryList.clear()
-        var name: String
-        var price: String
-
-        if (ecsShoppingCart.deliveryCost != null) {
-            name = getString(R.string.mec_shipping_cost)
-            price = ecsShoppingCart.deliveryCost.formattedValue
-            cartSummaryList.add(MECCartSummary(name, price))
-        }
-
-        for (i in 0 until ecsShoppingCart.appliedVouchers.size) {
-            if (ecsShoppingCart.appliedVouchers[i].name == null) {
-                name = " "
-            } else {
-                name = ecsShoppingCart.appliedVouchers[i].name
-            }
-            price = "-" + ecsShoppingCart.appliedVouchers?.get(i)?.appliedValue?.formattedValue
-            cartSummaryList.add(MECCartSummary(name, price))
-
-        }
-
-        if (ecsShoppingCart.appliedOrderPromotions.size > 0) {
-            for (i in 0 until ecsShoppingCart.appliedOrderPromotions.size) {
-                name = if (ecsShoppingCart.appliedOrderPromotions[i].promotion.name == null) {
-                    " "
-                } else {
-                    ecsShoppingCart.appliedOrderPromotions[i].promotion.name
-                }
-                price = "-" + ecsShoppingCart.appliedOrderPromotions.get(i).promotion.promotionDiscount.formattedValue
-                cartSummaryList.add(MECCartSummary(name, price))
-            }
-        }
-
+        mecOrderSummaryService.addDeliveryCostToCartSummaryList(binding.mecDeliveryModeDescription.context, ecsShoppingCart, cartSummaryList)
+        mecOrderSummaryService.addAppliedVoucherToCartSummaryList(ecsShoppingCart, cartSummaryList)
+        mecOrderSummaryService.addAppliedOrderPromotionsToCartSummaryList(ecsShoppingCart, cartSummaryList)
         cartSummaryAdapter?.notifyDataSetChanged()
         return cartSummaryList
     }
+
 
     fun onClickPay() {
 
