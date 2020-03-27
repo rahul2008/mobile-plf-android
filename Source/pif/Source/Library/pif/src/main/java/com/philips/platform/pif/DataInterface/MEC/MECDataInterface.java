@@ -36,10 +36,21 @@ public interface MECDataInterface {
 
 
     /**
-     * Cart product count update .
+     * This API is called to add a MECCartUpdateListener which will give shopping cart product count update and should show cart
+     *
      *
      * @param mecCartUpdateListener the Cart product count update listener
      *  @since 2002.0
      */
     void addCartUpdateListener(MECCartUpdateListener mecCartUpdateListener ) ;
+
+
+    /**
+     *This API is called to remove a previously added MECCartUpdateListener
+     *
+     * @param mecCartUpdateListener The listener to be removed
+     *  @since 2002.0
+     */
+    void removeCartUpdateListener(MECCartUpdateListener mecCartUpdateListener);
+
 }

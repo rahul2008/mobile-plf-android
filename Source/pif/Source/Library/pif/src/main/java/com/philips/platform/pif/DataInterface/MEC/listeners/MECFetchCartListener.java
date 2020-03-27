@@ -13,9 +13,9 @@ public interface MECFetchCartListener  {
     void onGetCartCount(int count);
 
     /**
-     * This API is called to decide if shopping cart icon should be displayed or not
      *
-     * Any failure in onGetCartCount call
+     *
+     * This API is called on any failure in onGetCartCount call
      * @since 2002.0
      */
     void onFailure(Exception exception);

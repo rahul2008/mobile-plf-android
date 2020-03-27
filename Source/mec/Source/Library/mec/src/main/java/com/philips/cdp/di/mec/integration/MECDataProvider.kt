@@ -22,14 +22,26 @@ import kotlinx.coroutines.launch
 
 class MECDataProvider : MECDataInterface {
 
+
     /**
      * Cart product count update .
      *
      * @param mecCartUpdateListener the Cart product count update listener
-     * @since 2002.2
+     * @since 2002.0
      */
     override fun addCartUpdateListener(mecCartUpdateListener: MECCartUpdateListener?) {
         MECDataHolder.INSTANCE.mecCartUpdateListener=mecCartUpdateListener
+    }
+
+
+    /**
+     * This API is called to remove a previously added MECCartUpdateListener
+     *
+     * @param mecCartUpdateListener The listener to be removed
+     * @since 2002.0
+     */
+    override fun removeCartUpdateListener(mecCartUpdateListener: MECCartUpdateListener?) {
+       //  TODO("not implemented") 
     }
     
 
