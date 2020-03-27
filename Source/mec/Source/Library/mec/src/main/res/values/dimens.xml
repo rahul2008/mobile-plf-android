@@ -141,5 +141,7 @@
     <dimen name="mec_drop_down_icon_width_size">10dp</dimen>
     <dimen name="mec_drop_down_icon_height_size">5dp</dimen>
 
+    <dimen name="mec_8_sp">8sp</dimen>
+
 
 </resources>
