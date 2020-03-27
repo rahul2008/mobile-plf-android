@@ -12,11 +12,14 @@ package com.philips.cdp.di.mec.utils
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.config.ECSConfig
-import com.philips.cdp.di.mec.integration.*
+import com.philips.cdp.di.mec.integration.MECBannerConfigurator
+import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput
+import com.philips.cdp.di.mec.integration.MECOrderFlowCompletion
 import com.philips.cdp.di.mec.paymentServices.MECPayment
 import com.philips.cdp.di.mec.paymentServices.MECPayments
 import com.philips.cdp.di.mec.screens.address.UserInfo
 import com.philips.platform.appinfra.AppInfraInterface
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
@@ -97,7 +100,7 @@ enum class MECDataHolder {
 
     var bvClient: BVConversationsClient? = null
 
-    fun setUpdateCartListener(mActionbarUpdateListener: ActionBarListener, mecCartUpdateListener: MECCartUpdateListener) {
+    fun setUpdateCartListener(mActionbarUpdateListener: ActionBarListener, mecCartUpdateListener: MECCartUpdateListener?) {
         actionbarUpdateListener = mActionbarUpdateListener
         this.mecCartUpdateListener = mecCartUpdateListener
     }

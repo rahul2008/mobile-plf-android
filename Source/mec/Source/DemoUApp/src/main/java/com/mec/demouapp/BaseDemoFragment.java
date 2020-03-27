@@ -29,11 +29,8 @@ import androidx.fragment.app.Fragment;
 
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
-import com.philips.cdp.di.mec.integration.MECCartUpdateListener;
 import com.philips.cdp.di.mec.integration.MECDependencies;
-import com.philips.cdp.di.mec.integration.MECFetchCartListener;
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator;
-import com.philips.cdp.di.mec.integration.MECHybrisAvailabilityListener;
 import com.philips.cdp.di.mec.integration.MECInterface;
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
 import com.philips.cdp.di.mec.integration.MECSettings;
@@ -48,6 +45,10 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.pif.DataInterface.MEC.MECDataInterface;
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener;
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener;
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilityListener;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -91,6 +92,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     private TextView text;
 
     private MECInterface mMecInterface;
+    private MECDataInterface mMECDataInterface;
     private MECLaunchInput mMecLaunchInput;
     private MECSettings mMecSettings;
     String voucherCode = "";
@@ -332,13 +334,16 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
         try {
             mMecInterface.init(mecDependencies, mMecSettings);
+            mMECDataInterface = mMecInterface.getMECDataInterface();
             if (isHybrisEnable && urInterface.getUserDataInterface()!= null && urInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 //update shopping cart count if user logged in
                 if(null!=mMecInterface) {
 
-                    mMecInterface.fetchCartCount(this);
+                    mMECDataInterface.fetchCartCount(this);
 
-                    mMecInterface.ishybrisavailable(this );
+                    mMECDataInterface.isHybrisAvailable(this );
+
+                    mMECDataInterface.cartUpdate(this);
                 }
             }
         } catch (RuntimeException ex) {
@@ -346,13 +351,14 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         }
 
         mMecLaunchInput = new MECLaunchInput();
-        mMecLaunchInput.setMecCartUpdateListener(this);
+
 
 
         mMecLaunchInput.setMecBannerConfigurator(this);
         mMecLaunchInput.setSupportsHybris(isHybrisEnable);
         mMecLaunchInput.setSupportsRetailer(isRetailerEnabled);
         mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
+
 
 
 
@@ -594,7 +600,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void shouldShowCart(boolean shouldShow) {
+    public void shouldShowCart(Boolean shouldShow) {
         if (shouldShow) {
             mShoppingCartContainer.setVisibility(View.VISIBLE);
         } else {
@@ -830,7 +836,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
 
     @Override
-    public void isHybrisAvailable(boolean bool) {
+    public void isHybrisAvailable(Boolean bool) {
         Log.v("isHybrisAvailable: ",""+bool);
     }
 }

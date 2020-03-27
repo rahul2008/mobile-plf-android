@@ -16,12 +16,12 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.mec.auth.HybrisAuth
-import com.philips.cdp.di.mec.integration.CartListener
-import com.philips.cdp.di.mec.integration.MECCartUpdateListener
-import com.philips.cdp.di.mec.integration.MECFetchCartListener
-import com.philips.cdp.di.mec.integration.MECHybrisAvailabilityListener
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.cdp.di.mec.utils.MECutility
+import com.philips.platform.pif.DataInterface.MEC.listeners.CartListener
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilityListener
 
 /*
 * Implementation of MECInterface exposed API

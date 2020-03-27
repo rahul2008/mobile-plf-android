@@ -10,6 +10,8 @@
 package com.philips.cdp.di.mec.integration
 
 
+
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.uappframework.uappinput.UappLaunchInput
 
 import java.io.Serializable
@@ -27,8 +29,7 @@ class MECLaunchInput : UappLaunchInput(), Serializable {
     var voucherCode : String = ""
     var maxCartCount : Int = 0
 
-
-    var mecCartUpdateListener: MECCartUpdateListener ? =null
+    var mecCartUpdateListener: MECCartUpdateListener? =null
     var blackListedRetailerNames : List<String>? = null
     var flowConfigurator: MECFlowConfigurator ? =null
 

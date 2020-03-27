@@ -32,12 +32,12 @@ import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
 import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
-import com.philips.cdp.di.mec.integration.MECCartUpdateListener;
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener;
 import com.philips.cdp.di.mec.integration.MECDependencies;
 import com.philips.cdp.di.mec.integration.MECFlowConfigurator;
 import com.philips.cdp.di.mec.integration.MECInterface;
 import com.philips.cdp.di.mec.integration.MECLaunchInput;
-import com.philips.cdp.di.mec.integration.MECFetchCartListener;
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener;
 import com.philips.cdp.di.mec.integration.MECSettings;
 import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -599,7 +599,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void shouldShowCart(boolean shouldShow) {
+    public void shouldShowCart(Boolean shouldShow) {
 
     }
 
