@@ -154,6 +154,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     implementation 'com.bazaarvoice.bvandroidsdk:conversations:8.5.1'
     testImplementation deps.junit
+    testImplementation deps.mockito
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_core
