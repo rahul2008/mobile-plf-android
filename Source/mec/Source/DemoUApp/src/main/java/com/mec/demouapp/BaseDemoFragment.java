@@ -358,7 +358,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
         mMecLaunchInput.setSupportsHybris(isHybrisEnable);
         mMecLaunchInput.setSupportsRetailer(isRetailerEnabled);
         mMecLaunchInput.setMecBazaarVoiceInput(mecBazaarVoiceInput);
-
+        mMecLaunchInput.setMecCartUpdateListener(this); // required local for app to update cart count on action bar
 
 
 

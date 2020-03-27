@@ -102,7 +102,9 @@ enum class MECDataHolder {
 
     fun setUpdateCartListener(mActionbarUpdateListener: ActionBarListener, mecCartUpdateListener: MECCartUpdateListener?) {
         actionbarUpdateListener = mActionbarUpdateListener
-        this.mecCartUpdateListener = mecCartUpdateListener
+        if(null!=mecCartUpdateListener) {
+            this.mecCartUpdateListener = mecCartUpdateListener
+        }
     }
 
     fun setPrivacyPolicyUrls(privacyUrl: String, faqUrl: String, termsUrl: String) {

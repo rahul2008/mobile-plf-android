@@ -67,7 +67,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings
 
         var voucher :Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
         try {
-            voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucher", "MEC", configError) as Boolean
+            voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucherCode.enable", "MEC", configError) as Boolean
         }catch(e: Exception){
 
         }

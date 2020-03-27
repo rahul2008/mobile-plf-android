@@ -148,7 +148,7 @@ internal open class MECHandler(private val mMECDependencies: MECDependencies, pr
         mecLandingFragment?.arguments = bundle
 
 
-       MECDataHolder.INSTANCE.setUpdateCartListener(fragmentLauncher.actionbarListener, MECDataHolder.INSTANCE.mecCartUpdateListener)
+       MECDataHolder.INSTANCE.setUpdateCartListener(fragmentLauncher.actionbarListener, mLaunchInput.mecCartUpdateListener)
         val transaction = fragmentLauncher.fragmentActivity.supportFragmentManager.beginTransaction()
         transaction.replace(fragmentLauncher.parentContainerResourceID, mecLandingFragment!!, mecLandingFragment.getFragmentTag())
         transaction.addToBackStack(mecLandingFragment.getFragmentTag())

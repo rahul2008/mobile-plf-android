@@ -10,16 +10,13 @@
  */
 package com.philips.cdp.di.mec.integration
 
+
 import com.philips.cdp.di.mec.integration.serviceDiscovery.MECManager
 import com.philips.cdp.di.mec.utils.MECDataHolder
 import com.philips.platform.pif.DataInterface.MEC.MECDataInterface
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilityListener
-
-
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface
-import com.philips.platform.uappframework.uappinput.UappDependencies
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -34,11 +31,7 @@ class MECDataProvider : MECDataInterface {
     override fun cartUpdate(mecCartUpdateListener: MECCartUpdateListener?) {
         MECDataHolder.INSTANCE.mecCartUpdateListener=mecCartUpdateListener
     }
-
-    private var mMECSettings: MECSettings?=null
-    private var mUappDependencies: UappDependencies? = null
-    private var mUserDataInterface: UserDataInterface? = null
-    val MEC_NOTATION = "mec"
+    
 
 
     override fun fetchCartCount(mecFetchCartListener: MECFetchCartListener) {
