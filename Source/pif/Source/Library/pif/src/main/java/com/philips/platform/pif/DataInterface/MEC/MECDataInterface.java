@@ -19,30 +19,34 @@ import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilit
 public interface MECDataInterface {
 
     /**
-     * Fetch cart count.
+     * This API is called to explicitly fetch shopping cart product count .
      *
-     * @param mecFetchCartListener the mec fetch cart listener
+     * @param mecFetchCartListener the  fetch cart listener for product count callback
      *  @since 2002.0
      */
     void fetchCartCount(MECFetchCartListener mecFetchCartListener);
 
+
+
     /**
-     * Is hybris available.
+     * This API is called to explicitly check if Hybris server is available .
      *
-     * @param mECHybrisAvailabilityListener the m ec hybris availability listener
+     * @param mECHybrisAvailabilityListener the Hybris server availability listener for product count callback
      *  @since 2002.0
      */
     void isHybrisAvailable(  MECHybrisAvailabilityListener mECHybrisAvailabilityListener );
 
 
+
     /**
-     * This API is called to add a MECCartUpdateListener which will give shopping cart product count update and should show cart
+     * This API is called to add a MECCartUpdateListener which will give shopping cart product count update and should show cart boolean
      *
      *
-     * @param mecCartUpdateListener the Cart product count update listener
+     * @param mecCartUpdateListener the listener for cart product count update and should show cart callbacks
      *  @since 2002.0
      */
     void addCartUpdateListener(MECCartUpdateListener mecCartUpdateListener ) ;
+
 
 
     /**

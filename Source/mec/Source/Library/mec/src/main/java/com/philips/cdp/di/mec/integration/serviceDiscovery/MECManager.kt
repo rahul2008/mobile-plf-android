@@ -24,6 +24,7 @@ import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilit
 
 /*
 * Implementation of MECInterface exposed API
+* @since 2002.0
 * */
 
 class MECManager {
