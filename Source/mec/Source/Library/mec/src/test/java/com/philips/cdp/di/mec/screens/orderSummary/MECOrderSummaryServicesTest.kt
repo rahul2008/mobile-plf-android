@@ -42,6 +42,7 @@ class MECOrderSummaryServicesTest {
 
     @Mock
     lateinit var deliveryCostEntity: DeliveryCostEntity
+
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
@@ -59,8 +60,6 @@ class MECOrderSummaryServicesTest {
         Whitebox.setInternalState(mockEcsShoppingCart, "appliedVouchers", listOf(appliedVoucherEntity))
         `when`(mockEcsShoppingCart.appliedVouchers).thenReturn(listOf(appliedVoucherEntity))
 
-//        `when`(deliveryCostEntity.formattedValue).thenReturn("delivery")
-//        Whitebox.setInternalState(mockEcsShoppingCart, "deliveryCost", listOf(deliveryCostEntity))
         `when`(mockEcsShoppingCart.deliveryCost).thenReturn(deliveryCostEntity)
 
         mecOrderSummaryServices = MECOrderSummaryServices()
