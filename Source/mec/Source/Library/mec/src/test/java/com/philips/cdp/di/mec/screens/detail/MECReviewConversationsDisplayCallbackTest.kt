@@ -1,9 +1,9 @@
-package com.philips.cdp.di.mec.screens.detail
+package com.philips.platform.mec.screens.detail
 
 import androidx.lifecycle.MutableLiveData
 import com.bazaarvoice.bvandroidsdk.ConversationsException
 import com.bazaarvoice.bvandroidsdk.ReviewResponse
-import com.philips.cdp.di.mec.common.MecError
+import com.philips.platform.mec.common.MecError
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test

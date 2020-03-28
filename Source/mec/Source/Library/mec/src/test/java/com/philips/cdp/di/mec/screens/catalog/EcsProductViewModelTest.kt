@@ -1,17 +1,16 @@
-package com.philips.cdp.di.mec.screens.catalog
+package com.philips.platform.mec.screens.catalog
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.mec.utils.MECDataHolder
 import org.junit.Before
-
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import java.util.ArrayList
+import java.util.*
 
 @RunWith(JUnit4::class)
 class EcsProductViewModelTest {

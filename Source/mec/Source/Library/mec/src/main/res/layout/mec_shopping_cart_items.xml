@@ -5,7 +5,7 @@
 
         <variable
             name="cart"
-            type="com.philips.cdp.di.mec.screens.shoppingCart.MECCartProductReview" />
+            type="com.philips.platform.mec.screens.shoppingCart.MECCartProductReview" />
     </data>
 
 

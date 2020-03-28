@@ -1,9 +1,9 @@
-package com.philips.cdp.di.mec.screens.orderSummary
+package com.philips.platform.mec.screens.orderSummary
 
 import android.content.Context
 import com.philips.cdp.di.ecs.model.cart.*
-import com.philips.cdp.di.mec.R
-import com.philips.cdp.di.mec.screens.shoppingCart.MECCartSummary
+import com.philips.platform.mec.R
+import com.philips.platform.mec.screens.shoppingCart.MECCartSummary
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

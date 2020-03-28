@@ -5,7 +5,7 @@
 
         <variable
             name="fragment"
-            type="com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment" />
+            type="com.philips.platform.mec.screens.detail.MECProductDetailsFragment" />
 
     </data>
 

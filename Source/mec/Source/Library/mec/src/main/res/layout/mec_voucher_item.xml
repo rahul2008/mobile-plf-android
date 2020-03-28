@@ -5,11 +5,11 @@
 
         <variable
             name="fragment"
-            type="com.philips.cdp.di.mec.screens.shoppingCart.MECShoppingCartFragment" />
+            type="com.philips.platform.mec.screens.shoppingCart.MECShoppingCartFragment" />
 
         <variable
             name="itemClickListener"
-            type="com.philips.cdp.di.mec.common.ItemClickListener" />
+            type="com.philips.platform.mec.common.ItemClickListener" />
 
         <variable
             name="voucher"

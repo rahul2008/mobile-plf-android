@@ -1,7 +1,6 @@
-package com.philips.cdp.di.mec.screens.catalog
+package com.philips.platform.mec.screens.catalog
 
 import com.philips.cdp.di.ecs.ECSServices
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

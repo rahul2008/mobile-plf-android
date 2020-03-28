@@ -61,7 +61,7 @@ android {
     defaultConfig {
         versionCode 1
         versionName version + "(" + commitHash + ")"
-        testApplicationId "com.philips.cdp.di.mec.test"
+        testApplicationId "com.philips.platform.mec.test"
         multiDexEnabled true
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent

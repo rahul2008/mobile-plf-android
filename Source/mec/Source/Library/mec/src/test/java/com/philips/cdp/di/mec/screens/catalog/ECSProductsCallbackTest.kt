@@ -1,20 +1,17 @@
-package com.philips.cdp.di.mec.screens.catalog
+package com.philips.platform.mec.screens.catalog
 
 import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
-import com.philips.cdp.di.mec.common.MecError
-import org.junit.Test
-
-import org.junit.Assert.*
+import com.philips.platform.mec.common.MecError
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import java.lang.Exception
 
 @RunWith(JUnit4::class)
 class ECSProductsCallbackTest {

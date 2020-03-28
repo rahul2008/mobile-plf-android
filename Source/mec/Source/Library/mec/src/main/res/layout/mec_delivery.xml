@@ -13,7 +13,7 @@
 
         <variable
             name="mecDeliveryFragment"
-            type="com.philips.cdp.di.mec.screens.address.MECDeliveryFragment" />
+            type="com.philips.platform.mec.screens.address.MECDeliveryFragment" />
 
     </data>
 

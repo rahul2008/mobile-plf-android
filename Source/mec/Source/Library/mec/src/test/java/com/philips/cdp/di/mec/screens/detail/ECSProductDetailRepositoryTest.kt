@@ -1,10 +1,10 @@
-package com.philips.cdp.di.mec.screens.detail
+package com.philips.platform.mec.screens.detail
 
 import android.content.Context
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.products.ECSProduct
-import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.mec.utils.MECDataHolder
 import org.junit.Before
 import org.junit.Test
 

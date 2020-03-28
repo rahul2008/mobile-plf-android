@@ -5,7 +5,7 @@
 
         <variable
             name="mecReview"
-            type="com.philips.cdp.di.mec.screens.reviews.MECReview" />
+            type="com.philips.platform.mec.screens.reviews.MECReview" />
 
     </data>
 

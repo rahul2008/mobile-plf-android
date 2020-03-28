@@ -1,4 +1,4 @@
-package com.philips.cdp.di.mec;
+package com.philips.platform.mec;
 
 import org.junit.Test;
 

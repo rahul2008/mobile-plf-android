@@ -1,10 +1,10 @@
-package com.philips.cdp.di.mec.screens.retailers
+package com.philips.platform.mec.screens.retailers
 
 import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
-import com.philips.cdp.di.mec.common.MecError
+import com.philips.platform.mec.common.MecError
 import org.junit.Test
 
 import org.junit.Assert.*

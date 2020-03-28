@@ -5,7 +5,7 @@
 
         <variable
             name="fragment"
-            type="com.philips.cdp.di.mec.screens.detail.MECProductDetailsFragment" />
+            type="com.philips.platform.mec.screens.detail.MECProductDetailsFragment" />
 
 
         <variable
@@ -15,7 +15,7 @@
         <import type="android.view.View"/>
         <variable
             name="mecDataHolder"
-            type="com.philips.cdp.di.mec.utils.MECDataHolder" />
+            type="com.philips.platform.mec.utils.MECDataHolder" />
 
     </data>
 

@@ -16,8 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
-import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogCategorizedFragment;
-import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment;
+import com.philips.platform.mec.screens.catalog.MECProductCatalogCategorizedFragment;
+import com.philips.platform.mec.screens.catalog.MECProductCatalogFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -25,7 +25,6 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
-
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 

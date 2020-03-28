@@ -4,7 +4,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.philips.cdp.di.mec.screens.orderSummary.MECCVVFragment" />
+            type="com.philips.platform.mec.screens.orderSummary.MECCVVFragment" />
 
         <variable
             name="paymentMethod"

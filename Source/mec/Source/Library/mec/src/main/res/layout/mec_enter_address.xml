@@ -7,15 +7,15 @@
 
         <variable
             name="pattern"
-            type="com.philips.cdp.di.mec.screens.address.MECSalutationHolder" />
+            type="com.philips.platform.mec.screens.address.MECSalutationHolder" />
 
         <variable
             name="mecRegions"
-            type="com.philips.cdp.di.mec.screens.address.MECRegions" />
+            type="com.philips.platform.mec.screens.address.MECRegions" />
 
         <variable
             name="addressFieldEnabler"
-            type="com.philips.cdp.di.mec.screens.address.MECAddressFieldEnabler" />
+            type="com.philips.platform.mec.screens.address.MECAddressFieldEnabler" />
 
         <variable
             name="ecsAddress"

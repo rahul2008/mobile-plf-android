@@ -5,7 +5,7 @@
 
         <variable
             name="fragment"
-            type="com.philips.cdp.di.mec.screens.orderSummary.MECOrderSummaryFragment" />
+            type="com.philips.platform.mec.screens.orderSummary.MECOrderSummaryFragment" />
 
 
         <variable
@@ -18,7 +18,7 @@
 
         <variable
             name="mecPayment"
-            type="com.philips.cdp.di.mec.paymentServices.MECPayment" />
+            type="com.philips.platform.mec.paymentServices.MECPayment" />
 
         <import type="android.view.View" />
 

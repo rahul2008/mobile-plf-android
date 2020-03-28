@@ -1,7 +1,7 @@
-package com.philips.cdp.di.mec.screens.retailers
+package com.philips.platform.mec.screens.retailers
 
 import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.mec.utils.MECDataHolder
+import com.philips.platform.mec.utils.MECDataHolder
 import org.junit.Test
 
 import org.junit.Before

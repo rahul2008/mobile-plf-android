@@ -1,18 +1,4 @@
-package com.philips.cdp.di.mec.screens.specification
-
-import android.content.Context
-import com.philips.cdp.di.mec.utils.MECDataHolder
-import com.philips.cdp.prxclient.RequestManager
-import com.philips.cdp.prxclient.request.ProductSpecificationRequest
-import com.philips.platform.appinfra.AppInfra
-import org.junit.Before
-import org.junit.Test
-
-import org.junit.Assert.*
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
+package com.philips.platform.mec.screens.specification
 
 class SpecificationRepositoryTest {
 
