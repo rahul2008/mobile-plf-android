@@ -55,7 +55,7 @@ public class HomePresenterTest {
         RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
         CallbackManager callbackManagerMock = CallbackManager.Factory.create();
-        accessToken = new AccessToken("someToken", "someApplicationId", "someUserId", null, null, null, null, null,null);
+        accessToken = new AccessToken("someToken", "someApplicationId", "someUserId", null, null,null, null, null, null,null);
         Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessToken);
         homePresenter = new HomePresenter(homeContractMock, callbackManagerMock);
 

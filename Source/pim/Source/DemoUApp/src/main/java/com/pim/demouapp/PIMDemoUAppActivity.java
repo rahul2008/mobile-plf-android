@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.ecs.demotestuapp.integration.EcsDemoTestAppSettings;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppDependencies;
 import com.ecs.demotestuapp.integration.EcsDemoTestUAppInterface;
 import com.ecs.demouapp.integration.EcsLaunchInput;
+import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -56,7 +59,9 @@ import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.PIMInterface;
@@ -82,6 +87,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import utils.PIMNetworkUtility;
+
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECFetchCartListener, MECCartUpdateListener, MECBannerConfigurator {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -90,8 +97,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     public static final String SELECTED_COUNTRY = "SELECTED_COUNTRY";
 
 
-    private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btn_ECS, btn_MCS, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RegistrationPR, btn_IAP;
-    private Switch aSwitch, abTestingSwitch;
+    private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btn_ECS, btn_MCS, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail, btn_RefetchUserDetails, btn_RegistrationPR, btn_IAP;
+    private Switch aSwitch, abTestingSwitch, marketingOptedSwitch;
     private UserDataInterface userDataInterface;
     private boolean isUSR;
     private Context mContext;
@@ -110,6 +117,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private MECLaunchInput mMecLaunchInput;
     private MECBazaarVoiceInput mecBazaarVoiceInput;
     private PIMDemoUAppApplication uAppApplication;
+    private boolean isOptedIn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -134,12 +142,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLogout.setOnClickListener(this);
         btnRefreshSession = findViewById(R.id.btn_RefreshSession);
         btnRefreshSession.setOnClickListener(this);
+        btn_RefetchUserDetails = findViewById(R.id.btn_RefetchUserDetails);
+        btn_RefetchUserDetails.setOnClickListener(this);
         btnISOIDCToken = findViewById(R.id.btn_IsOIDCToken);
         btnISOIDCToken.setOnClickListener(this);
         btnMigrator = findViewById(R.id.btn_MigrateUser);
         btnMigrator.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
         abTestingSwitch = findViewById(R.id.switch_ab_testing_consent);
+        marketingOptedSwitch = findViewById(R.id.switch_marketing_optedin);
         btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
         btn_RegistrationPR.setOnClickListener(this);
         btn_IAP = findViewById(R.id.btn_IAP);
@@ -162,6 +173,38 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         abTestingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             setABTestingStatus(isChecked);
         });
+
+        marketingOptedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if ((!isNetworkConnected()) || buttonView.getTag() != null) {
+                        if (buttonView.isPressed()) {
+                            marketingOptedSwitch.setChecked(isOptedIn);
+                        }
+                        return;
+                    }
+
+                if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+                    marketingOptedSwitch.setChecked(false);
+                    showToast("User is not loged-in, Please login!");
+                    return;
+                }
+                userDataInterface.updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
+                    @Override
+                    public void onUpdateSuccess() {
+                        showToast("Marketing Opted-In updated successfully.");
+                        updateMarketingOptinStatus();
+                    }
+
+                    @Override
+                    public void onUpdateFailedWithError(Error error) {
+                        showToast("Updating marketing opted-in failed with error code : " + error.getErrCode());
+                        updateMarketingOptinStatus();
+                    }
+                }, isChecked);
+            }
+        });
+
         viewInitlization(pimDemoUAppDependencies, pimDemoUAppSettings);
 //        pimInterface = new PIMInterface();
 //        pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
@@ -256,6 +299,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 btnLaunchAsActivity.setVisibility(View.GONE);
                 btnLaunchAsFragment.setText("Launch User Profile");
+                updateMarketingOptinStatus();
             } else {
                 btnLaunchAsActivity.setText("Launch PIM As Activity");
                 btnLaunchAsFragment.setText("Launch PIM As Fragment");
@@ -315,6 +359,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        if (!isNetworkConnected()) return;
+
         if (v == btnLaunchAsActivity) {
             if (!isUSR) {
                 PIMLaunchInput launchInput = new PIMLaunchInput();
@@ -355,6 +401,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 userDataInterface.refreshSession(new RefreshSessionListener() {
                     @Override
                     public void refreshSessionSuccess() {
+                        updateMarketingOptinStatus();
                         showToast("Refresh session success");
                     }
 
@@ -406,37 +453,62 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 //                showToast("User is not loged-in, Please login!");
 //            }
         } else if (v == btnMigrator) {
-            userDataInterface.migrateUserToPIM(new UserMigrationListener() {
-                @Override
-                public void onUserMigrationSuccess() {
-                    showToast("User migrated succesfully");
-                }
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                userDataInterface.migrateUserToPIM(new UserMigrationListener() {
+                    @Override
+                    public void onUserMigrationSuccess() {
+                        showToast("User migrated succesfully");
+                    }
 
-                @Override
-                public void onUserMigrationFailed(Error error) {
-                    showToast("user migration failed error code = " + error.getErrCode() + " error message : " + error.getErrDesc());
-                }
-            });
+                    @Override
+                    public void onUserMigrationFailed(Error error) {
+                        showToast("user migration failed error code = " + error.getErrCode() + " error message : " + error.getErrDesc());
+                    }
+                });
+            } else {
+                showToast("User is not loged-in, Please login!");
+            }
+        } else if (v == btn_RefetchUserDetails) {
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                userDataInterface.refetchUserDetails(new RefetchUserDetailsListener() {
+                    @Override
+                    public void onRefetchSuccess() {
+                        updateMarketingOptinStatus();
+                        showToast("Refetch Success!!");
+                    }
+
+                    @Override
+                    public void onRefetchFailure(Error error) {
+                        showToast("Refetch failed");
+                    }
+                });
+            } else {
+                showToast("User is not loged-in, Please login!");
+            }
         } else if (v == btnGetUserDetail) {
-            try {
-                ArrayList<String> detailKeys = new ArrayList<>();
-                detailKeys.add(UserDetailConstants.FAMILY_NAME);
-                detailKeys.add(UserDetailConstants.GIVEN_NAME);
-                detailKeys.add(UserDetailConstants.ACCESS_TOKEN);
-                detailKeys.add(UserDetailConstants.BIRTHDAY);
-                detailKeys.add(UserDetailConstants.EMAIL);
-                detailKeys.add(UserDetailConstants.GENDER);
-                detailKeys.add(UserDetailConstants.MOBILE_NUMBER);
-                detailKeys.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
-                detailKeys.add(UserDetailConstants.UUID);
-                detailKeys.add(UserDetailConstants.ID_TOKEN);
-                detailKeys.add(UserDetailConstants.EXPIRES_IN);
-                detailKeys.add(UserDetailConstants.TOKEN_TYPE);
-                HashMap<String, Object> userDetails = userDataInterface.getUserDetails(detailKeys);
-                showToast("User Details  are :" + userDetails.toString());
-            } catch (UserDataInterfaceException e) {
-                e.printStackTrace();
-                showToast("Error code:" + e.getError().getErrCode() + " Error message :" + e.getError().getErrDesc());
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                try {
+                    ArrayList<String> detailKeys = new ArrayList<>();
+                    detailKeys.add(UserDetailConstants.FAMILY_NAME);
+                    detailKeys.add(UserDetailConstants.GIVEN_NAME);
+                    detailKeys.add(UserDetailConstants.ACCESS_TOKEN);
+                    detailKeys.add(UserDetailConstants.BIRTHDAY);
+                    detailKeys.add(UserDetailConstants.EMAIL);
+                    detailKeys.add(UserDetailConstants.GENDER);
+                    detailKeys.add(UserDetailConstants.MOBILE_NUMBER);
+                    detailKeys.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+                    detailKeys.add(UserDetailConstants.UUID);
+                    detailKeys.add(UserDetailConstants.ID_TOKEN);
+                    detailKeys.add(UserDetailConstants.EXPIRES_IN);
+                    detailKeys.add(UserDetailConstants.TOKEN_TYPE);
+                    HashMap<String, Object> userDetails = userDataInterface.getUserDetails(detailKeys);
+                    showToast("User Details  are :" + userDetails.toString());
+                } catch (UserDataInterfaceException e) {
+                    e.printStackTrace();
+                    showToast("Error code:" + e.getError().getErrCode() + " Error message :" + e.getError().getErrDesc());
+                }
+            } else {
+                showToast("User is not loged-in, Please login!");
             }
 
         } else if (v == btnISOIDCToken) {
@@ -575,6 +647,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         MECDependencies mecDependencies = new MECDependencies(appInfraInterface, userDataInterface);
         mMecInterface = new MECInterface();
         mMecInterface.init(mecDependencies, new MECSettings(mContext));
+        updateMarketingOptinStatus();
         initializeBazaarVoice();
     }
 
@@ -702,6 +775,33 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             return v;
         }
         return null;
+    }
+
+    private void updateMarketingOptinStatus() {
+        ArrayList<String> keyList = new ArrayList<>();
+        keyList.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+        try {
+            final HashMap<String, Object> userDetails = userDataInterface.getUserDetails(keyList);
+            isOptedIn = (boolean) userDetails.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            marketingOptedSwitch.setTag(false);
+            marketingOptedSwitch.setChecked(isOptedIn);
+            marketingOptedSwitch.setTag(null);
+        } catch (UserDataInterfaceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
+            PIMNetworkUtility.getInstance().showErrorDialog(mContext,
+                    getSupportFragmentManager(), "OK",
+                    "You are offline", "Your internet connection does not seem to be working. Please check and try again");
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
