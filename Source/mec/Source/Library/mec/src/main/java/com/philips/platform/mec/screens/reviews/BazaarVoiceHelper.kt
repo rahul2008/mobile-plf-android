@@ -13,39 +13,29 @@ import android.app.Application
 import com.bazaarvoice.bvandroidsdk.*
 import com.philips.platform.mec.utils.MECDataHolder
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 
 class BazaarVoiceHelper {
 
-    private val loggingInterceptor: HttpLoggingInterceptor
-        get() {
-            val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            return loggingInterceptor
-        }
+    fun getBazaarVoiceClient(context: Application): BVConversationsClient {
 
-    fun getBazarvoiceClient(context:Application) : BVConversationsClient {
+        val bazaarClientId = MECDataHolder.INSTANCE.mecBazaarVoiceInput.getBazaarVoiceClientID()
+        val bazaarApiConversationKey = MECDataHolder.INSTANCE.mecBazaarVoiceInput.getBazaarVoiceConversationAPIKey()
+        val bazaarEnvironment = MECDataHolder.INSTANCE.mecBazaarVoiceInput.getBazaarVoiceEnvironment()
 
-        var bazaarClientId = MECDataHolder.INSTANCE.mecBazaarVoiceInput.getBazaarVoiceClientID()
-        var bazaarApiConversationKey = MECDataHolder.INSTANCE.mecBazaarVoiceInput.getBazaarVoiceConversationAPIKey()
-        var bazaarEnvironment = MECDataHolder.INSTANCE.mecBazaarVoiceInput.getBazaarVoiceEnvironment()
-
-        var bvConfigBuilder = BVConfig.Builder()
+        val bvConfigBuilder = BVConfig.Builder()
         bvConfigBuilder.clientId(bazaarClientId)
         bvConfigBuilder.apiKeyConversations(bazaarApiConversationKey)
-        val bvsdk = BVSDK.builderWithConfig(context, if (bazaarEnvironment.equals(MECBazaarVoiceEnvironment.PRODUCTION)) BazaarEnvironment.PRODUCTION else BazaarEnvironment.STAGING,bvConfigBuilder.build())
-       .logLevel(BVLogLevel.ERROR)
-       .okHttpClient(getOkHttpClient(loggingInterceptor)).dryRunAnalytics(false)
-       .build()
+        val bvsdk = BVSDK.builderWithConfig(context, if (bazaarEnvironment == MECBazaarVoiceEnvironment.PRODUCTION) BazaarEnvironment.PRODUCTION else BazaarEnvironment.STAGING, bvConfigBuilder.build())
+                .logLevel(BVLogLevel.ERROR)
+                .okHttpClient(getOkHttpClient())
+                .build()
 
 
-        var bvClient = BVConversationsClient.Builder(bvsdk).build()
-        return bvClient
+        return BVConversationsClient.Builder(bvsdk).build()
     }
 
-    private fun getOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    private fun getOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
                 .build()
     }
 }

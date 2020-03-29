@@ -19,7 +19,6 @@ open class MECBazaarVoiceInput {
     }
 
     open fun getBazaarVoiceConversationAPIKey (): String{
-
         return "caAyWvBUz6K3xq4SXedraFDzuFoVK71xMplaDk1oO5P4E"
     }
 
