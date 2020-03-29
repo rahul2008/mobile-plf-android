@@ -16,7 +16,6 @@ import android.util.Log
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.config.ECSConfig
-import com.philips.platform.mec.analytics.MECAnalytics
 import com.philips.platform.mec.common.MECLauncherActivity
 import com.philips.platform.mec.integration.serviceDiscovery.ServiceDiscoveryMapListener
 import com.philips.platform.mec.screens.reviews.BazaarVoiceHelper
@@ -68,7 +67,7 @@ internal open class MECHandler(private val mMECDependencies: MECDependencies, pr
         MECDataHolder.INSTANCE.mecBazaarVoiceInput = mLaunchInput.mecBazaarVoiceInput
 
         if (MECDataHolder.INSTANCE.bvClient == null) {
-            val bazarvoiceSDK = BazaarVoiceHelper().getBazarvoiceClient(mMECSetting.context.applicationContext as Application)
+            val bazarvoiceSDK = BazaarVoiceHelper().getBazaarVoiceClient(mMECSetting.context.applicationContext as Application)
             MECDataHolder.INSTANCE.bvClient = bazarvoiceSDK
         }
 

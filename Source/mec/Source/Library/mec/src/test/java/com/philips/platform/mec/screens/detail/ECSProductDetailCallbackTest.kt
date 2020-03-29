@@ -11,8 +11,9 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(JUnit4::class)
+@RunWith(MockitoJUnitRunner::class)
 class ECSProductDetailCallbackTest {
 
 
