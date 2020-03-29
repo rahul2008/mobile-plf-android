@@ -8,8 +8,11 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(JUnit4::class)
+@PrepareForTest(ECSRetailerListCallback::class, ECSRetailerViewModel::class)
+@RunWith(PowerMockRunner::class)
 class ECSRetailersRepositoryTest {
 
 

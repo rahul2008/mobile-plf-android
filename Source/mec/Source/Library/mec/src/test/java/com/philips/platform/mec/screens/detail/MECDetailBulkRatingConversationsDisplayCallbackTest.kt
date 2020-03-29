@@ -5,19 +5,22 @@ import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ConversationsException
 import com.philips.platform.mec.common.MecError
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
+import org.powermock.reflect.Whitebox
 
-@RunWith(JUnit4::class)
+@PrepareForTest(EcsProductDetailViewModel::class)
+@RunWith(PowerMockRunner::class)
 class MECDetailBulkRatingConversationsDisplayCallbackTest {
 
 
-    lateinit var mECDetailBulkRatingConversationsDisplayCallback : MECDetailBulkRatingConversationsDisplayCallback
+    lateinit var mECDetailBulkRatingConversationsDisplayCallback: MECDetailBulkRatingConversationsDisplayCallback
 
     @Mock
     lateinit var ecsProductDetailViewModelMock: EcsProductDetailViewModel
@@ -26,20 +29,23 @@ class MECDetailBulkRatingConversationsDisplayCallbackTest {
     lateinit var responseMock: BulkRatingsResponse
 
     @Mock
-    lateinit var mutableLiveDataMock : MutableLiveData<BulkRatingsResponse>
+    lateinit var mutableLiveDataMock: MutableLiveData<BulkRatingsResponse>
 
     @Mock
     lateinit var exceptionMock: ConversationsException
 
     @Mock
-    lateinit var mutableLiveDataMecErrorMock : MutableLiveData<MecError>
+    lateinit var mutableLiveDataMecErrorMock: MutableLiveData<MecError>
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        Mockito.`when`(ecsProductDetailViewModelMock.bulkRatingResponse).thenReturn(mutableLiveDataMock)
-        Mockito.`when`(ecsProductDetailViewModelMock.mecError).thenReturn(mutableLiveDataMecErrorMock)
+        Whitebox.setInternalState(ecsProductDetailViewModelMock, "bulkRatingResponse", mutableLiveDataMock)
+        Whitebox.setInternalState(ecsProductDetailViewModelMock, "mecError", mutableLiveDataMecErrorMock)
+
+//        Mockito.`when`(ecsProductDetailViewModelMock.bulkRatingResponse).thenReturn(mutableLiveDataMock)
+//        Mockito.`when`(ecsProductDetailViewModelMock.mecError).thenReturn(mutableLiveDataMecErrorMock)
         mECDetailBulkRatingConversationsDisplayCallback = MECDetailBulkRatingConversationsDisplayCallback(ecsProductDetailViewModelMock)
     }
 

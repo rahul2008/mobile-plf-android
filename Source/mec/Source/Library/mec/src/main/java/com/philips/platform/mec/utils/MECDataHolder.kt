@@ -12,13 +12,13 @@ package com.philips.platform.mec.utils
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.config.ECSConfig
+import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.mec.integration.MECBannerConfigurator
 import com.philips.platform.mec.integration.MECBazaarVoiceInput
 import com.philips.platform.mec.integration.MECOrderFlowCompletion
 import com.philips.platform.mec.paymentServices.MECPayment
 import com.philips.platform.mec.paymentServices.MECPayments
 import com.philips.platform.mec.screens.address.UserInfo
-import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException
@@ -68,6 +68,7 @@ enum class MECDataHolder {
     fun getTermsUrl(): String? {
         return termsUrl
     }
+
     fun setPrivacyUrl(privacyUrl: String) {
         this.privacyUrl = privacyUrl
     }
@@ -76,7 +77,7 @@ enum class MECDataHolder {
 
         var firstName = ""
         var lastName = ""
-        var email=""
+        var email = ""
 
         if (userDataInterface != null && userDataInterface.userLoggedInState == UserLoggedInState.USER_LOGGED_IN) {
 
@@ -96,7 +97,7 @@ enum class MECDataHolder {
 
         }
 
-        return UserInfo(firstName, lastName,email)
+        return UserInfo(firstName, lastName, email)
     }
 
 
@@ -104,7 +105,7 @@ enum class MECDataHolder {
 
     fun setUpdateCartListener(mActionbarUpdateListener: ActionBarListener, mecCartUpdateListener: MECCartUpdateListener?) {
         actionbarUpdateListener = mActionbarUpdateListener
-        if(null!=mecCartUpdateListener) {
+        if (null != mecCartUpdateListener) {
             this.mecCartUpdateListener = mecCartUpdateListener
         }
     }

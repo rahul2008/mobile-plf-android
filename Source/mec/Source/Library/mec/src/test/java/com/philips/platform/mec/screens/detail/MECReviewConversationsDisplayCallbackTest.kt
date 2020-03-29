@@ -8,12 +8,14 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
+import org.powermock.reflect.Whitebox
 
-@RunWith(JUnit4::class)
+@PrepareForTest(EcsProductDetailViewModel::class)
+@RunWith(PowerMockRunner::class)
 class MECReviewConversationsDisplayCallbackTest {
 
     lateinit var mecReviewConversationsDisplayCallback: MECReviewConversationsDisplayCallback
@@ -25,17 +27,15 @@ class MECReviewConversationsDisplayCallbackTest {
     lateinit var exceptionMock: ConversationsException
 
     @Mock
-    lateinit var mutableLiveDataMecErrorMock : MutableLiveData<MecError>
+    lateinit var mutableLiveDataMecErrorMock: MutableLiveData<MecError>
 
     @Mock
-    lateinit var mutableLiveDataMock : MutableLiveData<ReviewResponse>
+    lateinit var mutableLiveDataMock: MutableLiveData<ReviewResponse>
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-
-        Mockito.`when`(ecsProductDetailViewModelMock.review).thenReturn(mutableLiveDataMock)
-        Mockito.`when`(ecsProductDetailViewModelMock.mecError).thenReturn(mutableLiveDataMecErrorMock)
+        Whitebox.setInternalState(ecsProductDetailViewModelMock, "review", mutableLiveDataMock)
         mecReviewConversationsDisplayCallback = MECReviewConversationsDisplayCallback(ecsProductDetailViewModelMock)
     }
 
@@ -50,11 +50,11 @@ class MECReviewConversationsDisplayCallbackTest {
         //assertNotNull(ecsProductDetailViewModelMock.bulkRatingResponse.value)
     }
 
- /*   @Test
-    fun onFailure() {
-        mecReviewConversationsDisplayCallback.onFailure(exceptionMock)
-        assertNotNull(ecsProductDetailViewModelMock.mecError)
-        //TODO
-        //assertNotNull(ecsProductDetailViewModelMock.mecError.value)
-    }*/
+    /*   @Test
+       fun onFailure() {
+           mecReviewConversationsDisplayCallback.onFailure(exceptionMock)
+           assertNotNull(ecsProductDetailViewModelMock.mecError)
+           //TODO
+           //assertNotNull(ecsProductDetailViewModelMock.mecError.value)
+       }*/
 }

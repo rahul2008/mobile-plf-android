@@ -17,7 +17,7 @@ import org.powermock.reflect.Whitebox
 
 @RunWith(PowerMockRunner::class)
 class MECOrderSummaryServicesTest {
-    lateinit var mecOrderSummaryServices: MECOrderSummaryServices
+    private lateinit var mecOrderSummaryServices: MECOrderSummaryServices
 
     @Mock
     lateinit var mockContext: Context

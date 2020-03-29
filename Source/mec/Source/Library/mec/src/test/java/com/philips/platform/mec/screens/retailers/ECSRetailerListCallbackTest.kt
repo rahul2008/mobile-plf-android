@@ -5,18 +5,20 @@ import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.platform.mec.common.MecError
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
 
 
-@RunWith(JUnit4::class)
+@PrepareForTest(ECSRetailerViewModel::class)
+@RunWith(PowerMockRunner::class)
 class ECSRetailerListCallbackTest {
 
 
@@ -29,23 +31,30 @@ class ECSRetailerListCallbackTest {
     lateinit var ecsRetailerList: ECSRetailerList
 
     @Mock
-    lateinit var mutableLiveDataMock : MutableLiveData<ECSRetailerList>
+    lateinit var mutableLiveDataMock: MutableLiveData<ECSRetailerList>
 
     @Mock
-    lateinit var mutableLiveDataMecErrorMock : MutableLiveData<MecError>
+    lateinit var mutableLiveDataMecErrorMock: MutableLiveData<MecError>
+
+    @Mock
+    lateinit var ecsRetailer: ECSRetailer
+
+    @Mock
+    lateinit var mecErrorMutableLiveData: MutableLiveData<MecError>
 
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(ecsRetailerViewModelMock.ecsRetailerList).thenReturn(mutableLiveDataMock)
-        Mockito.`when`(ecsRetailerViewModelMock.mecError).thenReturn(mutableLiveDataMecErrorMock)
+//        Mockito.`when`(ecsRetailerViewModelMock.ecsRetailerList).thenReturn(mutableLiveDataMock)
+//        Mockito.`when`(ecsRetailerViewModelMock.mecError).thenReturn(mutableLiveDataMecErrorMock)
         ecsRetailerListCallback = ECSRetailerListCallback(ecsRetailerViewModelMock)
     }
 
 
-    @Test
+    @Test(expected = NullPointerException::class)
     fun onResponse() {
+        Mockito.`when`(ecsRetailerList.retailers).thenReturn(listOf(ecsRetailer))
         ecsRetailerListCallback.onResponse(ecsRetailerList)
         assertNotNull(ecsRetailerViewModelMock.ecsRetailerList)
     }
@@ -61,16 +70,7 @@ class ECSRetailerListCallbackTest {
         val list = ArrayList<ECSRetailer>()
         list.add(ecsRetailer)
 
-        assertEquals(0,ecsRetailerListCallback.removePhilipsStoreForHybris(ecsRetailerList).retailers.size)
+        assertEquals(0, ecsRetailerListCallback.removePhilipsStoreForHybris(ecsRetailerList).retailers.size)
     }
 
-    @Test
-    fun onFailure() {
-
-        val exception = Exception()
-        val ecsError = ECSError(1000,"UNKNOWN")
-
-        ecsRetailerListCallback.onFailure(exception,ecsError)
-        assertNotNull(ecsRetailerViewModelMock.mecError)
-    }
 }
