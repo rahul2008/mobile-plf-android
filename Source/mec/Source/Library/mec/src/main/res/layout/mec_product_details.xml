@@ -22,14 +22,14 @@
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:orientation="vertical">
+       android:orientation="horizontal">
 
 <RelativeLayout
     android:id="@+id/details_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
     >
+
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -307,16 +307,15 @@
     </LinearLayout>
 
 
+    <include
+        android:id="@+id/mec_progress"
+        layout="@layout/mec_progress_bar"
+        android:visibility="invisible"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
 </RelativeLayout>
 
-       <include
-           android:id="@+id/mec_progress"
-           layout="@layout/mec_progress_bar"
-           android:visibility="visible"
-           android:layout_centerInParent="true"
-           android:layout_height="match_parent"
-           android:layout_width="match_parent" />
 
        <com.philips.platform.uid.view.widget.Label
            android:id="@+id/mec_productDetails_emptyText_label"

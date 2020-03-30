@@ -16,10 +16,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
+import com.philips.platform.mec.common.MecError
 import com.philips.platform.mec.databinding.MecProductSpecsFragmentBinding
 import com.philips.platform.mec.screens.MecBaseFragment
 import com.philips.platform.mec.utils.MECConstant
-import com.philips.cdp.prxclient.datamodels.specification.SpecificationModel
 
 
 class SpecificationFragment : MecBaseFragment() {
@@ -74,6 +75,10 @@ class SpecificationFragment : MecBaseFragment() {
 
         return binding.root
 
+    }
+
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        super.processError(mecError, false)
     }
 
 

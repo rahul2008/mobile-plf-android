@@ -18,11 +18,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bazaarvoice.bvandroidsdk.*
+import com.bazaarvoice.bvandroidsdk.ReviewResponse
 import com.philips.platform.mec.R
-import com.philips.platform.mec.analytics.MECAnalytics
-import com.philips.platform.mec.analytics.MECAnalyticsConstant
-
+import com.philips.platform.mec.common.MecError
 import com.philips.platform.mec.databinding.MecProductReviewFragmentBinding
 import com.philips.platform.mec.screens.MecBaseFragment
 import com.philips.platform.mec.screens.reviews.MECReview
@@ -167,6 +165,10 @@ class MECProductReviewsFragment : MecBaseFragment() {
         val visibleItemCount = lay.childCount
         val firstVisibleItemPosition = lay.findFirstVisibleItemPosition()
         return visibleItemCount + firstVisibleItemPosition >= lay.itemCount && firstVisibleItemPosition >= 0
+    }
+
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        super.processError(mecError, false)
     }
 
 }
