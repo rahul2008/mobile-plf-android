@@ -40,6 +40,7 @@ import com.philips.platform.mec.analytics.MECAnalyticsConstant.retailerName
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.sendData
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.specialEvents
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.stockStatus
+import com.philips.platform.mec.common.MECRequestType
 import com.philips.platform.mec.common.MecError
 import com.philips.platform.mec.databinding.MecProductDetailsBinding
 import com.philips.platform.mec.integration.serviceDiscovery.MECManager
@@ -179,7 +180,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             binding.indicator.viewPager = binding.pager
             val bundle = arguments
             product = bundle?.getSerializable(MECConstant.MEC_KEY_PRODUCT) as ECSProduct
-
+            
 
             //if assets are not available , we should show one Default image
            // ecsProductDetailViewModel.addNoAsset(product)
@@ -388,10 +389,16 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     override fun processError(mecError: MecError?, bool: Boolean) {
+
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-        binding.detailsParentLayout.visibility = View.GONE
-        binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
-        super.processError(mecError,false)
+        if(mecError?.mECRequestType == MECRequestType.MEC_ADD_PRODUCT_TO_SHOPPING_CART){
+            super.processError(mecError,true)
+        }else{
+            super.processError(mecError,false)
+            binding.detailsParentLayout.visibility = View.GONE
+            binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
+        }
+
 
     }
 
