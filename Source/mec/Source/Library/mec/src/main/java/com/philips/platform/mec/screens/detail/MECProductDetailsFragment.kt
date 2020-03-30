@@ -28,13 +28,11 @@ import com.bazaarvoice.bvandroidsdk.Statistics
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
-import com.philips.cdp.di.ecs.model.config.ECSConfig
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.platform.mec.R
 import com.philips.platform.mec.analytics.MECAnalyticPageNames.productDetails
-import com.philips.platform.mec.analytics.MECAnalytics
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.mecProducts
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.outOfStock
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.prodView
@@ -116,7 +114,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     private val productObserver: Observer<ECSProduct> = Observer<ECSProduct> { ecsProduct ->
 
         //TO show No Image for no asset found for a product
-        if(ecsProduct.assets== null || ecsProduct.assets.asset == null || ecsProduct.assets.asset.isEmpty()){
+        if(ecsProduct.assets== null || ecsProduct.assets.validPRXImageAssets == null || ecsProduct.assets.validPRXImageAssets.isEmpty()){
             ecsProductDetailViewModel.addNoAsset(product)
         }
 
@@ -147,7 +145,6 @@ open class MECProductDetailsFragment : MecBaseFragment() {
             }
         }
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
-        binding.detailsParentLayout.visibility = View.VISIBLE
 
     }
 
@@ -324,7 +321,9 @@ open class MECProductDetailsFragment : MecBaseFragment() {
     }
 
     fun addToCartClick(){
-        showProgressBar(binding.mecProgress.mecProgressBarContainer)
+
+        //TODO - do this using observer
+
         if(null!=binding.product ) {
             if (isUserLoggedIn()) {
                 val addToProductCallback =  object: ECSCallback<ECSShoppingCart, Exception> {
@@ -345,9 +344,11 @@ open class MECProductDetailsFragment : MecBaseFragment() {
                     }
 
                 }
-                product?.let { ecsProductDetailViewModel.addProductToShoppingcart(it,addToProductCallback) }
+                product.let {
+                    showProgressBar(binding.mecProgress.mecProgressBarContainer)
+                    ecsProductDetailViewModel.addProductToShoppingcart(it,addToProductCallback)
+                }
             }else{
-                dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
                 fragmentManager?.let { context?.let { it1 -> MECutility.showErrorDialog(it1, it,getString(R.string.mec_ok), getString(R.string.mec_product_detail_title), getString(R.string.mec_cart_login_error_message)) } }
             }
         }
@@ -390,7 +391,7 @@ open class MECProductDetailsFragment : MecBaseFragment() {
         dismissProgressBar(binding.mecProgress.mecProgressBarContainer)
         binding.detailsParentLayout.visibility = View.GONE
         binding.mecProductDetailsEmptyTextLabel.visibility = View.VISIBLE
-        super.processError(mecError,true)
+        super.processError(mecError,false)
 
     }
 

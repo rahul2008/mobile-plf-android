@@ -17,7 +17,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.ImageLoader
-import com.android.volley.toolbox.NetworkImageView
 import com.bazaarvoice.bvandroidsdk.BulkRatingsResponse
 import com.bazaarvoice.bvandroidsdk.ContextDataValue
 import com.bazaarvoice.bvandroidsdk.Review
@@ -32,9 +31,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.platform.mec.R
-import com.philips.platform.mec.common.CommonViewModel
 import com.philips.platform.mec.common.MECRequestType
-import com.philips.platform.mec.networkEssentials.NetworkImageLoader
 import com.philips.platform.mec.screens.detail.MECProductDetailsFragment.Companion.tagOutOfStockActions
 import com.philips.platform.mec.screens.reviews.MECReview
 import com.philips.platform.mec.utils.MECDataHolder
@@ -337,8 +334,8 @@ class EcsProductDetailViewModel : com.philips.platform.mec.common.CommonViewMode
 
     fun addNoAsset(product: ECSProduct) {
         var asset = Asset()
-        asset.asset = "xyz"
-        asset.type = "UNKNOWN"
+        asset.asset = "NO Image Asset Found"
+        asset.type = "APP"
 
         var assets = Assets()
         assets.asset = Arrays.asList(asset)

@@ -16,11 +16,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 import com.philips.platform.mec.common.MecError
 import com.philips.platform.mec.databinding.MecProductFeaturesFragmentBinding
 import com.philips.platform.mec.screens.MecBaseFragment
 import com.philips.platform.mec.utils.MECConstant
-import com.philips.cdp.prxclient.datamodels.features.FeaturesModel
 
 class MECProductFeaturesFragment : MecBaseFragment() {
     override fun getFragmentTag(): String {
@@ -91,9 +91,8 @@ class MECProductFeaturesFragment : MecBaseFragment() {
         return binding.root
     }
 
-    //TODO Do something for error
-    fun processError(mecError: MecError?) {
-        super.processError(mecError,true)
+    override fun processError(mecError: MecError?, showDialog: Boolean) {
+        super.processError(mecError, false)
     }
 
 }
