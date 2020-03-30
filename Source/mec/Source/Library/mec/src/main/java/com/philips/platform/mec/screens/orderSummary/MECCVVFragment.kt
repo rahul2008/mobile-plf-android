@@ -21,7 +21,7 @@ import com.philips.cdp.di.ecs.model.payment.ECSPayment
 import com.philips.platform.mec.R
 import com.philips.platform.mec.common.MecError
 import com.philips.platform.mec.databinding.MecCvcCodeFragmentBinding
-import com.philips.platform.mec.paymentServices.PaymentViewModel
+import com.philips.platform.mec.screens.payment.PaymentViewModel
 import com.philips.platform.mec.screens.MecBaseFragment
 import com.philips.platform.mec.screens.payment.MECPaymentConfirmationFragment
 import com.philips.platform.mec.utils.*

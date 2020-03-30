@@ -7,7 +7,7 @@
  * consent of the copyright holder.
 
  */
-package com.philips.platform.mec.paymentServices
+package com.philips.platform.mec.screens.payment
 
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.integration.ECSCallback

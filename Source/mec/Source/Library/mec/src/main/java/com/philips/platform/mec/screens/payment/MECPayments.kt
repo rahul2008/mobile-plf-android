@@ -7,12 +7,12 @@
  * consent of the copyright holder.
 
  */
-package com.philips.platform.mec.paymentServices
+package com.philips.platform.mec.screens.payment
 
 import com.philips.platform.mec.utils.MECConstant
 
 
-class MECPayments(val payments:MutableList<MECPayment> , var isPaymentDownloaded: Boolean ){
+class MECPayments(val payments:MutableList<MECPayment>, var isPaymentDownloaded: Boolean ){
 
 
     fun isNewCardPresent() : Boolean{
@@ -26,7 +26,7 @@ class MECPayments(val payments:MutableList<MECPayment> , var isPaymentDownloaded
         return false
     }
 
-    fun getNewCard() : MECPayment ?{
+    fun getNewCard() : MECPayment?{
 
         for (payment in payments){
 
@@ -37,7 +37,7 @@ class MECPayments(val payments:MutableList<MECPayment> , var isPaymentDownloaded
         return null
     }
 
-    fun getSelectedPayment() : MECPayment ?{
+    fun getSelectedPayment() : MECPayment?{
 
         for (payment in payments){
 

@@ -23,11 +23,8 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.platform.mec.R
-import com.philips.platform.mec.analytics.MECAnalyticServer
-import com.philips.platform.mec.analytics.MECAnalytics
-import com.philips.platform.mec.analytics.MECAnalyticsConstant
 import com.philips.platform.mec.common.MecError
-import com.philips.platform.mec.paymentServices.MECPayment
+import com.philips.platform.mec.screens.payment.MECPayment
 import com.philips.platform.mec.utils.MECConstant.IN_STOCK
 import com.philips.platform.mec.utils.MECConstant.LOW_STOCK
 import com.philips.platform.uid.thememanager.UIDHelper

@@ -18,9 +18,8 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.platform.mec.R
-import com.philips.platform.mec.common.CommonViewModel
 import com.philips.platform.mec.common.MECRequestType
-import com.philips.platform.mec.paymentServices.MECPayment
+import com.philips.platform.mec.screens.payment.MECPayment
 import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.mec.utils.MECutility
 import com.philips.platform.mec.view.MECDropDown

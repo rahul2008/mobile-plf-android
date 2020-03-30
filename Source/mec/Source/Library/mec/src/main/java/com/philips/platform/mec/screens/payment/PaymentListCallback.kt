@@ -7,7 +7,7 @@
  * consent of the copyright holder.
 
  */
-package com.philips.platform.mec.paymentServices
+package com.philips.platform.mec.screens.payment
 
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
@@ -34,7 +34,7 @@ class PaymentListCallback(private val paymentViewModel: PaymentViewModel) : ECSC
         val value = paymentViewModel.mecPayments.value
         value?.payments?.toMutableList()?.addAll(mecPaymentList)
 
-        paymentViewModel.mecPayments.value = MECPayments(mecPaymentList,true)
+        paymentViewModel.mecPayments.value = MECPayments(mecPaymentList, true)
     }
 
     override fun onFailure(error: Exception?, ecsError: ECSError?) {

@@ -16,8 +16,8 @@ import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.mec.integration.MECBannerConfigurator
 import com.philips.platform.mec.integration.MECBazaarVoiceInput
 import com.philips.platform.mec.integration.MECOrderFlowCompletion
-import com.philips.platform.mec.paymentServices.MECPayment
-import com.philips.platform.mec.paymentServices.MECPayments
+import com.philips.platform.mec.screens.payment.MECPayment
+import com.philips.platform.mec.screens.payment.MECPayments
 import com.philips.platform.mec.screens.address.UserInfo
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
