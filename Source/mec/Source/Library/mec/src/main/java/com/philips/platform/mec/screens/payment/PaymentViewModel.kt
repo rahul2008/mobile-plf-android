@@ -7,15 +7,13 @@
  * consent of the copyright holder.
 
  */
-package com.philips.platform.mec.paymentServices
+package com.philips.platform.mec.screens.payment
 
 import androidx.lifecycle.MutableLiveData
 import com.philips.cdp.di.ecs.model.address.ECSAddress
 import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
 import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider
-import com.philips.platform.mec.common.CommonViewModel
 import com.philips.platform.mec.common.MECRequestType
-import com.philips.platform.mec.screens.address.AddressService
 import com.philips.platform.mec.utils.MECDataHolder
 
 class PaymentViewModel : com.philips.platform.mec.common.CommonViewModel() {

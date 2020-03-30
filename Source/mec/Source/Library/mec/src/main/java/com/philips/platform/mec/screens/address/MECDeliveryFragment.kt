@@ -28,10 +28,10 @@ import com.philips.platform.mec.R
 import com.philips.platform.mec.common.ItemClickListener
 import com.philips.platform.mec.common.MECRequestType
 import com.philips.platform.mec.common.MecError
-import com.philips.platform.mec.paymentServices.MECPayment
-import com.philips.platform.mec.paymentServices.MECPayments
-import com.philips.platform.mec.paymentServices.PaymentRecyclerAdapter
-import com.philips.platform.mec.paymentServices.PaymentViewModel
+import com.philips.platform.mec.screens.payment.MECPayment
+import com.philips.platform.mec.screens.payment.MECPayments
+import com.philips.platform.mec.screens.payment.PaymentRecyclerAdapter
+import com.philips.platform.mec.screens.payment.PaymentViewModel
 import com.philips.platform.mec.screens.MecBaseFragment
 import com.philips.platform.mec.screens.orderSummary.MECOrderSummaryFragment
 import com.philips.platform.mec.screens.profile.ProfileViewModel

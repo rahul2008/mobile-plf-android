@@ -7,7 +7,7 @@
  * consent of the copyright holder.
 
  */
-package com.philips.platform.mec.paymentServices
+package com.philips.platform.mec.screens.payment
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

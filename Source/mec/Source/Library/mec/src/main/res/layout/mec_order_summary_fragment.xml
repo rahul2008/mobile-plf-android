@@ -18,7 +18,7 @@
 
         <variable
             name="mecPayment"
-            type="com.philips.platform.mec.paymentServices.MECPayment" />
+            type="com.philips.platform.mec.screens.payment.MECPayment" />
 
         <import type="android.view.View" />
 

@@ -7,7 +7,7 @@
  * consent of the copyright holder.
 
  */
-package com.philips.platform.mec.paymentServices
+package com.philips.platform.mec.screens.payment
 
 import android.view.LayoutInflater
 import android.view.View
