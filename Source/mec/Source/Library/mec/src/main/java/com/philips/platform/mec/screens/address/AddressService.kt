@@ -9,13 +9,13 @@ class AddressService{
 
     fun setEnglishSalutation(ecsAddress: ECSAddress){
 
-        val localizedSalutation = ecsAddress.title
+        val localizedSalutation = ecsAddress.titleCode
         val context = MECDataHolder.INSTANCE.appinfra.appInfraContext
 
         if (localizedSalutation.equals(context.getString(R.string.mec_mr), ignoreCase = true)) {
-            ecsAddress.title = SalutationEnum.MR.englishSalutation
+            ecsAddress.titleCode = SalutationEnum.MR.englishSalutation
         }else if (localizedSalutation.equals(context.getString(R.string.mec_mrs), ignoreCase = true)){
-            ecsAddress.title = SalutationEnum.MS.englishSalutation
+            ecsAddress.titleCode = SalutationEnum.MS.englishSalutation
         }
     }
 }
