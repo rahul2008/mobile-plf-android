@@ -33,15 +33,16 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.mec.integration.MECBannerConfigurator;
-import com.philips.cdp.di.mec.integration.MECBazaarVoiceInput;
-import com.philips.cdp.di.mec.integration.MECDependencies;
-import com.philips.cdp.di.mec.integration.MECFlowConfigurator;
-import com.philips.cdp.di.mec.integration.MECInterface;
-import com.philips.cdp.di.mec.integration.MECLaunchInput;
-import com.philips.cdp.di.mec.integration.MECListener;
-import com.philips.cdp.di.mec.integration.MECSettings;
-import com.philips.cdp.di.mec.screens.reviews.MECBazaarVoiceEnvironment;
+import com.philips.platform.mec.integration.MECBannerConfigurator;
+import com.philips.platform.mec.integration.MECBazaarVoiceInput;
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener;
+import com.philips.platform.mec.integration.MECDependencies;
+import com.philips.platform.mec.integration.MECFlowConfigurator;
+import com.philips.platform.mec.integration.MECInterface;
+import com.philips.platform.mec.integration.MECLaunchInput;
+import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener;
+import com.philips.platform.mec.integration.MECSettings;
+import com.philips.platform.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -88,7 +89,7 @@ import java.util.Map;
 
 import utils.PIMNetworkUtility;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECListener, MECBannerConfigurator {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener, IAPListener, MECFetchCartListener, MECCartUpdateListener, MECBannerConfigurator {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
@@ -258,7 +259,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         mMecInterface.init(mIapDependencies, new MECSettings(mContext));
 
         mMecLaunchInput = new MECLaunchInput();
-        mMecLaunchInput.setMecListener(this);
+        mMecLaunchInput.setMecCartUpdateListener(this);
 
 
         mMecLaunchInput.setMecBannerConfigurator(this);
@@ -671,6 +672,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    public void shouldShowCart(Boolean shouldShow) {
+
+    }
+
+    @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
 
     }
@@ -796,5 +802,16 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         } else {
             return true;
         }
+    }
+
+
+    @Override
+    public void onFailure(@NotNull Exception exception) {
+
+    }
+
+    @Override
+    public void onUpdateCartCount(int count) {
+
     }
 }

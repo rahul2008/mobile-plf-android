@@ -6,7 +6,7 @@
 
         <variable
         name="fragment"
-        type="com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment" />
+        type="com.philips.platform.mec.screens.catalog.MECProductCatalogFragment" />
 
     </data>
 
@@ -200,24 +200,12 @@
             android:visibility="gone"
             android:textSize="@dimen/iap_product_ctn_12"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <include
+            android:id="@+id/mec_catalog_progress"
+            android:visibility="visible"
+            layout="@layout/mec_progress_bar"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-        <com.philips.platform.uid.view.widget.ProgressBar
-            android:id="@+id/CircularProgressBar"
-            style="@style/UIDProgressBarCircularIndeterminateMiddle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:visibility="invisible" />
-
-        </LinearLayout>
+            android:layout_width="match_parent" />
 
     </LinearLayout>
 
