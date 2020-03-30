@@ -37,20 +37,17 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.platform.mec.R
 import com.philips.platform.mec.analytics.MECAnalyticPageNames.productCatalogue
-import com.philips.platform.mec.analytics.MECAnalytics
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.gridView
 import com.philips.platform.mec.analytics.MECAnalyticsConstant.listView
-
-import com.philips.platform.mec.databinding.MecCatalogFragmentBinding
 import com.philips.platform.mec.common.ItemClickListener
 import com.philips.platform.mec.common.MecError
+import com.philips.platform.mec.databinding.MecCatalogFragmentBinding
 import com.philips.platform.mec.integration.serviceDiscovery.MECManager
 import com.philips.platform.mec.screens.MecBaseFragment
 import com.philips.platform.mec.screens.detail.MECProductDetailsFragment
 import com.philips.platform.mec.utils.MECConstant
 import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.mec.utils.MECutility
-
 import com.philips.platform.uid.view.widget.Label
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -264,7 +261,7 @@ open class MECProductCatalogFragment : MecBaseFragment(), Pagination, ItemClickL
                     val text = String.format(context?.getResources()?.getText(R.string.mec_no_result).toString(), s)
                     binding.tvEmptyListFound.text = text
 
-                    if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && (MECDataHolder.INSTANCE.locale.equals("de_DE") || MECDataHolder.INSTANCE.locale.equals("de_AT") || MECDataHolder.INSTANCE.locale.equals("de_CH") || MECDataHolder.INSTANCE.locale.equals("sv_SE"))) {
+                    if (MECDataHolder.INSTANCE.getPrivacyUrl() != null) {
                         if (adapter.itemCount != 0) {
                             binding.mecPrivacyLayout.visibility = View.VISIBLE
                         } else {
