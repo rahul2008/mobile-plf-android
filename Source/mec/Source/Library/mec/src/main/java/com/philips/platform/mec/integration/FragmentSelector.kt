@@ -33,7 +33,7 @@ class FragmentSelector {
 
             }
 
-            MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART -> {
+            MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART_VIEW -> {
                 fragment = MECShoppingCartFragment()
 
             }

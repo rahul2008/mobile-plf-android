@@ -37,7 +37,7 @@ class MECFlowConfigurator : Serializable {
         MEC_PRODUCT_LIST_VIEW,
         MEC_PRODUCT_DETAILS_VIEW,
         MEC_CATEGORIZED_PRODUCT_LIST_VIEW,
-        MEC_SHOPPING_CART
+        MEC_SHOPPING_CART_VIEW
     }
 
 }

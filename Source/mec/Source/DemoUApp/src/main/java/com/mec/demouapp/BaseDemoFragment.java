@@ -502,9 +502,9 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             mEtCTN.setText("");
         } else if (view ==mShoppingCartContainer){
             if (getActivity() instanceof LaunchAsActivity) {
-                launchMEC(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART, new MECFlowConfigurator(), null);
+                launchMEC(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART_VIEW, new MECFlowConfigurator(), null);
             } else if (getActivity() instanceof LaunchAsFragment) {
-                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART, new MECFlowConfigurator(), null);
+                launchMECasFragment(MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART_VIEW, new MECFlowConfigurator(), null);
             }
         }
         else if (view == mBtn_add_voucher) {
