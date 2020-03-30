@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="inline_error_message">
+                app:uidTextBoxValidationErrorText="@string/USR_NameField_ErrorText">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/usr_createScreen_firstName_textField"
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="inline_error_message">
+                app:uidTextBoxValidationErrorText="@string/USR_LastNameField_ErrorMsg">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/usr_createScreen_lastName_textField"
