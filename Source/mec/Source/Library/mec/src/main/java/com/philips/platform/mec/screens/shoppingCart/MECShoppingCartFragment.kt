@@ -133,7 +133,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
         productReviewList.clear()
         cartSummaryList.clear()
         binding.mecVoucherEditText.clearFocus()
-        binding.mecVoucherBtn.isEnabled = false
         if (binding.llAddVoucher.isShowingError)
             binding.llAddVoucher.hideError()
         mecProductReviews?.let { productReviewList.addAll(it) }
@@ -288,7 +287,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
         }
         binding.mecVoucherEditText.clearFocus()
-        binding.mecVoucherBtn.isEnabled = false
         if (binding.llAddVoucher.isShowingError)
             binding.llAddVoucher.hideError()
         return binding.root
@@ -333,8 +331,6 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
 
     fun executeRequest() {
         showProgressBar(binding.mecProgress.mecProgressBarContainer)
-
-        //createCustomProgressBar(container, MEDIUM)
         ecsShoppingCartViewModel.getShoppingCart()
     }
 
@@ -344,13 +340,14 @@ class MECShoppingCartFragment : MecBaseFragment(), AlertListener, ItemClickListe
     }
 
     fun afterUserNameChange(s: CharSequence) {
-        binding.mecVoucherBtn.isEnabled = true
         voucherCode = s.toString()
     }
 
     fun onClickAddVoucher() {
-        showProgressBar(binding.mecProgress.mecProgressBarContainer)
-        ecsShoppingCartViewModel.addVoucher(voucherCode, MECRequestType.MEC_APPLY_VOUCHER)
+        if(voucherCode.isNotEmpty()) {
+            showProgressBar(binding.mecProgress.mecProgressBarContainer)
+            ecsShoppingCartViewModel.addVoucher(voucherCode, MECRequestType.MEC_APPLY_VOUCHER)
+        }
         binding.mecVoucherEditText.text?.clear()
     }
 

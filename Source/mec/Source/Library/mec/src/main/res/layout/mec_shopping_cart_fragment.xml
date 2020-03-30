@@ -122,7 +122,6 @@
                             style="@style/mecCentralesansBookFont"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:enabled="false"
                             android:onClick="@{() -> fragment.onClickAddVoucher()}"
                             android:paddingTop="14dp"
                             android:paddingBottom="14dp"
