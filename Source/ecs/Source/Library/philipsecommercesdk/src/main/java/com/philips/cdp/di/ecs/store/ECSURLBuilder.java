@@ -9,6 +9,7 @@ package com.philips.cdp.di.ecs.store;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 
 public class ECSURLBuilder implements URLProvider {
@@ -16,6 +17,7 @@ public class ECSURLBuilder implements URLProvider {
     private static final String SUFFIX_CONFIGURATION = "inAppConfig";
 
     public static final String WEBROOT = "pilcommercewebservices";
+    public static final String WEBROOT_OAUTH = "authorizationserver";
     public static final String V2 = "v2";
     public static final String SEPERATOR = "/";
     private static final String USER = "users";
@@ -74,7 +76,7 @@ public class ECSURLBuilder implements URLProvider {
     @Override
     public String getOauthUrl(ECSOAuthProvider oAuthInput, GrantType grantType) {
         StringBuilder builder = new StringBuilder(ECSConfiguration.INSTANCE.getBaseURL());
-        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH)
+        builder.append(WEBROOT_OAUTH).append(SEPERATOR).append(SUFFIX_OAUTH)
                 .append("?" + oAuthInput.getGrantType().getType() + "=").append(oAuthInput.getOAuthID())
                 .append("&grant_type=" + grantType.getType() + "&client_id=" + oAuthInput.getClientID().getType() + "&client_secret=" + oAuthInput.getClientSecret());
         return builder.toString();
