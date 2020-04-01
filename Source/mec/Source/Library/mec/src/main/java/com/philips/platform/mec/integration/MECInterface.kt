@@ -11,11 +11,11 @@ package com.philips.platform.mec.integration
 
 import com.android.volley.DefaultRetryPolicy
 import com.philips.cdp.di.ecs.ECSServices
-import com.philips.platform.mec.utils.MECDataHolder
-import com.philips.platform.mec.utils.MECLog
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.BuildConfig
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
+import com.philips.platform.mec.utils.MECDataHolder
+import com.philips.platform.mec.utils.MECLog
 import com.philips.platform.pif.DataInterface.MEC.MECDataInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.uappframework.UappInterface
@@ -102,6 +102,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings
 
 
     companion object {
+
+        val instance = MECDataProvider()
         /**
          * Get the Singleton MEC Data Interface to call MEC public API
          *
@@ -111,7 +113,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings
         @JvmStatic
         open fun getMECDataInterface(): MECDataInterface {
 
-            return MECDataProvider()
+            return instance
         }
     }
 
