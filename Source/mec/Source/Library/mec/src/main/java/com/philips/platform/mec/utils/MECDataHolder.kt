@@ -16,9 +16,9 @@ import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.mec.integration.MECBannerConfigurator
 import com.philips.platform.mec.integration.MECBazaarVoiceInput
 import com.philips.platform.mec.integration.MECOrderFlowCompletion
+import com.philips.platform.mec.screens.address.UserInfo
 import com.philips.platform.mec.screens.payment.MECPayment
 import com.philips.platform.mec.screens.payment.MECPayments
-import com.philips.platform.mec.screens.address.UserInfo
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException
@@ -41,7 +41,7 @@ enum class MECDataHolder {
     lateinit var voucherCode: String
     var maxCartCount: Int = 0
     lateinit var userDataInterface: UserDataInterface
-    var refreshToken: String? = null
+    var refreshToken: String = "UNKNOWN" //To avoid null check and Null pointer exception 
     var blackListedRetailers: List<String>? = null
     lateinit var mecBazaarVoiceInput: MECBazaarVoiceInput
     private var privacyUrl: String? = null

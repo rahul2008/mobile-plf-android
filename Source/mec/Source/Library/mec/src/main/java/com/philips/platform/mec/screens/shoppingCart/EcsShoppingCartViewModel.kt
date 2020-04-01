@@ -7,7 +7,6 @@ package com.philips.platform.mec.screens.shoppingCart
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -27,7 +26,6 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher
 import com.philips.platform.mec.R
-import com.philips.platform.mec.common.CommonViewModel
 import com.philips.platform.mec.common.MECRequestType
 import com.philips.platform.mec.common.MecError
 import com.philips.platform.mec.utils.MECDataHolder
@@ -60,10 +58,6 @@ open class EcsShoppingCartViewModel : com.philips.platform.mec.common.CommonView
     fun getShoppingCart(){
         ecsShoppingCartRepository.fetchShoppingCart()
     }
-
-
-
-
 
     fun createShoppingCart(request: String){
         val createShoppingCartCallback=  object: ECSCallback<ECSShoppingCart, Exception> {
