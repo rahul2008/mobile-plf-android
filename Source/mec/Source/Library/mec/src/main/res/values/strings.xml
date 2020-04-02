@@ -4,7 +4,7 @@
    - consent of the copyright holder. -->
 
 <resources>
-    <string name="mec_accept_terms">By placing the order, I accept Philips\'</string>
+    <string name="mec_accept_terms">By placing the order, I accept Philips’</string>
     <string name="mec_accepted_codes">Accepted codes</string>
     <string name="mec_add">Add</string>
     <string name="mec_add_gift_Card">Add gift code</string>
@@ -12,7 +12,7 @@
     <string name="mec_add_new_address">Add a new shipping address</string>
     <string name="mec_add_payment_method">Add a new payment method</string>
     <string name="mec_add_to_cart">Add to cart</string>
-    <string name="mec_add_wishlist">Add to wish list</string>
+    <string name="mec_add_wishlist">Add to wishlist</string>
     <string name="mec_address">Address</string>
     <string name="mec_address_error">Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
     <string name="mec_address_line_one">Address line 1</string>
@@ -22,7 +22,7 @@
     <string name="mec_anonymous">Anonymous</string>
     <string name="mec_apply">Apply</string>
     <string name="mec_authentication">Authentication</string>
-    <string name="mec_back_shoppingCart">Back to Shopping basket</string>
+    <string name="mec_back_shoppingCart">Back to Shopping cart</string>
     <string name="mec_bazaarVoice_Detail_at">Details at</string>
     <string name="mec_bazaarVoice_Terms_And_Condition">These reviews are managed by Bazaarvoice and comply with the Bazaarvoice Authenticity Policy, which is supported by anti-fraud technology and human analysis.</string>
     <string name="mec_billing_address">Billing address</string>
@@ -31,16 +31,16 @@
     <string name="mec_cancel">Cancel</string>
     <string name="mec_cancel_payment">Do you want to cancel the payment? Your cart will be empty.</string>
     <string name="mec_card_holder_first_name">Card Holder First name</string>
-    <string name="mec_card_holder_last_name">Card Holder Surname</string>
-    <string name="mec_cart_count_exceed_message">Cannot add more than %d products to the basket</string>
-    <string name="mec_cart_login_error_message">Please Register or Log in to easily order your products</string>
-    <string name="mec_cart_out_of_stock_message">This product is temporarily out of stock. Please remove it from the basket to shop further.</string>
+    <string name="mec_card_holder_last_name">Card Holder Last name</string>
+    <string name="mec_cart_count_exceed_message">Cannot add more than %d products in Cart</string>
+    <string name="mec_cart_login_error_message">Please Register or Login to easily order your products</string>
+    <string name="mec_cart_out_of_stock_message">This product is temporarily out of stock. Please remove it from cart to shop further.</string>
     <string name="mec_cart_summary">Cart summary</string>
     <string name="mec_cart_tax_message">Price including %s VAT</string>
     <string name="mec_cart_total">Total</string>
-    <string name="mec_check_internet_connection">Please check your Internet connection.</string>
+    <string name="mec_check_internet_connection">Please check your Internet Connection.</string>
     <string name="mec_checkout">Checkout</string>
-    <string name="mec_choose_address_text">Choose Shipping Address from the below list</string>
+    <string name="mec_choose_address_text">Choose Shipping Address from below list</string>
     <string name="mec_confirmation">Confirmation</string>
     <string name="mec_confirmation_email_msg">You will receive a confirmation e-mail shortly at</string>
     <string name="mec_contact_details">Contact details</string>
@@ -53,8 +53,8 @@
     <string name="mec_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
     <string name="mec_delete">Delete</string>
     <string name="mec_delete_item_alert_message">Would you like to delete this shipping address?</string>
-    <string name="mec_delete_product_confirmation_title">Would you like to delete this product from the shopping basket?</string>
-    <string name="mec_delete_voucher_confirmation_title">Would you like to remove this voucher from the shopping basket?</string>
+    <string name="mec_delete_product_confirmation_title">Would you like to delete this product from shopping cart?</string>
+    <string name="mec_delete_voucher_confirmation_title">Would you like to remove this voucher from shopping cart?</string>
     <string name="mec_deliver_to_this_address">Deliver to this address</string>
     <string name="mec_delivery">Delivery</string>
     <string name="mec_delivery_method">Delivery Method</string>
@@ -78,7 +78,7 @@
     <string name="mec_last_name">Last name</string>
     <string name="mec_last_name_error">Please enter a valid last name</string>
     <string name="mec_last_name_hint">Enter last name</string>
-    <string name="mec_loading">Loading...</string>
+    <string name="mec_loading">Loading..</string>
     <string name="mec_manage_address">Manage Address</string>
     <string name="mec_more_info">for more info</string>
     <string name="mec_mr">Mr</string>
@@ -103,7 +103,7 @@
     <string name="mec_page">page</string>
     <string name="mec_payment">Payment</string>
     <string name="mec_payment_failed_message">There was a problem processing your payment. Your account has not been charged. Please try again or choose another payment method.</string>
-    <string name="mec_payment_is_pending">Payment Pending</string>
+    <string name="mec_payment_is_pending">Payment pending</string>
     <string name="mec_payment_method">Payment method</string>
     <string name="mec_payment_pending">Your payment is pending</string>
     <string name="mec_payment_pending_confirmation">If the payment is confirmed you will receive a confirmation e-mail at</string>
@@ -129,8 +129,8 @@
     <string name="mec_set_shipping_address_alert_message">Do you want to set this address as the shipping address?</string>
     <string name="mec_set_text">Set</string>
     <string name="mec_shipping_address">Shipping address</string>
-    <string name="mec_shipping_cost">Delivery cost</string>
-    <string name="mec_shopping_cart_title">Basket</string>
+    <string name="mec_shipping_cost">Shipping cost</string>
+    <string name="mec_shopping_cart_title">Cart</string>
     <string name="mec_specs">Specs</string>
     <string name="mec_state">State</string>
     <string name="mec_state_error">Please select a state</string>
@@ -139,25 +139,22 @@
     <string name="mec_thank_for_order">Thank you for your order</string>
     <string name="mec_threshold_message">This might take more time. Do you wish to continue?</string>
     <string name="mec_threshold_title">Request threshold reached</string>
-    <string name="mec_time_out_error">[en-GB]Network timeout reached!</string>
+    <string name="mec_time_out_error">Network timeout reached!</string>
     <string name="mec_town">Town/City</string>
     <string name="mec_town_error">Please enter a valid town</string>
     <string name="mec_town_hint">Enter your town or city</string>
     <string name="mec_use_as_billing_address">Use this address as my billing address</string>
     <string name="mec_valid_until">Valid until</string>
     <string name="mec_your_order_number">Your order number is</string>
-    <string name="mec_zero_results_message"> This filters our product list. Please check that there are no typos in your filter term</string>
+    <string name="mec_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
 
-    
+
     <!-- Specific Android strings -->
     <string name="mec_pros_plus" translatable="false">\uFF0B</string>
     <string name="mec_pros_minus" translatable="false">\uFF0D</string>
     <string name="mec_seperator" translatable="false">&#160;|&#160;</string>
     <string name="mec_empty_space" translatable="false">&#160;</string>
     <string name="mec_bazaarVoice_link" translatable="false">http://www.bazaarvoice.com/trustmark</string>
-
-
-
 
 
 </resources>
