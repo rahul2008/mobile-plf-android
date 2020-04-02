@@ -122,6 +122,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         paymentViewModel = ViewModelProviders.of(this).get(PaymentViewModel::class.java)
         paymentViewModel.ecsOrderDetail.observe(this, orderObserver)
         paymentViewModel.eCSPaymentProvider.observe(this, makePaymentObserver)
+        paymentViewModel.mecError.observe(this,this)
 
 
         if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && MECDataHolder.INSTANCE.getFaqUrl() != null && MECDataHolder.INSTANCE.getTermsUrl() != null) {
