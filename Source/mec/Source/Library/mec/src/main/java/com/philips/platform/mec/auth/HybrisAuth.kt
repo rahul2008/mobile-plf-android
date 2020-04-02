@@ -37,7 +37,7 @@ class HybrisAuth {
         private fun getOAuthInput(): ECSOAuthProvider {
             return object : ECSOAuthProvider() {
                 override fun getOAuthID(): String? {
-                    return getMyJanRainID()
+                    return getAccessToken()
                 }
 
                 override fun getClientID(): ClientType {
@@ -72,7 +72,7 @@ class HybrisAuth {
             }
         }
 
-        fun getMyJanRainID(): String? {
+        fun getAccessToken(): String? {
             val detailsKey = ArrayList<String>()
             detailsKey.add(UserDetailConstants.ACCESS_TOKEN)
             try {
