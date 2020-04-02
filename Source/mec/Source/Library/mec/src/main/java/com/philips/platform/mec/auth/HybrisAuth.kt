@@ -11,13 +11,15 @@ package com.philips.platform.mec.auth
 
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
+import com.philips.cdp.di.ecs.integration.ClientType
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider
+import com.philips.cdp.di.ecs.integration.GrantType
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.ecs.util.ECSConfiguration
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface
 import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.mec.utils.MECutility
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
 import com.philips.platform.pif.DataInterface.USR.enums.Error
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
@@ -32,13 +34,42 @@ class HybrisAuth {
 
         private val refreshTokenKey: String = "mec_hybrisRefreshTokenKey"
 
-        fun getJanrainAuthInput(): ECSOAuthProvider {
-            val oAuthInput = object : ECSOAuthProvider() {
+        private fun getOAuthInput(): ECSOAuthProvider {
+            return object : ECSOAuthProvider() {
                 override fun getOAuthID(): String? {
-                    return com.philips.platform.mec.auth.HybrisAuth.Companion.getMyJanRainID()
+                    return getMyJanRainID()
+                }
+
+                override fun getClientID(): ClientType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return ClientType.OIDC
+                    return super.getClientID()
+                }
+
+                override fun getGrantType(): GrantType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return GrantType.OIDC
+                    return super.getGrantType()
                 }
             }
-            return oAuthInput
+        }
+
+        private fun getRefreshOAuthInput() : ECSOAuthProvider{
+
+            return object : ECSOAuthProvider() {
+                override fun getOAuthID(): String? {
+                    return MECDataHolder.INSTANCE.refreshToken
+                }
+
+                override fun getClientID(): ClientType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return ClientType.OIDC
+                    return super.getClientID()
+                }
+
+                override fun getGrantType(): GrantType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return GrantType.OIDC
+                    return super.getGrantType()
+                }
+
+            }
         }
 
         fun getMyJanRainID(): String? {
@@ -76,18 +107,12 @@ class HybrisAuth {
                 }
             }
 
-            MECDataHolder.INSTANCE.eCSServices.hybrisOAthAuthentication(com.philips.platform.mec.auth.HybrisAuth.Companion.getJanrainAuthInput(), hybrisCallback)
+            MECDataHolder.INSTANCE.eCSServices.hybrisOAthAuthentication(com.philips.platform.mec.auth.HybrisAuth.Companion.getOAuthInput(), hybrisCallback)
         }
 
 
         fun hybrisRefreshAuthentication(fragmentCallback: ECSCallback<ECSOAuthData, Exception>) {
 
-            val oAuthInput = object : ECSOAuthProvider() {
-                override fun getOAuthID(): String? {
-                    return MECDataHolder.INSTANCE.refreshToken
-                }
-
-            }
             val hybrisCallback = object : ECSCallback<ECSOAuthData, Exception> {
                 override fun onResponse(result: ECSOAuthData?) {
                     ECSConfiguration.INSTANCE.setAuthToken(result!!.accessToken)
@@ -109,7 +134,7 @@ class HybrisAuth {
                     }
                 }
             }
-            MECDataHolder.INSTANCE.eCSServices.hybrisRefreshOAuth(oAuthInput, hybrisCallback)
+            MECDataHolder.INSTANCE.eCSServices.hybrisRefreshOAuth(getRefreshOAuthInput(), hybrisCallback)
         }
 
 
