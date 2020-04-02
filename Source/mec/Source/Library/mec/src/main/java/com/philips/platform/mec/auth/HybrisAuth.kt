@@ -45,14 +45,12 @@ class HybrisAuth {
                     return getAccessToken()
                 }
 
-                override fun getClientID(): ClientType {
-                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return ClientType.OIDC
-                    return super.getClientID()
+                override fun getClientType(): ClientType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return ClientType.OIDC else return ClientType.JANRAIN
                 }
 
                 override fun getGrantType(): GrantType {
-                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return GrantType.OIDC
-                    return super.getGrantType()
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return GrantType.OIDC else return GrantType.JANRAIN
                 }
             }
         }
@@ -64,9 +62,9 @@ class HybrisAuth {
                     return MECDataHolder.INSTANCE.refreshToken
                 }
 
-                override fun getClientID(): ClientType {
+                override fun getClientType(): ClientType {
                     if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return ClientType.OIDC
-                    return super.getClientID()
+                    return super.getClientType()
                 }
 
                 override fun getGrantType(): GrantType {

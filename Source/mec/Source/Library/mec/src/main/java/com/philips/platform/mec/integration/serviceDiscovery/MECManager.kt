@@ -72,6 +72,9 @@ class MECManager{
 
     //to be called by Catalog and Product Detail screen to show cart count
     fun getShoppingCartData(mECCartUpdateListener: MECCartUpdateListener){
+        // handle both from catalog ...detail and proposition
+
+        // Handle user logged in status ...for direct launch to landing view
 
         if(MECutility.isExistingUser()){
             doCartCall(mECCartUpdateListener)
@@ -106,7 +109,7 @@ class MECManager{
 
             override fun onFailure(error: Exception, ecsError: ECSError) {
                 //do nothing on auth failure
-
+                //TODO
             }
         }
         HybrisAuth.hybrisAuthentication(authCallBack)
