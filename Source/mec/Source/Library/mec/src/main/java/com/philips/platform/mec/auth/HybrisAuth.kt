@@ -41,6 +41,7 @@ class HybrisAuth {
         private fun getOAuthInput(): ECSOAuthProvider {
             return object : ECSOAuthProvider() {
                 override fun getOAuthID(): String? {
+
                     return getAccessToken()
                 }
 
