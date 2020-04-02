@@ -12,8 +12,10 @@ package com.philips.platform.mec.auth
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
+import com.philips.cdp.di.ecs.integration.ClientType
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider
+import com.philips.cdp.di.ecs.integration.GrantType
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface
@@ -21,7 +23,6 @@ import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.mec.utils.MECutility
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants
 import com.philips.platform.pif.DataInterface.USR.enums.Error
-import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener
 import java.util.*
 
@@ -31,24 +32,51 @@ class HybrisAuth {
 
     companion object {
 
-        const val KEY_REFRESH_TOKEN = "mec_hybrisRefreshTokenKey"
-
         const val KEY_MEC_EMAIL = "mec_email_id"
         const val KEY_MEC_AUTH_DATA = "mec_auth_data"
 
 
         private  val sse = SecureStorageInterface.SecureStorageError()
 
-        fun getJanrainAuthInput(): ECSOAuthProvider {
-            val oAuthInput = object : ECSOAuthProvider() {
+        private fun getOAuthInput(): ECSOAuthProvider {
+            return object : ECSOAuthProvider() {
                 override fun getOAuthID(): String? {
-                    return getMyJanRainID()
+                    return getAccessToken()
+                }
+
+                override fun getClientID(): ClientType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return ClientType.OIDC
+                    return super.getClientID()
+                }
+
+                override fun getGrantType(): GrantType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return GrantType.OIDC
+                    return super.getGrantType()
                 }
             }
-            return oAuthInput
         }
 
-        fun getMyJanRainID(): String? {
+        private fun getRefreshOAuthInput() : ECSOAuthProvider{
+
+            return object : ECSOAuthProvider() {
+                override fun getOAuthID(): String? {
+                    return MECDataHolder.INSTANCE.refreshToken
+                }
+
+                override fun getClientID(): ClientType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return ClientType.OIDC
+                    return super.getClientID()
+                }
+
+                override fun getGrantType(): GrantType {
+                    if(MECDataHolder.INSTANCE.userDataInterface.isOIDCToken) return GrantType.OIDC
+                    return super.getGrantType()
+                }
+
+            }
+        }
+
+        fun getAccessToken(): String? {
             val detailsKey = ArrayList<String>()
             detailsKey.add(UserDetailConstants.ACCESS_TOKEN)
             try {
@@ -70,11 +98,9 @@ class HybrisAuth {
 
                     val map = HashMap<String,String>()
                     map[KEY_MEC_EMAIL] = MECDataHolder.INSTANCE.getUserInfo().email
-
                     var jsonString = getJsonStringOfMap(map)
-                    // store refreshTokenKey in secure storage
                     MECDataHolder.INSTANCE.refreshToken = result?.refreshToken!!
-                    MECDataHolder.INSTANCE.appinfra.secureStorage.storeValueForKey(KEY_MEC_AUTH_DATA,jsonString,sse)
+                    MECDataHolder.INSTANCE.appinfra.secureStorage.storeValueForKey(KEY_MEC_AUTH_DATA,jsonString,sse) //TODO handle sse error
                     fragmentCallback.onResponse(result)
                 }
 
@@ -87,7 +113,7 @@ class HybrisAuth {
                 }
             }
 
-            MECDataHolder.INSTANCE.eCSServices.hybrisOAthAuthentication(getJanrainAuthInput(), hybrisCallback)
+            MECDataHolder.INSTANCE.eCSServices.hybrisOAthAuthentication(getOAuthInput(), hybrisCallback)
         }
 
         private fun getJsonStringOfMap(map: HashMap<String, String>): String {
@@ -95,14 +121,9 @@ class HybrisAuth {
         }
 
 
+
         fun hybrisRefreshAuthentication(fragmentCallback: ECSCallback<ECSOAuthData, Exception>) {
 
-            val oAuthInput = object : ECSOAuthProvider() {
-                override fun getOAuthID(): String? {
-                    return MECDataHolder.INSTANCE.refreshToken
-                }
-
-            }
             val hybrisCallback = object : ECSCallback<ECSOAuthData, Exception> {
                 override fun onResponse(result: ECSOAuthData?) {
 
@@ -121,7 +142,7 @@ class HybrisAuth {
                     }
                 }
             }
-            MECDataHolder.INSTANCE.eCSServices.hybrisRefreshOAuth(oAuthInput, hybrisCallback)
+            MECDataHolder.INSTANCE.eCSServices.hybrisRefreshOAuth(getRefreshOAuthInput(), hybrisCallback)
         }
 
 
@@ -138,42 +159,13 @@ class HybrisAuth {
                 }
 
                 override fun forcedLogout() {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                   // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
             }
             MECDataHolder.INSTANCE.userDataInterface.refreshSession(refreshSessionListener)
         }
 
-
-        fun authHybrisIfNotAlready() {
-            // if Hybris is enabled and user logged in
-            if (MECDataHolder.INSTANCE.hybrisEnabled && MECDataHolder.INSTANCE.userDataInterface != null && MECDataHolder.INSTANCE.userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-                if (null == MECDataHolder.INSTANCE.refreshToken) {
-                    val sse = SecureStorageInterface.SecureStorageError() // to get error code if any
-                    val hybrisRrefreshToken: String? = MECDataHolder.INSTANCE.appinfra.secureStorage.fetchValueForKey(com.philips.platform.mec.auth.HybrisAuth.Companion.KEY_REFRESH_TOKEN, sse)
-                    if (null == sse.errorCode && null != hybrisRrefreshToken) {
-                        //if refresh token is already saved in device secure storage and save it to instance
-                        MECDataHolder.INSTANCE.refreshToken = hybrisRrefreshToken
-                    } else {
-                        // if refresh token is NOT already present then call Auth Hybris
-                        val hybrisAuthCallback = object : ECSCallback<ECSOAuthData, Exception> {
-                            override fun onResponse(eCSOAuthData: ECSOAuthData?) {
-
-                            }
-
-                            override fun onFailure(error: Exception?, ecsError: ECSError?) {
-                                // control should not come here in normal circumstances
-                            }
-                        }
-                        com.philips.platform.mec.auth.HybrisAuth.Companion.hybrisAuthentication(hybrisAuthCallback)
-
-                    }
-                }
-
-            }
-
-        }
     }
 
 
