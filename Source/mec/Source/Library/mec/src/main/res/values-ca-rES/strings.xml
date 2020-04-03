@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">|Overzicht van de inhoud van de winkelwagen|</string>
   <string name="mec_cart_tax_message">|يشمل السعر الضريبة على القيمة المضافة بقيمة %s|</string>
   <string name="mec_cart_total">|Tổng cộng|</string>
-  <string name="mec_check_internet_connection">|Lūdzu, pārbaudiet savu interneta savienojumu.|</string>
   <string name="mec_checkout">|Оформлення замовлення|</string>
   <string name="mec_choose_address_text">|Selecciona la dirección de envío de la lista que aparece a continuación|</string>
   <string name="mec_confirmation">|Подтверждение|</string>

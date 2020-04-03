@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Groza kopsavilkums</string>
   <string name="mec_cart_tax_message">Cena, iekļaujot % PVN</string>
   <string name="mec_cart_total">Kopā</string>
-  <string name="mec_check_internet_connection">Lūdzu, pārbaudiet savu interneta savienojumu.</string>
   <string name="mec_checkout">Norēķini</string>
   <string name="mec_choose_address_text">Izvēlieties piegādes adresi no saraksta</string>
   <string name="mec_confirmation">Apstiprinājums</string>

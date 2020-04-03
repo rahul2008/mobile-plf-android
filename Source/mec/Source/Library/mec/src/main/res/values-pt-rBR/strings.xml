@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Resumo do carrinho</string>
   <string name="mec_cart_tax_message">Preço incluindo ICMS de %s</string>
   <string name="mec_cart_total">Total</string>
-  <string name="mec_check_internet_connection">Verifique sua conexão com a internet.</string>
   <string name="mec_checkout">Sair</string>
   <string name="mec_choose_address_text">Escolha o endereço de envio na lista abaixo</string>
   <string name="mec_confirmation">Confirmação</string>

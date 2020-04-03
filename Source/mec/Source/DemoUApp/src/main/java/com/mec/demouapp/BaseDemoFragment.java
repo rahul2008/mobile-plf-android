@@ -229,7 +229,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     isVoucherEnabled = isChecked;
-                    configInterface.setPropertyForKey("voucher", "MEC", isVoucherEnabled, configError);
+                    configInterface.setPropertyForKey("voucherCode.enable", "MEC", isVoucherEnabled, configError);
                     initializeMECComponant();
                 }
             });

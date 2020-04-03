@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Koszyk — podsumowanie</string>
   <string name="mec_cart_tax_message">Cena zawiera podatek VAT</string>
   <string name="mec_cart_total">Ogółem</string>
-  <string name="mec_check_internet_connection">Sprawdź połączenie internetowe.</string>
   <string name="mec_checkout">Finalizacja</string>
   <string name="mec_choose_address_text">Wybierz adres dostawy z poniższej listy</string>
   <string name="mec_confirmation">Potwierdzenie</string>

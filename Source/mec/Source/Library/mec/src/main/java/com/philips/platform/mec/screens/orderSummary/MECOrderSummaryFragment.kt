@@ -74,6 +74,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
 
     private val orderObserver: Observer<ECSOrderDetail> = Observer<ECSOrderDetail> { eCSOrderDetail ->
         MECLog.v("orderObserver ", "" + eCSOrderDetail.code)
+        updateCount(0) // reset cart count to 0 as current shopping cart is deleted now as result of submit order API call
         orderNumber = eCSOrderDetail.code
         paymentViewModel.makePayment(eCSOrderDetail, mecPayment.ecsPayment.billingAddress)
     }
@@ -122,6 +123,7 @@ class MECOrderSummaryFragment : MecBaseFragment(), ItemClickListener {
         paymentViewModel = ViewModelProviders.of(this).get(PaymentViewModel::class.java)
         paymentViewModel.ecsOrderDetail.observe(this, orderObserver)
         paymentViewModel.eCSPaymentProvider.observe(this, makePaymentObserver)
+        paymentViewModel.mecError.observe(this,this)
 
 
         if (MECDataHolder.INSTANCE.getPrivacyUrl() != null && MECDataHolder.INSTANCE.getFaqUrl() != null && MECDataHolder.INSTANCE.getTermsUrl() != null) {

@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Ostukorvi kokkuvõte</string>
   <string name="mec_cart_tax_message">Hind sisaldab %s käibemaksu</string>
   <string name="mec_cart_total">Kokku</string>
-  <string name="mec_check_internet_connection">Kontrollige oma internetiühendust.</string>
   <string name="mec_checkout">Kassa</string>
   <string name="mec_choose_address_text">Valige tarneaadress allolevast loendist</string>
   <string name="mec_confirmation">Kinnitus</string>
