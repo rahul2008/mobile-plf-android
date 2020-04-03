@@ -98,7 +98,7 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
     }
 
     private fun verifyResultCallBacks(url: String): Boolean {
-
+        updateCount(0) // reset cart count to 0 as current shopping cart is deleted now as result of submit order API call
         var match = true
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
             MECLog.v("PAY_SUCCESS", url)
