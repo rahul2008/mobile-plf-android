@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Sammanfattning av varukorgen</string>
   <string name="mec_cart_tax_message">Pris inklusive %s moms</string>
   <string name="mec_cart_total">Totalt</string>
-  <string name="mec_check_internet_connection">Kontrollera internetanslutningen.</string>
   <string name="mec_checkout">Till kassan</string>
   <string name="mec_choose_address_text">Välj Leveransadress i listan nedan</string>
   <string name="mec_confirmation">Bekräftelse</string>

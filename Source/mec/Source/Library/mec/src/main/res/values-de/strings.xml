@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Warenkorbübersicht</string>
   <string name="mec_cart_tax_message">Preis inklusive MwSt.</string>
   <string name="mec_cart_total">Summe</string>
-  <string name="mec_check_internet_connection">Überprüfen Sie Ihre Internetverbindung.</string>
   <string name="mec_checkout">Kasse</string>
   <string name="mec_choose_address_text">Wählen Sie die Lieferadresse aus der folgenden Liste</string>
   <string name="mec_confirmation">Bestätigung</string>

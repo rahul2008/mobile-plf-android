@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Ostoskorin sisältö</string>
   <string name="mec_cart_tax_message">Hinta, sisältää ALV:n %s</string>
   <string name="mec_cart_total">Yhteensä</string>
-  <string name="mec_check_internet_connection">Tarkista Internet-yhteys.</string>
   <string name="mec_checkout">Kassa</string>
   <string name="mec_choose_address_text">Valitse toimitusosoite luettelosta</string>
   <string name="mec_confirmation">Vahvistus</string>

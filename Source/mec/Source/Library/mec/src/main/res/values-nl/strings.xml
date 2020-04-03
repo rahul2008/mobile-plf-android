@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Overzicht van de inhoud van de winkelwagen</string>
   <string name="mec_cart_tax_message">Prijs inclusief %s btw</string>
   <string name="mec_cart_total">Totaal</string>
-  <string name="mec_check_internet_connection">Controleer uw internetverbinding.</string>
   <string name="mec_checkout">Afrekenen</string>
   <string name="mec_choose_address_text">Kies een leveringsadres in de onderstaande lijst</string>
   <string name="mec_confirmation">Bevestiging</string>

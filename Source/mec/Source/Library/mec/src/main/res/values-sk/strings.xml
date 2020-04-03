@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Súhrn obsahu košíka</string>
   <string name="mec_cart_tax_message">Cena vrátane %s DPH</string>
   <string name="mec_cart_total">Celkom</string>
-  <string name="mec_check_internet_connection">Skontrolujte svoje pripojenie k internetu.</string>
   <string name="mec_checkout">Objednať</string>
   <string name="mec_choose_address_text">Vybrať adresu doručenia zo zoznamu nižšie</string>
   <string name="mec_confirmation">Potvrdenie</string>

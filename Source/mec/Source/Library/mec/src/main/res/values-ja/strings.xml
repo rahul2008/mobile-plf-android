@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">カートサマリー</string>
   <string name="mec_cart_tax_message">価格（%s VAT 込）</string>
   <string name="mec_cart_total">合計</string>
-  <string name="mec_check_internet_connection">インターネット接続を確認してください。</string>
   <string name="mec_checkout">精算</string>
   <string name="mec_choose_address_text">下のリストから配送先住所を選択</string>
   <string name="mec_confirmation">確認</string>

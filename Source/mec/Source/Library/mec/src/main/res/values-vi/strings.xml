@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Tổng giỏ hàng</string>
   <string name="mec_cart_tax_message">Giá bao gồm thuế GTGT %s</string>
   <string name="mec_cart_total">Tổng cộng</string>
-  <string name="mec_check_internet_connection">Vui lòng kiểm tra Kết nối internet của bạn.</string>
   <string name="mec_checkout">Thanh toán</string>
   <string name="mec_choose_address_text">Chọn địa chỉ giao hàng từ danh sách dưới đây</string>
   <string name="mec_confirmation">Xác nhận</string>
