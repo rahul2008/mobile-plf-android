@@ -1,6 +1,11 @@
 package com.philips.platform.mec.integration
 
+import com.philips.platform.uappframework.uappinput.UappSettings
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import org.powermock.modules.junit4.PowerMockRunner
 
 
@@ -8,7 +13,7 @@ import org.powermock.modules.junit4.PowerMockRunner
 class MECInterfaceTest{
 
 
-    /*private lateinit var mecInterface: MECInterface
+    private lateinit var mecInterface: MECInterface
 
     @Mock
     private lateinit var uappDependencies : MECDependencies
@@ -25,5 +30,10 @@ class MECInterfaceTest{
     @Test
     fun testInit() {
         mecInterface.init(uappDependencies,uappSettings)
-    }*/
+    }
+
+    @Test
+    fun testLaunch() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

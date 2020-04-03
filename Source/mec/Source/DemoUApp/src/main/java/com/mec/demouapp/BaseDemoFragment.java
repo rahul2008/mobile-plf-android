@@ -47,6 +47,7 @@ import com.philips.platform.mec.integration.MECSettings;
 import com.philips.platform.mec.screens.reviews.MECBazaarVoiceEnvironment;
 import com.philips.platform.mec.utils.MECConstant;
 import com.philips.platform.pif.DataInterface.MEC.MECDataInterface;
+import com.philips.platform.pif.DataInterface.MEC.MECException;
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener;
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener;
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilityListener;
@@ -349,7 +350,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                     mMECDataInterface.addCartUpdateListener(this);
                 }
 
-            }catch (Exception e){
+            }catch (MECException e){
                 Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
             }
 

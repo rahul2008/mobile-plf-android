@@ -15,6 +15,7 @@ import com.philips.platform.mec.R
 import com.philips.platform.mec.integration.serviceDiscovery.MECManager
 import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.pif.DataInterface.MEC.MECDataInterface
+import com.philips.platform.pif.DataInterface.MEC.MECException
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECFetchCartListener
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECHybrisAvailabilityListener
@@ -36,8 +37,9 @@ class MECDataProvider : MECDataInterface {
 
 
 
-    @Throws(Exception::class)
-    override fun fetchCartCount(mECFetchCartListener: MECFetchCartListener) {
+
+    @Throws(MECException::class)
+    override fun fetchCartCount(mECFetchCartListener: MECFetchCartListener)  {
 
         if(MECDataHolder.INSTANCE.isInternetActive()) {
             if(MECDataHolder.INSTANCE.isUserLoggedIn()) {
@@ -46,14 +48,14 @@ class MECDataProvider : MECDataInterface {
                     mecManager.getProductCartCountWorker(mECFetchCartListener)
                 }
             }else{
-                throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_cart_login_error_message))
+                throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_cart_login_error_message),MECException.ERROR_CODE_NOT_LOGGED_IN)
             }
         }else{
-            throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection))
+            throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection),MECException.ERROR_CODE_NO_INTERNET)
         }
     }
 
-    @Throws(Exception::class)
+    @Throws(MECException::class)
     override fun isHybrisAvailable(mECHybrisAvailabilityListener: MECHybrisAvailabilityListener) {
         if(MECDataHolder.INSTANCE.isInternetActive()) {
             GlobalScope.launch {
@@ -61,7 +63,7 @@ class MECDataProvider : MECDataInterface {
                 mecManager.ishybrisavailableWorker(mECHybrisAvailabilityListener)
             }
         }else{
-            throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection))
+            throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection),MECException.ERROR_CODE_NO_INTERNET)
         }
     }
 
