@@ -311,7 +311,7 @@ class MECutility {
 
         fun isExistingUser() : Boolean{
 
-            var storedEmail = ""
+            var storedEmail = "NONE"
 
             val isEmailKEYExist = MECDataHolder.INSTANCE.appinfra.secureStorage.doesStorageKeyExist(HybrisAuth.KEY_MEC_AUTH_DATA)
             if(isEmailKEYExist) {

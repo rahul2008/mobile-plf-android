@@ -43,8 +43,12 @@ class MECManager{
         }
     }
 
+    var fetchCartListener: MECFetchCartListener? = null
+
     // to be called by Proposition getProductCartCount() API call to show cart count
     fun getProductCartCountWorker(mECFetchCartListener: MECFetchCartListener){
+
+        fetchCartListener = mECFetchCartListener
         if(null!= MECDataHolder.INSTANCE.eCSServices) {
             MECDataHolder.INSTANCE.eCSServices.configureECSToGetConfiguration(object : ECSCallback<ECSConfig, Exception> {
                 override fun onResponse(result: ECSConfig) {
@@ -59,7 +63,6 @@ class MECManager{
                             }
                         })
                     } else {
-                        //hybris not available
                         mECFetchCartListener.onFailure(Exception(ECSErrorEnum.ECSHybrisNotAvailable.localizedErrorString))
                     }
                 }
@@ -73,7 +76,6 @@ class MECManager{
     //to be called by Catalog and Product Detail screen to show cart count
     fun getShoppingCartData(mECCartUpdateListener: MECCartUpdateListener){
         // handle both from catalog ...detail and proposition
-
         // Handle user logged in status ...for direct launch to landing view
 
         if(MECutility.isExistingUser()){
@@ -108,8 +110,7 @@ class MECManager{
             }
 
             override fun onFailure(error: Exception, ecsError: ECSError) {
-                //do nothing on auth failure
-                //TODO
+                fetchCartListener?.onFailure(error)
             }
         }
         HybrisAuth.hybrisAuthentication(authCallBack)

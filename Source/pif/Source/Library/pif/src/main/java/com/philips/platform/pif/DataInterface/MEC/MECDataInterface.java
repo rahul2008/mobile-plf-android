@@ -24,7 +24,9 @@ public interface MECDataInterface {
      * @param mecFetchCartListener the  fetch cart listener for product count callback
      *  @since 2002.0
      */
-    void fetchCartCount(MECFetchCartListener mecFetchCartListener);
+
+
+    void fetchCartCount(MECFetchCartListener mecFetchCartListener)throws Exception;
 
 
 
@@ -34,7 +36,7 @@ public interface MECDataInterface {
      * @param mECHybrisAvailabilityListener the Hybris server availability listener for product count callback
      *  @since 2002.0
      */
-    void isHybrisAvailable(  MECHybrisAvailabilityListener mECHybrisAvailabilityListener );
+    void isHybrisAvailable(  MECHybrisAvailabilityListener mECHybrisAvailabilityListener) throws Exception;
 
 
 

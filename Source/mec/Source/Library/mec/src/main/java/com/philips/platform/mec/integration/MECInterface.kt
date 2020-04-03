@@ -14,6 +14,7 @@ import com.philips.cdp.di.ecs.ECSServices
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.BuildConfig
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
+import com.philips.platform.mec.R
 import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.mec.utils.MECLog
 import com.philips.platform.pif.DataInterface.MEC.MECDataInterface
@@ -92,13 +93,34 @@ import com.philips.platform.uappframework.uappinput.UappSettings
      * @param uappLaunchInput Object of  UappLaunchInput
      * @throws RuntimeException
      */
-    @Throws(RuntimeException::class)
+    @Throws(RuntimeException::class,MECLaunchException::class)
     override fun launch(uiLauncher: UiLauncher, uappLaunchInput: UappLaunchInput) {
-        val mecHandler = this!!.mMECSettings?.let { MECHandler((mUappDependencies as MECDependencies?)!!, it, uiLauncher, uappLaunchInput as MECLaunchInput) }
-        mecHandler?.launchMEC()
+
+        if(MECDataHolder.INSTANCE.isInternetActive()) {
+            val mecLaunchInput = uappLaunchInput as MECLaunchInput
+
+            if(mecLaunchInput.flowConfigurator?.landingView == MECFlowConfigurator.MECLandingView.MEC_SHOPPING_CART_VIEW){
+
+                if(MECDataHolder.INSTANCE.isUserLoggedIn()){
+                    launchMEC(uiLauncher,mecLaunchInput)
+                }else{
+                    throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_cart_login_error_message))
+                }
+            }else{
+                launchMEC(uiLauncher,mecLaunchInput)
+            }
+
+
+        }else{
+            throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection))
+        }
     }
 
 
+    private fun launchMEC(uiLauncher: UiLauncher, mecLaunchInput: MECLaunchInput){
+        val mecHandler = this!!.mMECSettings?.let { MECHandler((mUappDependencies as MECDependencies?)!!, it, uiLauncher, mecLaunchInput) }
+        mecHandler?.launchMEC()
+    }
 
 
     companion object {

@@ -116,4 +116,12 @@ enum class MECDataHolder {
         this.termsUrl = termsUrl
     }
 
+    fun isUserLoggedIn() : Boolean{
+       return userDataInterface != null && userDataInterface.userLoggedInState == UserLoggedInState.USER_LOGGED_IN
+    }
+
+    fun isInternetActive() : Boolean{
+        return  appinfra.restClient.isInternetReachable
+    }
+
 }

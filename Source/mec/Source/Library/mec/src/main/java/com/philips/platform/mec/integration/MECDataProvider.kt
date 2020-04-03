@@ -11,6 +11,7 @@
 package com.philips.platform.mec.integration
 
 
+import com.philips.platform.mec.R
 import com.philips.platform.mec.integration.serviceDiscovery.MECManager
 import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.pif.DataInterface.MEC.MECDataInterface
@@ -32,20 +33,35 @@ class MECDataProvider : MECDataInterface {
     override fun removeCartUpdateListener(mecCartUpdateListener: MECCartUpdateListener?) {
        //  TODO("not implemented")
     }
-    
 
 
+
+    @Throws(Exception::class)
     override fun fetchCartCount(mECFetchCartListener: MECFetchCartListener) {
-        GlobalScope.launch {
-            var  mecManager: MECManager = MECManager()
-            mecManager.getProductCartCountWorker(mECFetchCartListener)
+
+        if(MECDataHolder.INSTANCE.isInternetActive()) {
+            if(MECDataHolder.INSTANCE.isUserLoggedIn()) {
+                GlobalScope.launch {
+                    var mecManager: MECManager = MECManager()
+                    mecManager.getProductCartCountWorker(mECFetchCartListener)
+                }
+            }else{
+                throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_cart_login_error_message))
+            }
+        }else{
+            throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection))
         }
     }
 
+    @Throws(Exception::class)
     override fun isHybrisAvailable(mECHybrisAvailabilityListener: MECHybrisAvailabilityListener) {
-        GlobalScope.launch {
-            var  mecManager: MECManager = MECManager()
-            mecManager.ishybrisavailableWorker(mECHybrisAvailabilityListener)
+        if(MECDataHolder.INSTANCE.isInternetActive()) {
+            GlobalScope.launch {
+                var mecManager: MECManager = MECManager()
+                mecManager.ishybrisavailableWorker(mECHybrisAvailabilityListener)
+            }
+        }else{
+            throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection))
         }
     }
 

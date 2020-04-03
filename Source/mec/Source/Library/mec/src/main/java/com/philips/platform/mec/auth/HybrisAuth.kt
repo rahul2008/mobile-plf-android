@@ -97,6 +97,7 @@ class HybrisAuth {
 
                     val map = HashMap<String,String>()
                     map[KEY_MEC_EMAIL] = MECDataHolder.INSTANCE.getUserInfo().email
+
                     var jsonString = getJsonStringOfMap(map)
                     MECDataHolder.INSTANCE.refreshToken = result?.refreshToken!!
                     MECDataHolder.INSTANCE.appinfra.secureStorage.storeValueForKey(KEY_MEC_AUTH_DATA,jsonString,sse) //TODO handle sse error
