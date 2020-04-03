@@ -352,6 +352,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
 
             }catch (MECException e){
                 Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                e.getErrorCode();
             }
 
         mMecLaunchInput = new MECLaunchInput();
@@ -416,6 +417,7 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
             Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
         } catch (MECLaunchException e) {
             e.printStackTrace();
+            e.getErrorCode();
             Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
 

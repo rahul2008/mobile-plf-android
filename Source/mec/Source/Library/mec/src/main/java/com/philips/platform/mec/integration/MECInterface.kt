@@ -91,6 +91,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings
     /**
      * @param uiLauncher      Object of UiLauncherxx
      * @param uappLaunchInput Object of  UappLaunchInput
+     * @throws MECLaunchException : It can through user not logged in or no internet exception
      * @throws RuntimeException
      */
     @Throws(RuntimeException::class,MECLaunchException::class)

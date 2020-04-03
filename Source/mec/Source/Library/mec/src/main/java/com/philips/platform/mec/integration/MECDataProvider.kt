@@ -48,10 +48,10 @@ class MECDataProvider : MECDataInterface {
                     mecManager.getProductCartCountWorker(mECFetchCartListener)
                 }
             }else{
-                throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_cart_login_error_message),MECException.ERROR_CODE_NOT_LOGGED_IN)
+                throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_cart_login_error_message),MECException.USER_NOT_LOGGED_IN)
             }
         }else{
-            throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection),MECException.ERROR_CODE_NO_INTERNET)
+            throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection),MECException.NO_INTERNET)
         }
     }
 
@@ -63,7 +63,7 @@ class MECDataProvider : MECDataInterface {
                 mecManager.ishybrisavailableWorker(mECHybrisAvailabilityListener)
             }
         }else{
-            throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection),MECException.ERROR_CODE_NO_INTERNET)
+            throw MECException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection),MECException.NO_INTERNET)
         }
     }
 

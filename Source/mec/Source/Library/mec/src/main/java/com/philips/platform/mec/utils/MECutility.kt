@@ -315,10 +315,13 @@ class MECutility {
 
             val isEmailKEYExist = MECDataHolder.INSTANCE.appinfra.secureStorage.doesStorageKeyExist(HybrisAuth.KEY_MEC_AUTH_DATA)
             if(isEmailKEYExist) {
-                val sse = SecureStorageInterface.SecureStorageError() // to get error code if any
+
+                //TODO Handle the error
+                val sse = SecureStorageInterface.SecureStorageError()
 
                 val storedAuthJsonString = MECDataHolder.INSTANCE.appinfra.secureStorage.fetchValueForKey(HybrisAuth.KEY_MEC_AUTH_DATA, sse)
 
+                //TODO to have a defined type map instead generic
                 val map: Map<*, *> = Gson().fromJson(storedAuthJsonString, MutableMap::class.java)
                 storedEmail = map[HybrisAuth.KEY_MEC_EMAIL] as String
             }
