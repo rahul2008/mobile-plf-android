@@ -16,9 +16,9 @@ import com.philips.platform.appinfra.AppInfraInterface
 import com.philips.platform.mec.integration.MECBannerConfigurator
 import com.philips.platform.mec.integration.MECBazaarVoiceInput
 import com.philips.platform.mec.integration.MECOrderFlowCompletion
+import com.philips.platform.mec.screens.address.UserInfo
 import com.philips.platform.mec.screens.payment.MECPayment
 import com.philips.platform.mec.screens.payment.MECPayments
-import com.philips.platform.mec.screens.address.UserInfo
 import com.philips.platform.pif.DataInterface.MEC.listeners.MECCartUpdateListener
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException
@@ -110,7 +110,7 @@ enum class MECDataHolder {
         }
     }
 
-    fun setPrivacyPolicyUrls(privacyUrl: String, faqUrl: String, termsUrl: String) {
+    fun setPrivacyPolicyUrls(privacyUrl: String?, faqUrl: String?, termsUrl: String?) {
         this.privacyUrl = privacyUrl
         this.faqUrl = faqUrl
         this.termsUrl = termsUrl
