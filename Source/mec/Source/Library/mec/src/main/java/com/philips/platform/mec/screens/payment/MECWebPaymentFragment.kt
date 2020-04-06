@@ -13,7 +13,10 @@ import android.content.Context
 import android.os.Bundle
 import android.webkit.CookieManager
 import com.philips.platform.mec.R
-import com.philips.platform.mec.utils.*
+import com.philips.platform.mec.utils.AlertListener
+import com.philips.platform.mec.utils.MECConstant
+import com.philips.platform.mec.utils.MECLog
+import com.philips.platform.mec.utils.MECutility
 
 class MECWebPaymentFragment : MECWebFragment() , AlertListener {
 
@@ -95,7 +98,7 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
     }
 
     private fun verifyResultCallBacks(url: String): Boolean {
-
+        updateCount(0) // reset cart count to 0 as current shopping cart is deleted now as result of submit order API call
         var match = true
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
             MECLog.v("PAY_SUCCESS", url)
@@ -116,9 +119,7 @@ class MECWebPaymentFragment : MECWebFragment() , AlertListener {
             })
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             MECLog.v("PAY_CANC", url)
-            val bundle = Bundle()
-            bundle.putBoolean(MECConstant.PAYMENT_CANCELLED, true)
-            launchConfirmationScreen(createErrorBundle(bundle))
+            moveToCaller(mIsPaymentFailed,TAG)
         } else {
             match = false
         }

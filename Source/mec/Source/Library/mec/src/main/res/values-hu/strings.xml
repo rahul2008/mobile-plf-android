@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">A kosár tartalmának összegzése</string>
   <string name="mec_cart_tax_message">Ár %s áfával</string>
   <string name="mec_cart_total">Teljes</string>
-  <string name="mec_check_internet_connection">Ellenőrizze internetkapcsolatát.</string>
   <string name="mec_checkout">Kijelentkezés</string>
   <string name="mec_choose_address_text">Szállítási cím kiválasztása az alábbi listából</string>
   <string name="mec_confirmation">Jóváhagyás</string>

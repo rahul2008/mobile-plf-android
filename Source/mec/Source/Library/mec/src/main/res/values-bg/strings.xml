@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Резюме на количката за пазаруване</string>
   <string name="mec_cart_tax_message">Цената включва %s ДДС</string>
   <string name="mec_cart_total">Общо</string>
-  <string name="mec_check_internet_connection">Моля, проверете вашата интернет връзка.</string>
   <string name="mec_checkout">Финализиране</string>
   <string name="mec_choose_address_text">Изберете адрес за доставка от списъка по-долу</string>
   <string name="mec_confirmation">Потвърждение</string>

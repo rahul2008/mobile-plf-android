@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">장바구니 요약</string>
   <string name="mec_cart_tax_message">%s의 부가세가 포함된 가격입니다.</string>
   <string name="mec_cart_total">총액</string>
-  <string name="mec_check_internet_connection">인터넷 연결을 확인해 주십시오.</string>
   <string name="mec_checkout">계산</string>
   <string name="mec_choose_address_text">아래 목록에서 배송 주소를 선택하십시오.</string>
   <string name="mec_confirmation">확인</string>

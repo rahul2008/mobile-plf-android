@@ -266,8 +266,11 @@ class MECutility {
 
                     if (null == mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true)) {
                         errorMessage = Acontext!!.getString(R.string.mec_time_out_error)
-                    } else if (null != mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true) && mecError!!.exception!!.message!!.contains("java.net.UnknownHostException")) {
-                        errorMessage = Acontext!!.getString(R.string.mec_check_internet_connection)
+                    } else if (null != mecError!!.exception!!.message && mecError.ecsError?.errorType.equals("ECS_volley_error", true) && ((mecError!!.exception!!.message!!.contains("java.net.UnknownHostException")) || (mecError!!.exception!!.message!!.contains("I/O error during system call, Software caused connection abort")))) {
+                        //java.net.UnknownHostException: Unable to resolve host "acc.us.pil.shop.philips.com": No address associated with hostname
+                       //javax.net.ssl.SSLException: Read error: ssl=0x7d59fa3b48: I/O error during system call, Software caused connection abort
+
+                        errorMessage = Acontext!!.getString(R.string.mec_no_internet)
                     } else {
                         errorMessage = mecError!!.exception!!.message.toString()
                     }

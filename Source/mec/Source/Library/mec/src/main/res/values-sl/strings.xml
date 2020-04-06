@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Povzetek košarice</string>
   <string name="mec_cart_tax_message">Cena vsebuje %s DDB</string>
   <string name="mec_cart_total">Skupaj</string>
-  <string name="mec_check_internet_connection">Preverite internetno povezavo.</string>
   <string name="mec_checkout">Zaključek naročila</string>
   <string name="mec_choose_address_text">Izberite naslov za dostavo s spodnjega seznama</string>
   <string name="mec_confirmation">Potrditev</string>

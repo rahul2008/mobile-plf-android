@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Aperçu du panier</string>
   <string name="mec_cart_tax_message">Prix incluant la TVA de %s</string>
   <string name="mec_cart_total">Total</string>
-  <string name="mec_check_internet_connection">Veuillez vérifier votre connexion Internet.</string>
   <string name="mec_checkout">Passer à la caisse</string>
   <string name="mec_choose_address_text">Choisissez l’adresse de livraison dans la liste ci-dessous</string>
   <string name="mec_confirmation">Confirmation</string>

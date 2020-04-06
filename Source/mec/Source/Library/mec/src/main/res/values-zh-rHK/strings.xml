@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">購物車摘要</string>
   <string name="mec_cart_tax_message">價格包括 %s 增值稅 (VAT)</string>
   <string name="mec_cart_total">總價</string>
-  <string name="mec_check_internet_connection">請檢查互聯網連接。</string>
   <string name="mec_checkout">結帳</string>
   <string name="mec_choose_address_text">從下方清單選擇送貨地址</string>
   <string name="mec_confirmation">確認</string>

@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Sammendrag av handlekurv</string>
   <string name="mec_cart_tax_message">Prisen inkluderer %s mva.</string>
   <string name="mec_cart_total">Totalsum</string>
-  <string name="mec_check_internet_connection">Kontroller Internett-forbindelsen.</string>
   <string name="mec_checkout">Kasse</string>
   <string name="mec_choose_address_text">Velg leveringsadresse fra listen nedenfor</string>
   <string name="mec_confirmation">Bekreftelse</string>

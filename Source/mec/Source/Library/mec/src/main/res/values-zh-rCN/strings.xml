@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">购物车摘要</string>
   <string name="mec_cart_tax_message">价格包含  % 的增值税</string>
   <string name="mec_cart_total">总计</string>
-  <string name="mec_check_internet_connection">请检查您的互联网连接。</string>
   <string name="mec_checkout">结账</string>
   <string name="mec_choose_address_text">从以下列表中选择发货地址</string>
   <string name="mec_confirmation">确认</string>

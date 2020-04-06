@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Sumarul coşului de cumpărături</string>
   <string name="mec_cart_tax_message">Preţ inclusiv %s TVA</string>
   <string name="mec_cart_total">Total</string>
-  <string name="mec_check_internet_connection">Verifică-ţi conexiunea la internet.</string>
   <string name="mec_checkout">Procesare plată</string>
   <string name="mec_choose_address_text">Alege adresa de expediere din lista de mai jos</string>
   <string name="mec_confirmation">Confirmare</string>

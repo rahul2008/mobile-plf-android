@@ -39,7 +39,6 @@
   <string name="mec_cart_summary">Sepet özeti</string>
   <string name="mec_cart_tax_message">Fiyata %s KDV dahildir</string>
   <string name="mec_cart_total">Toplam</string>
-  <string name="mec_check_internet_connection">Lütfen İnternet Bağlantınızı kontrol edin.</string>
   <string name="mec_checkout">Alışverişi bitir</string>
   <string name="mec_choose_address_text">Aşağıdaki listeden bir Teslimat Adresi seçin</string>
   <string name="mec_confirmation">Onay</string>
