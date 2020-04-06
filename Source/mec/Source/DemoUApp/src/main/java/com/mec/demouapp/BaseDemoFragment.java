@@ -183,8 +183,6 @@ public class BaseDemoFragment extends Fragment implements View.OnClickListener, 
                     configInterface.setPropertyForKey("propositionid", "MEC", mEtPropositionId.getText().toString(), configError);
 
                     Toast.makeText(getActivity(), "Proposition id is set", Toast.LENGTH_SHORT).show();
-                    getActivity().finishAffinity();
-                    System.exit(0);
                 }
             });
 

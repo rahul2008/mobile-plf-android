@@ -60,31 +60,35 @@ import com.philips.platform.uappframework.uappinput.UappSettings
         MECLog.appInfraLoggingInterface = MECDependencies.appInfra.logging.createInstanceForComponent(MEC_NOTATION, BuildConfig.VERSION_NAME)
 
         MECDataHolder.INSTANCE.userDataInterface = MECDependencies.userDataInterface
+
+    }
+
+    private fun initECSSDK() {
         val configError = AppConfigurationInterface.AppConfigurationError()
-        val propositionID = MECDependencies.appInfra.configInterface.getPropertyForKey("propositionid", "MEC", configError)
+        val propositionID = MECDataHolder.INSTANCE.appinfra.configInterface.getPropertyForKey("propositionid", "MEC", configError)
         var propertyForKey = ""
         if (propositionID != null) {
             propertyForKey = propositionID as String
         }
 
-        var voucher :Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
+        var voucher: Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
         try {
-            voucher = MECDependencies.appInfra.configInterface.getPropertyForKey("voucherCode.enable", "MEC", configError) as Boolean
-        }catch(e: Exception){
+            voucher =MECDataHolder.INSTANCE.appinfra.configInterface.getPropertyForKey("voucherCode.enable", "MEC", configError) as Boolean
+        } catch (e: Exception) {
 
         }
 
         MECDataHolder.INSTANCE.propositionId = propertyForKey
         MECDataHolder.INSTANCE.voucherEnabled = voucher
-        val ecsServices = ECSServices(propertyForKey, MECDependencies.appInfra as AppInfra)
+        val ecsServices = ECSServices(propertyForKey, MECDataHolder.INSTANCE.appinfra as AppInfra)
 
-        MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
-        val defaultRetryPolicy = DefaultRetryPolicy( // 10 second time out
+        val defaultRetryPolicy = DefaultRetryPolicy( // 30 second time out
                 30000,
                 0,
                 0f)
-        MECDataHolder.INSTANCE.eCSServices.setVolleyTimeoutAndRetryCount(defaultRetryPolicy)
+        ecsServices.setVolleyTimeoutAndRetryCount(defaultRetryPolicy)
 
+        MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
 
     }
 
@@ -96,6 +100,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings
      */
     @Throws(RuntimeException::class,MECLaunchException::class)
     override fun launch(uiLauncher: UiLauncher, uappLaunchInput: UappLaunchInput) {
+
+        initECSSDK()
 
         if(MECDataHolder.INSTANCE.isInternetActive()) {
             val mecLaunchInput = uappLaunchInput as MECLaunchInput
@@ -113,7 +119,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings
 
 
         }else{
-            throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_check_internet_connection),MECLaunchException.ERROR_CODE_NO_INTERNET)
+            throw MECLaunchException(MECDataHolder.INSTANCE.appinfra.appInfraContext.getString(R.string.mec_no_internet),MECLaunchException.ERROR_CODE_NO_INTERNET)
         }
     }
 
@@ -135,7 +141,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings
 
         @JvmStatic
         open fun getMECDataInterface(): MECDataInterface {
-
             return instance
         }
     }
