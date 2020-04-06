@@ -9,10 +9,13 @@
  */
 package com.philips.platform.mec.utils
 
+import com.android.volley.DefaultRetryPolicy
 import com.bazaarvoice.bvandroidsdk.BVConversationsClient
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.model.config.ECSConfig
+import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.AppInfraInterface
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
 import com.philips.platform.mec.integration.MECBannerConfigurator
 import com.philips.platform.mec.integration.MECBazaarVoiceInput
 import com.philips.platform.mec.integration.MECOrderFlowCompletion
@@ -122,6 +125,35 @@ enum class MECDataHolder {
 
     fun isInternetActive() : Boolean{
         return  appinfra.restClient.isInternetReachable
+    }
+
+    fun initECSSDK() {
+        val configError = AppConfigurationInterface.AppConfigurationError()
+        val propositionID = appinfra.configInterface.getPropertyForKey("propositionid", "MEC", configError)
+        var propertyForKey = ""
+        if (propositionID != null) {
+            propertyForKey = propositionID as String
+        }
+
+        var voucher: Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
+        try {
+            voucher =appinfra.configInterface.getPropertyForKey("voucherCode.enable", "MEC", configError) as Boolean
+        } catch (e: Exception) {
+
+        }
+
+        propositionId = propertyForKey
+        voucherEnabled = voucher
+        val ecsServices = ECSServices(propertyForKey, appinfra as AppInfra)
+
+        val defaultRetryPolicy = DefaultRetryPolicy( // 30 second time out
+                30000,
+                0,
+                0f)
+        ecsServices.setVolleyTimeoutAndRetryCount(defaultRetryPolicy)
+
+        eCSServices = ecsServices // singleton
+
     }
 
 }

@@ -9,11 +9,7 @@
  */
 package com.philips.platform.mec.integration
 
-import com.android.volley.DefaultRetryPolicy
-import com.philips.cdp.di.ecs.ECSServices
-import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.BuildConfig
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface
 import com.philips.platform.mec.R
 import com.philips.platform.mec.utils.MECDataHolder
 import com.philips.platform.mec.utils.MECLog
@@ -63,35 +59,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings
 
     }
 
-    private fun initECSSDK() {
-        val configError = AppConfigurationInterface.AppConfigurationError()
-        val propositionID = MECDataHolder.INSTANCE.appinfra.configInterface.getPropertyForKey("propositionid", "MEC", configError)
-        var propertyForKey = ""
-        if (propositionID != null) {
-            propertyForKey = propositionID as String
-        }
-
-        var voucher: Boolean = true // if voucher key is not mentioned Appconfig then by default it will be considered True
-        try {
-            voucher =MECDataHolder.INSTANCE.appinfra.configInterface.getPropertyForKey("voucherCode.enable", "MEC", configError) as Boolean
-        } catch (e: Exception) {
-
-        }
-
-        MECDataHolder.INSTANCE.propositionId = propertyForKey
-        MECDataHolder.INSTANCE.voucherEnabled = voucher
-        val ecsServices = ECSServices(propertyForKey, MECDataHolder.INSTANCE.appinfra as AppInfra)
-
-        val defaultRetryPolicy = DefaultRetryPolicy( // 30 second time out
-                30000,
-                0,
-                0f)
-        ecsServices.setVolleyTimeoutAndRetryCount(defaultRetryPolicy)
-
-        MECDataHolder.INSTANCE.eCSServices = ecsServices // singleton
-
-    }
-
     /**
      * @param uiLauncher      Object of UiLauncherxx
      * @param uappLaunchInput Object of  UappLaunchInput
@@ -101,7 +68,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings
     @Throws(RuntimeException::class,MECLaunchException::class)
     override fun launch(uiLauncher: UiLauncher, uappLaunchInput: UappLaunchInput) {
 
-        initECSSDK()
+        MECDataHolder.INSTANCE.initECSSDK()
 
         if(MECDataHolder.INSTANCE.isInternetActive()) {
             val mecLaunchInput = uappLaunchInput as MECLaunchInput
