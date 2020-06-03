@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  https_proxy=http://310188509:Hanumanjiki@0987@proxy.local
+  http_proxy=http://310188509:Hanumanjiki@0987@proxy.local
+  
 jobs:
   build:
 
